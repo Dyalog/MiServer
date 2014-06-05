@@ -1,0 +1,18 @@
+<i>Anyone who can write an APL function should be able 
+to make it available on the Internet.</i><br><br>
+This is the goal of the <b>MiServer Project</b>.<br/> 
+<br>
+
+Click on one of the following links to run MiServer sample pages:
+<ul>
+  <li><a href="/reverse?Name=Beethoven">Roll over Beethoven!</a></li>
+  <li><a href="/life">Conway's Game of Life</a></li>
+  <li><a href="/jbgames/MMind.dyalog?">Animal Mastermind</a></li>
+  <li><a href="/linreg">Linear Regression</a></li>
+  <li><a href="/micart/micart">JQuery/APLJax Shopping Cart</a></li>
+  <li><a href="/jquerydemo">JQuery Demonstration</a></li>
+  <li><a href="/jqueryexamples">JQuery detailed examples</a></li>
+  <li><a href="/sqapldemo">SQAPL Demonstration</a></li>
+  <li><a href="Admin/httprequest">HTTPRequest Content Demo</a></li>
+  <li><a href="Admin/status">Server Status & Error Logs</a></li>
+</ul>

@@ -1,0 +1,81 @@
+<Resources>
+
+  <resource>
+    <name>JQuery</name>
+    <script>/JQuery/jquery-latest.js</script>
+  </resource>
+
+  <resource>
+    <name>JQueryUI</name>
+    <uses>JQuery</uses>
+    <script>/JQuery/JQueryUI/jquery-ui.js</script>
+    <style>/JQuery/JQueryUI/Themes/redmond/jquery-ui.css</style>
+  </resource>
+
+  <resource>
+    <name>JQueryMobile</name>
+    <uses>JQuery</uses>
+    <script>/JQuery/Mobile/jquery.mobile-1.1.1.min.js</script>
+    <style>/JQuery/Mobile/Themes/jquery.mobile-1.1.1.min.css</style>
+  </resource>
+
+  <resource>
+    <name>jquery.tablesorter</name>
+    <uses>JQueryUI</uses>
+    <uses>jquery.dimensions</uses>
+    <script>/JQuery/PlugIns/TableSorter/jquery.tablesorter.js</script>
+    <style>/JQuery/PlugIns/TableSorter/css/blue/style.css</style>
+  </resource>
+
+  <resource>
+    <name>jquery.dimensions</name>
+    <uses>JQuery</uses>
+    <script>/JQuery/PlugIns/jquery.dimensions.js</script>
+  </resource>
+
+  <resource>
+    <name>jquery.cookie</name>
+    <uses>JQuery</uses>
+    <script>/JQuery/PlugIns/jquery.cookie.js</script>
+  </resource>
+
+  <resource>
+    <name>jquery.tablesorter.pager</name>
+    <uses>jquery.tablesorter</uses>
+    <uses>jquery.dimensions</uses>
+    <script>/JQuery/PlugIns/TableSorter/jquery.tablesorter.pager.js</script>
+    <style>/JQuery/PlugIns/TableSorter/css/pager/jquery.tablesorter.pager.css</style>
+  </resource>
+
+  <resource>
+    <name>jquery.treeview</name>
+    <uses>JQuery</uses>
+    <uses>jquery.cookie</uses>
+    <script>/JQuery/PlugIns/TreeView/jquery.treeview.js</script>
+    <style>/JQuery/PlugIns/TreeView/jquery.treeview.css</style>
+  </resource>
+
+  <resource>
+    <name>jquery.jstree</name>
+    <uses>JQuery</uses>
+    <uses>jquery.cookie</uses>
+    <uses>jquery.hotkeys</uses>
+    <script>/JQuery/PlugIns/jsTree/jquery.jstree.js</script>
+    <style>/JQuery/PlugIns/jsTree/themes/classic/style.css</style>
+  </resource>
+
+  <resource>
+    <name>jquery.hotkeys</name>
+    <uses>JQuery</uses>
+    <script>/JQuery/PlugIns/Hotkeys/jquery.hotkeys.min.js</script>
+  </resource>
+
+  <resource>
+    <name>DataTable</name>
+    <uses>JQuery</uses>
+    <script>/JQuery/PlugIns/DataTables/media/js/jquery.dataTables.min.js</script>
+    <style>/JQuery/PlugIns/DataTables/media/css/jquery.dataTables.css</style>
+    <style>/JQuery/PlugIns/DataTables/media/css/jquery.dataTables_themeroller.css</style>
+  </resource>
+
+</Resources>

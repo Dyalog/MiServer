@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Examples>
+	<example>
+		<name>Basic HTML Page</name>
+		<description>Examine a simple HTML page</description>
+		<path>Examples/basicpage.html</path>
+	</example>
+	<example>
+		<name>Simple MiPage using no template</name>
+		<description>This page is "plain" - without any wrapping.</description>
+		<path>Examples/plain</path>
+	</example>
+	<example>
+		<name>Simple MiPage using the "MiPage" template</name>
+		<description>This page uses a MiPage template to add style, header, footer, etc. </description>
+		<path>Examples/styled</path>
+	</example>
+	<example>
+		<name>Simple MiPage with a form</name>
+		<description>Simple MiServer form handling</description>
+		<path>reverse</path>
+	</example>
+	<example>
+		<name>Calculation and Graphics</name>
+		<description>Using LinReg and RainPro</description>
+		<path>linreg</path>
+	</example>
+	<example>
+		<name>jQueryUI and Other Widgets</name>
+		<description>Explore some of the jQuery widgets for which MiServer provides APL functions.</description>
+		<path>Examples/jqueryexamples</path>
+	</example>
+	<example>
+		<name>Database - data driven page</name>
+		<description>Using MiServer's SQAPL interface and the jQuery TableSorter</description>
+		<path>sqapldemo</path>
+	</example>
+	<example>
+		<name>Shopping Cart</name>
+		<description>Using APLJax</description>
+		<path>micart/micart</path>
+	</example>	
+	<example>
+		<name>JQ.On Examples</name>
+		<description>Explore APLJax (APL + Ajax) and event handling</description>
+		<path>Examples/jqondemo</path>
+	</example>
+	<example>
+		<name>jQuery Mobile Prototype</name>
+		<description>A Peek Into MiServer's Future</description>
+		<path>Examples/jqm</path>
+	</example>
+	<example>
+		<name>Conway's Game of Life</name>
+		<description>Using APLJax and John Scholes' Dfn to implement the Game of Life</description>
+		<path>life</path>
+	</example>
+	<example>
+		<name>Lots of jQuery Widgets</name>
+		<description>One page that combines many of the jQuery widgets</description>
+		<path>jquerydemo</path>
+	</example>
+	<example>
+		<name>HTTP Request Examination and HTTP Authentication</name>
+		<description>Userid= userid, Password= password</description>
+		<path>Admin/httprequest</path>
+	</example>
+	<example>
+		<name>Animal Mastermind</name>
+		<description>Courtesy of Jerry Brennan</description>
+		<path>jbgames/mmind</path>
+	</example>
+</Examples>

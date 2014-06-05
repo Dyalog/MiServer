@@ -1,0 +1,17 @@
+<Users>
+   <User>
+      <ID>mkrom</ID>
+      <Pass>secret</Pass>
+      <Groups>admin</Groups>
+   </User>
+   <User>
+      <ID>userid</ID>
+      <Pass>password</Pass>
+      <Groups>admin</Groups>
+   </User>
+   <User>
+      <ID>scott</ID>
+      <Pass>tiger</Pass>
+      <Groups>users</Groups>
+   </User>
+</Users>

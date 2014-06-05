@@ -1,0 +1,13 @@
+<div id="banner">
+  <div id="bannerimage"><img src="/Styles/Images/dragon2011-small.png"></img></div>
+  <div id="bannertext">
+    <h1>MiServer</h1>
+    <i>Anyone who can write an APL function should be able to host it on the web.&#8482;</i>
+  </div>  
+  <div id="bannernav">
+    <ul id="nav">
+      <li><a href="/">Home</a></li>
+    </ul>    
+  </div>    
+  <div class="clear"></div>
+</div>

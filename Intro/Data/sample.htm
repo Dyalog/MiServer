@@ -1,0 +1,29 @@
+<div id="dialog1" title="Good Answer!" class="mydialog">
+  <p>You chose wisely!<br/>
+     Gitte will be pleased.<br/><br/>
+     This is an example of JQuery UI's "Dialog" widget.<br/>
+     It's a modal dialog, so you have to close it to continue.</p>
+</div>
+
+<div id="dialog2" title="Wrong Answer!" class="mydialog">
+  <p>You chose poorly.<br/>
+     Don't tell Gitte!<br/><br/>
+     This is an example of JQuery UI's "Dialog" widget.<br/>
+     It's a modal dialog, so you have to close it to continue.</p>
+</div>
+
+<h3>Please vote!</h3>
+<table>
+  <tr>
+    <td valign="middle" align="center">Do you like this year's wyrm?<br/>
+      <input type="radio" name="radio" value="yes" checked="checked" onclick='$("#dialog1").dialog("open")'/>
+      Yes<br/>
+      <input type="radio" name="radio" value="no" onclick='$("#dialog2").dialog("open")'/>
+      No
+    </td>
+    <td><img src="/Styles/Images/dragon2011.png"/></td>
+    </tr>
+  </table>
+<script type="text/javascript">$(function(){$( ".mydialog" ).dialog({modal: true, autoOpen: false});});</script>
+
+

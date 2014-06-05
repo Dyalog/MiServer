@@ -1,0 +1,5 @@
+<div id="footer">
+<div class="leftalign footertext">MiServer v2.1</div>
+<div class="rightalign footertext">Introduction to MiServer</div>
+<div class="clear"></div>
+</div>

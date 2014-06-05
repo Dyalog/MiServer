@@ -1,0 +1,28 @@
+<Server>
+    <Name>MiServer Demo</Name>
+    <ClassName>DemoServer</ClassName>
+    <Lang>en</Lang> <!-- use English for this site, see http://www.w3schools.com/TAGS/ref_language_codes.asp for others --> 
+    <Address>http://localhost:8080</Address>
+    <Port>8088</Port>
+    <IPVersion>IPv4</IPVersion>
+
+    <TempFolder>TempFiles</TempFolder>
+    <DefaultPage>index.dyalog</DefaultPage>
+
+    <SessionHandler>SimpleSessions</SessionHandler>
+    <Authentication>SimpleAuth</Authentication>
+    <Logger></Logger>
+
+    <UseContentEncoding>1</UseContentEncoding> <!-- for HTTP compression -->
+    <SupportedEncodings>deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->
+
+    <LogMessageLevel>1</LogMessageLevel> <!-- 0-none -1-all 1-error/important 2-warning 4-informational 8-Transactional -->
+
+    <HttpCacheTime>60</HttpCacheTime>
+
+    <TrapErrors>0</TrapErrors><!-- Valid: 0=Crash, 1=Trap and Log errors -->
+    <Debug>2</Debug><!-- Valid: 0=No Debug Info, 1=Debug Info, 2=Allow Editing -->
+    <MailMethod>NONE</MailMethod> <!-- Valid: SMTP|NET|NONE -->
+    <MailRecipient></MailRecipient>
+    <SMTP_Gateway></SMTP_Gateway>
+</Server>
