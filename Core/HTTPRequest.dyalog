@@ -65,7 +65,7 @@
       Page args←'?'split ¯1↓buf
       Page←ArgXLT Page
      
-      Arguments←URLDecodeArgs args
+      Arguments←1 URLDecodeArgs args
      
 ⍝ PeerCert←conns.PeerCert
      
