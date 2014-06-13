@@ -177,24 +177,28 @@
 
     ∇ r←DecodeMultiPart data;d;t;filename;name;i
       d←'Content-Disposition: 'GetParam data
+     
+      name←filename←''
+     
       :If (⍴d)≥i←5+('name="'⍷d)⍳1
           name←(¯1+name⍳'"')↑name←i↓d
-      :Else ⋄ name←''
       :EndIf
-     
-      t←'Content-Type: 'GetParam data
      
       data←(3+((NL,NL)⍷data)⍳1)↓data ⍝ Drop up to 1st doubleCR
       data←(¯1+¯1↑(NL⍷data)/⍳⍴data)↑data ⍝ Drop from last CR
+     
+      :If (⍴d)≥i←9+('filename="'⍷d)⍳1  ⍝ if we have a filename, it's an uploaded file
+          filename←(¯1+filename⍳'"')↑filename←i↓d
+          r←name(filename data)  ⍝ return
+          :Return
+      :EndIf
+     
+      t←'Content-Type: 'GetParam data
      
       :Select t ⍝ Content type
       :CaseList 'plain/text' 'text/plain' 'text/html' '' ⍝ These are already processed
           ⍝ :Trap 92 ⋄ data←'UTF-8'⎕UCS ⎕UCS data ⋄ :EndTrap ⍝ From UTF-8 (will probably fail in Classic)
       :CaseList 'text/xml' 'application/msword' 'application/pdf' 'application/octet-stream' 'image/gif' 'image/pjpeg' 'image/bmp' 'application/x-zip-compressed' 'application/vnd.ms-excel'
-          :If (⍴d)≥i←9+('filename="'⍷d)⍳1
-              filename←(¯1+filename⍳'"')↑filename←i↓d
-          :Else ⋄ filename←''
-          :EndIf
           data←filename data
       :Else
           ∘
