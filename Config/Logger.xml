@@ -1,0 +1,7 @@
+<Logger>
+<!-- valid replacements are 
+     %ServerRoot% - MiServer root directory
+     %SiteRoot%   - web site root -->
+  <active>0</active>              <!-- 1 for yes, 0 for no -->
+  <directory>%SiteRoot%\Logs</directory>
+</Logger>

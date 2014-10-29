@@ -1,0 +1,28 @@
+This is MiServer's default configuration settings.
+These settings can be overridden in each site's Config folder.
+
+
+Access.xml sets the access of specific folders for specific groups.
+
+
+Datasources.xml lists the resources needed. It is not detailed in the general configuration folder. If needed it should reside in the site Config folder.
+
+
+Logger.xml specifies where to log any message.
+
+
+Resources.xml describes the resources available. In general the JQuery suite of tools is made available by default. It doesn't hurt to have them there even if not used. Each <name> should describe where resources are found, like script files.
+The path given for a resource should be pointing to a physical location, like somewhere on the hard disk. If the first part of the location refers to a virtual location, as found in the "Virtual.xml" file, the that first part is replaced by whatever path is given there.
+For example, in the "Resources.xml" file the resource <name> JQuery may be found in <script> /JQ/jquery.js. The first part of this path is 'JQ'. If there is an entry <directory><alias> for 'JQ' in the file "Virtual.xml" then its <path> is used instead of /JQ. If there are no entries in "Virtual.xml" for 'JQ' then the path /JQ/jqury.js is taken as is.
+Several resources may use the same virtual entry. This allows for relocating quickly a resource by mkaing the change in only one place, the "Virtual.xml" file.
+
+
+Server.xml is where you define what your site: its name, address, port, default page, etc.
+<logger> specifies the namespace in your code to handle logging. If none is specified a general logger namespace (named LumberJack) will handle it.
+<TrapErrors> will crash and stop if set to 0. This is useful when debugging.
+
+
+Users.xml lists the user names, passwords and groups they belong to. Access.xml lists the site paths (not physical paths) each group is allowed to access.
+
+
+Virtual.xml maps resources to a specific path. See Resource.xml above for details.

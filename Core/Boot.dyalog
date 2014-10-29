@@ -1,0 +1,375 @@
+﻿:Namespace Boot
+
+    (⎕ML ⎕IO)←1 1
+
+    :section Startup/Shutdown
+    ∇ Run root
+    ⍝ root is the path to the #.Start
+     
+      AppRoot←folderize root  ⍝ application (website) root
+     
+      Load 1 ⍝ load essential objects
+      ms←Init ConfigureServer AppRoot ⍝ read configuration and create server instance
+      ConfigureDatasources ms
+      ConfigureVirtual ms
+      ConfigureResources ms
+      ConfigureContentTypes ms
+      ConfigureLogger ms
+     
+      ms.Run
+    ∇
+
+    ∇ Load yes;files;f;classes;class;utils;t;disperror;core
+      ⍝ Load required objects for MiServer
+      ⍝ Note: DRC namespace is not SALTed
+      ⍝ yes - 1 to perform load, 0 to clean up
+      disperror←{}∘{326=⎕DR ⍵:'' ⋄ '***'≡3↑⍵:⎕←⍵ ⋄ ''}
+      classes←''
+      :If 0≠⎕NC'AppRoot'
+          classes←(⎕SE.SALT.List AppRoot,'Code -raw')[;1 2] ⍝ Classes in application folder
+          classes←(empty¨classes[;1])/classes[;2] ⍝ remove directory entries (have <DIR> in [;1])
+      :EndIf
+      utils←(⎕SE.SALT.List MSRoot,'Utils -raw')[;2]   ⍝ find utility libraries
+      core←(⎕SE.SALT.List MSRoot,'Core -raw')[;2]
+      core~←⊂'Boot'
+      :If yes
+     
+          files←'Core/'∘,¨core
+          files,←'Utils/'∘,¨utils
+     
+          :For f :In files
+              disperror ⎕SE.SALT.Load MSRoot,f,' -target=#'
+          :EndFor
+     
+          :If 0≠⍴classes
+              :For class :In classes
+                  disperror ⎕SE.SALT.Load AppRoot,'Code/',class,' -target=#'
+              :EndFor
+          :EndIf
+     
+          'Pages'#.⎕NS'' ⍝ Container Space for loaded classes
+          disperror ⎕SE.SALT.Load MSRoot,'Core/MiPage -target=#.Pages'
+          disperror ⎕SE.SALT.Load MSRoot,'Core/MildPage -target=#.Pages'
+          disperror ⎕SE.SALT.Load MSRoot,'Core/EAWC -target=#.Pages'
+          BuildEAWC ⍝ build the Easy As ⎕WC namespace
+          :If #.Files.DirExists AppRoot,'/Code/Templates/'
+              disperror ⎕SE.SALT.Load AppRoot,'Code/Templates/* -target=#.Pages'
+          :EndIf
+     
+      :Else ⍝ Cleanup
+          #.⎕EX¨classes
+          #.⎕EX¨utils
+          #.⎕EX'Pages'
+          #.⎕EX¨'MiServer' 'HTTPRequest'
+      :EndIf
+    ∇
+
+    ∇ ms←Init Config;path;class;classes;e;res;mask
+     ⍝ Create instances of MiServer, Session and Authentication Handlers
+     
+      ms←⎕NEW(#⍎Config.ClassName)Config
+      path←MSRoot,'Extensions/'
+     
+      :If 0≠⍴Config.SessionHandler
+          class←⎕SE.SALT.Load path,Config.SessionHandler
+          ms.SessionHandler←⎕NEW class ms
+      :EndIf
+     
+      :If 0≠⍴Config.Authentication
+          class←⎕SE.SALT.Load path,Config.Authentication
+          ms.Authentication←⎕NEW class ms
+      :EndIf
+     
+      :If 0≠⍴Config.SupportedEncodings
+          {}⎕SE.SALT.Load path,'ContentEncoder'
+          :For e :In Config.SupportedEncodings
+              class←⎕SE.SALT.Load path,e
+              ms.Encoders,←⎕NEW class
+          :EndFor
+          :If ∨/mask←0≠1⊃¨res←ms.Encoders.Init
+              2 ms.Log'Content Encoding Initialization failed for:',∊' ',¨mask/ms.Encoders.Encoding
+              ms.Encoders←(~mask)/ms.Encoders
+          :EndIf
+      :EndIf
+      Config.UseContentEncoding∧←0≠⍴ms.Encoders
+     
+      :If 0≠⍴Config.Logger
+          class←⎕SE.SALT.Load path,Config.Logger
+          ms.Logger←⎕NEW class ms
+      :EndIf
+    ∇
+
+    ∇ End;classes;z;m
+      ⍝ Clean up the workspace
+     
+      :If 9=⎕NC'ms'
+          :Trap 0
+              ms.End
+          :EndTrap
+          {}try'⎕EX⍕⊃⊃⎕CLASS ms.SessionHandler'
+          {}try'⎕EX⍕⊃⊃⎕CLASS ms.Authentication'
+          {}try'⎕EX⍕⊃⊃⎕CLASS ms.Logger'
+          {}try'⎕EX⍕¨∪enlist ⎕CLASS¨ms.Encoders'
+          ⎕EX⍕⊃⊃⎕CLASS ms
+          ⎕EX'ms'
+      :EndIf
+     
+      :If 9=⎕NC'SQA'
+          {}try'SQA.Close''.'''
+      :EndIf
+     
+      :If 0≠⍴classes←↓#.⎕NL 9.4
+      :AndIf 0≠⍴classes←(m←2=⊃∘⍴¨z←⎕CLASS¨#⍎¨classes)/classes
+      :AndIf 0≠⎕NC'#.MiPage'
+          classes←(#.MiPage≡¨2 1∘⊃¨m/z)/classes
+          #.⎕EX↑⍕¨classes ⍝ Erase loaded classes
+      :EndIf
+     
+      Load 0
+      ⎕EX'#.MiPage'
+      ⎕EX'AppRoot'
+    ∇
+
+    ∇ BuildEAWC;src;sources;fields;source;list;mask;refs;target
+⍝ Build the Easy As ⎕WC namespace from core classes and its own source
+      sources←#._html #._HTML
+      fields←''
+      :For source :In sources
+          list←source.⎕NL ¯9.4
+          :If ∨/mask←0≠refs←source{6::0 ⋄ (⍕⍺){⍺≡(⍴⍺)↑⍕⍵}t←⍺⍎⍵:t ⋄ 0}¨list
+              fields,←(mask/list){':field public shared ',⍺,'←',⍕⍵}¨mask/refs
+          :EndIf
+      :EndFor
+      target←#
+      :If 9=#.⎕NC'Pages' ⋄ target,←#.Pages ⋄ :EndIf
+      target{⍺.⎕FIX ⍵}¨⊂(⊂':Class EAWC : MiPage'),fields,⊂':EndClass'
+    ∇
+
+    :endsection
+
+    :section Configuration
+
+    ∇ r←ns Setting pars;name;num;default;mask
+    ⍝ returns setting from a config style namespace or provides a default if it doesn't exist
+    ⍝ pars - name [num] [default]
+    ⍝ ns - namespace reference
+    ⍝ name - name of the setting
+    ⍝ num - 1 if setting is numeric, 0 otherwise
+    ⍝ default - default value if not found
+      pars←eis pars
+      (name num)←2↑pars,(⍴pars)↓'' 0 ''
+      :If 2<⍴pars ⋄ default←3⊃pars
+      :Else ⋄ default←(1+num)⊃''⍬
+      :EndIf
+      r←(⍴ns)⍴⊂default
+      :If ∨/mask←0≠⊃¨ns.⎕NC⊂name
+          (mask/r)←(tonum⍣num)¨(mask/ns).⍎⊂name
+      :EndIf
+      :If 0=⍴⍴r ⋄ r←⊃r ⋄ :EndIf
+    ∇
+
+    ∇ config←{element}ReadConfiguration type;serverconfig;file;siteconfig;thing;ind
+    ⍝ Attempt to read configuration file
+    ⍝ 1) from server root MSRoot
+    ⍝ 2) from site root AppRoot
+    ⍝ merging the two if they both exist - site settings overrule server settings
+      config←''
+      :If #.Files.Exists file←MSRoot,'Config/',type,'.xml'
+          config←serverconfig←(#.XML.ToNS #.Files.GetText file)⍎type
+      :EndIf
+      :If #.Files.Exists file←AppRoot,'Config/',type,'.xml'
+          siteconfig←(#.XML.ToNS #.Files.GetText file)⍎type
+          :If 0∊⍴config
+              config←siteconfig
+          :ElseIf 0=⎕NC'element'
+              {}{try'serverconfig.',⍵,'←siteconfig.',⍵}¨siteconfig.⎕NL ¯2
+          :Else ⍝ element specifies the element(s) to search on
+              :For thing :In siteconfig
+                  :If 0≠thing.⎕NC element
+                      :If 0∨.≠∊serverconfig.⎕NC⊂element
+                          :If (⊃⍴serverconfig)<ind←(serverconfig⍎¨⊂element)⍳⊂thing⍎element
+                              serverconfig,←thing
+                          :Else
+                              serverconfig[ind]←thing
+                          :EndIf
+                      :Else
+                          serverconfig,←thing
+                      :EndIf
+                  :EndIf
+              :EndFor
+              config←serverconfig
+          :EndIf
+      :EndIf
+    ∇
+
+    ∇ Config←ConfigureServer AppRoot;file
+    ⍝ configure server level settings, setting defaults for needed ones that are not supplied
+      Config←ReadConfiguration'Server'
+      Config.AppRoot←AppRoot
+      Config.Port←Config Setting'Port' 1 8080
+      Config.TrapErrors←Config Setting'TrapErrors' 1 0
+      Config.Logger←Config Setting'Logger' 0 ''
+      Config.SessionHandler←Config Setting'SessionHandler' 0 'SimpleSessions'
+      Config.Authentication←Config Setting'Authentication' 0 'SimpleAuth'
+      Config.AllowedHttpCommands←{⎕ML←3 ⋄ ⍵⊂⍨~⍵∊' ,'}#.Strings.lc Config Setting'AllowedHttpCommands' 0 'get,post'
+      Config.DefaultExtension←Config Setting'DefaultExtension' 0 '.dyalog'
+      Config.Rest←Config Setting'Rest' 1 0 ⍝ RESTful web service?
+      Config.RootCertDir←Config Setting'RootCertDir' 0 ''
+      Config.CertFile←Config Setting'CertFile' 0 ''
+      Config.KeyFile←Config Setting'KeyFile' 0 ''
+      Config.SSLFlags←Config Setting'SSLFlags' 1(32+64)  ⍝ Accept Without Validating, RequestClientCertificate
+      Config.IPVersion←Config Setting'IPVersion' 0 'IPV4'
+      Config.Secure←Config Setting'Secure' 1 0
+      Config.Debug←Config Setting'Debug' 1 0
+      Config.Root←folderize MSRoot{((IsRelPath ⍵)/⍺),⍵}AppRoot
+      Config.TempFolder←folderize Config.Root{0∊⍴⍵:⍵ ⋄ ((IsRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
+      Config.UseContentEncoding←Config Setting'UseContentEncoding' 1 0 ⍝ aka HTTP Compression default off (0)
+      Config.SupportedEncodings←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}',',Config Setting'SupportedEncodings' 0
+      Config.LogMessageLevel←Config Setting'LogMessageLevel' 1 ¯1 ⍝ default to all message types
+      Config.HttpCacheTime←Config Setting'HttpCacheTime' 1 0 ⍝ default to off (0)
+      Config.IdleTimeOut←Config Setting'IdleTimeOut' 1 0 ⍝ default to none (0)
+     
+      :If 0≠⎕NC'#.DrA' ⍝ Transfer DrA config options
+          {}#.DrA.SetDefaults
+          #.DrA.Mode←Config Setting'Mode' 1 2 ⍝ Developer mode
+          #.DrA.NoUser←Config Setting'NoUser' 1 1 ⍝ run without user interaction
+          #.DrA.Path←AppRoot ⍝ Where to put log files
+          #.DrA.SMTP_Gateway←Config Setting'SMTP_Gateway' 0
+          #.DrA.MailRecipient←Config Setting'MailRecipient' 0
+          #.DrA.MailMethod←Config Setting'MailMethod' 0 'NONE'
+          #.DrA.AppName←Config Setting'Name' 0
+          #.DrA.UseHTTP←Config Setting'UseHTTP' 1 0
+      :EndIf
+    ∇
+
+    ∇ ConfigureDatasources ms;file;ds;name;tmp;orig
+      ⍝ load any datasource definitions
+      :If ~0∊⍴ms.Datasources←'Name'ReadConfiguration'Datasources'
+          :For ds :In ms.Datasources
+              :For name :In ds.⎕NL ¯2
+                  orig←tmp←ds.⍎name
+                  tmp←SubstPath tmp
+                  :If orig≢tmp
+                      ⍎'ds.',name,'←tmp'
+                  :EndIf
+              :EndFor
+          :EndFor
+     
+          :Trap 0
+              :If 0=#.⎕NC'SQA'
+                  'SQA'#.⎕CY'sqapl' ⍝ copy in SQA
+              :EndIf
+              :If 0≠1⊃#.SQA.Init'' ⍝ and initialize
+                  1 ms.Log'SQA failed to initialize'
+              :EndIf
+          :Else
+              1 ms.Log'SQA failed to initialize'
+          :EndTrap
+      :EndIf
+    ∇
+
+    ∇ ConfigureVirtual ms;file;virtual;mask;inds;v
+      ⍝ load virtual (alias) definitions if any
+      ms.Config.Virtual←''
+      :If ~0∊⍴virtual←'alias'ReadConfiguration'Virtual'
+          :If 0∊mask←{⍵=⍳⍴⍵}inds←{⍵⍳⍵}virtual.alias ⍝ check for duplicate aliases, keep first
+              1 ms.Log'Duplicate virtual aliases defined (first occurrence will be used): ',1↓enlist',',¨(~mask)/virtual.alias
+              virtual←mask/virtual
+          :EndIf
+          ⍝ substitute server and site root if found
+          virtual.path←SubstPath¨virtual.path
+          :For v :In virtual
+              :If ~#.Files.DirExists v.path ⍝ check if mapped path exists
+                  1 ms.Log'Virtual path not found: ',v.path
+                  virtual~←v
+              :Else
+                  :If #.Files.DirExists AppRoot,v.alias ⍝ check if alias conflicts with local path
+                      1 ms.Log'Virtual alias "',v.alias,'" overrides site path of same name.'
+                  :EndIf
+              :EndIf
+          :EndFor
+          ms.Config.Virtual←virtual
+      :EndIf
+    ∇
+
+    ∇ ConfigureResources ms;file;mask;inds;names;uses;map;n;res;f
+      ⍝ load resource definitions if any
+      ms.Config.Resources←0 3⍴⊂''
+      :If ~0∊⍴res←'name'ReadConfiguration'Resources'
+          :If 0∊mask←{⍵=⍳⍴⍵}inds←{⍵⍳⍵}names←res.name ⍝ check for duplicate aliases, keep first
+              1 ms.Log'Duplicate resources defined (first occurence will be used): ',1↓enlist',',¨(~mask)/res.name
+              res←mask/res
+              names←res.name
+          :EndIf
+          ⍝ build the dependency map
+          uses←{(eis⍣(⊃0<⍴⍵))⍵}¨res Setting'uses'
+          inds←names∘⍳¨uses
+          n←⊃⍴names
+          :If ∨/mask←n∨.<¨inds
+              1 ms.Log'Invalid resource dependency found for:',enlist' ',¨mask/names
+          :EndIf
+          map←,(2⍴n)⍴(1+n)↑1 ⍝ identity matrix
+          map[enlist(n×¯1+⍳n)+¨(~mask)/¨inds]←1
+          map←(2⍴n)⍴map
+          map←↓{({⍺∨⍺∨.∧⍵}⍣≡)⍨⍵}map
+          ⍝ ms.Config.Resources[;1] resource name, [;2] scripts used [;3] styles used
+          f←{SubstPath¨{⍵~⊂''}∘∪¨⊃¨,/¨map/¨⊂eis¨⍵}
+          ms.Config.Resources←names,(f res Setting'script'),[1.1]f res Setting'style'
+      :EndIf
+    ∇
+
+    ∇ ConfigureContentTypes ms;file;ct;inds;exts;types;mask;exp;n
+      ⍝ load supported content types
+      ms.Config.ContentTypes←0 2⍴⊂''
+      :If ~0∊⍴ct←ReadConfiguration'ContentTypes'
+          exts←#.Strings.lc¨ct Setting'ext'
+          types←ct Setting'type'
+          :If ~0∊⍴inds←{⍵/⍳⍴⍵}enlist','∊¨exts
+              mask←(⍴exts)⍴1
+              exp←{⎕ML←3 ⋄ (⍵≠',')⊂⍵}¨exts[inds]
+              mask[inds]←n←⍬∘⍴∘⍴¨exp
+              (exts types)←mask∘/¨exts types
+              exts[(n/inds)++\~enlist n↑¨1]←⊃,/exp
+          :EndIf
+          ms.Config.ContentTypes←exts,[1.1]types
+      :Else
+          1 ms.Log'No content types defined?'
+      :EndIf
+    ∇
+
+    ∇ ConfigureLogger ms;file;log
+      ⍝ load logger information
+      ms.Config.Logger←⎕NS''
+      ms.Config.Logger.active←0
+      :If ~0∊⍴log←ReadConfiguration'Logger'
+          ms.Config.Logger.active←log Setting'active' 1 0
+          ms.Config.Logger.directory←SubstPath log Setting'directory' 0 ''
+          ms.Config.Logger.frequency←log Setting'frequency' 0 ''
+          ms.Config.Logger.sizelimit←log Setting'sizelimit' 1 0
+      :EndIf
+    ∇
+
+    :endsection
+
+    :section Utilities
+    IsWin←('.' ⎕WG 'APLVersion')[3]≡⊂,'W'
+    FSep←'/\'[1+IsWin]
+    MSRoot←{(1-⌊/'/\'⍳⍨⌽⍵)↓⍵}⎕WSID
+    IsRelPath←{{~'/\'∊⍨(⎕IO+2×IsWin∧':'∊⍵)⊃⍵}3↑⍵}
+    enlist←{⎕ML←1⋄∊⍵}
+    tonum←{w←⍵⋄((w='-')/w)←'¯'⋄2 1⊃⎕VFI w}
+    try←{0::'' ⋄⍎⍵}
+    empty←{0∊⍴⍵}
+    notEmpty←~∘empty
+    eis←{2>|≡⍵:,⊂⍵ ⋄ ⍵} ⍝ Enclose if simple
+    isRef←{(0∊⍴⍴⍵)∧326=⎕DR ⍵}
+    folderize←{¯1↑⍵∊'/\':⍵ ⋄ ⍵,FSep}
+
+    ∇ r←SubstPath r
+      r←(#.Strings.subst∘('%ServerRoot%'(¯1↓MSRoot)))r
+      r←(#.Strings.subst∘('%SiteRoot%'(¯1↓AppRoot)))r
+    ∇
+
+    :endsection
+
+:EndNamespace

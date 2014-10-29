@@ -1,0 +1,6 @@
+<Datasources>
+  <Datasource>
+    <Name>ZipCodes</Name>
+    <DriverOptions>DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=%SiteRoot%\data\zipcodes.mdb;ExtendedAnsiSQL=1;MaxBufferSize=2048;</DriverOptions>
+  </Datasource>
+</Datasources>

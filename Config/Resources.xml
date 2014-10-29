@@ -1,0 +1,608 @@
+<Resources>
+
+<!-- 
+**************************
+*    jQuery resources    *
+**************************
+-->
+
+  <resource>
+    <name>jqTheme</name>
+    <style>/JQuery/JQueryUI/Themes/redmond/jquery-ui.min.css</style>
+  </resource>
+
+  <resource>
+    <name>JQuery</name>
+    <script>/JQuery/jquery-1.10.2.min.js</script>
+  </resource>
+
+  <resource>
+    <name>JQueryUI</name>
+    <uses>JQuery</uses>
+    <uses>jqTheme</uses>
+    <script>/JQuery/JQueryUI/jquery-ui.min.js</script>
+  </resource>
+
+  <resource>
+    <name>JQueryMobile</name>
+    <uses>JQuery</uses>
+    <script>/JQuery/Mobile/jquery.mobile.min.js</script>
+    <style>/JQuery/Mobile/Themes/jquery.mobile.min.css</style>
+  </resource>
+
+  <resource>
+    <name>jquery.dimensions</name>
+    <uses>JQuery</uses>
+    <script>/JQuery/PlugIns/jquery.dimensions.js</script>
+  </resource>
+
+  <resource>
+    <name>jquery.cookie</name>
+    <uses>JQuery</uses>
+    <script>/JQuery/PlugIns/jquery.cookie.js</script>
+  </resource>
+
+
+<!-- 
+**************************
+*  Syncfusion resources  *
+**************************
+-->
+
+<!-- 
+*********************************
+*  Common Syncfusion resources  *
+*********************************
+-->
+
+  <resource>
+    <name>sfTheme</name>
+    <style>/Syncfusion/assets/css/web/gradient-saffron/ej.widgets.all.min.css</style>
+  </resource>
+
+  <resource>
+    <name>sfThemeMobile</name>
+    <style>/Syncfusion/assets/css/mobile/ej.mobile.all.min.css</style>
+  </resource>
+
+  <resource>
+    <name>jquery.easing</name>
+    <uses>JQuery</uses>
+    <script>/Syncfusion/external/jquery.easing.1.3.js</script>
+  </resource>
+
+  <resource>
+    <name>jquery.globalize</name>
+    <uses>JQuery</uses>
+    <script>/Syncfusion/external/jquery.globalize.min.js</script>
+  </resource>
+
+  <resource>
+    <name>jquery.validate</name>
+    <uses>JQuery</uses>
+    <script>/Syncfusion/external/jquery.validate.min.js</script>
+  </resource>
+
+  <resource>
+    <name>cultures</name>
+    <script>/Syncfusion/external/globalize.cultures.min.js</script>
+  </resource>
+
+  <resource>
+    <name>jsrender</name>
+    <script>/Syncfusion/external/jsrender.min.js</script>
+  </resource>
+
+  <resource>
+    <name>unobtrusive</name>
+    <script>/Syncfusion/assets/js/common/ej.unobtrusive.min.js</script>
+  </resource>
+
+  <resource>
+    <name>properties</name>
+    <script>/Syncfusion/external/properties.js</script>
+  </resource>
+
+  <resource>
+    <name>excanvas</name>
+    <script>/Syncfusion/external/excanvas.min.js</script>
+  </resource>
+
+  <resource>
+    <name>Syncfusion</name>
+    <uses>JQuery</uses>
+    <uses>sfTheme</uses>
+    <script>/Syncfusion/assets/js/web/ej.web.all.min.js</script>
+  </resource>
+
+  <resource>
+    <name>SyncfusionMobile</name>
+    <uses>JQuery</uses>
+    <uses>sfThemeMobile</uses>
+    <script>/Syncfusion/assets/js/mobile/ej.mobile.all.min.js</script>
+  </resource>
+
+<!-- 
+*********************************
+*  Widget Syncfusion resources  *
+*********************************
+-->
+
+  <resource>
+    <name>ejAccordion</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejAutocomplete</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejBarcode</name>
+    <uses>Syncfusion</uses>
+  </resource>
+
+  <resource>
+    <name>ejBulletGraph</name>
+    <uses>Syncfusion</uses>
+  </resource>
+
+  <resource>
+    <name>ejButton</name>
+    <uses>Syncfusion</uses	>
+  </resource>
+
+  <resource>
+    <name>ejChart</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.globalize</uses>
+  </resource>
+
+  <resource>
+    <name>ejCheckBox</name>
+    <uses>Syncfusion</uses>
+  </resource>
+
+  <resource>
+    <name>ejCircularGauge</name>
+    <uses>Syncfusion</uses>
+    <uses>excanvas</uses>
+  </resource>
+
+  <resource>
+    <name>ejDatePicker</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jquery.globalize</uses>
+    <uses>cultures</uses>
+  </resource>
+
+  <resource>
+    <name>ejDateTimePicker</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jquery.globalize</uses>
+    <uses>cultures</uses>
+  </resource>
+
+  <resource>
+    <name>ejDiagram</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jsrender</uses>
+  </resource>
+
+  <resource>
+    <name>ejDialog</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejDigitalGauge</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>excanvas</uses>
+  </resource>
+
+  <resource>
+    <name>ejDraggable</name>
+    <uses>Syncfusion</uses>
+  </resource>
+
+  <resource>
+    <name>ejDropDownList</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejDroppable</name>
+    <uses>Syncfusion</uses>
+  </resource>
+
+  <resource>
+    <name>ejGantt</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jsrender</uses>
+    <uses>jquery.globalize</uses>
+  </resource>
+
+  <resource>
+    <name>ejGrid</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jsrender</uses>
+    <uses>jquery.globalize</uses>
+  </resource>
+
+  <resource>
+    <name>ejLinearGauge</name>
+    <uses>Syncfusion</uses>
+    <uses>excanvas</uses>
+  </resource>
+
+  <resource>
+    <name>ejMap</name>
+    <uses>Syncfusion</uses>
+    <uses>jsrender</uses>
+    <uses>properties</uses>
+  </resource>
+
+  <resource>
+    <name>ejMaskEdit</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.globalize</uses>
+    <uses>cultures</uses>
+  </resource>
+
+  <resource>
+    <name>ejMenu</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejOlapChart</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jquery.globalize</uses>
+  </resource>
+
+  <resource>
+    <name>ejOlapClient</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jquery.globalize</uses>
+  </resource>
+
+  <resource>
+    <name>ejOlapGauge</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jquery.globalize</uses>
+  </resource>
+
+  <resource>
+    <name>ejOlapGrid</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejOlapPager</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejProgressBar</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejRadioButton</name>
+    <uses>Syncfusion</uses>
+  </resource>
+
+  <resource>
+    <name>ejRangeNavigator</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.globalize</uses>
+  </resource>
+
+  <resource>
+    <name>ejRating</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejResizable</name>
+    <uses>Syncfusion</uses>
+  </resource>
+
+  <resource>
+    <name>ejRotator</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejRTE</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jquery.globalize</uses>
+    <uses>cultures</uses>
+  </resource>
+
+  <resource>
+    <name>ejSchedule</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jquery.globalize</uses>
+    <uses>jsrender</uses>
+  </resource>
+
+  <resource>
+    <name>ejScroller</name>
+    <uses>Syncfusion</uses>
+  </resource>
+
+  <resource>
+    <name>ejSlider</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejSplitButton</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejSplitter</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejSymbolPalette</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jquery.globalize</uses>
+    <uses>jsrender</uses>
+    <uses>jquery.validate</uses>
+    <uses>unobtrusive</uses>
+  </resource>
+
+  <resource>
+    <name>ejTab</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejTagCloud</name>
+    <uses>Syncfusion</uses>
+  </resource>
+
+  <resource>
+    <name>ejTextBoxes</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.globalize</uses>
+    <uses>cultures</uses>
+  </resource>
+
+  <resource>
+    <name>ejTimePicker</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jquery.globalize</uses>
+    <uses>cultures</uses>
+  </resource>
+
+  <resource>
+    <name>ejToggleButton</name>
+    <uses>Syncfusion</uses>
+  </resource>
+
+  <resource>
+    <name>ejToolbar</name>
+    <uses>Syncfusion</uses>
+  </resource>
+
+  <resource>
+    <name>ejTreeMap</name>
+    <uses>Syncfusion</uses>
+    <uses>jsrender</uses>
+    <uses>properties</uses>
+  </resource>
+
+  <resource>
+    <name>ejTreeView</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejUploadbox</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejWaitingPopup</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejmAccordion</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmAutocomplete</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmButton</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmCheckBox</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmDatePicker</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmDialog</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmFooter</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmGrid</name>
+    <uses>SyncfusionMobile</uses>
+    <uses>jsrender</uses>
+    <uses>jquery.globalize</uses>
+  </resource>
+
+  <resource>
+    <name>ejmGroupButton</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmHeader</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmListbox</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmMenu</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmNumeric</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmProgress</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmRadioButton</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmRating</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmRotator</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmScrollPanel</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmSlider</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmSplitPane</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmTab</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmTextBox</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmTile</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmTimePicker</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmToggleButton</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+  <resource>
+    <name>ejmToolbar</name>
+    <uses>SyncfusionMobile</uses>
+  </resource>
+
+<!-- old definitions
+  <resource>
+    <name>ejAccordion</name>
+    <uses>JQuery</uses>
+    <uses>sfTheme</uses>
+    <script>/Syncfusion/external/jquery.easing.1.3.js</script>
+    <script>/Syncfusion/assets/js/common/ej.core.min.js</script>
+    <script>/Syncfusion/assets/js/web/ej.accordion.min.js</script>
+  </resource>  
+
+  <resource>
+    <name>ejChart</name>
+    <uses>JQuery</uses>
+    <uses>sfTheme</uses>
+    <script>/Syncfusion/external/jquery.easing.1.3.js</script>
+    <script>/Syncfusion/assets/js/common/ej.core.min.js</script>
+    <script>/Syncfusion/assets/js/common/ej.data.min.js</script>
+    <script>/Syncfusion/external/jquery.globalize.js</script>
+    <script>/Syncfusion/assets/js/datavisualization/ej.chart.min.js</script>
+  </resource>  
+
+  <resource>
+    <name>ejTagCloud</name>
+    <uses>JQuery</uses>
+    <uses>sfTheme</uses>
+    <script>/Syncfusion/assets/js/common/ej.core.min.js</script>
+    <script>/Syncfusion/assets/js/common/ej.data.min.js</script>
+    <script>/Syncfusion/assets/js/web/ej.tagcloud.min.js</script>
+  </resource>  
+-->
+</Resources>

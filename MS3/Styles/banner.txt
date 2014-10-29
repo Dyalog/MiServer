@@ -1,0 +1,13 @@
+<div id="banner">
+  <div id="bannerimage" title="Click to toggle web page/source code"><img src="/Styles/Images/Dyalog14.png"/></div>
+  <div id="bannertext">
+    <h1>MiServer 3.0</h1>
+    <i>Anyone who can write an APL function should be able to host it on the web.&#8482;</i>
+  </div>  
+  <div id="bannernav">
+    <ul id="nav">
+      <li><a href="/">Home</a></li>
+    </ul>    
+  </div>    
+  <div class="clear"></div>
+</div>
