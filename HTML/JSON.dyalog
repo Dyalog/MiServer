@@ -8,7 +8,7 @@
 ⍝ This means that:
 ⍝    json ≡ fromAPL toAPL json   and   json ≡ fromXML toXML json
 
-    ⎕IO←⎕ML←1 ⋄ ⎕pp←18                      ⍝ Version 2.00
+    ⎕IO←⎕ML←1 ⋄ ⎕pp←34                      ⍝ Version 2.00
 
     toNum←{(v n)←⎕VFI fixNum ⍵ ⋄ (v≡,1):⊃n ⋄ ⍬}
     deQuote←{'\\"'⎕R'"'⊢'\\\\'⎕R'\\'⊢'""'strip ⍵}
@@ -22,18 +22,17 @@
     isJSON←{0::0 ⋄ ~0∊⍴ toXML ⍵}
     fixNum←{b←'-'=V←⍵ ⋄ (b/V)←'¯' ⋄ ∧/b←'+'≠V:V ⋄ (b≥¯1⌽v∊'eE')/V}
     fmtNum←{(2|⎕dr ⍵)⍲∨/b←'¯'=r←⍕⍵:r ⋄ (b/r)←'-' ⋄ r}
-    monadic←900⌶
     strip←{⍺←'{}' ⋄ ∧/⍺=(1↑⍵),¯1↑⍵:1↓¯1↓⍵ ⋄ ⍵}
     validName←{('.'∊⍵)<0≤⎕NC ⍵}
 
     :section fromAPL
 
-    ∇ r←{options}fromAPL array;typ;ic;drop;ns;preserve;quote;qp
+    ∇ r←{options}fromAPL array;typ;ic;drop;ns;preserve;quote;qp;jqopt
     ⍝ An APL object is either a simple scalar (number, character or ref) or an array
     ⍝ represented by a list of [rank,shape, if we preserve it, then data]
       :Access public shared
-      :If monadic 0 ⋄ options←0 ⋄ :EndIf
-      qp←(quote preserve)←2↑options  ⍝ do we quote the names and preserve APL shape?
+      :If 0=⎕NC'options' ⋄ options←0 ⋄ :EndIf
+      qp←(quote preserve jqopt)←3↑options  ⍝ do we quote the names and preserve APL shape?
       :If isSimple array
           r←fmtNum array ⋄ →0 if 2|typ←⎕DR array ⍝ numbers
           :If ⎕NULL≡array
@@ -41,6 +40,8 @@
           :ElseIf typ=326 ⍝ ref (ns)
               'Cannot work on JSON itself'⎕SIGNAL 611 if ⎕THIS≡array
               r←qp APLObject array
+          :ElseIf jqopt∧'function'≡8↑array~' '
+              r←array
           :Else
               r←1⌽'""',JAchars array
           :EndIf
@@ -51,7 +52,11 @@
               :If ~preserve ⋄ →0⊣r←'[]' ⋄ :EndIf
               r,←qp fromAPL⊃array ⍝ prototype
           :ElseIf ic
-              r,←1⌽'""',JAchars,array ⍝ strings are displayed as such
+              :If jqopt∧'function'≡8↑array~' '
+                  r←array
+              :Else
+                  r,←1⌽'""',JAchars,array ⍝ strings are displayed as such
+              :EndIf
           :Else
               ns←⍬⍴(~preserve)×0⌈¯1+⍴⍴array
               r,←1↓∊',',¨qp∘fromAPL¨,↓⍣ns⊢array
@@ -84,7 +89,7 @@
 
     ∇ r←options APLObject NS;n;name;quote;preserve
      ⍝ Create a name-value pair JSON string from a namespace
-      (quote preserve)←options
+      (quote preserve)←2↑options
       r←,'{'
       :For n :In n←NS.⎕NL-2 9.1
           r,←(quote makeString n),':'    ⍝ the name
@@ -119,7 +124,7 @@
      ⍝ This fn takes a JSON string and turns it into an APL object
      ⍝ The string must follow specific rules in order to be accepted
       :Access public shared
-      :If monadic 0 ⋄ options←0 ⋄ :EndIf       ⍝ do we preserve APL shape?
+      :If 0=⎕NC'options' ⋄ options←0 ⋄ :EndIf       ⍝ do we preserve APL shape?
       :If '{'=c1←1↑str←trim str~⎕UCS 8 9 10 13 ⍝ is this a ns?
           'Invalid JSON: expected }'⎕SIGNAL 600 if'}'≠¯1↑str
           obj←options parseNS strip str
@@ -222,10 +227,11 @@
      
       :Access public shared
       :If isRef arr
-          r←fromAPL arr
+          r←0 0 1 fromAPL arr
       :Else
 ⍝          arr←,arr
           :If isChar arr ⍝ simple charvec?
+              →0⌿⍨'}{'≡2↑¯1⌽r←arr
           :AndIf isJSON r←'{',(strip arr),'}'
               →0 ⍝ treat it like a parameters vector
           :Else
@@ -325,7 +331,7 @@
     ∇ xml←{name}toXML str;c1;end;b;tag;beg;item
      ⍝ Parse JSON string into XML
       :Access public shared
-      :If monadic 0 ⋄ name←'json' ⋄ :EndIf
+      :If 0=⎕NC'name' ⋄ name←'json' ⋄ :EndIf
       tag←''≢name
      ⍝ An empty name is an indication that we want the Value only w/o a complete Tag
       end←tag/'</',name,'>' ⋄ beg←tag/'<',name ⋄ item←tag/'<item'
@@ -351,7 +357,7 @@
     ∇ str←{options}fromXML xml;head;Q;b;ot;n;type
      ⍝ Parse XML statement into JSON
       :Access public shared
-      :If monadic 0 ⋄ options←0 ⋄ :EndIf     ⍝ do we quote names?
+      :If 0=⎕NC'options' ⋄ options←0 ⋄ :EndIf     ⍝ do we quote names?
       n←⍴head←xml↑⍨'>'⍳⍨xml←trim xml
       xml←{'>'≠¯1↑⍵:⍵ ⋄ ⍵↓⍨-'<'⍳⍨⌽⍵}n↓xml
       :If 'array'≡type←5↑(head⍳'"')↓head

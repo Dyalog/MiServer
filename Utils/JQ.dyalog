@@ -1,5 +1,5 @@
 ﻿:Namespace JQ
-    ⎕IO ⎕ML ⎕WX←1 0 3
+    (⎕IO ⎕ML)←1
 ⍝ == JQ - JQuery Utilities
 ⍝ For more information:
 ⍝ * JQuery - http://jquery.com
@@ -7,7 +7,7 @@
     CRLF←⎕UCS 13 10
 
     eis←{2>|≡⍵:,⊂⍵ ⋄ ⍵} ⍝ Enclose if simple
-    enlist←{⎕ML←2 ⋄ ∊⍵} ⍝ APL2 style enlist
+    enlist←{∊⍵} ⍝ APL2 style enlist
     quote←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
 
@@ -47,7 +47,7 @@
     ⍝ [2] - a character vector of events to bind
     ⍝ [3] - data to be sent to the server in the form: (name {id} type what)...
     ⍝
-    ⍝       name - the name for the piece of data
+    ⍝       name - the name for the piece of data - if 'serialize', then serialize all form data on the page
     ⍝
     ⍝       id - selector for where to get the data
     ⍝
@@ -91,9 +91,13 @@
       :If 1<|≡selector ⋄ selector delegate←selector ⋄ delegate←', ',quote delegate :EndIf
       data←'_event: evt.type, _what: $(evt.currentTarget).attr("id")'
       :If 2=|≡clientdata ⋄ clientdata←,⊂clientdata ⋄ :EndIf
+      :If 0∊⍴clientdata
+      :OrIf (1=⍴clientdata)∧'_callback'≡⊃⊃clientdata
+          data,←',_serialized: $("form").serialize()'
+      :EndIf
       :For cd :In clientdata
           cd←eis cd
-          name id type what←4↑cd,(⍴cd)↓4⍴⊂''
+          (name id type what)←4↑cd,(⍴cd)↓4⍴⊂''
           :If ~0∊⍴name
               :Select id
               :CaseList 'attr' 'css' 'html' 'is' 'serialize' 'val' ⍝ no selector specified, use evt.target

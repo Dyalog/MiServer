@@ -3,7 +3,7 @@
 ⍝ Provides cover functions for many file operations
 ⍝ Eventually all will be implemented for both Windows and *nix
 
-    ⎕IO ⎕ML←1 0
+    (⎕IO ⎕ML)←1
 
     ∇ r←text AppendText name;tn
      ⍝ Append text to existing file (must be single byte text)

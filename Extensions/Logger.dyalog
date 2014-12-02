@@ -1,4 +1,4 @@
-﻿:Class Lumberjack ⍝ it's a logger
+﻿:Class Logger ⍝ Logs HTTP requests
 
     ⎕ML←1
 

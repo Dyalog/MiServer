@@ -1,7 +1,7 @@
 ﻿:Namespace DrA
 
     Version←'2.1' ⍝ This version integrated with MiServer
-
+    (⎕ML ⎕IO)←1
 ⍝  --- Developer Tools ---
 
     ∇ r←SetDefaults
@@ -554,7 +554,7 @@
     ⍝ If file identifies specific file, show that output
      
       isChar←{(10|⎕DR ⍵)∊0 2}
-      subst←{⎕ML←3 ⋄ a b←⍺ ⋄ w←⍵ ⋄ ((w∊a)/w)←⊂b ⋄ ∊w}
+      subst←{(a b)←⍺ ⋄ w←⍵ ⋄ ((w∊a)/w)←⊂b ⋄ ∊w}
      
       :If 0=⎕NC'linkpage' ⋄ linkpage←'' ⋄ :EndIf
       :If 0≠⍴file ⍝ A file selected

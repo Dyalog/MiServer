@@ -27,7 +27,7 @@
                   att←' class="',1↓Container,'"'
               :EndSelect
               :If ContainerType{⍵≡(⍴⍵)↑⍺}'input'
-                  r←#.HTMLInput.Tag ContainerType,att,' name="',1↓Container,'"'
+                  r←#.HTMLInput.Tag ContainerType,att,' name="',('.#'∊⍨⊃Container)↓Container,'"'
               :Else
                   r←(ContainerType,att)#.HTMLInput.Enclose ControlContent.Render
               :EndIf
@@ -53,7 +53,6 @@
         ∇ r←Render;title;section;h3
           :Access public
           :If ~0∊⍴Titles
-              ControlContent←⎕NEW #.HtmlElement
               :For title section :InEach Titles((⊃⍴Titles)↑Sections)
                   ControlContent.Add #._html.h3 title'href="#"'
                   ControlContent.Add #._html.div section
@@ -321,10 +320,30 @@
 
     :class ejRating : _ejObject
 
+        :field public Input←''
+
         ∇ make
           :Access public
           JQueryFn←Uses←'ejRating'
           :Implements constructor
+        ∇
+
+        ∇ make1 arg
+          :Access public
+          JQueryFn←Uses←'ejRating'
+          (Input←⎕NEW #._HTML.EditField arg).class←'rating'
+          Selector←'#',⊃eis arg
+          :Implements constructor
+        ∇
+
+        ∇ r←Render
+          :Access public
+          'change'Option'function(args){$("',Selector,'").val(args.value)}'
+          r←''
+          :If Input≢''
+              r←Input.Render
+          :EndIf
+          r,←⎕BASE.Render
         ∇
 
     :EndClass
@@ -421,10 +440,25 @@
 
     :class ejTab : _ejObject
 
+        :field public Titles←0⍴⊂''
+        :field public Sections←0⍴⊂''
+        :field public Ids←0⍴⊂''
+
         ∇ make
           :Access public
           JQueryFn←Uses←'ejTab'
           :Implements constructor
+        ∇
+
+        ∇ r←Render;title;section;id
+          :Access public
+          :If ~0∊⍴Titles
+              ControlContent.Add _html.ul,⊂Titles{⎕NEW _html.li(⎕NEW _html.a(⍺('href="#',⍵,'"')))}¨Ids
+              :For id section :InEach Ids((⊃⍴Titles)↑Sections)
+                  (ControlContent.Add #._html.div section).id←id
+              :EndFor
+          :EndIf
+          r←⎕BASE.Render
         ∇
 
     :EndClass
@@ -482,6 +516,7 @@
         ∇ make
           :Access public
           JQueryFn←Uses←'ejToggleButton'
+          ContainerType←'input type="checkbox"'
           :Implements constructor
         ∇
 
@@ -694,12 +729,18 @@
 
     :EndClass
 
-    :class ejmRating : _ejObject
+    :class ejmRating  ⍝ :  #.HtmlElement
 
-        ∇ make
+        ∇ make1 arg
           :Access public
-          JQueryFn←Uses←'ejmRating'
           :Implements constructor
+          Uses←'ejmRating'
+          id←arg
+        ∇
+
+        ∇ r←Render
+          :Access public
+          r←(⎕NEW #._html.div(''(('id'id)('data-role' 'ejmrating')))).Render
         ∇
 
     :EndClass

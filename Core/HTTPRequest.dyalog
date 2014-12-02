@@ -1,7 +1,7 @@
 ﻿:Class HTTPRequest
 
     (⎕IO ⎕ML)←1 1
-    CR LF←NL←⎕UCS 13 10
+    (CR LF)←NL←⎕UCS 13 10
 
 ⍝ Common Status Codes
     SC←(200 'OK')(301 'Moved Permanently')(401 'Unauthorized')(404 'Not Found')
@@ -32,12 +32,17 @@
 
     GetFromTable←{(⍵[;1]⍳⊂#.Strings.lc ,⍺)⊃⍵[;2],⊂''}
     GetFromTableCS←{(⍵[;1]⍳⊂,⍺)⊃⍵[;2],⊂''} ⍝ Case Sensitive
+    GetFromTableDefault←{⍺←'' ⋄ (⍺⍺[;1]⍳⊂,⍵)⊃⍺⍺[;2],⊂⍺} ⍝ default (table ∇) value
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     inf←{∨/⍵⍷⍺:'' ⋄ ⍵} ⍝ if not found
     enlist←{⎕ML←1 ⋄ ∊⍵}
     begins←{⍺≡(⍴⍺)↑⍵}
     split←{p←(⍺⍷⍵)⍳1 ⋄ ((p-1)↑⍵)(p↓⍵)} ⍝ Split ⍵ on first occurrence of ⍺
 
+    ∇ r←eis w
+      :Access public shared
+      r←{2>|≡⍵:,⊂⍵ ⋄ ⍵}w ⍝ Enclose if simple
+    ∇
 
     ∇ Make(cmd data);buf;input;args;req;hdrs;i;z;pars;mask;new;s;cookies
       :Access Public Instance
@@ -110,20 +115,32 @@
 
     :section Argument and Data Handling
 
-    ∇ r←ArgXLT r;i;j;m;z;t
+⍝    ∇ r←ArgXLT r;i;j;m;z;t
+⍝      :Access public shared
+⍝    ⍝ Translate HTTP command line arguments
+⍝      ((r='+')/r)←' '
+⍝      :If 0≠⍴i←(r='%')/⍳⍴r
+⍝      :AndIf 0≠⍴i←(i<¯1+⍴r)/i
+⍝          z←r[j←i∘.+1 2]
+⍝          t←'UTF-8'⎕UCS 16⊥⍉¯1+('0123456789ABCDEF'⍳z)⌊'0123456789abcdef'⍳z
+⍝          r[(⍴t)↑i]←t
+⍝          j←(,j),(⍴t)↓i
+⍝          m←(⍴r)⍴1 ⋄ m[j]←0
+⍝          r←m/r
+⍝      :EndIf
+⍝    ∇
+
+    ∇ r←ArgXLT r;rgx;rgxu;rgxa
       :Access public shared
-    ⍝ Translate HTTP command line arguments
+     ⍝ Translate HTTP command line arguments
       ((r='+')/r)←' '
-      :If 0≠⍴i←(r='%')/⍳⍴r
-      :AndIf 0≠⍴i←(i<¯1+⍴r)/i
-          z←r[j←i∘.+1 2]
-          t←'UTF-8'⎕UCS 16⊥⍉¯1+('0123456789ABCDEF'⍳z)⌊'0123456789abcdef'⍳z
-          r[(⍴t)↑i]←t
-          j←(,j),(⍴t)↓i
-          m←(⍴r)⍴1 ⋄ m[j]←0
-          r←m/r
-      :EndIf
+      rgx←'[0-9a-fA-F]'
+      rgxu←'%[uU]',(4×⍴rgx)⍴rgx ⍝ 4 characters
+      rgxa←'%',(2×⍴rgx)⍴rgx     ⍝ 2 Characters
+      r←(rgxu ⎕R{{⎕UCS 16⊥⍉¯1+('0123456789ABCDEF'⍳⍵)⌊'0123456789abcdef'⍳⍵}2↓⍵.Match})r
+      r←(rgxa ⎕R{{⎕UCS 16⊥⍉¯1+('0123456789ABCDEF'⍳⍵)⌊'0123456789abcdef'⍳⍵}1↓⍵.Match})r
     ∇
+
 
     ∇ r←GetArgument name
       :Access Public Instance
@@ -339,16 +356,44 @@
       :EndIf
     ∇
 
-    ∇ {hdrs}ReturnFile x;ct
+    ∇ {hdrs}ReturnFile x
       :Access Public Instance
-     
       Response.(HTML File)←x 1
       :If 2=⎕NC'hdrs'
           Response.Headers⍪←hdrs
       :Else
-          ct←(Server.Config.ContentTypes[;1]⍳⊂#.Strings.lc{(1-(⌽⍵)⍳'.')↑⍵}x)⊃Server.Config.ContentTypes[;2],⊂'application/binary'
-          Response.Headers⍪←'content-type'ct
+          SetContentType x
       :EndIf
+    ∇
+
+    ∇ SetContentType x
+      :Access public instance
+      'content-type'SetHeader'application/binary'(Server.Config.ContentTypes GetFromTableDefault)#.Strings.lc{(1-(⌽⍵)⍳'.')↑⍵}x
+    ∇
+
+    ∇ {hdr}SetHeader value;val
+      :Access public instance
+    ⍝ accepts value in forms
+    ⍝ ('hdr1' 'val1')[('hdr2' 'val2')]
+    ⍝ 'hdr1:val1' ['hdr2:val2']
+    ⍝ 'hdr1' 'val1' ['hdr2' 'val2']
+      :If 0=⎕NC'hdr'
+          :If 3≡|≡value ⍝ pairs of strings
+              val←↑value
+          :ElseIf 2≡|≡value
+              :If ':'∊¨value
+                  val←↑':'split¨value
+              :Else
+                  val←((0.5×⍴value),2)⍴value
+              :EndIf
+          :Else
+              val←1 2⍴':'split value
+          :EndIf
+      :Else
+          (hdr value)←eis¨hdr value
+          val←hdr,⍪value
+      :EndIf
+      Response.Headers⍪←val
     ∇
 
     ∇ {tags}Script x
@@ -391,7 +436,7 @@
 
     :endsection
 
-      Split←{⎕IO ⎕ML←0 3         ⍝ Split Http syntax.
+      Split←{(⎕IO ⎕ML)←0 3         ⍝ Split Http syntax.
           ⍺←'?&=' ⋄ (,⍺){        ⍝ Default separator chars.
               0=⍴⍺:⍵             ⍝ No separator chars left: finished.
               sepr←↑⍺            ⍝ First char is separator char.
@@ -401,11 +446,11 @@
           }⍵                     ⍝ Http string.
       }
 
-      CookieSplit←{⎕IO ⎕ML←0 3   ⍝ Split cookies
+      CookieSplit←{(⎕IO ⎕ML)←0 3   ⍝ Split cookies
           {{db←{⍵/⍨∨\⍵≠' '} ⋄ ⌽db⌽db ⍵}¨⍵⊂⍨~<\'='=⍵}¨⍵⊂⍨⍵≠';'}
 
 
-      DeCode←{⎕IO ⎕ML←0 3            ⍝ Decode Special chars in HTML string.
+      DeCode←{(⎕IO ⎕ML)←0 3            ⍝ Decode Special chars in HTML string.
           hex←'0123456789ABCDEF'     ⍝ Hex chars.
           {                          ⍝ Convert numbers.
               v f←⎕VFI ⍵             ⍝ Check for numbers.

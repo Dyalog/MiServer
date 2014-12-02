@@ -1,6 +1,6 @@
 ﻿:Namespace Dates
 
-    (⎕ML ⎕IO)←1 1
+    (⎕ML ⎕IO)←1
 
     ∇ r←CookieFmt date;day;date;mon
          ⍝ Format date for cookie expiry

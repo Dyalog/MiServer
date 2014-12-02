@@ -13,7 +13,11 @@
     ∇ r←QueryStateZipcodes;query
       :Access public
       query←'SELECT States.StateName, Count(*) FROM States INNER JOIN ZipCodes ON States.[StateAbbr] = ZipCodes.[StateAbbr] GROUP BY States.StateName'
-      r←(#.SQL.Do'ZipCodes'query).Data
+      :Trap 6
+          r←(#.SQL.Do'ZipCodes'query).Data
+      :Else
+          r←⍪⊂'Data not found'
+      :EndTrap
     ∇
 
 :EndClass

@@ -1,8 +1,8 @@
 ﻿:Namespace HTMLUtils
 
-    ⎕IO ⎕ML←1 0
+    (⎕IO ⎕ML)←1
     ⎕FX 'r←CRLF' 'r←⎕UCS 13 10' ⍝ So it will be :Included
-    enlist←{⎕ML←2 ⋄ ∊⍵} ⍝ APL2 enlist
+    enlist←{∊⍵} ⍝ APL2 enlist
     eis←{2>|≡⍵:,⊂⍵ ⋄ ⍵} ⍝ Enclose if simple
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     ischar←{0 2∊⍨10|⎕DR⍵}
@@ -76,7 +76,7 @@
 
     ∇ r←ScriptFollows
      ⍝ treat following commented lines in caller as a script, lines beginning with ⍝⍝ are stripped out
-      r←{⎕ML←1 ⋄ ∊{'⍝'=⊃⍵:'' ⋄ ' ',dtlb ⍵}¨1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓⎕NR 2⊃⎕SI
+      r←{∊{'⍝'=⊃⍵:'' ⋄ ' ',dtlb ⍵}¨1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓⎕NR 2⊃⎕SI
     ∇
 
 

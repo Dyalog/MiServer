@@ -1,4 +1,4 @@
 ﻿:Namespace _JQM
-    ⎕IO ⎕ML ⎕WX←1 1 3
+    (⎕IO ⎕ML)←1
 
 :EndNamespace 

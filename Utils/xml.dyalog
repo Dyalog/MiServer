@@ -1,8 +1,9 @@
 ﻿:Namespace XML
 
-    ∇ XML←ToNS x;level;names;values;ns;m;name;i;j;⎕ML;⎕IO;y;n
+    (⎕ML ⎕IO)←1
+
+    ∇ XML←ToNS x;level;names;values;ns;m;name;i;j;y;n
 ⍝ Turn XML into a namespace
-      ⎕IO ⎕ML←1 3
      
       :If (10|⎕DR x)∊0 2 ⋄ x←⎕XML x ⋄ :EndIf
       level names values←↓[1]x[;1 2 3]
@@ -20,7 +21,7 @@
       :Case 2
           'All level 1 names must be the same for <ToNS> with 3 levels'⎕SIGNAL(1≠⍴∪(level=1)/names)/11
           ⍎(name←'XML.',name),'←⍬'
-          i←(+\level=1)⊂⍳⍴level
+          i←(level=1)⊂⍳⍴level
           :For j :In ⍳⍴i
               y←x[j⊃i;] ⋄ y[;1]-←1
               ⍎name,',←(ToNS y).',(level⍳1)⊃names

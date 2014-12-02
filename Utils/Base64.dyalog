@@ -2,7 +2,7 @@
  
  ⍝ CHK's code, converted to Dyalog Classic+Unicode by MKROM
 
-    ⎕IO←0 ⋄ ⎕ML←3
+    ⎕IO←0 ⋄ ⎕ML←1
     CharSet←'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
 
     ∇ rc←Encode txt;p

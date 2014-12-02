@@ -8,7 +8,7 @@
      
       AppRoot←folderize root  ⍝ application (website) root
      
-      Load 1 ⍝ load essential objects
+      AppRoot Load 1 ⍝ load essential objects
       ms←Init ConfigureServer AppRoot ⍝ read configuration and create server instance
       ConfigureDatasources ms
       ConfigureVirtual ms
@@ -19,7 +19,7 @@
       ms.Run
     ∇
 
-    ∇ Load yes;files;f;classes;class;utils;t;disperror;core
+    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;disperror;core;HTML
       ⍝ Load required objects for MiServer
       ⍝ Note: DRC namespace is not SALTed
       ⍝ yes - 1 to perform load, 0 to clean up
@@ -30,14 +30,20 @@
           classes←(empty¨classes[;1])/classes[;2] ⍝ remove directory entries (have <DIR> in [;1])
       :EndIf
       utils←(⎕SE.SALT.List MSRoot,'Utils -raw')[;2]   ⍝ find utility libraries
-      core←(⎕SE.SALT.List MSRoot,'Core -raw')[;2]
-      core~←⊂'Boot'
+      core←(⊂'Boot')~⍨(⎕SE.SALT.List MSRoot,'Core -raw')[;2]
+      HTML←(⎕SE.SALT.List MSRoot,'HTML -raw')[;2]
       :If yes
      
           files←'Core/'∘,¨core
           files,←'Utils/'∘,¨utils
      
           :For f :In files
+              disperror ⎕SE.SALT.Load MSRoot,f,' -target=#'
+          :EndFor
+     
+          #.SupportedHtml5Elements.Build_html_namespace
+     
+          :For f :In 'HTML/'∘,¨HTML
               disperror ⎕SE.SALT.Load MSRoot,f,' -target=#'
           :EndFor
      
@@ -128,11 +134,16 @@
       Load 0
       ⎕EX'#.MiPage'
       ⎕EX'AppRoot'
+      {}try'#.DRC.Close ''.'''
+    ∇
+
+    ∇ Build_html
+     ⍝ Build the _html namespace
     ∇
 
     ∇ BuildEAWC;src;sources;fields;source;list;mask;refs;target
-⍝ Build the Easy As ⎕WC namespace from core classes and its own source
-      sources←#._html #._HTML
+     ⍝ Build the Easy As ⎕WC namespace from core classes and its own source
+      sources←#._html #._HTML #._SF #._JQ #._DC
       fields←''
       :For source :In sources
           list←source.⎕NL ¯9.4
@@ -168,7 +179,7 @@
       :If 0=⍴⍴r ⋄ r←⊃r ⋄ :EndIf
     ∇
 
-    ∇ config←{element}ReadConfiguration type;serverconfig;file;siteconfig;thing;ind
+    ∇ config←{element}ReadConfiguration type;serverconfig;file;siteconfig;thing;ind;mask
     ⍝ Attempt to read configuration file
     ⍝ 1) from server root MSRoot
     ⍝ 2) from site root AppRoot
@@ -186,11 +197,11 @@
           :Else ⍝ element specifies the element(s) to search on
               :For thing :In siteconfig
                   :If 0≠thing.⎕NC element
-                      :If 0∨.≠∊serverconfig.⎕NC⊂element
-                          :If (⊃⍴serverconfig)<ind←(serverconfig⍎¨⊂element)⍳⊂thing⍎element
+                      :If ∨/mask←0≠∊serverconfig.⎕NC⊂element
+                          :If (+/mask)<ind←((mask/serverconfig)⍎¨⊂element)⍳⊂thing⍎element
                               serverconfig,←thing
                           :Else
-                              serverconfig[ind]←thing
+                              serverconfig[(mask/⍳⍴mask)[ind]]←thing
                           :EndIf
                       :Else
                           serverconfig,←thing
@@ -205,29 +216,31 @@
     ∇ Config←ConfigureServer AppRoot;file
     ⍝ configure server level settings, setting defaults for needed ones that are not supplied
       Config←ReadConfiguration'Server'
-      Config.AppRoot←AppRoot
-      Config.Port←Config Setting'Port' 1 8080
-      Config.TrapErrors←Config Setting'TrapErrors' 1 0
-      Config.Logger←Config Setting'Logger' 0 ''
-      Config.SessionHandler←Config Setting'SessionHandler' 0 'SimpleSessions'
-      Config.Authentication←Config Setting'Authentication' 0 'SimpleAuth'
+     
       Config.AllowedHttpCommands←{⎕ML←3 ⋄ ⍵⊂⍨~⍵∊' ,'}#.Strings.lc Config Setting'AllowedHttpCommands' 0 'get,post'
+      Config.AppRoot←AppRoot
+      Config.Authentication←Config Setting'Authentication' 0 'SimpleAuth'
+      Config.CertFile←Config Setting'CertFile' 0 ''
+      Config.ClientDebugInfo←Config Setting'ClientDebugInfo' 1 0
+      Config.Debug←Config Setting'Debug' 1 0
       Config.DefaultExtension←Config Setting'DefaultExtension' 0 '.dyalog'
+      Config.HttpCacheTime←Config Setting'HttpCacheTime' 1 0 ⍝ default to off (0)
+      Config.IPVersion←Config Setting'IPVersion' 0 'IPV4'
+      Config.IdleTimeOut←Config Setting'IdleTimeOut' 1 0 ⍝ default to none (0)
+      Config.KeyFile←Config Setting'KeyFile' 0 ''
+      Config.LogMessageLevel←Config Setting'LogMessageLevel' 1 ¯1 ⍝ default to all message types
+      Config.Logger←Config Setting'Logger' 0 ''
+      Config.Port←Config Setting'Port' 1 8080
       Config.Rest←Config Setting'Rest' 1 0 ⍝ RESTful web service?
       Config.RootCertDir←Config Setting'RootCertDir' 0 ''
-      Config.CertFile←Config Setting'CertFile' 0 ''
-      Config.KeyFile←Config Setting'KeyFile' 0 ''
-      Config.SSLFlags←Config Setting'SSLFlags' 1(32+64)  ⍝ Accept Without Validating, RequestClientCertificate
-      Config.IPVersion←Config Setting'IPVersion' 0 'IPV4'
-      Config.Secure←Config Setting'Secure' 1 0
-      Config.Debug←Config Setting'Debug' 1 0
       Config.Root←folderize MSRoot{((IsRelPath ⍵)/⍺),⍵}AppRoot
-      Config.TempFolder←folderize Config.Root{0∊⍴⍵:⍵ ⋄ ((IsRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
-      Config.UseContentEncoding←Config Setting'UseContentEncoding' 1 0 ⍝ aka HTTP Compression default off (0)
+      Config.SSLFlags←Config Setting'SSLFlags' 1(32+64)  ⍝ Accept Without Validating, RequestClientCertificate
+      Config.Secure←Config Setting'Secure' 1 0
+      Config.SessionHandler←Config Setting'SessionHandler' 0 'SimpleSessions'
       Config.SupportedEncodings←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}',',Config Setting'SupportedEncodings' 0
-      Config.LogMessageLevel←Config Setting'LogMessageLevel' 1 ¯1 ⍝ default to all message types
-      Config.HttpCacheTime←Config Setting'HttpCacheTime' 1 0 ⍝ default to off (0)
-      Config.IdleTimeOut←Config Setting'IdleTimeOut' 1 0 ⍝ default to none (0)
+      Config.TempFolder←folderize Config.Root{0∊⍴⍵:⍵ ⋄ ((IsRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
+      Config.TrapErrors←Config Setting'TrapErrors' 1 0
+      Config.UseContentEncoding←Config Setting'UseContentEncoding' 1 0 ⍝ aka HTTP Compression default off (0)
      
       :If 0≠⎕NC'#.DrA' ⍝ Transfer DrA config options
           {}#.DrA.SetDefaults
@@ -292,30 +305,46 @@
       :EndIf
     ∇
 
-    ∇ ConfigureResources ms;file;mask;inds;names;uses;map;n;res;f
+    ∇ ConfigureResources ms;file;mask;inds;names;uses;map;n;res;f;missing;order
       ⍝ load resource definitions if any
       ms.Config.Resources←0 3⍴⊂''
       :If ~0∊⍴res←'name'ReadConfiguration'Resources'
           :If 0∊mask←{⍵=⍳⍴⍵}inds←{⍵⍳⍵}names←res.name ⍝ check for duplicate aliases, keep first
               1 ms.Log'Duplicate resources defined (first occurence will be used): ',1↓enlist',',¨(~mask)/res.name
               res←mask/res
-              names←res.name
           :EndIf
           ⍝ build the dependency map
           uses←{(eis⍣(⊃0<⍴⍵))⍵}¨res Setting'uses'
-          inds←names∘⍳¨uses
-          n←⊃⍴names
-          :If ∨/mask←n∨.<¨inds
-              1 ms.Log'Invalid resource dependency found for:',enlist' ',¨mask/names
+          inds←res.name∘⍳¨uses
+          n←⊃⍴res
+          :If ∨/mask←∨/¨missing←n<inds
+              1 ms.Log'Invalid resource dependency found for:',enlist' ',¨mask/res.name
+              inds←(~missing)/¨inds
           :EndIf
+          order←OrderResources inds
+          inds←(order∘⍳¨inds)[order]
+          res←res[order]
           map←,(2⍴n)⍴(1+n)↑1 ⍝ identity matrix
-          map[enlist(n×¯1+⍳n)+¨(~mask)/¨inds]←1
+          map[enlist(n×¯1+⍳n)+¨inds]←1
           map←(2⍴n)⍴map
           map←↓{({⍺∨⍺∨.∧⍵}⍣≡)⍨⍵}map
           ⍝ ms.Config.Resources[;1] resource name, [;2] scripts used [;3] styles used
           f←{SubstPath¨{⍵~⊂''}∘∪¨⊃¨,/¨map/¨⊂eis¨⍵}
-          ms.Config.Resources←names,(f res Setting'script'),[1.1]f res Setting'style'
+          ms.Config.Resources←res.name,(f res Setting'script'),[1.1]f res Setting'style'
       :EndIf
+    ∇
+
+    ∇ r←OrderResources inds;n;mask
+      n←⍳⍴inds
+      r←n/⍨mask←0∘∊∘⍴¨inds ⍝ roots with no dependencies
+      inds/⍨←~mask
+      n/⍨←~mask
+      :While ~0∊⍴inds
+          mask←∧/¨inds∊¨⊂r
+          r,←mask/n
+          inds/⍨←~mask
+          n/⍨←~mask
+      :EndWhile
     ∇
 
     ∇ ConfigureContentTypes ms;file;ct;inds;exts;types;mask;exp;n

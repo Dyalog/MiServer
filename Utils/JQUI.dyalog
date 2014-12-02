@@ -1,5 +1,5 @@
 ﻿:Namespace JQUI
-    ⎕IO ⎕ML ⎕WX←1 0 3
+    (⎕IO ⎕ML)←1
 ⍝ == JQUI - JQueryUI
 ⍝ For more information:
 ⍝ * JQuery - http://jquery.com
@@ -11,7 +11,7 @@
 
     ine←{0∊⍴⍺:'' ⋄ ⍵}  ⍝ if not empty
     eis←{0∊⍴⍵:⍵ ⋄ 2>|≡⍵:,⊂⍵ ⋄ ⍵} ⍝ Enclose if simple
-    enlist←{⎕ML←2 ⋄ ∊⍵} ⍝ APL2 style enlist
+    enlist←{∊⍵} ⍝ APL2 style enlist
     quote←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}
     isSingleNum←{(,1)≡⊃⎕VFI ⍵}
     firstAfter←{pos str←⍵ ⋄ pos+1⍳⍨⍺⍷pos↓str} ⍝ return position of first occurrence after a position

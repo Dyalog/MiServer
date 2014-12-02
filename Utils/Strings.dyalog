@@ -1,5 +1,7 @@
 ﻿:Namespace Strings
 
+    (⎕IO ⎕ML)←1
+
     ∇ r←lc r;m;upper;lower
       lower←'abcdefghijklmnopqrstuvwxyzæøå'
       m←r∊upper←⎕A,'ÆØÅ'
@@ -51,7 +53,7 @@
       :EndTrap
     ∇
 
-    esc←{⎕ML←1 ⋄ m←∊(-1+⍵∊'%\')↑¨1 ⋄ r←m\⍵ ⋄ ((~m)/r)←'\' ⋄ r }
+    esc←{m←∊(-1+⍵∊'%\')↑¨1 ⋄ r←m\⍵ ⋄ ((~m)/r)←'\' ⋄ r }
 
     scaledFmt←{0=⍵:' 0' ⋄ ⍵{((1+⍵)⊃(⊂''),'KMGTQP'),⍨(1⌊⍵)⍕⍺÷10*3×⍵}⌊3÷⍨10⍟⍵}
 

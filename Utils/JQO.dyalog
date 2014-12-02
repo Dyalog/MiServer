@@ -1,11 +1,11 @@
 ﻿:Namespace JQO
-    (⎕IO ⎕ML ⎕WX)←1 0 3
+    (⎕IO ⎕ML)←1
 ⍝ == JQO - JQuery Other Utilities
 
     CRLF←⎕UCS 13 10
     ine←{0∊⍴⍺:'' ⋄ ⍵}  ⍝ if not empty
     eis←{0∊⍴⍵:⍵ ⋄ 2>|≡⍵:,⊂⍵ ⋄ ⍵} ⍝ Enclose if simple
-    enlist←{⎕ML←2 ⋄ ∊⍵} ⍝ APL2 style enlist
+    enlist←{∊⍵} ⍝ APL2 style enlist
     firstAfter←{pos str←⍵ ⋄ pos+1⍳⍨⍺⍷pos↓str} ⍝ return position of first occurrence after a position
     makeID←{'#'=1↑⍵:⍵ ⋄ '#',⍵}
     empty←0∘∊∘⍴
@@ -83,7 +83,7 @@
       repeat←{(⍵×⍴⍺)⍴⍺}
       li←(('<li id="'∘,¨((id,'_')∘,¨⍕¨⍳⍴levels)),¨⊂'">'),¨'<span>'∘repeat¨isparent
       html←li,¨items,¨('</li>' '</span><ul>')[1+isparent]
-      html←{⎕ML←1 ⋄ ∊⍵}html,¨('</ul></li>')∘repeat¨end
+      html←∊html,¨('</ul></li>')∘repeat¨end
       html←('ul id="',id,'"')#.HTMLInput.Enclose html
       html,←#.JQ.JQueryfn'treeview'(makeID id)jqpars
     ∇
@@ -104,7 +104,7 @@
       repeat←{(⍵×⍴⍺)⍴⍺}
       li←('<li id="'∘,¨((id,'_')∘,¨⍕¨⍳⍴levels)),¨⊂'"><a href="#">'
       html←li,¨items,¨('</a></li>' '</a><ul>')[1+isparent]
-      html←{⎕ML←1 ⋄ ∊⍵}html,¨('</ul></li>')∘repeat¨end
+      html←∊html,¨('</ul></li>')∘repeat¨end
       html←CRLF,('div id="',id,'"')#.HTMLInput.Enclose'ul'#.HTMLInput.Enclose html
       html,←#.JQ.JQueryfn'jstree'(makeID id)jqpars
     ∇

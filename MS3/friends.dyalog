@@ -9,14 +9,14 @@
       tc←Add _SF.ejTagCloud
       tc.Container←'#tagcloud'
       :If 0∊⍴index←⍬ Get'index'
-          SELECTED←⍳≢FRIENDS
+          SELECTED←⍳⍴FRIENDS
           name←'Friend Clouds'
       :Else
           SELECTED←index~⍨index⊃FRIENDS
           name←(index⊃PEOPLE),'''s Friends'
       :EndIf
-      tc.Options.titleText←name,' - ',(⍕≢SELECTED),' of ',⍕≢PEOPLE
-      tc.Data←PEOPLE[SELECTED],(≢¨FRIENDS[SELECTED]),⍪(_Request.Page,'?index=')∘,¨⍕¨SELECTED
+      tc.Options.titleText←name,' - ',(⍕⍴SELECTED),' of ',⍕⍴PEOPLE
+      tc.Data←PEOPLE[SELECTED],(∊⍴¨FRIENDS[SELECTED]),⍪(_Request.Page,'?index=')∘,¨⍕¨SELECTED
     ∇
 
     ∇ Make

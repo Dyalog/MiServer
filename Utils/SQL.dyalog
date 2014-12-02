@@ -1,5 +1,5 @@
 ﻿:Namespace SQL
-    ⎕IO ⎕ML ⎕WX←1 0 3
+    (⎕IO ⎕ML)←1
 
     ∇ r←ConnectTo database;ind;ds;dsn;opts;rc;conx;pwd;user;ms;find
       ms←#.Boot.ms

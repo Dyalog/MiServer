@@ -13,7 +13,7 @@
     :field Public Encoders←⍬  ⍝ pointers to instances of content encoders
     :field Public Datasources←⍬
 
-    ⎕TRAP←0/⎕TRAP ⋄ ⎕ML ⎕IO←1 1
+    ⎕TRAP←0/⎕TRAP ⋄ (⎕ML ⎕IO)←1 1
 
     unicode←80=⎕DR 'A'
     NL←(CR LF)←⎕UCS 13 10
@@ -206,7 +206,6 @@
       Logger.Log←{}
       Logger.Stop←{}
       Logger.Start←{}
-      ibeam85←{11::0 ⋄ 85⌶'1'}⍬
      
       Config←config
       :If 0≠⊃rc←¯1 #.DRC.Init''
@@ -437,9 +436,9 @@
       (req buffer)←(m,' ',p,' ',s,NL,'Host: ',n,h,NL)c
     ∇
 
-    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask
+    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t
     ⍝ Handle a "Mildserver Page" request
-     
+⍝      ∘∘∘
       :If 0≡date←3⊃(,''#.Files.List file),0 0 0
           REQ.Fail 404 ⋄ →0
       :EndIf
@@ -461,7 +460,7 @@
       :Else                        ⍝ First use of Page in this Session, or page expired
           :If 0≠⍴z←#.Files.GetText file
               class←⎕SE.SALT.Load file,' -target=#.Pages'
-              :Trap 0/11
+              :Trap 11
                   inst←⎕NEW class
               :Else
                   REQ.Fail 500 ⋄ →0
@@ -470,11 +469,14 @@
               inst._PageName←REQ.Page
               inst._PageDate←date
               :If 9=⎕NC'#.HtmlPage'
-                  :If MS3←⊃∨/#.HtmlPage=⎕CLASS inst ⋄ inst._Request←REQ ⋄ :EndIf
+                  :If MS3←⊃∨/#.HtmlPage=⎕CLASS inst
+                      inst._Request←REQ
+                      inst._PageRef←inst
+                  :EndIf
               :EndIf
               :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ :EndIf
               :If 0≠⎕NC'oldinst'
-              :AndIf (names←oldinst.⎕NL-2)≡inst.⎕NL-2 ⍝ Interface is indentical
+              :AndIf (names←oldinst.⎕NL-2.2)≡inst.⎕NL-2.2 ⍝ Interface is indentical
               :AndIf 0≠⍴names←('_'≠1⊃¨names)/names
                   :Trap 6
                       ⍎'inst.(',names,')←oldinst.(',(names←⍕names),')' ⍝ Transfer values
@@ -519,43 +521,52 @@
           :Else ⋄ ⎕TRAP←0 'S'
           :EndIf
      
-          fn←'Render'
+          fn←''
           :If REQ.IsAPLJax                          ⍝ if it's an APLJax request
+              REQ.Response.NoWrap←1
+              cb←'APLJax' ⍝ default callback function name
               :If MS3
                   inst._what←REQ.GetData'_what'
                   inst._event←REQ.GetData'_event'
-                  :If ~0∊⍴cb←REQ.GetData'_callback' ⍝ does the request specify a callback function
-                  :AndIf 3=⌊|inst.⎕NC⊂cb            ⍝ and is it a public method?
-                      REQ.Response.NoWrap←1         ⍝ set no wrapping on
-                      fn←'(#.JSON.toAPLJAX ',cb,')'
-                  :ElseIf 3=⌊|inst.⎕NC⊂'APLJax'     ⍝ otherwise, check if the page contains an APLJax handler
-                      REQ.Response.NoWrap←1         ⍝ set no wrapping on
-                      fn←'(#.JSON.toAPLJAX APLJax)'  ⍝ and call the APLJax handler
+                  :If ~0∊⍴t←REQ.GetData'_callback' ⍝ does the request specify a callback function
+                      cb←t
                   :EndIf
-              :Else
-                  REQ.Response.NoWrap←1
-                  fn←'APLJax'
-              :EndIf
-          :EndIf
-     
-          :If MS3∧fn≡'Render'
-              inst._init ⍝ reset instance's content
-          :EndIf
-          :If ibeam85
-              :Trap 85                 ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
-                  REQ.Return 85⌶'inst.',fn,(~MS3)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
-              :EndTrap
-          :Else  ⍝ 85⌶ not implemented
-              ⍎'inst.',fn,' REQ'
-          :EndIf
-     
-          :If MS3
-              :If ~REQ.Response.NoWrap
-                  inst.Wrap
               :EndIf
           :Else
-              :If ~REQ.Response.NoWrap
-                  inst.Wrap REQ
+              cb←'Render'
+          :EndIf
+     
+          :If 3=⌊|inst.⎕NC⊂cb            ⍝ and is it a public method?
+              fn←cb
+          :Else
+              1 Log'Method "',cb,'" not found (or not public) in page "',REQ.Page,'"'
+              REQ.Fail 500 #.HTTPRequest.Fail
+          :EndIf
+     
+          :If ~0∊⍴fn
+              :If MS3∧fn≡'Render'
+                  inst._init ⍝ reset instance's content
+              :EndIf
+     
+              :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
+                  resp←85⌶'inst.',fn,(~MS3)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
+                  resp←(#.JSON.toAPLJAX⍣REQ.IsAPLJax)resp
+                  REQ.Return resp
+              :Else
+                  :If REQ.IsAPLJax
+                      1 Log'No result returned by callback method "',cb,'" in page "',REQ.Page,'"'
+                      REQ.Return''
+                  :EndIf
+              :EndTrap
+     
+              :If MS3
+                  :If ~REQ.Response.NoWrap
+                      inst.Wrap
+                  :EndIf
+              :Else
+                  :If ~REQ.Response.NoWrap
+                      inst.Wrap REQ
+                  :EndIf
               :EndIf
           :EndIf
       :EndHold

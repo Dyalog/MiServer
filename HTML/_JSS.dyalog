@@ -1,10 +1,10 @@
 ﻿:Namespace _JSS ⍝ Javascript Snippets
 
     ⍝∇:require =\JSON
-
+    (⎕ML ⎕IO)←1
 ⍝ this list will grow over time as usage patterns are discovered
     eis←{2>|≡⍵:,⊂⍵ ⋄ ⍵} ⍝ Enclose if simple
-    enlist←{⎕ML←2 ⋄ ∊⍵} ⍝ APL2 style enlist
+    enlist←{∊⍵}
     quote←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     fmtSelector←{{'this'≡⍵:⍵ ⋄quote ⍵}¯2↓enlist{⍵,', '}¨eis ⍵}

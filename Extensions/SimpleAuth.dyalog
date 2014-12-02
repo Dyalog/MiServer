@@ -1,6 +1,8 @@
 ﻿:Class SimpleAuth
 ⍝ Perform Simple Authentication
 
+    (⎕IO ⎕ML)←1
+
     :Field Public Users
     :Field Public Folders
 
@@ -11,7 +13,7 @@
       ⍝ Folders: folder groups
      
       split←{1↓¨(x∊',;')⊂x←';',⍵}
-      lcud←{⎕ML←1 ⋄ 1<≡⍵:∇¨⍵ ⋄ ⎕SE.Dyalog.Utils.lcase ⍵} ⍝ lower case, to uniform depth
+      lcud←{1<≡⍵:∇¨⍵ ⋄ ⎕SE.Dyalog.Utils.lcase ⍵} ⍝ lower case, to uniform depth
       lco←{(lcud ⍺)⍺⍺ lcud ⍵}                             ⍝ lower case operator
       Users←0 3⍴⊂''
       Folders←0 2⍴⊂''
