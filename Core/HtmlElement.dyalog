@@ -60,6 +60,15 @@
     r←{(0 2∊⍨10|⎕DR ⍵)∧(⍴⍴⍵)∊0 1}w
   ∇
 
+  ∇ r←quote w
+    :Access public
+    r←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}w
+  ∇
+
+  ∇ r←a ine w
+    :Access public
+    r←a{0∊⍴⍺:'' ⋄ ⍵}w ⍝ if not empty
+  ∇
   errorIf←{⍺←⊢ ⋄ 0≠⍵:⍺ ⎕SIGNAL ⍵ ⋄ ''}
 
   ∇ r←eis w

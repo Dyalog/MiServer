@@ -1,868 +1,964 @@
 ﻿:Namespace _SF
 
-    :class _ejObject : #._JQ.JQObject
+  :class _ejObject : #._JQ.JQObject
 ⍝ generic Syncfusion Enterprise JavaScript object
-        :field public Container←''
-        :field public ContainerType←'div'
-        :field public Data←''
-        :field public ControlContent
+    :field public Container←''
+    :field public ContainerType←'div'
+    :field public Data←''
+    :field public ControlContent
+    :field public eventHandlers←''  ⍝!!! make private
 
-        ∇ make
-          :Access public
-          Options←⎕NS''
-          ControlContent←⎕NEW #.HtmlElement
-          Uses←{6::⍵ ⋄ 0∊⍴Uses:⍵ ⋄ Uses}'Syncfusion'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      Options←⎕NS''
+      ControlContent←⎕NEW #.HtmlElement
+      :If 0=⎕NC'Uses' ⋄ Uses←'' ⋄ :EndIf
+      :If 0∊⍴Uses ⋄ Uses←'Syncfusion' ⋄ :EndIf
+      :Implements constructor
+    ∇
 
-        ∇ r←Render;d;opts;att;sel
-          :Access public
-          r←''
-          :If ~0∊⍴sel←Container
-              att←''
-              :Select ⊃Container
-              :Case '#' ⍝ id?
-                  att←' id="',1↓Container,'"'
-              :Case '.' ⍝ class?
-                  att←' class="',1↓Container,'"'
-              :EndSelect
-              :If ContainerType{⍵≡(⍴⍵)↑⍺}'input'
-                  r←#.HTMLInput.Tag ContainerType,att,' name="',('.#'∊⍨⊃Container)↓Container,'"'
+    ∇ r←Render;d;opts;att;sel
+      :Access public
+      r←''
+      :If ~0∊⍴sel←Container
+        att←''
+        :Select ⊃Container
+        :Case '#' ⍝ id?
+          att←' id="',1↓Container,'"'
+        :Case '.' ⍝ class?
+          att←' class="',1↓Container,'"'
+        :EndSelect
+        :If ContainerType{⍵≡(⍴⍵)↑⍺}'input'
+          r←#.HTMLInput.Tag ContainerType,att,' name="',('.#'∊⍨⊃Container)↓Container,'"'
+        :Else
+          r←(ContainerType,att)#.HTMLInput.Enclose ControlContent.Render
+        :EndIf
+        Selector←sel
+      :EndIf
+      :If ~0∊⍴eventHandlers
+        Options∘RenderHandler¨eventHandlers
+      :EndIf
+      r,←⎕BASE.Render
+    ∇
+
+    ∇ r←On args;event;callback;clientData;javaScript;handler;n;i
+      :Access public
+    ⍝ args - event callback clientData javascript
+      args←eis args
+      handler←⎕NS''
+      handler.(event callback clientData javaScript)←4↑args,(⍴args)↓'' 1 '' ''
+      :If 0∊n←⍴eventHandlers
+        eventHandlers,←handler
+      :ElseIf n<i←eventHandlers.event⍳⊂handler.event
+        eventHandlers,←handler
+      :Else
+        eventHandlers[i]←handler
+      :EndIf
+    ∇
+
+    ∇ r←opts RenderHandler handler;page;event;callback;clientdata;javascript;data;cd;name;id;type;what;dtype;success;useajax;ajax;arg
+      :Access public
+      r←page←''
+      :If isInstance _PageRef
+        page←_PageRef._PageName
+      :EndIf
+      page←quote page
+      (event callback clientdata javascript)←handler.(event callback clientData javaScript)
+      useajax←(,0)≢,callback
+      data←''
+      data,←', _event: argument.type'
+      data,←', _what: this._id'
+      data,←(isString callback)/', _callback: ',quote callback
+      data←2↓data
+      :If 2=|≡clientdata ⋄ clientdata←,⊂clientdata ⋄ :EndIf
+⍝      :If 0∊⍴clientdata
+⍝      :OrIf (1=⍴clientdata)∧'_callback'≡⊃⊃clientdata
+⍝        data,←',_serialized: $("form").serialize()'
+⍝      :EndIf
+      :For cd :In clientdata
+        cd←eis cd
+        (name id type what)←4↑cd,(⍴cd)↓4⍴⊂''
+        :If ~0∊⍴name
+          :If 'ejModel'≡name
+            name←'_ejModel'
+            type←'JSONSubset(argument.model,',(quote id),')'
+            id←''
+          :Else
+            :Select id
+            :CaseList 'attr' 'css' 'html' 'is' 'serialize' 'val' 'eval' 'argument' 'ejModel'  ⍝ no selector specified, use evt.target
+              (type what)←id type
+              id←''
+            :Case 'string'
+              (type what)←id(quote type)
+              id←''
+            :Case ''
+              id←quote'#',name
+            :Else
+              :If 'argument.'{⍺≡(⍴⍺)↑⍵}id
+                (type what)←2↑{⎕ML←3 ⋄ ⍵⊂⍨⍵≠'.'}id
+                id←''
               :Else
-                  r←(ContainerType,att)#.HTMLInput.Enclose ControlContent.Render
+                id←quote id
               :EndIf
-              Selector←sel
+            :EndSelect
+     
+            :Select type
+            :Case 'eval'
+              type←what
+            :Case 'argument'
+              type←type,'.',what
+            :Case ''
+              type←'val()'
+            :Case 'string'
+              type←what
+            :Case 'ejModel'
+              name,←'_ejModel'
+              type←'JSONSubset(argument.model,',(quote what),')'
+            :Else
+              :If type≡'serialize'
+                name,←'_serialized'
+              :EndIf
+              type←type,'(',(what ine quote what),')'
+            :EndSelect
           :EndIf
-          r,←⎕BASE.Render
-        ∇
-    :endclass
+          data,←',',name,': ',(id ine'$(',id,').'),type
+        :EndIf
+      :EndFor
+     
+      dtype←'"json"'
+      success←'success: function(obj){APLJaxReturn(obj);}'
+      ajax←(javascript ine javascript,';'),useajax/'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
+      event(opts{⍺⍺⍎⍺,'←⍵'})'function(argument){',ajax,'}'
+    ∇
 
-    :section Web Widgets
+  :EndClass
 
-    :class ejAccordion : _ejObject
+  :Section Web Widgets
 
-        :field public Titles←0⍴⊂''
-        :field public Sections←0⍴⊂''
+  :Class ejAccordion : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejAccordion'
-          :Implements constructor
-        ∇
+    :Field public Titles←0⍴⊂''
+    :Field public Sections←0⍴⊂''
 
-        ∇ r←Render;title;section;h3
-          :Access public
-          :If ~0∊⍴Titles
-              :For title section :InEach Titles((⊃⍴Titles)↑Sections)
-                  ControlContent.Add #._html.h3 title'href="#"'
-                  ControlContent.Add #._html.div section
-              :EndFor
-          :EndIf
-          r←⎕BASE.Render
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejAccordion'
+      :Implements constructor
+    ∇
 
-    :EndClass
+    ∇ r←Render;title;section;h3
+      :Access public
+      :If ~0∊⍴Titles
+        :For title section :InEach Titles((⊃⍴Titles)↑Sections)
+          ControlContent.Add #._html.h3 title'href="#"'
+          ControlContent.Add #._html.div section
+        :EndFor
+      :EndIf
+      r←⎕BASE.Render
+    ∇
 
-    :class ejAutocomplete : _ejObject
+  :EndClass
 
-        :field public dataSource←0⍴⊂''
+  :class ejAutocomplete : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejAutocomplete'
-          :Implements constructor
-        ∇
+    :field public dataSource←0⍴⊂''
 
-    :EndClass
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejAutocomplete'
+      :Implements constructor
+    ∇
 
-    :class ejBarcode : _ejObject
+  :EndClass
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejBarcode'
-          :Implements constructor
-        ∇
+  :class ejBarcode : _ejObject
 
-    :EndClass
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejBarcode'
+      :Implements constructor
+    ∇
 
-    :class ejBulletGraph : _ejObject
+  :EndClass
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejBulletGraph'
-          :Implements constructor
-        ∇
+  :class ejBulletGraph : _ejObject
 
-    :EndClass
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejBulletGraph'
+      :Implements constructor
+    ∇
 
-    :class ejButton : _ejObject
+  :EndClass
 
-        :field public Type←''
-        :field public Text←''
+  :class ejButton : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejButton'
-          :Implements constructor
-        ∇
+    :field public Type←''
+    :field public Text←''
 
-    :EndClass
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejButton'
+      :Implements constructor
+    ∇
 
-    :class ejChart : _ejObject
+  :EndClass
+
+  :class ejChart : _ejObject
 
 ⍝        :field public series←⍬
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejChart'
-          :Implements constructor
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejChart'
+      :Implements constructor
 ⍝          Options.series←,⎕NS''
-        ∇
+    ∇
 
-        ∇ r←Render
-          :Access public
+    ∇ r←Render
+      :Access public
  ⍝         Options.series←1⌽'[]',#.JSON.fromAPL¨series
-          r←⎕BASE.Render
-        ∇
+      r←⎕BASE.Render
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejCheckBox : _ejObject
+  :class ejCheckBox : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejCheckBox'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejCheckBox'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejCircularGauge : _ejObject
+  :class ejCircularGauge : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejCircularGauge'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejCircularGauge'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejDatePicker : _ejObject
+  :class ejDatePicker : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejDatePicker'
-          ContainerType←'input type="text"'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejDatePicker'
+      ContainerType←'input type="text"'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejDateTimePicker : _ejObject
+  :class ejDateTimePicker : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejDateTimePicker'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejDateTimePicker'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejDiagram : _ejObject
+  :class ejDiagram : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejDiagram'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejDiagram'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejDialog : _ejObject
+  :class ejDialog : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejDialog'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejDialog'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejDigitalGauge : _ejObject
+  :class ejDigitalGauge : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejDigitalGauge'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejDigitalGauge'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejDraggable : _ejObject
+  :class ejDraggable : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejDraggable'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejDraggable'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejDropDownList : _ejObject
+  :class ejDropDownList : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejDropDownList'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejDropDownList'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejDroppable : _ejObject
+  :class ejDroppable : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejDroppable'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejDroppable'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejGantt : _ejObject
+  :class ejGantt : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejGantt'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejGantt'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejGrid : _ejObject
+  :class ejGrid : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejGrid'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejGrid'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejLinearGauge : _ejObject
+  :class ejLinearGauge : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejLinearGauge'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejLinearGauge'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejMap : _ejObject
+  :class ejMap : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejMap'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejMap'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejMaskEdit : _ejObject
+  :class ejMaskEdit : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejMaskEdit'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejMaskEdit'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejMenu : _ejObject
+  :class ejMenu : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejMenu'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejMenu'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejProgressBar : _ejObject
+  :class ejProgressBar : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejProgressBar'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejProgressBar'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejRadioButton : _ejObject
+  :class ejRadioButton : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejRadioButton'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejRadioButton'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejRangeNavigator : _ejObject
+  :class ejRangeNavigator : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejRangeNavigator'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejRangeNavigator'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejRating : _ejObject
+  :class ejRating : _ejObject
 
-        :field public Input←''
+    :field public Input←''
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejRating'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejRating'
+      :Implements constructor
+    ∇
 
-        ∇ make1 arg
-          :Access public
-          JQueryFn←Uses←'ejRating'
-          (Input←⎕NEW #._HTML.EditField arg).class←'rating'
-          Selector←'#',⊃eis arg
-          :Implements constructor
-        ∇
+    ∇ make1 arg
+      :Access public
+      JQueryFn←Uses←'ejRating'
+      (Input←⎕NEW #._HTML.EditField arg).class←'rating'
+      Selector←'#',⊃eis arg
+      :Implements constructor
+    ∇
 
-        ∇ r←Render
-          :Access public
-          'change'Option'function(args){$("',Selector,'").val(args.value)}'
-          r←''
-          :If Input≢''
-              r←Input.Render
-          :EndIf
-          r,←⎕BASE.Render
-        ∇
+    ∇ r←Render
+      :Access public
+      'change'Option'function(args){$("',Selector,'").val(args.value)}'
+      r←''
+      :If Input≢''
+        r←Input.Render
+      :EndIf
+      r,←⎕BASE.Render
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejResizable : _ejObject
+  :class ejResizable : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejResizable'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejResizable'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejRotator : _ejObject
+  :class ejRotator : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejRotator'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejRotator'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejRTE : _ejObject
+  :class ejRTE : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejRTE'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejRTE'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejSchedule : _ejObject
+  :class ejSchedule : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejSchedule'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejSchedule'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejScroller : _ejObject
+  :class ejScroller : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejScroller'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejScroller'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejSlider : _ejObject
+  :class ejSlider : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejSlider'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejSlider'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejSplitButton : _ejObject
+  :class ejSplitButton : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejSplitButton'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejSplitButton'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejSplitter : _ejObject
+  :class ejSplitter : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejSplitter'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejSplitter'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejSymbolPalette : _ejObject
+  :class ejSymbolPalette : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejSymbolPalette'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejSymbolPalette'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejTab : _ejObject
+  :class ejTab : _ejObject
 
-        :field public Titles←0⍴⊂''
-        :field public Sections←0⍴⊂''
-        :field public Ids←0⍴⊂''
+    :field public Titles←0⍴⊂''
+    :field public Sections←0⍴⊂''
+    :field public Ids←0⍴⊂''
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejTab'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejTab'
+      :Implements constructor
+    ∇
 
-        ∇ r←Render;title;section;id
-          :Access public
-          :If ~0∊⍴Titles
-              ControlContent.Add _html.ul,⊂Titles{⎕NEW _html.li(⎕NEW _html.a(⍺('href="#',⍵,'"')))}¨Ids
-              :For id section :InEach Ids((⊃⍴Titles)↑Sections)
-                  (ControlContent.Add #._html.div section).id←id
-              :EndFor
-          :EndIf
-          r←⎕BASE.Render
-        ∇
+    ∇ r←Render;title;section;id
+      :Access public
+      :If ~0∊⍴Titles
+        ControlContent.Add _html.ul,⊂Titles{⎕NEW _html.li(⎕NEW _html.a(⍺('href="#',⍵,'"')))}¨Ids
+        :For id section :InEach Ids((⊃⍴Titles)↑Sections)
+          (ControlContent.Add #._html.div section).id←id
+        :EndFor
+      :EndIf
+      r←⎕BASE.Render
+    ∇
 
-    :EndClass
+  :EndClass
 
 
-    :class ejTagCloud : _ejObject
+  :class ejTagCloud : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejTagCloud'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejTagCloud'
+      :Implements constructor
+    ∇
 
-        ∇ r←Render;d;n
-          :Access public
-          :If ~0∊⍴Data
-              :If ~isString d←Data
-                  :Select ⊃⍴⍴Data
-                  :Case 1 ⍝ assumed to be a vector of vectors
-                      n←⊃⍴⊃Data
-                  :Case 2
-                      n←⊃⍴⍉Data
-                  :EndSelect
-                  d←⊃#.JSON.formatData/(n↑'text' 'frequency' 'url')d
-              :EndIf
-              Options.dataSource←d
-          :EndIf
-          r←⎕BASE.Render
-        ∇
+    ∇ r←Render;d;n
+      :Access public
+      :If ~0∊⍴Data
+        :If ~isString d←Data
+          :Select ⊃⍴⍴Data
+          :Case 1 ⍝ assumed to be a vector of vectors
+            n←⊃⍴⊃Data
+          :Case 2
+            n←⊃⍴⍉Data
+          :EndSelect
+          d←⊃#.JSON.formatData/(n↑'text' 'frequency' 'url')d
+        :EndIf
+        Options.dataSource←d
+      :EndIf
+      r←⎕BASE.Render
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejTextBoxes : _ejObject
+  :class ejTextBoxes : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejTextBoxes'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejTextBoxes'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejTimePicker : _ejObject
+  :class ejTimePicker : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejTimePicker'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejTimePicker'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejToggleButton : _ejObject
+  :class ejToggleButton : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejToggleButton'
-          ContainerType←'input type="checkbox"'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejToggleButton'
+      ContainerType←'input type="checkbox"'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejToolbar : _ejObject
+  :class ejToolbar : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejToolbar'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejToolbar'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejTreeMap : _ejObject
+  :class ejTreeMap : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejTreeMap'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejTreeMap'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejTreeView : _ejObject
+  :class ejTreeView : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejTreeView'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejTreeView'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejUploadBox : _ejObject
+  :class ejUploadBox : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejUploadBox'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejUploadBox'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejWaitingPopup : _ejObject
+  :class ejWaitingPopup : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejWaitingPopup'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejWaitingPopup'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :endsection
+  :endsection
 
-    :section Mobile Widgets
+  :section Mobile Widgets
 
-    :class ejmAccordion : _ejObject
+  :class ejmAccordion : _ejObject
 
-        :field public Titles←0⍴⊂''
-        :field public Sections←0⍴⊂''
+    :field public Titles←0⍴⊂''
+    :field public Sections←0⍴⊂''
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmAccordion'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmAccordion'
+      :Implements constructor
+    ∇
 
-    :endclass
+  :endclass
 
-    :class ejmAutocomplete : _ejObject
+  :class ejmAutocomplete : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmAutocomplete'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmAutocomplete'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmButton : _ejObject
+  :class ejmButton : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmButton'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmButton'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmCheckBox : _ejObject
+  :class ejmCheckBox : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmCheckBox'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmCheckBox'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmDatePicker : _ejObject
+  :class ejmDatePicker : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmDatePicker'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmDatePicker'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmDialog : _ejObject
+  :class ejmDialog : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmDialog'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmDialog'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmFooter : _ejObject
+  :class ejmFooter : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmFooter'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmFooter'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmGrid : _ejObject
+  :class ejmGrid : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmGrid'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmGrid'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmGroupButton : _ejObject
+  :class ejmGroupButton : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmGroupButton'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmGroupButton'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmHeader : _ejObject
+  :class ejmHeader : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmHeader'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmHeader'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmListbox : _ejObject
+  :class ejmListbox : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmListBox'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmListBox'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmMenu : _ejObject
+  :class ejmMenu : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmMenu'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmMenu'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmNumeric : _ejObject
+  :class ejmNumeric : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmNumeric'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmNumeric'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmProgess : _ejObject
+  :class ejmProgess : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmProgress'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmProgress'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmRadioButton : _ejObject
+  :class ejmRadioButton : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmRadioButton'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmRadioButton'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmRating  ⍝ :  #.HtmlElement
+  :class ejmRating  ⍝ :  #.HtmlElement
 
-        ∇ make1 arg
-          :Access public
-          :Implements constructor
-          Uses←'ejmRating'
-          id←arg
-        ∇
+    ∇ make1 arg
+      :Access public
+      :Implements constructor
+      Uses←'ejmRating'
+      id←arg
+    ∇
 
-        ∇ r←Render
-          :Access public
-          r←(⎕NEW #._html.div(''(('id'id)('data-role' 'ejmrating')))).Render
-        ∇
+    ∇ r←Render
+      :Access public
+      r←(⎕NEW #._html.div(''(('id'id)('data-role' 'ejmrating')))).Render
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmRotator : _ejObject
+  :class ejmRotator : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmRotator'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmRotator'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmScrollPanel : _ejObject
+  :class ejmScrollPanel : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmScrollPanel'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmScrollPanel'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmSlider : _ejObject
+  :class ejmSlider : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmSlider'
-          :Implements constructor
-        ∇
-    :EndClass
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmSlider'
+      :Implements constructor
+    ∇
+  :EndClass
 
-    :class ejmSplitPane : _ejObject
+  :class ejmSplitPane : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmSplitPane'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmSplitPane'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmTab : _ejObject
+  :class ejmTab : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmTab'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmTab'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmTextBox : _ejObject
+  :class ejmTextBox : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmTextBox'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmTextBox'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmTile : _ejObject
+  :class ejmTile : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmTile'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmTile'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmTimePicker : _ejObject
+  :class ejmTimePicker : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmTimePicker'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmTimePicker'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmToggleButton : _ejObject
+  :class ejmToggleButton : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmToggleButton'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmToggleButton'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :class ejmToolbar : _ejObject
+  :class ejmToolbar : _ejObject
 
-        ∇ make
-          :Access public
-          JQueryFn←Uses←'ejmToolbar'
-          :Implements constructor
-        ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejmToolbar'
+      :Implements constructor
+    ∇
 
-    :EndClass
+  :EndClass
 
-    :endsection
+  :endsection
 
-    :Class sfChart
-        :Field public Title←''
-        :Field public Data
-        :Field public XTitle←''
-        :Field public YTitle←''
-        :Field public Size
-        :Field public Id
-        :Field public JQpars←''
+  :Class sfChart
+    :Field public Title←''
+    :Field public Data
+    :Field public XTitle←''
+    :Field public YTitle←''
+    :Field public Size
+    :Field public Id
+    :Field public JQpars←''
 
-        ∇ r←Render
-          :Access public
-          r←('div id="',Id,'"')#.HTMLInput.Enclose''
-          JQpars←'size:{width:800}'
-         
-          r,←#.JQO.sfChart Id(Title XTitle YTitle)Data JQpars
-        ∇
+    ∇ r←Render
+      :Access public
+      r←('div id="',Id,'"')#.HTMLInput.Enclose''
+      JQpars←'size:{width:800}'
+     
+      r,←#.JQO.sfChart Id(Title XTitle YTitle)Data JQpars
+    ∇
 
-    :endclass
+  :endclass
 
 :EndNamespace

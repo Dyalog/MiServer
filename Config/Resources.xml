@@ -14,6 +14,7 @@
   <resource>
     <name>JQuery</name>
     <script>/JQuery/jquery-1.10.2.min.js</script>
+    <script>/JQuery/APL_JavaScript_Utils.js</script>
   </resource>
 
   <resource>
