@@ -8,7 +8,7 @@
     :field public JavaScript←'' ⍝ additional JavaScript to run, can be function chain, separate code or both
     :field public Var←''        ⍝ JavaScript variable name for created object
     :field public JQueryFn←''   ⍝ JQuery function to apply
-    :field public Uses←'JQuery' ⍝ resources that will be used by this object (can be overridden by derived classes)
+    :field public Uses          ⍝ resources that will be used by this object (can be overridden by derived classes)
 
     ∇ Make0
       :Access public
@@ -26,17 +26,19 @@
 
     ∇ Use;c
       :Access public overridable
-      :Trap 0/0
-        :If ''≡c←_PageRef
-          c←#.HtmlElement.context'_PageRef'
-          :If ~0∊⍴c
-            c←c._PageRef
+      :If ~0∊⍴Uses
+        :Trap 0/0
+          :If ''≡c←_PageRef
+            c←#.HtmlElement.context'_PageRef'
+            :If ~0∊⍴c
+              c←c._PageRef
+            :EndIf
           :EndIf
-        :EndIf
-        :If ~0∊⍴c
-          c.Use Uses
-        :EndIf
-      :EndTrap
+          :If ~0∊⍴c
+            c.Use Uses
+          :EndIf
+        :EndTrap
+      :EndIf
     ∇
 
     ∇ name Option value;parent;i;ns;split;n

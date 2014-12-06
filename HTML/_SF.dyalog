@@ -12,7 +12,7 @@
       :Access public
       Options←⎕NS''
       ControlContent←⎕NEW #.HtmlElement
-      :If 0=⎕NC'Uses' ⋄ Uses←'' ⋄ :EndIf
+      :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
       :If 0∊⍴Uses ⋄ Uses←'Syncfusion' ⋄ :EndIf
       :Implements constructor
     ∇
@@ -173,12 +173,29 @@
 
   :class ejBarcode : _ejObject
 
+    :field public Text←''
+    :field public Type←'code128A' ⍝ see SymbologyType on http://help.syncfusion.com/cr/js
+
     ∇ make
       :Access public
       JQueryFn←Uses←'ejBarcode'
       :Implements constructor
     ∇
 
+    ∇ make1 args
+      :Access public
+      JQueryFn←Uses←'ejBarcode'
+      args←eis args
+      (Selector Text Type)←3↑args,(⍴args)↓'' '' 'code128A'
+      :Implements constructor
+      Container←('#'=⊃Selector)↓'#',Selector
+    ∇
+
+    ∇ r←Render
+      :Access public
+      ('text' 'symbologyType')Option¨Text Type
+      r←⎕BASE.Render
+    ∇
   :EndClass
 
   :class ejBulletGraph : _ejObject
@@ -538,7 +555,6 @@
 
     :field public Titles←0⍴⊂''
     :field public Sections←0⍴⊂''
-    :field public Ids←0⍴⊂''
 
     ∇ make
       :Access public
@@ -546,13 +562,38 @@
       :Implements constructor
     ∇
 
-    ∇ r←Render;title;section;id
+    ∇ make1 arg
+      :Access public
+      JQueryFn←Uses←'ejTab'
+      :Implements constructor
+      Selector←arg
+      Container←('#'=⊃Selector)↓'#',Selector
+    ∇
+
+    ∇ {r}←{title}AddTab content
+      :Access public
+      :If 0=⎕NC'title' ⋄ title←'Tab ',⍕1+⍴Titles ⋄ :EndIf
+      Titles,←⊂title
+     
+      Sections,←r←⎕NEW _html.div content
+    ∇
+
+    ∇ r←Render;urls;ids;sections;id;section
       :Access public
       :If ~0∊⍴Titles
-        ControlContent.Add _html.ul,⊂Titles{⎕NEW _html.li(⎕NEW _html.a(⍺('href="#',⍵,'"')))}¨Ids
-        :For id section :InEach Ids((⊃⍴Titles)↑Sections)
-          (ControlContent.Add #._html.div section).id←id
+        sections←(⊃⍴Titles)↑Sections
+        urls←#.Files.LikelyURL¨sections
+        ids←'#ejTab'∘,∘⍕¨⍳⍴Titles
+        (urls/ids)←urls/Sections
+        (ControlContent.Add _html.ul).Add¨Titles{⎕NEW _html.li(⎕NEW _html.a(⍺('href="',⍵,'"')))}¨ids
+        :For id section :InEach ids sections
+          :If '#'=1↑id
+            (ControlContent.Add section).id←1↓id
+          :EndIf
         :EndFor
+        :If ∨/urls
+          'dataType' 'contentType' 'async'Option¨'html' 'html'#.JSON.true
+        :EndIf
       :EndIf
       r←⎕BASE.Render
     ∇

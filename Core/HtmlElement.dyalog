@@ -211,8 +211,7 @@
     :Else
       :If isString arg
         Content,←arg
-      :ElseIf 1<|≡arg
-      :AndIf ~isClass⊃arg
+      :ElseIf ~isClass⊃arg
         (content attr)←arg
         :If {(isClass ⍵)∨isInstance ⍵}⊃attr
           content←arg
