@@ -14,7 +14,10 @@
 		height:100% !important;
 		min-width:320px !important;
 	}
-},
+    .e-responsive-toolbar{
+        width:200px !important;
+    } 
+}
 @media (min-width: 480px) and (max-width:767px) {
    
     /*tab*/
@@ -39,6 +42,9 @@
 	.e-pager .e-pagercontainer .e-numericcontainer {   
          display:none;
     }
+    .e-responsive-toolbar{
+         width:250px !important;
+    } 
 }
 @media (max-width : 767px)
 {
@@ -100,5 +106,8 @@
 
     .e-menu-res-wrap, .e-menu-wrap .e-res-title, .e-menu-wrap .e-res-icon, .e-menu-wrap .hideIcon {
         display: none;
+    }
+    .e-responsive-toolbar{
+        width:300px !important;
     }
 }

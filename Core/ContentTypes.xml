@@ -13,7 +13,7 @@
   </content>
   <content>
     <ext>xml</ext>
-    <type>text/xml</type>
+    <type>application/xml</type>
   </content>
   <content>
     <ext>svg</ext>
@@ -26,6 +26,10 @@
   <content>
     <ext>pdf</ext>
     <type>application/pdf</type>
+  </content>
+  <content>
+    <ext>json</ext>
+    <type>application/json</type>
   </content>
   <content>
     <ext>mp3</ext>

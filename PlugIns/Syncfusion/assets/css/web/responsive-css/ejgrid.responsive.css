@@ -1,0 +1,174 @@
+﻿@media (max-width :320px) {
+    .e-grid.e-responsive > [id*='Dlg_wrapper'] {
+        width: 130px !important;
+    }
+
+    .e-grid.e-responsive .e-rowcell {
+        display: block;
+        text-align: left !important;
+    }
+
+    .e-grid.e-responsive .e-gridcontent td:before {
+        content: attr(data-cell);
+        top: 6px;
+        left: 13px;
+        width: 45%;
+        white-space: nowrap;
+        position: absolute;
+        padding-right: 10px;
+        font-weight: bolder;
+    }
+
+    .e-grid.e-responsive .e-table, .e-grid.e-responsive .e-table tbody, .e-grid.e-responsive .e-table tr, .e-grid.e-responsive .e-table td {
+        display: block;
+    }
+
+    .e-grid.e-responsive .e-gridcontent td[data-cell] {
+        position: relative;
+        padding-left: 55%;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .e-grid.e-responsive .e-gridcontent .e-normaledit .e-rowcell {
+        padding-left: 1%;
+        padding-right: 1%;
+        border-top-width: 0;
+    }
+
+    .e-grid.e-responsive .e-gridcontent .e-normaledit .e-rowcell:before {
+        position: static;
+        bottom: 6px;
+     }
+
+    .e-grid.e-responsive .e-gridheader {
+        border-bottom-width: 0;
+    }
+
+    .e-grid.e-responsive .e-inlineformedit .e-editform-btn {
+        float: none;
+    }
+
+    .e-grid.e-responsive > .e-gridheader {
+        display: none;
+    }
+
+    .e-grid.e-responsive .e-rowcell {
+        border-width: 0;
+        padding: 0;
+        line-height: normal;
+        white-space: normal;
+        width: auto;
+        vertical-align: middle;
+    }
+
+    .e-grid.e-responsive .e-inlineformedit .e-label {
+        text-align: left !important;
+    }
+
+    .e-grid.e-responsive .e-inlineformedit .e-label,
+    .e-grid.e-responsive .e-inlineformedit .e-label *:first-child,
+    .e-grid.e-responsive .e-inlineformedit .e-rowcell,
+    .e-grid.e-responsive .e-inlineformedit .e-rowcell *:first-child,
+    .e-grid.e-responsive .e-inlineformedit form div {
+            width: 100% !important;
+    }
+
+    .e-grid.e-responsive .e-inlineformedit .e-editform-btn {
+        padding-top: 13px;
+    }
+    .e-grid.e-responsive .e-inlineformedit .e-editform-btn input:first-child {
+        margin-left: 20px !important;
+    }
+    .e-grid.e-responsive, .e-grid.e-responsive .e-rowcell {
+        font-size: 12px;
+        font-family: segoe ui;
+    }
+
+    .e-grid.e-responsive .e-pager {
+        position: relative;
+        height: 38px;
+        margin-bottom: -5px;
+        font-family: segoe ui;
+    }
+
+    .e-grid.e-responsive .e-pager .e-parentmsgbar {
+        position: absolute;
+        top: 0;
+        padding-top: 0;
+        margin-left: 24%;
+    }
+
+    .e-grid.e-responsive .e-pager .e-pagercontainer {
+        position: absolute;
+        bottom: 0;
+        margin-left: 8%;
+        margin-right:6%;
+        margin-bottom: 4px;
+     }
+
+    .e-grid.e-responsive .e-pager .e-PP, .e-grid.e-responsive .e-pager .e-NP {
+        display: none !important;
+     }
+
+    .e-grid.e-responsive{
+        -ms-touch-action: auto;
+        touch-action: auto;
+    }
+    .e-grid.e-responsive .e-gridcontent.e-scroller{
+        -ms-touch-action: none !important;
+        touch-action: none !important; 
+    }
+        .e-grid.e-responsive td.e-rowcell {
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+        }
+        .e-grid .e-gridcontent .e-normaledit td.e-rowcell  {
+            border-bottom-width: 0;
+            border-bottom-style: solid;
+        }
+	.e-grid.e-responsive .e-table > tbody > tr:last-child td:last-child{
+        border-bottom-width: 0;
+    }
+		
+}
+
+@media (min-width: 320px) and (max-width:479px) {
+    .e-grid .e-table-priority-6,
+    .e-grid .e-table-priority-5,
+    .e-grid .e-table-priority-4,
+    .e-grid .e-table-priority-3,
+    .e-grid .e-table-priority-2 {
+        display: none !important;
+    }
+}
+
+@media (min-width: 480px) and (max-width:639px) {
+    .e-grid .e-table-priority-6,
+    .e-grid .e-table-priority-5,
+    .e-grid .e-table-priority-4,
+    .e-grid .e-table-priority-3 {
+        display: none !important;
+    }
+}
+
+@media (min-width: 640px) and (max-width:799px) {
+    .e-grid .e-table-priority-6,
+    .e-grid .e-table-priority-5,
+    .e-grid .e-table-priority-4 {
+        display: none !important;
+    }
+}
+
+@media (min-width: 800px) and (max-width: 959px) {
+    .e-grid .e-table-priority-6,
+    .e-grid .e-table-priority-5 {
+        display: none !important;
+    }
+}
+
+@media (min-width: 960px) and (max-width: 1120px) {
+    .e-grid .e-table-priority-6 {
+        display: none !important;
+    }
+}

@@ -23,7 +23,8 @@
   fixNum←{b←'-'=V←⍵ ⋄ (b/V)←'¯' ⋄ ∧/b←'+'≠V:V ⋄ (b≥¯1⌽v∊'eE')/V}
   fmtNum←{(2|⎕dr ⍵)⍲∨/b←'¯'=r←⍕⍵:r ⋄ (b/r)←'-' ⋄ r}
   strip←{⍺←'{}' ⋄ ∧/⍺=(1↑⍵),¯1↑⍵:1↓¯1↓⍵ ⋄ ⍵}
-  validName←{('.'∊⍵)<0≤⎕NC ⍵}
+  validName←{('.'∊⍵)<0≤⎕NC ⍵} 
+  beginsWith←{⍵≡(⍴⍵)↑⍺}
   :field public shared true←{⍵⊣⍵.⎕DF'true'}⎕NS ''
   :field public shared false←{⍵⊣⍵.⎕DF'false'}⎕NS ''
 
@@ -51,10 +52,11 @@
       drop←preserve<ic←isChar array
       r←drop↓'[',preserve/',',⍨(⍕⍴⍴array),∊',',¨⍕¨⍴array
       :If 0∊⍴array
-        :If ~preserve ⋄ →0⊣r←'[]' ⋄ :EndIf
+        :If ~preserve ⋄ →0⊣r←(1+ic)⊃'[]' '""' ⋄ :EndIf
         r,←qp fromAPL⊃array ⍝ prototype
       :ElseIf ic
-        :If jqopt∧'function'≡8↑array~' '
+        :If jqopt
+        :AndIf ∨/(array~' ')∘beginsWith¨'function' 'ej.' ⍝!!! for jQuery (and Syncfusion) options, treat things beginning with function or ej. as literals
           r←array
         :Else
           r,←1⌽'""',JAchars,array ⍝ strings are displayed as such

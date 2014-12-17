@@ -128,8 +128,9 @@
     :EndIf
   ∇
 
-  ∇ {r}←SetAttr attr
+  ∇ {r}←{which}SetAttr attr
     :Access public
+    :If 0≠⎕NC'which' ⋄ attr←,(eis which),[1.1]eis attr ⋄ :EndIf
     attr←ParseAttr attr
     Attr[1⊃¨attr]←2⊃¨attr
     r←⎕THIS

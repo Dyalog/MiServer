@@ -41,12 +41,12 @@
       r,←⎕BASE.Render
     ∇
 
-    ∇ r←On args;event;callback;clientData;javaScript;handler;n;i
+    ∇ {handler}←On args;event;callback;clientData;javaScript;n;i
       :Access public
     ⍝ args - event callback clientData javascript
       args←eis args
       handler←⎕NS''
-      handler.(event callback clientData javaScript)←4↑args,(⍴args)↓'' 1 '' ''
+      handler.(Event Callback ClientData JavaScript)←4↑args,(⍴args)↓'' 1 '' ''
       :If 0∊n←⍴eventHandlers
         eventHandlers,←handler
       :ElseIf n<i←eventHandlers.event⍳⊂handler.event
@@ -63,18 +63,15 @@
         page←_PageRef._PageName
       :EndIf
       page←quote page
-      (event callback clientdata javascript)←handler.(event callback clientData javaScript)
+      (event callback clientdata javascript)←handler.(Event Callback ClientData JavaScript)
       useajax←(,0)≢,callback
       data←''
       data,←', _event: argument.type'
       data,←', _what: this._id'
       data,←(isString callback)/', _callback: ',quote callback
       data←2↓data
+     
       :If 2=|≡clientdata ⋄ clientdata←,⊂clientdata ⋄ :EndIf
-⍝      :If 0∊⍴clientdata
-⍝      :OrIf (1=⍴clientdata)∧'_callback'≡⊃⊃clientdata
-⍝        data,←',_serialized: $("form").serialize()'
-⍝      :EndIf
       :For cd :In clientdata
         cd←eis cd
         (name id type what)←4↑cd,(⍴cd)↓4⍴⊂''
@@ -173,13 +170,11 @@
 
   :class ejBarcode : _ejObject
 
-    :field public Text←''
-    :field public Type←'code128A' ⍝ see SymbologyType on http://help.syncfusion.com/cr/js
-
     ∇ make
       :Access public
       JQueryFn←Uses←'ejBarcode'
       :Implements constructor
+      'text symbologyType'Option'' 'ej.SymbologyType.code128A'
     ∇
 
     ∇ make1 args
@@ -191,11 +186,6 @@
       Container←('#'=⊃Selector)↓'#',Selector
     ∇
 
-    ∇ r←Render
-      :Access public
-      ('text' 'symbologyType')Option¨Text Type
-      r←⎕BASE.Render
-    ∇
   :EndClass
 
   :class ejBulletGraph : _ejObject
@@ -216,6 +206,16 @@
     ∇ make
       :Access public
       JQueryFn←Uses←'ejButton'
+      :Implements constructor
+    ∇
+
+  :EndClass
+
+  :class ejCaptcha : _ejObject
+
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejCaptcha'
       :Implements constructor
     ∇
 
@@ -393,11 +393,71 @@
 
   :class ejMenu : _ejObject
 
+    :field public Items←⍬
+    :field public Text←'Menu'
+    :field public Href←'#'
+
     ∇ make
       :Access public
       JQueryFn←Uses←'ejMenu'
+      ContainerType←'ul'
       :Implements constructor
     ∇
+
+    ∇ make1 args
+      :Access public
+      JQueryFn←Uses←'ejMenu'
+      ContainerType←'ul'
+      AddItem args
+      :Implements constructor
+    ∇
+
+    ∇ {r}←AddItem args;text;href
+      :Access public
+      args←eis args
+      text href←2↑args,(⍴args)↓'Menu Item' '#'
+      Items,←r←⎕NEW MenuItem(text href)
+    ∇
+
+    ∇ r←Render;link;i;li
+      :Access public
+      :For i :In Items
+        Add i.Render
+      :EndFor
+      r←⎕BASE.Render
+    ∇
+
+    :class MenuItem : #._html.li
+      :field public Text
+      :field public Items←⍬
+      :field public Href
+
+      ∇ make(text href)
+        :Access public
+        :Implements constructor
+        Text←text
+        'href'SetAttr href
+      ∇
+
+      ∇ {r}←AddItem args;text;href
+        :Access public
+        args←eis args
+        text href←2↑args,(⍴args)↓'Menu Item' '#'
+        Items,←r←⎕NEW MenuItem(text href)
+      ∇
+
+      ∇ r←Render;link;i
+        :Access public
+        (Add #._html.a).SetAttr'href'Href
+        :For i :In Items
+          :If ~0∊⍴i.Items
+            (Add #._html.ul).Add i.Render
+          :EndIf
+        :EndFor
+        r←⎕BASE.Render
+      ∇
+
+    :endclass
 
   :EndClass
 
@@ -574,7 +634,6 @@
       :Access public
       :If 0=⎕NC'title' ⋄ title←'Tab ',⍕1+⍴Titles ⋄ :EndIf
       Titles,←⊂title
-     
       Sections,←r←⎕NEW _html.div content
     ∇
 
