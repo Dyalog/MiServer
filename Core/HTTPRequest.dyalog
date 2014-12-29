@@ -137,15 +137,22 @@
 ⍝      :EndIf
 ⍝    ∇
 
-  ∇ r←ArgXLT r;rgx;rgxu;rgxa
+  ∇ r←ArgXLT r;rgx;rgxu;i;j;z;t;m
     :Access public shared
      ⍝ Translate HTTP command line arguments
     ((r='+')/r)←' '
     rgx←'[0-9a-fA-F]'
     rgxu←'%[uU]',(4×⍴rgx)⍴rgx ⍝ 4 characters
-    rgxa←'%',(2×⍴rgx)⍴rgx     ⍝ 2 Characters
     r←(rgxu ⎕R{{⎕UCS 16⊥⍉¯1+('0123456789ABCDEF'⍳⍵)⌊'0123456789abcdef'⍳⍵}2↓⍵.Match})r
-    r←(rgxa ⎕R{{⎕UCS 16⊥⍉¯1+('0123456789ABCDEF'⍳⍵)⌊'0123456789abcdef'⍳⍵}1↓⍵.Match})r
+    :If 0≠⍴i←(r='%')/⍳⍴r
+    :AndIf 0≠⍴i←(i<¯1+⍴r)/i
+      z←r[j←i∘.+1 2]
+      t←'UTF-8'⎕UCS 16⊥⍉¯1+('0123456789ABCDEF'⍳z)⌊'0123456789abcdef'⍳z
+      r[(⍴t)↑i]←t
+      j←(,j),(⍴t)↓i
+      m←(⍴r)⍴1 ⋄ m[j]←0
+      r←m/r
+    :EndIf
   ∇
 
 
