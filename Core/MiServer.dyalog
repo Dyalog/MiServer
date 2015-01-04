@@ -413,13 +413,15 @@
     :EndHold
   ∇
 
-  ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t
+  ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax
     ⍝ Handle a "Mildserver Page" request
-⍝      ∘∘∘
+   
     :If 0≡date←3⊃(,''#.Files.List file),0 0 0
       REQ.Fail 404 ⋄ →0
     :EndIf
-    MS3←0
+   
+    MS3←RESTful←0
+   
     :If sessioned←326=⎕DR REQ.Session ⍝ do we think we have a session handler active?
     :AndIf 0≠⍴REQ.Session.Pages     ⍝ Look for existing Page in Session
     :AndIf (n←⍴REQ.Session.Pages)≥i←REQ.Session.Pages._PageName⍳⊂REQ.Page
@@ -432,7 +434,10 @@
     :AndIf ~expired
       4 Log'Using existing instance of page: ',REQ.Page
       :If 9=⎕NC'#.HtmlPage'
-        :If MS3←∨/(∊⎕CLASS inst)∊#.(HtmlPage RESTful) ⋄ inst._Request←REQ ⋄ :EndIf
+        :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage ⋄ inst._Request←REQ ⋄ :EndIf
+      :EndIf
+      :If 9=⎕NC'#.RESTful'
+        :If RESTful←∨/(∊⎕CLASS inst)∊#.RESTful ⋄ inst._Request←REQ ⋄ :EndIf
       :EndIf
     :Else                        ⍝ First use of Page in this Session, or page expired
       :If 0≠⍴z←#.Files.GetText file
@@ -446,9 +451,13 @@
         inst._PageName←REQ.Page
         inst._PageDate←date
         :If 9=⎕NC'#.HtmlPage'
-          :If MS3←∨/(∊⎕CLASS inst)∊#.(HtmlPage RESTful)
-            inst._Request←REQ
-            inst._PageRef←inst
+          :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage
+            inst.(_Request _PageRef)←REQ inst
+          :EndIf
+        :EndIf
+        :If 9=⎕NC'#.HtmlPage'
+          :If RESTful←∨/(∊⎕CLASS inst)∊#.RESTful
+            inst.(_Request _PageRef)←REQ inst
           :EndIf
         :EndIf
         :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ :EndIf
@@ -467,12 +476,10 @@
       :EndIf
     :EndIf
    
-   
     :If sessioned ⋄ token←REQ.(Page,⍕Session.ID)
     :ElseIf ~0∊⍴REQ.PeerAddr ⋄ token←REQ.(Page,PeerAddr)
     :Else ⋄ token←⍕⎕TID
     :EndIf
-   
    
     :Hold token
    
@@ -499,8 +506,9 @@
       :EndIf
    
       fn←''
-      cb←'Render'                               ⍝ default function to call
-      :If REQ.IsAPLJax                          ⍝ if it's an APLJax request
+      cb←'Render'                 ⍝ default function to call
+      APLJax←REQ.IsAPLJax>RESTful ⍝ if it's an APLJax (XmlHttpRequest) request (but not web service)
+      :If APLJax
         REQ.Response.NoWrap←1
         cb←'APLJax' ⍝ default callback function name
         :If MS3
@@ -525,17 +533,17 @@
         :EndIf
    
         :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
-          resp←85⌶'inst.',fn,(~MS3)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
-          resp←(#.JSON.toAPLJAX⍣REQ.IsAPLJax)resp
+          resp←85⌶'inst.',fn,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
+          resp←(#.JSON.toAPLJAX⍣APLJax)resp
           REQ.Return resp
         :Else
-          :If REQ.IsAPLJax
+          :If APLJax
             1 Log'No result returned by callback method "',cb,'" in page "',REQ.Page,'"'
             REQ.Return''
           :EndIf
         :EndTrap
    
-        :If MS3
+        :If MS3∨RESTful
           :If ~REQ.Response.NoWrap
             inst.Wrap
           :EndIf
