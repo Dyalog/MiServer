@@ -25,22 +25,28 @@
 
   ∇ r←Do ctl;c;m;z;ns;conx;data
   ⍝ Prepare, Execute, Fetch a statement.
-  ⍝       ctl: database sqlstmt {bindvars}
-   
+  ⍝       ctl: database sqlstmt {bindvars} {nulls}
     r←⎕NS''
+    r.(ReturnCode Data Message)←¯1(0 0⍴0)''
     →(0<1⊃z←ConnectTo(1⊃ctl))⍴l3 ⋄ conx←2⊃z
     →(0<1⊃z←#.SQA.CursorName conx)⍴l3 ⋄ c←2⊃z
     →(0<1⊃z←#.SQA.Prepare c(2⊃ctl))⍴l3
-    :If 1<|≡3⊃ctl ⋄ data←3⊃ctl ⋄ :Else ⋄ data←2↓ctl ⋄ :EndIf
+    :If 1<|≡3⊃ctl ⋄ data←3⊃ctl
+      :If 3<⍴ctl ⋄ data←(⊂data),ctl[4] ⋄ :EndIf  ⍝ deal with nulls
+    :Else ⋄ data←2↓ctl ⋄ :EndIf
     →(0<1⊃z←#.SQA.Exec(⊂c),data)⍴l2
     →(0<1⊃z←0 #.SQA.Describe c)⍴l2 ⋄ r.Columns←{(0=(⊂1 3)⊃¨⍵)/(⊂1 1)⊃¨⍵}2 2⊃z
     →(0<2 1 5⊃z)⍴l1        ⍝ Fetch if there are Bind Vars
     r.(ReturnCode Data)←0(0 0⍴0) ⋄ →l2
-   l1:→(0<1⊃z←1 #.SQA.Fetch c)⍴l2
-    r.ReturnCode←1⊃z
+   l1:
+    →(0<1⊃z←1 #.SQA.Fetch c)⍴l2
     r.Data←⊃2⊃z
-   l2:→(0<1⊃z←#.SQA.Close conx)↓0
-   l3:r.ReturnCode←1⊃z
+   l2:
+    :If 0<r.ReturnCode←1⊃z ⋄ r.Message←3⊃z ⋄ :EndIf
+    →(0<1⊃z←#.SQA.Close conx)↓0
+   l3:
+    r.ReturnCode←1⊃z
+    r.Message←3⊃z
   ∇
 
   ∇ r←CloseAll
