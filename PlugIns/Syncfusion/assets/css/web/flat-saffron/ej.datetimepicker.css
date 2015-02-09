@@ -1,0 +1,61 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- DateTimePicker -------------------------------------------*/
+
+.e-datetime-wrap .e-input,
+.e-datetime-popup {
+  background-color: white;
+  font-family: Segoe UI;
+  font-weight: normal;
+  color: #5c5c5c;
+}
+.e-datetime-wrap .e-in-wrap,
+.e-datetime-popup,
+.e-datetime-popup .e-timecontainer .e-header {
+  border-color: #bbbcbb;
+}
+.e-datetime-wrap.e-focus,
+.e-datetime-popup .e-focus {
+  box-shadow: 0 0 2px #cbcbcb;
+}
+.e-datetime-wrap .e-select,
+.e-datetime-wrap.e-rtl .e-select,
+.e-datetime-wrap .e-disable.e-select:hover {
+  background: #dddddd;
+  /* Old browsers */
+
+  border-color: #bbbcbb;
+  color: #797979;
+}
+.e-datetime-wrap .e-select:hover {
+  background: #f3b13f;
+  /* Old browsers */
+
+  color: white;
+}
+.e-datetime-popup .e-dt-button:hover {
+  background: #f3b13f;
+  /* Old browsers */
+
+  color: white;
+}
+.e-datetime-popup .e-dt-button:active {
+  background: #faa113;
+  /* Old browsers */
+
+  border-color: #faa113;
+  color: white;
+}
+.e-datetime-popup .e-dt-button {
+  background: #dddddd;
+  /* Old browsers */
+
+  border: 1px solid #bbbcbb;
+  color: #5c5c5c;
+}

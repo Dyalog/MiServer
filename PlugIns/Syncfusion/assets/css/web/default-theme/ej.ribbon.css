@@ -1,0 +1,113 @@
+/*-----------------------Map------------------*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-ribbon.e-js .e-header .e-bottom-line.e-select.e-item, .e-ribbon.e-js .e-header .e-top-line.e-select.e-item {
+  background: transparent;
+  outline: none;
+  outline-offset: 0;
+}
+.e-ribbon .e-header .e-expandandhelp {
+  color: #797979;
+}
+.e-ribbon .e-groupdiv > div:after {
+  background: #d9dfde;
+}
+.e-ribbon .e-captionarea {
+  color: #3b3b3b;
+}
+.e-separatordiv,
+.e-separatordivrow {
+  background: #d9dfde;
+}
+.e-ribbon.e-js .e-content {
+  background: #f6f7f7;
+  border-color: #d9dfde;
+  border-top-width: 0;
+}
+.e-ribbon .e-ddl .e-select {
+  background: white;
+  border-color: white;
+  color: #797979;
+}
+.e-ribbon .e-ddl .e-input {
+  background: white;
+}
+.e-ribbon .e-ddl .e-select:hover {
+  background: #5eabde;
+  color: white;
+}
+.e-ribbon .e-header .e-expandcollapse span:hover,
+.e-ribbon .e-expander:hover {
+  background: #5eabde;
+  /* Old browsers */
+
+  border-color: #5eabde;
+  color: white;
+}
+.e-ribbon.e-js .e-header,
+.e-ribbon.e-js .e-left,
+.e-ribbon.e-js .e-right {
+  border: 1px solid #d9dfde;
+  background: white;
+}
+.e-ribbon.e-js .e-header > .e-select,
+.e-ribbon.e-js .e-header > .e-active,
+.e-ribbon.e-js .e-left > .e-active,
+.e-ribbon.e-js .e-right > .e-active,
+.e-ribbon.e-js .e-left > .e-select,
+.e-ribbon.e-js .e-right > .e-select {
+  background: transparent;
+  border: none;
+}
+.e-ribbon .e-header > .e-select a {
+  color: black;
+}
+.e-ribbon .e-header li a:hover {
+  color: #2282c3;
+}
+.e-ribbon .e-header > .e-apptab  .e-menu {
+  background: #2282c3;
+}
+.e-ribbon .e-header .e-apptab  .e-menu>li > a,
+.e-ribbon .e-header .e-apptab  .e-menu span {
+  color: white;
+}
+.e-ribbon.e-js .e-header > .e-item:hover {
+  background: transparent;
+  border: none;
+}
+.e-ribbon.e-js .e-header .e-active a {
+  border-color: #d9dfde #d9dfde transparent;
+  color: #2282c3;
+  background: #f6f7f7;
+}
+.e-ribbon .e-btn.e-select,
+.e-ribbon .e-tbtn.e-disable {
+  background: #f6f7f7;
+  border-color: #f6f7f7;
+}
+.e-ribbon .e-btn.e-select:hover {
+  background: #2282c3;
+}
+.e-ribbon .e-tbtn.e-active {
+  background: #2282c3;
+}
+.e-ribbon .e-header .e-apptab .e-menu.e-horizontal .e-list:hover,
+.e-ribbon .e-header .e-apptab .e-menu.e-vertical .e-list:hover,
+.e-ribbon .e-apptab .e-header .e-menu.e-context .e-list:hover {
+  background: #5eabde;
+  color: white;
+}
+.e-ribbon .e-header .e-apptab  .e-menu>li > a:hover,
+.e-ribbon .e-header .e-apptab  .e-menu span:hover {
+  color: white;
+}
+.e-ribbon .e-disable {
+  background: #f6f7f7;
+  opacity: 0.35;
+}

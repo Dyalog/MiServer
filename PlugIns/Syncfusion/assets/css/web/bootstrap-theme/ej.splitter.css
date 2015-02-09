@@ -1,0 +1,40 @@
+/*@pager-currentitem:#428BCA;*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- splitter -------------------------------------------*/
+
+.e-splitter {
+  border-color: #cccccc;
+}
+.e-splitter .e-pane {
+  background-color: white;
+  color: #333333;
+}
+.e-splitter .e-splitbar.e-shadowbar.e-end-indicaton,
+.e-splitter .e-splitbar .e-end-indicaton {
+  background-color: #fef1ec;
+}
+.e-splitter .e-splitbar.e-shadowbar {
+  background: #428bca;
+  /* Old browsers */
+
+}
+.e-splitter .e-splitbar {
+  background-color: white;
+  border-color: #cccccc;
+}
+.e-splitter .e-splitbar .e-icon {
+  color: #333333;
+}
+.e-splitter .e-splitbar:hover .e-icon,
+.e-splitter .e-splitbar.e-hover .e-icon {
+  color: #333333;
+}
+.e-splitter .e-hover.e-splitbar.e-split-divider,
+.e-splitter .e-splitbar.e-split-divider:hover {
+  background-color: #cbcbcb;
+}

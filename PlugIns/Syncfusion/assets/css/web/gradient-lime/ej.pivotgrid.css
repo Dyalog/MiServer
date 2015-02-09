@@ -1,0 +1,568 @@
+/*--------------------Maps ----------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-pivotgrid table {
+  font: 12px Segoe UI !important;
+  color: #565656;
+  border-collapse: collapse;
+  background-color: White;
+  cursor: default;
+}
+.e-pivotgrid .tooltipText {
+  margin: 5px 0 10px 0;
+  font-size: 12px;
+  text-align: left;
+  height: auto;
+  color: #565656;
+  font-weight: normal;
+}
+.e-pivotgrid .tooltip {
+  position: absolute;
+  z-index: 500;
+  display: none;
+  border-color: #bbbcbb;
+  border-width: 10px;
+  height: auto;
+  padding: 5px;
+  opacity: 1;
+  background-color: White;
+  border: 2px solid #bbbcbb;
+  margin-bottom: 200px;
+}
+.e-pivotgrid th,
+.e-pivotgrid td {
+  padding: 0 2px 0 3px;
+  border: solid 1px;
+  border-color: #bbbcbb;
+  white-space: nowrap;
+  height: 25px;
+  font-weight: normal;
+}
+.e-pivotgrid .value {
+  background-color: White;
+  text-align: right !important;
+  padding: 6px 6px 6px 16px;
+}
+.e-pivotgrid .summary {
+  background: #f7fcb6;
+  color: #565656;
+  white-space: nowrap;
+  text-align: left;
+  font-weight: bold;
+}
+.e-pivotgrid .colheader,
+.e-pivotgrid .rowheader {
+  font-weight: bold;
+  color: #7c7c7c;
+  background: #fbfbfb;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fbfbfb), color-stop(100%, #c5c5c5));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #fbfbfb 0%, #c5c5c5 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fbfbfb', endColorstr='#c5c5c5', GradientType=0);
+  /* IE6-9 */
+
+  background-repeat: repeat;
+  padding: 6px 16px 6px 2px;
+  text-align: left;
+  font-style: normal;
+}
+.e-pivotgrid .colheader:hover,
+.e-pivotgrid .rowheader:hover {
+  font-weight: bold;
+  color: white;
+  background: #a9c74e;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a9c74e), color-stop(100%, #728a1e));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #a9c74e 0%, #728a1e 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a9c74e', endColorstr='#728a1e', GradientType=0);
+  /* IE6-9 */
+
+  background-repeat: repeat;
+  padding: 6px 16px 6px 2px;
+  text-align: left;
+  font-style: normal;
+}
+.e-pivotgrid .e-rtl .colheader,
+.e-pivotgrid .e-rtl .colheader:hover,
+.e-pivotgrid .e-rtl .rowheader,
+.e-pivotgrid .e-rtl .rowheader:hover {
+  padding: 6px 0px 6px 24px;
+}
+.e-pivotgrid .expand,
+.e-pivotgrid .collapse {
+  width: 23px;
+  height: 17px;
+  display: inline-block;
+  cursor: pointer;
+}
+.e-pivotgrid .expand:before {
+  content: "\e6a3";
+  display: inline-block;
+  float: left;
+  font-size: 7px;
+  margin-left: 9px;
+  margin-top: 5px;
+}
+.e-pivotgrid .e-rtl .expand:before {
+  content: "\e699";
+  font-size: 23px;
+  margin-top: -3px;
+}
+.e-pivotgrid .e-rtl .collapse:before {
+  margin-left: 0px;
+}
+.e-pivotgrid .collapse:before {
+  content: "\e6a0";
+  display: inline-block;
+  float: left;
+  font-size: 6px;
+  margin-left: 7px;
+  margin-top: 5px;
+}
+.e-pivotgrid .kpiiconvalue {
+  height: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.e-pivotgrid .kpiuparrow {
+  background-image: url("../common-images/olapkpi/up-arrow.png");
+}
+.e-pivotgrid .kpirightarrow {
+  background-image: url("../common-images/olapkpi/right-arrow.png");
+}
+.e-pivotgrid .kpidownarrow {
+  background-image: url("../common-images/olapkpi/down-arrow.png");
+  background-position: center center;
+}
+.e-pivotgrid .kpidiamond {
+  background-image: url("../common-images/olapkpi/diamond.png");
+  background-position: center center;
+}
+.e-pivotgrid .kpitriangle {
+  background-image: url("../common-images/olapkpi/triangle.png");
+  background-position: center center;
+}
+.e-pivotgrid .kpicircle {
+  background-image: url("../common-images/olapkpi/circle.png");
+  background-position: center center;
+}
+.e-pivotgrid .kpiredroad {
+  background-image: url("../common-images/olapkpi/red.png");
+  background-position: center center;
+}
+.e-pivotgrid .kpigreenroad {
+  background-image: url("../common-images/olapkpi/green.png");
+  background-position: center center;
+}
+.e-pivotgrid .kpiallcolor {
+  background-image: url("../common-images/olapkpi/three-color.png");
+  background-position: center center;
+}
+.e-pivotgrid .hyperlinkValueCell {
+  color: #0026ff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.e-pivotgrid .hyperlinkHeaderCell {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.e-pivotgrid .vScrollPanel {
+  background-color: #efefef;
+  width: 8px;
+  margin-left: 8px;
+  display: inline-block;
+}
+.e-pivotgrid .hScrollPanel {
+  background-color: #efefef;
+  height: 8px;
+  margin-top: 4px;
+}
+.e-pivotgrid .vScrollThumb {
+  width: 6px;
+  position: relative;
+  top: 1px;
+  left: 1px;
+  background-color: #cacaca;
+}
+.e-pivotgrid .hScrollThumb {
+  height: 6px;
+  position: relative;
+  left: 1px;
+  top: 1px;
+  background-color: #cacaca;
+}
+.e-pivotgrid .categPageIndicator,
+.e-pivotgrid .seriesPageIndicator {
+  width: auto;
+  background-color: #efefef;
+  border: thin solid gray;
+  color: #5b5b5b;
+  padding: 5px;
+  position: absolute;
+}
+.e-pivotgrid .vScrollThumb:hover,
+.e-pivotgrid .hScrollThumb:hover {
+  background-color: #909090;
+}
+.e-pivotgrid .inActive {
+  display: none;
+}
+.e-pivotgrid .dragging {
+  background-color: #5e5e5e !important;
+}
+.progressContainer {
+  width: 360px;
+  height: 70px;
+  border-radius: 10px;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 0 5px 1px #c4c4c4;
+  color: #5c5c5c;
+}
+.progressBar {
+  width: 300px;
+  height: 16px;
+  top: 25px;
+  left: 30px;
+  position: absolute;
+}
+.progressText {
+  width: 350px;
+  height: 20px;
+  top: 0px;
+  left: 30px;
+  fontSize: 16px;
+  position: absolute;
+}
+.e-pivotschemadesigner {
+  background: none repeat scroll 0 0 White;
+  font-size: 12px;
+  float: right;
+  border: 1px solid #bbbcbb;
+}
+.bg-div {
+  background: none repeat scroll 0 0 White;
+  border: 1px solid #bbbcbb;
+}
+.e-pivotschemadesigner .fieldTable {
+  background-color: White;
+  border: 1px solid #bbbcbb;
+  border-collapse: collapse;
+  margin: 10px;
+  width: 94%;
+}
+.e-pivotschemadesigner .schemaFieldList {
+  display: inline-block;
+  overflow: auto;
+  height: 182px;
+  width: 100%;
+  color: #777777;
+}
+.e-pivotschemadesigner .elementSeparator {
+  border: solid #bbbcbb;
+  border-width: 0 0 1px 0;
+  display: block;
+  margin: 7px;
+}
+.e-pivotschemadesigner .schemaFieldTree {
+  overflow: hidden;
+  margin-top: 11px;
+}
+.e-pivotschemadesigner .editorTreeView {
+  margin-top: 7px;
+  height: 245px !important;
+}
+.e-pivotschemadesigner .schemaHeaders {
+  overflow: hidden;
+}
+.e-pivotschemadesigner .schemaFilter,
+.e-pivotschemadesigner .schemaColumn,
+.e-pivotschemadesigner .schemaRow,
+.e-pivotschemadesigner .schemaValue {
+  background-color: #f9f9f9;
+  border: 1px solid #bbbcbb;
+  overflow: auto;
+  height: 75%;
+  width: 93%;
+  margin-left: 10px;
+  /* margin-top: 3px; */
+
+}
+.e-pivotschemadesigner .schemaColumn,
+.e-pivotschemadesigner .schemaValue {
+  margin-right: 10px;
+}
+.e-pivotschemadesigner .listSubhead {
+  margin: 15px 0 0;
+}
+.e-pivotschemadesigner .pivotHeader,
+.e-pivotschemadesigner .rPivotHeader {
+  color: white;
+  background: #a9c74e;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a9c74e), color-stop(100%, #728a1e));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #a9c74e 0%, #728a1e 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a9c74e', endColorstr='#728a1e', GradientType=0);
+  /* IE6-9 */
+
+  font-weight: bold;
+  line-height: 240%;
+}
+.e-pivotschemadesigner .listHeader {
+  color: white;
+  background: #a9c74e;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a9c74e), color-stop(100%, #728a1e));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #a9c74e 0%, #728a1e 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a9c74e', endColorstr='#728a1e', GradientType=0);
+  /* IE6-9 */
+
+  font-weight: bold;
+  /*background: none repeat scroll 0 0 #5eabde;*/
+  font-size: 15px;
+  margin: -1px;
+  line-height: 40px;
+}
+.e-pivotschemadesigner .folderCDB:before {
+  content: "\e6e1";
+  display: inline;
+  vertical-align: middle;
+  font-size: 17px;
+}
+.e-pivotschemadesigner .namedSetCDB:before {
+  content: "\e6de";
+  font-size: 18px;
+}
+.e-pivotschemadesigner .measureGroupCDB:before {
+  content: "\e615";
+  display: inline;
+  vertical-align: middle;
+}
+.e-pivotschemadesigner .dimensionCDB:before {
+  content: "\e704";
+  display: inline;
+  vertical-align: middle;
+}
+.e-pivotschemadesigner .centerDiv {
+  background-color: #bbbcbb;
+  border-radius: 25px;
+  height: 2px;
+  margin-left: 4px;
+  margin-top: 4%;
+  width: 98%;
+}
+.e-pivotschemadesigner .centerDiv:hover {
+  cursor: default;
+}
+.e-pivotschemadesigner .centerHead {
+  margin: 10px;
+  font: normal 14px Segoe UI;
+  color: #7c7c7c;
+}
+.e-pivotschemadesigner .pivotHeader,
+.e-pivotschemadesigner .rPivotHeader {
+  border: 1px solid #bbbcbb;
+  font-weight: bold;
+  color: white;
+  background: #a9c74e;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a9c74e), color-stop(100%, #728a1e));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #a9c74e 0%, #728a1e 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a9c74e', endColorstr='#728a1e', GradientType=0);
+  /* IE6-9 */
+
+  width: 93%;
+  margin-left: 10px;
+}
+.e-pivotschemadesigner .rPivotHeader,
+.e-pivotschemadesigner .schemaColumn,
+.e-pivotschemadesigner .schemaValue {
+  margin-left: 1%;
+}
+.e-pivotschemadesigner .headerText {
+  padding-left: 5px;
+}
+.e-pivotschemadesigner .subheadText {
+  padding-left: 10px;
+  margin: 10px 0 0;
+  font: normal 14px Segoe UI;
+  color: #7c7c7c;
+}
+.e-pivotschemadesigner .pivotLabel:hover {
+  background: none repeat scroll 0 0 #5eabde;
+  color: white;
+  cursor: move;
+}
+.e-pivotschemadesigner .pivotButton {
+  display: block;
+}
+.e-pivotschemadesigner .pivotButton > .pvtBtn {
+  cursor: move;
+  text-align: left;
+  text-overflow: ellipsis;
+  margin: 2px 3px 0;
+  width: 97%;
+}
+/* (~"@{skin}.e-pivotschemadesigner .pvtBtn:hover
+{
+    background: linear-gradient(#FFFFFF, #FFD093);
+    border-color: #F1D14D;
+    color: #5c5c5c;
+} */
+
+.e-pivotschemadesigner .pvtDrop:before,
+.e-pivotschemadesigner .treeDrop:before {
+  content: "\e666";
+}
+.e-pivotschemadesigner .dropIndicator {
+  background: none repeat scroll 0 0 transparent;
+  height: 2px;
+  width: auto;
+}
+.e-pivotschemadesigner .dropIndicatorHover {
+  background: none repeat scroll 0 0 #99b4d1;
+}
+.e-pivotschemadesigner .removePivotBtn:before {
+  background-repeat: no-repeat;
+  height: 11px;
+  padding-left: 10px;
+  width: 11px;
+  color: white;
+  content: "\e681";
+  font-size: 13px;
+  background-color: #c1272d;
+  border: 1px solid #bbbcbb;
+  float: none;
+  padding: 6px;
+  position: absolute;
+}
+.e-pivotschemadesigner .removePivotBtn:hover {
+  cursor: pointer;
+  background: none repeat scroll 0 0 #ecedee;
+}
+.e-pivotschemadesigner .ascending:before {
+  content: "\e672";
+}
+.e-pivotschemadesigner .descending:before {
+  content: "\e673";
+}
+.e-pivotschemadesigner .filter:before {
+  content: "\e669";
+  float: right;
+  margin-right: 40px;
+  margin-top: 7px;
+}
+.e-pivotschemadesigner .filter {
+  color: #5c5c5c;
+  display: inline-block;
+  position: absolute;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.e-pivotschemadesigner .treeDrop {
+  cursor: pointer;
+}
+.e-pivotschemadesigner .filterBtn {
+  height: 24px;
+}
+.e-pivotschemadesigner .filterIndicator {
+  background: none repeat scroll 0 0 #2382c3;
+}
+.e-pivotschemadesigner .memberEditorDiv {
+  height: 256px;
+  margin-top: 5px;
+  border: 1px solid #bbbcbb;
+}
+.e-pivotschemadesigner .dialogOKBtn,
+.e-pivotschemadesigner .dialogCancelBtn {
+  width: 69px;
+  margin-left: 10px;
+}
+.e-pivotschemadesigner .dialogOKBtn {
+  margin-left: 83px;
+}
+.e-pivotschemadesigner .e-chkbox-wrap {
+  margin-left: 7px;
+}
+.e-pivotschemadesigner .e-tbtn-wrap {
+  display: inline-block;
+}
+.e-pivotschemadesigner .e-togglebutton .e-icon {
+  height: 14px;
+  width: 14px;
+}
+.e-pivotschemadesigner .e-treeview .e-text {
+  min-height: 20px;
+  border: 1px solid transparent;
+  font-family: Segoe UI;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: move;
+}
+.e-pivotschemadesigner .schemaFieldTree.e-treeview .e-text {
+  width: 90%;
+}
+.e-pivotschemadesigner .schemaFieldTree ul,
+.e-pivotschemadesigner .schemaFieldTree li {
+  width: 96%;
+  height: auto;
+}
+.e-pivotschemadesigner .e-btn .e-btntxt {
+  padding: 0 6px 6px;
+}

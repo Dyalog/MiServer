@@ -1,0 +1,28 @@
+/*@pager-currentitem:#428BCA;*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*Theme Color*/
+
+.e-radiobtn-wrap > span {
+  background-color: white;
+  background-image: none;
+  border-color: #cccccc;
+}
+.e-radiobtn-wrap.e-focus > span {
+  box-shadow: 0 0 2px #cbcbcb;
+}
+.e-radiobtn-wrap .e-rad-select {
+  background: none repeat scroll 0 0 transparent;
+}
+.e-radiobtn-wrap .e-rad-active {
+  background: url("images/gradient.png") repeat scroll 0 0 #428bca;
+  background: #333333;
+}
+.e-radiobtn-wrap .e-text {
+  font-family: Segoe UI;
+  font-size: 12px;
+}

@@ -1,0 +1,109 @@
+/*@pager-currentitem:#428BCA;*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-ganttchart .e-ganttviewerbodyContianer {
+  background-color: white;
+}
+.e-ganttchart .e-headercell-weekend {
+  background-color: gainsboro !important;
+}
+.e-ganttchart .e-weekends {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+.e-ganttchart-core {
+  background: white;
+}
+.e-ganttchart  .e-borderbox {
+  border-bottom-color: white;
+}
+.e-ganttchart .e-schedule-day-headercell,
+.e-ganttchart .e-schedule-week-headercell {
+  color: #333333;
+  border-color: #cccccc !important;
+}
+.e-ganttchart .e-ganttviewerheaderContainer {
+  background-color: whitesmoke;
+  color: #333333;
+  border-bottom-color: #0187cb !important;
+}
+.e-ganttchart .milestone-top {
+  border-bottom-color: #333333 !important;
+}
+.e-ganttchart .milestone-bottom {
+  border-top-color: #333333 !important;
+}
+.e-ganttchart .e-taskbarname {
+  color: #333333;
+}
+.e-ganttchart .connectorline-rightarrow {
+  border-left-color: #333333 !important;
+}
+.e-ganttchart .connectorline-leftarrow {
+  border-right-color: #333333 !important;
+}
+.e-tooltipgantt,
+.e-progressbartooltip,
+.e-editingtooltip,
+.e-tooltipganttpredecessor {
+  background-color: whitesmoke;
+  color: #7d7e7d;
+  border-color: #d3d3d4;
+}
+.e-ganttchart .e-tooltiptaskname {
+  color: #7d7e7d;
+}
+.e-ganttchart .e-gantt-mouseclick {
+  background: rgba(215, 233, 246, 0.6);
+}
+.e-ganttchart .e-progresshandle {
+  background: #019fef;
+}
+.e-ganttchart .e-progresshandleafter {
+  border-bottom-color: #019fef;
+}
+.e-ganttchart .e-gantt-parenttaskbar-progress,
+.e-ganttchart .e-gantt-parenttaskbar-innerdiv {
+  border-color: #333333;
+}
+.e-ganttchart .e-gantt-childtaskbar-progress,
+.e-ganttchart .e-gantt-childtaskbar {
+  border-color: #0187cb;
+}
+.e-ganttchart .e-chartcell {
+  border-bottom-color: transparent;
+}
+.e-ganttchart .e-gantt-mouseclick .e-chartcell .e-resourceinfo,
+.e-ganttchart .e-gantt-mouseclick .e-chartcell .e-tasknameContainer .e-taskbarname {
+  color: #231f20;
+}
+.e-ganttchart .e-gantt-parenttaskbar-progress {
+  background-color: #1c1c1c;
+}
+.e-ganttchart .e-gantt-parenttaskbar-innerdiv {
+  background-color: #737373;
+}
+.e-ganttchart .e-gantt-childtaskbar-progress {
+  background-color: #0187cb;
+}
+.e-ganttchart .e-gantt-childtaskbar {
+  background-color: #019fef;
+}
+.e-ganttchart .e-line {
+  background-color: #333333;
+}
+.e-ganttchart .e-connectorpoint-hover {
+  background-color: #333333;
+}
+.e-ganttchart .e-gantt-falseLine {
+  border-top-color: #333333;
+}
+.e-ganttchart .gripper:before {
+  color: rgba(0, 0, 0, 0.3);
+}
+.e-ganttchart .e-ganttgridlines {
+  border-bottom-color: #cccccc;
+}

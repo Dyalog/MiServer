@@ -1,0 +1,46 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- scrollbar -------------------------------------------*/
+
+.e-scrollbar .e-vscroll,
+.e-scrollbar .e-hscroll,
+.e-scrollbar .e-vhandlespace {
+  background-color: #2d2d2d;
+}
+.e-scrollbar .e-vscroll,
+.e-scrollbar .e-hscroll {
+  border-style: none;
+}
+.e-scrollbar .e-active {
+  background-color: #a9ca44;
+}
+.e-scrollbar .e-vhandle,
+.e-scrollbar .e-hhandle {
+  background: #1f1f1f;
+  /* Old browsers */
+
+  border: 1px solid #303030;
+  transition: top .1s linear 0s, left .1s linear 0s;
+}
+.e-scrollbar .e-vhandle:hover,
+.e-scrollbar .e-hhandle:hover {
+  background: #91aa29;
+  /* Old browsers */
+
+  cursor: default;
+}
+.e-scrollbar .e-button {
+  color: #b3b3b3;
+}
+.e-scrollbar .e-button:hover {
+  background: #91aa29;
+  /* Old browsers */
+
+  color: white;
+}

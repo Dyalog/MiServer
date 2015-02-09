@@ -1,0 +1,35 @@
+/*@pager-currentitem:#428BCA;*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-chkbox-wrap.e-focus div > span {
+  box-shadow: 0 0 2px #cbcbcb;
+}
+.e-chkbox-wrap div > span {
+  border-color: #cccccc;
+  background-color: white;
+}
+.e-chkbox-wrap .e-chk-image {
+  background-image: url(images/checkedtick.png);
+  background-repeat: no-repeat;
+  background-position: 0 -50px;
+}
+.e-chkbox-wrap .e-chk-image.e-chk-indetericon {
+  background-image: url("images/gradient.png");
+  background-repeat: repeat;
+  background-position: 0;
+  background: #333333;
+}
+.e-chkbox-wrap .e-chkbox-small .e-chk-act .e-chk-image.e-chk-activeicon {
+  background-position: -1px -21px;
+}
+.e-chkbox-wrap .e-chkbox-medium .e-chk-act .e-chk-image.e-chk-activeicon {
+  background-position: 2px 2px;
+}
+.e-chkbox-wrap .e-text {
+  font-family: Segoe UI;
+  font-size: 12px;
+}

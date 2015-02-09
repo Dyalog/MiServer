@@ -1,0 +1,166 @@
+/*--------------------Maps ----------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*Theme Color*/
+
+.e-tab.e-js.e-widget {
+  font-family: Segoe UI;
+}
+.e-tab.e-js .e-header,
+.e-tab.e-js .e-left,
+.e-tab.e-js .e-right {
+  background: #b5d553;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b5d553), color-stop(100%, #92b127));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #b5d553 0%, #92b127 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5d553', endColorstr='#92b127', GradientType=0);
+  /* IE6-9 */
+
+  
+}
+.e-tab .e-header {
+  border: 1px solid #bbbcbb;
+  border-left: none;
+}
+.e-tab .e-left {
+  border-right: 1px solid #a9ca44;
+}
+.e-tab .e-right {
+  border-left: 1px solid #a9ca44;
+}
+.e-tab.e-js .e-left .e-item.e-active,
+.e-tab.e-js .e-left .e-item.e-active:hover {
+  margin-right: -1px;
+  outline: 0 none;
+}
+.e-tab.e-js .e-right .e-item.e-active,
+.e-tab.e-js .e-right .e-item.e-active:hover {
+  margin-left: -1px;
+  outline: 0 none;
+}
+.e-tab .e-left .e-item.e-active,
+.e-tab .e-right .e-item.e-active {
+  border-bottom: 1px solid #a9ca44;
+}
+.e-tab .e-header li {
+  border-top: 0px;
+}
+.e-tab.e-js .e-header > .e-bottom-line.e-active,
+.e-tab.e-js .e-header > .e-bottom-line.e-active:hover {
+  padding-bottom: 1px;
+  outline: 0 none;
+}
+.e-tab.e-js .e-header > .e-top-line.e-active,
+.e-tab.e-js .e-header > .e-top-line.e-active:hover {
+  padding-top: 1px;
+  outline: 0 none;
+}
+.e-tab .e-top-line {
+  margin: -1px -5px -1px 0;
+}
+.e-tab .e-left li,
+.e-tab .e-right li {
+  border-bottom: 1px solid #bbbcbb;
+}
+.e-tab.e-vertical {
+  background: white;
+  border: 1px solid #bbbcbb;
+}
+.e-tab.e-js .e-header > .e-item:hover,
+.e-tab.e-js .e-left > .e-item:hover,
+.e-tab.e-js .e-right > .e-item:hover {
+  background: #a9c74e;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a9c74e), color-stop(100%, #728a1e));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #a9c74e 0%, #728a1e 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a9c74e', endColorstr='#728a1e', GradientType=0);
+  /* IE6-9 */
+
+  color: white;
+  border-image: initial;
+}
+.e-tab.e-js .e-content {
+  border-color: #bbbcbb;
+  background: white;
+  color: #5c5c5c;
+  font-size: 14px;
+}
+.e-tab.e-js .e-header > .e-select,
+.e-tab.e-js .e-header > .e-active,
+.e-tab.e-js .e-left > .e-active,
+.e-tab.e-js .e-right > .e-active,
+.e-tab.e-js .e-left > .e-select,
+.e-tab.e-js .e-right > .e-select {
+  background: #b5d553;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b5d553), color-stop(100%, #92b127));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #b5d553 0%, #92b127 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5d553', endColorstr='#92b127', GradientType=0);
+  /* IE6-9 */
+
+  border-color: #bbbcbb;
+  color: white;
+  font-weight: normal;
+  font-size: 16px;
+  
+}
+.e-tab .e-header > .e-select a,
+.e-tab .e-left > .e-select a,
+.e-tab .e-right > .e-select a {
+  color: white;
+}
+.e-tab.e-js .e-header > .e-active,
+.e-tab.e-js .e-header > .e-active:hover,
+.e-tab.e-js .e-left > .e-active,
+.e-tab.e-js .e-left > .e-active:hover,
+.e-tab.e-js .e-right > .e-active,
+.e-tab.e-js .e-right > .e-active:hover {
+  background: white;
+  border-color: #bbbcbb;
+  color: #5c5c5c;
+}
+.e-tab .e-header > .e-active a,
+.e-tab .e-left > .e-active a,
+.e-tab .e-right > .e-active a {
+  color: #5c5c5c;
+}
+.e-tab .e-load {
+  background-image: url(images/ajax-loader.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+}

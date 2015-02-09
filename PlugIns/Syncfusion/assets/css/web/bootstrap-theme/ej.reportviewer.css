@@ -1,0 +1,137 @@
+/*@pager-currentitem:#428BCA;*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------reportviewer Theme Start-------------------------------*/
+
+.e-reportviewer-outerborder:hover {
+  background: #ebebeb;
+  /* Old browsers */
+
+  border-color: #cccccc;
+  color: #333333;
+}
+.e-reportviewer-tbdiv.e-reportviewer-exporttip {
+  background: whitesmoke;
+  /* Old browsers */
+
+  border-color: #cccccc;
+  background-color: white;
+}
+.e-reportviewer-tbdiv.e-reportviewer-fittopagetip {
+  background: whitesmoke;
+  /* Old browsers */
+
+  border-color: #cccccc;
+  background-color: white;
+}
+.e-reportviewer-tbdiv.e-reportviewer-tooltip {
+  background: white;
+  border-color: #cccccc;
+}
+.e-reportviewer-headerspan,
+.e-reportviewer-contentspan {
+  color: #333333;
+  font-family: Segoe UI !important;
+}
+.e-reportviewer-viewer {
+  font-size: 14px;
+}
+.e-reportviewer-popuppageno,
+.e-reportviewer-popuptotalpage {
+  color: white;
+}
+.e-reportviewer-toolbarcontainer .ejinputtext {
+  background-color: white !important;
+}
+.e-reportviewer-viewerblock {
+  background-color: #f6f6f6;
+  font-size: 12.5px;
+  color: #333333;
+}
+.e-reportviewer-viewerblockcellcontent {
+  font-size: 14.5px;
+  color: #333333;
+}
+.e-reportviewer-viewreport {
+  border-left-color: #cccccc;
+}
+.e-reportviewer-scrollcontainer,
+.e-reportviewer-viewer>.e-splitter .e-pane {
+  background-color: #e9e9e9;
+}
+.e-reportviewer-pageviewcontainer {
+  background-color: #e9e9e9;
+}
+.e-reportviewer-pageview {
+  -moz-box-shadow: rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: rgba(0, 0, 0, 0.6);
+  box-shadow: rgba(0, 0, 0, 0.3);
+  border-color: gray;
+}
+.e-reportviewer-label,
+.e-reportviewer-tbpage,
+.e-reportviewer-elementalignments,
+.e-reportviewer-textbox {
+  color: #333333;
+}
+.e-reportviewer-label,
+.e-reportviewer-tbpage,
+.e-reportviewer-elementalignments,
+.e-reportviewer-textbox {
+  font-size: 14px;
+  font-weight: normal;
+}
+.e-reportviewer-labelpageno {
+  font-size: 16px !important;
+}
+.e-reportviewer-documentmapcontainer div,
+.e-reportviewer-documentmappopup {
+  background-color: #ebebeb;
+}
+.e-reportviewer-pagepopupinfo {
+  background-color: black;
+}
+.e-reportviewer-viewerblock,
+.e-reportviewer-viewer,
+.e-reportviewer-pagenumber,
+.e-reportviewer-tbpage,
+.e-reportviewer-tbdiv.e-reportviewer-exportlist,
+.e-reportviewer-label,
+.e-reportviewer-labelpageno {
+  font-family: Segoe UI !important;
+}
+.e-reportviewer-toolbarcontainer,
+.e-reportviewer-viewerblock,
+.e-reportviewer-viewercontainer,
+.e-reportviewer-elementalignments,
+.e-reportviewer-viewerblockcellcontent,
+.e-reportviewer-viewerblockcontent,
+.e-reportviewer-textbox,
+.e-reportviewer-documentmappopup {
+  border-color: #cccccc;
+}
+.e-reportviewer-popupli:hover {
+  background: #ebebeb;
+  /* Old browsers */
+
+  background-color: #ebebeb;
+  color: #333333;
+}
+.e-reportviewer-popupli {
+  color: #333333 !important;
+  font-family: Segoe UI !important;
+  font-size: 14px !important;
+  font-weight: normal !important;
+}
+.e-reportviewer-gotonext.e-reportviewer-disabled,
+.e-reportviewer-gotoprevious.e-reportviewer-disabled,
+.e-reportviewer-gotolast.e-reportviewer-disabled,
+.e-reportviewer-gotofirst.e-reportviewer-disabled {
+  color: #b2b2b2;
+}
+/*------------------------------reportviewer Theme End-------------------------------*/
+

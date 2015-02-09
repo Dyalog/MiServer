@@ -1,0 +1,61 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-olapchart {
+  font: normal 12px Segoe UI;
+  border: 1px solid #bbbcbb;
+  background-color: White;
+  color: #555555;
+}
+.e-olapchart .expandMenu {
+  min-height: 50px;
+}
+.e-olapchart .menuList {
+  list-style-type: none;
+  padding: 4px 15px 4px 15px;
+}
+.e-olapchart .menuList:hover {
+  list-style-type: none;
+  color: white;
+  background: #f3b13f;
+  cursor: pointer;
+}
+.e-olapchart .e-dialog,
+.e-olapchart .e-wrapper,
+.e-olapchart .e-shadow {
+  min-height: 50px;
+}
+.e-olapchart .e-dialog,
+.e-olapchart .e-content {
+  padding: 0;
+  min-width: 150px;
+}
+.progressContainer {
+  width: 360px;
+  height: 70px;
+  border-radius: 10px;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 0 5px 1px #c4c4c4;
+  color: #5c5c5c;
+}
+.progressBar {
+  width: 300px;
+  height: 16px;
+  top: 25px;
+  left: 30px;
+  position: absolute;
+}
+.progressText {
+  width: 350px;
+  height: 20px;
+  top: 0px;
+  left: 30px;
+  fontSize: 16px;
+  position: absolute;
+}

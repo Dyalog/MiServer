@@ -1,0 +1,37 @@
+/*------------------------------------- Captcha -------------------------------------------*/
+
+/*--------------------Maps ----------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-captcha .refresh {
+  background: #f7f7f7;
+  border: 1px solid #c9c9c9;
+}
+.e-captcha .audio {
+  background: #f7f7f7;
+}
+.e-captcha .imagecontainer {
+  border: 1px solid #999999;
+}
+.e-captcha .validTextBox {
+  border: 1px solid #c9c7c7;
+}
+.e-captcha .e-validTextBox {
+  border: 1px solid #c9c7c7;
+}
+.e-captcha .e-refresh {
+  background: #f7f7f7;
+  border: 1px solid #c9c9c9;
+}
+.e-captcha .e-audio {
+  background: #f7f7f7;
+  border: 1px solid #c9c7c7;
+}
+.e-captcha .e-imageContainer {
+  border: 1px solid #999999;
+}

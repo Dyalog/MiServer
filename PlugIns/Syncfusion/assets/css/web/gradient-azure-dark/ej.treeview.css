@@ -1,0 +1,102 @@
+.pager-hover-gradient {
+  background: #68c3de;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #68c3de), color-stop(100%, #68c3de));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #68c3de 0%, #3c92a9 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#68c3de', endColorstr='#3c92a9', GradientType=0);
+  /* IE6-9 */
+
+}
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*Theme Color*/
+
+.e-treeview {
+  font-family: Segoe UI;
+}
+.e-treeview .e-text {
+  color: #aaaaaa;
+}
+.e-dragedNode {
+  background: #3c92a9;
+  color: white;
+  padding: 0 10px 0 0;
+}
+.e-treeview .e-active {
+  background: #3c92a9;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #3c92a9 0%, #68c3de 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3c92a9), color-stop(100%, #68c3de));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #3c92a9 0%, #68c3de 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #3c92a9 0%, #68c3de 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #3c92a9 0%, #68c3de 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #3c92a9 0%, #68c3de 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3c92a9', endColorstr='#68c3de', GradientType=0);
+  /* IE6-9 */
+
+  color: white;
+  border: 1px solid transparent;
+  border-image: initial;
+}
+.e-treeview .e-node-hover {
+  background: #68c3de;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #68c3de), color-stop(100%, #3c92a9));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #68c3de 0%, #3c92a9 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#68c3de', endColorstr='#3c92a9', GradientType=0);
+  /* IE6-9 */
+
+  color: white;
+  border: 1px solid #52abc4;
+  border-image: initial;
+  cursor: pointer;
+}
+.e-treeview .e-sibling {
+  background: url(images/drop-sibling.png);
+  background-repeat: no-repeat;
+  width: 80px;
+  height: 5px;
+  position: absolute;
+}
+.e-treeview .e-node-disable {
+  filter: alpha(opacity=40);
+  opacity: .4;
+}
+.e-treeview .e-plus.e-load,
+.e-treeview.e-rtl .e-plus.e-load {
+  background-image: url(images/ajax-loader.gif);
+  background-position: right center;
+  background-repeat: no-repeat;
+}

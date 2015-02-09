@@ -1,0 +1,76 @@
+/*@pager-currentitem:#428BCA;*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-grid.e-rtl .e-nextpage,
+.e-grid.e-rtl .e-nextpagedisabled {
+  border-left-color: #c4c4c4;
+}
+.e-pager,
+.e-grid .e-pagerstatusbar {
+  background-color: white;
+  border-color: #c4c4c4;
+  color: #6d6d6d;
+}
+.e-pager .e-icon {
+  color: #333333;
+}
+.e-pager .e-icon:hover {
+  color: #333333;
+}
+.e-pager .e-spacing {
+  color: #169dd8;
+}
+.e-pager .e-numericitem:hover {
+  background: #f7f7f7;
+  /* Old browsers */
+
+  color: black;
+}
+.e-pager .e-numericitem {
+  background: white;
+  border-right-color: #c4c4c4;
+}
+.e-pager .e-prevpagedisabled,
+.e-pager .e-prevpage,
+.e-pager .e-nextpage,
+.e-pager .e-nextpagedisabled,
+.e-pager .e-lastpagedisabled,
+.e-pager .e-lastpage,
+.e-pager .e-firstpage,
+.e-pager .e-firstpagedisabled {
+  background-color: white;
+  color: #169dd8;
+}
+.e-pager .e-nextpage:Hover,
+.e-pager .e-lastpage:Hover,
+.e-pager .e-firstpage:Hover,
+.e-pager .e-prevpage:Hover {
+  background-color: #f7f7f7;
+}
+.e-pager .e-pagercontainer {
+  background-color: white;
+  border-color: #c4c4c4;
+}
+.e-pager .e-firstpage,
+.e-pager .e-prevpage,
+.e-pager .e-firstpagedisabled,
+.e-pager .e-prevpagedisabled,
+.e-pager .e-nextpage,
+.e-pager .e-lastpage,
+.e-pager .e-nextpagedisabled,
+.e-pager .e-lastpagedisabled {
+  border-right-color: #c4c4c4;
+}
+.e-pager .e-currentitem,
+.e-pager .e-currentitem:hover {
+  background-color: whitesmoke;
+  /* Old browsers */
+
+  color: white;
+  /*background-color:#428BCA;*/
+
+}

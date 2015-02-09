@@ -1,0 +1,40 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- slider -------------------------------------------*/
+
+.e-slider.e-widget {
+  background-color: white;
+  border-color: #bbbcbb;
+}
+.e-tooltip {
+  background: #a9ca44;
+  /* Old browsers */
+
+  border-color: #a9ca44;
+  color: white;
+}
+.e-slider .e-handle.e-select {
+  background-color: #dddddd;
+  border-color: #dddddd;
+}
+.e-slider .e-handle.e-hover {
+  background-color: #dddddd;
+  border-color: #dddddd;
+}
+.e-slider .e-handle.e-focus {
+  box-shadow: 0 0 2px #cbcbcb;
+}
+.e-slider .e-range {
+  background: #a9ca44;
+  /* Old browsers */
+
+}
+.e-scale .e-tick {
+  background-image: url(images/dot.png);
+}

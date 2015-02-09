@@ -19,12 +19,12 @@
       make←'∇make' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base ''∆''' '∇'
       make1←'∇make1 arg' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base ''∆'' arg' '∇'
       make1a←'∇make1 arg' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base ''∆'' '''' arg' '∇'
-      make2←'∇make2 (content attr)' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base ''∆'' content attr' '∇'
+      make2←'∇make2 (content attr);a' ':Access Public' 'NoEndTag←⍺' 'a←(⊂''∆''),⊂⍣(isString a)⊢a←content attr' ':Implements Constructor :Base a' '∇'
       endclass←,⊂':EndClass'
      
-      #._html.(⎕EX ⎕NL ¯9.4)
+      #._html.(⎕EX ⎕NL ¯9.4)  ⍝ erase all classes
      
-      :For e :In {⎕ML←3 ⋄ ⍵⊂⍨⍵≠1↑⍵}Elements
+      :For e :In {⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}Elements
           e↓⍨←-noend←'*'=¯1↑e
           #._html.⎕FIX⊃,/(⍕¨e noend)∘{((,¨'∆⍺')⎕R ⍺),¨⍵}¨(1 1,(noend⌽1 0),1 1)/class make make1 make1a make2 endclass
       :EndFor

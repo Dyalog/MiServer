@@ -1,0 +1,215 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-innerIncrement:hover {
+  background-image: url(../common-images/maps/Zoom-In_hover.png);
+}
+.e-legendLabelContent {
+  color: #6d6d6d;
+}
+.e-map {
+  color: #6d6d6d;
+  background-color: white;
+  border-color: #c4c4c4;
+}
+.e-drilldownHeader {
+  background: #f3b13f;
+  /* Old browsers */
+
+}
+.e-map-home {
+  background-image: url(../common-images/maps/Home_saffron.png);
+}
+.e-map-home {
+  height: 30px;
+  width: 30px;
+}
+.e-map-home:hover {
+  background-image: url(../common-images/maps/Home_hover_saffron.png);
+}
+.map-contribution {
+  border-color: #dbdbde;
+  right: 0;
+  bottom: 0;
+  font-family: sans-serif;
+  font-weight: normal;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.7);
+  font-size: 10px;
+  padding: 2px 4px;
+  z-index: 1000;
+  border-style: solid;
+  border-width: 1px;
+}
+.sliderParent {
+  height: 150px;
+  width: 10px;
+  margin-top: -197px;
+  margin-left: 34px;
+}
+.e-innerIncrement {
+  background-image: url(../common-images/maps/Zoom-In.png);
+  height: 25px;
+  width: 25px;
+}
+.e-innerDecrement:hover {
+  background-image: url(../common-images/maps/Zoom-Out_hover.png);
+}
+.e-innerDecrement {
+  background-image: url(../common-images/maps/Zoom-Out.png);
+  height: 25px;
+  width: 25px;
+}
+.nav-dec-Vert {
+  margin-top: 190px;
+  margin-left: 27px;
+}
+.nav-inc-Vert {
+  margin-top: 40px;
+  margin-left: 27px;
+}
+.nav-dec-Horz {
+  margin-top: -24px;
+  margin-left: 94px;
+}
+.nav-inc-Horz {
+  margin-top: -29px;
+  margin-left: 300px;
+}
+.e-radialTop {
+  height: 20px;
+  margin-left: 15px;
+  width: 52px;
+}
+.e-arrowUp:hover {
+  background-image: url(../common-images/maps/Arrow_Top_hover.png);
+}
+.e-arrowUp {
+  background-image: url(../common-images/maps/Arrow_Top.png);
+  height: 20px;
+  width: 52px;
+}
+.e-radialLeft {
+  height: 52px;
+  width: 20px;
+  margin-top: -4px;
+}
+.e-radialRight {
+  margin-left: 61px;
+  margin-top: -53px;
+  height: 52px;
+  width: 20px;
+}
+.e-arrowLeft:hover {
+  background-image: url(../common-images/maps/Arrow_Left_hover.png);
+}
+.e-arrowLeft {
+  background-image: url(../common-images/maps/Arrow_Left.png);
+  height: 52px;
+  width: 20px;
+}
+.e-radialBottom {
+  height: 20px;
+  margin-left: 15px;
+  margin-top: -6px;
+  width: 52px;
+}
+.e-arrowRight:hover {
+  background-image: url(../common-images/maps/Arrow_Right_hover.png);
+}
+.e-arrowRight {
+  background-image: url(../common-images/maps/Arrow_Right.png);
+  height: 52px;
+  width: 20px;
+}
+.e-arrowDown:hover {
+  background-image: url(../common-images/maps/Arrow_Bootom_hover.png);
+}
+.e-arrowDown {
+  background-image: url(../common-images/maps/Arrow_Bootom.png);
+  height: 20px;
+  width: 52px;
+}
+.e-home-bg {
+  height: 30px;
+  width: 30px;
+  margin-top: -55px;
+  margin-left: 25px;
+}
+.e-interactivelegend-title {
+  font-family: Segoe UI;
+  pointer-events: none;
+  text-align: left;
+  position: absolute;
+}
+.e-interactivelegend-leftlabel {
+  font-family: Segoe UI;
+  pointer-events: none;
+  text-align: left;
+  position: absolute;
+}
+.e-interactivelegend-rightlabel {
+  font-family: Segoe UI;
+  pointer-events: none;
+  text-align: left;
+  position: absolute;
+}
+.e-legend-rangestartlabel {
+  font-family: Segoe UI;
+  pointer-events: none;
+  text-align: left;
+  position: absolute;
+}
+.e-legend-rangeendlabel {
+  font-family: Segoe UI;
+  pointer-events: none;
+  text-align: left;
+  position: absolute;
+}
+.e-legendlabeltext {
+  font-family: Segoe UI;
+  pointer-events: none;
+  text-align: left;
+  position: absolute;
+}
+.defaultToolTip {
+  border: 1px solid #404041;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  margin-right: 25px;
+  min-width: 30px;
+  height: 20px;
+  padding-top: 9px;
+  padding-right: 10px;
+  padding-left: 10px;
+  width: auto;
+  opacity: 0.85;
+  background: white;
+}
+.defaultToolTip:before {
+  position: absolute;
+  display: inline-block;
+  border-top: 7px solid transparent;
+  border-right: 7px solid #404041;
+  border-bottom: 7px solid transparent;
+  background: transparent;
+  opacity: 0.85;
+  left: 4px;
+  top: -16px;
+  content: '';
+}
+.defaultToolTip:after {
+  position: absolute;
+  display: inline-block;
+  border-top: 7px solid transparent;
+  border-right: 7px solid white;
+  border-bottom: 7px solid transparent;
+  left: 6px;
+  top: -16px;
+  content: '';
+}

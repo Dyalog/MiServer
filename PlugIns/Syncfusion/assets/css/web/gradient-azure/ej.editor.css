@@ -1,0 +1,130 @@
+/*------------------------Map-----------------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/* ------- editor less ----------- */
+
+.e-numeric,
+.e-percent,
+.e-currency,
+.e-mask {
+  background-color: white;
+}
+.e-numeric .e-in-wrap,
+.e-percent .e-in-wrap,
+.e-currency .e-in-wrap,
+.e-mask .e-in-wrap {
+  border-color: #bbbcbb;
+}
+.e-numeric .e-input,
+.e-percent .e-input,
+.e-currency .e-input,
+.e-mask .e-input {
+  color: #5c5c5c;
+  background-color: white;
+}
+.e-numeric.e-focus,
+.e-percent.e-focus,
+.e-currency.e-focus,
+.e-mask.e-focus {
+  box-shadow: 0 0 2px #cbcbcb;
+}
+.e-numeric .e-input.e-error,
+.e-percent .e-input.e-error,
+.e-currency .e-input.e-error,
+.e-mask.e-error {
+  color: #cd0a0a;
+}
+.e-numeric .e-watermark,
+.e-percent .e-watermark,
+.e-currency .e-watermark,
+.e-mask .e-watermark {
+  color: #c4c3c3;
+}
+.e-mask .e-error {
+  color: #cd0a0a;
+}
+.e-numeric .e-select,
+.e-numeric.e-rtl .e-select,
+.e-numeric .e-disable.e-select:hover,
+.e-percent .e-select,
+.e-percent.e-rtl .e-select,
+.e-percent .e-disable.e-select:hover,
+.e-currency .e-select,
+.e-currency.e-rtl .e-select,
+.e-currency .e-disable.e-select:hover {
+  background: #fbfbfb;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fbfbfb), color-stop(100%, #c5c5c5));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #fbfbfb 0%, #c5c5c5 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fbfbfb', endColorstr='#c5c5c5', GradientType=0);
+  /* IE6-9 */
+
+  color: #797979;
+  border-color: #bbbcbb;
+}
+.e-numeric .e-select:hover,
+.e-percent .e-select:hover,
+.e-currency .e-select:hover {
+  background: #68c3de;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #68c3de), color-stop(100%, #3c92a9));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #68c3de 0%, #3c92a9 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#68c3de', endColorstr='#3c92a9', GradientType=0);
+  /* IE6-9 */
+
+  color: white;
+}
+.e-numeric .e-select .e-spin-up.e-active,
+.e-numeric .e-select .e-spin-down.e-active,
+.e-percent .e-select .e-spin-up.e-active,
+.e-percent .e-select .e-spin-down.e-active,
+.e-currency .e-select .e-spin-up.e-active,
+.e-currency .e-select .e-spin-down.e-active {
+  background: #3c92a9;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #3c92a9 0%, #68c3de 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3c92a9), color-stop(100%, #68c3de));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #3c92a9 0%, #68c3de 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #3c92a9 0%, #68c3de 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #3c92a9 0%, #68c3de 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #3c92a9 0%, #68c3de 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3c92a9', endColorstr='#68c3de', GradientType=0);
+  /* IE6-9 */
+
+}
+.e-numeric .e-icon .e-arrow,
+.e-percent .e-icon .e-arrow,
+.e-currency .e-icon .e-arrow {
+  border: 0 none transparent;
+}

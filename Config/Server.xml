@@ -1,23 +1,31 @@
 <Server>
 <!-- General Settings -->
-    <Name>MiServer 3.0 Template</Name>
+    <Name>MiServer 3.0</Name>       <!-- name that appears in browser title bar -->
+    <Host>localhost</Host>          <!-- Host name (e.g. www.mysite.com) -->
+    <Server>MiServer/3.0</Server>   <!-- name that is sent in HTTP response server header field -->
     <ClassName>MiServer</ClassName> <!-- class name for the core server component -->
     <LogMessageLevel>1</LogMessageLevel> <!-- 0-none -1-all 1-error/important 2-warning 4-informational 8-Transactional -->
-
+    <TempFolder>TempFiles</TempFolder> <!-- location for temporary files -->
+    <Rest>0</Rest>                     <!-- running RESTful web service? -->
+    <IdleTimeOut>0</IdleTimeOut>       <!-- seconds between calls to onIdle server event - 0 means don't call onIdle -->
+   
 <!-- Communications Settings -->
     <Port>8080</Port>
     <IPVersion>IPv4</IPVersion>
     <UseContentEncoding>1</UseContentEncoding> <!-- for HTTP compression -->
     <SupportedEncodings>deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->
+    <Secure>0</Secure>          <!-- Running secure? (SSL) if 0, remaining settings below have no meaning -->
+    <CertFile></CertFile>       <!-- Private Certificate file -->
+    <KeyFile></KeyFile>         <!-- Public Key file -->
+    <RootCertDir></RootCertDir> <!-- Root certificate directory (Conga) -->
+    <SSLFlags>96</SSLFlags>     <!-- SSL flags (Conga) 96 = 32 Accept without validating + 64 Request Client Cert -->
 
 <!-- Page/Request Settings -->
     <Lang>en</Lang> <!-- use English for this site, see http://www.w3schools.com/TAGS/ref_language_codes.asp for others --> 
-    <TempFolder>TempFiles</TempFolder>
     <DefaultPage>index.dyalog</DefaultPage>
     <DefaultExtension>.dyalog</DefaultExtension>
     <AllowedHttpCommands>get,post</AllowedHttpCommands>
-    <HttpCacheTime>60</HttpCacheTime>
-    <ClientDebugInfo>1</ClientDebugInfo>
+    <HttpCacheTime>0</HttpCacheTime>
 
 <!-- Extensions -->
     <SessionHandler>SimpleSessions</SessionHandler>

@@ -1,0 +1,55 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*------------------------ Ribbon Definition---------------------*/
+/*Theme Color*/
+
+.e-treeview {
+  font-family: Segoe UI;
+}
+.e-treeview .e-text {
+  color: #aaaaaa;
+}
+.e-dragedNode {
+  background: #2382c3;
+  color: white;
+  padding: 0 10px 0 0;
+}
+.e-treeview .e-active {
+  background: #2382c3;
+  /* Old browsers */
+
+  color: white;
+  border: 1px solid transparent;
+  border-image: initial;
+}
+.e-treeview .e-node-hover {
+  background: #5eabde;
+  /* Old browsers */
+
+  color: white;
+  border: 1px solid #5eabde;
+  border-image: initial;
+  cursor: pointer;
+}
+.e-treeview .e-sibling {
+  background: url(images/drop-sibling.png);
+  background-repeat: no-repeat;
+  width: 80px;
+  height: 5px;
+  position: absolute;
+}
+.e-treeview .e-node-disable {
+  filter: alpha(opacity=40);
+  opacity: .4;
+}
+.e-treeview .e-plus.e-load,
+.e-treeview.e-rtl .e-plus.e-load {
+  background-image: url(images/ajax-loader.gif);
+  background-position: right center;
+  background-repeat: no-repeat;
+}

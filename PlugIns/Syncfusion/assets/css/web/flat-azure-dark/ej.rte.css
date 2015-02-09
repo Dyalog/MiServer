@@ -1,0 +1,137 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*------------------------ Ribbon Definition---------------------*/
+/*Theme Color*/
+
+/*---------------- RTE Theme CSS----------------------*/
+
+.e-rte {
+  font-family: Segoe UI;
+}
+.e-rte-wrapper {
+  border: 1px solid #303030;
+  background: #050505;
+  color: #aaaaaa;
+  font-size: 14px;
+}
+.e-rte-wrapper.e-rte-border {
+  border-bottom: none;
+}
+.e-inputtext {
+  border: 1px solid #303030;
+  outline: none;
+  background-color: #050505;
+  color: #aaaaaa;
+  vertical-align: baseline;
+}
+/*----------------------- Toolbar Class-------------------------- */
+
+.e-rte .e-horizontal.e-separator,
+.e-rte .e-toolbarspan ul:last-child {
+  border-right: 1px dotted #303030;
+}
+.e-rte .customtable-group:hover {
+  background: #5eabde;
+  /* Old browsers */
+
+  color: white;
+}
+.e-rte .e-toolbarspan {
+  border: none;
+  border-bottom: 1px solid #303030;
+}
+.e-dialog .e-fieldseparate,
+.e-rte-toolbar .e-responsive-toolbar.e-toolbarspan {
+  border-color: #303030;
+}
+.e-rte .e-rte-footer {
+  border-top: 1px solid #303030;
+  border-bottom: 1px solid #303030;
+  background: #1f1f1f;
+  /* Old browsers */
+
+}
+.e-rte-colorpalette.e-menu.e-context > li:hover {
+  background: none;
+}
+.e-rte-colorpalette.e-menu.e-context .e-mfocused,
+.e-rte-colorpalette.e-menu.e-context .e-mhover {
+  background: none;
+}
+.e-rte-table-picker {
+  background: #1f1f1f !important;
+  /* Old browsers */
+
+}
+.e-rte-tablecell {
+  border-color: #303030;
+}
+.e-rte-tablecell.e-default {
+  background: #050505;
+}
+.e-rte-tablecell.e-active {
+  background: #5eabde;
+  /* Old browsers */
+
+  border-color: #5eabde;
+}
+.e-toolbar .e-rte-format .e-hover,
+.e-toolbar .e-rte-fontgroup .e-hover {
+  background-color: transparent;
+  border-color: transparent;
+  background-image: none;
+}
+.e-rte .e-rte-resize {
+  height: 5px;
+  cursor: se-resize;
+}
+.e-rte .e-rte-htmltaginfo,
+.e-rte .e-rte-wordcount {
+  font-family: Segoe UI;
+  font-size: 14px;
+  color: #aaaaaa;
+  cursor: default;
+}
+.e-rte .e-rte-footericon,
+.e-rte .e-rte-wordcount {
+  border-right: 1px solid #303030;
+}
+.e-rte-colorpalette {
+  padding: 5px !important;
+  width: auto !important;
+}
+.e-error {
+  color: #cd0a0a;
+}
+/*-----------------For Tab inside RTE Dialog-----------*/
+
+.e-rte .e-dialog .e-tab .e-header {
+  border-style: none;
+  border-bottom: 1px solid #bbbcbb;
+  overflow: inherit;
+  background: none repeat scroll 0 0 white;
+}
+.e-rte .e-dialog .e-tab .e-header > .e-select {
+  background: none repeat scroll 0 0 #ecedee;
+  border: 1px solid #bbbcbb;
+  border-top: none;
+}
+.e-rte .e-dialog .e-tab .e-header > .e-select.e-first {
+  border-left: none;
+}
+.e-rte .e-dialog .e-tab .e-header > .e-select:hover {
+  background: none repeat scroll 0 0 #5eabde;
+}
+.e-rte .e-dialog .e-tab .e-header > .e-select a {
+  color: #666666;
+}
+.e-rte .e-dialog .e-tab .e-header > .e-select a:hover {
+  color: white;
+}
+/*---------------- RTE Theme End------------------*/
+

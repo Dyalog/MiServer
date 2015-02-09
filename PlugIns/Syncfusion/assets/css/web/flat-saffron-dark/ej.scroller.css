@@ -1,0 +1,52 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- scrollbar -------------------------------------------*/
+
+.e-scroller .e-vscroll,
+.e-scroller .e-hscroll,
+.e-scroller .e-vhandlespace {
+  background-color: #2d2d2d;
+}
+.e-scroller .e-vscroll,
+.e-scroller .e-hscroll {
+  border-style: none;
+}
+.e-scroller .e-active {
+  background-color: #f9920b;
+}
+.e-scroller .e-vhandle,
+.e-scroller .e-hhandle,
+.e-scroller .e-disable .e-vhandle:hover,
+.e-scroller .e-disable .e-hhandle:hover {
+  background: #1f1f1f;
+  /* Old browsers */
+
+  border: 1px solid #303030;
+  transition: top .1s linear 0s, left .1s linear 0s;
+}
+.e-scroller .e-vhandle:hover,
+.e-scroller .e-hhandle:hover {
+  background: #faa113;
+  /* Old browsers */
+
+  cursor: default;
+}
+.e-scroller .e-button,
+.e-scroller .e-disable .e-button:hover {
+  color: #b3b3b3;
+}
+.e-scroller .e-disable .e-button:hover {
+  background-color: transparent;
+}
+.e-scroller .e-button:hover {
+  background: #faa113;
+  /* Old browsers */
+
+  color: white;
+}

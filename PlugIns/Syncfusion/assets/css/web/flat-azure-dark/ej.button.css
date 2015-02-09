@@ -1,0 +1,65 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*------------------------ Ribbon Definition---------------------*/
+/*------------------------------------- Button -------------------------------------------*/
+
+.e-btn,
+.e-tbtn,
+.e-split-btn {
+  font-family: Segoe UI;
+  font-weight: normal;
+  font-size: 14px;
+}
+.e-btn.e-select:focus {
+  box-shadow: 0 0 2px #aaaaaa;
+}
+.e-btn.e-select,
+.e-btn.e-disable.e-select:hover,
+.e-tbtn.e-disable {
+  background: #1f1f1f;
+  /* Old browsers */
+
+  color: #aaaaaa;
+  border-color: #303030;
+}
+.e-btn.e-select:hover {
+  background: #5eabde;
+  /* Old browsers */
+
+  border-color: #5eabde;
+  color: white;
+}
+.e-btn.e-select:active,
+.e-tbtn.e-active {
+  background: #2382c3;
+  /* Old browsers */
+
+  border-color: #2382c3;
+  color: white;
+}
+.e-drp-btn.e-select,
+.e-btn.e-select .e-icon {
+  color: #b3b3b3;
+}
+.e-drp-btn.e-select:hover,
+.e-btn.e-select:hover .e-icon {
+  color: white;
+}
+.e-drp-btn.e-select:active,
+.e-btn.e-select:active .e-icon,
+.e-btn.e-active .e-icon {
+  color: white;
+}
+/*------------------------------------- Common -------------------------------------------*/
+
+.ejinputtext {
+  background-color: #050505;
+  border: 1px solid #303030;
+  color: #aaaaaa;
+  outline: medium none;
+}

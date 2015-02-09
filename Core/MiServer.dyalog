@@ -163,7 +163,7 @@
           :If 'BlockLast'≡3⊃wres
             ⎕EX nspc
           :EndIf
-⍝                 idletime←#.Dates.DateToIDN ⎕TS
+   
         :Case 'Connect' ⍝ Ignore
    
         :Else
@@ -172,8 +172,8 @@
    
       :Case 100 ⍝ Time out - put "housekeeping" code here
         SessionHandler.HouseKeeping ⎕THIS
-        :If 0<Config.IdleTimeOut ⍝ if an idle timeout has been specified
-        :AndIf Config.IdleTimeOut<24×60×-/(ts←#.Dates.DateToIDN ⎕TS)idletime ⍝ has it passed?
+        :If 0<Config.IdleTimeOut ⍝ if an idle timeout (in seconds) has been specified
+        :AndIf Config.IdleTimeOut<86400×-/(ts←#.Dates.DateToIDN ⎕TS)idletime ⍝ has it passed?
           onIdle
           idletime←ts
         :EndIf
@@ -388,7 +388,7 @@
       :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires
         res.Headers⍪←'Expires'(Config.HttpCacheTime #.Dates.HttpDate ⎕TS)
       :EndIf
-   
+      res.Headers⍪←{0∊⍴⍵:'' '' ⋄ 'Server'⍵}Config.Server
       status←res.((⍕Status),' ',StatusText)
       hdr←enlist{⍺,': ',⍵,NL}/res.Headers
       Answer←(toutf8((1+conns.Handler)⊃'HTTP/1.0 ' 'Status: '),status,NL,'Content-Length: ',(⍕length),NL,hdr,NL),res.HTML
@@ -566,11 +566,11 @@
     html←'h1'#.HTMLInput.Enclose'Server Error in ''',REQ.Page,'''.<hr width=100% size=1 color=silver>'
     html,←'<h2><i>Unhandled Exception Error</i></h2>'
     html,←'<b>Description:</b> An unhandled exception occurred during the execution of the current web request.'
-    :If Config.Debug=2 ⍝ Allows editing
+    :If #.DrA.Mode=2 ⍝ Allows editing
       html,←'<br><br><b>Edit page: <a href="/Admin/EditPage?FileName=',REQ.Page,'">',REQ.Page,'</a><br>'
     :EndIf
     html,←'<br><br><b>Exception Details:</b><br><br>'
-    :If (Config.Debug>0)∧0≠⍴#.DrA.LastFile ⋄ html,←#.DrA.(GenHTML LastFile)
+    :If (#.DrA.Mode>0)∧0≠⍴#.DrA.LastFile ⋄ html,←#.DrA.(GenHTML LastFile)
     :Else ⋄ html,←'code'#.HTMLInput.Enclose'<font face="APL385 Unicode">',(⊃,/#.DrA.LastError,¨⊂'<br>'),'</font>'
     :EndIf
     REQ.Return html

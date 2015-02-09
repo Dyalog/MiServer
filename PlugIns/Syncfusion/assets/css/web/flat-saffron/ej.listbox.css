@@ -1,0 +1,44 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- listbox -------------------------------------------*/
+
+.e-listbox .e-select {
+  color: white;
+  background: #faa113;
+  /* Old browsers */
+
+}
+.e-listbox .e-active {
+  color: white;
+  background: #f3b13f;
+  /* Old browsers */
+
+}
+.e-listbox .e-hover {
+  background: #f3b13f;
+  /* Old browsers */
+
+  color: white;
+}
+.dragClonelist {
+  background: #f3b13f;
+  /* Old browsers */
+
+  color: white;
+  opacity: 0.5;
+  text-align: center;
+}
+.e-listbox li {
+  padding-left: 10px !important;
+}
+.e-ddl-popup.e-load {
+  background-image: url(images/ajax-loader.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+}

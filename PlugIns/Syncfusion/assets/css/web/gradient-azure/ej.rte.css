@@ -1,0 +1,193 @@
+/*------------------------Map-----------------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*Theme Color*/
+
+/*---------------- RTE Theme CSS----------------------*/
+
+.e-rte {
+  font-family: Segoe UI;
+}
+.e-rte-wrapper {
+  border: 1px solid #bbbcbb;
+  background: white;
+  color: #5c5c5c;
+  font-size: 14px;
+}
+.e-rte-wrapper.e-rte-border {
+  border-bottom: none;
+}
+.e-inputtext {
+  border: 1px solid #bbbcbb;
+  outline: none;
+  background-color: white;
+  color: #5c5c5c;
+  vertical-align: baseline;
+}
+/*----------------------- Toolbar Class-------------------------- */
+
+.e-rte .e-horizontal.e-separator,
+.e-rte .e-toolbarspan ul:last-child {
+  border-right: 1px dotted #bbbcbb;
+}
+.e-rte .customtable-group:hover {
+  background: #68c3de;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #68c3de), color-stop(100%, #3c92a9));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #68c3de 0%, #3c92a9 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#68c3de', endColorstr='#3c92a9', GradientType=0);
+  /* IE6-9 */
+
+  color: white;
+}
+.e-rte .e-toolbarspan {
+  border: none;
+  border-bottom: 1px solid #bbbcbb;
+}
+.e-dialog .e-fieldseparate,
+.e-rte-toolbar .e-responsive-toolbar.e-toolbarspan {
+  border-color: #bbbcbb;
+}
+.e-rte .e-rte-footer {
+  border-top: 1px solid #bbbcbb;
+  border-bottom: 1px solid #bbbcbb;
+  background: #fbfbfb;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fbfbfb), color-stop(100%, #c5c5c5));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #fbfbfb 0%, #c5c5c5 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fbfbfb', endColorstr='#c5c5c5', GradientType=0);
+  /* IE6-9 */
+
+}
+.e-rte-colorpalette.e-menu.e-context > li:hover {
+  background: none;
+}
+.e-rte-colorpalette.e-menu.e-context .e-mfocused,
+.e-rte-colorpalette.e-menu.e-context .e-mhover {
+  background: none;
+}
+.e-rte-table-picker {
+  background: #fbfbfb !important;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%) !important;
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fbfbfb), color-stop(100%, #c5c5c5)) !important;
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%) !important;
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%) !important;
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%) !important;
+  /* IE10+ */
+  background: linear-gradient(to bottom, #fbfbfb 0%, #c5c5c5 100%) !important;
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fbfbfb', endColorstr='#c5c5c5', GradientType=0) !important;
+  /* IE6-9 */
+
+}
+.e-rte-tablecell {
+  border-color: #bbbcbb;
+}
+.e-rte-tablecell.e-default {
+  background: white;
+}
+.e-rte-tablecell.e-active {
+  background: #68c3de;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #68c3de), color-stop(100%, #3c92a9));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #68c3de 0%, #3c92a9 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#68c3de', endColorstr='#3c92a9', GradientType=0);
+  /* IE6-9 */
+
+  border-color: #52abc4;
+}
+.e-toolbar .e-rte-format .e-hover,
+.e-toolbar .e-rte-fontgroup .e-hover {
+  background-color: transparent;
+  border-color: transparent;
+  background-image: none;
+}
+.e-rte .e-rte-resize {
+  height: 5px;
+  cursor: se-resize;
+}
+.e-rte .e-rte-htmltaginfo,
+.e-rte .e-rte-wordcount {
+  font-family: Segoe UI;
+  font-size: 14px;
+  color: #5c5c5c;
+  cursor: default;
+}
+.e-rte .e-rte-footericon,
+.e-rte .e-rte-wordcount {
+  border-right: 1px solid #bbbcbb;
+}
+.e-rte-colorpalette {
+  padding: 5px !important;
+  width: auto !important;
+}
+.e-error {
+  color: #cd0a0a;
+}
+/*-----------------For Tab inside RTE Dialog-----------*/
+
+.e-rte .e-dialog .e-tab .e-header {
+  border-style: none;
+  border-bottom: 1px solid #bbbcbb;
+  overflow: inherit;
+  background: none repeat scroll 0 0 white;
+}
+.e-rte .e-dialog .e-tab .e-header > .e-select {
+  background: none repeat scroll 0 0 #ecedee;
+  border: 1px solid #bbbcbb;
+  border-top: none;
+}
+.e-rte .e-dialog .e-tab .e-header > .e-select.e-first {
+  border-left: none;
+}
+.e-rte .e-dialog .e-tab .e-header > .e-select:hover {
+  background: none repeat scroll 0 0 #5eabde;
+}
+.e-rte .e-dialog .e-tab .e-header > .e-select a {
+  color: #666666;
+}
+.e-rte .e-dialog .e-tab .e-header > .e-select a:hover {
+  color: white;
+}
+/*---------------- RTE Theme End------------------*/
+

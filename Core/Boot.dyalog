@@ -19,7 +19,7 @@
     ms.Run
   ∇
 
-  ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;disperror;core;HTML
+  ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;disperror;core;HTML;extensions
       ⍝ Load required objects for MiServer
       ⍝ Note: DRC namespace is not SALTed
       ⍝ yes - 1 to perform load, 0 to clean up
@@ -31,11 +31,13 @@
     :EndIf
     utils←(⎕SE.SALT.List MSRoot,'Utils -raw')[;2]   ⍝ find utility libraries
     core←(⊂'Boot')~⍨(⎕SE.SALT.List MSRoot,'Core -raw')[;2]
+    extensions←(⎕SE.SALT.List MSRoot,'Extensions -raw')[;2]
     HTML←(⎕SE.SALT.List MSRoot,'HTML -raw')[;2]
     :If yes
    
       files←'Core/'∘,¨core
       files,←'Utils/'∘,¨utils
+      files,←'Extensions/'∘,¨extensions
    
       :For f :In files
         disperror ⎕SE.SALT.Load MSRoot,f,' -target=#'
@@ -223,21 +225,26 @@
     Config.AppRoot←AppRoot
     Config.Authentication←Config Setting'Authentication' 0 'SimpleAuth'
     Config.CertFile←Config Setting'CertFile' 0 ''
-    Config.ClientDebugInfo←Config Setting'ClientDebugInfo' 1 0
+    Config.ClassName←Config Setting'ClassName' 0 'MiServer'
     Config.Debug←Config Setting'Debug' 1 0
     Config.DefaultExtension←Config Setting'DefaultExtension' 0 '.dyalog'
+    Config.DefaultPage←Config Setting'DefaultPage' 0 'index.dyalog'
+    Config.Host←Config Setting'Host' 0 'localhost'
     Config.HttpCacheTime←Config Setting'HttpCacheTime' 1 0 ⍝ default to off (0)
     Config.IPVersion←Config Setting'IPVersion' 0 'IPV4'
     Config.IdleTimeOut←Config Setting'IdleTimeOut' 1 0 ⍝ default to none (0)
     Config.KeyFile←Config Setting'KeyFile' 0 ''
-    Config.LogMessageLevel←Config Setting'LogMessageLevel' 1 ¯1 ⍝ default to all message types
+    Config.Lang←Config Setting'Lang' 0 'en'
+    Config.LogMessageLevel←Config Setting'LogMessageLevel' 1 1 ⍝ default to error messages only
     Config.Logger←Config Setting'Logger' 0 ''
+    Config.Name←Config Setting'Name' 0 'MiServer'
     Config.Port←Config Setting'Port' 1 8080
     Config.Rest←Config Setting'Rest' 1 0 ⍝ RESTful web service?
     Config.RootCertDir←Config Setting'RootCertDir' 0 ''
     Config.Root←folderize MSRoot{((IsRelPath ⍵)/⍺),⍵}AppRoot
     Config.SSLFlags←Config Setting'SSLFlags' 1(32+64)  ⍝ Accept Without Validating, RequestClientCertificate
     Config.Secure←Config Setting'Secure' 1 0
+    Config.Server←Config Setting'Server' 0 ''
     Config.SessionHandler←Config Setting'SessionHandler' 0 'SimpleSessions'
     Config.SupportedEncodings←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}',',Config Setting'SupportedEncodings' 0
     Config.TempFolder←folderize Config.Root{0∊⍴⍵:⍵ ⋄ ((IsRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
@@ -246,13 +253,13 @@
    
     :If 0≠⎕NC'#.DrA' ⍝ Transfer DrA config options
       {}#.DrA.SetDefaults
-      #.DrA.Mode←Config Setting'Mode' 1 2 ⍝ Developer mode
+      #.DrA.AppName←Config.Name
+      #.DrA.MailMethod←Config Setting'MailMethod' 0 'NONE'
+      #.DrA.MailRecipient←Config Setting'MailRecipient' 0
+      #.DrA.Mode←Config.Debug
       #.DrA.NoUser←Config Setting'NoUser' 1 1 ⍝ run without user interaction
       #.DrA.Path←AppRoot ⍝ Where to put log files
       #.DrA.SMTP_Gateway←Config Setting'SMTP_Gateway' 0
-      #.DrA.MailRecipient←Config Setting'MailRecipient' 0
-      #.DrA.MailMethod←Config Setting'MailMethod' 0 'NONE'
-      #.DrA.AppName←Config Setting'Name' 0
       #.DrA.UseHTTP←Config Setting'UseHTTP' 1 0
     :EndIf
   ∇

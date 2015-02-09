@@ -1,0 +1,123 @@
+.pager-hover-gradient {
+  background: #68c3de;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #68c3de), color-stop(100%, #68c3de));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #68c3de 0%, #3c92a9 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#68c3de', endColorstr='#3c92a9', GradientType=0);
+  /* IE6-9 */
+
+}
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-treegrid .e-extendcolumn {
+  background-color: #050505;
+}
+.e-treegrid .e-headercelldiv {
+  color: #aaaaaa;
+}
+.e-treegrid {
+  border-color: #303030;
+  color: #aaaaaa;
+}
+.e-treegrid .e-gridcontent {
+  background-color: #050505;
+  border-color: #303030;
+}
+.e-treegrid  .e-borderbox {
+  border-bottom-color: #050505;
+}
+.e-treegrid .e-editcell,
+.e-treegrid .e-rowcell {
+  border-color: #303030;
+}
+.e-treegrid .e-alt-row {
+  background: #0c0c0c;
+}
+.e-treegrid .e-selectionbackground {
+  background: rgba(42, 61, 74, 0.6);
+  color: white;
+}
+.e-treegrid .e-tabletd {
+  border-color: #303030;
+}
+.e-treegrid .e-treegrid-add:before {
+  content: "\e6fe";
+}
+.e-treegrid .e-treegrid-edit:before {
+  content: "\e705";
+}
+.e-treegrid .e-treegrid-delete:before {
+  content: "\e706";
+}
+.e-treegrid .e-treegrid-save:before {
+  content: "\e6fc";
+}
+.e-treegrid .e-treegrid-cancel:before {
+  content: "\e708";
+}
+.e-treegrid .e-treegrid-expandall:before {
+  content: "\e703";
+}
+.e-treegrid .e-treegrid-collapseall:before {
+  content: "\e707";
+}
+.e-treegrid .e-treegridtoolbar {
+  background-color: #050505 !important;
+  border-color: #303030 !important;
+}
+.e-treegrid .e-headercell {
+  background: #050505;
+  border-top-color: #303030 !important;
+  border-right-color: #303030 !important;
+  border-bottom-color: #199bd7 !important;
+}
+.e-treegrid .e-filterbarcell {
+  border-color: #303030 !important;
+}
+.e-treegrid .e-grid-icon {
+  background: #050505;
+}
+.e-treegrid .e-gridheader {
+  color: #aaaaaa;
+  border-bottom-color: #199bd7;
+  border-top-color: #303030;
+  border-left-color: #303030;
+  border-right-color: #303030;
+}
+.e-treegrid .e-headercontent {
+  border-right-color: #303030;
+}
+.e-treegrid .e-ejinputtext {
+  border-color: #303030 !important;
+  background-color: #050505;
+  color: #aaaaaa;
+}
+.e-treegrid .e-ejinputtext:focus {
+  box-shadow: #303030 !important;
+}
+.e-treegrid .e-reSizeColbg {
+  border-left-color: #303030 !important;
+}
+.e-treegrid .e-gridheadercontainer {
+  border-right-color: #303030;
+}
+.e-treegrid .e-treegridexpand:before,
+.e-treegrid .e-treegridcollapse:before {
+  color: #dbdbda;
+}

@@ -74,7 +74,7 @@
   <resource>
     <name>jquery.globalize</name>
     <uses>JQuery</uses>
-    <script>/Syncfusion/external/jquery.globalize.min.js</script>
+    <script>/Syncfusion/external/jquery.globalize.js</script>
   </resource>
 
   <resource>
@@ -85,12 +85,12 @@
 
   <resource>
     <name>cultures</name>
-    <script>/Syncfusion/external/globalize.cultures.min.js</script>
+    <script>/Syncfusion/external/jquery.globalize.js</script>
   </resource>
 
   <resource>
     <name>jsrender</name>
-    <script>/Syncfusion/external/jsrender.min.js</script>
+    <script>/Syncfusion/external/jsrender.js</script>
   </resource>
 
   <resource>
@@ -170,6 +170,13 @@
     <name>ejCircularGauge</name>
     <uses>Syncfusion</uses>
     <uses>excanvas</uses>
+  </resource>
+
+  <resource>
+    <name>ejCurrencyTextbox</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.globalize</uses>
+    <uses>cultures</uses>
   </resource>
 
   <resource>
@@ -267,6 +274,13 @@
   </resource>
 
   <resource>
+    <name>ejNumericTextbox</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.globalize</uses>
+    <uses>cultures</uses>
+  </resource>
+
+  <resource>
     <name>ejOlapChart</name>
     <uses>Syncfusion</uses>
     <uses>jquery.easing</uses>
@@ -297,6 +311,13 @@
     <name>ejOlapPager</name>
     <uses>Syncfusion</uses>
     <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejPercentageTextbox</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.globalize</uses>
+    <uses>cultures</uses>
   </resource>
 
   <resource>

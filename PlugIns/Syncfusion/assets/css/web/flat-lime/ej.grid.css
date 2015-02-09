@@ -1,0 +1,335 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*Theme Color*/
+
+.e-grid.e-rtl .e-indentcell {
+  border-left-color: #c4c4c4;
+}
+.e-grid.e-rtl .e-headercell,
+.e-grid.e-rtl .e-grouptopleftcell {
+  border-right-color: #c4c4c4;
+  border-bottom-color: #c4c4c4;
+}
+.e-grid.e-rtl .e-movablecontent,
+.e-grid.e-rtl .e-movableheader {
+  border-right-color: #91aa29;
+}
+/*..........................Skin css...........................*/
+
+.e-grid {
+  border-color: #c4c4c4;
+  color: #6d6d6d;
+  border-top: none;
+}
+.e-grid .e-icon {
+  color: #797979;
+}
+.e-grid .e-icon.e-animatebutton {
+  color: white;
+  cursor: default;
+}
+.e-columnChooser {
+  border: 1px solid #dddddd;
+  font-size: 12px;
+  color: #555555;
+}
+.e-columnChoosertail {
+  border-bottom-color: #dddddd;
+}
+.e-columnChoosertailAlt {
+  border-bottom-color: white;
+}
+.e-columnChooserListDiv:hover {
+  background-color: #f6f7f7;
+}
+.e-columnChooser .e-vhandlespace {
+  background-color: white !important;
+}
+.e-columnChooser .e-hhandlespace {
+  background-color: white !important;
+}
+.e-columnChooserSplitter {
+  border: 1px solid #dddddd;
+}
+.e-grid .e-number {
+  background-color: #bbbdc0;
+  color: white;
+}
+.e-stackedHeaderRow th {
+  border-bottom: 1px solid #c4c4c4 !important;
+}
+.e-resFilterDialogHeaderDiv {
+  border-bottom: 1px solid #c4c4c4 !important;
+}
+.e-resposnsiveFilterBtnLeft {
+  border-right: 1px solid #c4c4c4 !important;
+}
+.e-resIcon {
+  color: #91aa29 !important;
+}
+.e-grid .e-toolbar .e-hover .e-icon,
+.e-grid .e-headercell.e-hover .e-icon {
+  color: white;
+}
+.e-grid .e-dlgBtns .e-button {
+  font-family: Segoe UI;
+  font-weight: normal;
+  font-size: 14px;
+}
+.e-grid .e-gridpopup .e-content {
+  background-color: white;
+  border-color: #c4c4c4;
+}
+.e-grid .e-gridpopup span:hover,
+.e-grid .e-gridpopup .e-spanclicked {
+  border-color: #797979;
+}
+.e-grid .e-gridpopup .e-downtail:before,
+.e-grid .e-gridpopup .e-downtail {
+  border-top-color: #c4c4c4;
+}
+.e-grid .e-gridpopup .e-downtail:after {
+  border-top-color: white;
+}
+.e-grid .e-gridcontent,
+.e-grid .e-form-container {
+  background-color: white;
+}
+.e-grid.e-columnChooser .e-hscroll,
+.e-grid.e-columnChooser .e-vscroll {
+  background-color: transparent;
+}
+.e-grid .e-groupdroparea {
+  background-color: #a9ca44;
+  /* Old browsers */
+
+  border-top-color: #c4c4c4;
+  color: #3c4904;
+}
+.e-grid .e-cloneproperties {
+  color: white;
+  background-color: #91aa29;
+  border-color: #c4c4c4;
+}
+.e-grid .e-groupcaption,
+.e-grid .e-groupcaptionsummary {
+  background-color: #f6f7f7;
+  border-color: #c4c4c4;
+}
+.e-grid .e-gridsummary .e-indentcell {
+  background-color: #f6f7f7;
+}
+.e-grid .e-headercell-hover,
+.e-grid .e-groupheadercell:hover {
+  color: white;
+}
+.e-grid .e-groupheadercell {
+  color: #555555;
+  border-color: #c4c4c4;
+  border-radius: 0px;
+  background-color: #dddddd;
+}
+.e-grid .e-alt_row {
+  background: #f6f7f7;
+}
+.e-grid .e-inlineform-titlebar {
+  border-color: #c4c4c4;
+  background-color: #f7f7f7;
+}
+.e-grid .e-indentcell,
+.e-grid .e-recordpluscollapse,
+.e-grid .e-recordplusexpand {
+  border-color: #c4c4c4;
+  background-color: #f6f7f7;
+}
+.e-grid .e-detailcell,
+.e-grid .e-detailrowcollapse,
+.e-grid .e-detailrowexpand,
+.e-grid tr.e-editedrow td.e-rowcell {
+  border-top-color: #c4c4c4;
+}
+.e-grid .e-detailindentcell {
+  border-right-color: #c4c4c4;
+}
+.e-grid td.e-active,
+.e-grid .e-form-titlebar {
+  background-color: #a9ca44;
+  color: white;
+}
+.e-grid td.e-cellselectionbackground {
+  background-color: #768436;
+  color: white;
+}
+.e-grid .e-inlineform-titlebar {
+  font-size: 14px;
+  color: #555555;
+}
+.e-grid .e-recordpluscollapse > div,
+.e-grid .e-detailrowcollapse > div {
+  background-color: transparent;
+  cursor: default;
+}
+.e-grid .e-headercell,
+.e-grid .e-grouptopleftcell {
+  background: white;
+  /* Old browsers */
+
+  border-top-color: #c4c4c4;
+  border-left-color: #c4c4c4;
+  border-bottom-color: #91aa29;
+}
+.e-grid .e-columnselection {
+  background-color: #edecec;
+  color: #6d6d6d;
+}
+.e-grid .e-grid-icon {
+  background: white;
+  /* Old browsers */
+
+}
+.e-grid .e-gridheader {
+  color: #555555;
+  border-bottom-color: #91aa29;
+  border-top-color: #c4c4c4;
+}
+.e-grid .e-headercontent {
+  border-right-color: #c4c4c4;
+}
+.e-grid.e-rtl .e-headercontent {
+  border-left-color: #c4c4c4;
+}
+.e-grid .e-editcell,
+.e-grid .e-form-container,
+.e-grid .e-externalformedit,
+.e-grid .e-tabletd,
+.e-grid .e-rowcell {
+  border-color: #c4c4c4;
+}
+.e-grid .e-form-togglebtn:hover {
+  background: #a9ca44;
+  /* Old browsers */
+
+}
+.e-grid .e-form-toggle-icon {
+  color: white;
+}
+.e-grid .e-filterbarcell,
+.e-grid .e-filterbarcelldisabled {
+  border-color: #c4c4c4;
+  background-color: white;
+  background-image: none;
+}
+.e-grid .e-grid-filterstatusbar,
+.e-grid .e-grid-filterstatusbarbottom {
+  background-color: #a9ca44;
+  /* Old browsers */
+
+  border-color: #c4c4c4;
+}
+.e-grid .e-grid-filterstatusbar .e-msgdiv,
+.e-grid .e-grid-filterstatusbarbottom .e-msgdiv {
+  color: white;
+}
+.e-grid .e-groupdroparea.e-hover {
+  background: #91aa29;
+  /* Old browsers */
+
+}
+.e-grid tr.e-hover {
+  background-color: #91aa29;
+  color: white;
+}
+.e-grid .e-scrollcss {
+  background: white;
+  /* Old browsers */
+
+}
+.e-grid .e-headercell-hover,
+.e-grid .e-filtercell:hover,
+.e-grid .e-groupheadercell:hover {
+  background: #91aa29;
+  /* Old browsers */
+
+}
+.e-grid .e-reorderindicate {
+  border-right-color: #2382c3;
+}
+.e-grid div.e-field-validation-error {
+  background-color: #fffe91;
+  color: #cd0a0a;
+}
+.e-grid div.e-error .e-toparrow {
+  border-bottom-color: #fffe92;
+}
+.e-ejinputtext {
+  border: 1px solid #bbbcbb;
+  outline: none;
+  background-color: white;
+  color: #5c5c5c;
+  vertical-align: baseline;
+}
+.e-ejinputtext:focus {
+  box-shadow: 0 0 5px #cbcbcb;
+}
+.e-grid .e-summaryrow {
+  background-color: #f6f7f7;
+  border-color: #c4c4c4;
+}
+.e-grid .e-reSizeColbg {
+  border-left-color: #c4c4c4;
+}
+.e-grid .e-headercell-hover .e-ascending,
+.e-grid .e-groupheadercell:hover .e-ascending,
+.e-grid .e-headercell-hover .e-filtericon,
+.e-grid .e-headercell-hover .e-descending,
+.e-grid .e-headercell-hover .e-togglegroupbutton,
+.e-grid .e-groupheadercell:hover .e-descending,
+.e-grid .e-groupheadercell:hover .e-togglegroupbutton,
+.e-grid .e-groupheadercell:hover .e-ungroupbutton {
+  background-color: transparent;
+  color: #dddddd;
+}
+.e-grid .e-headercellactive,
+.e-grid .e-headercellactive span,
+.e-grid .e-headercellactive div {
+  color: white;
+}
+.e-grid .e-headercellactive {
+  background-color: #a9ca44;
+  /* Old browsers */
+
+}
+.e-grid .e-movablecontent,
+.e-grid .e-movableheader {
+  border-left-color: #91aa29;
+}
+.e-grid .e-frozeny {
+  border-bottom-color: #91aa29 !important;
+}
+.e-grid .e-dialog .e-header .e-icon {
+  color: white;
+}
+.e-grid.e-responsive .e-rowcell {
+  border-bottom-color: rgba(196, 196, 196, 0.5);
+}
+.e-grid.e-responsive .e-table > tbody > tr > td:last-child {
+  border-bottom-color: #c4c4c4;
+}
+.e-grid form .e-select:hover .e-icon,
+.e-grid form .e-select:hover .e-icon {
+  color: white;
+}
+.e-grid.e-touch .e-gridheader .e-headercell,
+.e-grid.e-touch .e-rowcell {
+  -moz-user-select: text;
+  -khtml-user-select: none;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}

@@ -1,0 +1,142 @@
+.pager-hover-gradient {
+  background: #68c3de;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #68c3de), color-stop(100%, #68c3de));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #68c3de 0%, #3c92a9 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#68c3de', endColorstr='#3c92a9', GradientType=0);
+  /* IE6-9 */
+
+}
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- ToolBar -------------------------------------------*/
+
+.e-toolbar {
+  font-family: Segoe UI;
+  font-weight: normal;
+  font-size: 14px;
+}
+.e-toolbar.e-focus {
+  box-shadow: 0 0 2px #aaaaaa;
+}
+.e-toolbar .e-horizontal.e-separator,
+.e-toolbar .e-horizontal .e-separator {
+  border-right: 1px solid #303030;
+  border-left: none;
+}
+.e-toolbar .e-vertical.e-separator,
+.e-toolbar .e-vertical .e-separator {
+  border-bottom: 1px solid #303030;
+  border-top: none;
+}
+.e-toolbar.e-rtl .e-horizontal.e-separator,
+.e-toolbar.e-rtl .e-horizontal .e-separator {
+  border-left: 1px solid #303030;
+  border-right: none;
+}
+.e-toolbar.e-rtl .e-vertical.e-separator,
+.e-toolbar.e-rtl .e-vertical .e-separator {
+  border-top: 1px solid #303030;
+  border-bottom: none;
+}
+/*(~"@{skin}.e-toolbar"), (~"@{skin}.e-toolbar .e-vertical")
+{
+    color: @content-font-color;
+	.default-gradient();
+	background-repeat:no-repeat;
+}*/
+
+.e-toolbar {
+  color: #aaaaaa;
+  background: #3f3f3f;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #3f3f3f 0%, #262626 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3f3f3f), color-stop(100%, #262626));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #3f3f3f 0%, #262626 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #3f3f3f 0%, #262626 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #3f3f3f 0%, #262626 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #3f3f3f 0%, #262626 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3f3f3f', endColorstr='#262626', GradientType=0);
+  /* IE6-9 */
+
+  background-repeat: no-repeat;
+  border-color: #303030;
+}
+.e-toolbar .e-horizontal .e-hover,
+.e-toolbar .e-vertical .e-hover {
+  background: #68c3de;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #68c3de), color-stop(100%, #3c92a9));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #68c3de 0%, #3c92a9 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#68c3de', endColorstr='#3c92a9', GradientType=0);
+  /* IE6-9 */
+
+  border-color: #52abc4;
+  color: white;
+}
+.e-toolbar .e-horizontal .e-active,
+.e-toolbar .e-vertical .e-active {
+  background: #3c92a9;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #3c92a9 0%, #68c3de 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3c92a9), color-stop(100%, #68c3de));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #3c92a9 0%, #68c3de 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #3c92a9 0%, #68c3de 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #3c92a9 0%, #68c3de 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #3c92a9 0%, #68c3de 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3c92a9', endColorstr='#68c3de', GradientType=0);
+  /* IE6-9 */
+
+  border-color: #52abc4;
+  color: white;
+}
+.e-toolbar .e-hover > a,
+.e-toolbar .e-hover > span,
+.e-toolbar .e-hover > div {
+  background-color: transparent;
+  color: white;
+}
+.e-toolbar .e-active > a,
+.e-toolbar .e-active > span,
+.e-toolbar .e-active > div {
+  background-color: transparent;
+  color: white;
+}

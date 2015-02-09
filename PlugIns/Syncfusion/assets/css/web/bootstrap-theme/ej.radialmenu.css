@@ -1,0 +1,31 @@
+/*@pager-currentitem:#428BCA;*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- Radial Menu -------------------------------------------*/
+
+.e-radialmenu .e-childdefault {
+  fill: #428bca;
+}
+.e-radialmenu .e-default {
+  fill: whitesmoke;
+}
+.e-radialmenu .e-active {
+  fill: #ebebeb;
+}
+.e-radialmenu .e-arcbgcolor,
+.e-radialmenu .e-itembgcolor,
+.e-radialmenu .e-circlebgcolor {
+  fill: white;
+  stroke: white;
+}
+.e-radialmenu .e-textcolor {
+  fill: #333333;
+}
+.e-radialmenu .e-radial {
+  border-color: #428bca;
+  background-color: white;
+}

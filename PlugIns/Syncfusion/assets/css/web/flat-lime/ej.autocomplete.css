@@ -1,0 +1,59 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- autocomplete -------------------------------------------*/
+
+.e-atc .e-in-wrap,
+.e-atc .e-input,
+.e-atc-popup,
+.e-atc .e-options {
+  background-color: white;
+  border-color: #bbbcbb;
+  color: #5c5c5c;
+  font-family: Segoe UI;
+  font-size: 14px;
+  font-weight: normal;
+}
+.e-atc .e-options.e-active {
+  background: #a9ca44;
+  /* Old browsers */
+
+  color: white;
+}
+.e-atc .e-boxes {
+  background-color: white;
+}
+.e-atc.e-focus {
+  box-shadow: 0 0 2px #cbcbcb;
+}
+.e-atc-popup .e-category {
+  border-bottom: 1px solid #bbbcbb;
+}
+.e-atc-popup .e-hover {
+  background: #a9ca44;
+  /* Old browsers */
+
+  color: white;
+}
+.e-atc .e-select:hover {
+  background: #a9ca44;
+  /* Old browsers */
+
+  color: white;
+}
+.e-atc .e-select,
+.e-atc.e-rtl .e-select {
+  border-color: #bbbcbb;
+  background: #dddddd;
+  /* Old browsers */
+
+  color: #797979;
+}
+.e-atc .e-input.e-load {
+  background-image: url(images/ajax-loader.gif);
+}

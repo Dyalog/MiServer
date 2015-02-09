@@ -1,0 +1,77 @@
+/*------------------------Map-----------------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-olapchart {
+  font: normal 12px Segoe UI;
+  border: 1px solid #bbbcbb;
+  background-color: White;
+  color: #7c7c7c;
+}
+.e-olapchart .expandMenu {
+  min-height: 50px;
+}
+.e-olapchart .menuList {
+  list-style-type: none;
+  padding: 4px 15px 4px 15px;
+}
+.e-olapchart .menuList:hover {
+  list-style-type: none;
+  color: white;
+  background: #68c3de;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #68c3de), color-stop(100%, #3c92a9));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #68c3de 0%, #3c92a9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #68c3de 0%, #3c92a9 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#68c3de', endColorstr='#3c92a9', GradientType=0);
+  /* IE6-9 */
+
+  cursor: pointer;
+}
+.e-olapchart .e-dialog,
+.e-olapchart .e-wrapper,
+.e-olapchart .e-shadow {
+  min-height: 50px;
+}
+.e-olapchart .e-dialog,
+.e-olapchart .e-content {
+  padding: 0;
+  min-width: 150px;
+}
+.progressContainer {
+  width: 360px;
+  height: 70px;
+  border-radius: 10px;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 0 5px 1px #c4c4c4;
+  color: #5c5c5c;
+}
+.progressBar {
+  width: 300px;
+  height: 16px;
+  top: 25px;
+  left: 30px;
+  position: absolute;
+}
+.progressText {
+  width: 350px;
+  height: 20px;
+  top: 0px;
+  left: 30px;
+  fontSize: 16px;
+  position: absolute;
+}

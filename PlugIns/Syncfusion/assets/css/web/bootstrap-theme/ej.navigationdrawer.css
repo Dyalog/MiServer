@@ -1,0 +1,24 @@
+/*@pager-currentitem:#428BCA;*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-nb.e-nb-layout.e-nb-right {
+  background: whitesmoke;
+  /* Old browsers */
+
+  color: #333333;
+  border-left: 1px solid #cccccc;
+  box-shadow: -1px 0 10px 0 black;
+  overflow-y: auto;
+}
+.e-nb.e-nb-layout.e-nb-left {
+  background: whitesmoke;
+  /* Old browsers */
+
+  border-right: 1px solid #cccccc;
+  box-shadow: -1px 0 10px 0 black;
+  overflow-y: auto;
+}

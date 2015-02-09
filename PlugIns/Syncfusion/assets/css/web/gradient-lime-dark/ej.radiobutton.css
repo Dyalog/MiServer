@@ -1,0 +1,47 @@
+.pager-hover-gradient {
+  background: #a9c74e;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a9c74e), color-stop(100%, #92b127));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #a9c74e 0%, #728a1e 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a9c74e', endColorstr='#728a1e', GradientType=0);
+  /* IE6-9 */
+
+}
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*Theme Color*/
+
+.e-radiobtn-wrap > span {
+  background-color: #1f1f1f;
+  background-image: none;
+  border-color: #303030;
+}
+.e-radiobtn-wrap.e-focus > span {
+  box-shadow: 0 0 2px #aaaaaa;
+}
+.e-radiobtn-wrap .e-rad-select {
+  background: none repeat scroll 0 0 transparent;
+}
+.e-radiobtn-wrap .e-rad-active {
+  background: url("images/gradient.png") repeat scroll 0 0 #b5d553;
+}
+.e-radiobtn-wrap .e-text {
+  font-family: Segoe UI;
+  font-size: 12px;
+}

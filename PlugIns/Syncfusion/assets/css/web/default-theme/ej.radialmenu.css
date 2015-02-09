@@ -1,0 +1,32 @@
+/*-----------------------Map------------------*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- Radial Menu -------------------------------------------*/
+
+.e-radialmenu .e-childdefault {
+  fill: #2382c3;
+}
+.e-radialmenu .e-default {
+  fill: #ecedee;
+}
+.e-radialmenu .e-active {
+  fill: #5eabde;
+}
+.e-radialmenu .e-arcbgcolor,
+.e-radialmenu .e-itembgcolor,
+.e-radialmenu .e-circlebgcolor {
+  fill: white;
+  stroke: white;
+}
+.e-radialmenu .e-textcolor {
+  fill: #5c5c5c;
+}
+.e-radialmenu .e-radial {
+  border-color: #2382c3;
+  background-color: white;
+}

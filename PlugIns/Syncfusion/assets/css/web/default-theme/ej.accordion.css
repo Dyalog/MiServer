@@ -1,0 +1,71 @@
+/*-----------------------Map------------------*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*Theme Color*/
+
+.e-acrdn {
+  font-family: Segoe UI;
+}
+.e-acrdn .e-content {
+  border-color: #bbbcbb;
+  background-color: white;
+  color: #5c5c5c;
+  font-size: 14px;
+}
+.e-acrdn .e-select:hover {
+  background: #5eabde;
+  /* Old browsers */
+
+}
+.e-acrdn .e-select:hover a {
+  color: white;
+}
+.e-acrdn .e-select:hover {
+  color: white;
+}
+.e-acrdn .e-select,
+.e-acrdn .e-disable.e-select:hover,
+.e-acrdn .e-disable.e-select:hover a {
+  background: #ecedee;
+  /* Old browsers */
+
+  color: #5c5c5c;
+}
+.e-acrdn .e-select {
+  border-color: #bbbcbb;
+  font-weight: normal;
+  font-size: 16px;
+  font-family: Segoe UI;
+}
+.e-acrdn .e-select a {
+  color: #5c5c5c;
+}
+.e-acrdn .e-select:first-child {
+  border-top-color: #bbbcbb;
+}
+.e-acrdn .e-select.e-active,
+.e-acrdn .e-disable.e-active.e-select:hover a,
+.e-acrdn .e-disable.e-active.e-select:hover {
+  background: #2382c3;
+  /* Old browsers */
+
+  color: white;
+}
+.e-acrdn .e-select.e-active {
+  border-color: #2382c3;
+  font-weight: normal;
+  border-bottom: medium none;
+}
+.e-acrdn .e-select.e-active a {
+  color: white;
+}
+.e-acrdn .e-content.e-load {
+  background-image: url(images/ajax-loader.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+}

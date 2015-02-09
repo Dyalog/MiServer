@@ -1,0 +1,66 @@
+/*@pager-currentitem:#428BCA;*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*Theme Color*/
+
+.e-lv {
+  font-family: Segoe UI;
+}
+/*List Item*/
+
+.e-lv .e-list {
+  border-bottom: 1px solid #cccccc;
+  font-size: 12px;
+}
+.e-lv .e-list .e-list-anchor {
+  color: #333333;
+}
+.e-lv .e-list .e-list-text {
+  font-size: 14px;
+}
+.e-lv .e-list.e-state-default {
+  background: whitesmoke;
+  /* Old browsers */
+
+  color: #333333;
+}
+.e-lv .e-list.e-state-default:hover {
+  background: #ebebeb;
+  /* Old browsers */
+
+  color: #333333;
+}
+.e-lv .e-list .e-list-anchor:hover {
+  color: #333333;
+}
+.e-lv .e-list.e-state-active {
+  background: #428bca;
+  /* Old browsers */
+
+  color: white;
+}
+.e-lv .e-list.e-state-active .e-list-anchor {
+  color: white;
+}
+/*Search Box*/
+
+.e-lv-inputdiv .e-lv-input {
+  border: 1px solid #cccccc;
+  border-radius: 7px;
+  font-size: 14px;
+}
+.e-lv .e-header {
+  background: whitesmoke;
+  /* Old browsers */
+
+  color: #333333;
+}
+.e-lv .e-list-container {
+  border-left: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
+  border-top: 1px solid #cccccc;
+}

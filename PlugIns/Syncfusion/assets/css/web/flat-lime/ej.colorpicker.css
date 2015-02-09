@@ -1,0 +1,131 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- Colorpicker -------------------------------------------*/
+
+.e-colorpicker .e-hsv-color,
+.e-colorpicker .e-buttons .e-preview,
+.e-colorpicker .e-slider-wrap .e-handle.e-select,
+.e-colorpicker .e-slider-wrap .e-hue,
+.e-colorpicker .e-slider-wrap .e-opacity,
+.e-colorpicker .e-slider-wrap .e-handle.e-select:hover {
+  border: 3px solid white;
+}
+.e-colorwidget .e-select {
+  background: #dddddd;
+  /* Old browsers */
+
+  color: #797979;
+  border-color: #bbbcbb;
+}
+.e-colorpicker.e-popup {
+  background-color: #e5e6e7;
+  border-color: #d1d2d4;
+}
+.e-presetWrapper.e-widget.e-context {
+  border-color: #d1d2d4;
+}
+.e-colorwidget.e-focus {
+  box-shadow: 0 0 2px #cbcbcb;
+}
+.e-colorpicker .e-recent-color .e-colorblock.e-block,
+.e-colorpicker .e-recent-color .e-colorblock.e-select,
+.e-colorpicker .e-footer .e-switcher {
+  background-color: white;
+  color: #5c5c5c;
+  border-color: white;
+}
+.e-colorwidget .e-in-wrap.e-box,
+.e-colorwidget .e-in-wrap.e-box .e-select,
+.e-colorpicker .e-footer .e-in-wrap.e-box .e-splitbutton,
+.e-colorpicker .e-footer .e-in-wrap.e-box .e-rht-btn,
+.e-colorpicker .e-footer .e-in-wrap.e-box .e-splitbutton:hover,
+.e-colorpicker .e-footer .e-in-wrap.e-box .e-rht-btn:hover,
+.e-colorpicker .e-footer .e-in-wrap.e-box .e-split-btn,
+.e-colorpicker .e-footer .e-in-wrap.e-box .e-drp-btn.e-rht-btn {
+  background: white;
+  color: #5c5c5c;
+  border-color: #d1d2d4;
+}
+.e-colorwidget .e-select:hover,
+.e-colorpicker .e-element .e-split-btn.e-select.e-rht-btn:hover {
+  background-color: white;
+  color: white;
+}
+.e-presetWrapper.e-menu.e-context,
+.e-presetWrapper.e-menu.e-context .e-list.e-mhover.e-mfocused,
+.e-presetWrapper.e-menu.e-context .e-list > ul,
+.e-presetWrapper.e-menu.e-context .e-list:hover {
+  background: white;
+  color: #5c5c5c;
+  border-color: #ecedee;
+}
+.e-presetWrapper.e-menu.e-context .e-list:hover {
+  background: white;
+  color: #5c5c5c;
+}
+.e-colorpicker .e-footer .e-split .e-splitbutton:hover {
+  background: #dddddd;
+  /* Old browsers */
+
+  border-color: #bbbcbb;
+}
+.e-colorpicker .e-footer .e-cancelButton.e-btn,
+.e-colorpicker .e-footer .e-applyButton.e-btn {
+  background: #dddddd;
+  /* Old browsers */
+
+  background-color: #ecedee;
+  border-color: #d1d2d4;
+}
+.e-colorpicker .e-footer .e-cancelButton.e-btn:hover,
+.e-colorpicker .e-footer .e-applyButton.e-btn:hover {
+  background: #a9ca44;
+  /* Old browsers */
+
+  border-color: #a9ca44;
+  color: white;
+}
+.e-colorpicker .e-buttons .e-groupButton,
+.e-colorpicker .e-buttons .e-color-code,
+.e-colorpicker .e-buttons .e-groupButton .e-btn {
+  background: white;
+  border-color: white;
+}
+.e-colorpicker .e-buttons .e-previous,
+.e-presetWrapper .e-presets-table .e-preset-row {
+  border-color: #bbbcbb;
+}
+.e-colorpicker .e-item {
+  border-color: #d1d2d4;
+}
+.e-colorpicker .e-color-image,
+.e-presetWrapper .e-color-image,
+.e-presetWrapper.e-menu.e-context .e-color-image.e-mhover {
+  background-image: url(../common-images/colorpicker_light.png);
+  background-color: transparent;
+}
+.e-presetWrapper .e-presetHeader,
+.e-colorpicker .e-element .e-icon:before {
+  color: #5c5c5c;
+}
+.e-colorpicker .e-buttons .e-groupButton .e-btn,
+.e-colorpicker .e-buttons .e-color-code {
+  color: #555555;
+}
+.e-colorpicker .e-buttons .e-groupButton .e-click {
+  background: #a9ca44;
+  /* Old browsers */
+
+  border-color: #a9ca44;
+  color: white;
+  box-shadow: 0 0 0 2px white;
+}
+.e-colorpicker .e-buttons .e-groupButton .e-click:hover {
+  color: white;
+}

@@ -1,0 +1,47 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- tagcloud -------------------------------------------*/
+
+.e-tagcloud {
+  background-color: white;
+  border-color: #bbbcbb;
+}
+.e-tagcloud .e-title {
+  background: #fac67d;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #fac67d 0%, #e67a00 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fac67d), color-stop(100%, #e67a00));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #fac67d 0%, #e67a00 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #fac67d 0%, #e67a00 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #fac67d 0%, #e67a00 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #fac67d 0%, #e67a00 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fac67d', endColorstr='#e67a00', GradientType=0);
+  /* IE6-9 */
+
+  color: white;
+  font-size: 16px;
+  font-weight: normal;
+}
+.e-tagcloud .e-load {
+  background-image: url(images/ajax-loader.gif);
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.e-tagcloud .e-tagitems .e-txt {
+  color: #979797;
+}
+.e-tagcloud .e-tagitems .e-txt.hover {
+  color: #fac67d;
+}

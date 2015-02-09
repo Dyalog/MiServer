@@ -1,0 +1,81 @@
+/*@pager-currentitem:#428BCA;*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- dropdownlist -------------------------------------------*/
+
+.e-ddl .e-input,
+.e-ddl-popup,
+.e-ddl .e-options {
+  background-color: white;
+  color: #333333;
+  font-family: Segoe UI;
+  font-size: 14px;
+  font-weight: normal;
+}
+.e-ddl .e-in-wrap,
+.e-ddl-popup,
+.e-ddl .e-options {
+  border-color: #cccccc;
+}
+.e-ddl .e-options.e-active {
+  background-color: #428bca;
+  color: white;
+}
+.e-ddl .e-boxes {
+  background-color: white;
+}
+.e-ddl.e-focus {
+  box-shadow: 0 0 7px rgba(154, 146, 203, 0.87);
+}
+.e-ddl.e-focus .e-in-wrap {
+  border-color: #67afe9;
+}
+.e-ddl .e-input.e-watermark {
+  color: #d0d0d1 !important;
+  font-style: italic;
+}
+.e-ddl-popup .e-hover {
+  background: #ebebeb;
+  /* Old browsers */
+
+  color: #333333;
+}
+.e-ddl .e-select:hover,
+.e-ddl.e-rtl .e-select:hover {
+  background: #ebebeb;
+  /* Old browsers */
+
+  color: #333333;
+}
+.e-ddl-popup .e-active {
+  background: #428bca;
+  /* Old browsers */
+
+  color: white;
+}
+.e-ddl .e-select,
+.e-ddl.e-rtl .e-select,
+.e-ddl .e-disable.e-select:hover {
+  background: white;
+  /* Old browsers */
+
+  color: #333333;
+  border-color: #cccccc;
+}
+.e-ddl-popup div > ul .e-ghead {
+  border-bottom: 1px solid #cccccc;
+  display: block;
+  font-weight: 600;
+  margin: 2px 2px 2px 4%;
+  position: relative;
+  padding-bottom: 5px;
+}
+.e-ddl .e-select.e-load {
+  background-image: url(images/ajax-loader.gif);
+  background-position: center center;
+  background-repeat: no-repeat;
+}

@@ -1,0 +1,82 @@
+.pager-hover-gradient {
+  background: #a9c74e;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a9c74e), color-stop(100%, #92b127));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #a9c74e 0%, #728a1e 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a9c74e', endColorstr='#728a1e', GradientType=0);
+  /* IE6-9 */
+
+}
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------Rating themes -------------*/
+
+.e-rating.e-horizontal .e-shape,
+.e-rating.e-vertical .e-shape,
+.e-rating.e-horizontal .e-shape-list,
+.e-rating.e-vertical .e-shape-list,
+.e-rating.e-horizontal .e-reset,
+.e-rating.e-vertical .e-reset {
+  background: url(images/rating-star.png) no-repeat;
+  height: 16px;
+  width: 16px;
+}
+.e-rating .e-shape.inactive {
+  background-position: 0 -174px;
+}
+.e-rating .e-shape.active {
+  background-position: 0 -60px;
+}
+.e-rating .e-shape.selected {
+  background-position: 0 -60px;
+}
+.e-rating.e-horizontal .e-reset:hover,
+.e-rating.e-vertical .e-reset:hover {
+  background-position: 0 -30px;
+}
+.e-rating.e-horizontal .e-reset,
+.e-rating.e-vertical .e-reset {
+  background-position: 0 0;
+  margin-left: 2px;
+}
+.e-rating.e-horizontal .e-shape-list,
+.e-rating.e-vertical .e-shape-list {
+  background-position: 0 -174px;
+}
+.e-tooltip {
+  background: #b5d553;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b5d553), color-stop(100%, #92b127));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #b5d553 0%, #92b127 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5d553', endColorstr='#92b127', GradientType=0);
+  /* IE6-9 */
+
+  border-color: #a9ca44;
+  color: white;
+}

@@ -1,0 +1,301 @@
+.pager-hover-gradient {
+  background: #a9c74e;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a9c74e), color-stop(100%, #92b127));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #a9c74e 0%, #728a1e 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a9c74e', endColorstr='#728a1e', GradientType=0);
+  /* IE6-9 */
+
+}
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------DatePicker themes -------------*/
+
+.e-datepicker table td.e-disable {
+  opacity: 1;
+  color: #686868;
+}
+.e-datewidget .e-in-wrap {
+  border-color: #303030;
+}
+.e-datewidget.e-focus,
+.e-datewidget .e-input.e-focus {
+  box-shadow: 0 0 2px #aaaaaa;
+}
+.e-datewidget .e-select,
+.e-datewidget.e-rtl .e-select,
+.e-datewidget .e-disable.e-select:hover {
+  background: #3f3f3f;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #3f3f3f 0%, #262626 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3f3f3f), color-stop(100%, #262626));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #3f3f3f 0%, #262626 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #3f3f3f 0%, #262626 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #3f3f3f 0%, #262626 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #3f3f3f 0%, #262626 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3f3f3f', endColorstr='#262626', GradientType=0);
+  /* IE6-9 */
+
+  border-color: #303030;
+  color: #b3b3b3;
+}
+.e-datewidget .e-select:hover {
+  background: #a9c74e;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a9c74e), color-stop(100%, #728a1e));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #a9c74e 0%, #728a1e 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a9c74e', endColorstr='#728a1e', GradientType=0);
+  /* IE6-9 */
+
+  color: white;
+}
+.e-datewidget .e-select.e-active {
+  background: #b5d553;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b5d553), color-stop(100%, #92b127));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #b5d553 0%, #92b127 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5d553', endColorstr='#92b127', GradientType=0);
+  /* IE6-9 */
+
+}
+.e-datewidget .e-input {
+  background-color: #1f1f1f;
+  color: #aaaaaa;
+}
+.e-datepicker table td.other-month,
+.e-datepicker .e-allyear-first,
+.e-datepicker .e-allyear-last,
+.e-datepicker .e-year-first,
+.e-datepicker .e-year-last {
+  color: #b5d553;
+}
+.e-datepicker table td.e-dp-weekend {
+  color: #cd0a0a;
+}
+.e-datepicker.e-calendar {
+  border-color: #303030;
+  background-color: #1f1f1f;
+}
+.e-datepicker .e-header,
+.e-datetime-popup .e-timecontainer .e-header {
+  background: #b5d553;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b5d553), color-stop(100%, #92b127));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #b5d553 0%, #92b127 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5d553', endColorstr='#92b127', GradientType=0);
+  /* IE6-9 */
+
+  color: white;
+  font-size: 16px;
+  font-weight: normal;
+}
+.e-datepicker .e-footer {
+  color: #aaaaaa;
+  border: 1px solid transparent;
+}
+.e-datepicker .e-footer:hover {
+  background: #a9c74e;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a9c74e), color-stop(100%, #728a1e));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #a9c74e 0%, #728a1e 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a9c74e', endColorstr='#728a1e', GradientType=0);
+  /* IE6-9 */
+
+  color: white;
+  border: 1px solid #91aa29;
+}
+.e-datepicker .e-text {
+  color: white;
+}
+.e-datepicker .e-week-header,
+.e-datepicker .e-week-header:hover {
+  background: #3f3f3f;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #3f3f3f 0%, #262626 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3f3f3f), color-stop(100%, #262626));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #3f3f3f 0%, #262626 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #3f3f3f 0%, #262626 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #3f3f3f 0%, #262626 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #3f3f3f 0%, #262626 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3f3f3f', endColorstr='#262626', GradientType=0);
+  /* IE6-9 */
+
+  color: #aaaaaa;
+  border-bottom: 1px solid transparent;
+}
+.e-datepicker table td:hover,
+.e-datepicker .current-month.e-state-default.e-special-day:hover {
+  background: #a9c74e;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a9c74e), color-stop(100%, #728a1e));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #a9c74e 0%, #728a1e 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #a9c74e 0%, #728a1e 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a9c74e', endColorstr='#728a1e', GradientType=0);
+  /* IE6-9 */
+
+  color: white;
+  border-color: #91aa29;
+  border-radius: 4px;
+  box-shadow: 0 0 0 transparent inset;
+}
+.e-datepicker .e-datepicker-days .e-selected-days {
+  background: #b5d553;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b5d553), color-stop(100%, #92b127));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #b5d553 0%, #92b127 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5d553', endColorstr='#92b127', GradientType=0);
+  /* IE6-9 */
+
+  border-radius: 0px;
+  box-shadow: 0 0 0 transparent inset;
+  /*For flicker issue */
+  color: white;
+}
+.e-work-week .e-week-day,
+.e-selected-week,
+.e-selected-month {
+  background-color: #3f3f3f;
+  color: #aaaaaa;
+}
+.e-datepicker .e-state-hover {
+  box-shadow: 0 0 6px #303030 inset;
+}
+.e-datepicker .e-header .e-icon {
+  color: white;
+}
+.e-datepicker .e-left-arrow:hover,
+.e-datepicker .e-right-arrow:hover {
+  background-color: #a9c74e;
+  border-radius: 4px 4px 4px 4px;
+}
+.e-datepicker .e-state-default {
+  color: #aaaaaa;
+  font-weight: normal;
+}
+.e-datepicker .today {
+  background-color: #3f3f3f;
+  color: #aaaaaa;
+  box-shadow: 0 0 0 transparent inset;
+  border-radius: 4px;
+}
+.e-datepicker .other-month.e-active {
+  background: none;
+}
+.e-datepicker .e-active {
+  background: #b5d553;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b5d553), color-stop(100%, #92b127));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #b5d553 0%, #92b127 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #b5d553 0%, #92b127 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5d553', endColorstr='#92b127', GradientType=0);
+  /* IE6-9 */
+
+  border-radius: 4px;
+  box-shadow: 0 0 0 transparent inset;
+  /*For flicker issue */
+  color: white;
+}
+.e-datepicker table td.other-month:hover,
+.e-datepicker .e-allyear-first:hover,
+.e-datepicker .e-allyear-last:hover,
+.e-datepicker .e-year-first:hover,
+.e-datepicker .e-year-last:hover {
+  color: #282828;
+  background-color: transparent;
+}

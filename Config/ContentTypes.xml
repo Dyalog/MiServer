@@ -50,7 +50,13 @@
   <content>
     <ext>bmp</ext>
     <type>image/bmp</type>
-  </content>  <content>
+  </content>
+  <content>
     <ext>jpeg</ext>
     <type>image/jpeg</type>
-  </content></ContentTypes>
+  </content>
+  <content>
+    <ext>woff</ext>
+    <type>application/font-woff</type>
+  </content>
+</ContentTypes>

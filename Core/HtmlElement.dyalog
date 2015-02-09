@@ -34,6 +34,7 @@
   _names←_values←0⍴⊂'' ⍝ used for attributes
   :field public _styles←''
 
+  rand←{t←16807⌶2 ⋄r←?⍵ ⋄ t←16807⌶t ⋄ r }
 
   ∇ r←Version
     :Access public
@@ -56,8 +57,8 @@
   ∇
 
   ∇ r←isString w
-    :Access public
-    r←{(0 2∊⍨10|⎕DR ⍵)∧(⍴⍴⍵)∊0 1}w
+      :Access public shared 
+      r←{(0 2∊⍨10|⎕DR ⍵)∧1∊⍴⍴1/⍵}w
   ∇
 
   ∇ r←quote w
@@ -289,7 +290,7 @@
     :If ~0∊⍴Handlers
       :If UNDEF≡myid←id
       :AndIf ''≡myid←⊃Attr[⊂'id']
-        id←myid←'id',¯10↑'0000000000',⍕?n⊣⎕RL←n|1×.⌈⎕TS⊣n←¯1+2*31
+        id←myid←'id',¯10↑'0000000000',⍕rand ¯1+2*31
       :EndIf
       :For h :In Handlers
         h.Selectors←'#',myid
@@ -382,7 +383,7 @@
     :Access public
     :If ~0∊⍴r←args
       :If isClass⊃args
-        r←⎕NEW∘{2<⍴,⍵:(⊃⍵)(1↓⍵) ⋄ ⍵}Eis args
+        r←⎕NEW∘{2<⍴,⍵:(⊃⍵)({Eis ⍵}(1↓⍵)) ⋄ ⍵}Eis args
         r._PageRef←_PageRef
         :If ~0∊⍴attr
           r.SetAttr attr

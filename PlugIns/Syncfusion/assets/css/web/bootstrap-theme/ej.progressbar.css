@@ -1,0 +1,17 @@
+/*@pager-currentitem:#428BCA;*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-progressbar {
+  background-color: white;
+  border-color: #cccccc;
+  color: #333333;
+}
+.e-progressbar .e-progress {
+  background: #428bca;
+  /* Old browsers */
+
+}

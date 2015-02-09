@@ -1,0 +1,43 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*------------------------ Ribbon Definition---------------------*/
+.e-dialog.e-dialog-wrap {
+  border-color: #303030;
+  background: #050505;
+  font-family: Segoe UI;
+}
+.e-dialog .e-dialog-icon:hover {
+  background: #5eabde;
+  /* Old browsers */
+
+  border-image: initial;
+}
+.e-dialog .e-dialog-icon.e-disable:hover {
+  background: transparent;
+}
+.e-dialog .e-header {
+  background: #1b95cf;
+  /* Old browsers */
+
+  border: 1px solid #1b95cf;
+  color: white;
+  font-weight: normal;
+  border-bottom: medium none;
+  font-size: 17px;
+  overflow: hidden;
+}
+.e-dialog.e-widget-content {
+  background: #050505;
+  color: #aaaaaa;
+  font-size: 14px;
+}
+.e-dialog.e-widget-content.e-load {
+  background-image: url(images/ajax-loader.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+}

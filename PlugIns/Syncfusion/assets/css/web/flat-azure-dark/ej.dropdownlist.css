@@ -1,0 +1,79 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*------------------------ Ribbon Definition---------------------*/
+/*------------------------------------- dropdownlist -------------------------------------------*/
+
+.e-ddl .e-input,
+.e-ddl-popup,
+.e-ddl .e-options {
+  background-color: #050505;
+  color: #aaaaaa;
+  font-family: Segoe UI;
+  font-size: 14px;
+  font-weight: normal;
+}
+.e-ddl .e-in-wrap,
+.e-ddl-popup,
+.e-ddl .e-options {
+  border-color: #303030;
+}
+.e-ddl .e-options.e-active {
+  background-color: #2382c3;
+  color: white;
+}
+.e-ddl .e-boxes {
+  background-color: #050505;
+}
+.e-ddl.e-focus {
+  box-shadow: 0 0 2px #aaaaaa;
+}
+.e-ddl .e-input.e-watermark {
+  color: #282828 !important;
+  font-style: italic;
+}
+.e-ddl-popup .e-hover {
+  background: #5eabde;
+  /* Old browsers */
+
+  color: white;
+}
+.e-ddl .e-select:hover,
+.e-ddl.e-rtl .e-select:hover {
+  background: #5eabde;
+  /* Old browsers */
+
+  color: white;
+}
+.e-ddl-popup .e-active {
+  background: #2382c3;
+  /* Old browsers */
+
+  color: white;
+}
+.e-ddl .e-select,
+.e-ddl.e-rtl .e-select,
+.e-ddl .e-disable.e-select:hover {
+  background: #1f1f1f;
+  /* Old browsers */
+
+  color: #b3b3b3;
+  border-color: #303030;
+}
+.e-ddl-popup div > ul .e-ghead {
+  border-bottom: 1px solid #303030;
+  display: block;
+  font-weight: 600;
+  margin: 2px 2px 2px 4%;
+  position: relative;
+  padding-bottom: 5px;
+}
+.e-ddl .e-select.e-load {
+  background-image: url(images/ajax-loader.gif);
+  background-position: center center;
+  background-repeat: no-repeat;
+}

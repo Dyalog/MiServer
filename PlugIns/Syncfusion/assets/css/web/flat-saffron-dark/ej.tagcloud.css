@@ -1,0 +1,33 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- tagcloud -------------------------------------------*/
+
+.e-tagcloud {
+  background-color: #050505;
+  border-color: #303030;
+}
+.e-tagcloud .e-title {
+  background: #f3b13f;
+  /* Old browsers */
+
+  color: white;
+  font-size: 16px;
+  font-weight: normal;
+}
+.e-tagcloud .e-load {
+  background-image: url(images/ajax-loader.gif);
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.e-tagcloud .e-tagitems .e-txt {
+  color: #aaaaaa;
+}
+.e-tagcloud .e-tagitems .e-txt.hover {
+  color: #f3b13f;
+}

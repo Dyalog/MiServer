@@ -1,0 +1,194 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------reportviewer Theme Start-------------------------------*/
+
+.e-reportviewer-outerborder:hover {
+  background: #ffbb60;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffbb60), color-stop(100%, #f37603));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #ffbb60 0%, #f37603 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffbb60', endColorstr='#f37603', GradientType=0);
+  /* IE6-9 */
+
+  border-color: #f9cb59;
+  color: #979797;
+}
+.e-reportviewer-tbdiv.e-reportviewer-exporttip {
+  background: #fbfbfb;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fbfbfb), color-stop(100%, #c5c5c5));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #fbfbfb 0%, #c5c5c5 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fbfbfb', endColorstr='#c5c5c5', GradientType=0);
+  /* IE6-9 */
+
+  border-color: #bbbcbb;
+  background-color: white;
+}
+.e-reportviewer-tbdiv.e-reportviewer-fittopagetip {
+  background: #fbfbfb;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fbfbfb), color-stop(100%, #c5c5c5));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #fbfbfb 0%, #c5c5c5 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fbfbfb', endColorstr='#c5c5c5', GradientType=0);
+  /* IE6-9 */
+
+  border-color: #bbbcbb;
+  background-color: white;
+}
+.e-reportviewer-tbdiv.e-reportviewer-tooltip {
+  background: white;
+  border-color: #bbbcbb;
+}
+.e-reportviewer-headerspan,
+.e-reportviewer-contentspan {
+  color: #979797;
+  font-family: Segoe UI !important;
+}
+.e-reportviewer-viewer {
+  font-size: 14px;
+}
+.e-reportviewer-popuppageno,
+.e-reportviewer-popuptotalpage {
+  color: white;
+}
+.e-reportviewer-toolbarcontainer .ejinputtext {
+  background-color: white !important;
+}
+.e-reportviewer-viewerblock {
+  background-color: #f6f6f6;
+  font-size: 12.5px;
+  color: #979797;
+}
+.e-reportviewer-viewerblockcellcontent {
+  font-size: 14.5px;
+  color: #979797;
+}
+.e-reportviewer-viewreport {
+  border-left-color: #bbbcbb;
+}
+.e-reportviewer-scrollcontainer,
+.e-reportviewer-viewer>.e-splitter .e-pane {
+  background-color: #e9e9e9;
+}
+.e-reportviewer-pageviewcontainer {
+  background-color: #e9e9e9;
+}
+.e-reportviewer-pageview {
+  -moz-box-shadow: rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: rgba(0, 0, 0, 0.6);
+  box-shadow: rgba(0, 0, 0, 0.3);
+  border-color: gray;
+}
+.e-reportviewer-label,
+.e-reportviewer-tbpage,
+.e-reportviewer-elementalignments,
+.e-reportviewer-textbox {
+  color: #979797;
+}
+.e-reportviewer-label,
+.e-reportviewer-tbpage,
+.e-reportviewer-elementalignments,
+.e-reportviewer-textbox {
+  font-size: 14px;
+  font-weight: normal;
+}
+.e-reportviewer-labelpageno {
+  font-size: 16px !important;
+}
+.e-reportviewer-documentmapcontainer div,
+.e-reportviewer-documentmappopup {
+  background-color: #ebebeb !important;
+}
+.e-reportviewer-pagepopupinfo {
+  background-color: black;
+}
+.e-reportviewer-viewerblock,
+.e-reportviewer-viewer,
+.e-reportviewer-pagenumber,
+.e-reportviewer-tbpage,
+.e-reportviewer-tbdiv.e-reportviewer-exportlist,
+.e-reportviewer-label,
+.e-reportviewer-labelpageno {
+  font-family: Segoe UI !important;
+}
+.e-reportviewer-toolbarcontainer,
+.e-reportviewer-viewerblock,
+.e-reportviewer-viewercontainer,
+.e-reportviewer-elementalignments,
+.e-reportviewer-viewerblockcellcontent,
+.e-reportviewer-viewerblockcontent,
+.e-reportviewer-textbox,
+.e-reportviewer-documentmappopup {
+  border-color: #bbbcbb;
+}
+.e-reportviewer-popupli:hover {
+  background: #ffbb60;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffbb60), color-stop(100%, #f37603));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #ffbb60 0%, #f37603 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffbb60', endColorstr='#f37603', GradientType=0);
+  /* IE6-9 */
+
+  background-color: #ffbb60;
+  color: white;
+}
+.e-reportviewer-popupli {
+  color: #979797 !important;
+  font-family: Segoe UI !important;
+  font-size: 14px !important;
+  font-weight: normal !important;
+}
+.e-reportviewer-gotonext.e-reportviewer-disabled,
+.e-reportviewer-gotoprevious.e-reportviewer-disabled,
+.e-reportviewer-gotolast.e-reportviewer-disabled,
+.e-reportviewer-gotofirst.e-reportviewer-disabled {
+  color: #b2b2b2;
+}
+/*------------------------------reportviewer Theme End-------------------------------*/
+

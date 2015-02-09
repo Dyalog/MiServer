@@ -1,0 +1,18 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-progressbar {
+  background-color: white;
+  border-color: #bbbcbb;
+  color: #5c5c5c;
+}
+.e-progressbar .e-progress {
+  background: #a9ca44;
+  /* Old browsers */
+
+}

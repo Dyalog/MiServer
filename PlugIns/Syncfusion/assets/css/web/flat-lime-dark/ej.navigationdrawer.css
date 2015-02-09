@@ -1,0 +1,25 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-nb.e-nb-layout.e-nb-right {
+  background: #1f1f1f;
+  /* Old browsers */
+
+  color: #aaaaaa;
+  border-left: 1px solid #303030;
+  box-shadow: -1px 0 10px 0 black;
+  overflow-y: auto;
+}
+.e-nb.e-nb-layout.e-nb-left {
+  background: #1f1f1f;
+  /* Old browsers */
+
+  border-right: 1px solid #303030;
+  box-shadow: -1px 0 10px 0 black;
+  overflow-y: auto;
+}

@@ -1,0 +1,104 @@
+/*-----------------------Map------------------*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-treegrid .e-extendcolumn {
+  background-color: white;
+}
+.e-treegrid .e-headercelldiv {
+  color: #282928;
+}
+.e-treegrid {
+  border-color: #c3c3c3;
+  color: #282928;
+}
+.e-treegrid .e-gridcontent {
+  background-color: white;
+  border-color: #c3c3c3;
+}
+.e-treegrid  .e-borderbox {
+  border-bottom-color: white;
+}
+.e-treegrid .e-editcell,
+.e-treegrid .e-rowcell {
+  border-color: #c3c3c3;
+}
+.e-treegrid .e-alt-row {
+  background: #f8fafb;
+}
+.e-treegrid .e-selectionbackground {
+  background: rgba(215, 233, 246, 0.6);
+  color: #231f20;
+}
+.e-treegrid .e-tabletd {
+  border-color: #c3c3c3;
+}
+.e-treegrid .e-treegrid-add:before {
+  content: "\e6fe";
+}
+.e-treegrid .e-treegrid-edit:before {
+  content: "\e705";
+}
+.e-treegrid .e-treegrid-delete:before {
+  content: "\e706";
+}
+.e-treegrid .e-treegrid-save:before {
+  content: "\e6fc";
+}
+.e-treegrid .e-treegrid-cancel:before {
+  content: "\e708";
+}
+.e-treegrid .e-treegrid-expandall:before {
+  content: "\e703";
+}
+.e-treegrid .e-treegrid-collapseall:before {
+  content: "\e707";
+}
+.e-treegrid .e-treegridtoolbar {
+  background-color: white !important;
+  border-color: #c3c3c3 !important;
+}
+.e-treegrid .e-headercell {
+  background: white;
+  border-top-color: #c3c3c3 !important;
+  border-right-color: #c3c3c3 !important;
+  border-bottom-color: #5ea9dc !important;
+}
+.e-treegrid .e-filterbarcell {
+  border-color: #c3c3c3 !important;
+}
+.e-treegrid .e-grid-icon {
+  background: white;
+}
+.e-treegrid .e-gridheader {
+  color: #282928;
+  border-bottom-color: #5ea9dc;
+  border-top-color: #c3c3c3;
+  border-left-color: #c3c3c3;
+  border-right-color: #c3c3c3;
+}
+.e-treegrid .e-headercontent {
+  border-right-color: #c3c3c3;
+}
+.e-treegrid .e-ejinputtext {
+  border-color: #c3c3c3 !important;
+  background-color: white;
+  color: #282928;
+}
+.e-treegrid .e-ejinputtext:focus {
+  box-shadow: #c3c3c3 !important;
+}
+.e-treegrid .e-reSizeColbg {
+  border-left-color: #c3c3c3 !important;
+}
+.e-treegrid .e-gridheadercontainer {
+  border-right-color: #c3c3c3;
+}
+.e-treegrid .e-treegridexpand:before,
+.e-treegrid .e-treegridcollapse:before {
+  color: #939292;
+}

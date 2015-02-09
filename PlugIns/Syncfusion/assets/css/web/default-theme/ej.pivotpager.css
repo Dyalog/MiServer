@@ -1,0 +1,66 @@
+/*-----------------------Map------------------*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+.e-pivotpager .pagerTextBox {
+  display: inline-block;
+  height: 18px;
+  width: 35px;
+  color: gray;
+}
+.e-pivotpager .movePrevious,
+.e-pivotpager .moveNext,
+.e-pivotpager .moveFirst,
+.e-pivotpager .moveLast {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  position: relative;
+  top: 1px;
+  cursor: pointer;
+}
+.e-pivotpager .moveFirst:before {
+  content: "\e62a";
+  font-size: 14px;
+  margin-left: 5px;
+}
+.e-pivotpager .moveLast:before {
+  content: "\e62c";
+  font-size: 14px;
+  margin-left: 5px;
+}
+.e-pivotpager .movePrevious:before {
+  content: "\e665";
+  font-size: 14px;
+  margin-left: 5px;
+}
+.e-pivotpager .moveNext:before {
+  content: "\e67e";
+  font-size: 14px;
+  margin-left: 5px;
+}
+.e-pivotpager .categPageCount,
+.e-pivotpager .seriesPageCount {
+  padding: 0px 0px 0px 5px;
+}
+.e-pivotpager .pagerDiv {
+  margin: 3px;
+  padding: 7px;
+  color: gray;
+}
+.e-pivotpager .pagerLabel {
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.e-pivotpager .disabled {
+  opacity: 0.4;
+  cursor: default !important;
+}
+.e-pivotpager .pivotpager {
+  overflow: auto;
+}

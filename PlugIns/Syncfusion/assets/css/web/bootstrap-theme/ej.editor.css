@@ -1,0 +1,101 @@
+/*@pager-currentitem:#428BCA;*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/* ------- editor less ----------- */
+
+.e-numeric,
+.e-percent,
+.e-currency,
+.e-mask {
+  background-color: white;
+}
+.e-numeric .e-in-wrap,
+.e-percent .e-in-wrap,
+.e-currency .e-in-wrap,
+.e-mask .e-in-wrap {
+  border-color: #cccccc;
+}
+.e-numeric .e-input,
+.e-percent .e-input,
+.e-currency .e-input,
+.e-mask .e-input {
+  color: #333333;
+  background-color: white;
+}
+.e-numeric.e-focus,
+.e-percent.e-focus,
+.e-currency.e-focus,
+.e-mask.e-focus {
+  box-shadow: 0 0 7px #cbcbcb;
+}
+.e-numeric.e-focus .e-in-wrap,
+.e-percent.e-focus .e-in-wrap,
+.e-currency.e-focus .e-in-wrap,
+.e-mask.e-focus .e-in-wrap {
+  border-color: #67afe9;
+}
+.e-numeric .e-input.e-error,
+.e-percent .e-input.e-error,
+.e-currency .e-input.e-error,
+.e-mask.e-error {
+  color: #cd0a0a;
+}
+.e-numeric .e-watermark,
+.e-percent .e-watermark,
+.e-currency .e-watermark,
+.e-mask .e-watermark {
+  color: #d0d0d1;
+}
+.e-mask .e-error {
+  color: #cd0a0a;
+}
+.e-numeric .e-select,
+.e-numeric.e-rtl .e-select,
+.e-numeric .e-disable.e-select:hover,
+.e-percent .e-select,
+.e-percent.e-rtl .e-select,
+.e-percent .e-disable.e-select:hover,
+.e-currency .e-select,
+.e-currency.e-rtl .e-select,
+.e-currency .e-disable.e-select:hover {
+  background: white;
+  /* Old browsers */
+
+  color: #333333;
+  border-color: #cccccc;
+}
+.e-numeric .e-select:hover,
+.e-percent .e-select:hover,
+.e-currency .e-select:hover {
+  background: #ebebeb;
+  /* Old browsers */
+
+  color: #333333;
+}
+.e-numeric .e-select .e-spin-up.e-active,
+.e-numeric .e-select .e-spin-down.e-active,
+.e-percent .e-select .e-spin-up.e-active,
+.e-percent .e-select .e-spin-down.e-active,
+.e-currency .e-select .e-spin-up.e-active,
+.e-currency .e-select .e-spin-down.e-active {
+  background: #428bca;
+  /* Old browsers */
+
+}
+.e-numeric .e-select .e-spin-up.e-active,
+.e-numeric .e-select .e-spin-down.e-active,
+.e-percent .e-select .e-spin-up.e-active,
+.e-percent .e-select .e-spin-down.e-active,
+.e-currency .e-select .e-spin-up.e-active,
+.e-currency .e-select .e-spin-down.e-active {
+  color: white;
+}
+.e-numeric .e-icon .e-arrow,
+.e-percent .e-icon .e-arrow,
+.e-currency .e-icon .e-arrow {
+  border: 0 none transparent;
+}

@@ -1,0 +1,45 @@
+/*@pager-currentitem:#428BCA;*/
+/*-----------------------OLAP Definition-----------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- scrollbar -------------------------------------------*/
+
+.e-scrollbar .e-vscroll,
+.e-scrollbar .e-hscroll,
+.e-scrollbar .e-vhandlespace {
+  background-color: #f1f1f1;
+}
+.e-scrollbar .e-vscroll,
+.e-scrollbar .e-hscroll {
+  border-style: none;
+}
+.e-scrollbar .e-active {
+  background-color: #2382c3;
+}
+.e-scrollbar .e-vhandle,
+.e-scrollbar .e-hhandle {
+  background: whitesmoke;
+  /* Old browsers */
+
+  border: 1px solid #dddddd;
+  transition: top .1s linear 0s, left .1s linear 0s;
+}
+.e-scrollbar .e-vhandle:hover,
+.e-scrollbar .e-hhandle:hover {
+  background: #ebebeb;
+  /* Old browsers */
+
+  cursor: default;
+}
+.e-scrollbar .e-button {
+  color: #333333;
+}
+.e-scrollbar .e-button:hover {
+  background: #ebebeb;
+  /* Old browsers */
+
+  color: #333333;
+}

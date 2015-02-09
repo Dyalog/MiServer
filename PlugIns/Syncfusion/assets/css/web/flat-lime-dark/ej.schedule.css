@@ -1,0 +1,266 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*---------------------------------Schedule Theme--------------------------------*/
+
+.e-schedule,
+.e-schedule.e-scheduleouter {
+  border: 1px solid #303030;
+  color: #aaaaaa;
+  background-color: #050505;
+}
+.e-schedule .e-horizontaldaterender {
+  border-left: 1px solid #303030;
+}
+.e-schedule .icon-AddGrad:before {
+  color: #2382c3;
+}
+e-schedule .e-datedisplay {
+  color: #aaaaaa;
+}
+.e-schedule .e-datecommondiv {
+  color: #c3c3c3;
+}
+.e-schedule .e-commonviewbutton {
+  background: #1f1f1f;
+  /* Old browsers */
+
+  color: #c3c3c3;
+  border: 1px solid #303030;
+  border-right: none;
+}
+.e-schedule .e-singleview {
+  border-right: 1px solid #303030;
+}
+.e-schedule.e-rtl .e-firstview,
+.e-schedule .e-lastview {
+  border: 1px solid #303030;
+}
+.e-schedule .e-dateheader,
+.e-schedule .e-emptytd {
+  border-bottom: 3px solid #91aa29;
+}
+.e-schedule .e-categorizeMenuSelected {
+  background: none repeat scroll 0 0 aliceblue;
+  border: 1px solid #0094ff !important;
+}
+.e-schedule .e-dateheader,
+.e-schedule .e-emptyalldaytd {
+  border-bottom: 1px solid #303030;
+}
+.e-scheduledialog .e-quickstartendtime {
+  border-bottom: 1px solid #303030;
+}
+.e-schedule .e-horizontalheader {
+  border-bottom: 3px solid #91aa29;
+}
+.e-schedule .e-horizontalheadertddate {
+  border-left: none !important;
+  border-bottom: none !important;
+}
+.e-schedule .e-horizontaltimetd {
+  border-bottom: 3px solid #91aa29 !important;
+  border-top: 1px solid #303030 !important;
+}
+.e-schedule .e-horizontalalternatetd {
+  border-bottom: 3px solid #91aa29 !important;
+  border-left: 1px solid transparent !important;
+  border-right: 1px solid #303030 !important;
+  border-top: 1px solid #303030 !important;
+}
+.e-schedule .e-horizontmonthheaderdatetd {
+  border-bottom: 1px solid #303030 !important;
+  border-left: 1px solid #303030 !important;
+  border-top: 1px solid #303030 !important;
+}
+.e-schedule .e-horizontmonthheaderdaytd {
+  border-bottom: 3px solid #91aa29 !important;
+  border-left: 1px solid #303030 !important;
+}
+.e-schedule .e-alternateworkcell {
+  border-left: 1px dotted #303030 !important;
+}
+.e-schedule .e-dayend {
+  border-left: 2px solid #303030 !important;
+}
+.e-schedule .e-parentnode,
+.e-schedule .e-parentworkcell {
+  border-bottom: 1px solid #303030 !important;
+}
+.e-schedule .e-parentnode {
+  background: #303030;
+  border-bottom: 1px solid #303030 !important;
+}
+.e-schedule .e-childnode,
+.e-schedule .e-childworkcell {
+  border-bottom: 1px dotted #303030 !important;
+}
+.e-schedule .e-workcells {
+  border-bottom: 1px solid #303030;
+  border-left: 1px solid #303030;
+  background: #111111;
+}
+.e-schedule .e-monthcells {
+  border-bottom: 1px solid #303030;
+  border-left: 1px solid #303030;
+  background: #111111;
+}
+.e-schedule .e-alternatecells,
+.e-schedule .e-ampmstyle {
+  border-bottom: 1px dotted #242424;
+}
+.e-schedule .e-appointresizer-top,
+.e-schedule .e-appointresizer-bottom,
+.e-schedule .e-appointresizer-left,
+.e-schedule .e-appointresizer-right {
+  color: white;
+}
+.e-schedule .e-monthcellhighlight {
+  background: #050505;
+}
+.e-schedule .e-businesshighlightworkcells {
+  background: #050505;
+}
+.e-schedule .e-scheduleheader {
+  background: #1f1f1f;
+  /* Old browsers */
+
+}
+.e-schedule .e-next,
+.e-schedule .e-prev {
+  background: #1f1f1f;
+  /* Old browsers */
+
+  border: 1px solid #303030;
+  border-bottom: transparent;
+}
+.e-schedule .e-scheduleheader > td {
+  border-bottom: 1px solid #303030;
+}
+.e-schedule .e-headerbackcolor,
+.e-schedule .e-timecells {
+  border-bottom: 1px solid #303030;
+}
+.e-schedule .e-mousehover {
+  background-color: #222222;
+}
+.e-schedule .e-highlightcurrenttimeline {
+  background-color: #778f31;
+}
+.e-schedule .e-currenttime {
+  background-color: #778f31;
+  color: white;
+}
+.e-schedule .e-timeidicatorcircle {
+  color: #778f31;
+}
+.e-scheduledialog .e-recuredit {
+  color: #5eabde;
+}
+.e-schedule .e-alldaycells {
+  border-left: 1px solid #303030;
+  border-bottom: 1px solid #303030;
+}
+.e-schedule .e-headerresourcecells {
+  border-bottom: 1px solid #303030;
+}
+.e-schedule .e-resourcecells {
+  border-left: 1px solid #303030;
+  border-bottom: 1px solid #303030;
+}
+.e-schedule .e-headercells {
+  border-left: 1px solid #303030;
+  border-bottom: 3px solid #91aa29;
+}
+.e-schedule .e-monthdateshighlight {
+  color: #282828 !important;
+}
+.e-schedule .e-monthcurrenttime {
+  background: #778f31;
+  color: white;
+}
+.e-schedule.e-rtl .e-monthleftindent,
+.e-schedule.e-rtl .e-monthleftcells,
+.e-schedule.e-rtl .e-settingsindent,
+.e-schedule.e-rtl .e-leftindent {
+  border-left: 1px solid #303030;
+}
+.e-schedule.e-rtl .e-workcells {
+  border-left: medium none;
+  border-right: 1px solid #303030;
+}
+.e-schedule .e-activeview {
+  background-color: #a9ca44;
+  color: white;
+  border-color: #a9ca44;
+}
+.e-schedule .e-monthleftcells,
+.e-schedule .e-settingsindent {
+  border-bottom: 3px solid #91aa29;
+}
+.e-draggableAppointment,
+.e-schedule .e-monthappointment,
+.e-schedule .e-alldayappointment,
+.e-schedule .e-appointment {
+  background-color: #a9ca44;
+  color: white;
+  border: 1px solid #c9e473;
+}
+.e-schedule .e-categorycolor {
+  background-color: #a9ca44;
+}
+.e-schedule .e-selectedAppointment {
+  border: 2px solid black;
+}
+.e-schedule .e-selectedCell {
+  background-color: #222222;
+}
+.e-scheduledialog .e-detailedapp,
+.e-scheduledialog .e-editevents,
+.e-scheduledialog .e-textdetailcolor {
+  color: #a9ca44;
+}
+.e-scheduledialog .e-recurtitle {
+  border-bottom: 1px solid #303030;
+}
+.e-scheduledialog .e-dialogheader {
+  color: #aaaaaa !important;
+  background: #050505 !important;
+  border-width: 0 0 1px !important;
+  border-style: solid !important;
+  border-color: #303030 !important;
+  font-weight: bold !important;
+}
+.e-scheduledialog .e-dialog-icon:hover {
+  background: none repeat scroll 0 0 transparent !important;
+}
+/* Tooltip arrow image */
+
+.e-scheduledialog .e-outerarrowline {
+  border-color: #303030 transparent;
+  border-image: none;
+  border-style: solid;
+  border-width: 9px 9px 0;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+.e-scheduledialog .e-innerarrow {
+  border-color: #050505 transparent;
+  border-image: none;
+  border-style: solid;
+  border-width: 8px 8px 0;
+  left: 1px;
+  position: absolute;
+  top: 0;
+}
+.e-draggableAppointment {
+  box-shadow: 5px 5px 5px #2b2b2b;
+}
+/*-----------------------Schedule Theme End -----------------------------*/
+

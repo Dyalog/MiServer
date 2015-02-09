@@ -1,0 +1,115 @@
+/*-----------------------Map------------------*/
+/*----------------------OLAP Definition------------------*/
+/*----------------------Reportviewer Definition start------------------*/
+/*----------------------Reportviewer Definition End------------------*/
+/*-----------------------SymbolPalette Definition-----------------*/
+/*-----------------------Datepicker Definition-----------------*/
+/*-----------------------Bootstrap support-----------------*/
+/*----------------------Ribbon Definition-----------------------*/
+/*------------------------------------- autocomplete -------------------------------------------*/
+
+.e-atc .e-in-wrap,
+.e-atc .e-input,
+.e-atc-popup,
+.e-atc .e-options {
+  background-color: white;
+  border-color: #bbbcbb;
+  color: #979797;
+  font-family: Segoe UI;
+  font-size: 14px;
+  font-weight: normal;
+}
+.e-atc .e-options.e-active {
+  background: #ffbb60;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffbb60), color-stop(100%, #f37603));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #ffbb60 0%, #f37603 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffbb60', endColorstr='#f37603', GradientType=0);
+  /* IE6-9 */
+
+  color: white;
+}
+.e-atc .e-boxes {
+  background-color: white;
+}
+.e-atc.e-focus {
+  box-shadow: 0 0 2px #cbcbcb;
+}
+.e-atc-popup .e-category {
+  border-bottom: 1px solid #bbbcbb;
+}
+.e-atc-popup .e-hover {
+  background: #ffbb60;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffbb60), color-stop(100%, #f37603));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #ffbb60 0%, #f37603 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffbb60', endColorstr='#f37603', GradientType=0);
+  /* IE6-9 */
+
+  color: white;
+}
+.e-atc .e-select:hover {
+  background: #ffbb60;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffbb60), color-stop(100%, #f37603));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffbb60 0%, #f37603 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #ffbb60 0%, #f37603 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffbb60', endColorstr='#f37603', GradientType=0);
+  /* IE6-9 */
+
+  color: white;
+}
+.e-atc .e-select,
+.e-atc.e-rtl .e-select {
+  border-color: #bbbcbb;
+  background: #fbfbfb;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fbfbfb), color-stop(100%, #c5c5c5));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #fbfbfb 0%, #c5c5c5 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #fbfbfb 0%, #c5c5c5 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fbfbfb', endColorstr='#c5c5c5', GradientType=0);
+  /* IE6-9 */
+
+  color: #797979;
+}
+.e-atc .e-input.e-load {
+  background-image: url(images/ajax-loader.gif);
+}
