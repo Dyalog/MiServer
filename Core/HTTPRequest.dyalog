@@ -41,7 +41,7 @@
 
   ∇ r←eis w
     :Access public shared
-    r←{2>|≡⍵:,⊂⍵ ⋄ ⍵}w ⍝ Enclose if simple
+    r←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵}w ⍝ Enclose if simple
   ∇
 
   ∇ Make(cmd data);buf;input;args;req;hdrs;i;z;pars;mask;new;s;cookies

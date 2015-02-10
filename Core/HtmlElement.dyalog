@@ -57,8 +57,8 @@
   ∇
 
   ∇ r←isString w
-      :Access public shared 
-      r←{(0 2∊⍨10|⎕DR ⍵)∧1∊⍴⍴1/⍵}w
+    :Access public shared 
+    r←{(0 2∊⍨10|⎕DR ⍵)∧1∊⍴⍴1/⍵}w
   ∇
 
   ∇ r←quote w
@@ -71,11 +71,6 @@
     r←a{0∊⍴⍺:'' ⋄ ⍵}w ⍝ if not empty
   ∇
   errorIf←{⍺←⊢ ⋄ 0≠⍵:⍺ ⎕SIGNAL ⍵ ⋄ ''}
-
-  ∇ r←eis w
-    :Access public shared
-    r←{2>|≡⍵:,⊂⍵ ⋄ ⍵}w ⍝ Enclose if simple
-  ∇
 
   :section Attribute Handling
 
@@ -334,7 +329,7 @@
     ⍝ This is the fn that does the bulk of the rendering work
     ⍝ It lays down the look of each element
     r←''
-    :For e :In Eis list
+    :For e :In eis list
       :If isInstance e
         r,←e.Render
       :Else
@@ -367,9 +362,9 @@
     r←(tag{NoEndTag∧0∊⍴⍵:Bracket ⍺,'/' ⋄ (Bracket ⍺),⍵,Bracket'/',⍺↑⍨¯1+⍺⍳' '}txt),NL
   ∇
 
-  ∇ r←Eis w
+  ∇ r←eis w
     :Access public
-    r←⊂⍣((326∊⎕DR w)<2>|≡w),w ⍝ enclose if simple and not mixed
+    r←(,∘⊂)⍣((326∊⎕DR w)<2>|≡w),w ⍝ enclose if simple and not mixed
   ∇
 
   ∇ r←Quote a;b
@@ -383,7 +378,7 @@
     :Access public
     :If ~0∊⍴r←args
       :If isClass⊃args
-        r←⎕NEW∘{2<⍴,⍵:(⊃⍵)({Eis ⍵}(1↓⍵)) ⋄ ⍵}Eis args
+        r←⎕NEW∘{2<⍴,⍵:(⊃⍵)({eis ⍵}(1↓⍵)) ⋄ ⍵}eis args
         r._PageRef←_PageRef
         :If ~0∊⍴attr
           r.SetAttr attr

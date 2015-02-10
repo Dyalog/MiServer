@@ -172,6 +172,7 @@
     ∇
 
   :EndClass                   
+
   :class ejCurrencyTextbox : _ejObject
     :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejTextBoxes.html'
     :field public shared readonly ApiLevel←1
@@ -185,33 +186,60 @@
   :EndClass
 
 
-  :class ejDatePicker : _ejObject
-    :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejDatePicker.html'
-    :field public shared readonly ApiLevel←2
+    :Class ejDatePicker : _ejObject
+        :Field Public Shared ReadOnly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejDatePicker.html'
+        :Field Public Shared ReadOnly ApiLevel←2
 
-    ∇ make
-      :Access public
-      JQueryFn←Uses←'ejDatePicker'
-      ContainerType←'input'
-      :Implements constructor
-      ControlContent.type←'text'
-    ∇
+        ∇ make0
+          :Access Public
+          JQueryFn←Uses←'ejDatePicker'
+          ContainerType←'input'
+          :Implements Constructor
+          Container.type←'text'
+        ∇
 
-  :EndClass
+        ∇ make args;n
+          ⍝ Selector [value [dateFormat]]
+          :Access Public
+          JQueryFn←Uses←'ejDatePicker'
+          ContainerType←'input'
+          :Implements Constructor
+         
+          :If (≡args)∊0 1 ⋄ args←,⊂args ⋄ :EndIf
+          n←¯1+⊃⍴args
+          Selector←⊃args
+          (n↑'value' 'dateFormat')Option 1↓args
+          Container.type←'text'
+        ∇
 
-  :class ejDateTimePicker : _ejObject
-    :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejDateTimePicker.html'
-    :field public shared readonly ApiLevel←2
+    :EndClass
 
-    ∇ make
-      :Access public
-      JQueryFn←Uses←'ejDateTimePicker'
-      ContainerType←'input'
-      :Implements constructor
-      ControlContent.type←'text'
-    ∇
+    :Class ejDateTimePicker : _ejObject
+        :Field Public Shared Readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejDateTimePicker.html'
+        :Field Public Shared Readonly ApiLevel←2
 
-  :EndClass
+        ∇ make0
+          :Access Public
+          JQueryFn←Uses←'ejDateTimePicker'
+          ContainerType←'input'
+          :Implements Constructor
+          Container.type←'text'
+        ∇
+    
+        ∇ make args;n
+          :Access Public
+          JQueryFn←Uses←'ejDateTimePicker'
+          ContainerType←'input'
+          :Implements Constructor
+         
+          :If (≡args)∊0 1 ⋄ args←,⊂args ⋄ :EndIf
+          n←¯1+⊃⍴args
+          Selector←⊃args
+          (n↑'value' 'dateTimeFormat')Option 1↓args
+          Container.type←'text'
+        ∇
+
+    :EndClass
 
   :class ejDiagram : _ejObject
     :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejDiagram.html'
@@ -726,17 +754,32 @@
 
   :EndClass
 
-  :class ejTimePicker : _ejObject
-    :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejTile.html'
-    :field public shared readonly ApiLevel←1
+    :Class ejTimePicker : _ejObject
+        :Field Public Shared ReadOnly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejTimePicker.html'
+        :Field Public Shared ReadOnly ApiLevel←2
 
-    ∇ make
-      :Access public
-      JQueryFn←Uses←'ejTimePicker'
-      :Implements constructor
-    ∇
+        ∇ make0
+          :Access Public
+          JQueryFn←Uses←'ejTimePicker'
+          ContainerType←'input'
+          :Implements Constructor
+          Container.type←'text'
+        ∇
+        
+        ∇ make args;n
+          :Access Public
+          JQueryFn←Uses←'ejTimePicker'
+          ContainerType←'input'
+          :Implements Constructor
+         
+          :If (≡args)∊0 1 ⋄ args←,⊂args ⋄ :EndIf
+          n←¯1+⊃⍴args
+          Selector←⊃args
+          (n↑'value' 'timeFormat')Option 1↓args
+          Container.type←'text'
+        ∇
 
-  :EndClass
+    :EndClass
 
   :class ejTile : _ejObject
     :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejTimePicker.html'
@@ -1179,7 +1222,7 @@
 ⍝ generic Syncfusion Enterprise JavaScript object
     :field public ContainerType←'div'
     :field public Data←''
-    :field public ControlContent
+    :field public Container
     :field public eventHandlers←''  ⍝!!! make private
 
     rand←{⍺←⊢ ⋄t←16807⌶2 ⋄r←⍺?⍵ ⋄ t←16807⌶t ⋄ r }
@@ -1187,7 +1230,7 @@
     ∇ make
       :Access public
       Options←⎕NS''
-      ControlContent←⎕NEW #.HtmlElement
+      Container←⎕NEW #.HtmlElement
       :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
       :If 0∊⍴Uses ⋄ Uses←'Syncfusion' ⋄ :EndIf
       :Implements constructor
@@ -1203,15 +1246,15 @@
       att←''
       :Select ⊃Selector
       :Case '#' ⍝ id?
-        ControlContent.id←1↓Selector
+        Container.id←1↓Selector
       :Case '.' ⍝ class?
-        ControlContent.class←1↓Selector
+        Container.class←1↓Selector
       :EndSelect
       :If ContainerType{⍵≡(⍴⍵)↑⍺}'input'
-        ControlContent.name←('.#'∊⍨⊃Selector)↓Selector
+        Container.name←('.#'∊⍨⊃Selector)↓Selector
       :EndIf
-      ControlContent.Tag←ContainerType
-      r←ControlContent.Render
+      Container.Tag←ContainerType
+      r←Container.Render
      
       :If ~0∊⍴eventHandlers
         Options∘RenderHandler¨eventHandlers

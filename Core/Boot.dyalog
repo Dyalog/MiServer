@@ -399,7 +399,7 @@
   try←{0::'' ⋄⍎⍵}
   empty←{0∊⍴⍵}
   notEmpty←~∘empty
-  eis←{2>|≡⍵:,⊂⍵ ⋄ ⍵} ⍝ Enclose if simple
+  eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
   isRef←{(0∊⍴⍴⍵)∧326=⎕DR ⍵}
   folderize←{¯1↑⍵∊'/\':⍵ ⋄ ⍵,FSep}
 

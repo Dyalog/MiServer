@@ -6,7 +6,7 @@
 
   CRLF←⎕UCS 13 10
 
-  eis←{2>|≡⍵:,⊂⍵ ⋄ ⍵} ⍝ Enclose if simple
+  eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
   enlist←{∊⍵} ⍝ APL2 style enlist
   quote←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}
   ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty

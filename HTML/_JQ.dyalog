@@ -44,6 +44,10 @@
     ∇ name Option value;parent;i;ns;split;Set;index;lb;new;now;an;n
       :Access public
       :If 326≠⎕DR Options ⋄ Options←⎕NS'' ⋄ :EndIf
+      :If 1<|≡name ⍝ multiple names?
+        value←(⊂⍣((⎕DR value)∊80 82))value
+        name Option¨value
+      :Else
       Set←{⍺⍺⍎'(',⍺,')←⍵'}
       :If 0∊⍴parent←(i←-'.'⍳⍨⌽name)↓name
         name(Options Set)value ⍝ single name: assign directly (may be more than 1 name)
@@ -67,6 +71,7 @@
           (parent↓⍨1+split)(Options⍎split↑parent).⎕NS''
         :EndIf
         (1↓i↑name)((Options⍎parent)Set)value
+      :EndIf
       :EndIf
     ∇
 
@@ -104,7 +109,7 @@
       Widget._function←{}
     ∇
 
-    ∇ Make1 pars
+    ∇ Make1 pars;t
       :Access public
       :Implements constructor
       :Select |≡pars
@@ -145,7 +150,7 @@
             r,←e.Render
           :ElseIf isClass t
           :AndIf isHtmlElement t
-            r,←(⎕NEW∘{2<⍴,⍵:(⊃⍵)(1↓⍵) ⋄ ⍵}Eis e).Render
+            r,←(⎕NEW∘{2<⍴,⍵:(⊃⍵)(1↓⍵) ⋄ ⍵}eis e).Render
           :Else
             r,←e
           :EndIf

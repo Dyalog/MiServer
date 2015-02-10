@@ -10,7 +10,7 @@
 ⍝ --- Utility functions ---
 
   ine←{0∊⍴⍺:'' ⋄ ⍵}  ⍝ if not empty
-  eis←{0∊⍴⍵:⍵ ⋄ 2>|≡⍵:,⊂⍵ ⋄ ⍵} ⍝ Enclose if simple
+  eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
   enlist←{∊⍵} ⍝ APL2 style enlist
   quote←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}
   isSingleNum←{(,1)≡⊃⎕VFI ⍵}
