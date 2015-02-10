@@ -12,7 +12,7 @@
      
       dpc←f.Add _SF.ejDatePicker('#dp'dp'yyyy-MM-dd')
       'showRoundedCorner'dpc.Option #.JSON.true
-      tpc←f.Add _SF.ejTimePicker('#tp'tp'hh:mm')
+      tpc←f.Add _SF.ejTimePicker('#tp'tp'HH:mm')
       dtpc←f.Add _SF.ejDateTimePicker('#dtp'dtp'yyyy-MM-dd hh:mm')
      
       f.Add br

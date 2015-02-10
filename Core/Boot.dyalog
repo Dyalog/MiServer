@@ -32,7 +32,7 @@
     utils←(⎕SE.SALT.List MSRoot,'Utils -raw')[;2]   ⍝ find utility libraries
     core←(⊂'Boot')~⍨(⎕SE.SALT.List MSRoot,'Core -raw')[;2]
     extensions←(⎕SE.SALT.List MSRoot,'Extensions -raw')[;2]
-    HTML←(⎕SE.SALT.List MSRoot,'HTML -raw')[;2]
+    HTML←∪(⎕SE.SALT.List MSRoot,'HTML -raw')[;2]
     :If yes
    
       files←'Core/'∘,¨core
@@ -47,6 +47,10 @@
    
       :For f :In 'HTML/'∘,¨HTML
         disperror ⎕SE.SALT.Load MSRoot,f,' -target=#'
+      :EndFor
+   
+      :For f :In HTML∩,⎕SE.SALT.List MSRoot,'HTML -folder'
+        ⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
       :EndFor
    
       :If 0≠⍴classes
