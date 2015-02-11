@@ -9,6 +9,8 @@
     :field public Var←''        ⍝ JavaScript variable name for created object
     :field public JQueryFn←''   ⍝ JQuery function to apply
     :field public Uses←''       ⍝ resources that will be used by this object (can be overridden by derived classes)
+    :field public shared True←{⍵⊣⍵.⎕DF'true'}⎕NS ''     ⍝ same definition as in #.JSON
+    :field public shared False←{⍵⊣⍵.⎕DF'false'}⎕NS ''   ⍝ same definition as in #.JSON
 
     ∇ Make0
       :Access public
@@ -48,30 +50,30 @@
         value←(⊂⍣((⎕DR value)∊80 82))value
         name Option¨value
       :Else
-      Set←{⍺⍺⍎'(',⍺,')←⍵'}
-      :If 0∊⍴parent←(i←-'.'⍳⍨⌽name)↓name
-        name(Options Set)value ⍝ single name: assign directly (may be more than 1 name)
-      :Else
-        :If ~'['∊parent
-          parent Options.⎕NS''
+        Set←{⍺⍺⍎'(',⍺,')←⍵'}
+        :If 0∊⍴parent←(i←-'.'⍳⍨⌽name)↓name
+          name(Options Set)value ⍝ single name: assign directly (may be more than 1 name)
         :Else
-          split←parent⍳']'              ⍝ if present, ] will be ≤⍴parent
-          :If (⍴parent)≤split+1         ⍝ if ] is in the last 2 positions
-            an←parent↑⍨¯1+lb←parent⍳'['      ⍝ find the array name
-            index←2⊃⎕VFI lb↓(split-1)↑parent ⍝ the position wanted
-            new←⎕NS¨index⍴⊂⍬
-            :If 0=Options.⎕NC an             ⍝ if it does not exist
-              an(Options Set)new           ⍝ create it as a vector
-            :EndIf
+          :If ~'['∊parent
+            parent Options.⎕NS''
+          :Else
+            split←parent⍳']'              ⍝ if present, ] will be ≤⍴parent
+            :If (⍴parent)≤split+1         ⍝ if ] is in the last 2 positions
+              an←parent↑⍨¯1+lb←parent⍳'['      ⍝ find the array name
+              index←2⊃⎕VFI lb↓(split-1)↑parent ⍝ the position wanted
+              new←⎕NS¨index⍴⊂⍬
+              :If 0=Options.⎕NC an             ⍝ if it does not exist
+                an(Options Set)new           ⍝ create it as a vector
+              :EndIf
                      ⍝ If the index is beyond the current shape, extend it
-            :If index>n←⍴now←Options⍎an
-              an((Options)Set)now,n↓new
+              :If index>n←⍴now←Options⍎an
+                an((Options)Set)now,n↓new
+              :EndIf
             :EndIf
+            (parent↓⍨1+split)(Options⍎split↑parent).⎕NS''
           :EndIf
-          (parent↓⍨1+split)(Options⍎split↑parent).⎕NS''
+          (1↓i↑name)((Options⍎parent)Set)value
         :EndIf
-        (1↓i↑name)((Options⍎parent)Set)value
-      :EndIf
       :EndIf
     ∇
 

@@ -24,13 +24,28 @@
       :Implements constructor
     ∇
 
+    ∇ make1 args
+      :Access public
+      :Implements constructor
+      Options←⎕NS''
+      Container←⎕NEW #.HtmlElement
+      :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
+      :If 0∊⍴Uses ⋄ Uses←'Syncfusion' ⋄ :EndIf
+      :If 0<⍴args←eis args
+        Selector←⊃args
+      :EndIf
+    ∇
+
+
     ∇ r←Render;d;opts;att;sel
       :Access public
       r←''
       :If 0∊⍴Selector
         Selector←'#id',¯10↑'0000000000',⍕rand ¯1+2*31
       :EndIf
-      sel←Selector
+      :If ∧/(#.Strings.uc Selector)∊#.Strings.upper ⍝ if it looks likely to be an id
+        Selector,⍨←'#' ⍝ treat it as an id
+      :EndIf
       att←''
       :Select ⊃Selector
       :Case '#' ⍝ id?

@@ -15,8 +15,8 @@
       :Access public
       :If ~0∊⍴Titles
         :For title section :InEach Titles((⊃⍴Titles)↑Sections)
-          (ControlContent.Add #._html.h3).Add #._html.a title'href="#"'
-          ControlContent.Add #._html.div section
+          (Container.Add #._html.h3).Add #._html.a title'href="#"'
+          Container.Add #._html.div section
         :EndFor
       :EndIf
       r←⎕BASE.Render
