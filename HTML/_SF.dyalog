@@ -24,6 +24,18 @@
       :Implements constructor
     ∇
 
+    ∇ make1 args
+      :Access public
+      Options←⎕NS''
+      Container←⎕NEW #.HtmlElement
+      :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
+      :If 0∊⍴Uses ⋄ Uses←'Syncfusion' ⋄ :EndIf
+      :If 0<⍴args←eis args
+        Selector←⊃args
+      :EndIf
+    ∇
+
+
     ∇ r←Render;d;opts;att;sel
       :Access public
       r←''
@@ -37,6 +49,10 @@
         Container.id←1↓Selector
       :Case '.' ⍝ class?
         Container.class←1↓Selector
+      :Else
+        :If ∧/(#.Strings.uc Select)∊#.Strings.upper ⍝ if it looks likely to be an id
+          Selector,⍨←'#' ⍝ treat it as an id
+        :EndIf
       :EndSelect
       :If ContainerType{⍵≡(⍴⍵)↑⍺}'input'
         Container.name←('.#'∊⍨⊃Selector)↓Selector

@@ -2,15 +2,17 @@
 
   (⎕IO ⎕ML)←1
 
-  ∇ r←lc r;m;upper;lower
-    lower←'abcdefghijklmnopqrstuvwxyzæøå'
-    m←r∊upper←⎕A,'ÆØÅ'
+  lower←'abcdefghijklmnopqrstuvwxyzáâãçèêëìíîïðòóôõùúûýàäåæéñöøü'
+  upper←'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÂÃÇÈÊËÌÍÎÏÐÒÓÔÕÙÚÛÝÀÄÅÆÉÑÖØÜ'
+
+
+  ∇ r←lc r;m
+    m←r∊upper
     (m/r)←lower[upper⍳m/r]
   ∇
 
-  ∇ r←uc r;m;upper;lower
-    m←r∊lower←'abcdefghijklmnopqrstuvwxyzæøå'
-    upper←⎕A,'ÆØÅ'
+  ∇ r←uc r;m
+    m←r∊lower
     (m/r)←upper[lower⍳m/r]
   ∇
 
