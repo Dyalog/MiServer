@@ -209,15 +209,19 @@
       :If isString arg
         Content,←arg
       :ElseIf ~isClass⊃arg
-        (content attr)←arg
-        :If {(isClass ⍵)∨isInstance ⍵}⊃attr
-          content←arg
-          attr←''
-        :EndIf
-        Content,←content
-        :If ~0∊⍴attr
-          SetAttr attr
-        :EndIf
+        :Trap 4 5
+          (content attr)←arg
+          :If {(isClass ⍵)∨isInstance ⍵}⊃attr
+            content←arg
+            attr←''
+          :EndIf
+          Content,←content
+          :If ~0∊⍴attr
+            SetAttr attr
+          :EndIf
+        :Else
+          Add arg
+        :EndTrap
       :Else
         Add arg
       :EndIf
