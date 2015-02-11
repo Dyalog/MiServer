@@ -234,7 +234,8 @@
     ∇ Make1 data
       :Access public
       :Implements constructor
-      Data←data
+      data←eis data
+      (Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)←6↑data,(⍴data)↓Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds
     ∇
 
     ∇ html←Render;data;atts;tda;tha;hdrrows;cellids;rowids;rows;x;head;body;table;thead;tbody
