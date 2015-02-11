@@ -26,6 +26,7 @@
 
     ∇ make1 args
       :Access public
+      :Implements constructor
       Options←⎕NS''
       Container←⎕NEW #.HtmlElement
       :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
@@ -42,17 +43,15 @@
       :If 0∊⍴Selector
         Selector←'#id',¯10↑'0000000000',⍕rand ¯1+2*31
       :EndIf
-      sel←Selector
+      :If ∧/(#.Strings.uc Selector)∊#.Strings.upper ⍝ if it looks likely to be an id
+        Selector,⍨←'#' ⍝ treat it as an id
+      :EndIf
       att←''
       :Select ⊃Selector
       :Case '#' ⍝ id?
         Container.id←1↓Selector
       :Case '.' ⍝ class?
         Container.class←1↓Selector
-      :Else
-        :If ∧/(#.Strings.uc Select)∊#.Strings.upper ⍝ if it looks likely to be an id
-          Selector,⍨←'#' ⍝ treat it as an id
-        :EndIf
       :EndSelect
       :If ContainerType{⍵≡(⍴⍵)↑⍺}'input'
         Container.name←('.#'∊⍨⊃Selector)↓Selector

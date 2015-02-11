@@ -57,7 +57,7 @@
   ∇
 
   ∇ r←isString w
-    :Access public shared 
+    :Access public shared
     r←{(0 2∊⍨10|⎕DR ⍵)∧1∊⍴⍴1/⍵}w
   ∇
 
@@ -324,16 +324,18 @@
     :Access overridable
   ∇
 
-  ∇ r←Compose list;e
+  ∇ r←Compose list;e;t
     :Access public
-    ⍝ This is the fn that does the bulk of the rendering work
-    ⍝ It lays down the look of each element
+    ⍝ do the bulk of the rendering work
     r←''
     :For e :In eis list
       :If isInstance e
         r,←e.Render
       :Else
-        r,←⍕e
+        :If 1<⍴⍴t←⍕e
+          t←∊(↓t),¨⊂'<br/>'
+        :EndIf
+        r,←t
       :EndIf
     :EndFor
   ∇
@@ -423,7 +425,12 @@
     ⍝ args can be an instance, a class, or just html/text
     :Access public
     :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
-    Content,←r←attr ParseArgs args
+    r←attr ParseArgs args
+    :Trap 4 5 ⍝ rank and length error
+      Content,←r
+    :Else
+      Content,←⊂r
+    :EndTrap
   ∇
 
   ∇ {r}←{attr}Prepend args;cl
