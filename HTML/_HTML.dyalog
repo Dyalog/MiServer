@@ -234,7 +234,7 @@
     ∇ Make1 data
       :Access public
       :Implements constructor
-      data←eis data
+      :If 1<⍴⍴data ⋄ data←,⊂data ⋄ :EndIf
       (Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)←6↑data,(⍴data)↓Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds
     ∇
 

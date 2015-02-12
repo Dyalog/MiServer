@@ -39,6 +39,7 @@
       tbl←Add #._HTML.Table('Pickers' 'Options' 'SyncFusion Docn'⍪pickers,ops,⍪docn) ⍝ 'padding=5'
       tbl.HeaderRows←1
       'border' 'padding'tbl.SetAttr¨1 5
+      tbl.CellAttr←'style="padding:5px"'
       Add br
      
       (Add div).id←'output'
