@@ -19,17 +19,20 @@
       (Selector Panes)←selector panes
     ∇
 
-    ∇ r←Render;props
+    ∇ r←Render;props;i;pre;value;name
       :Access public
      
       :If ~0∊⍴Panes
           {Container.Add #._html.div ⍵}¨Panes
       :EndIf
      
-      :If 0∨.≠⊃∘⍴¨PaneProps
-          props←'[',(¯2↓∊(#.JSON.toJQueryParameters¨PaneProps),¨⊂', '),']'
-          'properties'Option props
-      :EndIf
+      :For i :In (0≠⊃∘⍴¨PaneProps)/⍳⍴PaneProps
+          pre←'properties[',(⍕i),'].'
+          :If 2=|≡props←i⊃PaneProps ⋄ props←,⊂props ⋄ :EndIf
+          :For (name value) :In props
+              (pre,name)Option value
+          :EndFor
+      :EndFor
       'orientation'Option Orientation
      
       r←⎕BASE.Render
