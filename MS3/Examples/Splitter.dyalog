@@ -1,38 +1,45 @@
 ﻿:Class Splitter : Dyalog14 
-⍝ Demonstrate ejSplitters
-
-    ∇ make0
-      :Implements Constructor
+⍝ Demonstrate the SyncFusion ejSplitter widget
+    
+    ∇ Render;f;docn;ops;tbl;splitter;outeropt;inneropt;inner;outer;z
       :Access Public
      
       splitter←_SF.ejSplitter
      
       outeropt←↑('height' '100px')('width' '300px')('enableAnimation'False)
-      inneropt←↑('height' '99px')('width' '92px')('animationSpeed' 3000) ⍝ slow expand/collapse
-    ∇
-    
-    ∇ Render;f;docn;ops;tbl
-      :Access Public
+      inneropt←↑('height' '92px')('animationSpeed' 3000) ⍝ slow expand/collapse
      
       Add h3'SyncFusion Splitters'
       Add p'Click to read <a href="',splitter.ApiLink,'" target="_blank">Syncfusion documentation</a>.'
      
-      (inner←⎕NEW splitter('#inner'('TOP inner' 'BOTTOM inner'))).Orientation←'vertical'
+      (inner←⎕NEW splitter('#inner'('TOP inner' 'BOTTOM<br>inner<br>with 3 lines'))).Orientation←'vertical'
       inner.Option/inneropt
-      inner.PaneProps←('paneSize' 60)('paneSize' 20)
+      inner.PaneProps←('paneSize' 20)('paneSize' 65)
      
       (Add outer←⎕NEW splitter('#outer'('LEFT<br>outer'inner))).Orientation←'horizontal'
       outer.Option/outeropt
-      outer.PaneProps←('paneSize' 200)⍬
+      outer.PaneProps←('paneSize' 175)⍬
      
       (outer inner).On⊂'resize' 'APLJax'('stuff' 'ejModel')
       Add br
      
       (Add div).id←'output'
+     
+      ⍝ Add Style ToDo for BPB
+      ⍝<style type="text/css" class="cssStyles">
+      ⍝  #outer {
+      ⍝      margin: 0 auto;
+      ⍝  }
+      ⍝  .cont {
+      ⍝      padding: 10px 0 0 30px;
+      ⍝  }
+      ⍝</style>
+     
     ∇
     
     ∇ r←APLJax
       :Access public   
+      ⍝ display name of splitter and sizes of sub-panes
      
       r←'#output'Replace,⍕_what _PageData.stuff.model.properties.paneSize
     ∇
