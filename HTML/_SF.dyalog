@@ -94,56 +94,57 @@
       data,←', _what: this._id'
       data,←(isString callback)/', _callback: ',quote callback
       data←2↓data
+      :Select |≡clientdata
+      :CaseList 0 1  ⍝ simple vector
+        clientdata←,⊂2⍴⊂clientdata ⍝ name/id are set to the same
+      :Case 2
+        clientdata←,⊂clientdata
+      :EndSelect
      
-      :If 2=|≡clientdata ⋄ clientdata←,⊂clientdata ⋄ :EndIf
       :For cd :In clientdata
         cd←eis cd
         (name id type what)←4↑cd,(⍴cd)↓4⍴⊂''
+     
         :If ~0∊⍴name
-          :If 'ejModel'≡name
-            name←'_ejModel'
-            type←'JSONSubset(argument.model,',(quote id),')'
+          :Select id
+          :CaseList 'attr' 'css' 'html' 'is' 'serialize' 'val' 'eval' 'argument' ⍝ no selector specified, use evt.target
+            (type what)←id type
+            id←''
+          :Case 'string'
+            (type what)←id(quote type)
+            id←''
+          :Case ''
+            id←quote'#',name
+          :Case 'ejModel'
+            name,←'_ejModel'
+            type←'JSON.stringify(argument)'
             id←''
           :Else
-            :Select id
-            :CaseList 'attr' 'css' 'html' 'is' 'serialize' 'val' 'eval' 'argument' 'ejModel'  ⍝ no selector specified, use evt.target
-              (type what)←id type
+            :If 'argument.'{⍺≡(⍴⍺)↑⍵}id
+              (type what)←2↑{⎕ML←3 ⋄ ⍵⊂⍨⍵≠'.'}id
               id←''
-            :Case 'string'
-              (type what)←id(quote type)
-              id←''
-            :Case ''
-              id←quote'#',name
             :Else
-              :If 'argument.'{⍺≡(⍴⍺)↑⍵}id
-                (type what)←2↑{⎕ML←3 ⋄ ⍵⊂⍨⍵≠'.'}id
-                id←''
-              :Else
-                id←quote id
-              :EndIf
-            :EndSelect
+              id←quote id
+            :EndIf
+          :EndSelect
      
-            :Select type
-            :Case 'eval'
-              type←what
-            :Case 'argument'
-              type←type,'.',what
-            :Case ''
-              type←'val()'
-            :Case 'string'
-              type←what
-            :Case 'ejModel'
-              name,←'_ejModel'
-              type←'JSONSubset(argument.model,',(quote what),')'
-            :Else
-              :If type≡'serialize'
-                name,←'_serialized'
-              :EndIf
-              type←type,'(',(what ine quote what),')'
-            :EndSelect
-          :EndIf
-          data,←',',name,': ',(id ine'$(',id,').'),type
+          :Select type
+          :Case 'eval'
+            type←what
+          :Case 'argument'
+            type←type,'.',what
+          :Case ''
+            type←'val()'
+          :Case 'string'
+            type←what
+          :Else
+            :If type≡'serialize'
+              name,←'_serialized'
+            :EndIf
+            type←type,what ine'(',(quote what),')'
+          :EndSelect
         :EndIf
+        data,←',',name,': ',(id ine'$(',id,').'),type
       :EndFor
      
       dtype←'"json"'

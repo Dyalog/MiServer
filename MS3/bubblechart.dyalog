@@ -4,7 +4,7 @@
       :Access public
       Add h2'ejChart (type:bubble)'
       tc←Add _SF.ejChart
-      tc.Container←'#bubble'
+      tc.Selector←'#bubble'
      
       'primaryXAxis.title.text'tc.Option'US Dollars'
       'primaryXAxis.Range.Min'tc.Option 3000
