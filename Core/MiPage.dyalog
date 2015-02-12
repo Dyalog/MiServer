@@ -20,6 +20,8 @@
   :field public _JSS  ⍝ JavaScript Snippets
   :field public _DC   ⍝ Dyalog Controls
   :field public Tag←#.HtmlElement
+  :field public shared True←{⍵⊣⍵.⎕DF'true'}⎕NS ''     ⍝ same definition as in #.JSON
+  :field public shared False←{⍵⊣⍵.⎕DF'false'}⎕NS ''   ⍝ same definition as in #.JSON
 
   ∇ Make
     :Access public
