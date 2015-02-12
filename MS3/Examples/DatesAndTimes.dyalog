@@ -26,7 +26,7 @@
       options←↑¨(⊂⊂'width' 250),¨options ⍝ All of them
     ∇
     
-    ∇ Render;f;docn;ops;tbl
+    ∇ Render;f;docn;ops;tbl;hdrs
       :Access Public
      
       docn←names{⎕NEW _html.a((⍺,'Picker</p>')('href="',⍵.ApiLink,'" target="_blank"'))}¨controls
@@ -36,7 +36,8 @@
       pickers.{Option/⍵}options
       pickers.{On'change' 1(⍵('#',⍵))}names
       ops←{∊(⍵[;1],¨⊂': '),¨(⍕¨⍵[;2]),¨⊂', <br>'}¨1↓¨options
-      tbl←Add #._HTML.Table('Pickers' 'Options' 'SyncFusion Docn'⍪pickers,ops,⍪docn) ⍝ 'padding=5'
+      hdrs←'<b>Pickers</b>' '<b>Options</b>' '<b>SyncFusion Docn</b>'
+      tbl←Add #._HTML.Table(hdrs⍪pickers,ops,⍪docn) ⍝ 'padding=5'
       tbl.HeaderRows←1
       'border' 'padding'tbl.SetAttr¨1 5
       tbl.CellAttr←'style="padding:5px"'

@@ -19,7 +19,6 @@
       (Selector Panes)←selector panes
     ∇
 
-
     ∇ r←Render;props
       :Access public
      
