@@ -254,6 +254,17 @@
   </resource>
 
   <resource>
+    <name>ejListBox</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
+    <name>ejListView</name>
+    <uses>Syncfusion</uses>
+  </resource>
+
+  <resource>
     <name>ejMap</name>
     <uses>Syncfusion</uses>
     <uses>jsrender</uses>
