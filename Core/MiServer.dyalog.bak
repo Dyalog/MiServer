@@ -23,7 +23,6 @@
   toutf8←{'UTF-8' ⎕UCS ⍵}                          ⍝ Turn text into UTF-8 byte stream
   setting←{0=⎕NC ⍵:⍺ ⋄ ⍎⍵}
   endswith←{(,⍺){⍵≡⍺↑⍨-⍴⍵},⍵}
-  I85←{}
 
     bit←{⎕IO←0  ⍝ used by Log
       0=⍺:0 ⍝ all bits turned off
@@ -124,7 +123,7 @@
     :If Config.TrapErrors>0
       ⎕TRAP←#.DrA.TrapServer
       #.DrA.NoUser←1+#.DrA.MailRecipient∨.≠' '
-    :EndIf ⍝ Trap MiServer Errors. See HandleMSP for Page Errors.
+    :EndIf ⍝ Trap MildServer Errors. See HandleMSP for Page Errors.
    
     onServerStart ⍝ meant to be overridden
    
@@ -207,11 +206,6 @@
     Logger.Log←{}
     Logger.Stop←{}
     Logger.Start←{}
-    :If {0::1 ⋄ 85⌶⍵}'0' ⍝ Need a left arg?
-      I85←0∘85⌶          ⍝ Yes: Whatever left arg you want in your application
-    :Else ⋄ I85←85⌶      ⍝ No
-    :EndIf
-   
    
     Config←config
     :If 0≠⊃rc←¯1 #.DRC.Init''
@@ -530,7 +524,7 @@
         fn←cb
       :Else
         1 Log'Method "',cb,'" not found (or not public) in page "',REQ.Page,'"'
-        REQ.Fail 500
+        REQ.Fail 500 #.HTTPRequest.Fail
       :EndIf
    
       :If ~0∊⍴fn
@@ -539,7 +533,7 @@
         :EndIf
    
         :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
-   EXEC:  resp←I85'inst.',fn,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
+          resp←85⌶'inst.',fn,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
           resp←(#.JSON.toAPLJAX⍣APLJax)resp
           REQ.Return resp
         :Else

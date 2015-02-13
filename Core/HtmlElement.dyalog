@@ -58,7 +58,18 @@
 
   ∇ r←isString w
     :Access public shared
-    r←{(0 2∊⍨10|⎕DR ⍵)∧1∊⍴⍴1/⍵}w
+    :Select ≡w
+    :Case 2
+      :If 1=⍴,w
+        r←{(0 2∊⍨10|⎕DR ⍵)∧1∊⍴⍴1/⍵}⊃w
+      :Else
+        r←0
+      :EndIf
+    :CaseList 0 1
+      r←{(0 2∊⍨10|⎕DR ⍵)∧1∊⍴⍴1/⍵}w
+    :Else
+      r←0
+    :EndSelect
   ∇
 
   ∇ r←quote w
@@ -289,7 +300,7 @@
     :If ~0∊⍴Handlers
       :If UNDEF≡myid←id
       :AndIf ''≡myid←⊃Attr[⊂'id']
-        id←myid←'id',¯10↑'0000000000',⍕rand ¯1+2*31
+        id←myid←GenId
       :EndIf
       :For h :In Handlers
         h.Selectors←'#',myid
@@ -487,6 +498,11 @@
   ∇ Describe
     :Access public overridable
     ∘∘∘
+  ∇
+
+  ∇ r←GenId
+    :Access public shared
+    r←'id',¯10↑'0000000000',⍕rand ¯1+2*31
   ∇
   :endsection
 
