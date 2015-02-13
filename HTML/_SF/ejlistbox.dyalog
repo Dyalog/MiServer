@@ -3,7 +3,6 @@
     :Field Public Shared Readonly ApiLevel←3
     
     :Field Public Items←0⍴⊂''
-    :Field Public SubItems←0⍴⊂''
     :Field Public Checked←⍬
     :Field Public Selected←⍬
    
@@ -41,16 +40,19 @@
       (Selector Items Selected Checked SubItems)←args,(5-⍴args)⍴⊂⍬
     ∇
 
-    ∇ r←Render;props;i;pre;value;name;l1
+    ∇ r←Render;props;i;pre;value;name;fields;var
       :Access public
      
       :If 1=⍴⍴Items
           Container.Add∘⎕NEW¨↓#._html.li,⍪Items
       :Else
-          ∘
+          fields←Items[1;]
+          'A ''text'' column must be provided'⎕SIGNAL((⊂'text')∊fields)↓11
+          var←⎕NEW #._HTML.Script('var ',Selector,'Src = ',#.JSON.fromAPL fields #.JSON.formatData 1↓Items)
+          'dataSource'Option Selector,'Src'
       :EndIf
      
-      r←⎕BASE.Render
+      r←var.Render,⎕BASE.Render
     ∇
 
 :EndClass

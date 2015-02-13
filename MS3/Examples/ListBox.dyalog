@@ -1,21 +1,27 @@
 ﻿:Class ListBox : Dyalog14 
-⍝ Demonstrate the SyncFusion ejSplitter widget
+⍝ Demonstrate the SyncFusion ejListBox widget
     
-    ∇ Render;f;docn;options;listbox
+    ∇ Render;f;docn;foptions;listbox;fruits;groups;fitems;gitems;goptions
       :Access Public
      
       listbox←_SF.ejListBox
      
-      options←↑('height' '200px')('width' '200px')
+      goptions←↑('height' '200px')('width' '100px')⍝('cascadeTo' 'fruits')
+      foptions←↑('height' '200px')('width' '100px')
      
       Add h3'SyncFusion ListBox'
       Add p'Click to read <a href="',listbox.ApiLink,'" target="_blank">Syncfusion documentation</a>.'
      
-      items←'Apples' 'Oranges' 'Pears' 'Lemons'
-      Add l1←⎕NEW listbox('l1'items)
-      l1.Option/options
+      fitems←'parentId' 'text'⍪'not' 'citrus' 'not' 'citrus',⍪'Apples' 'Oranges' 'Pears' 'Lemons'
+      gitems←'value' 'parentId' 'text'⍪1 2,'citrus' 'other',⍪'Citrus' 'Other'
      
-      l1.On'selected' 'APLJax'('stuff' 'ejModel')
+      groups←⎕NEW listbox('groups'gitems)
+      fruits←⎕NEW listbox('fruits'fitems)
+      groups.Option/goptions
+      fruits.Option/foptions
+      Add _HTML.Table(1 2⍴groups fruits)
+     
+      (groups fruits).On⊂'selected' 'APLJax'('stuff' 'ejModel')
       Add br
      
       (Add div).id←'output'
@@ -25,7 +31,7 @@
       :Access public   
       ⍝ display name of splitter and sizes of sub-panes
      
-      r←'#output'Replace,⍕'selected:'_PageData.stuff.model.selectedItemIndex
+      r←'#output'Replace,⍕_what _PageData.stuff.model.selectedItemIndex
     ∇
 
 :EndClass
