@@ -35,7 +35,7 @@
         
     ∇ makec args
       :Access public
-      JQueryFn←Uses←'ejSplitter'
+      JQueryFn←Uses←'ejListBox'
       ContainerType←'ul'
       :Implements constructor                           
       (Selector Items Selected Checked SubItems)←args,(5-⍴args)⍴⊂⍬
