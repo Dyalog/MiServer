@@ -224,14 +224,12 @@
       :Select t ⍝ Content type
       :CaseList 'plain/text' 'text/plain' 'text/html' '' ⍝ These are already processed
           ⍝ :Trap 92 ⋄ data←'UTF-8'⎕UCS ⎕UCS data ⋄ :EndTrap ⍝ From UTF-8 (will probably fail in Classic)
-      :CaseList 'text/xml' 'application/msword' 'application/pdf' 'application/octet-stream' 'image/gif' 'image/pjpeg' 'image/bmp' 'application/x-zip-compressed' 'application/vnd.ms-excel'
+      :Else 'text/xml' 'application/msword' 'application/pdf' 'application/octet-stream' 'image/gif' 'image/pjpeg' 'image/bmp' 'application/x-zip-compressed' 'application/vnd.ms-excel'
           :If (⍴d)≥i←9+('filename="'⍷d)⍳1
               filename←(¯1+filename⍳'"')↑filename←i↓d
           :Else ⋄ filename←''
           :EndIf
           data←filename data
-      :Else
-          ∘
       :EndSelect
       r←name data
     ∇
