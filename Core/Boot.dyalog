@@ -241,6 +241,7 @@
     Config.Lang←Config Setting'Lang' 0 'en'
     Config.LogMessageLevel←Config Setting'LogMessageLevel' 1 1 ⍝ default to error messages only
     Config.Logger←Config Setting'Logger' 0 ''
+    Config.MSRoot←MSRoot
     Config.Name←Config Setting'Name' 0 'MiServer'
     Config.Port←Config Setting'Port' 1 8080
     Config.Rest←Config Setting'Rest' 1 0 ⍝ RESTful web service?
@@ -412,6 +413,32 @@
     r←(#.Strings.subst∘('%SiteRoot%'(¯1↓AppRoot)))r
   ∇
 
+
+  ∇ r←Oops;⎕TRAP;dmx;ends;xsi
+    ⎕TRAP←0⍴⎕TRAP
+    ends←{(,⍺)≡(-⍴,⍺)↑⍵}
+    :Select ⎕DMX.EN
+    :Case 801
+      ⎕←xsi←⎕XSI
+      :If '.HandleMSP'ends 2⊃xsi
+        r←'→FAIL'
+      :ElseIf '.HandleMSP'ends 4⊃xsi
+      :AndIf '.Render'ends 3⊃xsi
+        r←'⎕SIGNAL 812'
+      :Else
+        r←'⎕SIGNAL 811'
+      :EndIf
+    :Else
+      dmx←⎕DMX
+      ⎕←'*** MiServer Debug ***'
+      ⎕←'' 'occurred at:',⍪dmx.(EM(2⊃DM))
+      ⎕←↑1↓⎕XSI
+      ⎕←''
+      ⎕←'      ⎕SIGNAL 800 ⍝ to ignore and carry on'
+      ⎕←'      ⎕SIGNAL 801 ⍝ to cut back and debug'
+      r←''
+    :EndSelect
+  ∇
   :endsection
 
 :EndNamespace

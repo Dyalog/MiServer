@@ -73,7 +73,7 @@
       handler.(Event Callback ClientData JavaScript)←4↑args,(⍴args)↓'' 1 '' ''
       :If 0∊n←⍴eventHandlers
         eventHandlers,←handler
-      :ElseIf n<i←eventHandlers.event⍳⊂handler.event
+      :ElseIf n<i←eventHandlers.Event⍳⊂handler.Event
         eventHandlers,←handler
       :Else
         eventHandlers[i]←handler
