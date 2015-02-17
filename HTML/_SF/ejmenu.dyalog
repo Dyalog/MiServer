@@ -70,7 +70,7 @@
 
     ∇ r←Render;link;i;li
       :Access public
-      Container.Content←MakeTree Level Text Href
+      Container.Add MakeTree Level Text Href
       r←⎕BASE.Render
     ∇
 
