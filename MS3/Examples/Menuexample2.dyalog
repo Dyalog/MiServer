@@ -10,9 +10,9 @@
       items←↓⍉tmp[;1 3],⊂''
       'width'(Add _SF.ejMenu items).Option 632
      
-      t←'<style type="text/css" class="cssStyles">.imgframe{background: url("menupix.png")'
-      t,←' no-repeat scroll 0 0 transparent;width: 615px;height: 213px;margin: 0 auto;}</style>'
-      Add t
+⍝      t←'<style type="text/css" class="cssStyles">.imgframe{background: url("menupix.png")'
+⍝      t,←' no-repeat scroll 0 0 transparent;width: 615px;height: 213px;margin: 0 auto;}</style>'
+⍝      Add t
     ∇
     
     ∇ lines←example

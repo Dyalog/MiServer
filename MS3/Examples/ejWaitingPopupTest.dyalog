@@ -2,10 +2,17 @@
 
 
     ∇ Render;wp;ct
-      :Access public
-      ct←Add div'Cool stuff coming <b>very</b> soon...<br>'
-      ct.Add img'' 'src="http://js.syncfusion.com/demos/web/themes/default-theme/images/waitingpopup.gif" alt="spinning wheel"'
-      wp←Add _SF.ejWaitingPopup'aaa'ct
+      :Access public 
+     ⍝ Two objects are added into the Body of the page
+     
+     ⍝ First the text
+      ct←⎕NEW div'Cool stuff coming <b>very</b> soon...<br>'
+     ⍝ then the image
+      ct.Add img'' 'src="waitingpopup.gif" alt="spinning wheel"'
+     
+     ⍝ Finally we add the Syncfusion object to which is linked
+     ⍝ the first object
+      wp←Add _SF.ejWaitingPopup''ct
       'showOnInit'wp.Option True
     ∇
 
