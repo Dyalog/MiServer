@@ -3,7 +3,8 @@
 
     ∇ Render
       :Access public
-      'showOnInit' (Add _SF.ejWaitingPopup).Option True
+	  'showOnInit' (Add _SF.ejWaitingPopup).Option True
+	  
     ∇
 
 :EndClass
