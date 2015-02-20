@@ -25,10 +25,10 @@
         urls←#.Files.LikelyURL¨sections
         ids←'#ejTab'∘,∘⍕¨⍳⍴Titles
         (urls/ids)←urls/Sections
-        (ControlContent.Add _html.ul).Add¨Titles{⎕NEW _html.li(⎕NEW _html.a(⍺('href="',⍵,'"')))}¨ids
+        (Container.Add _html.ul).Add¨Titles{⎕NEW _html.li(⎕NEW _html.a(⍺('href="',⍵,'"')))}¨ids
         :For id section :InEach ids sections
           :If '#'=1↑id
-            (ControlContent.Add section).id←1↓id
+            (Container.Add section).id←1↓id
           :EndIf
         :EndFor
         :If ∨/urls

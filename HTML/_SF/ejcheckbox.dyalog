@@ -9,7 +9,7 @@
       JQueryFn←Uses←'ejCheckBox'
       ContainerType←'input'
       :Implements constructor
-      ControlContent.type←'checkbox'
+      Container.type←'checkbox'
     ∇
 
 
