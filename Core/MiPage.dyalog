@@ -11,6 +11,7 @@
   :field Public _event        ⍝ set be APLJAX callback - event that was triggered
   :field Public _what         ⍝ set be APLJAX callback - id of the triggering element
   :field public _PageData
+  :field public _AjaxResponse←''
   :field public OnLoad←''     ⍝ page equivalent to ⎕LX
   :field public _html ⍝ base HTML elements
   :field public _HTML ⍝ "Enhanced" HTML elements
@@ -116,13 +117,21 @@
     :EndIf
   ∇
 
-
-
   ∇ Close session ⍝ Called when the session ends
     :Access Public Overridable
   ∇
 
   :section APLJax  ⍝ used for building APLJAX responses
+  ∇ _resetAjax
+    :Access public
+    _AjaxResponse←''
+  ∇
+
+  ∇ Respond arg
+    :Access public
+    ∘∘∘
+  ∇
+
   ∇ r←selector Replace content
     :Access public
     :If 326=⎕DR content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
@@ -168,5 +177,13 @@
     r←{0::0 ⋄ _Request.IsPost}⍬
   ∇
   :endsection
+
+  ∇ Inspect;⎕TRAP
+    :Access public
+  ⍝ allow
+    ⎕TRAP←0⍴⎕TRAP
+    ∘∘∘
+  ∇
+
 
 :EndClass

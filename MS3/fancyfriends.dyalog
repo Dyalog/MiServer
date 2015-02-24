@@ -8,7 +8,7 @@
       Add h2'ejTagCloud'
       Add a'Reset'('href'_Request.Page)
       tc←Add _SF.ejTagCloud
-      tc.Container←'#tagcloud'
+      tc.Selector←'#tagcloud'
       :If 0∊⍴index←⍬ Get'index'
           SELECTED←⍳⍴FRIENDS
           name←'Friend Clouds'

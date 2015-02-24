@@ -6,7 +6,7 @@
     r←{↑⍵∘{6::⍵'' '' ⋄ ⍵(⍺⍎⍵,'.(ApiLevel ApiLink)')}¨'e'⍵.⎕NL-9.4}⎕THIS
   ∇
 
-  :class _ejObject : #._JQ.JQObject
+  :class _ejObject : #._JQ._jqObject
 ⍝ generic Syncfusion Enterprise JavaScript object
     :field public ContainerType←'div'
     :field public Data←''
@@ -143,8 +143,8 @@
             :EndIf
             type←type,what ine'(',(quote what),')'
           :EndSelect
+          data,←',',name,': ',(id ine'$(',id,').'),type
         :EndIf
-        data,←',',name,': ',(id ine'$(',id,').'),type
       :EndFor
      
       dtype←'"json"'

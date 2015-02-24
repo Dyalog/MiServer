@@ -40,12 +40,14 @@
 
     ∇ Stop w
       :Access public
-      Active←0
       :Trap 0
-          ⎕TKILL tid
-          :If Open
-              ClearCache
-              Close
+          :If Active
+              Active←0
+              ⎕TKILL tid
+              :If Open
+                  ClearCache
+                  Close
+              :EndIf
           :EndIf
       :EndTrap
     ∇

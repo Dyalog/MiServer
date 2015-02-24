@@ -149,6 +149,7 @@
               :CaseList 'Block' 'BlockLast'
                   :If 0=⎕NC nspc←SpaceName 2⊃wres
                       nspc ⎕NS''
+                      (⍎nspc).(Pos Buffer ContentLength Req)←0 '' 0 ''
                       :If 0=1⊃z←#.DRC.GetProp(2⊃wres)'PeerAddr' ⋄ (⍎nspc).PeerAddr←2⊃z
                       :Else ⋄ (⍎nspc).PeerAddr←'Unknown'
                       :EndIf
@@ -156,13 +157,14 @@
                           rc z←#.DRC.GetProp(2⊃wres)'PeerCert'
                           :If rc=0 ⋄ (⍎nspc).PeerCert←z
                           :Else
-                              ∘
+                              1 Log'Unable to obtain peer certificate over secure connection - request ignored'
+                              ⎕EX nspc
                           :EndIf
                       :EndIf
                   :EndIf
-                  {}(⍎nspc)HandleRequest&wres[2 4] ⍝ Run page handler in new thread
-                  :If 'BlockLast'≡3⊃wres
-                      ⎕EX nspc
+     
+                  :If 0≠⎕NC nspc
+                      {}(⍎nspc){⎕EX nspc/⍨('BlockLast'≡3⊃⍵)∧⍺ HandleRequest(2↑⍵)}&wres[2 4 3] ⍝ Run page handler in new thread
                   :EndIf
      
               :Case 'Connect' ⍝ Ignore
@@ -186,7 +188,6 @@
           :Else
               1 Log'#.DRC.Wait failed:'
               1 Log wres
-              ∘∘∘
           :EndSelect
      
       :EndWhile
@@ -207,12 +208,11 @@
       Logger.Log←{}
       Logger.Stop←{}
       Logger.Start←{}
-      :If {0::1 ⋄ 85⌶⍵}'0' ⍝ Need a left arg?
-          I85←0∘85⌶          ⍝ Yes: Whatever left arg you want in your application
-      :Else ⋄ I85←85⌶      ⍝ No
+      :If {0::1 ⋄ 85⌶'0'}'' ⍝ Need a left arg?
+          I85←1∘(85⌶)
+      :Else
+          I85←85⌶
       :EndIf
-     
-     
       Config←config
       :If 0≠⊃rc←¯1 #.DRC.Init''
           ('Unable to initialize Conga. rc=',,⍕rc)⎕SIGNAL 11
@@ -275,32 +275,40 @@
 
     :section RequestHandling
 
-    ∇ conns HandleRequest arg;buf;m;Answer;obj;CMD;pos;req;Data;z;r;hdr;I;REQ;status;file;tn;length;done;offset;res;closed;sess;chartype;raw;enc;which;html;encoderc;encodeMe;startsize;cacheMe;root;page;filename;eoh;n
+    ∇ r←conns HandleRequest arg;buf;m;Answer;obj;CMD;pos;req;Data;z;r;hdr;REQ;status;file;tn;length;done;offset;res;closed;sess;chartype;raw;enc;which;html;encoderc;encodeMe;startsize;cacheMe;root;page;filename;eoh;n;i
       ⍝ Handle a Web Server Request
-     
+      r←0
       obj buf←arg
-      :If 0=conns.⎕NC'Buffer'
-          conns.Buffer←''
-      :EndIf
       conns.Buffer,←buf
       conns.Handler←{6::conns.Handler←(⎕UCS'<env>')≡5↑conns.Buffer ⋄ conns.Handler}⍬ ⍝ are we serving as a mapping handler?
-      eoh←⎕UCS(1+conns.Handler)⊃(NL,NL)('</env>') ⍝ end of header marker
-      pos←(¯1+⍴eoh)+eoh FindFirst conns.Buffer
-      req←fromutf8 pos↑conns.Buffer
      
-      :If pos>⍴conns.Buffer ⍝ Have we got everything ?
-          :Return
-      :ElseIf pos>I←(z←LF,'content-length:')FindFirst hdr←#.Strings.lc req
-      :AndIf (⍴conns.Buffer)<pos+↑2⊃⎕VFI(¯1+z⍳CR)↑z←(¯1+I+⍴z)↓hdr
-          :Return ⍝ a content-length was specified but we haven't yet gotten what it says to ==> go back for more
+      :If 0=conns.Pos ⍝ is we haven't found the end of the header yet...
+          eoh←⎕UCS(1+conns.Handler)⊃(NL,NL)('</env>') ⍝ end of header marker
+          pos←(¯1+⍴eoh)+eoh FindFirst conns.Buffer
+          :If pos≤⍴conns.Buffer ⍝ found the end of header
+              conns.Pos←pos
+              conns.Req←fromutf8 conns.(Pos↑Buffer)
+          :Else
+              :Return ⍝ haven't found end of header yet, go back for more
+          :EndIf
       :EndIf
-      conns.Buffer←fromutf8 pos↓conns.Buffer
+     
+      :If 0<⍴conns.Req
+          :If conns.Pos>i←(z←LF,'content-length:')FindFirst hdr←#.Strings.lc conns.Req
+          :AndIf (⍴conns.Buffer)<conns.Pos+conns.ContentLength←⊃2⊃⎕VFI(¯1+z⍳CR)↑z←(¯1+i+⍴z)↓hdr
+              :Return  ⍝ a content-length was specified but we haven't yet gotten what it says to ==> go back for more
+          :EndIf
+      :EndIf
+     
+      conns.Buffer←fromutf8 conns.(Pos↓Buffer)
+     
       :If conns.Handler  ⍝ if we're running as a mapping handler
-          (req conns.Buffer)←MakeHTTPRequest req ⍝ fake MiServer out by building an HTTP request from what we've got
+          conns.(Req Buffer)←MakeHTTPRequest conns.Req ⍝ fake MiServer out by building an HTTP request from what we've got
       :EndIf
+     
       :Hold 'Request'
      
-          REQ←⎕NEW #.HTTPRequest(req conns.Buffer)
+          REQ←⎕NEW #.HTTPRequest conns.(Req Buffer)
           REQ.Server←⎕THIS ⍝ Request will also contain reference to the Server
      
           :If 2=conns.⎕NC'PeerAddr' ⋄ REQ.PeerAddr←conns.PeerAddr ⋄ :EndIf       ⍝ Add Client Address Information
@@ -416,12 +424,13 @@
           :If res.File ⋄ ⎕NUNTIE tn ⋄ :EndIf
           8 Log REQ.PeerAddr status
           Logger.Log REQ
+          r←1
       :EndHold
     ∇
 
     ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax
     ⍝ Handle a "Mildserver Page" request
-     
+     RETRY:
       :If 0≡date←3⊃(,''#.Files.List file),0 0 0
           REQ.Fail 404 ⋄ →0
       :EndIf
@@ -507,9 +516,6 @@
                   ⍎'inst._PageData.(',(⍕args[;1]),')←args[;2]'
               :EndIf
           :EndIf
-          :If (1=Config.TrapErrors)∧9=⎕NC'#.DrA' ⋄ ⎕TRAP←#.DrA.TrapServer
-          :Else ⋄ ⎕TRAP←0 'S'
-          :EndIf
      
           fn←''
           cb←'Render'                 ⍝ default function to call
@@ -534,12 +540,22 @@
           :EndIf
      
           :If ~0∊⍴fn
-              :If MS3∧fn≡'Render'
-                  inst._init ⍝ reset instance's content
+              :If MS3
+                  :If fn≡'Render'
+                      inst._init ⍝ reset instance's content
+                  :ElseIf APLJax
+                      inst._resetAjax
+                  :EndIf
               :EndIf
      
+              :If (1=Config.TrapErrors)∧9=⎕NC'#.DrA' ⋄ ⎕TRAP←#.DrA.TrapServer
+              :Else ⍝⋄ ⎕TRAP←(800 'C' '→FAIL')(811 'E' '⎕SIGNAL 801')(812 'S')(0 'E' '⍎#.Boot.Oops')
+              :EndIf
+     
+     EXEC:
               :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
-     EXEC:        resp←I85'inst.',fn,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
+                  resp←I85'inst.',fn,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
+                  ⍬ ⎕STOP'HandleMSP'
                   resp←(#.JSON.toAPLJAX⍣APLJax)resp
                   REQ.Return resp
               :Else
@@ -561,6 +577,15 @@
           :EndIf
       :EndHold
       →0
+     
+     DEBUG:
+      ⎕TRAP←0⍴⎕TRAP
+      EXEC ⎕STOP'MiServer'
+      →RETRY
+     
+     FAIL:
+      ⎕TRAP←0⍴⎕TRAP
+      REQ.Fail 500 ⋄ →0
      
      RESUME: ⍝ RESUME is used by DrA
       ⎕TRAP←0/⎕TRAP ⍝ Let framework trapping take over
@@ -641,6 +666,7 @@
     ∇ r←IsWin
       r←'Win'≡3↑1⊃'.'⎕WG'APLVersion'
     ∇
+
     :endsection
 
 :EndClass

@@ -2,7 +2,7 @@
   (⎕IO ⎕ML)←1
 
 ⍝ --- Base Classes ---
-  :class JQObject : #.HtmlElement
+  :class _jqObject : #.HtmlElement
     :field public Selector←''   ⍝ Selector to apply the JQuery function to
     :field public Options←''    ⍝ options for the object to be created
     :field public JavaScript←'' ⍝ additional JavaScript to run, can be function chain, separate code or both
@@ -83,13 +83,18 @@
       :If 1=⍴r ⋄ r←⊃r ⋄ :EndIf ⍝ if single setting requested
     ∇
 
+    ∇ r←SetOption args
+      :Access public
+      ∘∘∘
+    ∇
+
     ∇ r←Render
       :Access public
       r←#.JQ.JQueryfn JQueryFn Selector(#.JSON.toJQueryParameters Options)JavaScript Var
     ∇
   :endclass
 
-  :class JQUIWidget : JQObject
+  :class _jqUIWidget : _jqObject
 
     ∇ Make1 pars
       :Access public
@@ -98,7 +103,7 @@
     ∇
   :endclass
 
-  :class JQTabbedWidget :JQUIWidget
+  :class _jqTabbedWidget : _jqUIWidget
     :field public Titles←''
     :field public Id←''
     :field public Tabs←''
@@ -163,241 +168,6 @@
     ∇
 
   :endclass
-
-⍝ --- Widgets ---
-  :section Widgets
-
-  :class jqAccordion : JQTabbedWidget
-
-    ∇ Make0
-      :Access public
-      :Implements constructor :base
-      Widget._function←#.JQUI.Accordion
-    ∇
-
-    ∇ Make1 pars
-      :Access public
-      :Implements constructor :base pars
-      Widget._function←#.JQUI.Accordion
-    ∇
-
-  :endclass
-
-  :class jqAutocomplete : JQUIWidget
-
-    :field public Terms←''
-
-    ∇ Make0
-      :Access public
-      :Implements constructor
-      JQueryFn←'autocomplete'
-    ∇
-
-    ∇ Make1 pars
-      :Access public
-      pars←(⊂'autocomplete'),eis pars
-      :Implements constructor :base pars
-    ∇
-
-    ∇ r←Render;t;opt
-      :Access public
-      :If ~0∊⍴Terms
-        t←#.JSON.toJQueryParameters'source'Terms
-        :If 0∊⍴Options ⋄ opt←t
-        :ElseIf 2>|≡Options
-          :If '{}'={(1↑⍵),¯1↑⍵}Options ⋄ opt←(¯1↓Options),',',1↓t
-          :Else ⋄ opt←'{',Options,',',1↓t
-          :EndIf
-        :Else ⋄ opt←(¯1↓#.JSON.toJQueryParameters Options),',',1↓t
-        :EndIf
-        Options←opt
-      :EndIf
-      r←⎕BASE.Render
-    ∇
-  :EndClass
-
-  :Class jqButton : JQUIWidget ⍝!!!
-    ∇ Make0
-      :Access public
-      :Implements constructor
-      JQueryFn←'button'
-    ∇
-
-    ∇ Make1 pars
-      :Access public
-      pars←(⊂'button'),eis pars
-      :Implements constructor :base pars
-    ∇
-  :EndClass
-
-  :class jqButtonset : JQUIWidget
-    ∇ Make0
-      :Access public
-      :Implements constructor
-      JQueryFn←'buttonset'
-    ∇
-
-    ∇ Make1 pars
-      :Access public
-      pars←(⊂'buttonset'),eis pars
-      :Implements constructor :base pars
-    ∇
-  :endclass
-
-  :Class jqDatePicker: JQUIWidget
-
-    :field public Input←'' ⍝ input element to hold datepicker
-
-    ∇ Make0
-      :Access public
-      :Implements constructor
-      JQueryFn←'datepicker'
-    ∇
-
-    ∇ Make1 pars
-      :Access public
-      :If 0 2∊⍨10|⎕DR pars
-        Input←pars
-        pars←'#',pars
-      :EndIf
-      pars←(⊂'datepicker'),eis pars
-      :Implements constructor :base pars
-    ∇
-
-    ∇ r←Render
-      :Access public
-      r←''
-      :If ~0∊⍴Input
-        r,←Input #.HTMLInput.Edit'' 20
-      :EndIf
-      r,←⎕BASE.Render
-    ∇
-
-
-  :EndClass
-
-  :Class jqDialog : JQObject ⍝!!!
-  :EndClass
-
-  :Class jqMenu : JQObject ⍝!!!
-  :EndClass
-
-  :Class jqProgressbar : JQObject ⍝!!!
-  :EndClass
-
-  :Class jqSlider : JQObject ⍝!!!
-  :EndClass
-
-  :Class jqSpinner : JQObject ⍝!!!
-  :EndClass
-
-  :Class jqTabs : JQTabbedWidget
-    ∇ Make0
-      :Access public
-      :Implements constructor :base
-      Widget._function←#.JQUI.Tabs
-    ∇
-
-    ∇ Make1 pars
-      :Access public
-      :Implements constructor :base pars
-      Widget._function←#.JQUI.Tabs
-    ∇
-  :endclass
-
-
-  :class jqTooltip : JQObject ⍝!!!
-  :endclass
-  :endsection
-
-⍝ --- Interactions ---
-  :section Interactions ⍝ http://api.jqueryui.com/category/interactions/
-
-  :class jqDraggable : JQObject
-    ∇ Make
-      :Access public
-      :Implements constructor
-      JQueryFn←'draggable'
-    ∇
-
-  :EndClass
-
-  :Class jqDroppable : JQObject
-
-    :field public Accept ⍝ selector(s) that this droppable will accept
-
-    ∇ Make
-      :Access public
-      :Implements constructor
-      JQueryFn←'droppable'
-    ∇
-
-  :EndClass
-
-  :Class jqResizable : JQObject
-  :EndClass
-
-  :Class jqSortable : JQObject
-  :EndClass
-
-  :Class jqSelectable : JQObject
-  :EndClass
-
-  :EndSection
-
-⍝ --- Third Party Plugins ---
-  :section Third_Party
-
-  :Class DataTable : JQObject
-    :field public Data←''
-    ∇ Make0
-      :Access public
-      :Implements constructor :base
-      JQueryFn←'dataTable'
-    ∇
-    ∇ Make01 pars
-      :Access public
-      pars←eis pars
-      :Implements constructor :base pars
-     
-    ∇
-    ∇ r←{req}DataTable pars;id;tablepars;jqpars;oname;tab;js
-    ⍝ req - HTTPRequest object
-    ⍝ pars - id tablepars jqpars object-name
-    ⍝ id - the id for the table to be sorted
-    ⍝ jqpars - TableSorter parameters
-    ⍝ tablepars - parameters for the table (see #.HTMLInput.Table)
-    ⍝ oname - the object name for the datatable
-    ⍝ js - any additional javascript
-    ⍝ updates req.Response.head and returns html
-     
-      :If 9=⎕NC'req'
-        req.Use'DataTable'
-      :EndIf
-     
-      pars←eis pars
-      id tablepars jqpars oname js←5↑pars,(⍴pars)↓'' '' '' '' ''
-      tab←'cellpadding="0" width="100%" cellspacing="0" border="0"'
-      :If 0∊⍴id ⋄ id←'myDataTable' ⋄ :EndIf
-      :If 0∊⍴tablepars ⋄ r←(tab,' id="',id,'"')#.HTMLInput.Enclose''
-      :Else
-        :If 2=⍴⍴tablepars ⋄ tablepars←,⊂tablepars ⋄ :EndIf
-        tablepars←tablepars,(⍴,tablepars)↓(0 0⍴⊂'')tab'' '' 1 0 1 ⍝ see HTMLInput.Table for
-        r←id #.HTMLInput.Table tablepars
-      :EndIf
-      r,←#.JQ.JQueryfn'dataTable'(makeID id)jqpars js oname
-    ∇
-  :EndClass
-
-
-  :endsection
-
-⍝ --- Effects ---
-  :Section Effects
-
-
-  :EndSection
-
 
 ⍝ --- Events ---
   :Section Events
@@ -464,15 +234,5 @@
   :endsection
 
 
-⍝ --- Utilities ---
-  :section Utilities
-  :class Position :JQObject ⍝ http://api.jqueryui.com/position/
-    :field public my
-    :field public at
-    :field public of
-    :field public collision
-
-  :endclass
-  :endsection
 
 :EndNamespace
