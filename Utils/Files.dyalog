@@ -475,7 +475,7 @@
     ⍝ replaces Windows file separator \ with Unix file separator /
     ⍝ this approach is mindnumbingly simple and probably dangerous
     ⍝ which is why we call unixfix very cautiously
-      :If '*nix'≡APLVersion ⋄ ((f='\')/f)←'/' ⋄ :EndIf
+      :If (⊂APLVersion)∊'*nix' 'Mac' ⋄ ((f='\')/f)←'/' ⋄ :EndIf
     ∇
 
     ∇ r←APLVersion
