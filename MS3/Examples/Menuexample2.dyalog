@@ -3,20 +3,30 @@
 
     ⎕ml←⎕io←1
     
-    ∇ r←Render;items;t;tmp;a;i
+    ∇ r←Render
       :Access Public 
-      tmp←⎕XML∊example
-      i←a/⍳⍴a←tmp[;2]∊⊂,'a' ⋄ tmp[i-1;3]←tmp[i;3] ⋄ tmp←(~a)⌿tmp
-      items←↓⍉tmp[;1 3],⊂''
-      'width'(Add _SF.ejMenu items).Option 632
+      'width'(Add _SF.ejMenu fixExample).Option 632
      
 ⍝      t←'<style type="text/css" class="cssStyles">.imgframe{background: url("menupix.png")'
 ⍝      t,←' no-repeat scroll 0 0 transparent;width: 615px;height: 213px;margin: 0 auto;}</style>'
 ⍝      Add t
     ∇
     
+    ∇ r3←fixExample;tmp;b;i
+      :Access public shared
+      tmp←⎕XML example
+      tmp[;3]←1⌽tmp[;3]
+      i←b/⍳⍴b←tmp[;2]∊⊂,'a'
+      tmp[i-1;4]⍪←tmp[i;4]
+      tmp←(b⍱tmp[;2]∊⊂'ul')⌿tmp
+      tmp[;1]÷←2
+      r3←↓⍉tmp[;1 3],⊂''
+    ∇
+
+    
     ∇ lines←example
-      lines←1↓¨2↓⎕NR'example'
+      :Access public shared
+      lines←1↓∊(⎕UCS 13),¨1↓¨3↓⎕NR'example'
 ⍝<li id="Products">
 ⍝  <a href="#">Products</a>
 ⍝  <ul>

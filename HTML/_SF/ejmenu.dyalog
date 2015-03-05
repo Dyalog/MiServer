@@ -60,7 +60,7 @@
      ⍝ We now insert ULs where they belong
       xp←~ul←≠\(1+ul)/ul ⋄ n←⍬⍴⍴i←ul/⍳⍴ul
       mat←xp⍀mat
-      mat[i;]←mat[i-1;1],n 3⍴'lu' '' '' ⍝ same as level before
+      mat[i;]←mat[i-1;1],n 3⍴'ul' '' '' ⍝ same as level before
       mat[;1]+←+\xp\,0,⍨⍪diff           ⍝ the others get corrected
      ⍝ Finally we adjust the level number so it starts a 0
       mat[;1]-←1⍴mat
