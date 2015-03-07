@@ -23,7 +23,7 @@
     fixNum←{b←'-'=V←⍵ ⋄ (b/V)←'¯' ⋄ ∧/b←'+'≠V:V ⋄ (b≥¯1⌽v∊'eE')/V}
     fmtNum←{(2|⎕dr ⍵)⍲∨/b←'¯'=r←⍕⍵:r ⋄ (b/r)←'-' ⋄ r}
     strip←{⍺←'{}' ⋄ ∧/⍺=(1↑⍵),¯1↑⍵:1↓¯1↓⍵ ⋄ ⍵}
-    validName←{('.'∊⍵)<0≤⎕NC ⍵} 
+    validName←{('.'∊⍵)<0≤⎕NC ⍵}
     beginsWith←{⍵≡(⍴⍵)↑⍺}
     :field public shared true←{⍵⊣⍵.⎕DF'true'}⎕NS ''
     :field public shared false←{⍵⊣⍵.⎕DF'false'}⎕NS ''
@@ -128,12 +128,14 @@
      ⍝ This fn takes a JSON string and turns it into an APL object
      ⍝ The string must follow specific rules in order to be accepted
       :Access public shared
+      str←,str
+      ⎕SIGNAL(⊂('EN' 11)('Message' 'Argument is not a simple character vector'))if~isChar str
       :If 0=⎕NC'options' ⋄ options←0 ⋄ :EndIf       ⍝ do we preserve APL shape?
       :If '{'=c1←1↑str←trim str~⎕UCS 8 9 10 13 ⍝ is this a ns?
-          'Invalid JSON: expected }'⎕SIGNAL 600 if'}'≠¯1↑str
+          ⎕SIGNAL(⊂('EN' 2)('Message' 'Invalid JSON - expected }'))if'}'≠¯1↑str
           obj←options parseNS strip str
       :ElseIf '['=c1                           ⍝ an array maybe?
-          'Invalid JSON: expected ]'⎕SIGNAL 600 if']'≠¯1↑str
+          ⎕SIGNAL(⊂('EN' 2)('Message' 'Invalid JSON - expected ]'))if']'≠¯1↑str
           obj←,⍣(~options)⊢options parseAPLArray 1↓¯1↓str
       :ElseIf '"'=c1
           obj←AJchars 1↓¯1↓str                 ⍝ a string?

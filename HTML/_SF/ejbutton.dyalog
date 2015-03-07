@@ -1,36 +1,44 @@
 ﻿:class ejButton : #._SF._ejObject
-  :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejButton.html'
-  :field public shared readonly ApiLevel←3
+    :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejButton.html'
+    :field public shared readonly ApiLevel←3
+    :field public shared readonly Doc←'/Documentation/DyalogAPIs/Syncfusion/ejButtonHelp.html'
 
-  :field public Text←''
+    :field public Text←''  ⍝ text on the button
 
-  ∇ make
-    :Access public
-    JQueryFn←Uses←'ejButton'
-    ContainerType←'button'
-    :Implements constructor
-  ∇
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejButton'
+      ContainerType←'button'
+      :Implements constructor
+    ∇
 
-  ∇ make1 text
-    :Access public
-    JQueryFn←Uses←'ejButton'
-    ContainerType←'button'
-    Text←text
-    :Implements constructor
-  ∇
+    ∇ make1 args;type;text;i
+      :Access public
+      args←eis args
+      JQueryFn←Uses←'ejButton'
+      ContainerType←'button'
+      (i text type)←3↑args,(⍴args)↓'' '' ''
+      Text←text
+      :Implements constructor :base i
+      :If ~0∊⍴type
+          'type'Option type
+      :EndIf
+    ∇
 
-  ∇ r←Render;type
-    :Access public
-    :If ~0∊⍴type←GetOption'type'
-      :Select ¯4↑type ⍝ probably match any of 'Button' 'button' 'reset' 'Reset'
-      :Case 'tton'
-        ContainerType←'button type="button"'
-      :Case 'eset'
-        ContainerType←'button type="reset"'
-      :EndSelect
-    :EndIf
-    Container.Add(⊂Text)
-    r←⎕BASE.Render
-  ∇
+    ∇ r←Render;type
+      :Access public
+      :If ~0∊⍴type←GetOption'type'
+          :Select ¯4↑type ⍝ probably match any of 'Button' 'button' 'reset' 'Reset' 'Submit' 'submit'
+          :Case 'tton'
+              ContainerType←'button type="button"'
+          :Case 'eset'
+              ContainerType←'button type="reset"'
+          :Case 'bmit'
+              ContainerType←'button type="submit"'
+          :EndSelect
+      :EndIf
+      Container.Add(⊂Text)
+      r←⎕BASE.Render
+    ∇
 
 :EndClass

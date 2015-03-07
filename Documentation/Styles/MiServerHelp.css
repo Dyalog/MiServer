@@ -1,0 +1,32 @@
+﻿@font-face {
+font-family: APLFont;
+src: url(Apl385.eot);
+}
+
+@font-face {
+font-family: APLFont;
+src: local("APL385 Unicode"), 
+url(Apl385.ttf);
+}
+
+.language-apl {
+font-family: APLFont;
+}
+.odd{
+background-color:#99CCFF;
+}
+.even{
+    background-color:#CCFFFF
+}
+.tooltip span
+{
+	display:none;
+}
+.tooltip:hover span
+{
+	display:inline; 
+	position:absolute;
+	background:white;
+	border:1px solid silver; 
+	color:gray;
+}
