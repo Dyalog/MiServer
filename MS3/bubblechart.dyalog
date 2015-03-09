@@ -7,14 +7,14 @@
       tc.Selector←'#bubble'
      
       'primaryXAxis.title.text'tc.Option'US Dollars'
-      'primaryXAxis.Range.Min'tc.Option 3000
-      'primaryXAxis.Range.Max'tc.Option 10000
-      'primaryXAxis.Range.Interval'tc.Option 500
+      'primaryXAxis.range.min'tc.Option 3000
+      'primaryXAxis.range.max'tc.Option 10000
+      'primaryXAxis.range.interval'tc.Option 500
      
       'primaryYAxis.title.text'tc.Option'% of GDP'
-      'primaryYAxis.Range.Min'tc.Option 0
-      'primaryYAxis.Range.Max'tc.Option 20
-      'primaryYAxis.Range.Interval'tc.Option 2
+      'primaryYAxis.range.min'tc.Option 0
+      'primaryYAxis.range.max'tc.Option 20
+      'primaryYAxis.range.interval'tc.Option 2
      
       'load'tc.Option'loadTheme'
       'canResize'tc.Option #.JSON.true

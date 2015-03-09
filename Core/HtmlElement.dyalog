@@ -378,18 +378,18 @@
     Bracket←{'<',⍵,'>'}
 
     ∇ r←tag Enclose txt;nl
-      :Access public
+      :Access public shared
       tag←,tag
       r←(tag{NoEndTag∧0∊⍴⍵:Bracket ⍺,'/' ⋄ (Bracket ⍺),⍵,Bracket'/',⍺↑⍨¯1+⍺⍳' '}txt),NL
     ∇
 
     ∇ r←{a}eis w
-      :Access public
+      :Access public shared
       r←(,∘⊂)⍣((326∊⎕DR w)<2>|≡w),w ⍝ enclose if simple and not mixed
     ∇
 
     ∇ r←Quote a;b
-      :Access public
+      :Access public shared
       b←1↓<⌿¯1 0⌽'\"'∘.=';',a   ⍝ keep \" as is
       (b/a)←⊂'&quot;'
       r←1⌽'""',∊a
