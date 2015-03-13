@@ -1,4 +1,4 @@
-﻿:Class waitingpopup : Dyalog14 ⍝ EAWC : MiPage : HtmlPage
+﻿:Class waitingpopup : MiPageSample ⍝ EAWC : MiPage : HtmlPage
 
 
     ∇ Render;wp;ct

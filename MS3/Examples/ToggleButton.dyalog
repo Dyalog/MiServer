@@ -1,4 +1,4 @@
-﻿:Class togglebutton : Dyalog14 ⍝ EAWC : MiPage : HtmlPage
+﻿:Class togglebutton : MiPageSample ⍝ EAWC : MiPage : HtmlPage
 
 
     ∇ Render

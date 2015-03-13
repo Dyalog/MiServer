@@ -1,4 +1,4 @@
-﻿:Class ToggleButtonTest : Dyalog14
+﻿:Class ToggleButtonTest : MiPageSample
 
     ∇ Render;b
       :Access Public

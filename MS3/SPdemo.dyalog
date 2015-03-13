@@ -1,4 +1,4 @@
-﻿:Class SPDemo : Dyalog14
+﻿:Class SPDemo : MiPageSample
 
     ∇ Render;sp
       :Access public

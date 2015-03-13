@@ -1,4 +1,4 @@
-﻿:Class Friends : Dyalog14
+﻿:Class Friends : MiPageSample
 
     :include #.HTMLUtils
 

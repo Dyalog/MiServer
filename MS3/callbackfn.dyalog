@@ -1,4 +1,4 @@
-﻿:Class callback : Dyalog14
+﻿:Class callback : MiPageSample
 
     ∇ Render;h
       :Access public

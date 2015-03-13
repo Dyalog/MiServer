@@ -1,4 +1,4 @@
-﻿:Class ejListBox : #._SF._ejObject
+:Class ejListBox : #._SF._ejWidget
     :Field Public Shared Readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejListBox.html'
     :Field Public Shared Readonly ApiLevel←3
     
@@ -10,7 +10,6 @@
 ⍝ in the first row. SubItems *must* be a matrix with field names.
 ⍝ Field names to be selected from the following, for more info see   
 ⍝ http://help.syncfusion.com/UG/JS_CR/ejListBox.html#fields
-
 ⍝ value:             not sure what it means to have a value
 ⍝ parentId:          used to link main and sub-tables (required for cascading)
 ⍝ category:          the category for data item (if present, will enable grouping)
@@ -24,7 +23,6 @@
 ⍝ tableName:         table name for tag value or display text while render with remote data.
 ⍝ text:              content for the tag.
 ⍝ toolTipText:       tooltip text to be displayed for the data list item. 
-
     ∇ make
       :Access public
       JQueryFn←Uses←'ejListBox'
@@ -39,7 +37,6 @@
       :Implements constructor                           
       (Selector Items Selected Checked SubItems)←args,(5-⍴args)⍴⊂⍬
     ∇
-
     ∇ r←Render;props;i;pre;value;name;fields;var
       :Access public
      
@@ -54,5 +51,4 @@
      
       r←var.Render,⎕BASE.Render
     ∇
-
 :EndClass

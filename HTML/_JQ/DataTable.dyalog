@@ -1,4 +1,4 @@
-﻿  :Class DataTable : #._JQ._jqObject
+﻿  :Class DataTable : #._JQ._jqWidget
     :field public Data←''
     ∇ Make0
       :Access public

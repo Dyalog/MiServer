@@ -1,4 +1,4 @@
-﻿:Class Menuexample : Dyalog14 
+﻿:Class Menuexample : MiPageSample
 ⍝ Demonstrate the SyncFusion ejMenu widget
     
     ∇ r←Render;items;t

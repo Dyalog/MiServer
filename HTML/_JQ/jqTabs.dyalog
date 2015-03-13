@@ -1,4 +1,4 @@
-﻿  :Class jqTabs : #._JQ._jqTabbedWidget
+﻿  :Class jqTabs : #._JQ._jqUITabbedWidget
     ∇ Make0
       :Access public
       :Implements constructor :base

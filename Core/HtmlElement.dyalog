@@ -22,7 +22,7 @@
 
 
    ⍝ make shortcuts for some common HTML attributes
-    UNDEF←⎕NULL
+    :field public shared readonly UNDEF←⎕NULL
     :field public id←UNDEF
     :field public value←UNDEF
     :field public name←UNDEF
@@ -139,12 +139,19 @@
       :EndIf
     ∇
 
-    ∇ {r}←{which}SetAttr attr
+    ∇ {r}←{which}Set attr
       :Access public
       :If 0≠⎕NC'which' ⋄ attr←,(eis which),[1.1]eis attr ⋄ :EndIf
       attr←ParseAttr attr
       Attr[1⊃¨attr]←2⊃¨attr
       r←⎕THIS
+    ∇
+
+    ∇ {r}←{which}SetAttr attr
+      :Access public
+      :If 0=⎕NC'which' ⋄ r←Set attr
+      :Else ⋄ r←which Set attr
+      :EndIf
     ∇
 
     ∇ {r}←DelAttr attrname;mask

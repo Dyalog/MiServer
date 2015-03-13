@@ -1,4 +1,4 @@
-﻿:Class ListBox : Dyalog14 
+﻿:Class ListBox : MiPageSample
 ⍝ Demonstrate the SyncFusion ejListBox widget
     
     ∇ Render;f;docn;foptions;listbox;fruits;groups;fitems;gitems;goptions

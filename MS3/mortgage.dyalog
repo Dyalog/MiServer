@@ -1,4 +1,4 @@
-﻿:Class mortgage : Dyalog14
+﻿:Class mortgage : MiPageSample
     
     ⍝ define the fields that MiServer will keep up-to-date using form data
     :Field Public prin←'100000' ⍝ principal field

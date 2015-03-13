@@ -1,4 +1,4 @@
-﻿:Class index : Dyalog14
+﻿:Class index : MiPageSample
   ∇ Render;f;list
     :Access public
     Add h2'Welcome to MiServer 3.0'

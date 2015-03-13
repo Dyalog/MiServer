@@ -6,7 +6,7 @@
       r←{↑⍵∘{6::⍵'' '' ⋄ ⍵(⍺⍎⍵,'.(ApiLevel ApiLink)')}¨'e'⍵.⎕NL-9.4}⎕THIS
     ∇
 
-    :class _ejObject : #._JQ._jqObject
+    :class _ejWidget : #._JQ._jqWidget
 ⍝ generic Syncfusion Enterprise JavaScript object
 
         :field public Data←''

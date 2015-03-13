@@ -1,4 +1,4 @@
-﻿:Class test : Dyalog14
+﻿:Class test : MiPageSample
     ∇ Render;h
       :Access public
      

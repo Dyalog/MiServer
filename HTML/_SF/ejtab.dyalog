@@ -1,23 +1,19 @@
-﻿  :class ejTab : #._SF._ejObject
+  :class ejTab : #._SF._ejWidget
     :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejTab.html'
     :field public shared readonly ApiLevel←1
-
     :field public Titles←0⍴⊂''
     :field public Sections←0⍴⊂''
-
     ∇ make
       :Access public
       JQueryFn←Uses←'ejTab'
       :Implements constructor
     ∇
-
     ∇ {r}←{title}AddTab content
       :Access public
       :If 0=⎕NC'title' ⋄ title←'Tab ',⍕1+⍴Titles ⋄ :EndIf
       Titles,←⊂title
       Sections,←r←⎕NEW _html.div content
     ∇
-
     ∇ r←Render;urls;ids;sections;id;section
       :Access public
       :If ~0∊⍴Titles
@@ -37,5 +33,4 @@
       :EndIf
       r←⎕BASE.Render
     ∇
-
   :EndClass

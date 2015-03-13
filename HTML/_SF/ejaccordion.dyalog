@@ -1,17 +1,14 @@
-﻿  :Class ejAccordion : #._SF._ejObject
+  :Class ejAccordion : #._SF._ejWidget
     :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejAccordion.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly _jQueryFn←'ejAccordion'
-
     :Field public Titles←0⍴⊂''
     :Field public Sections←0⍴⊂''
-
     ∇ make
       :Access public
       JQueryFn←Uses←_jQueryFn
       :Implements constructor
     ∇
-
     ∇ r←Render;title;section;h3
       :Access public
       :If ~0∊⍴Titles
@@ -22,5 +19,4 @@
       :EndIf
       r←⎕BASE.Render
     ∇
-
   :EndClass

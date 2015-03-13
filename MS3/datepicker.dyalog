@@ -1,4 +1,4 @@
-﻿:Class datepicker : Dyalog14 
+﻿:Class datepicker : MiPageSample
 
     ∇ Render;f;dp
       :Access public

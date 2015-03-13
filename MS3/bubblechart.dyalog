@@ -1,4 +1,4 @@
-﻿:Class bubblechart : Dyalog14
+﻿:Class bubblechart : MiPageSample
 
     ∇ Render;tc;stats
       :Access public

@@ -1,4 +1,4 @@
-﻿  :class jqAccordion : #._JQ._jqTabbedWidget
+﻿  :class jqAccordion : #._JQ._jqUITabbedWidget
 
     ∇ Make0
       :Access public

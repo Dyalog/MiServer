@@ -1,8 +1,7 @@
-﻿:class ejWaitingPopup : #._SF._ejObject
+:class ejWaitingPopup : #._SF._ejWidget
     :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejWaitingPopup.html'
     :field public shared readonly ApiLevel←3
     :field public Template
-
     ∇ make
       :Access public
       UseTemplate←0
@@ -10,7 +9,6 @@
       :Implements constructor
       Template←⎕NEW #._html.div
     ∇
-
     ∇ make1 args;section
       UseTemplate←1
       args←eis args
@@ -20,7 +18,6 @@
       section←2⊃args ⋄ section.id←ID←GenId
       Template←⎕NEW #._html.div section
     ∇
-
     ∇ r←Render
       :Access public
       :If UseTemplate
@@ -28,5 +25,4 @@
       :EndIf
       r←Template.Render,⎕BASE.Render
     ∇
-
 :EndClass

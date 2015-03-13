@@ -1,7 +1,6 @@
-﻿:class ejToggleButton : #._SF._ejObject
+:class ejToggleButton : #._SF._ejWidget
   :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejToggleButton.html'
   :field public shared readonly ApiLevel←3
-
   ∇ make
     :Access public
     JQueryFn←Uses←'ejToggleButton'
@@ -9,7 +8,6 @@
     :Implements constructor
     Container.type←'checkbox'
   ∇
-
   ∇ make1 args
     :Access public  
     args←eis args

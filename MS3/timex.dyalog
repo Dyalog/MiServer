@@ -1,4 +1,4 @@
-﻿:Class Timex : Dyalog14
+﻿:Class Timex : MiPageSample
 
     :Include #.HTMLUtils
 

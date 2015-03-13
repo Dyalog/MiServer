@@ -1,4 +1,4 @@
-﻿:Class datepicker : Dyalog14 
+﻿:Class datepicker : MiPageSample
 
     :field public inp←''
 

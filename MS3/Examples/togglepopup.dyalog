@@ -1,4 +1,4 @@
-﻿:Class TogglePopup : Dyalog14 ⍝ EAWC : MiPage : HtmlPage
+﻿:Class TogglePopup : MiPageSample ⍝ EAWC : MiPage : HtmlPage
 
     ∇ Render;button;p;wp
       :Access Public

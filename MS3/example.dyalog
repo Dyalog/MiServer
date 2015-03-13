@@ -1,4 +1,4 @@
-﻿:Class Example : Dyalog14
+﻿:Class Example : MiPageSample
 
     ∇ Render;h
       :Access public

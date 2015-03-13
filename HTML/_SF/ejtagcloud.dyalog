@@ -1,13 +1,11 @@
-﻿  :class ejTagCloud : #._SF._ejObject
+  :class ejTagCloud : #._SF._ejWidget
     :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejTagCloud.html'
     :field public shared readonly ApiLevel←1
-
     ∇ make
       :Access public
       JQueryFn←Uses←'ejTagCloud'
       :Implements constructor
     ∇
-
     ∇ r←Render;d;n
       :Access public
       :If ~0∊⍴Data
@@ -24,5 +22,4 @@
       :EndIf
       r←⎕BASE.Render
     ∇
-
   :EndClass

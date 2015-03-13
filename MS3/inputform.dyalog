@@ -1,4 +1,4 @@
-﻿:Class inputform : Dyalog14
+﻿:Class inputform : MiPageSample
   ∇ Render;frm;ig;btn;handler
     :Access public
     Add h2'Please tell us about yourself'

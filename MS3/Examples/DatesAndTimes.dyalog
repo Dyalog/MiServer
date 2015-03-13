@@ -1,4 +1,4 @@
-﻿:Class DatesAndTimes : Dyalog14 
+﻿:Class DatesAndTimes : MiPageSample
 ⍝ Demonstrate Date, Time and DateTimePickers from SyncFusion
 
 ⍝ Date/Time Format codes:

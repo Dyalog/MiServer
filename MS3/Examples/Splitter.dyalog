@@ -1,4 +1,4 @@
-﻿:Class Splitter : Dyalog14 
+﻿:Class Splitter : MiPageSample
 ⍝ Demonstrate the SyncFusion ejSplitter widget
     
     ∇ Render;f;docn;ops;tbl;splitter;outeropt;inneropt;inner;outer;z

@@ -1,4 +1,4 @@
-﻿:Class LoopBack : Dyalog14
+﻿:Class LoopBack : MiPageSample
 
     started←0
 

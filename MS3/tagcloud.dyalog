@@ -1,4 +1,4 @@
-﻿:Class TagCloud : Dyalog14
+﻿:Class TagCloud : MiPageSample
 
     ∇ Render;tc
       :Access public

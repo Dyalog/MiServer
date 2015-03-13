@@ -1,4 +1,4 @@
-﻿:Class FancyFriends : Dyalog14
+﻿:Class FancyFriends : MiPageSample
 
     :include #.HTMLUtils
 

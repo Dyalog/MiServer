@@ -1,4 +1,4 @@
-﻿:Class Ratings : Dyalog14
+﻿:Class Ratings : MiPageSample
 
     ∇ Render;frm;ig;btn
       :Access public
