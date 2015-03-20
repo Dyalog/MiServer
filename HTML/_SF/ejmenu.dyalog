@@ -1,4 +1,4 @@
-:class ejMenu : #._SF._ejWidget
+﻿:class ejMenu : #._SF._ejWidget
     :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejMenu.html'
     :field public shared readonly ApiLevel←1
     :field public Items←⍬
@@ -25,13 +25,14 @@
       (Level Text Href)←⊂⍬
       :Implements constructor
     ∇
-    ∇ make1 args
+    ∇ make1 args;sel
       :Access public
       JQueryFn←Uses←'ejMenu'
       ContainerType←'ul'
       :If 2=|≡args ⋄ args←⊂¨args ⋄ :EndIf
-      (Level Text Href)←3↑args,⊂(⍴1⊃args)⍴⊂''
-      :Implements constructor
+      (sel Level Text Href)←4↑args,(⍴args)↓''⍬(0⍴⊂'')(0⍴⊂'')
+      :Implements constructor :base args                       
+      (Text Href)←(⍬⍴⍴Level)↑¨Text Href
     ∇
     ∇ {r}←AddItem args;text;href
       :Access public

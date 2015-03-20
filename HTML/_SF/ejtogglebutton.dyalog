@@ -1,4 +1,4 @@
-:class ejToggleButton : #._SF._ejWidget
+﻿:class ejToggleButton : #._SF._ejWidget
   :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejToggleButton.html'
   :field public shared readonly ApiLevel←3
   ∇ make

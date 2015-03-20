@@ -1,4 +1,4 @@
-:Class ejUploadBox : #._SF._ejWidget
+﻿:Class ejUploadBox : #._SF._ejWidget
     :Field Public Shared Readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejUploadBox.html'
     :Field Public Shared Readonly ApiLevel←3
     :Field Public TargetFolder←''
@@ -11,11 +11,13 @@
       :Implements constructor
     ∇
     
-    ∇ makec args
-      :Access public
+    ∇ makec args;x
+      :Access public          
+      args←eis args
+      args←2↑args,(⍴args)↓'' ''
       JQueryFn←Uses←'ejUploadbox'
-      :Implements constructor                           
-      (Selector TargetFolder)←args
+      :Implements constructor :base args                           
+      (x TargetFolder)←args
     ∇
     ∇ r←Render;props;i;pre;value;name;fields;var
       :Access public     

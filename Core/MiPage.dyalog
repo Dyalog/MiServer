@@ -178,9 +178,8 @@
     ∇
     :endsection
 
-    ∇ Inspect;⎕TRAP
+    ∇ Debug;⎕TRAP
       :Access public
-  ⍝ allow
       ⎕TRAP←0⍴⎕TRAP
       ∘∘∘
     ∇

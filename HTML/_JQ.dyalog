@@ -7,6 +7,7 @@
         :field public JavaScript←'' ⍝ additional JavaScript to run, can be function chain, separate code or both
         :field public Var←''        ⍝ JavaScript variable name for created object
         :field public JQueryFn←''   ⍝ JQuery function to apply
+        :field public JQPars←''     ⍝ JQuery function parameters
         :field public Uses←''       ⍝ resources that will be used by this object (can be overridden by derived classes)
         :field public shared readonly _true←{⍵⊣⍵.⎕DF'true'}⎕NS ''     ⍝ same definition as in #.JSON
         :field public shared readonly _false←{⍵⊣⍵.⎕DF'false'}⎕NS ''   ⍝ same definition as in #.JSON
@@ -21,8 +22,13 @@
           :Access public
           :Implements constructor
           pars←eis pars
-          JQueryFn Selector JavaScript Var←4↑pars,(⍴pars)↓'' '' '' ''
+          JQueryFn Selector JQPars JavaScript Var←4↑pars,(⍴pars)↓'' '' '' '' ''
           Use
+        ∇
+
+        ∇ r←Render
+          :Access public
+          r←#.JQ.JQuery JQueryFn Selector JQPars JavaScript Var
         ∇
 
         ∇ Use;c
@@ -42,10 +48,35 @@
           :EndIf
         ∇
 
-        ∇ r←Render
-          :Access public overridable
-          r←#.JQ.JQueryfn JQueryFn Selector(#.JSON.toJQueryParameters Options)JavaScript Var
+        ∇ r←isSelector str ⍝ checks if str is probably a jQuery selector
+          :Access public shared
+          r←∨/str∊'''"*[]:>+~()#.'
         ∇
+
+        :section APLJax
+
+        ∇ r←selector Replace content
+          :Access public
+          :If isClass content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
+          r←⊂('replace'selector)('data'content)
+        ∇
+        ∇ r←selector Append content
+          :Access public
+          :If isClass content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
+          r←⊂('append'selector)('data'content)
+        ∇
+        ∇ r←selector Prepend content
+          :Access public
+          :If isClass content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
+          r←⊂('prepend'selector)('data'content)
+        ∇
+        ∇ r←Execute content
+          :Access public
+          r←⊂('execute'content)
+        ∇
+
+        :endsection
+
     :endclass
 
     :class _jqWidget : _jqObject
@@ -56,12 +87,96 @@
         :field public Container
         :field public eventHandlers←''
 
-        ∇ Make1 pars
+        ∇ r←{a}rand w;rnd
           :Access public
-          ContainerType←'div'
-          Uses←'JQueryUI'
-          :Implements constructor :base pars
+          rnd←{⍺←⊢ ⋄ t←16807⌶2 ⋄ r←⍺?⍵ ⋄ t←16807⌶t ⋄ r}
+          :If 0=⎕NC'a' ⋄ r←rnd w
+          :Else ⋄ r←a rnd w ⋄ :EndIf
         ∇
+
+
+        ∇ {r}←MakeID
+          :Access public
+          :If id≡UNDEF
+              id←'id',¯10↑'0000000000',⍕rand ¯1+2*31
+          :EndIf
+          r←id
+        ∇
+
+        ∇ Make1 args;selector
+          :Access public
+          :Implements constructor
+          selector←,⊃eis args
+          :If (10|⎕DR selector)∊0 2
+              :If 0<⍴selector
+                  :If isSelector selector
+                      Selector←selector
+                  :Else
+                      id←selector
+                  :EndIf
+              :EndIf
+          :EndIf
+        ∇
+
+        ∇ r←Render;build
+          :Access public
+         
+          r←''
+         
+         ⍝ if the user explicitly specifies a selector,
+          :If build←0∊⍴Selector
+              Selector←'#',Container.id←MakeID
+          :EndIf
+         
+          :If ~0∊⍴eventHandlers
+              Options∘RenderHandler¨eventHandlers
+          :EndIf
+         
+          r←#.JQ.JQueryfn JQueryFn Selector Options JavaScript Var
+         
+          :If build≥0∊⍴Container.Content
+              :Select ⊃Selector
+              :Case '#' ⍝ id?
+                  Container.id←1↓Selector
+              :Case '.' ⍝ class?
+                  Container.class←1↓Selector
+              :EndSelect
+              :If ContainerType{⍵≡(⍴⍵)↑⍺}'input'
+                  Container.name←('.#'∊⍨⊃Selector)↓Selector
+              :EndIf
+              Container.Tag←ContainerType
+              r,⍨←Container.Render
+          :EndIf
+        ∇
+
+        ∇ {handler}←On args;event;callback;clientData;javaScript;n;i
+          :Access public
+          ⍝ args - event callback clientData javascript
+          args←eis args
+          handler←⎕NS''
+          handler.(Event Callback ClientData JavaScript)←4↑args,(⍴args)↓'' 1 '' ''
+          :If 0∊n←⍴eventHandlers
+              eventHandlers,←handler
+          :ElseIf n<i←eventHandlers.Event⍳⊂handler.Event
+              eventHandlers,←handler
+          :Else
+              eventHandlers[i]←handler
+          :EndIf
+        ∇
+
+        ∇ r←{opts}RenderHandler handler
+          :Access public overridable
+        ∇
+
+⍝        ∇ r←Render
+⍝          :Access public overridable
+⍝          r←''
+⍝          :If Selector≡''
+⍝          :AndIf (id≡UNDEF)⍱id≡''
+⍝              Selector←'#',id
+⍝          :EndIf
+⍝          r←#.JQ.JQueryfn JQueryFn Selector Options JavaScript Var
+⍝        ∇
 
         ∇ {name}Set value
           :Access public
@@ -151,9 +266,14 @@
     :endclass
 
     :class _jqUIWidget : _jqWidget
+        ∇ Make1 pars
+          :Access public
+          :Implements constructor :base pars
+          Uses←'JQueryUI'
+        ∇
     :endclass
 
-    :class _jqUITabbedWidget : _jqWidget
+    :class _jqUITabbedWidget : _jqUIWidget
         :field public Titles←''
         :field public Id←''
         :field public Tabs←''

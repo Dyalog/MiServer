@@ -1,4 +1,4 @@
-:class ejButton : #._SF._ejWidget
+﻿:class ejButton : #._SF._ejWidget
     :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejButton.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly Doc←'/Documentation/DyalogAPIs/Syncfusion/ejButtonHelp.html'
@@ -16,7 +16,7 @@
       ContainerType←'button'
       (i text type)←3↑args,(⍴args)↓'' '' ''
       Text←text
-      :Implements constructor :base i
+      :Implements constructor :base args
       :If ~0∊⍴type
           'type'Option type
       :EndIf

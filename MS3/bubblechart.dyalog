@@ -3,8 +3,7 @@
     ∇ Render;tc;stats
       :Access public
       Add h2'ejChart (type:bubble)'
-      tc←Add _SF.ejChart
-      tc.Selector←'#bubble'
+      tc←Add _SF.ejChart'bc'
      
       'primaryXAxis.title.text'tc.Option'US Dollars'
       'primaryXAxis.range.min'tc.Option 3000

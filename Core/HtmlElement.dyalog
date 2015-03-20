@@ -6,7 +6,7 @@
     :field public NL←⎕ucs 13 ⍝ 10
 
     :field public Tag←''       ⍝ this is the element name
-    :field public Content←''   ⍝ this is a series of strings/instances/class+parms
+    :field public Content←⍬   ⍝ this is a series of strings/instances/class+parms
     :field public Handlers←''
     :field public _PageRef←''
     :field public NoEndTag←0
@@ -357,6 +357,8 @@
       :For e :In eis list
           :If isInstance e
               r,←e.Render
+          :ElseIf isClass e
+              r,←(⎕NEW e).Render
           :Else
               :If 1<⍴⍴t←⍕e
                   t←∊(↓t),¨⊂'<br/>'

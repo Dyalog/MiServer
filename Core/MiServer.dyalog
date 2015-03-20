@@ -476,16 +476,19 @@
                   :EndIf
               :EndIf
               :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ :EndIf
-              :If 0≠⎕NC'oldinst'
-              :AndIf (names←oldinst.⎕NL-2.2)≡inst.⎕NL-2.2 ⍝ Interface is indentical
-              :AndIf 0≠⍴names←('_'≠1⊃¨names)/names
-                  :Trap 6
-                      ⍎'inst.(',names,')←oldinst.(',(names←⍕names),')' ⍝ Transfer values
-                      4 Log'    (interface is identical: data transferred)'
-                  :Else
-                      4 Log'    (interface is identical: but undefined)'
-                  :EndTrap
-              :EndIf
+     
+⍝BPB - disable this chunk of code until we can figure out how to exclude fields from base classes
+⍝              :If 0≠⎕NC'oldinst'
+⍝              :AndIf (names←oldinst.⎕NL-2.2)≡inst.⎕NL-2.2 ⍝ Interface is indentical
+⍝              :AndIf 0≠⍴names←('_'≠1⊃¨names)/names
+⍝                  :Trap 6
+⍝                      ⍎'inst.(',names,')←oldinst.(',(names←⍕names),')' ⍝ Transfer values
+⍝                      4 Log'    (interface is identical: data transferred)'
+⍝                  :Else
+⍝                      4 Log'    (interface is identical: but undefined)'
+⍝                  :EndTrap
+⍝              :EndIf
+     
           :Else
               REQ.Fail 404 ⋄ →0
           :EndIf
@@ -549,13 +552,11 @@
               :EndIf
      
               :If (1=Config.TrapErrors)∧9=⎕NC'#.DrA' ⋄ ⎕TRAP←#.DrA.TrapServer
-              :Else ⍝⋄ ⎕TRAP←(800 'C' '→FAIL')(811 'E' '⎕SIGNAL 801')(812 'S')(0 'E' '⍎#.Boot.Oops')
+              :ElseIf (0=Config.Production) ⋄ ⎕TRAP←(800 'C' '→FAIL')(811 'E' '⎕SIGNAL 801')(813 'E' '⎕SIGNAL 803')(812 'S')(0 'E' '⍎#.Boot.Oops') ⍝ enable development debug framework
               :EndIf
      
-     EXEC:
               :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
                   resp←I85'inst.',fn,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
-                  ⍬ ⎕STOP'HandleMSP'
                   resp←(#.JSON.toAPLJAX⍣APLJax)resp
                   REQ.Return resp
               :Else
@@ -577,11 +578,6 @@
           :EndIf
       :EndHold
       →0
-     
-     DEBUG:
-      ⎕TRAP←0⍴⎕TRAP
-      EXEC ⎕STOP'MiServer'
-      →RETRY
      
      FAIL:
       ⎕TRAP←0⍴⎕TRAP

@@ -12,22 +12,6 @@
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
 
     ∇ r←{script}JQueryfn pars;jqfn;sel;jqpars;chain;script;oname
-    ⍝ pars - [1] jquery function name,
-    ⍝        [2] selectors,
-    ⍝        [3] jquery function parameters,
-    ⍝        [4] jquery function chain
-    ⍝        [5] object name for the created object
-    ⍝ for usage examples, see other functions in this namespace
-      script←{6::1 ⋄ script}⍬
-      pars←eis pars
-      jqfn sel jqpars chain oname←pars,(⍴pars)↓'' '' '' '' ''
-      chain,←(';'=¯1↑chain)↓';'
-      sel←quote ¯2↓enlist{⍵,', '}¨eis sel
-      jqpars←#.JSON.toJQueryParameters jqpars
-      r←(#.HTMLInput.JS⍣script)(oname ine'var ',oname,';'),'$(function(){',(oname ine oname,'='),'$(',sel,').',jqfn,'(',jqpars,')',chain,'});'
-    ∇
-
-    ∇ r←{script}JQuery pars;jqfn;sel;jqpars;chain;script;oname
     ⍝ pars - [1] jquery function name, [2] selectors, [3] jquery function parameters, [4] jquery function chain [5] object name for the created object
     ⍝ for usage examples, see other functions in this namespace
       script←{6::1 ⋄ script}⍬
@@ -35,6 +19,7 @@
       jqfn sel jqpars chain oname←pars,(⍴pars)↓'' '' '' '' ''
       chain,←(';'=¯1↑chain)↓';'
       sel←quote ¯2↓enlist{⍵,', '}¨eis sel
+      :If 9=|⎕NC'jqpars' ⋄ jqpars←#.JSON.toJQueryParameters jqpars ⋄ :EndIf
       r←(#.HTMLInput.JS⍣script)(oname ine'var ',oname,';'),'$(function(){',(oname ine oname,'='),'$(',sel,').',jqfn,'(',jqpars,')',chain,'});'
     ∇
 

@@ -30,7 +30,7 @@
 
     :section fromAPL
 
-    ∇ r←{options}fromAPL array;typ;ic;drop;ns;preserve;quote;qp;jqopt
+    ∇ r←{options}fromAPL array;typ;ic;drop;ns;preserve;quote;qp;jqopt;t
     ⍝ An APL object is either a simple scalar (number, character or ref) or an array
     ⍝ represented by a list of [rank,shape, if we preserve it, then data]
       :Access public shared
@@ -43,8 +43,11 @@
           :ElseIf typ=326 ⍝ ref (ns)
               'Cannot work on JSON itself'⎕SIGNAL 611 if ⎕THIS≡array
               r←qp APLObject array
-          :ElseIf jqopt∧'function'≡8↑array~' '
-              r←array
+          :ElseIf jqopt
+              t←array~' '
+              :If 'function'≡8↑t ⋄ r←array
+              :ElseIf '⍎'=1↑t ⋄ r←(∨\~array∊' ⍎')/array ⋄
+              :ElseIf '⍕'=1↑t ⋄ r←1⌽'""',(~<\' '=array)/array ⋄ :EndIf
           :Else
               r←1⌽'""',JAchars array
           :EndIf
@@ -56,8 +59,8 @@
               r,←qp fromAPL⊃array ⍝ prototype
           :ElseIf ic
               :If jqopt
-              :AndIf ∨/(array~' ')∘beginsWith¨'function' 'ej.' '$(' ⍝!!! for jQuery (and Syncfusion) options, treat things beginning with function or ej. as literals
-                  r←array
+              :AndIf ∨/(array~' ')∘beginsWith¨'function' 'ej.' '$('(,'⍎') ⍝!!! for jQuery (and Syncfusion) options, treat things beginning with function or ej. as literals
+                  r←('⍎'=1↑array)↓array
               :Else
                   r,←1⌽'""',JAchars,array ⍝ strings are displayed as such
               :EndIf
@@ -323,7 +326,8 @@
 
     ∇ r←a formatData w
       :Access public shared
-      r←a{z←⎕NS¨(≢⍵)⍴⊂'' ⋄ z⊣z(⍺{⍺.⍎'(',(⍕⍺⍺),')←⍵'})¨(↓⍣(2=≢⍴⍵))⍵}w
+      r←a{0∊⍴z←⎕NS¨(⊃⍴⍵)⍴⊂'':z
+          z⊣z(⍺{⍺.⍎'(',(⍕⍺⍺),')←⍵'})¨(↓⍣(2=⍬⍴⍴⍴⍵))⍵}w
     ∇
 
     ∇ r←aa Add(a w)

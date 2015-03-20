@@ -1,4 +1,4 @@
-  :class ejTagCloud : #._SF._ejWidget
+﻿  :class ejTagCloud : #._SF._ejWidget
     :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejTagCloud.html'
     :field public shared readonly ApiLevel←1
     ∇ make
@@ -6,6 +6,11 @@
       JQueryFn←Uses←'ejTagCloud'
       :Implements constructor
     ∇
+∇ make1 args
+:access public
+JQueryFn←Uses←{⍵↑⍨1-(⌽⍵)⍳'.'}⍕⊃⊃⎕CLASS ⎕THIS
+:implements constructor :base args
+ ∇
     ∇ r←Render;d;n
       :Access public
       :If ~0∊⍴Data

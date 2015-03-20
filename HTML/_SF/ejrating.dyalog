@@ -1,4 +1,4 @@
-  :class ejRating : #._SF._ejWidget
+﻿:class ejRating : #._SF._ejWidget
     :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejRangeNavigator.html'
     :field public shared readonly ApiLevel←1
     :field public Input←''
@@ -11,16 +11,15 @@
       :Access public
       JQueryFn←Uses←'ejRating'
       (Input←⎕NEW #._HTML.EditField arg).class←'rating'
-      Selector←'#',⊃eis arg
-      :Implements constructor
+      :Implements constructor :base arg
     ∇
     ∇ r←Render
       :Access public
       'change'Option'function(args){$("',Selector,'").val(args.value)}'
       r←''
       :If Input≢''
-        r←Input.Render
+          r←Input.Render
       :EndIf
       r,←⎕BASE.Render
     ∇
-  :EndClass
+:EndClass

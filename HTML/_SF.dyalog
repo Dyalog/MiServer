@@ -11,8 +11,6 @@
 
         :field public Data←''
 
-        rand←{⍺←⊢ ⋄t←16807⌶2 ⋄r←⍺?⍵ ⋄ t←16807⌶t ⋄ r }
-
         ∇ make
           :Access public
           Options←⎕NS''
@@ -24,63 +22,15 @@
 
         ∇ make1 args
           :Access public
-          :Implements constructor
           Options←⎕NS''
           Container←⎕NEW #.HtmlElement
           :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
           :If 0∊⍴Uses ⋄ Uses←'Syncfusion' ⋄ :EndIf
-          :If 0<⍴args←eis args
-              Selector←⊃args
-          :EndIf
-        ∇
-
-
-        ∇ r←Render;d;opts;att;sel
-          :Access public
-          r←''
-          :If 0∊⍴Selector
-              :If Container.id≡UNDEF ⍝ HtmlElement.UNDEF
-                  Selector←'#',Container.id←'id',¯10↑'0000000000',⍕rand ¯1+2*31
-              :Else
-                  Selector←'#',⍕Container.id
-              :EndIf
-          :EndIf
-          att←''
-          :Select ⊃Selector
-          :Case '#' ⍝ id?
-              Container.id←1↓Selector
-          :Case '.' ⍝ class?
-              Container.class←1↓Selector
-          :EndSelect
-          :If ContainerType{⍵≡(⍴⍵)↑⍺}'input'
-              Container.name←('.#'∊⍨⊃Selector)↓Selector
-          :EndIf
-          Container.Tag←ContainerType
-          r←Container.Render
-         
-          :If ~0∊⍴eventHandlers
-              Options∘RenderHandler¨eventHandlers
-          :EndIf
-          r,←⎕BASE.Render ⍝#._JQ.JQObject.Render
-        ∇
-
-        ∇ {handler}←On args;event;callback;clientData;javaScript;n;i
-          :Access public
-    ⍝ args - event callback clientData javascript
-          args←eis args
-          handler←⎕NS''
-          handler.(Event Callback ClientData JavaScript)←4↑args,(⍴args)↓'' 1 '' ''
-          :If 0∊n←⍴eventHandlers
-              eventHandlers,←handler
-          :ElseIf n<i←eventHandlers.Event⍳⊂handler.Event
-              eventHandlers,←handler
-          :Else
-              eventHandlers[i]←handler
-          :EndIf
+          :Implements constructor :base args
         ∇
 
         ∇ r←opts RenderHandler handler;page;event;callback;clientdata;javascript;data;cd;name;id;type;what;dtype;success;useajax;ajax;arg
-          :Access public
+          :Access public override
           r←page←''
           :If isInstance _PageRef
               page←_PageRef._PageName

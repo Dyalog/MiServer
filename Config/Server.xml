@@ -7,6 +7,7 @@
     <LogMessageLevel>1</LogMessageLevel> <!-- 0-none -1-all 1-error/important 2-warning 4-informational 8-Transactional -->
     <TempFolder>TempFiles</TempFolder> <!-- location for temporary files -->
     <Rest>0</Rest>                     <!-- running RESTful web service? -->
+    <Production>0</Production>         <!-- 1-running in production mode, 0-development mode (enable debugging framework) --> 
     <IdleTimeOut>0</IdleTimeOut>       <!-- seconds between calls to onIdle server event - 0 means don't call onIdle -->
    
 <!-- Communications Settings -->
