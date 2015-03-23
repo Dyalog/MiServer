@@ -8,14 +8,12 @@
         :field public Var←''        ⍝ JavaScript variable name for created object
         :field public JQueryFn←''   ⍝ JQuery function to apply
         :field public JQPars←''     ⍝ JQuery function parameters
-        :field public Uses←''       ⍝ resources that will be used by this object (can be overridden by derived classes)
         :field public shared readonly _true←{⍵⊣⍵.⎕DF'true'}⎕NS ''     ⍝ same definition as in #.JSON
         :field public shared readonly _false←{⍵⊣⍵.⎕DF'false'}⎕NS ''   ⍝ same definition as in #.JSON
 
         ∇ Make0
           :Access public
           :Implements constructor
-          Use
         ∇
 
         ∇ Make1 pars
@@ -23,29 +21,12 @@
           :Implements constructor
           pars←eis pars
           JQueryFn Selector JQPars JavaScript Var←4↑pars,(⍴pars)↓'' '' '' '' ''
-          Use
         ∇
 
         ∇ r←Render
           :Access public
-          r←#.JQ.JQuery JQueryFn Selector JQPars JavaScript Var
-        ∇
-
-        ∇ Use;c
-          :Access public overridable
-          :If ~0∊⍴Uses
-              :Trap 0
-                  :If ''≡c←_PageRef
-                      c←#.HtmlElement.context'_PageRef'
-                      :If ~0∊⍴c
-                          c←c._PageRef
-                      :EndIf
-                  :EndIf
-                  :If ~0∊⍴c
-                      c.Use Uses
-                  :EndIf
-              :EndTrap
-          :EndIf
+          Use
+          r←#.JQ.JQueryfn JQueryFn Selector JQPars JavaScript Var
         ∇
 
         ∇ r←isSelector str ⍝ checks if str is probably a jQuery selector
@@ -94,15 +75,6 @@
           :Else ⋄ r←a rnd w ⋄ :EndIf
         ∇
 
-
-        ∇ {r}←MakeID
-          :Access public
-          :If id≡UNDEF
-              id←'id',¯10↑'0000000000',⍕rand ¯1+2*31
-          :EndIf
-          r←id
-        ∇
-
         ∇ Make1 args;selector
           :Access public
           :Implements constructor
@@ -122,10 +94,10 @@
           :Access public
          
           r←''
-         
+          Use
          ⍝ if the user explicitly specifies a selector,
           :If build←0∊⍴Selector
-              Selector←'#',Container.id←MakeID
+              Selector←'#',Container.id←GenId
           :EndIf
          
           :If ~0∊⍴eventHandlers

@@ -1,5 +1,5 @@
 ﻿:Class Databinding1 : MiPageSample
-⍝ Demonstrate the SyncFusion ejListBox widget
+⍝ Demonstrate the SyncFusion ejListBox widget  
 
     Dyalogers←'Andy Shiers' 'Bjørn Christensen' 'Brian Becker' 'Dan Baronet' 'Fiona Smith' 'Gitte Christensen' 'Geoff Streeter' 'Helene Boesen' 'Jason Rivers' 'Jay Foad' 'John Scholes' 'John Daintree' 'Karen Shaw' 'Morten Kromberg' 'Nadine Paquin' 'Nick Nickolov' 'Nicolas Delcros' 'Richard Smith' 'Roger Hui' 'Vibeke Ulmann' 'Vince Chan'
 
@@ -14,7 +14,7 @@
     ∇
 
     ∇ r←myCallback
-      :Access public
+      :Access public    
       r←filtered.Refresh Dyalogers/⍨(Get'pattern')∘{(×⊃⍴⍺)∧∨/⍺⍷⍵}¨Dyalogers
     ∇
 

@@ -42,7 +42,6 @@
     ∇ r←Render;fields;src
       :Access public
       r←''
-      MakeID
       :If 1=⍴⍴Items
           :If 0<⍴Items
               Container.Add∘⎕NEW¨↓#._html.li,⍪Items

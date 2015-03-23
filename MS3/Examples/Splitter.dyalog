@@ -6,7 +6,7 @@
      
       splitter←_SF.ejSplitter
      
-      outeropt←↑('height' '100px')('width' '300px')('enableAnimation'False)
+      outeropt←↑('height' '100px')('width' '300px')('enableAnimation'_false)
       inneropt←↑('height' '92px')('animationSpeed' 3000) ⍝ slow expand/collapse
      
       Add h3'SyncFusion Splitters'

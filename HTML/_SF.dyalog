@@ -29,6 +29,13 @@
           :Implements constructor :base args
         ∇
 
+        ∇ r←Render
+          :Access public
+          JQPars←Options
+          r←⎕BASE.Render
+        ∇
+
+
         ∇ r←opts RenderHandler handler;page;event;callback;clientdata;javascript;data;cd;name;id;type;what;dtype;success;useajax;ajax;arg
           :Access public override
           r←page←''

@@ -5,11 +5,13 @@
     :field public shared _version←1
     :field public NL←⎕ucs 13 ⍝ 10
 
-    :field public Tag←''       ⍝ this is the element name
+    :field public Tag←''      ⍝ this is the element name
     :field public Content←⍬   ⍝ this is a series of strings/instances/class+parms
     :field public Handlers←''
     :field public _PageRef←''
     :field public NoEndTag←0
+    :field public Position
+    :field public Uses←''     ⍝ resources that will be used by this object (can be overridden by derived classes)
 
 ⍝ define shortcuts to namespaces (initialized later)
     :field public _html        ⍝ base HTML elements
@@ -170,19 +172,23 @@
 
     :section Styles
 
-    ∇ {r}←Style styles;msg
+    ∇ {r}←{what}Style styles;msg
       :Access public
       msg←'Invalid style specification'
-      :Select ≡styles
-      :Case 2
-          msg errorIf 11×0≠2|⍴styles
-          _styles,←↓(2,⍨0.5×⍴styles)⍴styles
-      :Case 3
-          msg errorIf 11×∧/(,2)∘≡∘⍴¨styles
-          _styles,←styles
+      :If 0≠⎕NC'what'
+          _styles,←↓(eis what),⍪eis((⍕¨)⍣(2|⎕DR styles))styles
       :Else
-          msg ⎕SIGNAL 11
-      :EndSelect
+          :Select ≡styles
+          :Case 2
+              msg errorIf 11×0≠2|⍴styles
+              _styles,←↓(2,⍨0.5×⍴styles)⍴styles
+          :Case 3
+              msg errorIf 11×∧/(,2)∘≡∘⍴¨styles
+              _styles,←styles
+          :Else
+              msg ⎕SIGNAL 11
+          :EndSelect
+      :EndIf
       r←⎕THIS
     ∇
 
@@ -271,6 +277,24 @@
 
     ∇ Init
       (_html _HTML _JQ _SF _JQM _DC _JSS)←#.(_html _HTML _JQ _SF _JQM _DC _JSS)
+      Position←⎕NS''
+    ∇
+
+    ∇ Use;c
+      :Access public overridable
+      :If ~0∊⍴Uses
+          :Trap 0
+              :If ''≡c←_PageRef
+                  c←context'_PageRef'
+                  :If ~0∊⍴c
+                      c←c._PageRef
+                  :EndIf
+              :EndIf
+              :If ~0∊⍴c
+                  c.Use Uses
+              :EndIf
+          :EndTrap
+      :EndIf
     ∇
 
     :endsection
@@ -309,10 +333,7 @@
       :Access public ⍝!!! remove this after testing
       r←''
       :If ~0∊⍴Handlers
-          :If UNDEF≡myid←id
-          :AndIf ''≡myid←⊃Attr[⊂'id']
-              id←myid←GenId
-          :EndIf
+          myid←SetId
           :For h :In Handlers
               h.Selectors←'#',myid
               r,←h.Render
@@ -329,12 +350,13 @@
 
     fmtAttr←{' ',⍺,'=',Quote HtmlSafeText,⍕⍵}
 
-    ∇ r←Render;av;t;vs;e;h;c
+    ∇ r←Render;av;t;vs;e;h;c;p
       :Access public
     ⍝ Render by first constructing the Tag, complete with attributes, if any
       r←Compose Content
       :If ~0∊⍴av←Tag
           h←RenderHandlers
+          p←RenderPosition
           :For e :In CommonAttributes
               av,←{0::'' ⋄ UNDEF≡t←⍎⍵:'' ⋄ e fmtAttr t}e
           :EndFor
@@ -342,7 +364,7 @@
               av,←∊fmtAttr/¨vs
           :EndIf
           av,←RenderStyles
-          r←(av Enclose r),h
+          r←(av Enclose r),h,p
       :EndIf
     ∇
 
@@ -378,6 +400,16 @@
       (m/r)←('&amp;' '&lt;' '&gt;' '&quot;')[m/i]
       (u/r)←(~∘' ')¨↓'G<&#ZZZ9;>'⎕FMT u/ucs
       r←∊r
+    ∇
+
+    ∇ r←RenderPosition
+      :Access public
+      r←''
+      :If ~0∊⍴Position.⎕NL-2
+          Uses,←⊂'JQueryUI'
+          r←#.JQ.JQueryfn'position'('#',SetId)Position
+          Use
+      :EndIf
     ∇
 
     :endsection
@@ -515,8 +547,17 @@
 
     ∇ r←GenId
       :Access public shared
-      r←'id',¯10↑'0000000000',⍕rand ¯1+2*31
+      r←'id',⍕rand ¯1+2*31
     ∇
+
+    ∇ myid←SetId
+      :Access public
+      :If UNDEF≡myid←id
+      :AndIf ''≡myid←⊃Attr[⊂'id']
+          id←myid←GenId
+      :EndIf
+    ∇
+
     :endsection
 
 :endclass  ⍝ HtmlElement

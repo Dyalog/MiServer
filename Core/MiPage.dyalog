@@ -24,6 +24,8 @@
     :field public shared _true←{⍵⊣⍵.⎕DF'true'}⎕NS ''     ⍝ same definition as in #.JSON
     :field public shared _false←{⍵⊣⍵.⎕DF'false'}⎕NS ''   ⍝ same definition as in #.JSON
 
+    _used←'' ⍝ keep track of what's been used
+
     ∇ Make
       :Access public
       :Implements constructor :Base
@@ -75,26 +77,29 @@
       :Access public
       resources←{2>|≡⍵:,⊂⍵ ⋄ ⍵}resources
       :For x :In resources
-          :Select ⊃x
-          :Case '⍎' ⍝ script
-              _Scripts,←⊂1↓x
-          :Case '⍕' ⍝ style sheet
-              _Styles,←⊂1↓x
-          :Else
-              :If 0≠⎕NC⊂'_Request.Server.Config.Resources'
-              :AndIf ~0∊n←1↑⍴_Request.Server.Config.Resources
-                  :If n≥ind←_Request.Server.Config.Resources[;1]⍳⊂x
-                      :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 2)⊃_Request.Server.Config.Resources
-                          _Scripts,←t
+          :If ~(⊂x)∊_used
+              :Select ⊃x
+              :Case '⍎' ⍝ script
+                  _Scripts,←⊂1↓x
+              :Case '⍕' ⍝ style sheet
+                  _Styles,←⊂1↓x
+              :Else
+                  :If 0≠⎕NC⊂'_Request.Server.Config.Resources'
+                  :AndIf ~0∊n←1↑⍴_Request.Server.Config.Resources
+                      :If n≥ind←_Request.Server.Config.Resources[;1]⍳⊂x
+                          :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 2)⊃_Request.Server.Config.Resources
+                              _Scripts,←t
+                          :EndIf
+                          :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 3)⊃_Request.Server.Config.Resources
+                              _Styles,←t
+                          :EndIf
+                      :Else
+                          1 _Request.Server.Log _PageName,' references unknown resource: ',x
                       :EndIf
-                      :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 3)⊃_Request.Server.Config.Resources
-                          _Styles,←t
-                      :EndIf
-                  :Else
-                      1 _Request.Server.Log _PageName,' references unknown resource: ',x
                   :EndIf
-              :EndIf
-          :EndSelect
+              :EndSelect
+              _used,←⊂x
+          :EndIf
       :EndFor
     ∇
 
@@ -152,6 +157,45 @@
       r←⊂('execute'content)
     ∇
 
+    :endsection
+
+    :section Position
+    ∇ ref Position args;inds;mask;parameters;my;at;of;collision;within;q
+      :Access public shared
+      ⍝ ref  - a reference to an instance of anything based on HtmlElement
+      ⍝ args - position information per jQueryUI's Position widget http://api.jqueryui.com/position/
+      ⍝        can be in any of the following forms
+      ⍝      1) positional (my at of collision within)  N.B. we don't use the "using" parameter
+      ⍝         example:  myDiv Position 'top left' 'bottom right' '#otherElement'
+      ⍝                   positions myDiv's top left corner at the bottom right corner of the element with id "otherElement"
+      ⍝      2) paired
+      ⍝                   myDiv Position 'my' 'top left' 'at' 'bottom right' 'of' '#otherElement'
+      ⍝                   myDiv Position ('my' 'top left') ('at' 'bottom right') ('of' '#otherElement')
+      ⍝                   myDiv Position 3 2⍴'my' 'top left' 'at' 'bottom right' 'of' '#otherElement'
+     
+      parameters←'my' 'at' 'of' 'collision' 'within'
+      q←{1⌽'''''',{⍵/⍨1+''''=⍵}⍕⍵}
+      :If isInstance ref
+          :If 2=⍴⍴args ⍝ matrix
+              args←,args
+          :ElseIf 3=≡args
+              args←⊃,/args
+          :EndIf
+          args←eis args
+          inds←parameters⍳args
+          :If ∨/mask←inds≤⍴parameters
+              :If mask≡(2×+/mask)⍴1 0
+                  parameters←mask/args
+                  args←(1⌽mask)/args
+              :EndIf
+          :Else
+              parameters←(⍴args)↑parameters
+          :EndIf
+          parameters(ref{⍺⍺⍎'Position.',⍺,'←',q ⍵})¨args
+          ref.Uses,←⊂'JQueryUI'
+          ref.Use
+      :EndIf
+    ∇
     :endsection
 
     :section Event Handling Support
