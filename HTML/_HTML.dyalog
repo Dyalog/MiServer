@@ -52,7 +52,7 @@
               :If 1=⍴⍴Options
                   Options←Options,⍪Options
               :EndIf
-              Add∊{'<option value="',(HtmlSafeText ⍵),'">',⍺,'</option>'}/¨↓Options
+              Add∊{'<option value="',(HtmlSafeText ⍵),'">',(⍕⍺),'</option>'}/¨↓Options
               ⍝{(Add #._html.option ⍺).value←⍵}/¨↓Options
           :EndIf
           r←⎕BASE.Render
@@ -86,7 +86,7 @@
                   Options←Options,⍪Options
               :EndIf
               (dl←Add #._html.datalist).id←name,'_datalist'
-              dl.Add∊{'<option value="',(HtmlSafeText ⍵),'">',⍺,'</option>'}/¨↓Options
+              dl.Add∊{'<option value="',(HtmlSafeText ⍵),'">',(⍕⍺),'</option>'}/¨↓Options
               ⍝{(dl.Add #._html.option ⍺).value←⍵}/¨↓Options
               'list'SetAttr dl.id
           :EndIf
