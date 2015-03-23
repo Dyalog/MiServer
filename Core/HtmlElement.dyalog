@@ -391,6 +391,7 @@
     ∇
 
     ∇ r←HtmlSafeText txt;i;m;u;ucs
+      :Access public shared
     ⍝ make text HTML "safe"
       r←,⎕FMT txt
       i←'&<>"#'⍳r

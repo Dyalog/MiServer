@@ -28,7 +28,7 @@
     :endclass
 
     :class Select : #._html.select
-        :field public Options  ⍝ vector or matrix [;1] display, [;2] value
+        :field public Options←0 2⍴⊂''  ⍝ vector or matrix [;1] display, [;2] value
 
         ∇ make
           :Access public
@@ -52,14 +52,15 @@
               :If 1=⍴⍴Options
                   Options←Options,⍪Options
               :EndIf
-              {(Add #._html.option ⍺).value←⍵}/¨↓Options
+              Add∊{'<option value="',(HtmlSafeText ⍵),'">',⍺,'</option>'}/¨↓Options
+              ⍝{(Add #._html.option ⍺).value←⍵}/¨↓Options
           :EndIf
           r←⎕BASE.Render
         ∇
     :endclass
 
     :class Datalist : #._html.input
-        :field public Options
+        :field public Options←0 2⍴⊂''
 
         ∇ make
           :Access public
@@ -85,7 +86,8 @@
                   Options←Options,⍪Options
               :EndIf
               (dl←Add #._html.datalist).id←name,'_datalist'
-              {(dl.Add #._html.option ⍺).value←⍵}/¨↓Options
+              dl.Add∊{'<option value="',(HtmlSafeText ⍵),'">',⍺,'</option>'}/¨↓Options
+              ⍝{(dl.Add #._html.option ⍺).value←⍵}/¨↓Options
               'list'SetAttr dl.id
           :EndIf
           r←⎕BASE.Render
