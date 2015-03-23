@@ -47,6 +47,8 @@
           :Access public
           :If name≡UNDEF
               name←id
+          :ElseIf id≡UNDEF
+              id←name
           :EndIf
           :If ~0∊⍴Options
               :If 1=⍴⍴Options
@@ -80,6 +82,8 @@
           :If name≡UNDEF
           :AndIf id≢UNDEF
               name←id
+          :ElseIf id≡UNDEF
+              id←name
           :EndIf
           :If ~0∊⍴Options
               :If 1=⍴⍴Options
