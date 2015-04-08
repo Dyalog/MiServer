@@ -6,10 +6,15 @@
       r←{↑⍵∘{6::⍵'' '' ⋄ ⍵(⍺⍎⍵,'.(ApiLevel ApiLink)')}¨'e'⍵.⎕NL-9.4}⎕THIS
     ∇
 
-    :class _ejWidget : #._JQ._jqWidget
+    ∇ r←opt(sel Update jqfn)val
+    ⍝ update an option for a widget
+      r←opt(sel #.JQ.Update jqfn)val
+    ∇
+
+    :Class _ejWidget : #._JQ._jqWidget
 ⍝ generic Syncfusion Enterprise JavaScript object
 
-        :field public Data←''
+        :Field public Data←''
 
         ∇ make
           :Access public
@@ -36,7 +41,7 @@
         ∇
 
 
-        ∇ r←opts RenderHandler handler;page;event;callback;clientdata;javascript;data;cd;name;id;type;what;dtype;success;useajax;ajax;arg
+        ∇ {r}←opts RenderHandler handler;page;event;callback;clientdata;javascript;data;cd;name;id;type;what;dtype;success;useajax;ajax;arg
           :Access public override
           r←page←''
           :If isInstance _PageRef

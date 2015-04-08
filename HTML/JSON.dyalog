@@ -279,13 +279,13 @@
     ⍝ ('replace' selector)('data' html)
     ⍝ ('append' selector)('data' html)
     ⍝ ('prepend' selector)('data' html)
-     
       :Access public shared
       :If 0∊⍴nvp ⋄ r←'[]' ⋄ :Return ⋄ :EndIf
       r←'['
       :Select |≡nvp
       :Case 1
-          nvp←⊂(,¨⍣(isChar nvp))nvp
+⍝          nvp←⊂(,¨⍣(isChar nvp))nvp
+          r←nvp ⋄ :Return
       :Case 2
           nvp←⊂,¨¨nvp
       :Case 3

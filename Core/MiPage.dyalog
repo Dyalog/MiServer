@@ -166,12 +166,13 @@
       ⍝ args - position information per jQueryUI's Position widget http://api.jqueryui.com/position/
       ⍝        can be in any of the following forms
       ⍝      1) positional (my at of collision within)  N.B. we don't use the "using" parameter
-      ⍝         example:  myDiv Position 'top left' 'bottom right' '#otherElement'
+      ⍝         example:  myDiv Position 'left top' 'right bottom' '#otherElement'
       ⍝                   positions myDiv's top left corner at the bottom right corner of the element with id "otherElement"
       ⍝      2) paired
-      ⍝                   myDiv Position 'my' 'top left' 'at' 'bottom right' 'of' '#otherElement'
-      ⍝                   myDiv Position ('my' 'top left') ('at' 'bottom right') ('of' '#otherElement')
-      ⍝                   myDiv Position 3 2⍴'my' 'top left' 'at' 'bottom right' 'of' '#otherElement'
+      ⍝                   myDiv Position 'my' 'left top' 'at' 'right bottom' 'of' '#otherElement'
+      ⍝                   myDiv Position ('my' 'left top') ('at' 'right bottom') ('of' '#otherElement')
+      ⍝                   myDiv Position 3 2⍴'my' 'left top' 'at' 'right bottom' 'of' '#otherElement'
+      ⍝ Note: positional arguments are in form horizontal (left center right) vertical (top center bottom)
      
       parameters←'my' 'at' 'of' 'collision' 'within'
       q←{1⌽'''''',{⍵/⍨1+''''=⍵}⍕⍵}

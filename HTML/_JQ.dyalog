@@ -1,7 +1,16 @@
 ﻿:Namespace _JQ
     (⎕IO ⎕ML)←1
 
-⍝ --- Base Classes ---
+    :section Common Code
+    ∇ r←opt(sel Update jqfn)val;v
+    ⍝ update an option for a widget
+      v←{0 2∊⍨10|⎕DR ⍵:{'⍎'=⊃⍵:1↓⍵ ⋄ quote ⍵}⍵ ⋄ ,⍕⍵}val
+      r←#.JQ.Execute'$("',sel,'").',jqfn,'("option","',opt,'",',v,');'
+    ∇
+    :endsection
+
+
+    :section Base Classes
     :class _jqObject : #.HtmlElement
         :field public Selector←''   ⍝ Selector to apply the JQuery function to
         :field public JavaScript←'' ⍝ additional JavaScript to run, can be function chain, separate code or both
@@ -63,7 +72,6 @@
     :class _jqWidget : _jqObject
 
         :field public Options←''    ⍝ options for the object to be created
-        :field public Updates←''
         :field public ContainerType←'div' ⍝ default container type
         :field public Container
         :field public eventHandlers←''
@@ -90,10 +98,10 @@
           :EndIf
         ∇
 
-        ∇ r←Render;build
+        ∇ r←Render;build;javascript
           :Access public
          
-          r←''
+          r←javascript←''
           Use
          ⍝ if the user explicitly specifies a selector,
           :If build←0∊⍴Selector
@@ -101,10 +109,10 @@
           :EndIf
          
           :If ~0∊⍴eventHandlers
-              Options∘RenderHandler¨eventHandlers
+              javascript,←∊Options∘RenderHandler¨eventHandlers
           :EndIf
          
-          r←#.JQ.JQueryfn JQueryFn Selector Options JavaScript Var
+          r←#.JQ.JQueryfn JQueryFn Selector Options(JavaScript,javascript)Var
          
           :If build≥0∊⍴Container.Content
               :Select ⊃Selector
@@ -136,19 +144,74 @@
           :EndIf
         ∇
 
-        ∇ r←{opts}RenderHandler handler
+        ∇ {r}←{opts}RenderHandler handler;page;event;callback;clientdata;javascript;useajax;data
           :Access public overridable
+          r←page←''
+          :If isInstance _PageRef
+              page←_PageRef._PageName
+          :EndIf
+          page←quote page
+          (event callback clientdata javascript)←handler.(Event Callback ClientData JavaScript)
+          useajax←(,0)≢,callback
+          data←''
+          data,←', _event: event.type'
+          data,←', _what: this._id'
+          data,←(isString callback)/', _callback: ',quote callback
+          data←2↓data
+          :Select |≡clientdata
+          :CaseList 0 1  ⍝ simple vector
+              clientdata←,⊂2⍴⊂clientdata ⍝ name/id are set to the same
+          :Case 2
+              clientdata←,⊂clientdata
+          :EndSelect
+         
+          :For cd :In clientdata
+              cd←eis cd
+              (name id type what)←4↑cd,(⍴cd)↓4⍴⊂''
+         
+              :If ~0∊⍴name
+                  :Select id
+                  :CaseList 'attr' 'css' 'html' 'is' 'serialize' 'val' 'eval' 'event' 'ui' ⍝ no selector specified, use event.target
+                      (type what)←id type
+                      id←''
+                  :Case 'string'
+                      (type what)←id(quote type)
+                      id←''
+                  :Case ''
+                      id←quote'#',name
+                  :Else
+                      :If ∨/'event.' 'ui.'{⍺≡(⍴⍺)↑⍵}¨⊂id
+                          (type what)←2↑{⎕ML←3 ⋄ ⍵⊂⍨⍵≠'.'}id
+                          id←''
+                      :Else
+                          id←quote id
+                      :EndIf
+                  :EndSelect
+         
+                  :Select type
+                  :Case 'eval'
+                      type←what
+                  :CaseList 'event' 'ui'
+                      type←type,'.',what
+                  :Case ''
+                      type←'val()'
+                  :Case 'string'
+                      type←what
+                  :Else
+                      :If type≡'serialize'
+                          name,←'_serialized'
+                      :EndIf
+                      type←type,what ine'(',(quote what),')'
+                  :EndSelect
+                  data,←',',name,': ',(id ine'$(',id,').'),type
+              :EndIf
+          :EndFor
+         
+          dtype←'"json"'
+          success←'success: function(obj){APLJaxReturn(obj);}'
+          ajax←(javascript ine javascript,';'),useajax/'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
+          r←';function(event,ui){',ajax,'}'
         ∇
-
-⍝        ∇ r←Render
-⍝          :Access public overridable
-⍝          r←''
-⍝          :If Selector≡''
-⍝          :AndIf (id≡UNDEF)⍱id≡''
-⍝              Selector←'#',id
-⍝          :EndIf
-⍝          r←#.JQ.JQueryfn JQueryFn Selector Options JavaScript Var
-⍝        ∇
 
         ∇ {name}Set value
           :Access public
@@ -223,17 +286,9 @@
           :If 1=⍴r ⋄ r←⊃r ⋄ :EndIf ⍝ if single setting requested
         ∇
 
-        ∇ {name}Update value
-          :Access public
-          :If 326≠⎕DR Updates ⋄ Updates←⎕NS'' ⋄ :EndIf
-          :If 0=⎕NC'name'
-              :Trap 11
-                  (name value)←ParseValue value
-              :Else
-                  ⎕SIGNAL/⎕DMX.(EM EN)
-              :EndTrap
-          :EndIf
-          name(Updates SetOption)value
+        ∇ r←name Update value;v
+          :Access public         
+          r←name(Selector #.JQ.Update JQueryFn)value
         ∇
     :endclass
 
@@ -310,6 +365,7 @@
         ∇
 
     :endclass
+    :endsection
 
 ⍝ --- Events ---
     :Section Events

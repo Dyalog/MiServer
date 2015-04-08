@@ -20,7 +20,8 @@
       jqfn sel jqpars chain oname←pars,(⍴pars)↓'' '' '' '' ''
       chain,←(';'=¯1↑chain)↓';'
       sel←quote ¯2↓enlist{⍵,', '}¨eis sel
-      :If 9=|⎕NC'jqpars' ⋄ jqpars←#.JSON.toJQueryParameters jqpars ⋄ :EndIf
+      :If 9=|⎕NC'jqpars' ⋄ jqpars←#.JSON.toJQueryParameters jqpars
+      :ElseIf '{'≠1↑jqpars ⋄ jqpars←'{',jqpars,'}' ⋄ :EndIf
       r←script[2]{⍺:'$(function(){',⍵,'});' ⋄ ⍵}(oname ine oname,'='),'$(',sel,').',jqfn,'(',jqpars,')',chain
       r←script[1]{⍺:#.HTMLInput.JS ⍵ ⋄ ⍵}(oname ine'var ',oname,';'),r
     ∇
@@ -41,7 +42,7 @@
     ⍝              html - data is the html content of the selected element
     ⍝              is - see jQuery.is()
     ⍝              eval - data will be the evaluation of the what parameter
-    ⍝              evt - the jquery event object
+    ⍝              event - the jquery event object
     ⍝              string - just a string
     ⍝              serialize - send form data back in serialized format
     ⍝
@@ -52,7 +53,7 @@
     ⍝              html         what is not used and should be ''  html()
     ⍝              is           jQuery.on selector                 is(":checked")
     ⍝              eval         javascript expression              eval("confirm('Are you sure?')")
-    ⍝              evt          the element of the event object to return
+    ⍝              event        the element of the event object to return
     ⍝              string       the string to send back
     ⍝              serialize    the selector for the form whose data is to be serialized
     ⍝
@@ -73,7 +74,7 @@
       delegate←''
       selector event clientdata response script useajax←6↑pars,(⍴pars)↓'' '' '' '' '' 1
       :If 1<|≡selector ⋄ selector delegate←selector ⋄ delegate←', ',quote delegate :EndIf
-      data←'_event: evt.type, _what: $(evt.currentTarget).attr("id")'
+      data←'_event: event.type, _what: $(event.currentTarget).attr("id")'
       :If 2=|≡clientdata ⋄ clientdata←,⊂clientdata ⋄ :EndIf
       :If 0∊⍴clientdata
       :OrIf (1=⍴clientdata)∧'_callback'≡⊃⊃clientdata
@@ -84,13 +85,13 @@
           (name id type what)←4↑cd,(⍴cd)↓4⍴⊂''
           :If ~0∊⍴name
               :Select id
-              :CaseList 'attr' 'css' 'html' 'is' 'serialize' 'val' ⍝ no selector specified, use evt.target
+              :CaseList 'attr' 'css' 'html' 'is' 'serialize' 'val' ⍝ no selector specified, use event.target
                   type what←id type
-                  id←'evt.target'
+                  id←'event.target'
               :Case 'eval'
                   type what←id type
                   id←''
-              :Case 'evt'
+              :Case 'event'
                   type what←id type
                   id←''
               :Case 'string'
@@ -105,7 +106,7 @@
               :Select type
               :Case 'eval'
                   type←what
-              :Case 'evt'
+              :Case 'event'
                   type←type,'.',what
               :Case ''
                   type←'val()'
@@ -131,7 +132,21 @@
       :EndIf
      
       ajax←(script ine script,';'),useajax/'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
-      r←#.HTMLInput.JS'$(function(){$(',(quote selector),').on(',(quote event),delegate,', function(evt){',ajax,'});});'
+      r←#.HTMLInput.JS'$(function(){$(',(quote selector),').on(',(quote event),delegate,', function(event){',ajax,'});});'
     ∇
 
+    :section APLJax helpers (for legacy pages)
+    ∇ r←selector Replace content
+      r←⊂('replace'selector)('data'content)
+    ∇
+    ∇ r←selector Append content
+      r←⊂('append'selector)('data'content)
+    ∇
+    ∇ r←selector Prepend content
+      r←⊂('prepend'selector)('data'content)
+    ∇
+    ∇ r←Execute content
+      r←⊂('execute'content)
+    ∇
+    :endsection
 :EndNamespace
