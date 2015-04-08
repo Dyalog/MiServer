@@ -25,12 +25,12 @@
       (Level Text Href)←⊂⍬
       :Implements constructor
     ∇
-    ∇ make1 args;sel
+    ∇ make1 args
       :Access public
       JQueryFn←Uses←'ejMenu'
       ContainerType←'ul'
-      :If 2=|≡args ⋄ args←⊂¨args ⋄ :EndIf
-      (sel Level Text Href)←4↑args,(⍴args)↓''⍬(0⍴⊂'')(0⍴⊂'')
+      ⍝:If 2=|≡args ⋄ args←⊂¨args ⋄ :EndIf
+      (Level Text Href)←args,(⍴args)↓⍬(0⍴⊂'')(0⍴⊂'')
       :Implements constructor :base args                       
       (Text Href)←(⍬⍴⍴Level)↑¨Text Href
     ∇
