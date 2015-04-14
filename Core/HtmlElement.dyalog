@@ -485,13 +485,16 @@
     ⍝ add "something" to the Content
     ⍝ args can be an instance, a class, or just html/text
       :Access public
-      :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
-      r←attr ParseArgs args
-      :Trap 4 5 ⍝ rank and length error
-          Content,←r
-      :Else
-          Content,←⊂r
-      :EndTrap
+      r←''
+      :If ~0∊⍴∊args
+          :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
+          r←attr ParseArgs args
+          :Trap 4 5 ⍝ rank and length error
+              Content,←r
+          :Else
+              Content,←⊂r
+          :EndTrap
+      :EndIf
     ∇
 
     ∇ {r}←{attr}Prepend args;cl

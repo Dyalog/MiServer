@@ -2,6 +2,8 @@
     (⎕IO ⎕ML)←1
 
     :section Common Code
+    quote←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}
+
     ∇ r←opt(sel Update jqfn)val;v
     ⍝ update an option for a widget
       v←{0 2∊⍨10|⎕DR ⍵:{'⍎'=⊃⍵:1↓⍵ ⋄ quote ⍵}⍵ ⋄ ,⍕⍵}val
@@ -83,8 +85,17 @@
           :Else ⋄ r←a rnd w ⋄ :EndIf
         ∇
 
+        ∇ Make
+          :Access public
+          Options←⎕NS''
+          Container←⎕NEW #.HtmlElement
+          :Implements constructor
+        ∇
+
         ∇ Make1 args;selector
           :Access public
+          Options←⎕NS''
+          Container←⎕NEW #.HtmlElement
           :Implements constructor
           selector←,⊃eis args
           :If (10|⎕DR selector)∊0 2
@@ -98,14 +109,15 @@
           :EndIf
         ∇
 
-        ∇ r←Render;build;javascript
+        ∇ r←Render;build;javascript;i
           :Access public
          
           r←javascript←''
           Use
          ⍝ if the user explicitly specifies a selector,
           :If build←0∊⍴Selector
-              Selector←'#',Container.id←GenId
+              :If (⊂i←id)∊''UNDEF ⋄ i←GenId ⋄ :EndIf
+              Selector←'#',Container.id←i
           :EndIf
          
           :If ~0∊⍴eventHandlers
@@ -287,16 +299,24 @@
         ∇
 
         ∇ r←name Update value;v
-          :Access public         
-          r←name(Selector #.JQ.Update JQueryFn)value
+          :Access public
+          r←name(Selector #._JQ.Update JQueryFn)value
         ∇
     :endclass
 
     :class _jqUIWidget : _jqWidget
-        ∇ Make1 pars
+        ∇ make
           :Access public
+          :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
+          :If 0∊⍴Uses ⋄ Uses←'JQueryUI' ⋄ :EndIf
+          :Implements constructor
+        ∇
+
+        ∇ make1 pars
+          :Access public
+          :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
+          :If 0∊⍴Uses ⋄ Uses←'JQueryUI' ⋄ :EndIf
           :Implements constructor :base pars
-          Uses←'JQueryUI'
         ∇
     :endclass
 

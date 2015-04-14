@@ -2,31 +2,41 @@
 font-family: APLFont;
 src: url(Apl385.eot);
 }
-
 @font-face {
 font-family: APLFont;
 src: local("APL385 Unicode"), 
 url(Apl385.ttf);
 }
-
+body {
+	background-color: #336633;
+	width: 80%;
+	margin:10px auto;
+}
 .language-apl {
-font-family: APLFont;
+	font-family: APLFont;
 }
-.odd{
-background-color:#99CCFF;
+.odd {
+	background-color: #FFFFCC;
 }
-.even{
-    background-color:#CCFFFF
+.api {
+    width=100%;
 }
-.tooltip span
-{
-	display:none;
+.even {
+	background-color: #FFCC00;
 }
-.tooltip:hover span
-{
-	display:inline; 
-	position:absolute;
-	background:white;
-	border:1px solid silver; 
-	color:gray;
+.tooltip span {
+	display: none;
+}
+.tooltip:hover span {
+	display: inline;
+	position: absolute;
+	background: white;
+	border: 1px solid silver;
+	color: gray;
+}
+td{
+    padding:4px;
+}
+td:first-child {
+	font-weight: bold;
 }

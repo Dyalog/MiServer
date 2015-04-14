@@ -314,7 +314,8 @@
                   :EndIf
               :Else
                   :For x :In p
-                      d←{(isChar ⍵)>isJSON ⍵:'"',(JAchars ⍵),'"' ⋄ ⍕⍵}2⊃x
+                      d←{1<⍴⍴⍵:∊(↓⍕⍵),¨⊂'<br/>' ⋄ ⍵}2⊃x
+                      d←{(isChar ⍵)>isJSON ⍵:'"',(JAchars ⍵),'"' ⋄ ⍕⍵}d
                       r,←'"',(1⊃x),'":',d,','
                   :EndFor
               :EndIf

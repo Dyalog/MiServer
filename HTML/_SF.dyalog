@@ -18,8 +18,8 @@
 
         ∇ make
           :Access public
-          Options←⎕NS''
-          Container←⎕NEW #.HtmlElement
+⍝          Options←⎕NS''
+⍝          Container←⎕NEW #.HtmlElement
           :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
           :If 0∊⍴Uses ⋄ Uses←'Syncfusion' ⋄ :EndIf
           :Implements constructor
@@ -27,8 +27,8 @@
 
         ∇ make1 args
           :Access public
-          Options←⎕NS''
-          Container←⎕NEW #.HtmlElement
+⍝          Options←⎕NS''
+⍝          Container←⎕NEW #.HtmlElement
           :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
           :If 0∊⍴Uses ⋄ Uses←'Syncfusion' ⋄ :EndIf
           :Implements constructor :base args
