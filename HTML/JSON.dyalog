@@ -121,6 +121,11 @@
       r←Q,(∊r),Q←q/'"'
     ∇
 
+    ∇ r←name Name data
+      :Access public shared
+      r←name{r←⎕NS'' ⋄ r⊣r⍎⍺,'←⍵'}data
+    ∇
+
 ⍝   ---------------------------------------------------------------------
     :endsection fromAPL
 

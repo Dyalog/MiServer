@@ -112,14 +112,14 @@
     ∇
     :endsection
 
-    ∇ r←RunServer arg;RESUME;⎕TRAP;Common;cmd;name;port;wres;ref;nspc;sink;Stop;secure;certpath;flags;z;rc;rate;ErrorCount;idletime;msg;uid;ts
+    ∇ r←RunServer arg;RESUME;⎕TRAP;Common;cmd;name;port;wres;ref;nspc;sink;Stop;secure;certpath;flags;z;rc;rate;ErrorCount;idletime;msg;uid;ts;CMTid
       ⍝ Simple HTTP (Web) Server framework
       ⍝ Assumes Conga available in #.DRC and uses #.HTTPRequest
       ⍝ arg: dummy
       ⍝ certs: RootCertDir, ServerCert, ServerKey (optional: runs Secure server)
      
       Common←⎕NS'' ⋄ Stop←0 ⋄ WAITING←0
-     
+      CMTid←ConnectionMonitor&ServerName
      
       :If Config.TrapErrors>0
           ⎕TRAP←#.DrA.TrapServer
@@ -147,26 +147,28 @@
                   ⎕EX SpaceName 2⊃wres
      
               :CaseList 'Block' 'BlockLast'
-                  :If 0=⎕NC nspc←SpaceName 2⊃wres
-                      nspc ⎕NS''
-                      (⍎nspc).(Pos Buffer ContentLength Req)←0 '' 0 ''
-                      :If 0=1⊃z←#.DRC.GetProp(2⊃wres)'PeerAddr' ⋄ (⍎nspc).PeerAddr←2⊃z
-                      :Else ⋄ (⍎nspc).PeerAddr←'Unknown'
-                      :EndIf
-                      :If Config.Secure
-                          rc z←#.DRC.GetProp(2⊃wres)'PeerCert'
-                          :If rc=0 ⋄ (⍎nspc).PeerCert←z
-                          :Else
-                              1 Log'Unable to obtain peer certificate over secure connection - request ignored'
-                              ⎕EX nspc
+                  nspc←SpaceName 2⊃wres
+                  :If 0=⎕NC nspc
+                      :Trap 6 ⍝ VALUE ERROR - nspc could be erased if page goes away
+                          nspc ⎕NS''
+                          (⍎nspc).(Pos Buffer ContentLength Req)←0 '' 0 ''
+                          :If 0=1⊃z←#.DRC.GetProp(2⊃wres)'PeerAddr' ⋄ (⍎nspc).PeerAddr←2⊃z
+                          :Else ⋄ (⍎nspc).PeerAddr←'Unknown'
                           :EndIf
-                      :EndIf
+                          :If Config.Secure
+                              rc z←#.DRC.GetProp(2⊃wres)'PeerCert'
+                              :If rc=0 ⋄ (⍎nspc).PeerCert←z
+                              :Else
+                                  1 Log'Unable to obtain peer certificate over secure connection - request ignored'
+                                  ⎕EX nspc
+                              :EndIf
+                          :EndIf
+                      :EndTrap
                   :EndIf
      
                   :If 0≠⎕NC nspc
                       {}(⍎nspc){⎕EX nspc/⍨('BlockLast'≡3⊃⍵)∧⍺ HandleRequest(2↑⍵)}&wres[2 4 3] ⍝ Run page handler in new thread
                   :EndIf
-     
               :Case 'Connect' ⍝ Ignore
      
               :Else
@@ -183,6 +185,7 @@
      
           :Case 1010 ⍝ Object Not found
               1 Log'Object ''',ServerName,''' has been closed - Web Server shutting down'
+              ⎕TKILL CMTid
               →0
      
           :Else
@@ -191,7 +194,9 @@
           :EndSelect
      
       :EndWhile
+     
      RESUME: ⍝ Error Trapped and logged
+      ⎕TKILL CMTid
       {}#.DRC.Close ServerName
       1 Log r←'Web server ''',ServerName,''' stopped '
     ∇
@@ -306,126 +311,126 @@
           conns.(Req Buffer)←MakeHTTPRequest conns.Req ⍝ fake MiServer out by building an HTTP request from what we've got
       :EndIf
      
-      :Hold 'Request'
+⍝      :Hold 'Request'
      
-          REQ←⎕NEW #.HTTPRequest conns.(Req Buffer)
-          REQ.Server←⎕THIS ⍝ Request will also contain reference to the Server
+      REQ←⎕NEW #.HTTPRequest conns.(Req Buffer)
+      REQ.Server←⎕THIS ⍝ Request will also contain reference to the Server
      
-          :If 2=conns.⎕NC'PeerAddr' ⋄ REQ.PeerAddr←conns.PeerAddr ⋄ :EndIf       ⍝ Add Client Address Information
-          8 Log REQ.(PeerAddr Command Page)
+      :If 2=conns.⎕NC'PeerAddr' ⋄ REQ.PeerAddr←conns.PeerAddr ⋄ :EndIf       ⍝ Add Client Address Information
+      8 Log REQ.(PeerAddr Command Page)
      
-          :If 2=conns.⎕NC'PeerCert' ⋄ REQ.PeerCert←conns.PeerCert ⋄ :EndIf       ⍝ Add Client Cert Information
+      :If 2=conns.⎕NC'PeerCert' ⋄ REQ.PeerCert←conns.PeerCert ⋄ :EndIf       ⍝ Add Client Cert Information
      
-          :If Config.Rest  ⍝ if running RESTful web service...
-              n←+/∧\2>+\REQ.Page∊'/\'
-              REQ.RestReq←n↓REQ.Page
-              REQ.Page←n↑REQ.Page
-          :EndIf
+      :If Config.Rest  ⍝ if running RESTful web service...
+          n←+/∧\2>+\REQ.Page∊'/\'
+          REQ.RestReq←n↓REQ.Page
+          REQ.Page←n↑REQ.Page
+      :EndIf
      
-          REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page
-          REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension
+      REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page
+      REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension
      
-          SessionHandler.GetSession REQ
-          Authentication.Authenticate REQ
+      SessionHandler.GetSession REQ
+      Authentication.Authenticate REQ
      
-          :If REQ.Response.Status≠401 ⍝ Authentication did not fail
+      :If REQ.Response.Status≠401 ⍝ Authentication did not fail
      
-              filename←Config Virtual REQ.Page
-              :If Config.AllowedHttpCommands∊⍨⊂REQ.Command
+          filename←Config Virtual REQ.Page
+          :If Config.AllowedHttpCommands∊⍨⊂REQ.Command
      
-                  :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
-                      filename HandleMSP REQ
+              :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
+                  filename HandleMSP REQ
+              :Else
+                  :If REQ.Command≡'get'
+                      REQ.ReturnFile filename
                   :Else
-                      :If REQ.Command≡'get'
-                          REQ.ReturnFile filename
-                      :Else
-                          REQ.Fail 501 ⍝ Service Not Implemented
-                      :EndIf
+                      REQ.Fail 501 ⍝ Service Not Implemented
+                  :EndIf
+              :EndIf
+          :Else
+              REQ.Fail 501 ⍝ Service Not Implemented
+          :EndIf
+      :EndIf
+     
+      res←REQ.Response
+     
+      encodeMe←conns.Handler<Config.UseContentEncoding ⍝ initialize a flag whether to encode this response, don't compresss if running as a handler
+      cacheMe←0
+     
+      :If 1=res.File ⍝ See HTTPRequest.ReturnFile
+          :If 83=⎕DR file←res.HTML ⍝ if we returned a byte stream, just use it
+              length←⍴file ⋄ tn←0
+          :Else
+              :Trap 22
+                  tn←file ⎕NTIE tn←0
+                  length←⎕NSIZE tn
+                  res.HTML←⎕NREAD tn 83 BlockSize 0
+                  cacheMe←0≠Config.HttpCacheTime ⍝ for now, cache all files if set to use caching
+                  :If encodeMe
+                      encodeMe∧←length<BlockSize ⍝ if we can read entire file and are we encoding...
+                      encodeMe>←(⊂¯4↑file)∊'.png' '.gif' '.jpg' ⍝ don't try to compress compressed graphics, should probably add zip files, etc
                   :EndIf
               :Else
-                  REQ.Fail 501 ⍝ Service Not Implemented
-              :EndIf
+                  REQ.Fail 404
+                  length←⍴res.HTML
+                  res.File←0
+              :EndTrap
           :EndIf
+          startsize←length
+      :EndIf
      
-          res←REQ.Response
-     
-          encodeMe←conns.Handler<Config.UseContentEncoding ⍝ initialize a flag whether to encode this response, don't compresss if running as a handler
-          cacheMe←0
-     
-          :If 1=res.File ⍝ See HTTPRequest.ReturnFile
-              :If 83=⎕DR file←res.HTML ⍝ if we returned a byte stream, just use it
-                  length←⍴file ⋄ tn←0
+      :If (200=res.Status)∧encodeMe ⍝ if our HTTP status is 200 (OK) and we're okay to encode
+      :AndIf 1024<⍴res.HTML ⍝ BPB used to be 0
+      :AndIf 0≠⍴enc←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}' '~⍨',',REQ.GetHeader'accept-encoding' ⍝ check if client supports encoding
+      :AndIf 0≠which←⊃Encoders.Encoding{(⍴⍺){(⍺≥⍵)/⍵}⍺⍳⍵}enc ⍝ try to match what encodings they accept to those we provide
+          (encoderc html)←Encoders[which].Compress res.HTML
+          :If 0=encoderc
+              length←startsize←⍴res.HTML
+              :If startsize>⍴html ⍝ did we save anything by compressing
+                  length←⍴res.HTML←html ⍝ use it
+                  res.Headers⍪←'Content-Encoding'(Encoders[which].Encoding)
+                  4 Log'Used compression, transmitted% = ',2⍕length{⎕DIV←1 ⋄ ⍺÷⍵}startsize
               :Else
-                  :Trap 22
-                      tn←file ⎕NTIE tn←0
-                      length←⎕NSIZE tn
-                      res.HTML←⎕NREAD tn 83 BlockSize 0
-                      cacheMe←0≠Config.HttpCacheTime ⍝ for now, cache all files if set to use caching
-                      :If encodeMe
-                          encodeMe∧←length<BlockSize ⍝ if we can read entire file and are we encoding...
-                          encodeMe>←(⊂¯4↑file)∊'.png' '.gif' '.jpg' ⍝ don't try to compress compressed graphics, should probably add zip files, etc
-                      :EndIf
-                  :Else
-                      REQ.Fail 404
-                      length←⍴res.HTML
-                      res.File←0
-                  :EndTrap
-              :EndIf
-              startsize←length
-          :EndIf
-     
-          :If (200=res.Status)∧encodeMe ⍝ if our HTTP status is 200 (OK) and we're okay to encode
-          :AndIf 1024<⍴res.HTML ⍝ BPB used to be 0
-          :AndIf 0≠⍴enc←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}' '~⍨',',REQ.GetHeader'accept-encoding' ⍝ check if client supports encoding
-          :AndIf 0≠which←⊃Encoders.Encoding{(⍴⍺){(⍺≥⍵)/⍵}⍺⍳⍵}enc ⍝ try to match what encodings they accept to those we provide
-              (encoderc html)←Encoders[which].Compress res.HTML
-              :If 0=encoderc
-                  length←startsize←⍴res.HTML
-                  :If startsize>⍴html ⍝ did we save anything by compressing
-                      length←⍴res.HTML←html ⍝ use it
-                      res.Headers⍪←'Content-Encoding'(Encoders[which].Encoding)
-                      4 Log'Used compression, transmitted% = ',2⍕length{⎕DIV←1 ⋄ ⍺÷⍵}startsize
-                  :Else
-                      4 Log'Compression not used on "',REQ.Page,'", startsize = ',(⍕startsize),', compressed length = ',⍕length
-                      :If 83≠⎕DR res.HTML
-                          res.HTML←toutf8 res.HTML
-                      :EndIf
+                  4 Log'Compression not used on "',REQ.Page,'", startsize = ',(⍕startsize),', compressed length = ',⍕length
+                  :If 83≠⎕DR res.HTML
+                      res.HTML←toutf8 res.HTML
                   :EndIf
-              :ElseIf 0=res.File
-                  2 Log'Compression failed'
-                  length←⍴res.HTML←toutf8 res.HTML ⍝ otherwise, send uncompressed
               :EndIf
           :ElseIf 0=res.File
-              startsize←length←⍴res.HTML←toutf8 res.HTML
+              2 Log'Compression failed'
+              length←⍴res.HTML←toutf8 res.HTML ⍝ otherwise, send uncompressed
           :EndIf
+      :ElseIf 0=res.File
+          startsize←length←⍴res.HTML←toutf8 res.HTML
+      :EndIf
      
-          :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires
-              res.Headers⍪←'Expires'(Config.HttpCacheTime #.Dates.HttpDate ⎕TS)
+      :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires
+          res.Headers⍪←'Expires'(Config.HttpCacheTime #.Dates.HttpDate ⎕TS)
+      :EndIf
+      res.Headers⍪←{0∊⍴⍵:'' '' ⋄ 'Server'⍵}Config.Server
+      status←res.((⍕Status),' ',StatusText)
+      hdr←enlist{⍺,': ',⍵,NL}/res.Headers
+      Answer←(toutf8((1+conns.Handler)⊃'HTTP/1.0 ' 'Status: '),status,NL,'Content-Length: ',(⍕length),NL,hdr,NL),res.HTML
+      done←length≤offset←⍴res.HTML
+      REQ.MSec-⍨←⎕AI[3]
+      res.Bytes←startsize length
+      :Repeat
+          :If 0≠1⊃z←#.DRC.Send obj Answer ⍝ done ⍝ Send response and
+              (1+(1⊃z)∊1008 1119)Log'"Handlerequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
+              done←1
           :EndIf
-          res.Headers⍪←{0∊⍴⍵:'' '' ⋄ 'Server'⍵}Config.Server
-          status←res.((⍕Status),' ',StatusText)
-          hdr←enlist{⍺,': ',⍵,NL}/res.Headers
-          Answer←(toutf8((1+conns.Handler)⊃'HTTP/1.0 ' 'Status: '),status,NL,'Content-Length: ',(⍕length),NL,hdr,NL),res.HTML
-          done←length≤offset←⍴res.HTML
-          REQ.MSec-⍨←⎕AI[3]
-          res.Bytes←startsize length
-          :Repeat
-              :If 0≠1⊃z←#.DRC.Send obj Answer done ⍝ Send response and
-                  (1+(1⊃z)∊1008 1119)Log'"Handlerequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
-                  done←1
-              :EndIf
-              closed←done
-              :If ~done
-                  done←BlockSize>⍴Answer←⎕NREAD tn 83,BlockSize,offset
-                  offset+←⍴Answer
-              :EndIf
-          :Until closed ⍝ Everything sent
+          closed←done
+          :If ~done
+              done←BlockSize>⍴Answer←⎕NREAD tn 83,BlockSize,offset
+              offset+←⍴Answer
+          :EndIf
+      :Until closed ⍝ Everything sent
      
-          :If res.File ⋄ ⎕NUNTIE tn ⋄ :EndIf
-          8 Log REQ.PeerAddr status
-          Logger.Log REQ
-          r←1
-      :EndHold
+      :If res.File ⋄ ⎕NUNTIE tn ⋄ :EndIf
+      8 Log REQ.PeerAddr status
+      Logger.Log REQ
+      r←1
+ ⍝     :EndHold
     ∇
 
     ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax
@@ -629,6 +634,14 @@
     :endsection
 
     :section Misc
+
+    ∇ ConnectionMonitor server
+    ⍝ Because AJAX calls don't send a "BlockLast" packet, we need to clean up connection namespaces that didn't get erased
+      :While 1
+          {}⎕DL 5
+          {}Common.{⎕EX(⎕NL ¯9)~'C',¨#.DRC.Names ⍵}server
+      :EndWhile
+    ∇
 
     ∇ r←SpaceName cmd
      ⍝ Generate namespace name from command name
