@@ -1,31 +1,35 @@
-﻿  :Class jqDatePicker : #._JQ._jqUIWidget
+﻿:Class jqDatePicker : #._JQ._jqUIWidget
+    :field public shared readonly ApiLink←'http://api.jqueryui.com/datepicker/'
+    :field public shared readonly ApiLevel←3
+    :field public shared readonly Doc←'/Documentation/DyalogAPIs/jQuery/jqDatePickerHelp.html'
 
-    :field public Input←'' ⍝ input element to hold datepicker
+    :field public Text←''  ⍝ text on the button
 
     ∇ Make0
       :Access public
-      :Implements constructor
       JQueryFn←'datepicker'
+      ContainerType←'input'
+      :Implements constructor
     ∇
 
-    ∇ Make1 pars
+    ∇ Make1 args;i
       :Access public
-      :If 0 2∊⍨10|⎕DR pars
-        Input←pars
-        pars←'#',pars
-      :EndIf
-      pars←(⊂'datepicker'),eis pars
-      :Implements constructor :base pars
+      JQueryFn←'datepicker'
+      ContainerType←'input'
+      args←eis args
+      (i Text)←2↑args,(⍴args)↓'' ''
+      :Implements constructor :base args
     ∇
 
-    ∇ r←Render
+    ∇ r←Render;type
       :Access public
-      r←''
-      :If ~0∊⍴Input
-        r,←Input #.HTMLInput.Edit'' 20
+      Container.type←'text'
+      r←⎕BASE.Render
+      :If ~0∊⍴Text
+          r,⍨←(⎕NEW #._html.label(Text('for'Container.id))).Render
       :EndIf
-      r,←⎕BASE.Render
     ∇
 
 
-  :EndClass
+
+:EndClass

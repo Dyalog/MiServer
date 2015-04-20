@@ -1,4 +1,4 @@
-﻿  :class jqButtonset : #._JQ._jqUIWidget
+﻿:class jqButtonset : #._JQ._jqUIWidget
     ∇ Make0
       :Access public
       :Implements constructor
@@ -10,4 +10,4 @@
       pars←(⊂'buttonset'),eis pars
       :Implements constructor :base pars
     ∇
-  :endclass
+:endclass

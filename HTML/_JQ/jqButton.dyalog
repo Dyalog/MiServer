@@ -2,20 +2,20 @@
     :field public shared readonly ApiLink←'http://api.jqueryui.com/button/'
     :field public shared readonly ApiLevel←3
     :field public shared readonly Doc←'/Documentation/DyalogAPIs/jQuery/jqButtonHelp.html'
+
     :field public Text←''  ⍝ text on the button
     :field public Type←'' ⍝ valid types are 'button' 'submit' 'reset' 'checkbox' 'radio' 'anchor' ''
 
     ∇ Make0
       :Access public
       JQueryFn←'button'
-      Uses←'jqButton'
       :Implements constructor
     ∇
 
     ∇ Make1 args;i
       :Access public
       JQueryFn←'button'
-      Uses←'jqButton'
+      args←eis args
       (i Text Type)←3↑args,(⍴args)↓'' '' ''
       :Implements constructor :base args
     ∇
@@ -35,7 +35,9 @@
       :EndSelect
       r←⎕BASE.Render
       :If 'input'≡ContainerType
-          r,←(⎕NEW #._html.label(Text('for'Container.id))).Render
+          :If ~0∊⍴Text
+              r,←(⎕NEW #._html.label(Text('for'Container.id))).Render
+          :EndIf
       :EndIf
     ∇
 :EndClass

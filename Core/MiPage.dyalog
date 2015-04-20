@@ -121,6 +121,25 @@
           :EndIf
       :EndIf
     ∇
+    
+    ∇ r←{proto}SessionGet names
+      :Access public
+      proto←{6::⍵ ⋄ proto}''
+      names←,⍕names
+      names←#.Strings.deb names
+      :If ' '∊names
+          names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
+          r←proto∘SessionGet¨names
+      :ElseIf 2≠_Request.Session.⎕NC names
+          r←proto
+      :Else
+          r←_Request.Session⍎names
+          :If 1<|≡r ⋄ r←∊r ⋄ :EndIf
+          :If ~0 2∊⍨10|⎕DR proto
+              r←{0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
+          :EndIf
+      :EndIf
+    ∇
 
     ∇ Close session ⍝ Called when the session ends
       :Access Public Overridable

@@ -415,7 +415,7 @@
       REQ.MSec-⍨←⎕AI[3]
       res.Bytes←startsize length
       :Repeat
-          :If 0≠1⊃z←#.DRC.Send obj Answer ⍝ done ⍝ Send response and
+          :If 0≠1⊃z←#.DRC.Send obj Answer done ⍝ Send response and
               (1+(1⊃z)∊1008 1119)Log'"Handlerequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
               done←1
           :EndIf
