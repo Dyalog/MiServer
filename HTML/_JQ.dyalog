@@ -226,7 +226,8 @@
         ∇
 
         ∇ {name}Set value
-          :Access public
+          :Access public  
+          →(0=⍴,value)⍴0
           :If 326≠⎕DR Options ⋄ Options←⎕NS'' ⋄ :EndIf
           :If 0=⎕NC'name'
               :Trap 11

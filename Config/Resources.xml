@@ -167,6 +167,12 @@
   </resource>
 
   <resource>
+    <name>ejColorPicker</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+  </resource>
+
+  <resource>
     <name>ejCircularGauge</name>
     <uses>Syncfusion</uses>
     <uses>excanvas</uses>
