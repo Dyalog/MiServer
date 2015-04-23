@@ -1,6 +1,7 @@
 ﻿:Class MiPage : #.HtmlPage
 
     ⍝∇:require =\HtmlPage.dyalog
+    ⍝∇:require =\..\HTML\JSON.dyalog
 
     :Field Public _PageName←'' ⍝ Page file name
     :Field Public _PageDate←'' ⍝ Page saved date
@@ -21,8 +22,8 @@
     :field public _JSS  ⍝ JavaScript Snippets
     :field public _DC   ⍝ Dyalog Controls
     :field public Tag←#.HtmlElement
-    :field public shared _true←{⍵⊣⍵.⎕DF'true'}⎕NS ''     ⍝ same definition as in #.JSON
-    :field public shared _false←{⍵⊣⍵.⎕DF'false'}⎕NS ''   ⍝ same definition as in #.JSON
+    :field public shared _true←#.JSON.true     ⍝ same definition as in #.JSON
+    :field public shared _false←#.JSON.false   ⍝ same definition as in #.JSON
 
     _used←'' ⍝ keep track of what's been used
 

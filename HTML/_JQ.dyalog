@@ -1,6 +1,9 @@
 ﻿:Namespace _JQ
     (⎕IO ⎕ML)←1
 
+   ⍝∇:require =\JSON.dyalog
+
+
     :section Common Code
     quote←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}
 
@@ -19,8 +22,8 @@
         :field public Var←''        ⍝ JavaScript variable name for created object
         :field public JQueryFn←''   ⍝ JQuery function to apply
         :field public JQPars←''     ⍝ JQuery function parameters
-        :field public shared readonly _true←{⍵⊣⍵.⎕DF'true'}⎕NS ''     ⍝ same definition as in #.JSON
-        :field public shared readonly _false←{⍵⊣⍵.⎕DF'false'}⎕NS ''   ⍝ same definition as in #.JSON
+        :field public shared readonly _true←#.JSON.true     ⍝ same definition as in #.JSON
+        :field public shared readonly _false←#.JSON.false   ⍝ same definition as in #.JSON
 
         ∇ Make0
           :Access public
@@ -226,7 +229,7 @@
         ∇
 
         ∇ {name}Set value
-          :Access public  
+          :Access public
           →(0=⍴,value)⍴0
           :If 326≠⎕DR Options ⋄ Options←⎕NS'' ⋄ :EndIf
           :If 0=⎕NC'name'

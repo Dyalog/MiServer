@@ -15,8 +15,8 @@
       fitems←'parentId' 'text'⍪'not' 'citrus' 'not' 'citrus',⍪'Apples' 'Oranges' 'Pears' 'Lemons'
       gitems←'value' 'parentId' 'text'⍪1 2,'citrus' 'other',⍪'Citrus' 'Other'
      
-      groups←⎕NEW listbox('groups'gitems)
-      fruits←⎕NEW listbox('fruits'fitems)
+      groups←New listbox('groups'gitems)
+      fruits←New listbox('fruits'fitems)
       groups.Option/goptions
       fruits.Option/foptions
       Add _HTML.Table(1 2⍴groups fruits)
@@ -30,6 +30,8 @@
     ∇ r←APLJax
       :Access public   
       ⍝ display name of splitter and sizes of sub-panes
+      r←''
+      ∘∘∘
      
       r←'#output'Replace,⍕_what _PageData.stuff.model.selectedItemIndex
     ∇
