@@ -1,5 +1,4 @@
-﻿:Class accordion : MiPageSample ⍝ EAWC : MiPage : HtmlPage
-
+:Class accordion : MiPageSample ⍝ EAWC : MiPage : HtmlPage
 
     ∇ Render;ac
       :Access public

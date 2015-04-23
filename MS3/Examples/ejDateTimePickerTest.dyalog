@@ -1,4 +1,4 @@
-﻿:Class ejDatePickerTest : MiPage
+:Class ejDatePickerTest : MiPageSample
 
   ∇ Render;rte
     :Access Public

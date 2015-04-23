@@ -1,4 +1,4 @@
-﻿:Class ejButtonTest : MiPage
+:Class ejButtonTest : MiPageSample
 
     ∇ Render;f
       :Access Public

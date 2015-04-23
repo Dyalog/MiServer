@@ -1,4 +1,4 @@
-﻿:Class ejColorPickerTest : MiPage
+:Class ejColorPickerTest : MiPageSample
 
     ∇ Render;rte
       :Access Public

@@ -461,11 +461,11 @@
           :EndIf
       :Else                        ⍝ First use of Page in this Session, or page expired
           :If 0≠⍴z←#.Files.GetText file
-              class←⎕SE.SALT.Load file,' -target=#.Pages'
-              :Trap 11
+              :Trap 11 22
+                  class←⎕SE.SALT.Load file,' -target=#.Pages'
                   inst←⎕NEW class
-              :Else
-                  REQ.Fail 500 ⋄ →0
+              :Case 11 ⋄ REQ.Fail 500 ⋄ →0 ⍝ Domain Error: HTTP Internal Error
+              :Case 22 ⋄ REQ.Fail 404 ⋄ →0 ⍝ File Name Error: HTTP Page not found
               :EndTrap
               4 Log'Creating new instance of page: ',REQ.Page
               inst._PageName←REQ.Page
