@@ -69,7 +69,7 @@
       m,←{'{id:',(⍕110+⍵),',parentId:',(⍕10+⍵),',text:"',(⍵⊃P),'"},'}¨⍳16
       m[⍴m]↓⍨←¯1
       m←m,¨cr←⎕UCS 13
-      m←∊1⌽('];' '<script type="text/javascript">var data = [',¨cr),m
+      m←∊2⌽('];' '</script>' '<script type="text/javascript">var data = [',¨cr),m
     ∇
 
 :EndClass
