@@ -1,17 +1,11 @@
-﻿:Class Menuexample2 : MiPageSample 
-⍝ Demonstrate the SyncFusion ejMenu widget 
+﻿:Class Menuexample2 : MiPageSample
+⍝ Demonstrate the SyncFusion ejMenu widget
 
-    ⎕ml←⎕io←1
-    
     ∇ r←Render
-      :Access Public 
+      :Access Public
       'width'(Add _SF.ejMenu fixExample).Option 632
-     
-⍝      t←'<style type="text/css" class="cssStyles">.imgframe{background: url("menupix.png")'
-⍝      t,←' no-repeat scroll 0 0 transparent;width: 615px;height: 213px;margin: 0 auto;}</style>'
-⍝      Add t
     ∇
-    
+
     ∇ r3←fixExample;tmp;b;i
       :Access public shared
       tmp←⎕XML example
@@ -23,10 +17,10 @@
       r3←↓⍉tmp[;1 3],⊂''
     ∇
 
-    
+
     ∇ lines←example
       :Access public shared
-      lines←1↓∊(⎕UCS 13),¨1↓¨3↓⎕NR'example'
+      lines←ScriptFollows
 ⍝<li id="Products">
 ⍝  <a href="#">Products</a>
 ⍝  <ul>
@@ -130,5 +124,5 @@
 ⍝  </ul>
 ⍝</li>
     ∇
-    
+
 :EndClass

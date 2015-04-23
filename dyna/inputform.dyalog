@@ -1,4 +1,4 @@
-﻿:Class inputform : MiPage
+﻿:Class inputform : DyNApage
     ∇ Render;frm;ig;btn;handler
       :Access public
       Add _html.h2'Please tell us about yourself'
