@@ -6,7 +6,7 @@
      
       listbox←_SF.ejListBox
      
-      goptions←↑('height' '200px')('width' '100px')⍝('cascadeTo' 'fruits')
+      goptions←↑('height' '200px')('width' '100px')('cascadeTo' 'fruits')
       foptions←↑('height' '200px')('width' '100px')
      
       Add h3'SyncFusion ListBox'
@@ -30,7 +30,6 @@
     ∇ r←APLJax
       :Access public   
       ⍝ display name of splitter and sizes of sub-panes
-     
       r←'#output'Replace,⍕_what _PageData.stuff.model.selectedItemIndex
     ∇
 

@@ -1,8 +1,11 @@
-:Class ejColorPickerTest : MiPageSample
+﻿:Class ejColorPickerTest : MiPageSample
 
     ∇ Render;rte
       :Access Public
-      rte←Add _SF.ejColorPicker'MyCP'
+      normal←Add _SF.ejColorPicker'NormalCP'
+      Add br
+      inline←Add _SF.ejColorPicker'InlineCP'
+      inline.Set'displayInline'_true
     ∇
 
 :EndClass
