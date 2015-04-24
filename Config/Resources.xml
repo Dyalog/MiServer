@@ -100,6 +100,7 @@
 
   <resource>
     <name>properties</name>
+    <uses>SyncfusionJS</uses>
     <script>/Syncfusion/external/properties.js</script>
   </resource>
 
@@ -109,10 +110,15 @@
   </resource>
 
   <resource>
+    <name>SyncfusionJS</name>
+    <script>/Syncfusion/assets/js/web/ej.web.all.min.js</script>
+  </resource>
+
+  <resource>
     <name>Syncfusion</name>
     <uses>JQuery</uses>
     <uses>sfTheme</uses>
-    <script>/Syncfusion/assets/js/web/ej.web.all.min.js</script>
+    <uses>SyncfusionJS</uses>
   </resource>
 
   <resource>
@@ -263,6 +269,7 @@
     <name>ejListBox</name>
     <uses>Syncfusion</uses>
     <uses>jquery.easing</uses>
+    <uses>properties</uses>
   </resource>
 
   <resource>

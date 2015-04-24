@@ -73,9 +73,13 @@
                   :Case ''
                       id←quote'#',name
                   :Case 'ejModel'
-                      name,←'_ejModel'
-                      type←'JSON.stringify(argument.model)'
                       id←''
+                      :If type≡''
+                          name,←'_ejModel'
+                          type←'JSON.stringify(argument.model)'
+                      :Else
+                          type←'argument.model.',⍕type
+                      :EndIf
                   :Else
                       :If 'argument.'{⍺≡(⍴⍺)↑⍵}id
                           (type what)←2↑{⎕ML←3 ⋄ ⍵⊂⍨⍵≠'.'}id
