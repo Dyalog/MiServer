@@ -29,6 +29,7 @@
 
     :class Select : #._html.select
         :field public Options←0 2⍴⊂''  ⍝ vector or matrix [;1] display, [;2] value
+        :field public Selected←⍬       ⍝
 
         ∇ make
           :Access public
@@ -43,7 +44,7 @@
           SetAttr attr
         ∇
 
-        ∇ r←Render
+        ∇ r←Render;opts
           :Access public
           :If name≡UNDEF
               name←id
@@ -51,11 +52,13 @@
               id←name
           :EndIf
           :If ~0∊⍴Options
-              :If 1=⍴⍴Options
-                  Options←Options,⍪Options
+              Content←⍬
+              opts←Options
+              :If 1=⍴⍴opts
+                  opts←opts,⍪opts
               :EndIf
-              Add∊{'<option value="',(HtmlSafeText ⍵),'">',(⍕⍺),'</option>'}/¨↓Options
-              ⍝{(Add #._html.option ⍺).value←⍵}/¨↓Options
+              opts[Selected;1],⍨←⎕UCS 1
+              Add∊{sel←(⎕UCS 1)=1↑⍺ ⋄ '<option value="',(HtmlSafeText ⍵),'"',(sel/' selected="selected"'),'>',(⍕sel↓⍺),'</option>'}/¨↓opts
           :EndIf
           r←⎕BASE.Render
         ∇
