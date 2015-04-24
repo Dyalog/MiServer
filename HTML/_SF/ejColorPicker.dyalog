@@ -5,14 +5,18 @@
     ∇ make0
       :Access Public
       JQueryFn←Uses←'ejColorPicker'
+     ⍝ ContainerType←'input'
       :Implements Constructor
+     ⍝ Container.type←'text'
     ∇
 
     ∇ make args;n
     ⍝ Selector [value [palette]]
       :Access Public
       JQueryFn←Uses←'ejColorPicker'
+     ⍝ ContainerType←'input'
       :Implements Constructor :Base args
+     ⍝ Container.type←'text'
      
       :If (≡args)∊0 1 ⋄ args←,⊂args ⋄ :EndIf
       n←¯1+⊃⍴args
@@ -21,9 +25,11 @@
 
     ∇ r←Render
     ⍝ If inline, container should be a div, else it should be a text input
-      :If _true≢⎕THIS.GetOption'displayInline'
+      :Access Public
+     
+      :If 'true'≢⍕⎕THIS.GetOption'displayInline'
           ContainerType←'input'
-          Container.Type←'text'
+          Container.type←'text'
       :EndIf
       r←⎕BASE.Render
     ∇
