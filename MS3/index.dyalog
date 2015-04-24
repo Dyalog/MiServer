@@ -4,6 +4,12 @@
     Add h2'Welcome to MiServer 3.0'
     list←Add ul
     f←{(list.Add li).Add a(⍺('href'⍵))}
+    'Basic HTML Control Samples (_html)' f 'Examples/HTML/Home'
+    'Augmented HTML Control Samples (_HTML)' f 'Examples/HTMLplus/Home'
+    'Dyalog Control Samples (_DC)' f 'Examples/DC/Home'
+    'SyncFusion Control Samples (_SF)' f 'Examples/SF/Home'
+    'JQueryUI Control Samples (_JQ)' f 'Examples/JQ/Home'
+
     'EAWC without chaining'f'example'
     'EAWC with chaining'f'example2'
     'Input Form with Syncfusion DatePicker'f'inputform'

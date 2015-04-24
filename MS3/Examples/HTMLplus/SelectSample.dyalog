@@ -8,8 +8,6 @@
       Add title'_HTML.Select Sample'
       Add h2'Please pick some fruits'
      
-     
-     
       (frm←Add Form).id←'myform'
      
       frm.Add _html.a('Return to _HTML Sample menu'('href' 'Home'))
@@ -36,7 +34,7 @@
     ∇
 
     ∇ r←CallbackFn
-      :Access public             
+      :Access Public             
       r←'#result'Replace p('Selected from ',_what,': ',,⍕Get _what)
     ∇
 
