@@ -1,7 +1,7 @@
-﻿:Class MiPageSample : #.EAWC  
+﻿:Class MiPageSample : #.EAWC
 ⍝ This is a template that "wraps" the page content by
 ⍝ - adding a header and footer
-⍝ - adding a handler that will toggle the display of the web page and its APL source code 
+⍝ - adding a handler that will toggle the display of the web page and its APL source code
 
     ∇ Wrap;lang;server
       :Access Public
@@ -39,9 +39,22 @@
     ⍝ set the language for the page
       lang←server.Config.Lang ⍝ use the language specified in Server.xml
       Head.SetAttr'lang="',lang,'" xml:lang="',lang,'" xmlns="http://www.w3.org/1999/xhtml"'
-     
+      ∘∘∘
     ⍝ call the base class Wrap function
       ⎕BASE.Wrap
     ∇
+
+    ∇ r←Walk content;e
+      r←⍬
+      :For e :In content
+          :If (#.HtmlElement.isClass e)∨#.HtmlElement.isInstance e
+              r←r,⊃⎕CLASS e
+              :Trap 6
+                  r,←Walk e.Content
+              :EndTrap
+          :EndIf
+      :EndFor
+    ∇
+
 
 :EndClass

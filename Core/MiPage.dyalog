@@ -116,13 +116,16 @@
           r←proto
       :Else
           r←_PageData⍎names
-          :If 1<|≡r ⋄ r←∊r ⋄ :EndIf
+⍝!!! BPB - not sure if we need this - it messes up multiple values for select(combolist) controls
+⍝          :If 1<|≡r
+⍝              r←∊r
+⍝          :EndIf
           :If ~0 2∊⍨10|⎕DR proto
               r←{0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
           :EndIf
       :EndIf
     ∇
-    
+
     ∇ r←{proto}SessionGet names
       :Access public
       proto←{6::⍵ ⋄ proto}''

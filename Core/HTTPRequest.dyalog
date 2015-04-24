@@ -104,6 +104,7 @@
               new⍪←1 URLDecodeArgs s
           :EndFor
           Data←((~(⊃⍴Data)↑mask)⌿Data)⍪new
+       ⍝   Data←{0 1∊⍨⊃⍴⍵:⊃⍵ ⋄ ⍵}¨⊃{⍺ ⍵}⌸/↓[1]Data
       :EndIf
      
       :If ∨/mask←Data[;1]{⍵≡(-⍴⍵)↑⍺}¨⊂'_ejModel' ⍝ do we have any Syncfusion model data?
