@@ -1,7 +1,7 @@
 ﻿:class ejGrid : #._SF._ejWidget
     :Field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejGrid.html'
     :Field public shared readonly ApiLevel←3
-       
+
     :Field Public Values←0 0⍴⊂''
     :Field Public Columns←⍬      ⍝ Vector of namespaces using JSON names
 
@@ -10,38 +10,45 @@
     :Field Public CellWidths←⍬   ⍝       width
     :Field Public CellFormats←⍬  ⍝       format
     :Field Public CellAlign←⍬    ⍝       textAlign
-                               
+
     script←{⎕NEW #._HTML.Script ⍵}
     ⍝ window.gridData=[{OrderID:10248,CustomerID:"VINET",EmployeeID:5,OrderDate:new Date(8364186e5),
     ⍝ShipName:"Vins et alcools Chevalier",ShipCity:"Reims",ShipAddress:"59 rue de l'Abbaye",
     ⍝ ShipRegion:null,ShipPostalCode:"51100",ShipCountry:"France",Freight:32.38,Verified:!0},...
-    
+
     ∇ makec args;x;values;cols;widths
       :Access public
       args←eis args
       JQueryFn←Uses←'ejGrid'
       :Implements Constructor :Base args
       (x Values ColTitles CellWidths)←4↑args,(⍴args)↓''(0 0⍴⍬)⍬ ⍬
-      :If 0≠⍴ColTitles ⋄ ColNames←ColTitles~¨' ' ⋄ :EndIf
+      :If 0≠⍴ColTitles
+          :If 326=⎕DR⊃ColTitles ⋄ Columns←ColTitles ⋄ ColTitles←⍬
+          :Else ⋄ ColNames←ColTitles~¨' '
+          :EndIf
+      :EndIf
     ∇
 
     ∇ r←Render;fields;src;rows;cols;coldefs;colfields;i
-      :Access public
+      :Access public 
       r←''
       (rows cols)←⍴Values
       :If 0=cols
           r←'[grid with zero columns]'
       :Else
-          coldefs←(cols,0)⍴⊂'' ⋄ colfields←⍬
-          :If 0≠⍴ColNames ⋄ coldefs,←ColNames ⋄ colfields,←⊂'field' ⋄ :EndIf
-          :If 0≠⍴ColTitles ⋄ coldefs,←ColTitles ⋄ colfields,←⊂'headerText' ⋄ :EndIf
-          :If 0≠⍴CellWidths ⋄ coldefs,←CellWidths ⋄ colfields,←⊂'width' ⋄ :EndIf
-          :If 0≠⍴CellFormats ⋄ coldefs,←CellFormats ⋄ colfields,←⊂'format' ⋄ :EndIf
-          :If 0≠⍴CellAlign ⋄ coldefs,←CellAlign ⋄ colfields,←⊂'textAlign' ⋄ :EndIf
+          :If 0≠⍴Columns ⋄ coldefs←Columns ⋄ ColNames←Columns.field
+          :Else ⍝ Put Columns together from individual properties
+              coldefs←(cols,0)⍴⊂'' ⋄ colfields←⍬
+              :If 0≠⍴ColNames ⋄ coldefs,←ColNames ⋄ colfields,←⊂'field' ⋄ :EndIf
+              :If 0≠⍴ColTitles ⋄ coldefs,←ColTitles ⋄ colfields,←⊂'headerText' ⋄ :EndIf
+              :If 0≠⍴,CellWidths ⋄ coldefs,←cols⍴CellWidths ⋄ colfields,←⊂'width' ⋄ :EndIf
+              :If 0≠⍴CellFormats ⋄ coldefs,←CellFormats ⋄ colfields,←⊂'format' ⋄ :EndIf
+              :If 0≠⍴CellAlign ⋄ coldefs,←CellAlign ⋄ colfields,←⊂'textAlign' ⋄ :EndIf
      
-          coldefs←colfields #.JSON.formatData coldefs
-          :If 0≠⍴CellFormats ⋄ :AndIf 0≠⍴i←(0=⊃∘⍴¨CellFormats)/⍳⍴CellFormats
-              coldefs[i].⎕EX⊂'format' ⍝ Remove empty formats
+              coldefs←colfields #.JSON.formatData coldefs
+              :If 0≠⍴CellFormats ⋄ :AndIf 0≠⍴i←(0=⊃∘⍴¨CellFormats)/⍳⍴CellFormats
+                  coldefs[i].⎕EX⊂'format' ⍝ Remove empty formats
+              :EndIf
           :EndIf
           coldefs←#.JSON.fromAPL coldefs
      
