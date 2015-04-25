@@ -3,13 +3,15 @@
 ⍝ - adding a header and footer
 ⍝ - adding a handler that will toggle the display of the web page and its APL source code
 
-    ∇ Wrap;lang;server
+    ∇ Wrap;lang;server;controls
       :Access Public
      
       server←_Request.Server
      
-    ⍝ we use JQuery to set up the handler, so we tell the page to include JQuery resources
-      Use'JQuery' ⍝ "JQuery" is a resource defined in Config/Resources.xml
+      controls←∪Walk Body.Content
+     
+    ⍝ we use Syncfusion (which uses jQuery) to set up the controls to do cool stuff
+      Use'Syncfusion' ⍝ this is a resource defined in Config/Resources.xml
      
     ⍝ set the title display in the browser to the name of the application defined in Config/Server.xml
       Add title server.Config.Name
@@ -34,12 +36,14 @@
      
     ⍝ add the header to the top of the page and wrap the body in a div with id="wrapper"
       Body.Push #.Files.GetText server.Config.Root,'Styles\banner.txt'
+     
+     
       Body.Push div'id="wrapper"'
      
     ⍝ set the language for the page
       lang←server.Config.Lang ⍝ use the language specified in Server.xml
       Head.SetAttr'lang="',lang,'" xml:lang="',lang,'" xmlns="http://www.w3.org/1999/xhtml"'
-      ∘∘∘
+     
     ⍝ call the base class Wrap function
       ⎕BASE.Wrap
     ∇
