@@ -43,7 +43,10 @@
     ⍝ set the language for the page
       lang←server.Config.Lang ⍝ use the language specified in Server.xml
       Head.SetAttr'lang="',lang,'" xml:lang="',lang,'" xmlns="http://www.w3.org/1999/xhtml"'
+<<<<<<< HEAD
      
+=======
+>>>>>>> b6f6d5468c6f6f8e895285b9358e487843200a8d
     ⍝ call the base class Wrap function
       ⎕BASE.Wrap
     ∇

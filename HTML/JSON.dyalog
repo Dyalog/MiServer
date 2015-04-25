@@ -277,7 +277,7 @@
       :EndIf
     ∇
 
-    ∇ r←toAPLJAX nvp;ns;d;p;x
+    ∇ r←toAPLJAX nvp;verb;fmt;value;sel;x;d;strip
     ⍝ formats name/value pairs in a manner suitable for processing by the client side of APLJAX
     ⍝ essentially there are 4 verbs:
     ⍝ ('execute' javascript)
@@ -286,47 +286,70 @@
     ⍝ ('prepend' selector)('data' html)
       :Access public shared
       :If 0∊⍴nvp ⋄ r←'[]' ⋄ :Return ⋄ :EndIf
+      strip←{1↓¯1↓⍵}
+      fmt←{(isChar ⍵)>(isJSON ⍵)∨t←'⍎'=1↑,⍵:'"',(JAchars ⍵),'"'
+          ⋄ t:1↓⍕⍵
+          ⋄ strip toAPLJAX ⍵}
       r←'['
       :Select |≡nvp
-      :Case 1
-⍝          nvp←⊂(,¨⍣(isChar nvp))nvp
-          r←nvp ⋄ :Return
-      :Case 2
-          nvp←⊂,¨¨nvp
-      :Case 3
-          nvp←⊂nvp
-      :EndSelect
-      :For p :In ,nvp
-          :Select |≡p
-          :Case 0
-              r,←(⍕p),']'
-          :Case 1
-              r,←(fromAPL p),']'
-          :Case 2
-              :If 2=⍴,p
-                  d←{(isChar ⍵)>isJSON ⍵:'"',(JAchars ⍵),'"' ⋄ strip fromNVP ⍵}2⊃p
-                  r,←'{"',(1⊃p),'":',d,'},'
+      :Case 1  ⍝ if depth 1, assume it's a JSON character string already
+          r←⍕nvp ⋄ :Return
+      :Case 2 ⍝ vector of vectors
+          :While ~0∊⍴nvp
+              :Select verb←⊃nvp
+              :Case 'execute'
+                  r,←'{"',verb,'":',(fmt⊃1↓2↑nvp),'},'
+                  nvp↓⍨←2
+              :CaseList 'replace' 'prepend' 'append'
+                  x sel d value←4↑nvp
+                  r,←'{{"',verb,'":"',sel,'"},{"',d,'":',(fmt value),'}},'
+                  nvp↓⍨←4
               :Else
-                  r,←(fromAPL⊃p),']'
-              :EndIf
-          :Case 3
-              r,←'{'
-              :If (1=≡⊃p)∧2=⍴,p
-                  :If isChar⊃p
-                      r,←'"',(⊃p),'":',(strip toAPLJAX 2⊃p),','
-                  :Else
-                      r←fromAPL p
-                  :EndIf
-              :Else
-                  :For x :In p
-                      d←{1<⍴⍴⍵:∊(↓⍕⍵),¨⊂'<br/>' ⋄ ⍵}2⊃x
-                      d←{(isChar ⍵)>isJSON ⍵:'"',(JAchars ⍵),'"' ⋄ ⍕⍵}d
-                      r,←'"',(1⊃x),'":',d,','
-                  :EndFor
-              :EndIf
-              r←(¯1↓r),'},'
+              :EndSelect
+          :EndWhile
+      :Case 3  ⍝ could be (('execute' 'foo')('execute' 'goo')) OR (('replace' 'sel')('data' 'foo'))
+          :Select verb←⊃⊃nvp
+          :Case 'execute'
+              r,←∊',',⍨¨strip¨toAPLJAX¨nvp
+          :Else
+              (x sel)(d value)←nvp
+              r,←'{{"',verb,'":"',sel,'"},{"',d,'":',(fmt value),'}},'
           :EndSelect
-      :EndFor
+      :Case 4
+          r,←∊',',⍨¨strip¨toAPLJAX¨nvp
+      :EndSelect
+⍝
+⍝      :For p :In ,nvp
+⍝          :Select |≡p
+⍝          :Case 0
+⍝              r,←(⍕p),']'
+⍝          :Case 1
+⍝              r,←(fromAPL p),']'
+⍝          :Case 2
+⍝              :If 2=⍴,p
+⍝                  d←{(isChar ⍵)>isJSON ⍵:'"',(JAchars ⍵),'"' ⋄ strip fromNVP ⍵}2⊃p
+⍝                  r,←'{"',(1⊃p),'":',d,'},'
+⍝              :Else
+⍝                  r,←(fromAPL⊃p),']'
+⍝              :EndIf
+⍝          :Case 3
+⍝              r,←'{'
+⍝              :If (1=≡⊃p)∧2=⍴,p
+⍝                  :If isChar⊃p
+⍝                      r,←'"',(⊃p),'":',(strip toAPLJAX 2⊃p),','
+⍝                  :Else
+⍝                      r←fromAPL p
+⍝                  :EndIf
+⍝              :Else
+⍝                  :For x :In p
+⍝                      d←{1<⍴⍴⍵:∊(↓⍕⍵),¨⊂'<br/>' ⋄ ⍵}2⊃x
+⍝                      d←{(isChar ⍵)>isJSON ⍵:'"',(JAchars ⍵),'"' ⋄ ⍕⍵}d
+⍝                      r,←'"',(1⊃x),'":',d,','
+⍝                  :EndFor
+⍝              :EndIf
+⍝              r←(¯1↓r),'},'
+⍝          :EndSelect
+⍝      :EndFor
       r←(¯1↓r),']'
     ∇
 
