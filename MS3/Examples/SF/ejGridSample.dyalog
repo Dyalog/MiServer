@@ -10,18 +10,10 @@
       mygrid.CellFormats←FORMATS
       mygrid.ColNames←COLNAMES
       mygrid.CellAlign←CELLALIGN
-      mygrid.Set↓'allowPaging' 'allowSorting' 'allowResizing',[1.5]_true
-     
-      (frm.Add div).id←'result'
+      mygrid.Set↓'allowPaging' 'allowSorting' 'allowResizing'[1.5]_true
     ∇
-    
-    ∇ r←CallbackFn;preset
-      :Access Public                                               
-     
-      ∘∘∘
-    ∇
-    
-    ∇ make
+ 
+    ∇ Make
       :Access Public
       :Implements Constructor        
      
