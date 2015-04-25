@@ -279,6 +279,21 @@
     :endsection
 
     :section RequestHandling
+    
+    ∇ names←pagedata PrepareJSONTargets names;p;m;i;nss;z
+     ⍝ See if names contain JSON indexed names like editcell[Name]
+     ⍝     and if so convert them to editcell.Name and make sure editcell exists
+     ⍝ /// Hack by Morten awaiting cleanup or approval by Brian
+     
+      :If 0≠⍴i←(¯1=⎕NC names)/⍳⍴names ⍝ all invalid APL names
+          names[i]←('%5B' '%5D'⎕R(,¨'[]'))¨names[i]
+      :AndIf 0≠⍴i←i/⍨m←(p←names[i]⍳¨'[')≠∘⊃∘⍴¨names[i] ⍝ ... which contain '['
+          nss←∪z←(m/p-1)↑¨names[i] ⍝ all namespaces mentions
+          nss pagedata.⎕NS¨⊂⍬      ⍝ prepare empty nss
+          names[i]←¯1↓¨names[i]    ⍝ drop trailing ']'
+          names[i,¨p]←'.'          ⍝ replace '[' by '.'
+      :EndIf
+    ∇
 
     ∇ r←conns HandleRequest arg;buf;m;Answer;obj;CMD;pos;req;Data;z;r;hdr;REQ;status;file;tn;length;done;offset;res;closed;sess;chartype;raw;enc;which;html;encoderc;encodeMe;startsize;cacheMe;root;page;filename;eoh;n;i
       ⍝ Handle a Web Server Request
@@ -521,6 +536,7 @@
               :EndIf
               :If ∨/mask←'_'≠1⊃¨data[;1]
                   args←mask⌿data
+                  args[;1]←inst._PageData PrepareJSONTargets args[;1]
                   ⍎'inst._PageData.(',(⍕args[;1]),')←args[;2]'
               :EndIf
           :EndIf
