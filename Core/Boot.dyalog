@@ -270,7 +270,7 @@
       :EndIf
     ∇
 
-    ∇ ConfigureDatasources ms;file;ds;name;tmp;orig
+    ∇ ConfigureDatasources ms;file;ds;name;tmp;orig;dyalog
       ⍝ load any datasource definitions
       :If ~0∊⍴ms.Datasources←'Name'ReadConfiguration'Datasources'
           :For ds :In ms.Datasources
@@ -285,7 +285,8 @@
      
           :Trap 0
               :If 0=#.⎕NC'SQA'
-                  'SQA'#.⎕CY'sqapl' ⍝ copy in SQA
+                  dyalog←2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
+                  'SQA'#.⎕CY dyalog,'\ws\sqapl' ⍝ copy in SQA
               :EndIf
               :If 0≠1⊃#.SQA.Init'' ⍝ and initialize
                   1 ms.Log'SQA failed to initialize'

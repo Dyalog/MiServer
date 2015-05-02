@@ -7,7 +7,7 @@
 
     ∇ r←text AppendText name;tn
      ⍝ Append text to existing file (must be single byte text)
-      tn←name ⎕NTIE 0
+      tn←Nopen name
       r←text ⎕NAPPEND tn(⎕DR' ')
       ⎕NUNTIE tn
     ∇
@@ -339,15 +339,18 @@
       :EndSelect
     ∇
 
-    ∇ r←text PutText name;tn
-     ⍝ Write text to file (must be single byte text)
+    ∇ tn←Nopen name
       :Trap 0
           tn←name ⎕NCREATE 0
       :Else
           tn←name ⎕NTIE 0
-          0 ⎕NRESIZE tn
       :EndTrap
-     
+    ∇
+
+    ∇ r←text PutText name;tn
+     ⍝ Write text to file (must be single byte text)
+      tn←Nopen name
+      0 ⎕NRESIZE tn
       r←text ⎕NAPPEND tn(⎕DR' ')
       ⎕NUNTIE tn
     ∇

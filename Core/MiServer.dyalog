@@ -130,7 +130,6 @@
      
       idletime←#.Dates.DateToIDN ⎕TS
       :While ~Stop
-     
           wres←#.DRC.Wait ServerName 20000 ⍝ Tick every 20 secs
           ⍝ wres: (return code) (object name) (command) (data)
      
@@ -199,6 +198,8 @@
       ⎕TKILL CMTid
       {}#.DRC.Close ServerName
       1 Log r←'Web server ''',ServerName,''' stopped '
+      →0
+     
     ∇
 
     :section Constructor/Destructor
@@ -279,7 +280,7 @@
     :endsection
 
     :section RequestHandling
-    
+
     ∇ names←pagedata PrepareJSONTargets names;p;m;i;nss;z
      ⍝ See if names contain JSON indexed names like editcell[Name]
      ⍝     and if so convert them to editcell.Name and make sure editcell exists
@@ -654,7 +655,7 @@
     ∇ ConnectionMonitor server
     ⍝ Because AJAX calls don't send a "BlockLast" packet, we need to clean up connection namespaces that didn't get erased
       :While 1
-          {}⎕DL 5
+          ⎕DL 5
           {}Common.{⎕EX(⎕NL ¯9)~'C',¨#.DRC.Names ⍵}server
       :EndWhile
     ∇
