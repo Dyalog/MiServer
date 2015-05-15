@@ -1,67 +1,34 @@
 ﻿:Namespace _HTML
+    :class Button : #._html.button
 
-    :class Form : #._html.form
+        :field _content←''
 
-        :field public Method←'post'
-        :field public Action←''
-        :field public Serialize←0
-
-        ∇ make;c
+        ∇ Make0
           :Access public
-          :Implements constructor
-          :If {6::0 ⋄ ''≢c∘←##.context ⍵}'_Request'
-              Action←c._Request.Page
-          :EndIf
+          :Implements constructor :base
+          SetAttr('type' 'button')
         ∇
 
-        ∇ make1 action
+        ∇ Make args;n;v
           :Access public
-          :Implements constructor
-          Action←action
-        ∇
-
-        ∇ r←Render
-          :Access public
-          Attr['action' 'method']←Action Method
-          r←⎕BASE.Render
-        ∇
-    :endclass
-
-    :class Select : #._html.select
-        :field public Options←0 2⍴⊂''  ⍝ vector or matrix [;1] display, [;2] value
-        :field public Selected←⍬       ⍝
-
-        ∇ make
-          :Access public
-          :Implements constructor
-        ∇
-
-        ∇ make1 args;attr
-          :Access public
-          :Implements constructor
+          :Implements constructor :base
+          ⍝ arguments are name value {content}
           args←eis args
-          (name Options attr)←3↑args,(⍴args)↓UNDEF'' ''
-          SetAttr attr
+          (n v _content)←3↑args,(⍴args)↓'button' 'button' ''
+          :If 0∊⍴_content ⋄ _content←v ⋄ :EndIf
+          (name value)←n v
+          id←name
+          SetAttr('type' 'button')
         ∇
 
-        ∇ r←Render;opts
+        ∇ html←Render
           :Access public
-          :If name≡UNDEF
-              name←id
-          :ElseIf id≡UNDEF
-              id←name
+          :If 0∊⍴Content
+              Content←_content
           :EndIf
-          :If ~0∊⍴Options
-              Content←⍬
-              opts←Options
-              :If 1=⍴⍴opts
-                  opts←opts,⍪opts
-              :EndIf
-              opts[Selected;1],⍨←⎕UCS 1
-              Add∊{sel←(⎕UCS 1)=1↑⍺ ⋄ '<option value="',(HtmlSafeText ⍵),'"',(sel/' selected="selected"'),'>',(⍕sel↓⍺),'</option>'}/¨↓opts
-          :EndIf
-          r←⎕BASE.Render
+          html←⎕BASE.Render
         ∇
+
     :endclass
 
     :class Datalist : #._html.input
@@ -102,22 +69,60 @@
 
     :endclass
 
-    :class InputSubmit : #._html.input
+    :class EditField : #._html.input
 
-        ∇ Make
+        ∇ make1 nm
           :Access public
-          :Implements constructor :base
-          (name value)←'submit' 'submit'
-          SetAttr('type' 'submit')
+          :Implements constructor
+          name←nm
+          id←name
+          type←'text'
+        ∇
+        ∇ make2(nm val)
+          :Access public
+          :Implements constructor
+          :If ~1=≡name←nm val    ⍝ handle 2-character names
+              (name value)←nm val
+          :EndIf
+          id←name
+          type←'text'
+        ∇
+        ∇ make3(nm val att)
+          :Access public
+          :Implements constructor
+          :If ~1=≡name←nm val att    ⍝ handle 3-character names
+              (name value)←nm val
+              SetAttr att
+          :EndIf
+          id←name
+          type←'text'
+        ∇
+    :endclass
+
+    :class Form : #._html.form
+
+        :field public Method←'post'
+        :field public Action←''
+        :field public Serialize←0
+
+        ∇ make;c
+          :Access public
+          :Implements constructor
+          :If {6::0 ⋄ ''≢c∘←##.context ⍵}'_Request'
+              Action←c._Request.Page
+          :EndIf
         ∇
 
-        ∇ Make1 args;n;v
+        ∇ make1 action
           :Access public
-          :Implements constructor :base
-          args←eis args
-          (n v)←2↑args,(⍴args)↓'submit' 'submit'
-          (name value)←n v
-          SetAttr('type' 'submit')
+          :Implements constructor
+          Action←action
+        ∇
+
+        ∇ r←Render
+          :Access public
+          Attr['action' 'method']←Action Method
+          r←⎕BASE.Render
         ∇
     :endclass
 
@@ -151,6 +156,24 @@
         :field public Labels←''
         :field public Inputs←''
         :field public Headings←''
+        :field public LabelPosition←'left' ⍝ valid values are 'left' 'right'
+
+        ∇ make1 args;data;sel
+          :Access public
+          :Implements constructor
+          args←eis args
+          :Select ⊃⍴args
+          :Case 1
+              :Select ⊃⍴⍴args←⊃args
+              :Case 1
+                  Labels←Values←data
+              :Case 2
+                  (Labels Values)←↓[1]data
+              :EndSelect
+          :Case 2 ⍝ Labels Inputs
+              (Labels Inputs)←args
+          :EndSelect
+        ∇
 
         ∇ html←Render;cells;rows
           :Access public
@@ -164,67 +187,51 @@
         ∇
     :endclass
 
-    :class EditField : #._html.input
+    :class InputSubmit : #._html.input
 
-        ∇ make1 nm
+        ∇ Make
           :Access public
-          :Implements constructor
-          name←nm
-          id←name
-          type←'text'
+          :Implements constructor :base
+          (name value)←'submit' 'submit'
+          SetAttr('type' 'submit')
         ∇
-        ∇ make2(nm val)
+
+        ∇ Make1 args;n;v
           :Access public
-          :Implements constructor
-          :If ~1=≡name←nm val    ⍝ handle 2-character names
-              (name value)←nm val
-          :EndIf
-          id←name
-          type←'text'
-        ∇
-        ∇ make3(nm val att)
-          :Access public
-          :Implements constructor
-          :If ~1=≡name←nm val att    ⍝ handle 3-character names
-              (name value)←nm val
-              SetAttr att
-          :EndIf
-          id←name
-          type←'text'
+          :Implements constructor :base
+          args←eis args
+          (n v)←2↑args,(⍴args)↓'submit' 'submit'
+          (name value)←n v
+          SetAttr('type' 'submit')
         ∇
     :endclass
 
-    :class Button : #._html.button
+    :class RadioButtonGroup
+        :field public Labels←⍬
+        :field public Values←⍬
+        :field public SelectedIndex←⍬
 
-        :field _content←''
-
-        ∇ Make0
+        ∇ make args;data;sel
           :Access public
-          :Implements constructor :base
-          SetAttr('type' 'button')
-        ∇
-
-        ∇ Make args;n;v
-          :Access public
-          :Implements constructor :base
-          ⍝ arguments are name value {content}
+          :Implements constructor
           args←eis args
-          (n v _content)←3↑args,(⍴args)↓'button' 'button' ''
-          :If 0∊⍴_content ⋄ _content←v ⋄ :EndIf
-          (name value)←n v
-          id←name
-          SetAttr('type' 'button')
+          data sel←2↑args,(⍴args)↓(0 2⍴⊂'')⍬
+          :If ~0∊⍴data
+              :Select ⊃⍴⍴data
+              :Case 1
+                  Labels←Values←data
+              :Case 2
+                  (Labels Values)←↓[1]data
+              :EndSelect
+          :EndIf
+          SelectedIndex←sel
         ∇
 
         ∇ html←Render
           :Access public
-          :If 0∊⍴Content
-              Content←_content
-          :EndIf
-          html←⎕BASE.Render
+         
         ∇
-
-    :endclass
+    :EndClass
 
     :class Script : #._html.script
 
@@ -255,6 +262,43 @@
           html←⎕BASE.Render
         ∇
 
+    :endclass
+
+    :class Select : #._html.select
+        :field public Options←0 2⍴⊂''  ⍝ vector or matrix [;1] display, [;2] value
+        :field public Selected←⍬       ⍝
+
+        ∇ make
+          :Access public
+          :Implements constructor
+        ∇
+
+        ∇ make1 args;attr
+          :Access public
+          :Implements constructor
+          args←eis args
+          (name Options attr)←3↑args,(⍴args)↓UNDEF'' ''
+          SetAttr attr
+        ∇
+
+        ∇ r←Render;opts
+          :Access public
+          :If name≡UNDEF
+              name←id
+          :ElseIf id≡UNDEF
+              id←name
+          :EndIf
+          :If ~0∊⍴Options
+              Content←⍬
+              opts←Options
+              :If 1=⍴⍴opts
+                  opts←opts,⍪opts
+              :EndIf
+              opts[Selected;1],⍨←⎕UCS 1
+              Add∊{sel←(⎕UCS 1)=1↑⍺ ⋄ '<option value="',(HtmlSafeText ⍵),'"',(sel/' selected="selected"'),'>',(⍕sel↓⍺),'</option>'}/¨↓opts
+          :EndIf
+          r←⎕BASE.Render
+        ∇
     :endclass
 
     :class Style : #._html.style
