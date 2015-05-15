@@ -39,7 +39,8 @@
     enlist←{⎕ML←1 ⋄ ∊⍵}
     fromutf8←{0::(⎕AV,'?')[⎕AVU⍳⍵] ⋄ 'UTF-8' ⎕UCS ⍵} ⍝ Turn raw UTF-8 input into text
     toutf8←{'UTF-8' ⎕UCS ⍵}                          ⍝ Turn text into UTF-8 byte stream
-    setting←{0=⎕NC ⍵:⍺ ⋄ ⍎⍵}
+    setting←{0=⎕NC ⍵:⍺ ⋄ ⍎⍵} 
+    I85←{}
 
       bit←{⎕IO←0  ⍝ used by Log
           0=⍺:0 ⍝ all bits turned off
@@ -235,6 +236,12 @@
       Logger.Start←{}
       ibeam85←{11::0 ⋄ 85⌶'1'}⍬
      
+      :If {0::1 ⋄ 85⌶'0'}'' ⍝ Need a left arg?
+          I85←1∘(85⌶)
+      :Else
+          I85←85⌶
+      :EndIf
+     
       Config←config
       (Port Root DefaultPage TrapErrors Debug TempFolder UseContentEncoding)←Config.(Port Root DefaultPage TrapErrors Debug TempFolder UseContentEncoding)
       IPVersion←IPVersion setting'Config.IPVersion'
@@ -317,115 +324,115 @@
       :If conns.Handler  ⍝ if we're running as a mapping handler
           req←MakeHTTPRequest req ⍝ fake MiServer out by building an HTTP request from what we've got
       :EndIf
-
+     
       :Hold 'Request'
-      REQ←⎕NEW #.HTTPRequest(req conns.Buffer)
-      REQ.Server←⎕THIS ⍝ Request will also contain reference to the Server
+          REQ←⎕NEW #.HTTPRequest(req conns.Buffer)
+          REQ.Server←⎕THIS ⍝ Request will also contain reference to the Server
      
-      :If 2=conns.⎕NC'PeerAddr' ⋄ REQ.PeerAddr←conns.PeerAddr ⋄ :EndIf       ⍝ Add Client Address Information
-      8 Log REQ.(PeerAddr Command Page)
+          :If 2=conns.⎕NC'PeerAddr' ⋄ REQ.PeerAddr←conns.PeerAddr ⋄ :EndIf       ⍝ Add Client Address Information
+          8 Log REQ.(PeerAddr Command Page)
      
-      :If 2=conns.⎕NC'PeerCert' ⋄ REQ.PeerCert←conns.PeerCert ⋄ :EndIf       ⍝ Add Client Cert Information
+          :If 2=conns.⎕NC'PeerCert' ⋄ REQ.PeerCert←conns.PeerCert ⋄ :EndIf       ⍝ Add Client Cert Information
      
-      REQ.Page←DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page
-      REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/DefaultExtension
+          REQ.Page←DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page
+          REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/DefaultExtension
      
-      SessionHandler.GetSession REQ
-      Authentication.Authenticate REQ
+          SessionHandler.GetSession REQ
+          Authentication.Authenticate REQ
      
-      :If REQ.Response.Status≠401 ⍝ Authentication did not fail
+          :If REQ.Response.Status≠401 ⍝ Authentication did not fail
      
-          filename←Root Virtual REQ.Page
-          :If (¯7↑REQ.Page)≢'.dyalog'
-              :If REQ.Command≡'get'
-                  REQ.ReturnFile filename
-              :Else
-                  REQ.Fail 501 ⍝ Service Not Implemented
+              filename←Root Virtual REQ.Page
+              :If (¯7↑REQ.Page)≢'.dyalog'
+                  :If REQ.Command≡'get'
+                      REQ.ReturnFile filename
+                  :Else
+                      REQ.Fail 501 ⍝ Service Not Implemented
+                  :EndIf
+     
+              :Else ⍝ "MildServer Page"
+                  filename HandleMSP REQ
               :EndIf
-     
-          :Else ⍝ "MildServer Page"
-              filename HandleMSP REQ
           :EndIf
-      :EndIf
      
-      res←REQ.Response
+          res←REQ.Response
      
-      encodeMe←conns.Handler<UseContentEncoding ⍝ initialize a flag whether to encode this response, don't compresss if running as a handler
-      cacheMe←0
+          encodeMe←conns.Handler<UseContentEncoding ⍝ initialize a flag whether to encode this response, don't compresss if running as a handler
+          cacheMe←0
      
-      :If 1=res.File ⍝ See HTTPRequest.ReturnFile
-          :If 83=⎕DR file←res.HTML ⍝ if we returned a byte stream, just use it
-              length←⍴file ⋄ tn←0
-          :Else
-              :Trap 22
-                  tn←file ⎕NTIE tn←0
-                  length←⎕NSIZE tn
-                  res.HTML←⎕NREAD tn 83 BlockSize 0
-                  cacheMe←0≠Config.HttpCacheTime ⍝ for now, cache all files if set to use caching
-                  :If encodeMe
-                      encodeMe∧←length<BlockSize ⍝ if we can read entire file and are we encoding...
-                      encodeMe>←(⊂¯4↑file)∊'.png' '.gif' '.jpg' ⍝ don't try to compress compressed graphics, should probably add zip files, etc
-                  :EndIf
+          :If 1=res.File ⍝ See HTTPRequest.ReturnFile
+              :If 83=⎕DR file←res.HTML ⍝ if we returned a byte stream, just use it
+                  length←⍴file ⋄ tn←0
               :Else
-                  REQ.Fail 404
-                  length←⍴res.HTML
-                  res.File←0
-              :EndTrap
+                  :Trap 22
+                      tn←file ⎕NTIE tn←0
+                      length←⎕NSIZE tn
+                      res.HTML←⎕NREAD tn 83 BlockSize 0
+                      cacheMe←0≠Config.HttpCacheTime ⍝ for now, cache all files if set to use caching
+                      :If encodeMe
+                          encodeMe∧←length<BlockSize ⍝ if we can read entire file and are we encoding...
+                          encodeMe>←(⊂¯4↑file)∊'.png' '.gif' '.jpg' ⍝ don't try to compress compressed graphics, should probably add zip files, etc
+                      :EndIf
+                  :Else
+                      REQ.Fail 404
+                      length←⍴res.HTML
+                      res.File←0
+                  :EndTrap
+              :EndIf
+              startsize←length
           :EndIf
-          startsize←length
-      :EndIf
      
-      :If (200=res.Status)∧encodeMe ⍝ if our HTTP status is 200 (OK) and we're okay to encode
-      :AndIf 1024<⍴res.HTML ⍝ BPB used to be 0
-      :AndIf 0≠⍴enc←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}' '~⍨',',REQ.GetHeader'accept-encoding' ⍝ check if client supports encoding
-      :AndIf 0≠which←⊃Encoders.Encoding{(⍴⍺){(⍺≥⍵)/⍵}⍺⍳⍵}enc ⍝ try to match what encodings they accept to those we provide
-          (encoderc html)←Encoders[which].Compress res.HTML
-          :If 0=encoderc
-              length←startsize←⍴res.HTML
-              :If startsize>⍴html ⍝ did we save anything by compressing
-                  length←⍴res.HTML←html ⍝ use it
-                  res.Headers⍪←'Content-Encoding'(Encoders[which].Encoding)
-                  4 Log'Used compression, transmitted% = ',2⍕length{6::0 ⋄ ⍺÷⍵}startsize
-              :Else
-                  4 Log'Compression not used on "',REQ.Page,'", startsize = ',(⍕startsize),', compressed length = ',⍕length
-                  :If 83≠⎕DR res.HTML
-                      res.HTML←toutf8 res.HTML
+          :If (200=res.Status)∧encodeMe ⍝ if our HTTP status is 200 (OK) and we're okay to encode
+          :AndIf 1024<⍴res.HTML ⍝ BPB used to be 0
+          :AndIf 0≠⍴enc←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}' '~⍨',',REQ.GetHeader'accept-encoding' ⍝ check if client supports encoding
+          :AndIf 0≠which←⊃Encoders.Encoding{(⍴⍺){(⍺≥⍵)/⍵}⍺⍳⍵}enc ⍝ try to match what encodings they accept to those we provide
+              (encoderc html)←Encoders[which].Compress res.HTML
+              :If 0=encoderc
+                  length←startsize←⍴res.HTML
+                  :If startsize>⍴html ⍝ did we save anything by compressing
+                      length←⍴res.HTML←html ⍝ use it
+                      res.Headers⍪←'Content-Encoding'(Encoders[which].Encoding)
+                      4 Log'Used compression, transmitted% = ',2⍕length{6::0 ⋄ ⍺÷⍵}startsize
+                  :Else
+                      4 Log'Compression not used on "',REQ.Page,'", startsize = ',(⍕startsize),', compressed length = ',⍕length
+                      :If 83≠⎕DR res.HTML
+                          res.HTML←toutf8 res.HTML
+                      :EndIf
                   :EndIf
+              :ElseIf 0=res.File
+                  2 Log'Compression failed'
+                  length←⍴res.HTML←toutf8 res.HTML ⍝ otherwise, send uncompressed
               :EndIf
           :ElseIf 0=res.File
-              2 Log'Compression failed'
-              length←⍴res.HTML←toutf8 res.HTML ⍝ otherwise, send uncompressed
+              startsize←length←⍴res.HTML←toutf8 res.HTML
           :EndIf
-      :ElseIf 0=res.File
-          startsize←length←⍴res.HTML←toutf8 res.HTML
-      :EndIf
      
-      :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires
-          res.Headers⍪←'Expires'(Config.HttpCacheTime #.Dates.HttpDate ⎕TS)
-      :EndIf
-     
-      status←res.((⍕Status),' ',StatusText)
-      hdr←{⎕ML←3 ⋄ ∊⍵}{⍺,': ',⍵,NL}/res.Headers
-      Answer←(toutf8((1+conns.Handler)⊃'HTTP/1.0 ' 'Status: '),status,NL,'Content-Length: ',(⍕length),NL,hdr,NL),res.HTML
-      done←length≤offset←⍴res.HTML
-      REQ.MSec-⍨←⎕AI[3]
-      res.Bytes←startsize length
-     
-      :Repeat
-          :If ~0=1⊃z←#.DRC.Send obj Answer done ⍝ Send response and
-              (1+(1⊃z)∊1008 1119)Log'"Handlerequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
-              done←1
+          :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires
+              res.Headers⍪←'Expires'(Config.HttpCacheTime #.Dates.HttpDate ⎕TS)
           :EndIf
-          closed←done
-          :If ~done
-              done←BlockSize>⍴Answer←⎕NREAD tn 83,BlockSize,offset
-              offset+←⍴Answer
-          :EndIf
-      :Until closed ⍝ Everything sent
      
-      :If res.File ⋄ ⎕NUNTIE tn ⋄ :EndIf
-      8 Log REQ.PeerAddr status
-      Logger.Log REQ
+          status←res.((⍕Status),' ',StatusText)
+          hdr←{⎕ML←3 ⋄ ∊⍵}{⍺,': ',⍵,NL}/res.Headers
+          Answer←(toutf8((1+conns.Handler)⊃'HTTP/1.0 ' 'Status: '),status,NL,'Content-Length: ',(⍕length),NL,hdr,NL),res.HTML
+          done←length≤offset←⍴res.HTML
+          REQ.MSec-⍨←⎕AI[3]
+          res.Bytes←startsize length
+     
+          :Repeat
+              :If ~0=1⊃z←#.DRC.Send obj Answer done ⍝ Send response and
+                  (1+(1⊃z)∊1008 1119)Log'"Handlerequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
+                  done←1
+              :EndIf
+              closed←done
+              :If ~done
+                  done←BlockSize>⍴Answer←⎕NREAD tn 83,BlockSize,offset
+                  offset+←⍴Answer
+              :EndIf
+          :Until closed ⍝ Everything sent
+     
+          :If res.File ⋄ ⎕NUNTIE tn ⋄ :EndIf
+          8 Log REQ.PeerAddr status
+          Logger.Log REQ
       :EndHold
     ∇
 
@@ -533,7 +540,7 @@
       :EndIf
       :If ibeam85
           :Trap 85                 ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
-              REQ.Return 85⌶'inst.',fn,' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
+              REQ.Return I85'inst.',fn,' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
           :EndTrap
       :Else  ⍝ 85⌶ not implemented
           ⍎'inst.',fn,' REQ'
