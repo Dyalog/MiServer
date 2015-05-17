@@ -31,9 +31,12 @@
       →(0<1⊃z←ConnectTo(1⊃ctl))⍴l3 ⋄ conx←2⊃z
       →(0<1⊃z←#.SQA.CursorName conx)⍴l3 ⋄ c←2⊃z
       →(0<1⊃z←#.SQA.Prepare c(2⊃ctl))⍴l3
-      :If 1<|≡3⊃ctl ⋄ data←3⊃ctl
-          :If 3<⍴ctl ⋄ data←(⊂data),ctl[4] ⋄ :EndIf  ⍝ deal with nulls
-      :Else ⋄ data←2↓ctl ⋄ :EndIf
+      data←''
+      :If 3≤⍴ctl
+          :If 1<|≡3⊃ctl ⋄ data←3⊃ctl
+              :If 3<⍴ctl ⋄ data←(⊂data),ctl[4] ⋄ :EndIf  ⍝ deal with nulls
+          :Else ⋄ data←2↓ctl ⋄ :EndIf
+      :EndIf
       →(0<1⊃z←#.SQA.Exec(⊂c),data)⍴l2
       →(0<1⊃z←0 #.SQA.Describe c)⍴l2 ⋄ r.Columns←{(0=(⊂1 3)⊃¨⍵)/(⊂1 1)⊃¨⍵}2 2⊃z
       →(0<2 1 5⊃z)⍴l1        ⍝ Fetch if there are Bind Vars
