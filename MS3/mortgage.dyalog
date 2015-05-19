@@ -57,6 +57,7 @@
           :EndIf
      
       :EndSelect
+     resp,←Execute 'alert("hello")'
     ∇
 
 :EndClass

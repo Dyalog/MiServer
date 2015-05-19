@@ -6,7 +6,7 @@
       dp←f.Add _SF.ejDatePicker
       dp.Container←'#dp'
       f.Add InputSubmit'submit' 'OK'
-      :If IsPost ⍝ was it a POST request?
+      :If isPost ⍝ was it a POST request?
           Add br
           Add p('You picked ',Get'dp')
       :EndIf

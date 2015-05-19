@@ -158,6 +158,11 @@
         :field public Headings←''
         :field public LabelPosition←'left' ⍝ valid values are 'left' 'right'
 
+        ∇ make
+          :Access public
+          :Implements constructor :base
+        ∇
+
         ∇ make1 args;data;sel
           :Access public
           :Implements constructor

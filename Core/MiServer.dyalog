@@ -544,7 +544,7 @@
      
           fn←''
           cb←'Render'                 ⍝ default function to call
-          APLJax←REQ.IsAPLJax>RESTful ⍝ if it's an APLJax (XmlHttpRequest) request (but not web service)
+          APLJax←REQ.isAPLJax>RESTful ⍝ if it's an APLJax (XmlHttpRequest) request (but not web service)
           :If APLJax
               REQ.Response.NoWrap←1
               cb←'APLJax' ⍝ default callback function name

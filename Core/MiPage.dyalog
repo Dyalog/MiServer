@@ -240,9 +240,14 @@
       r←3 a w
     ∇
 
-    ∇ r←IsPost
+    ∇ r←isPost
       :Access public
-      r←{0::0 ⋄ _Request.IsPost}⍬
+      r←{0::0 ⋄ _Request.isPost}⍬
+    ∇
+
+    ∇ r←isAPLJax
+      :Access public
+      r←{0::0 ⋄ _Request.isAPLJAX}⍬
     ∇
     :endsection
 

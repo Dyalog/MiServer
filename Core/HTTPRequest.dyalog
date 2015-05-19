@@ -309,7 +309,7 @@
       :EndFor
     ∇
 
-    ∇ r←IsDesktop;cis;desktop;mobile;bot;user_agent ⍝ Detect if we think this is a desktop platform
+    ∇ r←isDesktop;cis;desktop;mobile;bot;user_agent ⍝ Detect if we think this is a desktop platform
 ⍝ Rationale: mobile device detection is a messy subject, therefore it's easier and perhaps safer to detect
 ⍝            desktop platforms (or bots) and assume that anything else is a mobile platform
      
@@ -337,12 +337,12 @@
       r←GetHeader'USER-AGENT'
     ∇
 
-    ∇ r←IsAPLJax
+    ∇ r←isAPLJax
       :Access public instance
       r←'XMLHttpRequest'≡GetHeader'x-requested-with'
     ∇
 
-    ∇ r←IsPost
+    ∇ r←isPost
       :Access public instance
       r←Command≡'post'
     ∇

@@ -1,7 +1,7 @@
 ﻿:Class TogglePopup : MiPageSample ⍝ EAWC : MiPage : HtmlPage
     ∇ Render;ct
       :Access Public
-      :If _Request.IsPost
+      :If isPost
           Add'You clicked me!'
       :Else
           ct←⎕NEW p
