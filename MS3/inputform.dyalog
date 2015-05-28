@@ -15,7 +15,7 @@
 
   ∇ r←CallbackFn
     :Access public
-    r←'#result'Replace h2('Hi ',⍕Get'fname lname')
+    r←'#result'Replace ('Hi ',⍕Get'fname lname')
     :If ⎕TS[2 3]≡2↑{⊃(//)⎕VFI ⍵{⍵\⍵/⍺}⍵∊⎕D}Get'bdate'
       r,←Execute'alert("Happy Birthday!")'
     :EndIf

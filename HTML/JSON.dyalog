@@ -285,6 +285,7 @@
     ⍝ ('append' selector)('data' html)
     ⍝ ('prepend' selector)('data' html)
       :Access public shared
+      nvp←,nvp
       :If 0∊⍴nvp ⋄ r←'[]' ⋄ :Return ⋄ :EndIf
       strip←{1↓¯1↓⍵}
       fmt←{(isChar ⍵)>(isJSON ⍵)∨t←'⍎'=1↑,⍵:'"',(JAchars ⍵),'"'
@@ -302,7 +303,7 @@
                   nvp↓⍨←2
               :CaseList 'replace' 'prepend' 'append'
                   x sel d value←4↑nvp
-                  r,←'{{"',verb,'":"',sel,'"},{"',d,'":',(fmt value),'}},'
+                  r,←'{"',verb,'":"',sel,'","',d,'":',(fmt value),'},'
                   nvp↓⍨←4
               :Else
               :EndSelect
@@ -313,7 +314,7 @@
               r,←∊',',⍨¨strip¨toAPLJAX¨nvp
           :Else
               (x sel)(d value)←nvp
-              r,←'{{"',verb,'":"',sel,'"},{"',d,'":',(fmt value),'}},'
+              r,←'{"',verb,'":"',sel,'","',d,'":',(fmt value),'},'
           :EndSelect
       :Case 4
           r,←∊',',⍨¨strip¨toAPLJAX¨nvp
