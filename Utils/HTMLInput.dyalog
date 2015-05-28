@@ -99,7 +99,7 @@
     :Else
       html←APL
     :EndTrap
-    html←('pre style="font-family:APL385 Unicode',fontsize,'"')Enclose CRLF,⍨html
+    html←('pre style="font-family:APL385 Unicode',fontsize,'"')Enclose 'code' Enclose CRLF,⍨html
   ∇
 
   ∇ html←{id}Anchor pars;href;title;target;other;content
