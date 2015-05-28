@@ -501,8 +501,16 @@
     ⍝ add "something" to the beginning of Content
     ⍝ args can be an instance, a class, or just html/text
       :Access public
-      attr←{6::⍵ ⋄ attr}''
-      Content,⍨←r←attr ParseArgs args
+      r←''
+      :If ~0∊⍴∊args
+          :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
+          r←attr ParseArgs args
+          :Trap 4 5 ⍝ rank and length error
+              Content,⍨←r
+          :Else
+              Content,⍨←⊂r
+          :EndTrap
+      :EndIf
     ∇
 
     ∇ {r}←Last

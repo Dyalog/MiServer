@@ -19,7 +19,7 @@
       ms.Run
     ∇
 
-    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;disperror;core;HTML;extensions
+    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;disperror;core;HTML;extensions;HTMLsubdirs
       ⍝ Load required objects for MiServer
       ⍝ Note: DRC namespace is not SALTed
       ⍝ yes - 1 to perform load, 0 to clean up
@@ -32,7 +32,8 @@
       utils←(⎕SE.SALT.List MSRoot,'Utils -raw')[;2]   ⍝ find utility libraries
       core←(⊂'Boot')~⍨(⎕SE.SALT.List MSRoot,'Core -raw')[;2]
       extensions←(⎕SE.SALT.List MSRoot,'Extensions -raw')[;2]
-      HTML←∪(⎕SE.SALT.List MSRoot,'HTML -raw')[;2]
+      HTML←∪'_html' '_HTML',(⎕SE.SALT.List MSRoot,'HTML -raw')[;2] ⍝ force _html and _HTML to be loaded first
+      HTMLsubdirs←HTML∩,⎕SE.SALT.List MSRoot,'HTML -folder'
       :If yes
      
           files←'Core/'∘,¨core
@@ -45,13 +46,16 @@
      
           #.SupportedHtml5Elements.Build_html_namespace
      
-          :For f :In 'HTML/'∘,¨HTML
-              disperror ⎕SE.SALT.Load MSRoot,f,' -target=#'
+          :For f :In HTML
+              disperror ⎕SE.SALT.Load MSRoot,'HTML/',f,' -target=#'
+              :If (⊂f)∊HTMLsubdirs
+                  ⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
+              :EndIf
           :EndFor
      
-          :For f :In HTML∩,⎕SE.SALT.List MSRoot,'HTML -folder'
-              ⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
-          :EndFor
+⍝          :For f :In HTML∩,⎕SE.SALT.List MSRoot,'HTML -folder'
+⍝              ⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
+⍝          :EndFor
      
           :If 0≠⍴classes
               :For class :In classes

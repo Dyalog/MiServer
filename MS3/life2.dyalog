@@ -1,4 +1,4 @@
-﻿:Class life2 : MiPageSample
+﻿:Class life2 : #.MS2Page
     ⎕ML←1
 
 ⍝ These fields are for future use when we want to allow the user
