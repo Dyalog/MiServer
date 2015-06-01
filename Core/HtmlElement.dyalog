@@ -497,7 +497,7 @@
       :EndIf
     ∇
 
-    ∇ {r}←{attr}Prepend args;cl
+    ∇ {r}←{attr}Insert args;cl
     ⍝ add "something" to the beginning of Content
     ⍝ args can be an instance, a class, or just html/text
       :Access public
