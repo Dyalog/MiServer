@@ -39,4 +39,5 @@ td{
 }
 td:first-child {
 	font-weight: bold;
+	width: 100px;
 }

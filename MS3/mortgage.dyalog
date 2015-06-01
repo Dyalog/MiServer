@@ -22,19 +22,16 @@
       Add h2'Mortgage Calculator'
       Add'Modify principal, rate or term to recalculate payment.'
       Add¨br,(⊂'Change payment to recalculate the principal'),2⍴br
-
+     
       (frm←Add Form).id←'mtg'
       (ig←frm.Add InputGrid).Border←0
       ig.Labels←'Principal' 'Interest Rate' 'Term (years)' 'Payment'
-      ig.Inputs←EditField,¨{⊂⍵ (⍎⍵)}¨'prin' 'rate' 'term' 'pmt'
+      ig.Inputs←EditField,¨{⊂⍵(⍎⍵)}¨'prin' 'rate' 'term' 'pmt'
      
       h←Add _JQ.Handler                         ⍝ add an event handler
       h.Callback←'Calc'                         ⍝ specify the callback function to run
       h.Events←'change'                         ⍝ listen for the "change" event
       h.Selectors←'#mtg input'                  ⍝ on the input elements within the form with id "mtg"
-      h.ClientData←'formdata' '#mtg' 'serialize'
-      ⍝ ↑ Return serialized data for form #mtg as "formdata"
-      ⍝ ↑ MiServer maps named data in serialized form data to public fields in the page object
     ∇
 
     ∇ resp←Calc;p;r;n;m    ⍝ callback function for the handler defined in Render
