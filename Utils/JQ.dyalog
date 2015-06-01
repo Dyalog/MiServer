@@ -40,17 +40,20 @@
     ⍝              attr - data is an attribute of the selected element
     ⍝              css - data is a css setting of the selected element
     ⍝              html - data is the html content of the selected element
+    ⍝              val - the value if it's an input element
     ⍝              is - see jQuery.is()
     ⍝              eval - data will be the evaluation of the what parameter
     ⍝              event - the jquery event object
     ⍝              string - just a string
     ⍝              serialize - send form data back in serialized format
     ⍝
-    ⍝       what - type and what are related
+    ⍝       what - type and what are related as follows:
     ⍝              type         what                               example of what JQ.On generates
+    ⍝              ----         ----                               -------------------------------
     ⍝              attr         attribute name to return           attr("id")
     ⍝              css          css setting to return              css("background-color")
-    ⍝              html         what is not used and should be ''  html()
+    ⍝              html         (not used - should be '')          html()
+    ⍝              val          (not used - should be '')          val()
     ⍝              is           jQuery.on selector                 is(":checked")
     ⍝              eval         javascript expression              eval("confirm('Are you sure?')")
     ⍝              event        the element of the event object to return
@@ -61,7 +64,7 @@
     ⍝       if empty, the response is assumed to be a json array of either:
     ⍝       {(replace|append|prepend: selector),(data: "data to replace with, append, or prepend)}
     ⍝       {execute: "javascript expression"}
-    ⍝       if non-empty, this parameter is the selector for the element whose content will be replaced be the server response
+    ⍝       if non-empty, this parameter is the selector for the element whose content will be replaced by the server response
     ⍝ [5] - script - if non-empty, this is javascript to execute in the browser prior to the AJAX call
     ⍝ [6] - useajax - if 0 don't make an AJAX call, just execute the script
      
@@ -75,7 +78,7 @@
       selector event clientdata response script useajax←6↑pars,(⍴pars)↓'' '' '' '' '' 1
       :If 1<|≡selector ⋄ selector delegate←selector ⋄ delegate←', ',quote delegate :EndIf
       data←'_event: event.type, _what: $(event.currentTarget).attr("id")'
-      :If 2=|≡clientdata ⋄ clientdata←,⊂clientdata ⋄ :EndIf
+      clientdata←eis clientdata ⍝ :If 2=|≡clientdata ⋄ clientdata←,⊂clientdata ⋄ :EndIf
       :If 0∊⍴clientdata
       :OrIf (1=⍴clientdata)∧'_callback'≡⊃⊃clientdata
           data,←',_serialized: $("form").serialize()'
@@ -83,11 +86,18 @@
       :For cd :In clientdata
           cd←eis cd
           (name id type what)←4↑cd,(⍴cd)↓4⍴⊂''
-          :If ~0∊⍴name
+          :If name≡'serialize'
+              (name id type what)←4↑(⊂''),name id type
+          :EndIf
+          :If (~0∊⍴name)∨(⊂'serialize')∊id type
               :Select id
-              :CaseList 'attr' 'css' 'html' 'is' 'serialize' 'val' ⍝ no selector specified, use event.target
+              :CaseList 'attr' 'css' 'html' 'is' 'val' ⍝ no selector specified, use event.target
                   type what←id type
                   id←'event.target'
+              :Case 'serialize'
+                  type id←id type
+                  :If 0∊⍴id ⋄ id←'form' ⋄ :EndIf
+                  id←quote id
               :Case 'eval'
                   type what←id type
                   id←''

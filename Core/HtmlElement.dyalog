@@ -308,27 +308,6 @@
       r.(Events Callback ClientData JavaScript)←4↑handler,(⍴handler)↓'' 1 '' ''
     ∇
 
-⍝    ∇ r←{a}APL w
-⍝      :Access public shared
-⍝      :If 0=⎕NC'a' ⋄ a←⊢ ⋄ :EndIf
-⍝      r←a(0 w)
-⍝    ∇
-⍝    ∇ r←{a}JS w
-⍝      :Access public shared
-⍝      :If 0=⎕NC'a' ⋄ a←⊢ ⋄ :EndIf
-⍝      r←a(1 w)
-⍝    ∇
-⍝    ∇ r←{a}CSS w
-⍝      :Access public shared
-⍝      :If 0=⎕NC'a' ⋄ a←⊢ ⋄ :EndIf
-⍝      r←a(2 w)
-⍝    ∇
-⍝    ∇ r←{a}ATTR w
-⍝      :Access public shared
-⍝      :If 0=⎕NC'a' ⋄ a←⊢ ⋄ :EndIf
-⍝      r←a(3 w)
-⍝    ∇
-
     ∇ r←RenderHandlers;h;myid;selector;handler;str;callback;event;type;evt;action;JS;a;n
       :Access public ⍝!!! remove this after testing
       r←''

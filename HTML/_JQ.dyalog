@@ -183,8 +183,10 @@
           :For cd :In clientdata
               cd←eis cd
               (name id type what)←4↑cd,(⍴cd)↓4⍴⊂''
-         
-              :If ~0∊⍴name
+              :If name≡'serialize'
+                  (name id type what)←4↑(⊂''),cd
+              :EndIf
+              :If (~0∊⍴name)∨id≡'serialize'
                   :Select id
                   :CaseList 'attr' 'css' 'html' 'is' 'serialize' 'val' 'eval' 'event' 'ui' ⍝ no selector specified, use event.target
                       (type what)←id type

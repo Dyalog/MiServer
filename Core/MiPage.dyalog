@@ -113,7 +113,7 @@
           names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
           r←proto∘Get¨names
       :ElseIf 2≠_PageData.⎕NC names
-          r←proto
+          r←,⊂proto
       :Else
           r←_PageData⍎names
 ⍝!!! BPB - not sure if we need this - it messes up multiple values for select(combolist) controls
@@ -121,7 +121,7 @@
 ⍝              r←∊r
 ⍝          :EndIf
           :If ~0 2∊⍨10|⎕DR proto
-              r←{0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
+              r←{0::⍵ ⋄ 0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
           :EndIf
       :EndIf
     ∇
@@ -223,23 +223,6 @@
     :endsection
 
     :section Event Handling Support
-    ∇ r←a APL w
-      :Access public
-      r←a w
-    ∇
-    ∇ r←a JS w
-      :Access public
-      r←1 a w
-    ∇
-    ∇ r←a CSS w
-      :Access public
-      r←2 a w
-    ∇
-    ∇ r←a ATT w
-      :Access public
-      r←3 a w
-    ∇
-
     ∇ r←isPost
       :Access public
       r←{0::0 ⋄ _Request.isPost}⍬
@@ -249,6 +232,32 @@
       :Access public
       r←{0::0 ⋄ _Request.isAPLJAX}⍬
     ∇
+
+    ∇ r←sel Css args ⍝ JQuery css cover
+      :Access public
+      r←(sel #._JSS.JQuery'css')args
+    ∇
+
+    ∇ r←sel Val args ⍝ JQuery val cover
+      :Access public
+      r←(sel #._JSS.JQuery'val')args
+    ∇
+
+    ∇ r←sel Attr args ⍝ JQuery attr cover
+      :Access public
+      r←(sel #._JSS.JQuery'attr')args
+    ∇
+
+    ∇ r←sel RemoveAttr args ⍝ JQuery removeAttr cover
+      :Access public
+      r←(sel #._JSS.JQuery'removeAttr')args
+    ∇
+
+    ∇ r←sel Html args ⍝ JQuery html cover
+      :Access public
+      r←(sel #._JSS.JQuery'html')args
+    ∇
+
     :endsection
 
     ∇ Debug;⎕TRAP
