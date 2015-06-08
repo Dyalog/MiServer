@@ -1,14 +1,15 @@
-﻿  :class ejTile : #._SF._ejWidget
-    :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejTimePicker.html'
+﻿:class ejTile : #._SF._ejWidget
+    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejTile.html'
     :field public shared readonly ApiLevel←1
+    :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejTile.html'
     ∇ make
       :Access public
       JQueryFn←Uses←'ejTile'
       :Implements constructor
     ∇
-∇ make1 args
-:access public
-JQueryFn←Uses←{⍵↑⍨1-(⌽⍵)⍳'.'}⍕⊃⊃⎕CLASS ⎕THIS
-:implements constructor :base args
- ∇
-  :EndClass
+    ∇ make1 args
+      :Access public
+      JQueryFn←Uses←'ejTile'
+      :Implements constructor :base args
+    ∇
+:EndClass

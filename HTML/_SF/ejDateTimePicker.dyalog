@@ -1,6 +1,7 @@
 ﻿:Class ejDateTimePicker : #._SF._ejWidget
-    :Field Public Shared Readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejDateTimePicker.html'
+    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejDateTimePicker.html'
     :Field Public Shared Readonly ApiLevel←2
+    :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejDateTimePicker.html'
     ∇ make0
       :Access Public
       JQueryFn←Uses←'ejDateTimePicker'

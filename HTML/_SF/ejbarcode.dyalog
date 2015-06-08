@@ -1,6 +1,7 @@
 ﻿:class ejBarcode : #._SF._ejWidget
-    :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejBarcode.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejBarcode.html'
     :field public shared readonly ApiLevel←3
+    :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejBarcode.html'
     ∇ make
       :Access public
       JQueryFn←Uses←'ejBarcode'

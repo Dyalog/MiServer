@@ -1,6 +1,7 @@
 ﻿:Class ejColorPicker : #._SF._ejWidget
-    :Field Public Shared Readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejColorPicker.html'
+    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejColorPicker.html'
     :Field Public Shared ReadOnly ApiLevel←3
+    :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejColorPicker.html'
 
     ∇ make0
       :Access Public

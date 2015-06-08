@@ -1,7 +1,7 @@
-﻿:Class jqButton : #._JQ._jqUIWidget ⍝!!!
-    :field public shared readonly ApiLink←'http://api.jqueryui.com/button/'
+﻿:Class jqButton : #._JQ._jqUIWidget 
+    :field public shared readonly DocBase←'http://api.jqueryui.com/button/'
     :field public shared readonly ApiLevel←3
-    :field public shared readonly Doc←'/Documentation/DyalogAPIs/jQuery/jqButtonHelp.html'
+    :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/jQuery/jqButtonHelp.html'
 
     :field public Text←''  ⍝ text on the button
     :field public Type←'' ⍝ valid types are 'button' 'submit' 'reset' 'checkbox' 'radio' 'anchor' ''

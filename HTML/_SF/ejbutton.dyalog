@@ -8,9 +8,9 @@
 ⍝ Text - the text to appear on the button
 
 
-    :field public shared readonly BaseDoc←'http://help.syncfusion.com/UG/JS_CR/ejButton.html'
-    :field public shared readonly MSAPILevel←3
-    :field public shared readonly MSDoc←'/Documentation/DyalogAPIs/Syncfusion/ejButtonHelp.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejButton.html'
+    :field public shared readonly ApiLevel←3
+    :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejButtonHelp.html'
     :field public Text←''  ⍝ text on the button
     ∇ make
       :Access public

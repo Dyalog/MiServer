@@ -3,7 +3,7 @@
     :section CommonCode
 
     ∇ r←ApiInfo
-      r←{↑⍵∘{6::⍵'' '' ⋄ ⍵(⍺⍎⍵,'.(ApiLevel ApiLink)')}¨'e'⍵.⎕NL-9.4}⎕THIS
+      r←{↑⍵∘{6::⍵'' '' ⋄ ⍵(⍺⍎⍵,'.(ApiLevel DocBase)')}¨'e'⍵.⎕NL-9.4}⎕THIS
     ∇
 
     ∇ r←opt(sel Update jqfn)val

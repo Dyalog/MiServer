@@ -1,6 +1,7 @@
 ﻿:Class ejListBox : #._SF._ejWidget
-    :Field Public Shared Readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejListBox.html'
+    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejListBox.html'
     :Field Public Shared Readonly ApiLevel←3
+    :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejListBox.html'
 
     :Field Public Items←0⍴⊂''
     :Field Public Checked←⍬

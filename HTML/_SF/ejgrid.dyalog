@@ -1,6 +1,7 @@
 ﻿:class ejGrid : #._SF._ejWidget
-    :Field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejGrid.html'
+    :Field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejGrid.html'
     :Field public shared readonly ApiLevel←3
+    :Field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejGrid.html'
 
     :Field Public Values←0 0⍴⊂''
     :Field Public Columns←⍬      ⍝ Vector of namespaces using JSON names

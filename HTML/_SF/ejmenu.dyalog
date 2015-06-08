@@ -1,6 +1,7 @@
 ﻿:class ejMenu : #._SF._ejWidget
-    :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejMenu.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejMenu.html'
     :field public shared readonly ApiLevel←1
+    :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejMenu.html'
     :field public Items←⍬
     :field public Text←'Menu'
     :field public Href←'#'   

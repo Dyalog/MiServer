@@ -1,6 +1,7 @@
 ﻿:class ejWaitingPopup : #._SF._ejWidget
-    :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejWaitingPopup.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejWaitingPopup.html'
     :field public shared readonly ApiLevel←3
+    :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejWaitingPopup.html'
   
     ∇ make
       :Access public

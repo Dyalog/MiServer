@@ -16,7 +16,7 @@
     ∇ Build_html_namespace;e;def;noend;class;make;make1;make2;endclass;make1a;doc
      
       class←,⊂':Class ∆ : #.HtmlElement'
-      doc←':field public shared readonly DocBase←''http://www.w3schools.com/tags/tag_∆.asp''' ':field public shared readonly DocDyalog←''/Documentation/DyalogAPIs/html5.html''' ':field public shared readonly APILevel←2'
+      doc←':field public shared readonly DocBase←''http://www.w3schools.com/tags/tag_∆.asp''' ':field public shared readonly DocDyalog←''/Documentation/DyalogAPIs/html5.html''' ':field public shared readonly ApiLevel←2'
      
       make←'∇make' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base ''∆''' '∇'
       make1←'∇make1 arg' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base ''∆'' arg' '∇'

@@ -1,6 +1,7 @@
 ﻿:class ejRating : #._SF._ejWidget
-    :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejRangeNavigator.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejRating.html'
     :field public shared readonly ApiLevel←1
+    :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejRating.html'
     :field public Input←''
     ∇ make
       :Access public

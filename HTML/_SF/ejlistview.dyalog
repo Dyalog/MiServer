@@ -1,6 +1,7 @@
 ﻿:class ejListView : #._SF._ejWidget
-    :field public shared readonly ApiLink←'http://help.syncfusion.com/UG/JS_CR/ejList.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejList.html'
     :field public shared readonly ApiLevel←3
+    :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejList.html'
     :field public Items←⍬
     :field public Text←'List'
     :field public Href←'#'   
