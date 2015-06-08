@@ -22,7 +22,7 @@
     :field public _JSS  ⍝ JavaScript Snippets
     :field public _DC   ⍝ Dyalog Controls
     :field public _
-    :field public Tag←#.HtmlElement
+⍝    :field public Tag←#.HtmlElement
     :field public shared _true←#.JSON.true     ⍝ same definition as in #.JSON
     :field public shared _false←#.JSON.false   ⍝ same definition as in #.JSON
 
@@ -70,9 +70,9 @@
       :EndIf
     ∇
 
-    ∇ Wrap
+    ∇ {r}←Wrap
       :Access public
-      Render
+      r←Render
     ∇
 
     ∇ Use resources;n;ind;t;x

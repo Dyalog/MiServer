@@ -92,7 +92,7 @@
     ∇
 
 
-    :property keyed Attr       ⍝ element attributes
+    :property keyed Attrs       ⍝ element attributes
     :access public
         ∇ set ra;i;new;there;ind
           there←~new←(⍴_names)<i←_names⍳ind←fixkeys⊃ra.Indexers
@@ -145,7 +145,7 @@
       :Access public
       :If 0≠⎕NC'which' ⋄ attr←,(eis which),[1.1]eis attr ⋄ :EndIf
       attr←ParseAttr attr
-      Attr[1⊃¨attr]←2⊃¨attr
+      Attrs[1⊃¨attr]←2⊃¨attr
       r←⎕THIS
     ∇
 
@@ -339,7 +339,7 @@
           :For e :In CommonAttributes
               av,←{0::'' ⋄ UNDEF≡t←⍎⍵:'' ⋄ e fmtAttr t}e
           :EndFor
-          :If 0<⍴vs←Attr[]
+          :If 0<⍴vs←Attrs[]
               av,←∊fmtAttr/¨vs
           :EndIf
           av,←RenderStyles
@@ -543,7 +543,7 @@
     ∇ myid←SetId
       :Access public
       :If UNDEF≡myid←id
-      :AndIf ''≡myid←⊃Attr[⊂'id']
+      :AndIf ''≡myid←⊃Attrs[⊂'id']
           id←myid←GenId
       :EndIf
     ∇

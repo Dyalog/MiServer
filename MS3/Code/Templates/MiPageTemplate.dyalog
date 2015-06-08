@@ -1,9 +1,9 @@
-﻿:Class MiPageTemplate : #.MiPage  
+﻿:Class MiPageTemplate : #.MiPage
 ⍝ This is a template that "wraps" the page content by
 ⍝ - adding a header and footer
-⍝ - adding a handler that will toggle the display of the web page and its APL source code 
+⍝ - adding a handler that will toggle the display of the web page and its APL source code
 
-    ∇ Wrap;lang
+    ∇ {r}←Wrap;lang
       :Access Public
      
     ⍝ we use JQuery to set up the handler, so we tell the page to include JQuery resources
@@ -36,10 +36,10 @@
      
     ⍝ set the language for the page
       lang←_Request.Server.Config.Lang ⍝ use the language specified in Server.xml
-      Content.SetAttr'lang="',lang,'" xml:lang="',lang,'" xmlns="http://www.w3.org/1999/xhtml"'
+      Set'lang="',lang,'" xml:lang="',lang,'" xmlns="http://www.w3.org/1999/xhtml"'
      
     ⍝ call the base class Wrap function
-      ⎕BASE.Wrap
+      r←⎕BASE.Wrap
     ∇
 
 :EndClass

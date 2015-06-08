@@ -1,10 +1,11 @@
 ﻿:Namespace QA
 ⍝ MiServer 3 QA suite
     ∇ Run
-      RenderAll
+      RenderHTML
+      RenderPages
     ∇
 
-    ∇ result←RenderAll;nss;ns;class;c;name;res;f;root
+    ∇ result←RenderHTML;nss;ns;class;c;name;res;f;root
 ⍝ make sure all HTML-generating classes render
       nss←#.(_html _HTML _JQ _SF) ⍝ add _JQM when it's ready
       root←#.Boot.MSRoot
@@ -26,5 +27,23 @@
           :EndFor
       :EndFor
       result←'Element/Widget' 'DocBase?' 'DocDyalog?' 'APILevel' 'Renders?' 'id=args[1]?'⍪result
+    ∇
+
+    ∇ r←RenderPages;class
+      r←0 2⍴'' 0
+      r⍪←{⍵(_Test_Page ⍵)}#.Boot.MSRoot,'QA/TestPage'
+    ∇
+
+    ∇ r←_Test_Page page;class;z
+      r←'Passed'
+      :Trap 0
+          class←⎕SE.SALT.Load page
+          z←⎕NEW class
+          z._Request←⎕NEW #.HTTPRequest('' '')
+          z._Request.Server←#.Boot.ms
+          {}⎕XML z.Wrap
+      :Else
+          r←∊⎕DM
+      :EndTrap
     ∇
 :EndNamespace
