@@ -5,7 +5,7 @@
 
     Elements←' a abbr acronym address area* article aside audio b base* bdi bdo big blockquote'
     Elements,←' body br* button canvas caption circle* cite code col* colgroup command datalist dd del'
-    Elements,←' details dfn div dl dt ellipse* em embed* fieldset figcaption figure footer form g'
+    Elements,←' details dfn div dl dt ellipse* em embed* fieldset figcaption figure footer form'
     Elements,←' h1 h2 h3 h4 h5 h6 head header hgroup hr* html i iframe img* input* ins kbd keygen label'
     Elements,←' legend li line* link* map mark menu meta* meter nav noscript object ol optgroup option'
     Elements,←' output p param* path* polygon* polyline* pre progress q rect* rp rt ruby s samp script'
@@ -16,7 +16,7 @@
     ∇ Build_html_namespace;e;def;noend;class;make;make1;make2;endclass;make1a;doc
      
       class←,⊂':Class ∆ : #.HtmlElement'
-      doc←':field public shared readonly BaseDoc←''http://www.w3schools.com/tags/tag_∆.asp''' ':field public shared readonly MSDoc←''/Documentation/DyalogAPIs/html5.html'''
+      doc←':field public shared readonly DocBase←''http://www.w3schools.com/tags/tag_∆.asp''' ':field public shared readonly DocDyalog←''/Documentation/DyalogAPIs/html5.html''' ':field public shared readonly APILevel←2'
      
       make←'∇make' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base ''∆''' '∇'
       make1←'∇make1 arg' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base ''∆'' arg' '∇'

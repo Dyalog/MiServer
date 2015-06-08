@@ -21,7 +21,7 @@
     :field public _JQM         ⍝ JQueryMobile
     :field public _JSS         ⍝ JavaScript Snippets
     :field public _DC          ⍝ Dyalog Controls
-
+    :field public _
 
    ⍝ make shortcuts for some common HTML attributes
     :field public shared readonly UNDEF←⎕NULL
@@ -276,7 +276,7 @@
     ∇
 
     ∇ Init
-      (_html _HTML _JQ _SF _JQM _DC _JSS)←#.(_html _HTML _JQ _SF _JQM _DC _JSS)
+      (_html _HTML _JQ _SF _JQM _DC _JSS _)←#.(_html _HTML _JQ _SF _JQM _DC _JSS _)
       Position←⎕NS''
     ∇
 
@@ -352,7 +352,6 @@
     ∇
 
     ∇ r←Compose list;e;t
-      :Access public
     ⍝ do the bulk of the rendering work
       r←''
       :For e :In eis list

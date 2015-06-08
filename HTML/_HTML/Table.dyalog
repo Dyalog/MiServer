@@ -1,4 +1,14 @@
 ﻿:class Table : #._html.table
+⍝ Description: Improved html table
+⍝ Constructor: {Data} {CellAttr} {HeaderRows} {HeaderAttr} {MakeCellIds} {MakeRowIds}
+⍝ data - matrix of data to display in the table
+⍝ cellAttr - the id/name for the button
+⍝ headerRows - the id/name for the button
+⍝ headerAttr - the id/name for the button
+⍝ makeCellIds - the text to appear on the button
+⍝ makeRowIds - one of 'submit' (default), 'reset', or 'button'
+⍝ Public Fields:
+⍝ Text - the text to appear on the button
     :field public Data←0 0⍴⊂''
     :field public CellAttr←''
     :field public HeaderRows←0
@@ -25,7 +35,7 @@
       data←((rows←×/¯1↓⍴data),¯1↑⍴data)⍴data
       head←body←(0 1×⍴data)⍴⊂''
       :If 0≠hdrrows
-          head←{⎕NEW #._html.th ⍵}¨hdrrows↑data
+          head←{z⊣(z←⎕NEW #._html.th).Add ⍵}¨hdrrows↑data
           :If cellids
               head.id←{∊'rc',¨⍕¨⍵}¨⍳⍴head
           :EndIf
@@ -34,7 +44,7 @@
           :EndIf
       :EndIf
       :If 0<(⊃⍴data)-hdrrows
-          body←{⎕NEW #._html.td ⍵}¨hdrrows↓data
+          body←{z⊣(z←⎕NEW #._html.td).Add ⍵}¨hdrrows↓data
           :If cellids
               body.id←{∊'rc',¨⍕¨⍵}¨hdrrows↓⍳⍴data
           :EndIf

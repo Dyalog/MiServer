@@ -542,60 +542,58 @@
               :EndIf
           :EndIf
      
-          fn←''
-          cb←'Render'                 ⍝ default function to call
-          APLJax←REQ.isAPLJax>RESTful ⍝ if it's an APLJax (XmlHttpRequest) request (but not web service)
-          :If APLJax
+          fn←cb←'Render'
+          :If APLJax←REQ.isAPLJax>RESTful ⍝ if it's an APLJax (XmlHttpRequest) request (but not web service)
               REQ.Response.NoWrap←1
-              cb←'APLJax' ⍝ default callback function name
+              fn←cb←'APLJax' ⍝ default callback function name
               :If MS3
                   inst._what←REQ.GetData'_what'
                   inst._event←REQ.GetData'_event'
                   :If ~0∊⍴t←REQ.GetData'_callback' ⍝ does the request specify a callback function
-                      cb←t
+                      fn←cb←t
                   :EndIf
+              :EndIf
+          :Else
+              :If MS3
+                  cb←cb inst.{3=⌊|⎕NC⊂⍵:⍵ ⋄ ⍺}fn←(1+RESTful)⊃'Compose' 'Respond' ⍝ default function to call
               :EndIf
           :EndIf
      
-          :If 3=⌊|inst.⎕NC⊂cb            ⍝ and is it a public method?
-              fn←cb
-          :Else
-              1 Log'Method "',cb,'" not found (or not public) in page "',REQ.Page,'"'
+          :If 3≠⌊|inst.⎕NC⊂cb            ⍝ and is it a public method?
+              1 Log'Method "',fn,'" not found (or not public) in page "',REQ.Page,'"'
               REQ.Fail 500
           :EndIf
      
-          :If ~0∊⍴fn
-              :If MS3
-                  :If fn≡'Render'
-                      inst._init ⍝ reset instance's content
-                  :ElseIf APLJax
-                      inst._resetAjax
-                  :EndIf
+          :If MS3
+              :If cb≡'Render'
+                  inst._init ⍝ reset instance's content
+              :ElseIf APLJax
+                  inst._resetAjax
               :EndIf
+          :EndIf
      
-              :If (1=Config.TrapErrors)∧9=⎕NC'#.DrA' ⋄ ⎕TRAP←#.DrA.TrapServer
-              :ElseIf (0=Config.Production) ⋄ ⎕TRAP←(800 'C' '→FAIL')(811 'E' '⎕SIGNAL 801')(813 'E' '⎕SIGNAL 803')(812 'S')(0 'E' '⍎#.Boot.Oops') ⍝ enable development debug framework
+          :If (1=Config.TrapErrors)∧9=⎕NC'#.DrA' ⋄ ⎕TRAP←#.DrA.TrapServer
+          :ElseIf (0=Config.Production) ⋄ ⎕TRAP←(800 'C' '→FAIL')(811 'E' '⎕SIGNAL 801')(813 'E' '⎕SIGNAL 803')(812 'S')(0 'E' '⍎#.Boot.Oops') ⍝ enable development debug framework
+          :EndIf
+     
+          :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
+              resp←I85'inst.',cb,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
+              resp←(#.JSON.toAPLJAX⍣APLJax)resp
+              REQ.Return resp
+          :Else
+              :If APLJax
+                  1 Log'No result returned by callback method "',cb,'" in page "',REQ.Page,'"'
+                  REQ.Return''
               :EndIf
+          :EndTrap
      
-              :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
-                  resp←I85'inst.',fn,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
-                  resp←(#.JSON.toAPLJAX⍣APLJax)resp
-                  REQ.Return resp
-              :Else
-                  :If APLJax
-                      1 Log'No result returned by callback method "',cb,'" in page "',REQ.Page,'"'
-                      REQ.Return''
-                  :EndIf
-              :EndTrap
-     
-              :If MS3∨RESTful
-                  :If ~REQ.Response.NoWrap
-                      inst.Wrap
-                  :EndIf
-              :Else
-                  :If ~REQ.Response.NoWrap
-                      inst.Wrap REQ
-                  :EndIf
+          :If MS3∨RESTful
+              :If ~REQ.Response.NoWrap
+                  inst.Wrap
+              :EndIf
+          :Else
+              :If ~REQ.Response.NoWrap
+                  inst.Wrap REQ
               :EndIf
           :EndIf
       :EndHold

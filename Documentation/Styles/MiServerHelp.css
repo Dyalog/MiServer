@@ -8,9 +8,21 @@ src: local("APL385 Unicode"),
 url(Apl385.ttf);
 }
 body {
-	background-color: #336633;
+	background-color: #FFFFCC;
 	width: 80%;
-	margin:10px auto;
+	margin: 10px auto;
+}
+.htmltags {
+	font-family: APLFont;
+}
+.htmltags td {
+	text-align: center;
+/*	background-color: #FFCC66; */
+	width: 100px;
+	padding: 5px 10px;
+}
+.htmltags td input {
+    width:90px;
 }
 .language-apl {
 	font-family: APLFont;
@@ -19,25 +31,11 @@ body {
 	background-color: #FFFFCC;
 }
 .api {
-    width=100%;
 }
 .even {
 	background-color: #FFCC00;
 }
-.tooltip span {
-	display: none;
-}
-.tooltip:hover span {
-	display: inline;
-	position: absolute;
-	background: white;
-	border: 1px solid silver;
-	color: gray;
-}
-td{
-    padding:4px;
-}
-td:first-child {
-	font-weight: bold;
-	width: 100px;
+td {
+	color: #FF9900;
+	padding: 4px;
 }

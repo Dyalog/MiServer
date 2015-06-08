@@ -1,5 +1,11 @@
 ﻿    :class EditField : #._html.input
-
+⍝ Description: Dyalog text input field widget
+⍝ Constructor: name {value} {attr}
+⍝ name  - the id/name for the input field
+⍝ value - the 
+⍝ attr  - one of 'submit' (default), 'reset', or 'button'
+⍝ Public Fields:
+⍝ Text - the text to appear on the button
         ∇ make1 nm
           :Access public
           :Implements constructor

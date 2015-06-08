@@ -21,6 +21,7 @@
     :field public _JQM  ⍝ JQueryMobile
     :field public _JSS  ⍝ JavaScript Snippets
     :field public _DC   ⍝ Dyalog Controls
+    :field public _
     :field public Tag←#.HtmlElement
     :field public shared _true←#.JSON.true     ⍝ same definition as in #.JSON
     :field public shared _false←#.JSON.false   ⍝ same definition as in #.JSON
@@ -41,7 +42,7 @@
     ∇
 
     ∇ MakeCommon
-      (_html _HTML _JQ _SF _JQM _JSS _DC)←#.(_html _HTML _JQ _SF _JQM _JSS _DC)
+      (_html _HTML _JQ _SF _JQM _JSS _DC _)←#.(_html _HTML _JQ _SF _JQM _JSS _DC _)
       _PageData←⎕NS''
     ∇
 
@@ -52,7 +53,7 @@
       :EndIf
       b←RenderBody
       :If ~0∊⍴_Styles
-          {(Head.Prepend _html.link).SetAttr(('href'⍵)('rel' 'stylesheet')('type' 'text/css'))}¨∪⌽_Styles
+          {(Head.Insert _html.link).SetAttr(('href'⍵)('rel' 'stylesheet')('type' 'text/css'))}¨∪⌽_Styles
       :EndIf
       :If ~0∊⍴_Scripts
           {(Head.Add _html.script).SetAttr('src'⍵)}¨∪_Scripts
@@ -178,6 +179,11 @@
     ∇ r←Execute content
       :Access public
       r←⊂('execute'content)
+    ∇
+
+    ∇ r←name Assign data
+      :Access public
+      r←⊂('assign'name)('data'data)
     ∇
 
     :endsection

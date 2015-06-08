@@ -70,7 +70,11 @@
           r←⊂('execute'content)
         ∇
 
-        :endsection
+        ∇ r←name Assign data
+          :Access public
+          r←⊂('assign'name)('data'data)
+        ∇
+        :EndSection
 
     :endclass
 

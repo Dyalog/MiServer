@@ -4,6 +4,7 @@ function APLJaxReturn(obj) {
         else if (typeof (d.append) !== "undefined") { $(d.append).append(d.data);} 
         else if (typeof (d.prepend) !== "undefined") { $(d.prepend).prepend(d.data);} 
         else if (typeof (d.execute) !== "undefined") { eval(d.execute);}
+		else if (typeof (d.assign) !== "undefined") {eval (d.assign + "= d.data");}
         else {alert(JSON.stringify(d));}
     });
 }
