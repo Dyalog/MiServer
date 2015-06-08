@@ -13,16 +13,16 @@
       Add _html.title _Request.Server.Config.Name
      
     ⍝ add a link to our CSS stylesheet
-      (Add _html.link).SetAttr(('href' '/Styles/style.css')('rel' 'stylesheet')('type' 'text/css'))
+      Insert _DC.StyleSheet '/Styles/style.css'
      
     ⍝ set a meta tag to make it explicitly UTF-8
-      (Add _html.meta).SetAttr'http-equiv="content-type" content="text/html;charset=UTF-8"'
+      (Add _html.meta).Set'http-equiv="content-type" content="text/html;charset=UTF-8"'
      
     ⍝ wrap the content of the <body> element in a div
       Body.Push _html.div'id="contentblock"'
      
     ⍝ add a hidden division to the body containing the APL source code
-      (Add _html.div(#.HTMLInput.APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS)).SetAttr'id="codeblock" style="display: none;"'
+      (Add _html.div(#.HTMLInput.APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock" style="display: none;"'
      
     ⍝ add a JQuery event handler to toggle the web page/APL source code
       Add _HTML.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock").toggle();});});'

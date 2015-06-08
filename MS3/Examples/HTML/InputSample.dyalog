@@ -19,7 +19,7 @@
      
       Add h2'Basic HTML Input Types'
       (frm←Add Form).id←'myform'
-      frm.SetAttr'enctype' 'multipart/form-data'
+      frm.Set'enctype' 'multipart/form-data'
      
       (ig←frm.Add InputGrid).Border←0
       ig.Labels←Types

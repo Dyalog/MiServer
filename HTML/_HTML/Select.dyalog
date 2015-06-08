@@ -12,7 +12,7 @@
           :Implements constructor
           args←eis args
           (name Options attr)←3↑args,(⍴args)↓UNDEF'' ''
-          SetAttr attr
+          Set attr
         ∇
 
         ∇ r←Render;opts

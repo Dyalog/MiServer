@@ -5,7 +5,7 @@
         ∇ Make0
           :Access public
           :Implements constructor :base
-          SetAttr('type' 'button')
+          Set('type' 'button')
         ∇
 
         ∇ Make args;n;v
@@ -17,7 +17,7 @@
           :If 0∊⍴_content ⋄ _content←v ⋄ :EndIf
           (name value)←n v
           id←name
-          SetAttr('type' 'button')
+          Set('type' 'button')
         ∇
 
         ∇ html←Render

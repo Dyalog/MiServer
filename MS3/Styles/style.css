@@ -1,24 +1,7 @@
 ﻿/*This is a sample Cascading Style Sheet (CSS) for MiServer */
 /*If you want to learn more about CSS, please visit http://www.w3schools.com/css/css_intro.asp*/
 
-/*CSS Reset - Increases Browser Compatability*/
-
-html{color:#000;background:#000}
-/* body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{
-margin:0;padding:0}
-*/
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote{
-margin:0;padding:0}
-/*
-table{border-collapse:collapse;border-spacing:0}
-*/
-fieldset,img{border:0}
-address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}li{list-style:none}
-caption,th{text-align:left}
-sup{vertical-align:text-top}
-sub{vertical-align:text-bottom}
-input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}
-input,textarea,select{font-size:100%}legend{color:#000}
+@import url("ResetCSS.css");
 
 /*Template Body and Wrapper*/
 

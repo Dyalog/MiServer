@@ -37,7 +37,7 @@
       hdrs←'b'#.HTMLInput.Enclose¨'Pickers' 'Options' 'SyncFusion Docn'
       tbl←Add #._HTML.Table(hdrs⍪pickers,ops,⍪docn) ⍝ 'padding=5'
       tbl.HeaderRows←1
-      'border' 'padding'tbl.SetAttr¨1 5
+      'border' 'padding'tbl.Set¨1 5
       tbl.CellAttr←'style="padding:5px"'
       Add br
      

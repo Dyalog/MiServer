@@ -40,7 +40,7 @@
               head.id←{∊'rc',¨⍕¨⍵}¨⍳⍴head
           :EndIf
           :If ~0∊⍴tha
-              head.SetAttr¨(⍴head)⍴⊂¨eis tha
+              head.Set¨(⍴head)⍴⊂¨eis tha
           :EndIf
       :EndIf
       :If 0<(⊃⍴data)-hdrrows
@@ -49,7 +49,7 @@
               body.id←{∊'rc',¨⍕¨⍵}¨hdrrows↓⍳⍴data
           :EndIf
           :If ~0∊⍴tda
-              body.SetAttr¨(⍴body)⍴⊂¨eis tda
+              body.Set¨(⍴body)⍴⊂¨eis tda
           :EndIf
       :EndIf
       :If rows>0

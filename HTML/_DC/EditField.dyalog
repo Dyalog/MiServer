@@ -27,7 +27,7 @@
           :Implements constructor
           :If ~1=≡name←nm val att    ⍝ handle 3-character names
               (name value)←nm val
-              SetAttr att
+              Set att
           :EndIf
           id←name
           type←'text'

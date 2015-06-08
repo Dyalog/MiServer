@@ -10,7 +10,7 @@
 
         ∇ html←Render
           :Access public
-          SetAttr(('href'href)('rel' 'stylesheet')('type' 'text/css'))
+          Set(('href'href)('rel' 'stylesheet')('type' 'text/css'))
           html←⎕BASE.Render
         ∇
     :endclass

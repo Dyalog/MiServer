@@ -4,7 +4,7 @@
           :Access public
           :Implements constructor :base
           (name value)←'submit' 'submit'
-          SetAttr('type' 'submit')
+          Set('type' 'submit')
         ∇
 
         ∇ Make1 args;n;v
@@ -13,6 +13,6 @@
           args←eis args
           (n v)←2↑args,(⍴args)↓'submit' 'submit'
           (name value)←n v
-          SetAttr('type' 'submit')
+          Set('type' 'submit')
         ∇
     :endclass

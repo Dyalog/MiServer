@@ -53,10 +53,10 @@
       :EndIf
       b←RenderBody
       :If ~0∊⍴_Styles
-          {(Head.Insert _html.link).SetAttr(('href'⍵)('rel' 'stylesheet')('type' 'text/css'))}¨∪⌽_Styles
+          {(Head.Insert _html.link).Set(('href'⍵)('rel' 'stylesheet')('type' 'text/css'))}¨∪⌽_Styles
       :EndIf
       :If ~0∊⍴_Scripts
-          {(Head.Add _html.script).SetAttr('src'⍵)}¨∪_Scripts
+          {(Head.Add _html.script).Set('src'⍵)}¨∪_Scripts
       :EndIf
       :If ~0∊⍴Handlers
           b,←∊Handlers.Render

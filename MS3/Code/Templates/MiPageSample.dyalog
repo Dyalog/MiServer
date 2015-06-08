@@ -3,7 +3,7 @@
 ⍝ - adding a header and footer
 ⍝ - adding a handler that will toggle the display of the web page and its APL source code
 
-    ∇ Wrap;lang;server;controls;sp;c
+    ∇ {r}←Wrap;lang;server;controls;sp;c
       :Access Public
      
       server←_Request.Server
@@ -17,16 +17,16 @@
       Add title server.Config.Name
      
     ⍝ add a link to our CSS stylesheet
-      (Add link).SetAttr(('href' '/Styles/sampleStyles.css')('rel' 'stylesheet')('type' 'text/css'))
+      Insert _DC.StyleSheet '/Styles/sampleStyles.css'
      
     ⍝ set a meta tag to make it explicitly UTF-8
-      (Add meta).SetAttr'http-equiv="content-type" content="text/html;charset=UTF-8"'
+      (Add meta).Set 'http-equiv="content-type" content="text/html;charset=UTF-8"'
      
     ⍝ wrap the content of the <body> element in a div
       Body.Push div'id="contentblock"'
      
     ⍝ add a hidden division to the body containing the APL source code
-      (Add div(#.HTMLInput.APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS)).SetAttr'id="codeblock"' 'style="display: none;"'
+      (Add div(#.HTMLInput.APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set 'id="codeblock"' 'style="display: none;"'
      
     ⍝ add a JQuery event handler to toggle the web page/APL source code
       Add _HTML.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock,.widgethelp").toggle(400,"swing");});});'
@@ -47,10 +47,10 @@
      
     ⍝ set the language for the page
       lang←server.Config.Lang ⍝ use the language specified in Server.xml
-      Head.SetAttr'lang="',lang,'" xml:lang="',lang,'" xmlns="http://www.w3.org/1999/xhtml"'
+      Set'lang="',lang,'" xml:lang="',lang,'" xmlns="http://www.w3.org/1999/xhtml"'
      
     ⍝ call the base class Wrap function
-      ⎕BASE.Wrap
+      r←⎕BASE.Wrap
     ∇
 
     ∇ r←Walk content;e

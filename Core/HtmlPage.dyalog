@@ -99,7 +99,7 @@
     ∇
     ∇ r←Style style
       :Access public
-      r←{(⎕NEW #._html.link).SetAttr(('href'⍵)('rel' 'stylesheet')('type' 'text/css'))}style
+      r←{(⎕NEW #._html.link).Set(('href'⍵)('rel' 'stylesheet')('type' 'text/css'))}style
     ∇
 
 :endclass
