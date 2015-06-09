@@ -7,7 +7,7 @@
 
     ∇ result←RenderHTML;nss;ns;class;c;name;res;f;root
 ⍝ make sure all HTML-generating classes render
-      nss←#.(_html _HTML _JQ _SF) ⍝ add _JQM when it's ready
+      nss←#.(_html _HTML _DC _JQ _SF) ⍝ add _JQM when it's ready
       root←#.Boot.MSRoot
       result←0 6⍴'' 0 0 0 0 0  ⍝ [1] name [2] DocBase? [3] DocDyalog? [3] ApiLevel [4] Renders [5] id=constructor[1]
       :For ns :In nss
