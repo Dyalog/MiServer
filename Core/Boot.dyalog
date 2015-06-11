@@ -32,7 +32,7 @@
       utils←(⎕SE.SALT.List MSRoot,'Utils -raw')[;2]   ⍝ find utility libraries
       core←(⊂'Boot')~⍨(⎕SE.SALT.List MSRoot,'Core -raw')[;2]
       extensions←(⎕SE.SALT.List MSRoot,'Extensions -raw')[;2]
-      HTML←∪'_html' '_HTML',(⎕SE.SALT.List MSRoot,'HTML -raw')[;2] ⍝ force _html and _HTML to be loaded first
+      HTML←∪(⊂'_HTML'),(⎕SE.SALT.List MSRoot,'HTML -raw')[;2] ⍝ force _html and _HTML to be loaded first
       HTMLsubdirs←HTML∩,⎕SE.SALT.List MSRoot,'HTML -folder'
       :If yes
      
