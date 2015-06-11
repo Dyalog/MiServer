@@ -31,7 +31,9 @@
     :field public class←UNDEF
     :field public style←UNDEF
     :field public title←UNDEF
-    :field public type←UNDEF
+    :field public type←UNDEF  
+    
+    :field public readonly CommonAttributes←'id' 'value' 'name' 'class' 'style' 'title' 'type'
 
     _names←_values←0⍴⊂'' ⍝ used for attributes
     :field public _styles←''
@@ -162,10 +164,6 @@
       mask←~_names∊attrname
       (_names _values)←mask∘/¨_names _values
       r←⎕THIS
-    ∇
-
-    ∇ r←CommonAttributes
-      r←'abcdefghijklmnopqrstuvwxyz'⎕NL ¯2.2
     ∇
 
     :endsection

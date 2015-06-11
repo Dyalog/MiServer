@@ -31,11 +31,13 @@
     ⍝ add a JQuery event handler to toggle the web page/APL source code
       Add _HTML.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock,.widgethelp").toggle(400,"swing");});});'
      
-      c←Body.Content
-      Body.Content←''
-      (sp←Body.Add StackPanel''c).Horizontal←1
+      :If ~0∊⍴controls
+          c←Body.Content
+          Body.Content←''
+          (sp←Body.Add StackPanel''c).Horizontal←1
      
-      sp.Items[1]←⊂FormatControls controls
+          sp.Items[1]←⊂FormatControls controls
+      :EndIf
      
     ⍝ add the footer to the bottom of the page
       Add #.Files.GetText server.Config.Root,'Styles\footer.txt'
