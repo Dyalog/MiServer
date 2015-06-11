@@ -1,4 +1,4 @@
-:Class ejButtonTest : MiPageSample
+﻿:Class ejButtonTest : MiPageSample
 
     ∇ Render;f
       :Access Public
@@ -11,7 +11,6 @@
 
     ∇ r←myCallback
       :Access public
-      ∘∘∘
       r←Execute'alert("Ding!")'
     ∇
 

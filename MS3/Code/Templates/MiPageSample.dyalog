@@ -17,16 +17,16 @@
       Add title server.Config.Name
      
     ⍝ add a link to our CSS stylesheet
-      Insert _DC.StyleSheet '/Styles/sampleStyles.css'
+      Insert _DC.StyleSheet'/Styles/sampleStyles.css'
      
     ⍝ set a meta tag to make it explicitly UTF-8
-      (Add meta).Set 'http-equiv="content-type" content="text/html;charset=UTF-8"'
+      (Add meta).Set'http-equiv="content-type" content="text/html;charset=UTF-8"'
      
     ⍝ wrap the content of the <body> element in a div
       Body.Push div'id="contentblock"'
      
     ⍝ add a hidden division to the body containing the APL source code
-      (Add div(#.HTMLInput.APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set 'id="codeblock"' 'style="display: none;"'
+      (Add div(#.HTMLInput.APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
      
     ⍝ add a JQuery event handler to toggle the web page/APL source code
       Add _HTML.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock,.widgethelp").toggle(400,"swing");});});'
@@ -68,11 +68,11 @@
     ∇ r←FormatControls controls;ctrls;ns;desc;field;n;ctrl;i;c;ref;l;u
       ctrls←⊃{⍺ ⍵}⌸/↓[1]0 1↓↑{⎕ML←3 ⋄ {⍵⊂⍨⍵≠'.'}⍕⍵}¨controls
       field←{0::'' ⋄ ⍺⍎⍵}
-      ns←'_html' '_HTML' '_JQ' '_SF' '_DC'
-      desc←'Native HTML5 Elements' '"Enhanced" HTML Elements' 'Dyalog Developed Controls' 'Syncfusion Widgets' 'jQuery Widgets'
+      ns←'_html' '_HTML' '_DC' '_JQ' '_SF'
+      desc←'Native HTML5 Elements' '"Enhanced" HTML Elements' 'Dyalog Developed Controls' 'jQuery Widgets' 'Syncfusion Widgets'
       (r←⎕NEW div).class←'widgethelp'
       r.Add'This Page Contains<br/>'
-      :For n ctrl i :In ctrls{↓(⍺,⍵)[⍋⍵;]}ns⍳⊃¨ctrls[;1]
+      :For n ctrl i :In ctrls{↓(⍺,⍵)[⍋⍵;]}ns⍳ctrls[;1]
           (r.Add span(i⊃desc)).class←'widgetNs'
           u←r.Add ul
           :For c :In ctrl

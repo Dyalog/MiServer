@@ -79,6 +79,23 @@
       :EndIf
     ∇
 
+    ∇ {r}←{attr}Insert what;c
+      :Access public
+      :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
+      :If isClass⊃what
+          :If #._html.script∊c←∊⎕CLASS⊃what
+              r←Scripts,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
+          :ElseIf ⊃∨/c∊¨⊂#._html.(title style meta link noscript base) ⍝ elements that belong exclusively or primarily in the <head> element
+              r←attr Head.Insert what
+          :Else
+              r←attr Body.Insert what
+          :EndIf
+          r._PageRef←⎕THIS
+      :Else
+          r←attr Body.Insert what
+      :EndIf
+    ∇
+
     ∇ {r}←New what
       :Access public
       r←⎕NEW what
