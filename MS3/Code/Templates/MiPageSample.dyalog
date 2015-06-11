@@ -72,7 +72,7 @@
       desc←'Native HTML5 Elements' '"Enhanced" HTML Elements' 'Dyalog Developed Controls' 'jQuery Widgets' 'Syncfusion Widgets'
       (r←⎕NEW div).class←'widgethelp'
       r.Add'This Page Contains<br/>'
-      :For n ctrl i :In ctrls{↓(⍺,⍵)[⍋⍵;]}ns⍳ctrls[;1]
+      :For n ctrl i :In ctrls{↓(⍺,⍵)[⍋⍵;]}ns⍳{(⊃⍣(¯1+≡⍵))⍵}¨ctrls[;1]
           (r.Add span(i⊃desc)).class←'widgetNs'
           u←r.Add ul
           :For c :In ctrl
