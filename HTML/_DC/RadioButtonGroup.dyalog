@@ -31,7 +31,7 @@
       inps←⎕NEW¨(⍴Values)⍴#._html.input
       inps.(type name)←⊂'radio'name
       inps.value←Values
-      :If ⍬≢SelectedIndex ⋄ inps[SelectedIndex].Attr[⊂'checked']←⊂'checked' ⋄ :EndIf
+      :If ⍬≢SelectedIndex ⋄ inps[SelectedIndex].Attrs[⊂'checked']←⊂'checked' ⋄ :EndIf
       html←∊((LabelsOn≡'right')⌽Labels,[1.1]inps.Render),⊂'<br/>'
     ∇
 :EndClass
