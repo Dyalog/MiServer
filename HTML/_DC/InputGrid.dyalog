@@ -31,7 +31,7 @@
 
     ∇ html←Render;cells;rows
       :Access public
-      cells←{⎕NEW #._html.td(⍵)}¨renderIt¨Labels,[1.1]Inputs
+      cells←{⎕NEW #._html.td(⍵)}¨renderIt¨(,Labels),[1.1],Inputs
       cells[;1].style←⊂'text-align:right'
       cells←(⍉⍣Horizontal)cells
       rows←⎕NEW¨(⊃⍴cells)⍴#._html.tr
