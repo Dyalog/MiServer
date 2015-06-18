@@ -565,7 +565,7 @@
           :EndIf
      
           :If MS3
-              :If cb≡'Render'
+              :If (⊂cb)∊'Render' 'Compose'
                   inst._init ⍝ reset instance's content
               :ElseIf APLJax
                   inst._resetAjax

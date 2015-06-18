@@ -4,10 +4,6 @@
     <h1>MiServer 3.0</h1>
     <i>Anyone who can write an APL function should be able to host it on the web.&#8482;</i>
   </div>  
-  <div id="bannernav">
-    <ul id="nav">
-      <li><a href="/">Home</a></li>
-    </ul>    
-  </div>    
+  <div id="bannernav"><a class="nav" href="/">Home</a></div>    
   <div class="clear"></div>
 </div>

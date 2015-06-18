@@ -28,9 +28,6 @@
     ⍝ add a hidden division to the body containing the APL source code
       (Add div(#.HTMLInput.APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
      
-    ⍝ add a JQuery event handler to toggle the web page/APL source code
-      Add _HTML.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock,.widgethelp").toggle(400,"swing");});});'
-     
       :If ~0∊⍴controls
           c←Body.Content
           Body.Content←''
@@ -39,6 +36,9 @@
           sp.Items[1]←⊂FormatControls controls
       :EndIf
      
+    ⍝ wrap the content of the <body> element in a div
+      Body.Push div'id="bodyblock"'
+     
     ⍝ add the footer to the bottom of the page
       Add #.Files.GetText server.Config.Root,'Styles\footer.txt'
      
@@ -46,6 +46,9 @@
       Body.Push #.Files.GetText server.Config.Root,'Styles\banner.txt'
      
       Body.Push div'id="wrapper"'
+     
+    ⍝ add a JQuery event handler to toggle the web page/APL source code
+      Add _HTML.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock,.widgethelp").toggle(400,"swing");});});'
      
     ⍝ set the language for the page
       lang←server.Config.Lang ⍝ use the language specified in Server.xml

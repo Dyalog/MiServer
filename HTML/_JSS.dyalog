@@ -60,4 +60,16 @@
       r←(sel JQuery'html')args
     ∇
 
+    ∇ r←sel Show args
+      r←(sel JQuery'show')args
+    ∇
+
+    ∇ r←sel Hide args
+      r←(sel JQuery'hide')args
+    ∇
+
+    ∇ r←sel Toggle args
+      r←(sel JQuery'toggle')args
+    ∇
+
 :EndNamespace

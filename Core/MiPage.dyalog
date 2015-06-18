@@ -121,7 +121,9 @@
 ⍝          :If 1<|≡r
 ⍝              r←∊r
 ⍝          :EndIf
-          :If ~0 2∊⍨10|⎕DR proto
+          :If 0 2∊⍨10|⎕DR proto
+              r←∊r
+          :Else
               r←{0::⍵ ⋄ 0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
           :EndIf
       :EndIf
