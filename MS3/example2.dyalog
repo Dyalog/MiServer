@@ -2,7 +2,7 @@
 
     ∇ Render
       :Access public
-      ((Add h2'Welcome to MiServer 3.0').Style'color' 'red').Attr[⊂'onclick']←⊂'alert("Hello world!")'
+      ((Add h2'Welcome to MiServer 3.0').Style'color' 'red').Attrs[⊂'onclick']←⊂'alert("Hello world!")'
     ∇
 
 :EndClass
