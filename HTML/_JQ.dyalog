@@ -447,7 +447,7 @@
               pg←req._Request.Page
           :EndIf
           :If ''≢Delegates
-              sel←⊂Selectors Delegates
+              sel←Selectors Delegates
           :EndIf
           cd←ClientData
           :If (~0∊⍴cd)∧2≥|≡cd ⋄ cd←,⊂cd ⋄ :EndIf

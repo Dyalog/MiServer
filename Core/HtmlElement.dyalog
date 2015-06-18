@@ -31,8 +31,8 @@
     :field public class←UNDEF
     :field public style←UNDEF
     :field public title←UNDEF
-    :field public type←UNDEF  
-    
+    :field public type←UNDEF
+
     :field public readonly CommonAttributes←'id' 'value' 'name' 'class' 'style' 'title' 'type'
 
     _names←_values←0⍴⊂'' ⍝ used for attributes
@@ -303,16 +303,20 @@
       :Access public
       handler←eis handler
       Handlers,←r←⎕NEW #._JQ.Handler
-      r.(Events Callback ClientData JavaScript)←4↑handler,(⍴handler)↓'' 1 '' ''
+      r.(Events Callback ClientData JavaScript Delegates)←5↑handler,(⍴handler)↓'' 1 '' '' ''
     ∇
 
     ∇ r←RenderHandlers;h;myid;selector;handler;str;callback;event;type;evt;action;JS;a;n
       :Access public ⍝!!! remove this after testing
       r←''
       :If ~0∊⍴Handlers
-          myid←SetId
+          :If ∨/0∘∊∘⍴¨Handlers.Selectors
+              myid←SetId
+          :EndIf
           :For h :In Handlers
-              h.Selectors←'#',myid
+              :If 0∊⍴h.Selectors
+                  h.Selectors←'#',myid
+              :EndIf
               r,←h.Render
           :EndFor
       :EndIf
@@ -341,7 +345,7 @@
               av,←∊fmtAttr/¨vs
           :EndIf
           av,←RenderStyles
-          r←(av Enclose r),h,p
+          r←av Enclose r,h,p
       :EndIf
     ∇
 
@@ -353,9 +357,9 @@
     ⍝ do the bulk of the rendering work
       r←''
       :For e :In eis list
-          :If isInstance e
+          :If isInstance⊃e
               r,←e.Render
-          :ElseIf isClass e
+          :ElseIf isClass⊃e
               r,←(⎕NEW e).Render
           :Else
               :If 1<⍴⍴t←⍕e

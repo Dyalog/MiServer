@@ -165,17 +165,17 @@
 
     ∇ r←selector Replace content
       :Access public
-      :If 326=⎕DR content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
+      content←(⎕NEW #.HtmlElement(''content)).Render
       r←⊂('replace'selector)('data'content)
     ∇
     ∇ r←selector Append content
       :Access public
-      :If 326=⎕DR content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
+      content←(⎕NEW #.HtmlElement(''content)).Render
       r←⊂('append'selector)('data'content)
     ∇
     ∇ r←selector Prepend content
       :Access public
-      :If 326=⎕DR content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
+      content←(⎕NEW #.HtmlElement(''content)).Render
       r←⊂('prepend'selector)('data'content)
     ∇
     ∇ r←Execute content
