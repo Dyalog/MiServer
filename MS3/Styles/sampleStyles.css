@@ -1,18 +1,15 @@
-﻿/*CSS Reset - Increases Browser Compatability*/
+﻿/* CSS Reset - Increases Browser Compatability */
+
+@import url("ResetCSS.css");
+/*
 html {
 	color: #000;
 	background: #000;
 }
-/* body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{
-margin:0;padding:0}
-*/
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote {
 	margin: 0;
 	padding: 0;
 }
-/*
-table{border-collapse:collapse;border-spacing:0}
-*/
 fieldset, img {
 	border: 0;
 }
@@ -43,6 +40,8 @@ input, textarea, select {
 legend {
 	color: #000;
 }
+*/
+
 /*Template Body and Wrapper*/
 body {
 	color: #000000;
@@ -68,6 +67,7 @@ body {
 	font-size: .8em;
 	float: left;
 	padding-left: 15px;
+	padding-top:3px;
 }
 #bannerimage img {
 	padding-top: 4px;
@@ -75,26 +75,19 @@ body {
 	float: left;
 	height: 45px;
 }
-#banner a {
+a.nav:visited {
 	color: #FF9933;
 	font-weight: bold;
 	text-decoration: none;
-	font-size: .7em;
 }
-#banner a:hover {
-	color: #cc3300;
+a.nav:active {
+	color: #FF9933;
 	font-weight: bold;
 	text-decoration: none;
 }
-ul#nav {
-	list-style: none;
-	padding: 0;
-}
-/*Template Navigation Bar*/
-ul#nav li {
-	display: inline;
-}
-ul#nav li a {
+
+a.nav {
+	color: #FF9933;
 	text-decoration: none;
 	padding: 5px 0;
 	width: 100px;
@@ -103,13 +96,16 @@ ul#nav li a {
 	float: left;
 	text-align: center;
 	font-size: 1.0em;
-/*border-left:1px solid #fff;*/
 }
-ul#nav li a:hover {
+a.nav:hover {
 	background: silver;
 	color: #000;
+	text-decoration:none;
 }
 /*Template Content Area Styles*/
+#bodyblock {
+	height: 100%;
+}
 #contentblock {
 	margin: 10px;
 	font-size: .70em;
@@ -122,37 +118,38 @@ ul#nav li a:hover {
 	display: none;
 	overflow-x: auto;
 }
+/* Widget Help */
 .widgethelp {
 	margin: 10px 0px 10px 10px;
 	background-color: #FFCC00;
 	overflow: auto;
 	padding: 2px;
-	font-size:13px;
-	display:none;
+	font-size: 11px;
+	display: none;
 }
-.widgetNs{
-    font-size:13px;
+.widgetNs {
+	font-size: 13px;
 }
-.widgethelp ul{
-    padding:0px;
-    margin-top: 0px;
+.widgethelp ul {
+	padding: 0px;
+	margin-top: 0px;
 }
-.widgethelp li{
-    margin:0px;
-    padding:1px;
-    font-size: 12px;
-    list-style:square;
-}  
-.widgethelp a{
-    font-weight:normal;
-    color:red;
-    text-decoration:none;
-    font-size: 12px;
+.widgethelp li {
+	margin: 0px;
+	padding: 1px;
+	font-size: 11px;
+	list-style: square;
 }
-  
+.widgetNs a {
+	font-weight: normal;
+	color: red;
+	text-decoration: none;
+	font-size: 11px;
+}
 /*Template Footer*/
 #footer {
 	background: #997799;
+	width: 980px;
 	padding: 10px;
 	font-size: .6em;
 }
@@ -223,7 +220,6 @@ pre {
 	padding: 5px;
 	font-family: APL385 Unicode;
 	font-size: x-small;
-	margin-top: -5px;
 	border: 1px #f0f0e0 solid;
 }
 code {
@@ -252,19 +248,6 @@ h3 {
 	margin-left: 0px;
 	margin-top: 10px;
 	margin-bottom: 10px;
-}
-ul {
-	margin-top: 10px;
-	margin-left: 20px;
-}
-ol {
-	margin-top: 10px;
-	margin-left: 20px;
-}
-li {
-	margin-top: 10px;
-	color: #000000;
-	font-size: 100%;
 }
 font.value {
 	color: darkblue;
