@@ -1,5 +1,5 @@
 ﻿:class A : #._html.a
-
+⍝ <a href=⍵[2] > ⍵[1] </ a>
     :field public href←''
     :field public Text←''
 

@@ -8,7 +8,7 @@
     ig.Labels←'First name' 'Last name' 'Birthdate'
     ig.Inputs←New¨(EditField'fname')(EditField'lname')(_JQ.jqDatePicker'bdate')
     frm.Add br
-    btn←frm.Add Button'mybutton' 'Click Me!'
+    btn←frm.Add Button 'Click Me!'
     handler←btn.On'click' 'CallbackFn'
     handler.ClientData←'formdata' '#myform' 'serialize'
     (Add div).id←'result'

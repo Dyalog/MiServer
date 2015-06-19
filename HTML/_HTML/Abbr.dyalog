@@ -1,5 +1,5 @@
 ﻿:class Abbr : #._html.abbr
-
+⍝ <abbr title=⍵[2] > ⍵[1] </ abbr>
     :field public title←''
     :field public Text←''
 

@@ -1,31 +1,24 @@
-﻿    :class Button : #._html.button
+﻿:class Button : #._html.button
+⍝ <button name=⍵[2] value=⍵[3] > ⍵[1] </ button>
 
-        :field _content←''
+    :field _content←''
 
-        ∇ Make0
-          :Access public
-          :Implements constructor :base
-          Set('type' 'button')
-        ∇
+    ∇ Make args;n;v
+      :Access public
+      :Implements constructor :base
+     ⍝ arguments are content [name [value]]
+      args←eis⍣(~0∊⍴args)⊢args
+      (_content name value)←3↑args,(⍴args)↓'OK' 'button' ''
+      id←name
+      Set('type' 'button')
+    ∇
 
-        ∇ Make args;n;v
-          :Access public
-          :Implements constructor :base
-          ⍝ arguments are name value {content}
-          args←eis args
-          (n v _content)←3↑args,(⍴args)↓'button' 'button' ''
-          :If 0∊⍴_content ⋄ _content←v ⋄ :EndIf
-          (name value)←n v
-          id←name
-          Set('type' 'button')
-        ∇
+    ∇ html←Render
+      :Access public
+      :If 0∊⍴Content
+          Content←_content
+      :EndIf
+      html←⎕BASE.Render
+    ∇
 
-        ∇ html←Render
-          :Access public
-          :If 0∊⍴Content
-              Content←_content
-          :EndIf
-          html←⎕BASE.Render
-        ∇
-
-    :endclass
+:endclass

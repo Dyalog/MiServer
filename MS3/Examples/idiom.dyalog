@@ -11,7 +11,7 @@
       Add _.br
       (Add _.EditField'str').On'change' ''('str' 'val')
       Add'      Press '
-      'type' 'button'Add _.button'Enter'
+      Add _.Button'Enter'
       Add'to search'
       Add _.br
       (Add _.div).id←'res'
