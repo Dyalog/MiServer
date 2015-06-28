@@ -1,31 +1,31 @@
-﻿:Class bubblechart : MiPageSample
+﻿:Class bubblechart : MiPageTemplate
 
-    ∇ Render;tc;stats
+    ∇ Render;bc
       :Access public
-      Add h2'ejChart (type:bubble)'
-      tc←Add _SF.ejChart'bc'
+      Add _.h2'ejChart (type:bubble)'
+      bc←'bc'Add _.ejChart
      
-      'primaryXAxis.title.text'tc.Option'US Dollars'
-      'primaryXAxis.range.min'tc.Option 3000
-      'primaryXAxis.range.max'tc.Option 10000
-      'primaryXAxis.range.interval'tc.Option 500
+      'primaryXAxis.title.text'bc.Option'US Dollars'
+      'primaryXAxis.range.min'bc.Option 3000
+      'primaryXAxis.range.max'bc.Option 10000
+      'primaryXAxis.range.interval'bc.Option 500
      
-      'primaryYAxis.title.text'tc.Option'% of GDP'
-      'primaryYAxis.range.min'tc.Option 0
-      'primaryYAxis.range.max'tc.Option 20
-      'primaryYAxis.range.interval'tc.Option 2
+      'primaryYAxis.title.text'bc.Option'% of GDP'
+      'primaryYAxis.range.min'bc.Option 0
+      'primaryYAxis.range.max'bc.Option 20
+      'primaryYAxis.range.interval'bc.Option 2
      
-      'load'tc.Option'loadTheme'
-      'canResize'tc.Option #.JSON.true
-      'title.text'tc.Option'Per Capita Health Care Spending'
-      'size.height'tc.Option'600'
-      'legend.visible'tc.Option #.JSON.false
+      'load'bc.Option'loadTheme'
+      'canResize'bc.Option _true
+      'title.text'bc.Option'Per Capita Health Care Spending'
+      'size.height'bc.Option'600'
+      'legend.visible'bc.Option _false
      
-      'series[1].points'tc.Option GetCIAData
-      'series[1].enableAnimation'tc.Option #.JSON.true
-      'series[1].tooltip.visible'tc.Option #.JSON.true
-      'series[1].tooltip.format'tc.Option'#point.text#<br/>USD : $#point.x#<br/>%GDP : #point.y#%<br/>Population : #point.size#'
-      'series[1].type'tc.Option'bubble'
+      'series[1].points'bc.Option GetCIAData
+      'series[1].enableAnimation'bc.Option _true
+      'series[1].tooltip.visible'bc.Option _true
+      'series[1].tooltip.format'bc.Option'#point.text#<br/>USD : $#point.x#<br/>%GDP : #point.y#%<br/>Population : #point.size#'
+      'series[1].type'bc.Option'bubble'
     ∇
 
     ∇ r←GetCIAData;stats;data

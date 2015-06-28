@@ -49,4 +49,20 @@
           r←∊⎕DM
       :EndTrap
     ∇
-:EndNamespace
+
+    ∇ ParseAttrQA;Try;disp
+      'disp'⎕CY'dfns'
+      Try←{disp ⍵(#.HtmlElement.ParseAttr ⍵)}
+      Try'foo'
+      Try'foo' 'checked'
+      Try'foo checked'
+      Try'#foo' 'checked'
+      Try'#foo checked'
+      Try'foo' '.goo' 'checked'
+      Try'foo goo checked'
+      Try'foo'('goo' 'checked')
+      Try'foo' 'goo=moo' 'checked'
+      Try'#foo' 'goo="moo boo"' 'loo'
+    ∇
+
+:endnamespace

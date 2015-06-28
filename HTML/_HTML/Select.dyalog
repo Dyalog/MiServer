@@ -1,7 +1,7 @@
 ﻿:class Select : #._html.select
     :field public Options←0 2⍴⊂''  ⍝ vector or matrix [;1] display, [;2] value
     :field public Selected←⍬       ⍝
-    :field public Null←''          ⍝ character vector "null" choice - the first choice on the list and does not have a value 
+    :field public Null←''          ⍝ character vector "null" choice - the first choice on the list and does not have a value
 
     ∇ make
       :Access public
@@ -12,8 +12,7 @@
       :Access public
       :Implements constructor
       args←eis args
-      (name Options attr)←3↑args,(⍴args)↓UNDEF'' ''
-      Set attr
+      (Options Null)←2↑args,(⍴args)↓'' ''
     ∇
 
     ∇ r←Render;opts
@@ -30,8 +29,15 @@
               opts←opts,⍪opts
           :EndIf
           opts[Selected;1],⍨←⎕UCS 1
-          Add∊{sel←(⎕UCS 1)=1↑⍺ ⋄ '<option value="',(HtmlSafeText ⍵),'"',(sel/' selected="selected"'),'>',(⍕sel↓⍺),'</option>'}/¨↓(0∊⍴Null)↓(Null'')⍪opts
+          Add Null FormatOptions opts
       :EndIf
       r←⎕BASE.Render
+    ∇
+
+    ∇ r←{null}FormatOptions opts
+      :Access public shared
+      :If 0=⎕NC'null' ⋄ null←'' ⋄ :EndIf
+      :If 1=⍴⍴opts ⋄ opts←opts,⍪opts ⋄ :EndIf
+      r←∊{sel←(⎕UCS 1)=1↑⍺ ⋄ '<option value="',(HtmlSafeText ⍵),'"',(sel/' selected="selected"'),'>',(⍕sel↓⍺),'</option>'}/¨↓(0∊⍴null)↓(null'')⍪opts
     ∇
 :endclass

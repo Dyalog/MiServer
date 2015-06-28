@@ -107,9 +107,10 @@
       r.Selectors←'html'
     ∇
 
-    ∇ {r}←New what
+    ∇ {r}←{attr}New what
       :Access public
-      r←⎕NEW what
+      :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
+      r←attr ⎕BASE.New what
       r._PageRef←⎕THIS
     ∇
 

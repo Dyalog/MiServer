@@ -116,10 +116,10 @@
           :EndIf
         ∇
 
-        ∇ r←Render;build;javascript;i
+        ∇ (html js)←Render;build;javascript;i
           :Access public
          
-          r←javascript←''
+          html←javascript←''
           Use
          ⍝ if the user explicitly specifies a selector,
           :If build←0∊⍴Selector
@@ -131,7 +131,7 @@
               javascript,←∊Options∘RenderHandler¨eventHandlers
           :EndIf
          
-          r←#.JQ.JQueryfn JQueryFn Selector Options(JavaScript,javascript)Var
+          js←#.JQ.JQueryfn JQueryFn Selector Options(JavaScript,javascript)Var
          
           :If build≥0∊⍴Container.Content
               :Select ⊃Selector
@@ -144,7 +144,7 @@
                   Container.name←('.#'∊⍨⊃Selector)↓Selector
               :EndIf
               Container.Tag←ContainerType
-              r,⍨←Container.Render
+              html←Container.Render
           :EndIf
         ∇
 
