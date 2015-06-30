@@ -1,4 +1,4 @@
-﻿:Class WaitingPopupNiladic : MiPageSample ⍝ EAWC : MiPage : HtmlPage
+﻿:Class ejWaitingPopupTest0 : MiPageSample ⍝ EAWC : MiPage : HtmlPage
 
 
     ∇ Render

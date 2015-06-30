@@ -2,9 +2,10 @@
     ∇ Compose
       :Access public 
       mytable←Add _.table
-	  mytable.Add _.caption 'A caption is the title of a table'
-      (mytable.Add _.tr).Add¨3/⊂_.th 'Cell'
-	  (mytable.Add _.tr).Add¨3/⊂_.th 'Cell'
-	  Add'That''s all.'
+      (mytable.Add _.tr).Add¨_.th,¨⍳4
+      (mytable.Add _.tr).Add¨_.td,¨4+⍳4
+      (mytable.Add _.tr).Add¨_.td,¨8+⍳4
+      mytable.Add _.caption'A caption is the title of a table'
+      Add'That''s all.'
     ∇
 :endclass

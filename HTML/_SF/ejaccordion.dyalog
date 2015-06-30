@@ -2,11 +2,11 @@
 ⍝ Description: Syncfusion Accordion widget
 ⍝ Constructor: {id} [{titles} {sections}]|[{titles_sections}]
 ⍝ id              - the id/name for the accordion
-⍝ titles          - vector of char vectors containing titles to appear on accodion sections 
+⍝ titles          - vector of char vectors containing titles to appear on accordion sections 
 ⍝ sections        - vector of vectors containing HTML content for each section
 ⍝ titles-sections - 2-column matrix of titles and sections as above
 ⍝ Public Fields:
-⍝ Titles          - vector of char vectors containing titles to appear on accodion sections 
+⍝ Titles          - vector of char vectors containing titles to appear on accordion sections 
 ⍝ Sections        - vector of vectors containing HTML content for each section
     :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejAccordion.html'
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejAccordion.html'
