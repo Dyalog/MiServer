@@ -1,20 +1,18 @@
-﻿:class abbrsample : MiPageSample
-    ∇ Compose
-      :Access public
-      Add _.b'abbr'
-      Add ' is used for abbreviations in your web pages.<br/>Setting the title attribute will display the its text when you hover over the abbreviation'
-     
-      Add¨2⍴_.br
+﻿:class abbrsample : MiPage
 
-      Add'Hover over '
-      ('title' 'A Programming Language')Add _.abbr'APL'
-      Add' to reveal what it stands for'
+⍝ This is an example of using the HTML 'abbr' element.
+
+    ∇ Compose
+      :Access public 
+    ⍝ We simply display the text 'Hover over THIS to reveal.'
      
-      Add¨2⍴_.br
-      Add'Hint: you may want to define a style to make it more obvious to hover over the abbreviation'
-      Add _.br
+    ⍝ First we add the text 'Hover over', then
       Add'Hover over '
-      ('title' 'A Programming Language' 'style' 'color:red')Add _.abbr'APL'
-      Add' to reveal what it stands for'
+    ⍝ Then we add the element 'abbr' containing the text 'THIS',
+    ⍝ making sure the text to display when hovering over it
+    ⍝ (the title) displays 'True Http Internet Scripts'
+      'title' 'True Http Internet Scripts'Add _.abbr'THIS'
+    ⍝ then we add the final text.
+      Add' to reveal.'
     ∇
 :endclass
