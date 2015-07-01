@@ -28,7 +28,6 @@
 
     ∇ r←Render;style;t
       :Access public
-      ∘∘∘ ⍝⍝⍝⍝⍝
       ⍝:If ''≢t←Attrs[⊂'template']
       :If 0≠Options.⎕NC'template'
       :AndIf '⍎'≢⊃t←Options.template

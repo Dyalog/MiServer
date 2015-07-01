@@ -9,12 +9,10 @@
           :Implements constructor
         ∇
 
-        ∇ make1 args;attr
+        ∇ make1 args
           :Access public
           :Implements constructor
-          args←eis⍣(~0∊⍴args)⊢args
-          (name Options attr)←3↑args,(⍴args)↓UNDEF'' ''
-          Set attr
+          Options←args
         ∇
 
         ∇ r←Render;dl
@@ -24,7 +22,7 @@
               :If 1=⍴⍴Options
                   Options←Options,⍪Options
               :EndIf
-              (dl←Add #._html.datalist).id←name,'_datalist'
+              (dl←Add #._html.datalist).id←GenId
               dl.Add∊{'<option value="',(HtmlSafeText ⍵),'">',(⍕⍺),'</option>'}/Options
               'list'Set dl.id
           :EndIf

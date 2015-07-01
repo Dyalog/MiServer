@@ -14,8 +14,8 @@
       args←eis args
       JQueryFn←Uses←'ejToggleButton'
       ContainerType←'input'
-      :Implements constructor :base args
+      :Implements constructor
       Container.type←'checkbox'
-      'defaultText' 'activeText'Option 2⍴1↓args
+      'defaultText' 'activeText'Option 2⍴args
     ∇
 :EndClass
