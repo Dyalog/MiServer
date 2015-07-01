@@ -111,43 +111,59 @@
         ∇
     :endproperty
 
-    ∇ del←ParseAttr arg;split
+    ∇ del←ParseAttr arg;n;i;split;depths;pairs;chunk;special;gotId;first;id;class
       :Access public shared
 ⍝ Parse html sttributes
-⍝ The result is Doubly Enclosed List of pairs of strings (del)
-     
-⍝ The argument comes in various formats:
-⍝ - in a doubly enclosed list of pairs (no work to do)
-⍝ - an even number of strings alternating attr and value
-⍝ - in a list of strings each attr=value
-⍝ - in a string of attr=value OR id (if there's no "=", treat it as an id)
-     
-     
-      →0/⍨3≡|≡del←arg ⍝ no further checks, better be all pairs of strings
-     
-      split←{a←~v←∨\'='=⍵ ⋄ (a/⍵)({'"'∧.=∊1 ¯1↑¨⊂⍵:¯1↓1↓⍵ ⋄ ⍵}1↓v/⍵)}
-      :If 2≡|≡arg
-          :If ∧/'='∊¨arg ⍝ attr=value in each
-              del←split¨del
+      {}÷33>⍴⎕SI
+      arg←eis arg
+      n←⍴arg
+      i←1
+      del←⍬
+      split←{0=⊢/v←∨\'='=⍵:⍵ ⋄ ((~v)/⍵)({'"'∧.=∊1 ¯1↑¨⊂⍵:¯1↓1↓⍵ ⋄ ⍵}1↓v/⍵)}
+      depths←|0,⍨≡¨arg
+      pairs←'='∊¨arg
+      first←⊃¨arg
+      gotId←∨/id←first∊'#' ⍝ any tokens that look like an id?
+      class←first∊'.'
+      special←0,⍨id∨class∨pairs
+      :While i≤n
+          :If 1=depths[i]  ⍝ simple vector
+              :If 1≠⍴chunk←{⎕ML←3 ⋄ ((⍵≠' ')≥{~≠\⍵}'"'=⍵)⊂⍵}i⊃arg
+                  del,←ParseAttr chunk
+              :Else
+                  :If 1=≡chunk←split⊃chunk
+                      :Select 1⊃chunk
+                      :Case '#'
+                          del,←⊂'id'(1↓chunk) ⋄ gotId←1
+                      :Case '.'
+                          del,←⊂'class'(1↓chunk)
+                      :Else
+                          :If gotId<(depths[1+i]≥2)∨(n=1)∨special[1+i]
+                              del,←⊂'id'chunk ⋄ gotId←1
+                          :ElseIf (i=n)∨special[1+i]
+                              del,←⊂2⍴⊂chunk
+                          :Else
+                              del,←⊂arg[0 1+i] ⋄ i+←1
+                          :EndIf
+                      :EndSelect
+                  :Else
+                      del,←⊂2⍴chunk
+                  :EndIf
+              :EndIf
           :Else
-              del←↓((0.5×⍴arg),2)⍴arg
+              del,←ParseAttr i⊃arg
           :EndIf
-      :Else ⍝ assume this is one big string of attr=values
-          :If '='∊arg
-              del←split¨{⎕ML←3 ⋄ ((⍵≠' ')≥{~≠\⍵}'"'=⍵)⊂⍵}arg
-          :ElseIf '.'=1↑arg
-              del←,⊂'class'(1↓arg)
-          :Else
-              del←,⊂'id'(arg↓⍨'#'=1↑arg)
-          :EndIf
-      :EndIf
+          i+←1
+      :EndWhile
     ∇
 
     ∇ {r}←{which}Set attr
       :Access public
       :If 0≠⎕NC'which' ⋄ attr←,(eis which),[1.1]eis attr ⋄ :EndIf
-      attr←ParseAttr attr
-      Attrs[1⊃¨attr]←2⊃¨attr
+      :If ~0∊⍴attr
+          attr←ParseAttr attr
+          Attrs[1⊃¨attr]←2⊃¨attr
+      :EndIf
       r←⎕THIS
     ∇
 
@@ -474,6 +490,17 @@
           :Else
               Content,←⊂r
           :EndTrap
+      :EndIf
+    ∇
+
+    ∇ {r}←{attr}New args;cl
+    ⍝ create a new instance
+    ⍝ args can be an instance, a class, or just html/text
+      :Access public
+      r←''
+      :If ~0∊⍴∊args
+          :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
+          r←attr ParseArgs args
       :EndIf
     ∇
 

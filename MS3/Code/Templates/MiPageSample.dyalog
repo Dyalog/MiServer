@@ -31,9 +31,8 @@
       :If ~0∊⍴controls
           c←Body.Content
           Body.Content←''
-          (sp←Body.Add StackPanel''c).Horizontal←1
+          (sp←Body.Add StackPanel(⊂FormatControls controls)c).Horizontal←1
      
-          sp.Items[1]←⊂FormatControls controls
       :EndIf
      
     ⍝ wrap the content of the <body> element in a div

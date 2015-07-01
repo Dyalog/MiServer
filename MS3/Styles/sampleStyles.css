@@ -1,48 +1,6 @@
 ﻿/* CSS Reset - Increases Browser Compatability */
-
-@import url("ResetCSS.css");
-/*
-html {
-	color: #000;
-	background: #000;
-}
-body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote {
-	margin: 0;
-	padding: 0;
-}
-fieldset, img {
-	border: 0;
-}
-address, caption, cite, code, dfn, em, strong, th, var {
-	font-style: normal;
-	font-weight: normal;
-}
-li {
-	list-style: none;
-}
-caption, th {
-	text-align: left;
-}
-sup {
-	vertical-align: text-top;
-}
-sub {
-	vertical-align: text-bottom;
-}
-input, textarea, select {
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: inherit;
-}
-input, textarea, select {
-	font-size: 100%;
-}
-legend {
-	color: #000;
-}
-*/
-
-/*Template Body and Wrapper*/
+@import url('ResetCSS.css');
+/* Body and Wrapper */
 body {
 	color: #000000;
 	background-color: black;
@@ -55,7 +13,7 @@ body {
 	width: 1000px;
 	margin: 10px auto;
 }
-/*Template Banner*/
+/* Banner */
 #banner {
 	background: #997799;
 	padding: 10px;
@@ -67,7 +25,7 @@ body {
 	font-size: .8em;
 	float: left;
 	padding-left: 15px;
-	padding-top:3px;
+	padding-top: 3px;
 }
 #bannerimage img {
 	padding-top: 4px;
@@ -85,7 +43,6 @@ a.nav:active {
 	font-weight: bold;
 	text-decoration: none;
 }
-
 a.nav {
 	color: #FF9933;
 	text-decoration: none;
@@ -100,7 +57,7 @@ a.nav {
 a.nav:hover {
 	background: silver;
 	color: #000;
-	text-decoration:none;
+	text-decoration: none;
 }
 /*Template Content Area Styles*/
 #bodyblock {
@@ -112,11 +69,11 @@ a.nav:hover {
 	padding-bottom: 2em;
 }
 #codeblock {
-	margin: 10px;
 	font-size: .70em;
 	padding-bottom: 2em;
 	display: none;
-	overflow-x: auto;
+	overflow-x: scroll;
+	float: right;
 }
 /* Widget Help */
 .widgethelp {
