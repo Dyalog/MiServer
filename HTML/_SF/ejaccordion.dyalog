@@ -1,6 +1,6 @@
 ﻿:Class ejAccordion : #._SF._ejWidget
 ⍝ Description:: Syncfusion Accordion widget
-⍝ Constructor:: [titles [sections]]|[titles_sections]
+⍝ Constructor:: [titles [sections]] | [titles_sections]
 ⍝ titles          - vector of char vectors containing titles to appear on accordion sections
 ⍝ sections        - vector of vectors containing HTML content for each section
 ⍝ titles_sections - 2-column matrix of titles [;1] and sections [;2] as above
@@ -8,9 +8,11 @@
 ⍝ Public Fields::
 ⍝ Titles          - vector of char vectors containing titles to appear on accordion sections
 ⍝ Sections        - vector of vectors containing HTML content for each section
-⍝ Examples::      ejAccordion 'Title1' 'Title2'
-⍝                 ejAccordion ('Title1' 'Title2')('Section1' 'Section2')
-⍝                 ejAccordion 2 2⍴'Title1' 'Section1' 'Title2' 'Section2'
+⍝ Examples::      
+⍝ ejAccordion 'Title1' 'Title2'
+⍝ ejAccordion ('Title1' 'Title2')('Section1' 'Section2')
+⍝ ejAccordion 2 2⍴'Title1' 'Section1' 'Title2' 'Section2'
+
     :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejAccordion.html'
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejAccordion.html'
     :field public shared readonly ApiLevel←3
