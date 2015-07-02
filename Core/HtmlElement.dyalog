@@ -114,7 +114,6 @@
     ∇ del←ParseAttr arg;n;i;split;depths;pairs;chunk;special;gotId;first;id;class
       :Access public shared
 ⍝ Parse html sttributes
-      {}÷33>⍴⎕SI
       arg←eis arg
       n←⍴arg
       i←1
@@ -438,7 +437,9 @@
       :If ~0∊⍴r←args
           :If isClass⊃args
               r←⎕NEW∘{2<⍴,⍵:(⊃⍵)({eis ⍵}(1↓⍵)) ⋄ ⍵}eis args
-              r._PageRef←_PageRef
+              :If 0≠⎕NC⊂'_PageRef'
+                  r._PageRef←_PageRef
+              :EndIf
               :If ~0∊⍴attr
                   r.SetAttr attr
               :EndIf
@@ -496,7 +497,7 @@
     ∇ {r}←{attr}New args;cl
     ⍝ create a new instance
     ⍝ args can be an instance, a class, or just html/text
-      :Access public
+      :Access public shared
       r←''
       :If ~0∊⍴∊args
           :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
@@ -569,11 +570,14 @@
       r←'id',⍕rand ¯1+2*31
     ∇
 
-    ∇ myid←SetId
+    ∇ {myid}←SetId
       :Access public
       :If UNDEF≡myid←id
-      :AndIf ''≡myid←⊃Attrs[⊂'id']
-          id←myid←GenId
+          :If ''≡myid←⊃Attrs[⊂'id']
+              id←myid←GenId
+          :Else
+              id←myid
+          :EndIf
       :EndIf
     ∇
 

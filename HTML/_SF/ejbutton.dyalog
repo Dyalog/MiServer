@@ -1,7 +1,6 @@
 ﻿:class ejButton : #._SF._ejWidget
 ⍝ Description: Syncfusion Button widget
 ⍝ Constructor: [text [type]]
-⍝ id   - the id/name for the button
 ⍝ text - the text to appear on the button
 ⍝ type - one of 'submit' (default), 'reset', or 'button'
 ⍝ Public Fields:
@@ -23,7 +22,7 @@
       args←eis args
       JQueryFn←Uses←'ejButton'
       ContainerType←'button'
-      (text type)←2↑args,(⍴args)↓'' ''
+      (text type)←2↑args,(⍴args)↓ '' ''
       Text←text
       :Implements constructor
       :If ~0∊⍴type

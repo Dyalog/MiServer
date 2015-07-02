@@ -1,7 +1,6 @@
 ﻿:class ejTreeView : #._SF._ejWidget
 ⍝ Description: Syncfusion TreeView widget
-⍝ Constructor: {id} [items]
-⍝ id    - the id/name for the accordion
+⍝ Constructor:  [items]
 ⍝ items - [;1] level [;2] name [;3] id [;4] link
 ⍝ Public Fields:
 ⍝ Items -
@@ -15,7 +14,6 @@
       :Access public
       JQueryFn←Uses←'ejTreeView'
       :Implements constructor
-      ContainerType←'ul'
     ∇
 
     ∇ make1 args
@@ -30,7 +28,7 @@
 
     ∇ r←Render
       :Access Public
-      :If UNDEF≡id ⋄ id←GenId ⋄ :EndIf
+      SetId
       :If onNodeSelect≢0
           On'nodeSelect'onNodeSelect('node' 'eval' 'JSON.stringify(argument.value)')
       :EndIf
@@ -71,8 +69,8 @@
               :EndFor
               r←¯1↓r
           :EndIf
-          r,←'];'
       :EndIf
+      r,←'];'
     ∇
 
 :EndClass
