@@ -17,7 +17,7 @@
       ContainerType←'button'
       :Implements constructor
     ∇
-    ∇ make1 args;type;text;i
+    ∇ make1 args;type;text
       :Access public
       args←eis args
       JQueryFn←Uses←'ejButton'

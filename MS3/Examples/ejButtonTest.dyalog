@@ -2,16 +2,25 @@
 
     ∇ Render;f
       :Access Public
-      b1←(f←Add _HTML.Form).Add _SF.ejButton'b1' 'Click Me!'
+	  f←Add _HTML.Form
+      b1←f.Add _SF.ejButton 'Click Me!'
+	  b1.id←'b1'
       'type'b1.Set'ej.ButtonType.Button'
-      b2←f.Add _SF.ejButton'b2' 'Click Me!'
+      b2←f.Add _SF.ejButton'Click Me!'
+	  b2.id←'b2'
       'type' 'enabled'b2.Set'ej.ButtonType.Button'_false
-      (b1 b2).On¨⊂⊂'click' 'myCallback'
+      b1.On 'click' 'myCallback' ('b2state' '#b2' 'enabled')
+      b2.On 'click' 'myCallback'
     ∇
 
     ∇ r←myCallback
       :Access public
-      r←Execute'alert("Ding!")'
+      :if 'b1'≡⎕←#.z←_what
+	  r←'enabled' b2.Set ⍬⍴_true _false~⎕←Get 'b2state'
+	  :else
+	  r←Execute'alert("Ding!")'
+	  :endif
+	  
     ∇
 
 :EndClass
