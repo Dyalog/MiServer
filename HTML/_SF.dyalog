@@ -23,13 +23,6 @@
           :Implements constructor
         ∇
 
-        ∇ make1 args
-          :Access public
-          :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
-          :If 0∊⍴Uses ⋄ Uses←'Syncfusion' ⋄ :EndIf
-          :Implements constructor :base args
-        ∇
-
         ∇ r←Render
           :Access public
           JQPars←Options

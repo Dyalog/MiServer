@@ -99,23 +99,6 @@
           :Implements constructor
         ∇
 
-        ∇ Make1 args;selector
-          :Access public
-          Options←⎕NS''
-          Container←⎕NEW #.HtmlElement
-          :Implements constructor
-          selector←,⊃eis args
-          :If (10|⎕DR selector)∊0 2
-              :If 0<⍴selector
-                  :If isSelector selector
-                      Selector←selector
-                  :Else
-                      id←selector
-                  :EndIf
-              :EndIf
-          :EndIf
-        ∇
-
         ∇ (html js)←Render;build;javascript;i
           :Access public
          
@@ -123,8 +106,7 @@
           Use
          ⍝ if the user explicitly specifies a selector,
           :If build←0∊⍴Selector
-              :If (⊂i←id)∊''UNDEF ⋄ i←GenId ⋄ :EndIf
-              Selector←'#',Container.id←i
+              Selector←'#',Container.id←SetId
           :EndIf
          
           :If ~0∊⍴eventHandlers
@@ -163,7 +145,7 @@
           :EndIf
         ∇
 
-        ∇ {r}←{opts}RenderHandler handler;page;event;callback;clientdata;javascript;useajax;data
+        ∇ {r}←{opts}RenderHandler handler;page;event;callback;clientdata;javascript;useajax;data;cd;name;id;type;what;dtype;success;ajax
           :Access public overridable
           r←page←''
           :If isInstance _PageRef
