@@ -1,6 +1,6 @@
 ﻿:class ejButton : #._SF._ejWidget
-⍝ Description: Syncfusion Button widget
-⍝ Constructor: [text [type]]
+⍝ Description:: Syncfusion Button widget
+⍝ Constructor:: [text [type]]
 ⍝ text - the text to appear on the button
 ⍝ type - one of 'submit' (default), 'reset', or 'button'
 ⍝ Public Fields:

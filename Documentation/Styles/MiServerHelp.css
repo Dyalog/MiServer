@@ -8,7 +8,7 @@ src: local("APL385 Unicode"),
 url(Apl385.ttf);
 }
 body {
-	background-color: #FFFFCC;
+	background-color:black;
 	width: 80%;
 	margin: 10px auto;
 }
@@ -16,7 +16,7 @@ body {
 	font-family: APLFont;
 }
 .htmltags td {
-	text-align: center;
+/*	text-align: center; */
 /*	background-color: #FFCC66; */
 	width: 100px;
 	padding: 5px 10px;
@@ -28,14 +28,14 @@ body {
 	font-family: APLFont;
 }
 .odd {
-	background-color: #FFFFCC;
+	background-color: #FFEECC;
 }
-.api {
+table.api {
+border-color:black;
 }
 .even {
-	background-color: #FFCC00;
+	background-color: #FFAA00;
 }
 td {
-	color: #FF9900;
 	padding: 4px;
 }
