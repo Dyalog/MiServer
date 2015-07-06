@@ -1,6 +1,5 @@
 ﻿:Namespace _JSS ⍝ Javascript Snippets
 
-    ⍝∇:require =\JSON
     (⎕ML ⎕IO)←1
 ⍝ this list will grow over time as usage patterns are discovered
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple

@@ -1,7 +1,7 @@
 ﻿:Class MiPage : #.HtmlPage
 
     ⍝∇:require =\HtmlPage.dyalog
-    ⍝∇:require =\..\HTML\JSON.dyalog
+    ⍝∇:require =\JSON.dyalog
 
     :Field Public _PageName←'' ⍝ Page file name
     :Field Public _PageDate←'' ⍝ Page saved date

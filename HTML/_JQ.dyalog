@@ -1,9 +1,6 @@
 ﻿:Namespace _JQ
     (⎕IO ⎕ML)←1
 
-   ⍝∇:require =\JSON.dyalog
-
-
     :section Common Code
     quote←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}
 

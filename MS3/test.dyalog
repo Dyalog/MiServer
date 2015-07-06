@@ -1,22 +1,9 @@
 ﻿:Class test : MiPageSample
-    ∇ Render;h
+    ∇ Render
       :Access public
-     
-      Add h2'Dyalog Process Manager Web Front End'
-     
-      ⍝ btns←{Add InputSubmit ⍵}¨'Start' 'Stop' 'Refresh'
-      ⍝ btns.On ⊂'click' 'CallbackFn'
-     
-      btn←Add InputSubmit'Start'
-      btn.On'click' 'CallbackFn'
-     
-      (Add div).id←'state'
+      (Add _.div).Add _.Table (1 1⍴_.Select ('abc' (2 2⍴'c1' 'choice1' 'c2' 'choice2'))) 
     ∇
+     
 
-    ∇ r←CallbackFn
-      :Access public
-      ∘∘∘
-      r←'#state'Append h2∘∘∘
-    ∇
 	
 :EndClass

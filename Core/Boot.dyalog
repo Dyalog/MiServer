@@ -248,13 +248,13 @@
       Config.Production←Config Setting'Production' 1 0 ⍝ production mode?  (0/1 = development debug framework en/disabled)
       Config.Rest←Config Setting'Rest' 1 0 ⍝ RESTful web service?
       Config.RootCertDir←Config Setting'RootCertDir' 0 ''
-      Config.Root←folderize MSRoot{((IsRelPath ⍵)/⍺),⍵}AppRoot
+      Config.Root←folderize MSRoot{((isRelPath ⍵)/⍺),⍵}AppRoot
       Config.SSLFlags←Config Setting'SSLFlags' 1(32+64)  ⍝ Accept Without Validating, RequestClientCertificate
       Config.Secure←Config Setting'Secure' 1 0
       Config.Server←Config Setting'Server' 0 ''
       Config.SessionHandler←Config Setting'SessionHandler' 0 'SimpleSessions'
       Config.SupportedEncodings←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}',',Config Setting'SupportedEncodings' 0
-      Config.TempFolder←folderize Config.Root{0∊⍴⍵:⍵ ⋄ ((IsRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
+      Config.TempFolder←folderize Config.Root{0∊⍴⍵:⍵ ⋄ ((isRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
       Config.TrapErrors←Config Setting'TrapErrors' 1 0
       Config.UseContentEncoding←Config Setting'UseContentEncoding' 1 0 ⍝ aka HTTP Compression default off (0)
      
@@ -398,10 +398,10 @@
     :endsection
 
     :section Utilities
-    IsWin←('.' ⎕WG 'APLVersion')[3]≡⊂,'W'
-    FSep←'/\'[1+IsWin]
+    isWin←('.' ⎕WG 'APLVersion')[3]≡⊂,'W'
+    fileSep←'/\'[1+isWin]
     MSRoot←{(1-⌊/'/\'⍳⍨⌽⍵)↓⍵}⎕WSID
-    IsRelPath←{{~'/\'∊⍨(⎕IO+2×IsWin∧':'∊⍵)⊃⍵}3↑⍵}
+    isRelPath←{{~'/\'∊⍨(⎕IO+2×isWin∧':'∊⍵)⊃⍵}3↑⍵}
     enlist←{⎕ML←1⋄∊⍵}
     tonum←{w←⍵⋄((w='-')/w)←'¯'⋄2 1⊃⎕VFI w}
     try←{0::'' ⋄⍎⍵}
@@ -409,13 +409,18 @@
     notEmpty←~∘empty
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     isRef←{(0∊⍴⍴⍵)∧326=⎕DR ⍵}
-    folderize←{¯1↑⍵∊'/\':⍵ ⋄ ⍵,FSep}
+    folderize←{¯1↑⍵∊'/\':⍵ ⋄ ⍵,fileSep}
 
     ∇ r←SubstPath r
       r←(#.Strings.subst∘('%ServerRoot%'(¯1↓MSRoot)))r
       r←(#.Strings.subst∘('%SiteRoot%'(¯1↓AppRoot)))r
     ∇
 
+    ∇ r←isRunning
+      :Trap r←0
+          r←ms.TID∊⎕TNUMS
+      :EndTrap
+    ∇
 
     ∇ r←Oops;⎕TRAP;dmx;ends;xsi
     ⍝ debugging framework to bubble up to user's code when rendering fails

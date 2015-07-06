@@ -384,7 +384,7 @@
     ∇ r←{noext}SplitFilename filename;filesep;mask;path;file;ext
     ⍝ splits a filename into: path name ext
       noext←{6::0 ⋄ noext}''
-      filesep←(~IsWin)↓'\/'
+      filesep←(~isWin)↓'\/'
       mask←⌽∨\⌽filename∊filesep
       path←mask/filename
       file←(~mask)/filename
@@ -455,7 +455,7 @@
       :EndTrap
     ∇
 
-    ∇ r←IsWin
+    ∇ r←isWin
       r←'Win'≡APLVersion
     ∇
 

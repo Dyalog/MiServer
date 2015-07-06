@@ -261,7 +261,7 @@
      
       ⍝ If running Linux, we may want to switch users (only root can allocate a port less than 1024)
      
-      :If ~IsWin
+      :If ~isWin
       :AndIf 0<⍴uid←''setting'Config.UserID'
           msg←'4001⌶''',uid,''' '
           :Trap 0
@@ -486,30 +486,14 @@
               4 Log'Creating new instance of page: ',REQ.Page
               inst._PageName←REQ.Page
               inst._PageDate←date
+              MS3←RESTful←0
               :If 9=⎕NC'#.HtmlPage'
                   :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage
-                      inst.(_Request _PageRef)←REQ inst
-                  :EndIf
-              :EndIf
-              :If 9=⎕NC'#.HtmlPage'
-                  :If RESTful←∨/(∊⎕CLASS inst)∊#.RESTful
+                  :OrIf RESTful←∨/(∊⎕CLASS inst)∊#.RESTful
                       inst.(_Request _PageRef)←REQ inst
                   :EndIf
               :EndIf
               :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ :EndIf
-     
-⍝BPB - disable this chunk of code until we can figure out how to exclude fields from base classes
-⍝              :If 0≠⎕NC'oldinst'
-⍝              :AndIf (names←oldinst.⎕NL-2.2)≡inst.⎕NL-2.2 ⍝ Interface is indentical
-⍝              :AndIf 0≠⍴names←('_'≠1⊃¨names)/names
-⍝                  :Trap 6
-⍝                      ⍎'inst.(',names,')←oldinst.(',(names←⍕names),')' ⍝ Transfer values
-⍝                      4 Log'    (interface is identical: data transferred)'
-⍝                  :Else
-⍝                      4 Log'    (interface is identical: but undefined)'
-⍝                  :EndTrap
-⍝              :EndIf
-     
           :Else
               REQ.Fail 404 ⋄ →0
           :EndIf
@@ -687,7 +671,7 @@
       :EndIf
     ∇
 
-    ∇ r←IsWin
+    ∇ r←isWin
       r←'Win'≡3↑1⊃'.'⎕WG'APLVersion'
     ∇
 

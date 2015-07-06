@@ -1,5 +1,7 @@
 ﻿:class HtmlPage : #.HtmlElement
 
+    ⍝∇:require =\HtmlElement.dyalog
+
     :field public Head
     :field public Body
     :field public Scripts

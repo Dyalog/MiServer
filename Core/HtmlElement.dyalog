@@ -6,37 +6,37 @@
     :field public NL←⎕ucs 13 ⍝ 10
 
     :field public Tag←''      ⍝ this is the element name
-    :field public Content←⍬   ⍝ this is a series of strings/instances/class+parms
-    :field public Handlers←''
-    :field public _PageRef←''
-    :field public NoEndTag←0
-    :field public Position
+    :field public Content←⍬   ⍝ content of the element - a series of strings/instances/class+parms
+    :field public Handlers←'' ⍝ array of event handlers 
+    :field public _PageRef←'' ⍝ reference back to the page instance containing this element
+    :field public NoEndTag←0  ⍝ set to 1 if this singleton element (does not have a closing tag)
+    :field public Position    ⍝ has position information for this element (if position is set)
     :field public Uses←''     ⍝ resources that will be used by this object (can be overridden by derived classes)
 
 ⍝ define shortcuts to namespaces (initialized later)
-    :field public _html        ⍝ base HTML elements
-    :field public _HTML        ⍝ "Enhanced" HTML elements
-    :field public _JQ          ⍝ JQuery/JQueryUI
-    :field public _SF          ⍝ SyncFusion
-    :field public _JQM         ⍝ JQueryMobile
-    :field public _JSS         ⍝ JavaScript Snippets
-    :field public _DC          ⍝ Dyalog Controls
-    :field public _
+    :field public _html        ⍝ reference to base HTML elements namespace
+    :field public _HTML        ⍝ reference to "Enhanced" HTML elements namespace
+    :field public _JQ          ⍝ reference to JQuery/JQueryUI widgets namespace
+    :field public _SF          ⍝ reference to SyncFusion widgets namespace
+    :field public _JQM         ⍝ reference to JQueryMobile widgets namespace
+    :field public _JSS         ⍝ reference to JavaScript Snippets namespace
+    :field public _DC          ⍝ reference to Dyalog Controls namespace
+    :field public _            ⍝ reference to namespace that refers to all elements/widgets
 
    ⍝ make shortcuts for some common HTML attributes
-    :field public shared readonly UNDEF←⎕NULL
-    :field public id←UNDEF
-    :field public value←UNDEF
-    :field public name←UNDEF
-    :field public class←UNDEF
-    :field public style←UNDEF
-    :field public title←UNDEF
-    :field public type←UNDEF
+    :field public shared readonly UNDEF←⎕NULL  ⍝ setting for undefined attributes 
+    :field public id←UNDEF                     ⍝ id attribute for the element
+    :field public value←UNDEF                  ⍝ value attribute for the element
+    :field public name←UNDEF                   ⍝ name attribute for the element
+    :field public class←UNDEF                  ⍝ class attribute for the element
+    :field public style←UNDEF                  ⍝ style attribute for the element
+    :field public title←UNDEF                  ⍝ title attribute for the element
+    :field public type←UNDEF                   ⍝ type attribute for the element
 
-    :field public readonly CommonAttributes←'id' 'value' 'name' 'class' 'style' 'title' 'type'
+    :field public readonly CommonAttributes←'id' 'value' 'name' 'class' 'style' 'title' 'type' ⍝ element attributes that are directly accessible
 
-    _names←_values←0⍴⊂'' ⍝ used for attributes
-    :field public _styles←''
+    _names←_values←0⍴⊂'' ⍝ used for attributes 
+    :field public _styles←''                   
 
     rand←{t←16807⌶2 ⋄r←?⍵ ⋄ t←16807⌶t ⋄ r }
 
@@ -226,18 +226,23 @@
     :Section Constructors
 
     ∇ Make0
+    ⍝ basic constructor
       :Implements constructor
       :Access public
       Init
     ∇
 
     ∇ Make1 t    ⍝ this can be any length
+    ⍝ t - tag/element name (e.g. 'div' or 'table')
       :Implements constructor
       :Access public
       Tag←t
       Init
     ∇
-    ∇ Make2(t arg)            ⍝ attributes can be added here
+
+    ∇ Make2(t arg)
+    ⍝ t - tag/element name (e.g. 'div' or 'table')
+    ⍝ arg - content or (content attrs)
       :Implements constructor
       :Access public
       Make2Code(t arg)
@@ -252,7 +257,7 @@
           :ElseIf ~isClass⊃arg
               :Trap 4 5
                   (content attr)←arg
-                  :If {(isClass ⍵)∨isInstance ⍵}⊃attr
+                  :If {(isClass ⍵)∨isInstance ⍵}⊃arg
                       content←arg
                       attr←''
                   :EndIf
@@ -271,7 +276,10 @@
       Init
     ∇
 
-    ∇ Make3(t content attr)       ⍝ elements and attributes added here
+    ∇ Make3(t content attr)
+    ⍝ t - tag/element name (e.g. 'div' or 'table')
+    ⍝ content - content
+    ⍝ attr - attrs
       :Implements constructor
       :Access public
       :If 0∧.≡≡¨t content attr    ⍝ handle 3-character tag (e.g. 'pre')
