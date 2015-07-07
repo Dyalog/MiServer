@@ -8,7 +8,7 @@
 
     ∇ r3←fixExample;tmp;b;i
       :Access public shared
-      tmp←⎕XML example
+      tmp←⎕XML∊r3←example
       tmp[;3]←1⌽tmp[;3]
       i←b/⍳⍴b←tmp[;2]∊⊂,'a'
       tmp[i-1;4]⍪←tmp[i;4]
@@ -20,7 +20,7 @@
 
     ∇ lines←example
       :Access public shared
-      lines←ScriptFollows
+     L10:lines←1↓¨1↓L10↓⎕NR'example'
 ⍝<li id="Products">
 ⍝  <a href="#">Products</a>
 ⍝  <ul>
@@ -126,3 +126,5 @@
     ∇
 
 :EndClass
+⍝)(!example!!0 0 0 0 0 0 0
+⍝)(!fixExample!!0 0 0 0 0 0 0
