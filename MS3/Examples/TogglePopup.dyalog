@@ -1,16 +1,15 @@
 ﻿:Class TogglePopup : MiPageSample ⍝ EAWC : MiPage : HtmlPage
-    ∇ Render;ct;CliDa;h
+    ∇ Compose;ct;CliDa;h
       :Access Public
       :If isPost
           Add'You clicked me!'
       :Else
-          ct←Add Form
-          ct.Add'Click ',(bn←⎕NEW ejToggleButton),' to toggle status.'
-          ⍝bn.On'click' 'myCallback'('mybutt' 'ejModel')
-          Add ct
-          Wp←Add ejWaitingPopup'#mywp' 'Waiting...'
-          'showOnInit'Wp.Option _false
-          h←Add Handler
+          Add'Click '
+          bn←Add ejToggleButton
+          Add' to toggle status.'
+          bn.On'click' 'myCallback'
+          Wp←Add ejWaitingPopup'Waiting...'
+          'showOnInit'Wp.Set _false
           CliDa←'MyDa' '#mywp' 'ejModel' 'showOnInit'
           h.(Selectors Events Callback ClientData)←'bn' 'click' 'myCallback'CliDa
       :EndIf
@@ -20,7 +19,7 @@
       :Access public
       r←⍬
       active←_true≡_PageData.MyDa
-      'showOnInit'Wp.Update _true _false[1+active] ⍝ Need Brian's post-render option setting mechanism
+      'showOnInit'Wp.SetOption _true _false[1+active] ⍝ Need Brian's post-render option setting mechanism
     ∇
 
 :EndClass

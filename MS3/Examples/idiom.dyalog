@@ -9,17 +9,18 @@
      
       Add _.h1'Search Idiom Database'
       Add _.br
-      (Add _.EditField'str').On'change' ''('str' 'val')
+      ef←Add _.EditField'str'
+      ef.On'change' ''('str' 'val')
       Add'      Press '
       Add _.Button'Enter'
       Add'to search'
       Add _.br
-      (Add _.div).id←'res'
+      (Add _.div).id←'res'  ⍝ This is a container that will be filled with result
     ∇
 
     ∇ r←APLJax;found;finn;dyal
       :Access public
-      found←idioms⌿⍨∨/∨/¨idioms[;1 2 4]⍷¨⍨Get'str'
+      found←idioms⌿⍨∨/∨/¨idioms[;2 3 4]⍷¨⍨⊂Get'str'
       found←found\⍨7⍴1 0
       found[;2×⍳3]←⊂6/⎕UCS 160
       finn←found[;2+⍳5]⌿⍨~found[;1]

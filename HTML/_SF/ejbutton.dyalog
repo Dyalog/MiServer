@@ -3,7 +3,7 @@
 ⍝ Constructor:: [text [type]]
 ⍝ text - the text to appear on the button
 ⍝ type - one of 'submit' (default), 'reset', or 'button'
-⍝ Public Fields:
+⍝ Public Fields::
 ⍝ Text - the text to appear on the button
 
 
