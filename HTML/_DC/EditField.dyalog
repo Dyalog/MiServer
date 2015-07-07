@@ -1,35 +1,22 @@
-﻿    :class EditField : #._html.input
-⍝ Description: Dyalog text input field widget
-⍝ Constructor: name {value} {attr}
+﻿:class EditField : #._html.input
+⍝ Description:: Dyalog text input field widget
+⍝ Constructor:: name [value [attr1=data1 attr2=data2 ...]]
 ⍝ name  - the id/name for the input field
-⍝ value - the 
+⍝ value - the
 ⍝ attr  - one of 'submit' (default), 'reset', or 'button'
-⍝ Public Fields:
+⍝ Public Fields::
 ⍝ Text - the text to appear on the button
-        ∇ make1 nm
-          :Access public
-          :Implements constructor
-          name←nm
-          id←name
-          type←'text'
-        ∇
-        ∇ make2(nm val)
-          :Access public
-          :Implements constructor
-          :If ~1=≡name←nm val    ⍝ handle 2-character names
-              (name value)←nm val
-          :EndIf
-          id←name
-          type←'text'
-        ∇
-        ∇ make3(nm val att)
-          :Access public
-          :Implements constructor
-          :If ~1=≡name←nm val att    ⍝ handle 3-character names
-              (name value)←nm val
-              Set att
-          :EndIf
-          id←name
-          type←'text'
-        ∇
-    :endclass
+
+⍝ HTML:: <input id=⍵[1] value=⍵[2]
+
+    ∇ make args;att
+      :Access public
+      :Implements constructor
+      args←eis args
+      name value att←3↑args,(2=⍴args)↓UNDEF''
+      Set att
+      id←name
+      type←'text'
+     
+    ∇
+:endclass

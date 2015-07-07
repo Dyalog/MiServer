@@ -4,8 +4,8 @@
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejMenu.html'
     :field public Items←⍬
     :field public Text←'Menu'
-    :field public Href←'#'   
-    
+    :field public Href←'#'
+
    ⍝ A menu consists of a series of elements that are Strings or menu Items
    ⍝ Each element has an anchor which may or may not have an href
    ⍝ Given the following menu structure (level, description, action):
@@ -23,7 +23,7 @@
       :Access public
       JQueryFn←Uses←'ejMenu'
       ContainerType←'ul'
-      (Level Text Href)←⊂⍬
+      (Text Level Href)←⊂⍬
       :Implements constructor
     ∇
     ∇ make1 args
@@ -31,16 +31,21 @@
       JQueryFn←Uses←'ejMenu'
       ContainerType←'ul'
       ⍝:If 2=|≡args ⋄ args←⊂¨args ⋄ :EndIf
-      (Level Text Href)←args,(⍴args)↓⍬(0⍴⊂'')(0⍴⊂'')
-      :Implements constructor :base args                       
-      (Text Href)←(⍬⍴⍴Level)↑¨Text Href
+      :If 3=|≡args
+          (Text Level Href)←args,(⍴args)↓⍬(0⍴⊂'')(0⍴⊂'')
+      :Else
+          Href←{''}¨Level←{0}¨Text←eis args
+      :EndIf
+     
+      :Implements constructor ⍝:base args
+      ⍝(Text Href)←(⍬⍴⍴Level)↑¨Text Href
     ∇
     ∇ {r}←AddItem args;text;href
-      :Access public
-      :If 2=|≡args ⋄ args←⊂¨args ⋄ :EndIf
-      (Level Text Href),←3↑args,⊂⊂r←''
+      :Access public ⍝ Obs: max 1
+      ⍝:If 2=|≡args ⋄ args←⊂¨args ⋄ :EndIf
+      (Text Level Href),←⊂¨3↑{⍵,(⍴⍵)↓⍵ 0 ''},eis args
     ∇
-    ∇ r←MakeTree(level txt href);ul;mat;n;i;xp;addid;diff;id
+    ∇ r←MakeTree(txt level href);ul;mat;n;i;xp;addid;diff;id
      ⍝ Produce an XML form of a tree specified as level, text and references
       →0↓⍨n←⍬⍴⍴r←level        ⍝ 0 element case
       diff←0,¯2-/level
@@ -60,9 +65,9 @@
       mat[;1]-←1⍴mat
       r←⎕XML mat                        ⍝ and use ⎕XML to format nicely
     ∇
-    ∇ r←Render;link;i;li
+    ∇ r←Render
       :Access public
-      Container.Add MakeTree Level Text Href
+      Container.Add MakeTree Text Level Href
       r←⎕BASE.Render
     ∇
 :EndClass
