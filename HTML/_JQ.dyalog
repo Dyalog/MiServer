@@ -290,6 +290,7 @@
         ∇ r←name Update value;v
           :Access public
           r←name(Selector #._JQ.Update JQueryFn)value
+          name Set value
         ∇
     :endclass
 
