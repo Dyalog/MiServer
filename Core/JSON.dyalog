@@ -534,6 +534,55 @@
 
     :endsection XML
 
+    :section Utils
+
+    ∇ r←{level}Tree ns;n;t;nms
+ ⍝ Return indented name tree of APL namespace representation of JSON array
+ ⍝ ns - reference to namespace created by JSON.toAPL
+      :Access public shared
+      r←''
+      :If 0=⎕NC'level' ⋄ level←0 ⋄ :EndIf
+      :If 2<≡nms←ns.⎕NL-2 9 ⋄ nms←⊃,/nms ⋄ :EndIf
+      :For n :In nms
+          r,←⊂((2×level)⍴' '),n
+          t←ns⍎n
+          :Select ⊃ns.⎕NC n
+          :Case 2
+              :If 326=⎕DR t
+                  r,←(level+1)Tree⊃t
+              :EndIf
+          :Case 9
+              r,←(level+1)Tree⊃t
+          :EndSelect
+      :EndFor
+      :If level=0 ⋄ r←↑r ⋄ :EndIf
+    ∇
+
+    ∇ r←{level}TreeNames ns;n;t;nms;l
+ ⍝ Return namelist of APL namespace representation of JSON array
+ ⍝ ns - reference to namespace created by JSON.toAPL
+      :Access public shared
+      r←''
+      :If 0=⎕NC'level' ⋄ level←'' ⋄ :EndIf
+      :If 2<≡nms←ns.⎕NL-2 9 ⋄ nms←⊃,/nms ⋄ :EndIf
+      :For n :In nms
+          l←level,(0∊⍴level)↓'.',n
+          t←ns⍎n
+          :Select ⊃ns.⎕NC n
+          :Case 2
+              :If 326=⎕DR t
+                  r,←l TreeNames⊃t
+              :Else
+                  r,←⊂l
+              :EndIf
+          :Case 9
+              r,←l TreeNames⊃t
+          :EndSelect
+      :EndFor
+    ∇
+    :endsection
+
+
     :section test
 
     ∇ testAPL;apl;ns;ns2;js;t;bad;rl
@@ -609,18 +658,6 @@
       {''}disp toJQueryParameters disp(('h'(12 13 14))('b'(('cc'(13 'brian'))('cd' 23))))
      
     ∇
-
-⍝  ∇ r←true
-⍝    :Access public shared
-⍝    r←⎕NS''
-⍝    r.⎕DF'true'
-⍝  ∇
-⍝
-⍝  ∇ r←false
-⍝    :Access public shared
-⍝    r←⎕NS''
-⍝    r.⎕DF'false'
-⍝  ∇
 
     ⎕RL←(2*30)|×/{⍵+0=2|⍵}⎕AI
 

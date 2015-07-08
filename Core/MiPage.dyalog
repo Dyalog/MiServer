@@ -114,7 +114,7 @@
           names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
           r←proto∘Get¨names
       :ElseIf 2≠_PageData.⎕NC names
-          r←,⊂proto
+          r←,proto
       :Else
           r←_PageData⍎names
 ⍝!!! BPB - not sure if we need this - it messes up multiple values for select(combolist) controls
