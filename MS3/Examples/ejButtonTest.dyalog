@@ -1,25 +1,32 @@
 ﻿:Class ejButtonTest : MiPageSample
 
-    ∇ Render;f
+⍝ This example shows 2 buttons, one that en/disables the other one
+⍝ and another that displays an alert
+
+    ∇ Render
       :Access Public
-      ⍝f←Add _HTML.Form ⍝ Hello?
-      b1←Add _SF.ejButton'Click Me!'
+     
+     ⍝ The first button (b1)
+      b1←Add _SF.ejButton'Flip -> state'
       b1.id←'b1'
       'type'b1.Set'ej.ButtonType.Button'
-      b2←Add _SF.ejButton'Click Me!'
+      b1.On'click' 'myCallback'
+     
+     ⍝ The second button (b2)
+      b2←Add _SF.ejButton'Show alert'
       b2.id←'b2'
       'type' 'enabled'b2.Set'ej.ButtonType.Button'_false
-      b1.On'click' 'myCallback'
       b2.On'click' 'myCallback'
     ∇
 
     ∇ r←myCallback
-      ∘∘∘
       :Access public
+     
+     ⍝ This callback simply flips b2's state when b1 is clicked
       :If 'b1'≡_what
           r←'enabled'b2.Update(_true _false)['ft'⍳⊃⍕b2.GetOption'enabled']
       :Else
-          r←Execute'alert("Ding!")'
+          r←Execute'alert("Hi there!")'
       :EndIf
      
     ∇
