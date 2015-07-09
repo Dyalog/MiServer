@@ -2,7 +2,7 @@
     
     PRESETS←'[none]' 'Basic' 'Mono Chrome' 'Flat Colors' 'Sea Wolf' 'Web Colors' 'Sandy' 'Pink Shades' 'Misty' 'Citrus' 'Vintage' 'Moon Light' 'Candy Crush'
 
-    ∇ Render;rte;frm
+    ∇ Compose;rte;frm
       :Access Public   
      
       (frm←Add Form).id←'myform'
