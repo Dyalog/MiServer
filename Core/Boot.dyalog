@@ -1,6 +1,7 @@
 ﻿:Namespace Boot
 
-    (⎕ML ⎕IO)←1 
+    (⎕ML ⎕IO)←1 ⍝ all ones
+⍝ and a new line
 
     :section Startup/Shutdown
     ∇ Run root
