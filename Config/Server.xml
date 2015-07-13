@@ -1,37 +1,38 @@
 <Server>
 <!-- General Settings -->
-    <Name>MiServer 3.0</Name>       <!-- name that appears in browser title bar -->
-    <Host>localhost</Host>          <!-- Host name (e.g. www.mysite.com) -->
-    <Server>MiServer/3.0</Server>   <!-- name that is sent in HTTP response server header field -->
-    <ClassName>MiServer</ClassName> <!-- class name for the core server component -->
+    <Name>MiServer 3.0</Name>            <!-- name that appears in browser title bar -->
+    <Host>localhost</Host>               <!-- Host name (e.g. www.mysite.com) -->
+    <Server>MiServer/3.0</Server>        <!-- name that is sent in HTTP response server header field -->
+    <ClassName>MiServer</ClassName>      <!-- class name for the core server component -->
     <LogMessageLevel>1</LogMessageLevel> <!-- 0-none -1-all 1-error/important 2-warning 4-informational 8-Transactional -->
-    <TempFolder>TempFiles</TempFolder> <!-- location for temporary files -->
-    <Rest>0</Rest>                     <!-- running RESTful web service? -->
-    <Production>0</Production>         <!-- 1-running in production mode, 0-development mode (enable debugging framework) --> 
-    <IdleTimeOut>0</IdleTimeOut>       <!-- seconds between calls to onIdle server event - 0 means don't call onIdle -->
+    <TempFolder>TempFiles</TempFolder>   <!-- location for temporary files -->
+    <Rest>0</Rest>                       <!-- running RESTful web service? -->
+    <Production>0</Production>           <!-- 1-running in production mode, 0-development mode (enable debugging framework) --> 
+    <IdleTimeOut>0</IdleTimeOut>         <!-- seconds between calls to onIdle server event - 0 means don't call onIdle -->
    
 <!-- Communications Settings -->
-    <Port>8080</Port>
-    <IPVersion>IPv4</IPVersion>
-    <UseContentEncoding>1</UseContentEncoding> <!-- for HTTP compression -->
+    <Port>8080</Port>                                <!-- Port that MiServer listens on -->
+    <IPVersion>IPv4</IPVersion>                      <!-- TCP/IP version, IPv4, IPv6, or IP to let Conga decide -->
+    <UseContentEncoding>1</UseContentEncoding>       <!-- for HTTP compression -->
     <SupportedEncodings>deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->
-    <Secure>0</Secure>          <!-- Running secure? (SSL) if 0, remaining settings below have no meaning -->
-    <CertFile></CertFile>       <!-- Private Certificate file -->
-    <KeyFile></KeyFile>         <!-- Public Key file -->
-    <RootCertDir></RootCertDir> <!-- Root certificate directory (Conga) -->
-    <SSLFlags>96</SSLFlags>     <!-- SSL flags (Conga) 96 = 32 Accept without validating + 64 Request Client Cert -->
+    <Secure>0</Secure>                               <!-- Running secure? (SSL) if 0, remaining settings below have no meaning -->
+    <CertFile></CertFile>                            <!-- Private Certificate file -->
+    <KeyFile></KeyFile>                              <!-- Public Key file -->
+    <RootCertDir></RootCertDir>                      <!-- Root certificate directory (Conga) -->
+    <SSLFlags>96</SSLFlags>                          <!-- SSL flags (Conga) 96 = 32 Accept without validating + 64 Request Client Cert -->
 
 <!-- Page/Request Settings -->
-    <Lang>en</Lang> <!-- use English for this site, see http://www.w3schools.com/TAGS/ref_language_codes.asp for others --> 
-    <DefaultPage>index.dyalog</DefaultPage>
-    <DefaultExtension>.dyalog</DefaultExtension>
-    <AllowedHttpCommands>get,post</AllowedHttpCommands>
-    <HttpCacheTime>0</HttpCacheTime>
+    <Lang>en</Lang>                                     <!-- language setting --> 
+    <DefaultPage>index.dyalog</DefaultPage>             <!-- default page to load if none is specified in client request -->
+    <DefaultExtension>.dyalog</DefaultExtension>        <!-- default extension for page files -->
+    <AllowedHttpCommands>get,post</AllowedHttpCommands> <!-- HTTP commands that we process (for RESTful web services) -->
+    <HttpCacheTime>0</HttpCacheTime>                    <!-- minutes to cache static content, 0 = no caching --> 
+    <FormatHtml>1</FormatHtml>                          <!-- format HTML output? (uses []XML) -->
 
 <!-- Extensions -->
-    <SessionHandler>SimpleSessions</SessionHandler>
-    <Authentication>SimpleAuth</Authentication>
-    <Logger>Logger</Logger>
+    <SessionHandler>SimpleSessions</SessionHandler>     <!-- name of class to perform session management -->
+    <Authentication>SimpleAuth</Authentication>         <!-- name of class to perform Basic HTTP authentication -->
+    <Logger>Logger</Logger>                             <!-- name of class to perform HTTP request loggin -->
 
 <!-- Error Handling (DrA) Settings -->
     <TrapErrors>0</TrapErrors>    <!-- Valid: 0=Crash, 1=Trap and Log errors -->

@@ -1,7 +1,6 @@
 ﻿:Namespace Boot
 
-    (⎕ML ⎕IO)←1 ⍝ all ones
-⍝ and a new line
+    (⎕ML ⎕IO)←1
 
     :section Startup/Shutdown
     ∇ Run root
@@ -235,6 +234,7 @@
       Config.Debug←Config Setting'Debug' 1 0
       Config.DefaultExtension←Config Setting'DefaultExtension' 0 '.dyalog'
       Config.DefaultPage←Config Setting'DefaultPage' 0 'index.dyalog'
+      Config.FormatHtml←Config Setting'FormatHtml' 1 0
       Config.Host←Config Setting'Host' 0 'localhost'
       Config.HttpCacheTime←Config Setting'HttpCacheTime' 1 0 ⍝ default to off (0)
       Config.IPVersion←Config Setting'IPVersion' 0 'IPV4'

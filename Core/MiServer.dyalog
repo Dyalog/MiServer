@@ -421,6 +421,7 @@
       :EndIf
      
       :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires
+      :AndIf 0<Config.HttpCacheTime
           res.Headers⍪←'Expires'(Config.HttpCacheTime #.Dates.HttpDate ⎕TS)
       :EndIf
       res.Headers⍪←{0∊⍴⍵:'' '' ⋄ 'Server'⍵}Config.Server
@@ -571,13 +572,19 @@
               :EndIf
           :EndTrap
      
-          :If MS3∨RESTful
-              :If ~REQ.Response.NoWrap
+          :If ~REQ.Response.NoWrap
+              :If MS3∨RESTful
                   inst.Wrap
-              :EndIf
-          :Else
-              :If ~REQ.Response.NoWrap
+              :Else
                   inst.Wrap REQ
+              :EndIf
+              :If Config.FormatHtml
+                  :Trap 0
+                      REQ.Response.HTML←('.'⎕R'&'⍠'NEOL' 1⍠'EOL' 'LF')((⎕XML⍠'Whitespace' 'Preserve')⍣2)REQ.Response.HTML
+                  :Else
+                      ⎕←'*** ⎕XML failed'
+                      ∘∘∘
+                  :EndTrap
               :EndIf
           :EndIf
       :EndHold
