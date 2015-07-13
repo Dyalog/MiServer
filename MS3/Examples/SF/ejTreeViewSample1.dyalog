@@ -1,4 +1,4 @@
-﻿:Class ejTreeViewSample : MiPageSample
+﻿:Class ejTreeViewSample1 : MiPageSample
 
     ∇ Compose;items
       :Access Public

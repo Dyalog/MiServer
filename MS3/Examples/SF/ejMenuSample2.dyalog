@@ -1,7 +1,7 @@
-﻿:Class Menuexample2 : MiPageSample
+﻿:Class ejMenuSample2 : MiPageSample
 ⍝ Demonstrate the SyncFusion ejMenu widget
 
-    ∇ r←Render
+    ∇ r←Compose
       :Access Public
       'width'(Add _SF.ejMenu fixExample).Option 632
     ∇
@@ -126,5 +126,3 @@
     ∇
 
 :EndClass
-⍝)(!example!!0 0 0 0 0 0 0
-⍝)(!fixExample!!0 0 0 0 0 0 0

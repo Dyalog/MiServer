@@ -4,7 +4,7 @@
       :Access public
      
       :If 0=⎕NC'idioms'
-          idioms←⎕SE.SALT.Load'[ws]\MS3\Data\idioms -noname -nolink'
+          idioms←⎕SE.SALT.Load'[ws]\MS3\Examples\Data\idioms -noname -nolink'
       :EndIf
      
       Add _.h1'Search Idiom Database'

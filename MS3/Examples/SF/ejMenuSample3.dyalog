@@ -1,9 +1,9 @@
-﻿:Class Menuexample3 : MiPageSample
+﻿:Class ejMenuSample3 : MiPageSample
 ⍝ Demonstrate the SyncFusion ejMenu widget
 
     ⎕ml←⎕io←1
 
-    ∇ r←Render;items;t;tmp;a;i;m;opt
+    ∇ r←Compose;items;t;tmp;a;i;m;opt
       :Access Public
 ⍝      tmp←⎕XML∊example
 ⍝      i←a/⍳⍴a←tmp[;2]∊⊂,'a' ⋄ tmp[i-1;3]←tmp[i;3] ⋄ tmp←(~a)⌿tmp

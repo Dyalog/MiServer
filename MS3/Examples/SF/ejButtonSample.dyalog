@@ -1,9 +1,9 @@
-﻿:Class ejButtonTest : MiPageSample
+﻿:Class ejButtonSample : MiPageSample
 
 ⍝ This example shows 2 buttons, one that en/disables the other one
 ⍝ and another that displays an alert
 
-    ∇ Render
+    ∇ Compose
       :Access Public
      
      ⍝ The first button (b1)
@@ -24,7 +24,7 @@
      
      ⍝ This callback simply flips b2's state when b1 is clicked
       :If 'b1'≡_what
-          r←'enabled'b2.Update(_true _false)['ft'⍳⊃⍕b2.GetOption'enabled']
+          r←'enabled'b2.Update⊃_true _false~b2.GetOption'enabled'
       :Else
           r←Execute'alert("Hi there!")'
       :EndIf

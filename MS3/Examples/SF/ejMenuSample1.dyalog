@@ -1,4 +1,4 @@
-﻿:Class Menuexample : MiPageSample
+﻿:Class ejMenuSample1 : MiPageSample
 ⍝ Demonstrate the SyncFusion ejMenu widget
     
     ∇ r←Compose;items;t

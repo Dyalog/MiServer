@@ -1,9 +1,10 @@
-﻿:class example1 : MiPage⍝Sample
+﻿:class contact : MiPageSample
     ∇ Compose;myp
       :Access public
       Add _.title'This is the title of our page'
       ⍝Attr'bgcolor' 'd1a106'
-      'src' 'dyaloglogo.png'Add _.img
+      myimg←Add _.img
+      myimg.Set'src=..\Data\logo.png'
       Add _.hr
       Add _.h2'Contact info'
       Add'Click '

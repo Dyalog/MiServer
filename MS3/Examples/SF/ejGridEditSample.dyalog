@@ -1,6 +1,6 @@
 ﻿:Class ejGridEditSample : MiPageSample
     
-    ∇ Render;tbi
+    ∇ Compose;tbi
       :Access Public   
      
       (frm←Add Form).id←'myform'
