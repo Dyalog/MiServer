@@ -8,9 +8,10 @@
     :field Public _Request     ⍝ HTTPRequest
     :field Public _Scripts←''
     :field Public _Styles←''
-    :field public _Serialized←1         ⍝ serialized forms to return in _PageData
-    :field Public _event        ⍝ set be APLJAX callback - event that was triggered
-    :field Public _what         ⍝ set be APLJAX callback - id of the triggering element
+    :field public _Serialized←1 ⍝ serialized forms to return in _PageData
+    :field Public _event        ⍝ set by APLJAX callback - event that was triggered
+    :field Public _what         ⍝ set by APLJAX callback - name or id of the triggering element
+    :field Public _value        ⍝ set by APLJAX callback - value of the triggering element
     :field public _PageData
     :field public _AjaxResponse←''
     :field public OnLoad←''     ⍝ page equivalent to ⎕LX

@@ -81,6 +81,7 @@
         :field public ContainerType←'div' ⍝ default container type
         :field public Container
         :field public eventHandlers←''
+        :field public InternalEvents←'' ⍝ list of events the widget "knows" about
 
         ∇ r←{a}rand w;rnd
           :Access public
@@ -96,7 +97,7 @@
           :Implements constructor
         ∇
 
-        ∇ (html js)←Render;build;javascript;i
+        ∇ (html js)←Render;build
           :Access public
          
           html←javascript←''
@@ -107,10 +108,10 @@
           :EndIf
          
           :If ~0∊⍴eventHandlers
-              javascript,←∊Options∘RenderHandler¨eventHandlers
+              Options∘RenderHandler¨eventHandlers
           :EndIf
          
-          js←#.JQ.JQueryfn JQueryFn Selector Options(JavaScript,javascript)Var
+          js←#.JQ.JQueryfn JQueryFn Selector Options JavaScript Var
          
           :If build≥0∊⍴Container.Content
               :Select ⊃Selector
@@ -142,20 +143,36 @@
           :EndIf
         ∇
 
-        ∇ {r}←{opts}RenderHandler handler;page;event;callback;clientdata;javascript;useajax;data;cd;name;id;type;what;dtype;success;ajax
-          :Access public overridable
-          r←page←''
+        ∇ opts RenderHandler args;handler;widgettype;force;syntax;evt;model;page;event;callback;clientdata;javascript;useajax;data;cd;name;selector;type;what
+          :Access public
+         ⍝ unified event handling core for jQueryUI and Syncfusion widget
+         ⍝ Syncfusion and jQueryUI use different models, if other jQuery-based libraries are used, this may need to be changed
+         ⍝ args is [1] handler [2] widgettype [3] force
+         ⍝ opts - Options namespace for the widget
+         ⍝ handler - handler definition
+         ⍝ widgettype - three element vector of vectors [1] syntax for calling function, [2] event object name, [3] model object name
+         ⍝ force - Boolean to force treatment of event as an InternalEvent
+         
+          args←eis args
+          (handler widgettype force)←3↑args,(⍴args)↓''('event,ui' 'event' 'ui')0
+          (syntax evt model)←widgettype
+         
+          page←''
           :If isInstance _PageRef
               page←_PageRef._PageName
           :EndIf
+         
           page←quote page
+         
           (event callback clientdata javascript)←handler.(Event Callback ClientData JavaScript)
-          useajax←(,0)≢,callback
+          useajax←(,0)≢,callback ⍝ callback=0 → don't make callback to server; =1 → use APLJax, =charvec → call ⍎charvec
+         
           data←''
-          data,←', _event: event.type'
-          data,←', _what: this._id'
+          data,←', _event: ',evt,'.type'
+          data,←', _what: this.id'
           data,←(isString callback)/', _callback: ',quote callback
           data←2↓data
+         
           :Select |≡clientdata
           :CaseList 0 1  ⍝ simple vector
               clientdata←,⊂2⍴⊂clientdata ⍝ name/id are set to the same
@@ -165,26 +182,50 @@
          
           :For cd :In clientdata
               cd←eis cd
-              (name id type what)←4↑cd,(⍴cd)↓4⍴⊂''
+              (name selector type what)←4↑cd,(⍴cd)↓4⍴⊂''
               :If name≡'serialize'
-                  (name id type what)←4↑(⊂''),cd
+                  (name selector type what)←4↑(⊂''),cd
               :EndIf
-              :If (~0∊⍴name)∨id≡'serialize'
-                  :Select id
-                  :CaseList 'attr' 'css' 'html' 'is' 'serialize' 'val' 'eval' 'event' 'ui' ⍝ no selector specified, use event.target
-                      (type what)←id type
-                      id←''
+              :If (~0∊⍴name)∨selector≡'serialize'
+         
+                  :Select selector
+         
+                  :CaseList 'attr' 'css' 'html' 'is' 'serialize' 'val' 'eval' ⍝ no selector specified, use event.target
+                      (type what)←selector type
+                      selector←''
+         
                   :Case 'string'
-                      (type what)←id(quote type)
-                      id←''
+                      (type what)←selector(quote type)
+                      selector←''
+         
                   :Case ''
-                      id←quote'#',name
-                  :Else
-                      :If ∨/'event.' 'ui.'{⍺≡(⍴⍺)↑⍵}¨⊂id
-                          (type what)←2↑{⎕ML←3 ⋄ ⍵⊂⍨⍵≠'.'}id
-                          id←''
+                      selector←'this' ⍝ null selector means reference the current object
+         
+                  :CaseList 'event' 'ui' 'argument'
+                      :If type≡''
+                          name←,'_',selector
+                          type←'JSON.stringify(',selector,')'
                       :Else
-                          id←quote id
+                          type←selector,'.',⍕type
+                      :EndIf
+         
+                  :Case 'model'
+                      :If type≡''
+                          name←,'_',selector
+                          type←'JSON.stringify(',model,')'
+                      :Else
+                          type←model,'.',⍕type
+                      :EndIf
+         
+                  :Else
+                      :If ∨/mask←'model.' 'event.' 'ui.' 'argument.'{⍺≡(⍴⍺)↑⍵}¨⊂selector
+                          (type what)←2↑{⎕ML←3 ⋄ ⍵⊂⍨⍵≠'.'}selector
+                          selector←''
+                          :If ⊣/mask
+                              type←model
+                          :EndIf
+                      :Else
+                          selector←quote selector
                       :EndIf
                   :EndSelect
          
@@ -203,14 +244,14 @@
                       :EndIf
                       type←type,what ine'(',(quote what),')'
                   :EndSelect
-                  data,←',',name,': ',(id ine'$(',id,').'),type
+                  data,←',',name,': ',(selector ine'$(',selector,').'),type
               :EndIf
           :EndFor
          
           dtype←'"json"'
           success←'success: function(obj){APLJaxReturn(obj);}'
           ajax←(javascript ine javascript,';'),useajax/'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
-          r←';function(event,ui){',ajax,'}'
+          event(opts{⍺⍺⍎⍺,'←⍵'})'function(',syntax,'){',ajax,'}'
         ∇
 
         ∇ {name}Set value
