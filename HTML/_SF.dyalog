@@ -15,9 +15,8 @@
 ⍝ generic Syncfusion Enterprise JavaScript object
 
         :Field public Data←''
-        :field public Force←0
 
-        handlerSyntax←⊂'argument' 'argument'  'argument.model'
+        handlerSyntax←'argument' 'argument'  'argument.model' 'argument.model'  ⍝ Syncfusion's event model
 
         ∇ make
           :Access public
@@ -33,8 +32,8 @@
         ∇
 
         ∇ {r}←opts RenderHandler handler
-          :Access public
-          r←opts ⎕BASE.RenderHandler(handler handlerSyntax Force)
+          :Access public override
+          r←opts RenderHandlerCore(handler handlerSyntax Force)
         ∇
 
     :EndClass

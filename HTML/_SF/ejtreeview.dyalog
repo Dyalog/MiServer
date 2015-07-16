@@ -50,7 +50,7 @@
           :EndSelect
           :If ~0∊⍴items
               items,←isparent←{2</⍵,0}items[;1]
-              items,←(~isparent)×(isparent/⍳⊃⍴items)[+\isparent]
+              items,←{⌽+/∨\(∘.<⍨⍳⍴⍵)∧∘.>⍨⌽⍵}items[;1]
               :For i :In ⍳⊃⍴items
                   (level txt iid url p pind)←items[i;]
                   r,←'{id:"',(⍕iid),'",name:"',txt,'"'

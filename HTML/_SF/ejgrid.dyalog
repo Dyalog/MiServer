@@ -21,7 +21,7 @@
       :Access public
       args←eis args
       JQueryFn←Uses←'ejGrid'
-      :Implements Constructor :Base args
+      :Implements Constructor
       (x Values ColTitles CellWidths)←4↑args,(⍴args)↓''(0 0⍴⍬)⍬ ⍬
       :If 0≠⍴ColTitles
           :If 326=⎕DR⊃ColTitles ⋄ Columns←ColTitles ⋄ ColTitles←⍬

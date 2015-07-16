@@ -83,6 +83,9 @@
         :field public Container
         :field public eventHandlers←''
         :field public InternalEvents←'' ⍝ list of events the widget "knows" about
+        :field public Force←¯1          ⍝ force event to be treated as internal event, ¯1=check InternalEvents, 1=yes, 0=no
+
+        handlerSyntax←'event,ui' 'event'  'ui' 'this.id'
 
         ∇ r←{a}rand w;rnd
           :Access public
@@ -98,10 +101,10 @@
           :Implements constructor
         ∇
 
-        ∇ (html js)←Render;build;handlers
+        ∇ r←Render;build;html;handlers;js
           :Access public
          
-          html←javascript←''
+          r←html←js←''
           Use
          
           build←0∊⍴Selector ⍝ if the user explicitly specifies a selector, assume he's built the content himself
@@ -120,7 +123,7 @@
          
           handlers←''
           :If ~0∊⍴eventHandlers
-              handlers←∊Options∘RenderHandler¨eventHandlers
+              handlers←';',⍨∊¯1↓¨Options∘RenderHandler¨eventHandlers
           :EndIf
          
           js←#.JQ.JQueryfn JQueryFn Selector Options(JavaScript,handlers)Var
@@ -140,6 +143,7 @@
               Container.Tag←ContainerType
               html←Container.Render
           :EndIf
+          r←html,js
         ∇
 
         ∇ {handler}←On args;event;callback;clientData;javaScript;n;i
@@ -157,19 +161,24 @@
           :EndIf
         ∇
 
-        ∇ {r}←opts RenderHandler args;handler;widgettype;force;syntax;evt;model;page;event;callback;clientdata;javascript;useajax;data;cd;name;selector;type;what
+        ∇ {r}←opts RenderHandler handler
+          :Access public overridable
+          r←opts RenderHandlerCore(handler handlerSyntax Force)
+        ∇
+
+        ∇ {r}←opts RenderHandlerCore args;handler;widgettype;force;syntax;evt;model;page;event;callback;clientdata;javascript;useajax;data;cd;name;selector;type;what;this
           :Access public
          ⍝ unified event handling core for jQueryUI and Syncfusion widget
          ⍝ Syncfusion and jQueryUI use different models, if other jQuery-based libraries are used, this may need to be changed
          ⍝ args is [1] handler [2] widgettype [3] force
          ⍝ opts - Options namespace for the widget
          ⍝ handler - handler definition
-         ⍝ widgettype - three element vector of vectors [1] syntax for calling function, [2] event object name, [3] model object name
+         ⍝ widgettype - three element vector of vectors [1] syntax for calling function, [2] event object name, [3] model object name, [4] how to retrieve id
          ⍝ force - Boolean to force treatment of event as an InternalEvent
          
           args←eis args
-          (handler widgettype force)←3↑args,(⍴args)↓''('event,ui' 'event' 'ui')0
-          (syntax evt model)←widgettype
+          (handler widgettype force)←3↑args,(⍴args)↓''('event,ui' 'event' 'ui' 'this')0
+          (syntax evt model this)←widgettype
          
           r←page←''
           :If isInstance _PageRef
@@ -181,9 +190,14 @@
           (event callback clientdata javascript)←handler.(Event Callback ClientData JavaScript)
           useajax←(,0)≢,callback ⍝ callback=0 → don't make callback to server; =1 → use APLJax, =charvec → call ⍎charvec
          
+          :If force=¯1
+              force←(⊂event)∊InternalEvents
+          :EndIf
+         
           data←''
           data,←', _event: ',evt,'.type'
-          data,←', _what: this.id'
+          data,←', _what: ',this,'.id'
+          data,←', _value: ',this,'.value'
           data,←(isString callback)/', _callback: ',quote callback
           data←2↓data
          
@@ -230,7 +244,7 @@
                       :Else
                           type←model,'.',⍕type
                       :EndIf
-         
+                      selector←'' ⍝???BPB
                   :Else
                       :If ∨/mask←'model.' 'event.' 'ui.' 'argument.'{⍺≡(⍴⍺)↑⍵}¨⊂selector
                           (type what)←2↑{⎕ML←3 ⋄ ⍵⊂⍨⍵≠'.'}selector
@@ -266,9 +280,9 @@
           success←'success: function(obj){APLJaxReturn(obj);}'
           ajax←(javascript ine javascript,';'),useajax/'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
           :If force
-              event(opts{⍺⍺⍎⍺,'←⍵'})'function(event,ui){',ajax,'}'
+              event(opts{⍺⍺⍎⍺,'←⍵'})'function(',syntax,'){',ajax,'}'
           :Else
-              r←'.on(',(quote event),', function(event){',ajax,'});'
+              r←'.on(',(quote event),', function(',syntax,'){',ajax,'});'
           :EndIf
         ∇
 
