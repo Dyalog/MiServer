@@ -19,11 +19,9 @@
     ∇ make1 args
       :Access public
       JQueryFn←Uses←'ejTreeView'
-      :Implements constructor :base args
+      :Implements constructor
       ContainerType←'ul'
-      :If 1<⍴args←eis args
-          Items←2⊃args
-      :EndIf
+      Items←args
     ∇
 
     ∇ r←Render

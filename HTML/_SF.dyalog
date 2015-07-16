@@ -15,6 +15,9 @@
 ⍝ generic Syncfusion Enterprise JavaScript object
 
         :Field public Data←''
+        :field public Force←0
+
+        handlerSyntax←⊂'argument' 'argument'  'argument.model'
 
         ∇ make
           :Access public
@@ -29,9 +32,9 @@
           r←⎕BASE.Render
         ∇
 
-        ∇ opts RenderHandler handler
-          :Access public override
-          opts RenderHandlerCore('sf'handler)
+        ∇ {r}←opts RenderHandler handler
+          :Access public
+          r←opts ⎕BASE.RenderHandler(handler handlerSyntax Force)
         ∇
 
     :EndClass

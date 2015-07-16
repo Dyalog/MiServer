@@ -368,7 +368,7 @@
               av,←∊fmtAttr/¨vs
           :EndIf
           av,←RenderStyles
-          r←(av Enclose r)(h,p) ⍝!!!BPB!!!
+          r←av Enclose r,h,p ⍝!!!BPB!!!
       :EndIf
     ∇
 

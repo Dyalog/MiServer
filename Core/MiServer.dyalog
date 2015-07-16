@@ -417,7 +417,7 @@
               length←⍴res.HTML←toutf8 res.HTML ⍝ otherwise, send uncompressed
           :EndIf
       :ElseIf 0=res.File
-          startsize←length←⍴res.HTML←toutf8 res.HTML
+          startsize←length←⍴res.HTML←toutf8∊res.HTML
       :EndIf
      
       :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires

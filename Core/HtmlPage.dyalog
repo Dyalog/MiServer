@@ -34,7 +34,7 @@
           Head.Add¨Style¨∪⌽Styles
       :EndIf
       Content←(Head.Render),b
-      r←'<!DOCTYPE html>',⎕BASE.Render
+      r←'<!DOCTYPE html>',∊⎕BASE.Render
     ∇
 
     ∇ r←Render;s;b;mask;scr;sty
@@ -52,7 +52,7 @@
           Head.Add¨Style¨sty
       :EndIf
       Content←(Head.Render),b
-      r←'<!DOCTYPE html>',⎕BASE.Render
+      r←'<!DOCTYPE html>',∊⎕BASE.Render
     ∇
 
     ∇ _init
@@ -106,7 +106,7 @@
     ∇ {r}←On args
       :Access public
       r←Body.On args
-      r.Selectors←'html'
+      r.Selectors←'body'
     ∇
 
     ∇ {r}←{attr}New what

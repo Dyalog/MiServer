@@ -21,6 +21,7 @@
         :field public JQPars←''     ⍝ JQuery function parameters
         :field public shared readonly _true←#.JSON.true     ⍝ same definition as in #.JSON
         :field public shared readonly _false←#.JSON.false   ⍝ same definition as in #.JSON
+        :field public ScriptOptions←1 1 ⍝ determines how script will be rendered [1] wrap with <script>...</script>, [2] wrap with $(function(){...})
 
         ∇ Make0
           :Access public
@@ -37,7 +38,7 @@
         ∇ r←Render
           :Access public
           Use
-          r←#.JQ.JQueryfn JQueryFn Selector JQPars JavaScript Var
+          r←ScriptOptions #.JQ.JQueryfn JQueryFn Selector JQPars JavaScript Var
         ∇
 
         ∇ r←isSelector str ⍝ checks if str is probably a jQuery selector
@@ -97,21 +98,33 @@
           :Implements constructor
         ∇
 
-        ∇ (html js)←Render;build
+        ∇ (html js)←Render;build;handlers
           :Access public
          
           html←javascript←''
           Use
-         ⍝ if the user explicitly specifies a selector,
-          :If build←0∊⍴Selector
-              Selector←'#',Container.id←SetId
+         
+          build←0∊⍴Selector ⍝ if the user explicitly specifies a selector, assume he's built the content himself
+         
+          :If build
+              Container.(id name type style class title)←Container.(id name type style class title){UNDEF≡⍵:⍺ ⋄ UNDEF≢⍺:⍺ ⋄ ⍵}¨⎕THIS.(id name type style class title)
+              :If Container.id≡UNDEF
+                  :If Container.name≢UNDEF
+                      Container.id←Container.name
+                  :Else
+                      Container.id←SetId
+                  :EndIf
+              :EndIf
+              Selector←'#',Container.id
           :EndIf
          
+          handlers←''
           :If ~0∊⍴eventHandlers
-              Options∘RenderHandler¨eventHandlers
+              handlers←∊Options∘RenderHandler¨eventHandlers
           :EndIf
          
-          js←#.JQ.JQueryfn JQueryFn Selector Options JavaScript Var
+          js←#.JQ.JQueryfn JQueryFn Selector Options(JavaScript,handlers)Var
+         
          
           :If build≥0∊⍴Container.Content
               :Select ⊃Selector
@@ -121,6 +134,7 @@
                   Container.class←1↓Selector
               :EndSelect
               :If ContainerType{⍵≡(⍴⍵)↑⍺}'input'
+              :AndIf UNDEF≡Container.name
                   Container.name←('.#'∊⍨⊃Selector)↓Selector
               :EndIf
               Container.Tag←ContainerType
@@ -143,7 +157,7 @@
           :EndIf
         ∇
 
-        ∇ opts RenderHandler args;handler;widgettype;force;syntax;evt;model;page;event;callback;clientdata;javascript;useajax;data;cd;name;selector;type;what
+        ∇ {r}←opts RenderHandler args;handler;widgettype;force;syntax;evt;model;page;event;callback;clientdata;javascript;useajax;data;cd;name;selector;type;what
           :Access public
          ⍝ unified event handling core for jQueryUI and Syncfusion widget
          ⍝ Syncfusion and jQueryUI use different models, if other jQuery-based libraries are used, this may need to be changed
@@ -157,7 +171,7 @@
           (handler widgettype force)←3↑args,(⍴args)↓''('event,ui' 'event' 'ui')0
           (syntax evt model)←widgettype
          
-          page←''
+          r←page←''
           :If isInstance _PageRef
               page←_PageRef._PageName
           :EndIf
@@ -201,7 +215,7 @@
                   :Case ''
                       selector←'this' ⍝ null selector means reference the current object
          
-                  :CaseList 'event' 'ui' 'argument'
+                  :CaseList syntax evt model
                       :If type≡''
                           name←,'_',selector
                           type←'JSON.stringify(',selector,')'
@@ -251,7 +265,11 @@
           dtype←'"json"'
           success←'success: function(obj){APLJaxReturn(obj);}'
           ajax←(javascript ine javascript,';'),useajax/'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
-          event(opts{⍺⍺⍎⍺,'←⍵'})'function(',syntax,'){',ajax,'}'
+          :If force
+              event(opts{⍺⍺⍎⍺,'←⍵'})'function(event,ui){',ajax,'}'
+          :Else
+              r←'.on(',(quote event),', function(event){',ajax,'});'
+          :EndIf
         ∇
 
         ∇ {name}Set value
@@ -317,10 +335,10 @@
           r←↓[1]value
         ∇
 
-        ∇ name Option value
-          :Access public
-          name Set value
-        ∇
+⍝        ∇ name Option value
+⍝          :Access public
+⍝          name Set value
+⍝        ∇
 
         ∇ r←GetOption names
           :Access public
@@ -336,6 +354,11 @@
     :endclass
 
     :class _jqUIWidget : _jqWidget
+
+        :field public Force←0
+
+        handlerSyntax←⊂'event, ui' 'event'  'ui'
+
         ∇ make
           :Access public
           :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
@@ -349,6 +372,13 @@
           :If 0∊⍴Uses ⋄ Uses←'JQueryUI' ⋄ :EndIf
           :Implements constructor :base pars
         ∇
+
+        ∇ {r}←opts RenderHandler handler
+          :Access public
+          r←opts ⎕BASE.RenderHandler(handler handlerSyntax Force)
+        ∇
+
+
     :endclass
 
     :class _jqUITabbedWidget : _jqUIWidget
