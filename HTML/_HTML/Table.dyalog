@@ -1,14 +1,15 @@
-﻿:class Table : #._html.table
+﻿:Class Table : #._html.table
 ⍝ Description: Improved html table
 ⍝ Constructor: {Data} {CellAttr} {HeaderRows} {HeaderAttr} {MakeCellIds} {MakeRowIds}
-⍝ data - matrix of data to display in the table
-⍝ cellAttr - the id/name for the button
-⍝ headerRows - the id/name for the button
-⍝ headerAttr - the id/name for the button
-⍝ makeCellIds - the text to appear on the button
-⍝ makeRowIds - one of 'submit' (default), 'reset', or 'button'
+
 ⍝ Public Fields:
-⍝ Text - the text to appear on the button
+⍝ Data        - matrix of data to display in the table
+⍝ CellAttr    - Cell Attributes
+⍝ HeaderRows  - # of header rows
+⍝ HeaderAttr  - Header attributes
+⍝ MakeCellIds - 1 to generate IDs      <td id="r2c3">
+⍝ MakeRowIds  - 1 to generate Row IDs  <tr id="row2">
+
     :field public Data←0 0⍴⊂''
     :field public CellAttr←''
     :field public HeaderRows←0
