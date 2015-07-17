@@ -56,7 +56,7 @@
       :If rows>0
           (table←⎕NEW¨rows⍴#._html.tr).Add↓head⍪body
           :If rowids
-              table.id←{'row',⍕⍵}⍳rows
+              table.id←{'row',⍕⍵}¨⍳rows
           :EndIf
       :EndIf
       thead←tbody←''
@@ -69,4 +69,5 @@
       Content←thead,tbody
       html←⎕BASE.Render
     ∇
-:endclass
+
+:EndClass
