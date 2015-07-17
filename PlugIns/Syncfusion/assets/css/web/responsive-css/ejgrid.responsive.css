@@ -159,7 +159,7 @@
     }
 }
 
-@media (min-width: 320px) and (max-width:479px) {
+@media (min-width: 321px) and (max-width:479px) {
     .e-grid .e-table-priority-6,
     .e-grid .e-table-priority-5,
     .e-grid .e-table-priority-4,
@@ -332,7 +332,7 @@
 }
 
 .e-respponsiveSortingAsc:before {
-    content: "\e74c";
+    content: "\e74f";
     margin-top: -5px;
 }
 
@@ -347,7 +347,7 @@
     content: "\e755";
 }
 .e-respponsiveSortingDesc:before {
-    content: "\e74f";
+    content: "\e74c";
     margin-top: -5px;
 }
 

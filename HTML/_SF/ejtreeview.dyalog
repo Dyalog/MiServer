@@ -31,7 +31,7 @@
       :Access Public
       SetId
       :If onNodeSelect≢0
-          On'nodeSelect'onNodeSelect('node' 'eval' 'JSON.stringify(argument.value)')('alert(JSON.stringify(argument.id))')
+          On'nodeSelect'onNodeSelect('node' 'eval' 'JSON.stringify(argument.id)')
       :EndIf
       r←#.HTMLInput.JS id FormatItems Items
       'fields'Set'⍎{dataSource: ',(id,'_data'),',id:"id",parentId:"pid",text:"name",hasChild:"hasChild",linkAttribute:"link"}'
