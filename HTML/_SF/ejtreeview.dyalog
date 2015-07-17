@@ -9,7 +9,7 @@
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejTreeView.html'
     :field public shared readonly IntEvt←'beforeCollapse' 'beforeEdit' 'beforeExpand' 'created' 'destroyed' 'inlineEditValidation' 'keyPress' 'nodeCheck' 'nodeClick' 'nodeCollapse' 'nodeDrag' 'nodeDragStart' 'nodeDragStop' 'nodeDropped' 'nodeExpand' 'nodeSelect' 'nodeUncheck'
     :field public Items←⍬
-    :field public onNodeSelect←0  ⍝ set to 1 to call APLJax, or the name of the calback function
+    :field public onNodeSelect←0  ⍝ set to 1 to call APLJax, or the name of the callback function
 
     ∇ make
       :Access public
@@ -31,7 +31,7 @@
       :Access Public
       SetId
       :If onNodeSelect≢0
-          On'nodeSelect'onNodeSelect('node' 'eval' 'JSON.stringify(argument.value)')
+          On'nodeSelect'onNodeSelect('node' 'eval' 'JSON.stringify(argument.value)')('alert(JSON.stringify(argument.id))')
       :EndIf
       r←#.HTMLInput.JS id FormatItems Items
       'fields'Set'⍎{dataSource: ',(id,'_data'),',id:"id",parentId:"pid",text:"name",hasChild:"hasChild",linkAttribute:"link"}'
