@@ -7,6 +7,7 @@
     :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejTreeView.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejTreeView.html'
+    :field public shared readonly IntEvt←'beforeCollapse' 'beforeEdit' 'beforeExpand' 'created' 'destroyed' 'inlineEditValidation' 'keyPress' 'nodeCheck' 'nodeClick' 'nodeCollapse' 'nodeDrag' 'nodeDragStart' 'nodeDragStop' 'nodeDropped' 'nodeExpand' 'nodeSelect' 'nodeUncheck'
     :field public Items←⍬
     :field public onNodeSelect←0  ⍝ set to 1 to call APLJax, or the name of the calback function
 
@@ -14,12 +15,14 @@
       :Access public
       JQueryFn←Uses←'ejTreeView'
       :Implements constructor
+      InternalEvents←IntEvt
     ∇
 
     ∇ make1 args
       :Access public
       JQueryFn←Uses←'ejTreeView'
       :Implements constructor
+      InternalEvents←IntEvt
       ContainerType←'ul'
       Items←args
     ∇
