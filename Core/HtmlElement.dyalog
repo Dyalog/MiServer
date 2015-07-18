@@ -7,7 +7,7 @@
 
     :field public Tag←''      ⍝ this is the element name
     :field public Content←⍬   ⍝ content of the element - a series of strings/instances/class+parms
-    :field public Handlers←'' ⍝ array of event handlers 
+    :field public Handlers←'' ⍝ array of event handlers
     :field public _PageRef←'' ⍝ reference back to the page instance containing this element
     :field public NoEndTag←0  ⍝ set to 1 if this singleton element (does not have a closing tag)
     :field public Position    ⍝ has position information for this element (if position is set)
@@ -24,7 +24,7 @@
     :field public _            ⍝ reference to namespace that refers to all elements/widgets
 
    ⍝ make shortcuts for some common HTML attributes
-    :field public shared readonly UNDEF←⎕NULL  ⍝ setting for undefined attributes 
+    :field public shared readonly UNDEF←⎕NULL  ⍝ setting for undefined attributes
     :field public id←UNDEF                     ⍝ id attribute for the element
     :field public value←UNDEF                  ⍝ value attribute for the element
     :field public name←UNDEF                   ⍝ name attribute for the element
@@ -35,8 +35,8 @@
 
     :field public readonly CommonAttributes←'id' 'value' 'name' 'class' 'style' 'title' 'type' ⍝ element attributes that are directly accessible
 
-    _names←_values←0⍴⊂'' ⍝ used for attributes 
-    :field public _styles←''                   
+    _names←_values←0⍴⊂'' ⍝ used for attributes
+    :field public _styles←''
 
     rand←{t←16807⌶2 ⋄r←?⍵ ⋄ t←16807⌶t ⋄ r }
 
@@ -433,6 +433,11 @@
       r←(,∘⊂)⍣((326∊⎕DR w)<2>|≡w),w ⍝ enclose if simple and not mixed
     ∇
 
+    ∇ da←args defaultArgs defaultvalues
+      :Access public shared
+      da←da,(⍴da←eis args)↓defaultvalues
+    ∇
+
     ∇ r←Quote a;b
       :Access public shared
       b←1↓<⌿¯1 0⌽'\"'∘.=';',a   ⍝ keep \" as is
@@ -592,3 +597,18 @@
     :endsection
 
 :endclass  ⍝ HtmlElement
+⍝)(!Enclose!!0 0 0 0 0 0 0
+⍝)(!GenId!!0 0 0 0 0 0 0
+⍝)(!HtmlSafeText!!0 0 0 0 0 0 0
+⍝)(!New!!0 0 0 0 0 0 0
+⍝)(!ParseAttr!!0 0 0 0 0 0 0
+⍝)(!Quote!!0 0 0 0 0 0 0
+⍝)(!context!!0 0 0 0 0 0 0
+⍝)(!defaultArgs!!0 0 0 0 0 0 0
+⍝)(!eis!!0 0 0 0 0 0 0
+⍝)(!fixkeys!!0 0 0 0 0 0 0
+⍝)(!isClass!!0 0 0 0 0 0 0
+⍝)(!isHtmlElement!!0 0 0 0 0 0 0
+⍝)(!isInstance!!0 0 0 0 0 0 0
+⍝)(!isString!!0 0 0 0 0 0 0
+⍝)(!renderIt!!0 0 0 0 0 0 0
