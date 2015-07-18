@@ -2,6 +2,17 @@
 
 <!-- 
 **************************
+*      d3 resources      *
+**************************
+-->
+
+  <resource>
+    <name>d3</name>
+    <script>%ServerRoot%/PlugIns/d3/d3.min.js</script>
+  </resource>
+
+<!-- 
+**************************
 *    jQuery resources    *
 **************************
 -->

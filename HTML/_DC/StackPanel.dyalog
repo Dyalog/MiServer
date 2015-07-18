@@ -1,6 +1,6 @@
 ﻿:Class StackPanel : #._html.table 
 ⍝ Description: Dyalog control to emulate WPF StackPanel
-⍝ Constructor: {items}
+⍝ Constructor: [items]
 ⍝ items - vector of content for each cell of the StackPanel
 ⍝ Public Fields:
 ⍝ Items      - vector of references to table cell (<td>) containers for each item
@@ -21,7 +21,8 @@
     ∇ Make1 args
       :Access public
       :Implements constructor
-      Items←args
+      args←eis args
+      Items←{⎕NEW #._html.td ⍵}¨args
     ∇
 
     ∇ {r}←{attr}Add item;td
