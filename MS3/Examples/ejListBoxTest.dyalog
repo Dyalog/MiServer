@@ -3,7 +3,7 @@
     
     ∇ Render
       :Access Public
-      Add _SF.ejListBox ('lb' (⍪'text' 'one' 'two' 'three' 'four'))
+      Add _SF.ejListBox (⍪'text' 'one' 'two' 'three' 'four')
     ∇
     
 :EndClass

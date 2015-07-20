@@ -36,8 +36,8 @@
       args←eis args
       JQueryFn←Uses←'ejListBox'
       ContainerType←'ul'
-      :Implements constructor :base args
-      (x Items Selected Checked)←4↑args,(⍴args)↓''⍬ ⍬ ⍬
+      :Implements constructor
+      (Items Selected Checked)←3↑args,(⍴args)↓⍬ ⍬ ⍬
     ∇
 
     ∇ r←Render;fields;src

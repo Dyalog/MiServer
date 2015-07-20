@@ -21,6 +21,7 @@
         :field public JQPars←''     ⍝ JQuery function parameters
         :field public shared readonly _true←#.JSON.true     ⍝ same definition as in #.JSON
         :field public shared readonly _false←#.JSON.false   ⍝ same definition as in #.JSON
+        :field public ScriptOptions←1 1 ⍝ determines how script will be rendered [1] wrap with <script>...</script>, [2] wrap with $(function(){...})
 
         ∇ Make0
           :Access public
@@ -37,7 +38,7 @@
         ∇ r←Render
           :Access public
           Use
-          r←#.JQ.JQueryfn JQueryFn Selector JQPars JavaScript Var
+          r←ScriptOptions #.JQ.JQueryfn JQueryFn Selector JQPars JavaScript Var
         ∇
 
         ∇ r←isSelector str ⍝ checks if str is probably a jQuery selector
@@ -81,6 +82,10 @@
         :field public ContainerType←'div' ⍝ default container type
         :field public Container
         :field public eventHandlers←''
+        :field public InternalEvents←'' ⍝ list of events the widget "knows" about
+        :field public Force←¯1          ⍝ force event to be treated as internal event, ¯1=check InternalEvents, 1=yes, 0=no
+
+        handlerSyntax←'event,ui' 'event'  'ui' 'this.id'
 
         ∇ r←{a}rand w;rnd
           :Access public
@@ -96,21 +101,33 @@
           :Implements constructor
         ∇
 
-        ∇ (html js)←Render;build;javascript;i
+        ∇ r←Render;build;html;handlers;js
           :Access public
          
-          html←javascript←''
+          r←html←js←''
           Use
-         ⍝ if the user explicitly specifies a selector,
-          :If build←0∊⍴Selector
-              Selector←'#',Container.id←SetId
+         
+          build←0∊⍴Selector ⍝ if the user explicitly specifies a selector, assume he's built the content himself
+         
+          :If build
+              Container.(id name type style class title)←Container.(id name type style class title){UNDEF≡⍵:⍺ ⋄ UNDEF≢⍺:⍺ ⋄ ⍵}¨⎕THIS.(id name type style class title)
+              :If Container.id≡UNDEF
+                  :If Container.name≢UNDEF
+                      Container.id←Container.name
+                  :Else
+                      Container.id←SetId
+                  :EndIf
+              :EndIf
+              Selector←'#',Container.id
           :EndIf
          
+          handlers←''
           :If ~0∊⍴eventHandlers
-              javascript,←∊Options∘RenderHandler¨eventHandlers
+              handlers←';',⍨∊¯1↓¨Options∘RenderHandler¨eventHandlers
           :EndIf
          
-          js←#.JQ.JQueryfn JQueryFn Selector Options(JavaScript,javascript)Var
+          js←#.JQ.JQueryfn JQueryFn Selector Options(JavaScript,handlers)Var
+         
          
           :If build≥0∊⍴Container.Content
               :Select ⊃Selector
@@ -120,11 +137,13 @@
                   Container.class←1↓Selector
               :EndSelect
               :If ContainerType{⍵≡(⍴⍵)↑⍺}'input'
+              :AndIf UNDEF≡Container.name
                   Container.name←('.#'∊⍨⊃Selector)↓Selector
               :EndIf
               Container.Tag←ContainerType
               html←Container.Render
           :EndIf
+          r←html,js
         ∇
 
         ∇ {handler}←On args;event;callback;clientData;javaScript;n;i
@@ -142,20 +161,46 @@
           :EndIf
         ∇
 
-        ∇ {r}←{opts}RenderHandler handler;page;event;callback;clientdata;javascript;useajax;data;cd;name;id;type;what;dtype;success;ajax
+        ∇ {r}←opts RenderHandler handler
           :Access public overridable
+          r←opts RenderHandlerCore(handler handlerSyntax Force)
+        ∇
+
+        ∇ {r}←opts RenderHandlerCore args;handler;widgettype;force;syntax;evt;model;page;event;callback;clientdata;javascript;useajax;data;cd;name;selector;type;what;this
+          :Access public
+         ⍝ unified event handling core for jQueryUI and Syncfusion widget
+         ⍝ Syncfusion and jQueryUI use different models, if other jQuery-based libraries are used, this may need to be changed
+         ⍝ args is [1] handler [2] widgettype [3] force
+         ⍝ opts - Options namespace for the widget
+         ⍝ handler - handler definition
+         ⍝ widgettype - three element vector of vectors [1] syntax for calling function, [2] event object name, [3] model object name, [4] how to retrieve id
+         ⍝ force - Boolean to force treatment of event as an InternalEvent
+         
+          args←eis args
+          (handler widgettype force)←3↑args,(⍴args)↓''('event,ui' 'event' 'ui' 'this')0
+          (syntax evt model this)←widgettype
+         
           r←page←''
           :If isInstance _PageRef
               page←_PageRef._PageName
           :EndIf
+         
           page←quote page
+         
           (event callback clientdata javascript)←handler.(Event Callback ClientData JavaScript)
-          useajax←(,0)≢,callback
+          useajax←(,0)≢,callback ⍝ callback=0 → don't make callback to server; =1 → use APLJax, =charvec → call ⍎charvec
+         
+          :If force=¯1
+              force←(⊂event)∊InternalEvents
+          :EndIf
+         
           data←''
-          data,←', _event: event.type'
-          data,←', _what: this._id'
+          data,←', _event: ',evt,'.type'
+          data,←', _what: ',this,'.id'
+          data,←', _value: ',this,'.value'
           data,←(isString callback)/', _callback: ',quote callback
           data←2↓data
+         
           :Select |≡clientdata
           :CaseList 0 1  ⍝ simple vector
               clientdata←,⊂2⍴⊂clientdata ⍝ name/id are set to the same
@@ -165,26 +210,50 @@
          
           :For cd :In clientdata
               cd←eis cd
-              (name id type what)←4↑cd,(⍴cd)↓4⍴⊂''
+              (name selector type what)←4↑cd,(⍴cd)↓4⍴⊂''
               :If name≡'serialize'
-                  (name id type what)←4↑(⊂''),cd
+                  (name selector type what)←4↑(⊂''),cd
               :EndIf
-              :If (~0∊⍴name)∨id≡'serialize'
-                  :Select id
-                  :CaseList 'attr' 'css' 'html' 'is' 'serialize' 'val' 'eval' 'event' 'ui' ⍝ no selector specified, use event.target
-                      (type what)←id type
-                      id←''
+              :If (~0∊⍴name)∨selector≡'serialize'
+         
+                  :Select selector
+         
+                  :CaseList 'attr' 'css' 'html' 'is' 'serialize' 'val' 'eval' ⍝ no selector specified, use event.target
+                      (type what)←selector type
+                      selector←''
+         
                   :Case 'string'
-                      (type what)←id(quote type)
-                      id←''
+                      (type what)←selector(quote type)
+                      selector←''
+         
                   :Case ''
-                      id←quote'#',name
-                  :Else
-                      :If ∨/'event.' 'ui.'{⍺≡(⍴⍺)↑⍵}¨⊂id
-                          (type what)←2↑{⎕ML←3 ⋄ ⍵⊂⍨⍵≠'.'}id
-                          id←''
+                      selector←'this' ⍝ null selector means reference the current object
+         
+                  :CaseList syntax evt model
+                      :If type≡''
+                          name←,'_',selector
+                          type←'JSON.stringify(',selector,')'
                       :Else
-                          id←quote id
+                          type←selector,'.',⍕type
+                      :EndIf
+         
+                  :Case 'model'
+                      :If type≡''
+                          name←,'_',selector
+                          type←'JSON.stringify(',model,')'
+                      :Else
+                          type←model,'.',⍕type
+                      :EndIf
+                      selector←'' ⍝???BPB
+                  :Else
+                      :If ∨/mask←'model.' 'event.' 'ui.' 'argument.'{⍺≡(⍴⍺)↑⍵}¨⊂selector
+                          (type what)←2↑{⎕ML←3 ⋄ ⍵⊂⍨⍵≠'.'}selector
+                          selector←''
+                          :If ⊣/mask
+                              type←model
+                          :EndIf
+                      :Else
+                          selector←quote selector
                       :EndIf
                   :EndSelect
          
@@ -203,14 +272,18 @@
                       :EndIf
                       type←type,what ine'(',(quote what),')'
                   :EndSelect
-                  data,←',',name,': ',(id ine'$(',id,').'),type
+                  data,←',',name,': ',(selector ine'$(',selector,').'),type
               :EndIf
           :EndFor
          
           dtype←'"json"'
           success←'success: function(obj){APLJaxReturn(obj);}'
           ajax←(javascript ine javascript,';'),useajax/'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
-          r←';function(event,ui){',ajax,'}'
+          :If force
+              event(opts{⍺⍺⍎⍺,'←⍵'})'function(',syntax,'){',ajax,'}'
+          :Else
+              r←'.on(',(quote event),', function(',syntax,'){',ajax,'});'
+          :EndIf
         ∇
 
         ∇ {name}Set value
@@ -276,10 +349,10 @@
           r←↓[1]value
         ∇
 
-        ∇ name Option value
-          :Access public
-          name Set value
-        ∇
+⍝        ∇ name Option value
+⍝          :Access public
+⍝          name Set value
+⍝        ∇
 
         ∇ r←GetOption names
           :Access public
@@ -295,6 +368,11 @@
     :endclass
 
     :class _jqUIWidget : _jqWidget
+
+        :field public Force←0
+
+        handlerSyntax←⊂'event, ui' 'event'  'ui'
+
         ∇ make
           :Access public
           :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
@@ -308,6 +386,13 @@
           :If 0∊⍴Uses ⋄ Uses←'JQueryUI' ⋄ :EndIf
           :Implements constructor :base pars
         ∇
+
+        ∇ {r}←opts RenderHandler handler
+          :Access public
+          r←opts ⎕BASE.RenderHandler(handler handlerSyntax Force)
+        ∇
+
+
     :endclass
 
     :class _jqUITabbedWidget : _jqUIWidget

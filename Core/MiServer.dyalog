@@ -417,7 +417,7 @@
               length←⍴res.HTML←toutf8 res.HTML ⍝ otherwise, send uncompressed
           :EndIf
       :ElseIf 0=res.File
-          startsize←length←⍴res.HTML←toutf8 res.HTML
+          startsize←length←⍴res.HTML←toutf8∊res.HTML
       :EndIf
      
       :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires
@@ -534,6 +534,7 @@
               :If MS3
                   inst._what←REQ.GetData'_what'
                   inst._event←REQ.GetData'_event'
+                  inst._value←REQ.GetData'_value'
                   :If ~0∊⍴t←REQ.GetData'_callback' ⍝ does the request specify a callback function
                       fn←cb←t
                   :EndIf
@@ -583,7 +584,6 @@
                       REQ.Response.HTML←('.'⎕R'&'⍠'NEOL' 1⍠'EOL' 'LF')((⎕XML⍠'Whitespace' 'Preserve')⍣2)REQ.Response.HTML
                   :Else
                       ⎕←'*** ⎕XML failed'
-                      ∘∘∘
                   :EndTrap
               :EndIf
           :EndIf

@@ -1,23 +1,26 @@
-﻿:Class jqButton : #._JQ._jqUIWidget 
+﻿:Class jqButton : #._JQ._jqUIWidget
     :field public shared readonly DocBase←'http://api.jqueryui.com/button/'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/jQuery/jqButtonHelp.html'
 
-    :field public Text←''  ⍝ text on the button
-    :field public Type←'' ⍝ valid types are 'button' 'submit' 'reset' 'checkbox' 'radio' 'anchor' ''
+    :field public Text←''       ⍝ text on the button
+    :field public Type←''       ⍝ valid types are 'button' 'submit' 'reset' 'checkbox' 'radio' 'anchor' ''
+
 
     ∇ Make0
       :Access public
       JQueryFn←'button'
       :Implements constructor
+      InternalEvents←,⊂'create'
     ∇
 
     ∇ Make1 args;i
       :Access public
       JQueryFn←'button'
       args←eis args
-      (i Text Type)←3↑args,(⍴args)↓'' '' ''
-      :Implements constructor :base args
+      (Text Type)←2↑args,(⍴args)↓'' ''
+      :Implements constructor
+      InternalEvents←,⊂'create'
     ∇
 
     ∇ r←Render;type

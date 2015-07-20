@@ -10,24 +10,29 @@
     :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejButton.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejButtonHelp.html'
+    :field public shared readonly IntEvt←'click' 'create' 'destroy'
     :field public Text←''  ⍝ text on the button
+
     ∇ make
       :Access public
       JQueryFn←Uses←'ejButton'
       ContainerType←'button'
       :Implements constructor
+      InternalEvents←IntEvt
     ∇
+
     ∇ make1 args;type;text
       :Access public
       args←eis args
       JQueryFn←Uses←'ejButton'
       ContainerType←'button'
-      (text type)←2↑args,(⍴args)↓ '' ''
+      (text type)←2↑args,(⍴args)↓'' ''
       Text←text
       :Implements constructor
       :If ~0∊⍴type
           'type'Option type
       :EndIf
+      InternalEvents←IntEvt
     ∇
     ∇ r←Render;type
       :Access public

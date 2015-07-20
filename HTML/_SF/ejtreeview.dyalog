@@ -7,30 +7,31 @@
     :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejTreeView.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejTreeView.html'
+    :field public shared readonly IntEvt←'beforeCollapse' 'beforeEdit' 'beforeExpand' 'created' 'destroyed' 'inlineEditValidation' 'keyPress' 'nodeCheck' 'nodeClick' 'nodeCollapse' 'nodeDrag' 'nodeDragStart' 'nodeDragStop' 'nodeDropped' 'nodeExpand' 'nodeSelect' 'nodeUncheck'
     :field public Items←⍬
-    :field public onNodeSelect←0  ⍝ set to 1 to call APLJax, or the name of the calback function
+    :field public onNodeSelect←0  ⍝ set to 1 to call APLJax, or the name of the callback function
 
     ∇ make
       :Access public
       JQueryFn←Uses←'ejTreeView'
       :Implements constructor
+      InternalEvents←IntEvt
     ∇
 
     ∇ make1 args
       :Access public
       JQueryFn←Uses←'ejTreeView'
-      :Implements constructor :base args
+      :Implements constructor
+      InternalEvents←IntEvt
       ContainerType←'ul'
-      :If 1<⍴args←eis args
-          Items←2⊃args
-      :EndIf
+      Items←args
     ∇
 
     ∇ r←Render
       :Access Public
       SetId
       :If onNodeSelect≢0
-          On'nodeSelect'onNodeSelect('node' 'eval' 'JSON.stringify(argument.value)')
+          On'nodeSelect'onNodeSelect('node' 'eval' 'JSON.stringify(argument.id)')
       :EndIf
       r←#.HTMLInput.JS id FormatItems Items
       'fields'Set'⍎{dataSource: ',(id,'_data'),',id:"id",parentId:"pid",text:"name",hasChild:"hasChild",linkAttribute:"link"}'
@@ -52,7 +53,7 @@
           :EndSelect
           :If ~0∊⍴items
               items,←isparent←{2</⍵,0}items[;1]
-              items,←(~isparent)×(isparent/⍳⊃⍴items)[+\isparent]
+              items,←{⌽+/∨\(∘.<⍨⍳⍴⍵)∧∘.>⍨⌽⍵}items[;1]
               :For i :In ⍳⊃⍴items
                   (level txt iid url p pind)←items[i;]
                   r,←'{id:"',(⍕iid),'",name:"',txt,'"'

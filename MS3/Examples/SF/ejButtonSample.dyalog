@@ -7,8 +7,7 @@
       :Access Public
      
      ⍝ The first button (b1)
-      b1←Add _SF.ejButton'Flip -> state'
-      b1.id←'b1'
+      b1←'b1' Add _SF.ejButton'Flip -> state'
       'type'b1.Set'ej.ButtonType.Button'
       b1.On'click' 'myCallback'
      

@@ -8,20 +8,21 @@
     :field Public _Request     ⍝ HTTPRequest
     :field Public _Scripts←''
     :field Public _Styles←''
-    :field public _Serialized←1         ⍝ serialized forms to return in _PageData
-    :field Public _event        ⍝ set be APLJAX callback - event that was triggered
-    :field Public _what         ⍝ set be APLJAX callback - id of the triggering element
+    :field public _Serialized←1 ⍝ serialized forms to return in _PageData
+    :field Public _event        ⍝ set by APLJAX callback - event that was triggered
+    :field Public _what         ⍝ set by APLJAX callback - name or id of the triggering element
+    :field Public _value        ⍝ set by APLJAX callback - value of the triggering element
     :field public _PageData
     :field public _AjaxResponse←''
     :field public OnLoad←''     ⍝ page equivalent to ⎕LX
-    :field public _html ⍝ base HTML elements
-    :field public _HTML ⍝ "Enhanced" HTML elements
-    :field public _JQ   ⍝ JQuery/JQueryUI
-    :field public _SF   ⍝ SyncFusion
-    :field public _JQM  ⍝ JQueryMobile
-    :field public _JSS  ⍝ JavaScript Snippets
-    :field public _DC   ⍝ Dyalog Controls
-    :field public _
+⍝    :field public _html ⍝ base HTML elements
+⍝    :field public _HTML ⍝ "Enhanced" HTML elements
+⍝    :field public _JQ   ⍝ JQuery/JQueryUI
+⍝    :field public _SF   ⍝ SyncFusion
+⍝    :field public _JQM  ⍝ JQueryMobile
+⍝    :field public _JSS  ⍝ JavaScript Snippets
+⍝    :field public _DC   ⍝ Dyalog Controls
+⍝    :field public _
 ⍝    :field public Tag←#.HtmlElement
     :field public shared _true←#.JSON.true     ⍝ same definition as in #.JSON
     :field public shared _false←#.JSON.false   ⍝ same definition as in #.JSON
@@ -42,7 +43,6 @@
     ∇
 
     ∇ MakeCommon
-      (_html _HTML _JQ _SF _JQM _JSS _DC _)←#.(_html _HTML _JQ _SF _JQM _JSS _DC _)
       _PageData←⎕NS''
     ∇
 
@@ -162,21 +162,27 @@
       :Access public
       ∘∘∘
     ∇
+    ∇ r←renderContent content
+      :If isInstance⊃content
+          r←content.Render
+      :ElseIf isClass⊃content
+          r←(⎕NEW content).Render
+      :Else
+          r←(⎕NEW #.HtmlElement(''content)).Render
+      :EndIf
+    ∇
 
     ∇ r←selector Replace content
       :Access public
-      content←(⎕NEW #.HtmlElement(''content)).Render
-      r←⊂('replace'selector)('data'content)
+      r←⊂('replace'selector)('data'(renderContent content))
     ∇
     ∇ r←selector Append content
       :Access public
-      content←(⎕NEW #.HtmlElement(''content)).Render
-      r←⊂('append'selector)('data'content)
+      r←⊂('append'selector)('data'(renderContent content))
     ∇
     ∇ r←selector Prepend content
       :Access public
-      content←(⎕NEW #.HtmlElement(''content)).Render
-      r←⊂('prepend'selector)('data'content)
+      r←⊂('prepend'selector)('data'(renderContent content))
     ∇
     ∇ r←Execute content
       :Access public

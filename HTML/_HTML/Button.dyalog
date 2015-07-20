@@ -1,6 +1,6 @@
 ﻿:class Button : #._html.button
 ⍝ <button name=⍵[2] value=⍵[3] > ⍵[1] </ button>
-
+⍝ the difference is that this button sets the default type to "button" instead of acting like a "submit"
     :field _content←''
 
     ∇ Make args;n;v

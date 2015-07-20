@@ -34,7 +34,7 @@
           Head.Add¨Style¨∪⌽Styles
       :EndIf
       Content←(Head.Render),b
-      r←'<!DOCTYPE html>',⎕BASE.Render
+      r←'<!DOCTYPE html>',∊⎕BASE.Render
     ∇
 
     ∇ r←Render;s;b;mask;scr;sty
@@ -52,7 +52,7 @@
           Head.Add¨Style¨sty
       :EndIf
       Content←(Head.Render),b
-      r←'<!DOCTYPE html>',⎕BASE.Render
+      r←'<!DOCTYPE html>',∊⎕BASE.Render
     ∇
 
     ∇ _init
@@ -74,7 +74,7 @@
               r←Scripts,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
           :ElseIf #._JQ.Handler∊c
               r←Body.Handlers,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
-              r.Selectors←'html'
+              :If 0∊⍴r.Selectors ⋄ r.Selectors←'html' ⋄ :EndIf ⍝ if no selector specified, use page level
           :ElseIf ⊃∨/c∊¨⊂#._html.(title style meta link noscript base) ⍝ elements that belong exclusively or primarily in the <head> element
               r←attr Head.Add what
           :Else
@@ -106,7 +106,7 @@
     ∇ {r}←On args
       :Access public
       r←Body.On args
-      r.Selectors←'html'
+      r.Selectors←'body'
     ∇
 
     ∇ {r}←{attr}New what

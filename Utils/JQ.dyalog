@@ -77,7 +77,9 @@
       delegate←''
       selector event clientdata response script useajax←6↑pars,(⍴pars)↓'' '' '' '' '' 1
       :If 1<|≡selector ⋄ selector delegate←selector ⋄ delegate←', ',quote delegate :EndIf
-      data←'_event: event.type, _what: $(event.currentTarget).attr("id")'
+      data←'_event: event.type, _what: '
+      data,←'(("undefined" == typeof($(event.currentTarget).attr("name")) ? $(event.currentTarget).attr("id") : $(event.currentTarget).attr("name")))'
+      data,←', _value: $(event.currentTarget).val()'
       clientdata←eis clientdata ⍝ :If 2=|≡clientdata ⋄ clientdata←,⊂clientdata ⋄ :EndIf
       :If 0∊⍴clientdata
       :OrIf (1=⍴clientdata)∧'_callback'≡⊃⊃clientdata
@@ -135,13 +137,13 @@
       :If 0∊⍴response ⍝ if no response element specified
           dtype←'"json"'
           success←'success: function(obj){APLJaxReturn(obj);}'
-     ⍝ success←'success: function(obj){$.each(obj,function(i,d){if(typeof(d.replace)!=="undefined"){$(d.replace).html(d.data);}else if(typeof(d.append)!=="undefined"){$(d.append).append(d.data);}else if(typeof(d.prepend)!=="undefined"){$(d.prepend).prepend(d.data);}else if(typeof(d.execute)!=="undefined"){eval(d.execute);}});}'
       :Else
           dtype←'"html"'
           success←'success: function(d){$(',(quote response),').empty().html(d);}'
       :EndIf
      
-      ajax←(script ine script,';'),useajax/'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
+      ajax←(script ine script,';')
+      ajax,←useajax/'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
       r←#.HTMLInput.JS'$(function(){$(',(quote selector),').on(',(quote event),delegate,', function(event){',ajax,'});});'
     ∇
 
