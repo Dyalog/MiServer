@@ -158,7 +158,9 @@
 
     ∇ {r}←{which}Set attr
       :Access public
-      :If 0≠⎕NC'which' ⋄ attr←,(eis which),[1.1]eis attr ⋄ :EndIf
+      :If 0≠⎕NC'which' ⋄ attr←,(eis which),[1.1]eis attr
+      :Else ⋄ 'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
+      :EndIf
       :If ~0∊⍴attr
           attr←ParseAttr attr
           Attrs[1⊃¨attr]←2⊃¨attr
@@ -597,18 +599,3 @@
     :endsection
 
 :endclass  ⍝ HtmlElement
-⍝)(!Enclose!!0 0 0 0 0 0 0
-⍝)(!GenId!!0 0 0 0 0 0 0
-⍝)(!HtmlSafeText!!0 0 0 0 0 0 0
-⍝)(!New!!0 0 0 0 0 0 0
-⍝)(!ParseAttr!!0 0 0 0 0 0 0
-⍝)(!Quote!!0 0 0 0 0 0 0
-⍝)(!context!!0 0 0 0 0 0 0
-⍝)(!defaultArgs!!0 0 0 0 0 0 0
-⍝)(!eis!!0 0 0 0 0 0 0
-⍝)(!fixkeys!!0 0 0 0 0 0 0
-⍝)(!isClass!!0 0 0 0 0 0 0
-⍝)(!isHtmlElement!!0 0 0 0 0 0 0
-⍝)(!isInstance!!0 0 0 0 0 0 0
-⍝)(!isString!!0 0 0 0 0 0 0
-⍝)(!renderIt!!0 0 0 0 0 0 0
