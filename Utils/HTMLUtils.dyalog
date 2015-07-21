@@ -79,7 +79,7 @@
       :If 0∊⍴lines←(from←⎕IO⊃⎕RSI).⎕NR pgm←2⊃⎕SI
           lines←↓from.(180⌶)pgm
       :EndIf
-      r←∊CRLF∘.¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓lines
+      r←∊CRLF∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓lines
     ∇
 
     ∇ html←TextToHTML html;mask;CR

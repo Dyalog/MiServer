@@ -5,17 +5,21 @@
 
   <directory>
     <alias>Documentation</alias>
-    <path>%ServerRoot%\Documentation\</path>
+    <path>%ServerRoot%/Documentation/</path>
   </directory>
 
   <directory>
     <alias>JQuery</alias>
-    <path>%ServerRoot%\PlugIns\JQuery\</path>
+    <path>%ServerRoot%/PlugIns/JQuery/</path>
   </directory>
 
   <directory>
     <alias>Syncfusion</alias>
-    <path>%ServerRoot%\PlugIns\Syncfusion\</path>
+    <path>%ServerRoot%/PlugIns/Syncfusion/</path>
   </directory>
 
+  <directory>
+    <alias>PlugIns</alias>
+    <path>%ServerRoot%/PlugIns/</path>
+  </directory>
 </Virtual>

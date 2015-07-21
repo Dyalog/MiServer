@@ -148,7 +148,7 @@
     ∇ BuildEAWC;src;sources;fields;source;list;mask;refs;target
      ⍝ Build the Easy As ⎕WC namespace from core classes and its own source
      ⍝ Also build the #._ namespace with shortcuts
-      sources←#._html #._HTML #._SF #._JQ #._DC
+      sources←#._html #._HTML #._SF #._JQ #._DC #._JS
       fields←''
       '_'#.⎕NS''
       :For source :In sources
@@ -428,35 +428,45 @@
       ⎕TRAP←0⍴⎕TRAP
       r←'⎕SIGNAL 811'
       ends←{(,⍺)≡(-⍴,⍺)↑⍵}
-      :Select ⎕DMX.EN
-      :Case 801
-          xsi←⎕XSI
-          :If '.HandleMSP'ends 2⊃xsi
-              r←'→FAIL'
-          :ElseIf '.HandleMSP'ends 4⊃xsi
-              :If '.Render'ends 3⊃xsi
-                  r←'⎕SIGNAL 813'
-              :EndIf
-          :ElseIf '.HandleMSP'ends 3⊃xsi
-              :If '.Wrap'ends 2⊃xsi
-                  r←'⎕SIGNAL 813'
-              :EndIf
-          :Else
-              r←'⎕SIGNAL 811'
-          :EndIf
-      :Case 803
-          r←'⎕SIGNAL 812'
-          ⎕←'Press Ctrl-Enter to invoke debugger'
-      :Else
-          dmx←⎕DMX
+      :If #.HtmlPage∊∊⎕CLASS⊃⊃⎕RSI
+          r←'⎕TRAP←0⍴⎕TRAP'
+          ⎕←''
           ⎕←'*** MiServer Debug ***'
-          ⎕←'' 'occurred at:',⍪dmx.(EM(2⊃DM))
-          ⎕←↑1↓⎕XSI
+          ⎕←↑⎕DMX.DM
           ⎕←''
           ⎕←'      ⎕SIGNAL 800 ⍝ to ignore and carry on'
-          ⎕←'      ⎕SIGNAL 801 ⍝ to cut back and debug'
-          r←''
-      :EndSelect
+          ⎕←'      or Press Ctrl-Enter to invoke debugger'
+      :Else
+          :Select ⎕DMX.EN
+          :Case 801
+              xsi←⎕XSI
+              :If '.HandleMSP'ends 2⊃xsi
+                  r←'→FAIL'
+              :ElseIf '.HandleMSP'ends 4⊃xsi
+                  :If '.Render'ends 3⊃xsi
+                      r←'⎕SIGNAL 813'
+                  :EndIf
+              :ElseIf '.HandleMSP'ends 3⊃xsi
+                  :If '.Wrap'ends 2⊃xsi
+                      r←'⎕SIGNAL 813'
+                  :EndIf
+              :Else
+                  r←'⎕SIGNAL 811'
+              :EndIf
+          :Case 803
+              r←'⎕SIGNAL 812'
+              ⎕←'Press Ctrl-Enter to invoke debugger'
+          :Else
+              dmx←⎕DMX
+              ⎕←'*** MiServer Debug ***'
+              ⎕←'' 'occurred at:',⍪dmx.(EM(2⊃DM))
+              ⎕←'' 'SI Stack is ',(⍕¯1+⍴⎕XSI),' levels deep'
+              ⎕←''
+              ⎕←'      ⎕SIGNAL 800 ⍝ to ignore and carry on'
+              ⎕←'      ⎕SIGNAL 801 ⍝ to cut back and debug'
+              r←''
+          :EndSelect
+      :EndIf
     ∇
     :endsection
 

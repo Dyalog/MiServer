@@ -14,16 +14,8 @@
     :field Public _value        ⍝ set by APLJAX callback - value of the triggering element
     :field public _PageData
     :field public _AjaxResponse←''
+    :field public _DebugCallbacks←0
     :field public OnLoad←''     ⍝ page equivalent to ⎕LX
-⍝    :field public _html ⍝ base HTML elements
-⍝    :field public _HTML ⍝ "Enhanced" HTML elements
-⍝    :field public _JQ   ⍝ JQuery/JQueryUI
-⍝    :field public _SF   ⍝ SyncFusion
-⍝    :field public _JQM  ⍝ JQueryMobile
-⍝    :field public _JSS  ⍝ JavaScript Snippets
-⍝    :field public _DC   ⍝ Dyalog Controls
-⍝    :field public _
-⍝    :field public Tag←#.HtmlElement
     :field public shared _true←#.JSON.true     ⍝ same definition as in #.JSON
     :field public shared _false←#.JSON.false   ⍝ same definition as in #.JSON
 
@@ -53,10 +45,10 @@
       :EndIf
       b←RenderBody
       :If ~0∊⍴_Styles
-          {(Head.Insert _html.link).Set(('href'⍵)('rel' 'stylesheet')('type' 'text/css'))}¨∪⌽_Styles
+          {(Head.Insert _html.link).Set(('href=',⍵)('rel' 'stylesheet')('type' 'text/css'))}¨∪⌽_Styles
       :EndIf
       :If ~0∊⍴_Scripts
-          {(Head.Add _html.script).Set('src'⍵)}¨∪_Scripts
+          {(Head.Add _html.script).Set('src=',⍵)}¨∪_Scripts
       :EndIf
       :If ~0∊⍴Handlers
           b,←∊Handlers.Render

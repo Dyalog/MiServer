@@ -450,7 +450,7 @@
  ⍝     :EndHold
     ∇
 
-    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax
+    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax;flag
     ⍝ Handle a "Mildserver Page" request
      RETRY:
       :If 0≡date←3⊃(,''#.Files.List file),0 0 0
@@ -563,8 +563,13 @@
           :ElseIf (0=Config.Production) ⋄ ⎕TRAP←(800 'C' '→FAIL')(811 'E' '⎕SIGNAL 801')(813 'E' '⎕SIGNAL 803')(812 'S')(0 'E' '⍎#.Boot.Oops') ⍝ enable development debug framework
           :EndIf
      
+          :If flag←APLJax
+          :AndIf flag←inst.{6::0 ⋄ _CallbackDebug}⍬
+              2 ⎕STOP'CallbackDebugger'
+          :EndIf
+     
           :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
-              resp←I85'inst.',cb,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
+              resp←flag Debugger'inst.',cb,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
               resp←(#.JSON.toAPLJAX⍣APLJax)resp
               REQ.Return resp
           :Else
@@ -648,6 +653,20 @@
           ⎕DL 5
           {}Common.{⎕EX(⎕NL ¯9)~'C',¨#.DRC.Names ⍵}server
       :EndWhile
+    ∇
+
+    ∇ r←flag Debugger w
+      :If flag
+          ⎕←'* Callback debugging active on this page, press Ctrl-Enter to trace'
+          Debug ⎕STOP'Debugger'
+      :EndIf
+      :Trap 85
+     Debug:r←I85 w
+      :Else
+          :If flag ⋄ ⍬ ⎕STOP'Debugger' ⋄ :EndIf
+          ⎕SIGNAL 85
+      :EndTrap
+      :If flag ⋄ ⍬ ⎕STOP'Debugger' ⋄ :EndIf
     ∇
 
     ∇ r←SpaceName cmd
