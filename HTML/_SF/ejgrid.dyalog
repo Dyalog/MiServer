@@ -2,6 +2,7 @@
     :Field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejGrid.html'
     :Field public shared readonly ApiLevel←3
     :Field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejGrid.html'
+    :Field public shared readonly IntEvt←'actionBegin' 'actionComplete' 'actionFailure' 'batchAdd' 'batchDelete' 'beforeBatchAdd' 'beforeBatchDelete' 'beforeBatchSave' 'beginEdit' 'cellEdit' 'cellSave' 'cellSelected' 'cellSelecting' 'columnDrag' 'columnDragStart' 'columnDrop' 'columnSelected' 'columnSelecting' 'contextClick' 'contextOpen' 'create' 'dataBound' 'destroy' 'detailsCollapse' 'detailsDataBound' 'detailsExpand' 'endAdd' 'endDelete' 'endEdit' 'load' 'mergeCellInfo' 'queryCellInfo' 'recordClick' 'recordDoubleClick' 'resized' 'resizeEnd' 'resizeStart' 'rightClick' 'rowDataBound' 'rowSelected' 'rowSelecting' 'templateRefresh' 'toolBarClick'
 
     :Field Public Values←0 0⍴⊂''
     :Field Public Columns←⍬      ⍝ Vector of namespaces using JSON names
@@ -17,12 +18,20 @@
     ⍝ShipName:"Vins et alcools Chevalier",ShipCity:"Reims",ShipAddress:"59 rue de l'Abbaye",
     ⍝ ShipRegion:null,ShipPostalCode:"51100",ShipCountry:"France",Freight:32.38,Verified:!0},...
 
+    ∇ make
+      :Access public
+      JQueryFn←Uses←'ejGrid'
+      :Implements Constructor
+      InternalEvents←IntEvt
+    ∇
+
     ∇ makec args;x;values;cols;widths
       :Access public
       args←eis args
       JQueryFn←Uses←'ejGrid'
       :Implements Constructor
-      (x Values ColTitles CellWidths)←4↑args,(⍴args)↓''(0 0⍴⍬)⍬ ⍬
+      InternalEvents←IntEvt
+      (Values ColTitles CellWidths)←3↑args,(⍴args)↓(0 0⍴⍬)⍬ ⍬
       :If 0≠⍴ColTitles
           :If 326=⎕DR⊃ColTitles ⋄ Columns←ColTitles ⋄ ColTitles←⍬
           :Else ⋄ ColNames←ColTitles~¨' '
@@ -31,7 +40,7 @@
     ∇
 
     ∇ r←Render;fields;src;rows;cols;coldefs;colfields;i
-      :Access public 
+      :Access public
       r←''
       (rows cols)←⍴Values
       :If 0=cols

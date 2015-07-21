@@ -9,10 +9,10 @@
 ⍝ make sure all HTML-generating classes render
       nss←#.(_html _HTML _DC _JQ _SF) ⍝ add _JQM when it's ready
       root←#.Boot.MSRoot
-      result←0 6⍴'' 0 0 0 0 0  ⍝ [1] name [2] DocBase? [3] DocDyalog? [3] ApiLevel [4] Renders [5] id=constructor[1]
+      result←0 6⍴'' 0 0 0 0 0  ⍝ [1] name [2] DocBase? [3] DocDyalog? [3] ApiLevel [4] Renders [5] id≠constructor[1]
       :For ns :In nss
           :For class :In (ns.⎕NL ¯9)~(⊂'SALT_Data'),'_'ns.⎕NL ¯9
-              res←0 0 0 0 'N/A'
+              res←0 0 0 0 1
               name←⍕c←ns⍎class
               res[1]←0≠c.⎕NC⊂'DocBase'
               :If res[2]←0≠f←c.⎕NC⊂'DocDyalog'
@@ -21,12 +21,12 @@
               res[3]←{6::0 ⋄ ⍵.ApiLevel}c
               res[4]←{0::0 ⋄ 1⊣(⎕NEW ⍵).Render}c
               :If #._html≢ns
-                  res[5]←{0::0 ⋄ 'xyz'≡(⎕NEW ⍵'xyz').id}c
+                  res[5]←{0::1 ⋄ 'xyz123'≡(⎕NEW ⍵'xyz123').id}c
               :EndIf
               result⍪←(⊂name),res
           :EndFor
       :EndFor
-      result←'Element/Widget' 'DocBase?' 'DocDyalog?' 'ApiLevel' 'Renders?' 'id=args[1]?'⍪result
+      result←'Element/Widget' 'DocBase?' 'DocDyalog?' 'ApiLevel' 'Renders?' 'id≠args[1]?'⍪result
     ∇
 
     ∇ r←RenderPages;class

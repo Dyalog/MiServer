@@ -1,12 +1,12 @@
 ﻿:Class ejGridEditSample : MiPageSample
-    
+
     ∇ Compose;tbi
-      :Access Public   
+      :Access Public
      
       (frm←Add Form).id←'myform'
      
       frm.Add h2'Editable Grid'
-      mygrid←frm.Add _SF.ejGrid('mygrid'VALUES COLUMNS)
+      mygrid←frm.Add _SF.ejGrid(VALUES COLUMNS)
       (mygrid.Options.editSettings←⎕NS'').(allowEditing allowAdding allowDeleting)←_true
       ⍝ Alternative: 'editSettings' mygrid.Set '⍎{allowEditing: true, allowAdding: true, allowDeleting: true}'
       mygrid.Options.editSettings.editMode←'Normal'
@@ -21,9 +21,9 @@
       frm.Add¨br br
       (frm.Add div).id←'result'
     ∇
-    
+
     ∇ r←CallbackFn;preset;t
-      :Access Public                                               
+      :Access Public
      
       :Select _event
       :CaseList 'endAdd' 'endDelete' 'endEdit'
@@ -33,10 +33,10 @@
       :EndSelect
       r←'#result'Replace t
     ∇
-    
+
     ∇ make
       :Access Public
-      :Implements Constructor        
+      :Implements Constructor
      
       VALUES←5 3⍴'Tomato' 'Berry' 30,'Grape' 'Berry' 75,'Apple' 'Pome' 30,'Pear' 'Pome' 56,'Peach' 'Drupe' 45
       COLUMNS←⎕NS¨3⍴⊂''
