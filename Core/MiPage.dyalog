@@ -68,8 +68,8 @@
     ∇
 
     ∇ Use resources;n;ind;t;x
-      :Access public
-      resources←{2>|≡⍵:,⊂⍵ ⋄ ⍵}resources
+      :Access public  
+      resources←eis resources
       :For x :In resources
           :If ~(⊂x)∊_used
               :Select ⊃x

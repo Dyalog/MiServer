@@ -84,7 +84,7 @@
               :If ''≢l←ref field'MSDoc'
               :AndIf #.Files.Exists #.Boot.MSRoot,l
                   u.Add li(a c(('href'('..',l))('target' '_blank')))
-              :ElseIf ''≢l←ref field'DocBase'
+              :ElseIf ''≢l←ref field'BaseDoc'
               :AndIf #.Files.Exists #.Boot.MSRoot,l
                   u.Add li(a c(('href'('..',l))('target' '_blank')))
               :Else
