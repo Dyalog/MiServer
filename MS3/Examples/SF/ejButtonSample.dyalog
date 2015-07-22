@@ -7,7 +7,7 @@
       :Access Public
      
      ⍝ The first button (b1)
-      b1←'b1' Add _SF.ejButton'Flip -> state'
+      b1←'b1'Add _SF.ejButton'Flip the state ->'
       'type'b1.Set'ej.ButtonType.Button'
       b1.On'click' 'myCallback'
      
@@ -20,7 +20,7 @@
 
     ∇ r←myCallback
       :Access public
-     
+      ...
      ⍝ This callback simply flips b2's state when b1 is clicked
       :If 'b1'≡_what
           r←'enabled'b2.Update⊃_true _false~b2.GetOption'enabled'

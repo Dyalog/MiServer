@@ -16,12 +16,12 @@
       :Access Public
       JQueryFn←Uses←'ejColorPicker'
      ⍝ ContainerType←'input'
-      :Implements Constructor :Base args
+      :Implements Constructor 
      ⍝ Container.type←'text'
      
       :If (≡args)∊0 1 ⋄ args←,⊂args ⋄ :EndIf
       n←¯1+⊃⍴args
-      (n↑'value' 'palette')Option 1↓args ⍝ Drop Selector
+      (n↑'value' 'palette')Set 1↓args ⍝ Drop Selector
     ∇
 
     ∇ r←Render
