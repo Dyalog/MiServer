@@ -26,7 +26,7 @@
       Body.Push div'id="contentblock"'
      
     ⍝ add a hidden division to the body containing the APL source code
-      (Add div(#.HTMLInput.APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
+      (Add div(#.HTMLInput.APLToHTMLColour ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
      
       :If ~0∊⍴controls
           c←Body.Content

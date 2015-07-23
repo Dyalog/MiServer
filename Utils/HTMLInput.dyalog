@@ -104,6 +104,42 @@
       html←('pre style="font-family:APL385 Unicode',fontsize,'"')Enclose'code'Enclose CRLF,⍨html
     ∇
 
+    ∇ html←{fontsize}APLToHTMLColour APL;types;spans;colour;mask;⎕ML
+     ⍝ returns APL code formatted for HTML with syntax colouring
+     ⍝ Uses global APLToHTMLColourScheme e.g. ('blue' 19 23)('green' 1)('gray' 32)('red' 4)...
+      ⎕ML←1
+      fontsize←{6::'' ⋄ ';fontsize:',⍎⍵}'fontsize'
+      :Trap 0
+          :If 0=⎕NC'APLToHTMLColourScheme'
+              APLToHTMLColourScheme←,⊂'blue' 17 19 23 48 56 57 146,(147+⍳5),214,(215+⍳5)
+              APLToHTMLColourScheme,←⊂'darkgreen' 1 26
+              APLToHTMLColourScheme,←⊂'brown' 6 16 31 32 41 43 46 49,(118+⍳27),(152+⍳34),(186+⍳27),(220+⍳34)
+              APLToHTMLColourScheme,←⊂'darkblue' 4 12 13 14
+              APLToHTMLColourScheme,←⊂'purple' 37 39
+              APLToHTMLColourScheme,←⊂'pink',(50+⍳3)
+              APLToHTMLColourScheme,←⊂'red' 9 11 15 34 36 40 42⊣,(186+⍳68)
+              APLToHTMLColourScheme,←⊂'gray' 10 35 47 50
+          :EndIf
+          html←({(+/∨\' '≠⌽⍵)↑¨↓⍵}⍣(1≥|≡APL))APL ⍝ Make VTV if matrix
+          html,¨⍨←⎕UCS 13                        ⍝ Mark line beginnings
+          types←∊200⌶html                        ⍝ Colour coding
+          html←∊html
+          spans←1,2≠/types                       ⍝ Colour spans
+          html⊂⍨←spans
+          types/⍨←spans
+          :For colour :In APLToHTMLColourScheme ⍝ 'Colour' CodeElementNumber CodeElementNumber ...
+              mask←types∊1↓colour
+              (mask/html)←{('<span style="color: ',(⊃colour),'">'),(HtmlSafeText ⍵),'</span>'}¨mask/html
+          :EndFor
+          html←∊html          ⍝ Encorporate tags
+          html⊂⍨←html=⎕UCS 13 ⍝ Restore lines
+          html↓¨⍨←1           ⍝ Remove line markers
+          html←('pre style="font-family:APL385 Unicode',fontsize,'"')Enclose'code'Enclose CRLF,⍨∊,∘CRLF¨html
+      :Else
+          html←fontsize APLToHTML APL
+      :EndTrap
+    ∇
+
     ∇ html←{id}Anchor pars;href;title;target;other;content
     ⍝ Builds an anchor <a> tag
     ⍝ pars: content {href} {title} {target} {other_attrs}
