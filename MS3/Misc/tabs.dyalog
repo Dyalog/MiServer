@@ -1,4 +1,4 @@
-﻿:Class Index : MS3Page
+﻿:Class Index : MiPageSample
 
 
     ∇ Render;ids;tits;sex;t

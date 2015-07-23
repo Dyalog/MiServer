@@ -27,12 +27,11 @@
 
     ∇ Render;f;docn;ops;tbl;hdrs
       :Access Public
-      docn←names{⎕NEW _html.a((⍺,'Picker')('href="',⍵.DocBase,'" target="_blank"'))}¨controls
+      docn←names{⎕NEW _html.a((⍺,'Picker')('href="',⍵.ApiLink,'" target="_blank"'))}¨controls
      
       Add h3'SyncFusion Date and Time Pickers'
-      pickers←⎕NEW¨↓controls,⍪↓values,⍪formats
-      pickers.Id←names
-      pickers.{Set/⍵}options
+      pickers←⎕NEW¨↓controls,⍪↓names,values,⍪formats
+      pickers.{Option/⍵}options
       pickers.{On'change' 1(⍵('#',⍵))}names
       ops←{∊(⍵[;1],¨⊂': '),¨(⍕¨⍵[;2]),¨⊂', <br/>'}¨1↓¨options
       hdrs←'b'#.HTMLInput.Enclose¨'Pickers' 'Options' 'SyncFusion Docn'

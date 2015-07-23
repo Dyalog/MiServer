@@ -570,7 +570,7 @@
       :Access public shared
       r←9∊⎕NC'obj'
     ∇
-    
+
     isattr←{isString ⍵:1 ⋄ isRef ⍵:0 ⋄ ∧/∇¨⍵}
 
     ∇ r←isAttr obj

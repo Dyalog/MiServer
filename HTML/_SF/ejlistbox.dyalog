@@ -1,5 +1,4 @@
 ﻿:Class ejListBox : #._SF._ejWidget
-
     :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejListBox.html'
     :Field Public Shared Readonly ApiLevel←3
     :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejListBox.html'
@@ -8,8 +7,8 @@
     :Field Public Checked←⍬
     :Field Public Selected←⍬
 
-⍝ Items can be a vector of character vectors, or a matrix with field names in the first row.
-⍝ SubItems *must* be a matrix with field names.
+⍝ Items can be a vector of character vectors, or a matrix with field names
+⍝ in the first row. SubItems *must* be a matrix with field names.
 ⍝ Field names to be selected from the following, for more info see
 ⍝ http://help.syncfusion.com/UG/JS_CR/ejListBox.html#fields
 ⍝ value:             not sure what it means to have a value
@@ -24,8 +23,7 @@
 ⍝ spriteCssClass:    sprite css for the image tag.
 ⍝ tableName:         table name for tag value or display text while render with remote data.
 ⍝ text:              content for the tag.
-⍝ toolTipText:       tooltip text to be displayed for the data list item. 
-
+⍝ toolTipText:       tooltip text to be displayed for the data list item.
     ∇ make
       :Access public
       JQueryFn←Uses←'ejListBox'
@@ -39,7 +37,7 @@
       JQueryFn←Uses←'ejListBox'
       ContainerType←'ul'
       :Implements constructor
-      (Items Selected Checked)←args defaultArgs ⍬ ⍬ ⍬
+      (Items Selected Checked)←3↑args,(⍴args)↓⍬ ⍬ ⍬
     ∇
 
     ∇ r←Render;fields;src
@@ -52,10 +50,10 @@
       :Else
           fields←Items[1;]
           :If 0∊⍴GetOption'fields'
-              {('fields.',⍵)Set ⍵}¨fields
+              {('fields.',⍵)Option ⍵}¨fields
           :EndIf
           src←'src',⍕rand 10000
-          'dataSource'Set'⍎',src
+          'dataSource'Option'⍎',src
           r←(⎕NEW #._HTML.Script('var ',src,' = ',#.JSON.fromAPL fields #.JSON.formatData 1↓Items)).Render
       :EndIf
       r,←⎕BASE.Render

@@ -1,6 +1,6 @@
-﻿:Class ejAccordionSample: MiPageSample ⍝ EAWC : MiPage : HtmlPage
+﻿:Class ejAccordionSample: MiPageSample
 
-    ∇ Render;ac
+    ∇ Compse;ac
       :Access public
       ac←Add _SF.ejAccordion
       ac.Titles←'First' 'Second'

@@ -8,17 +8,17 @@
       (frm←Add Form).id←'myform'
      
       frm.Add h2'Default Functionality'
-      normal←'NormalCP'frm.Add _SF.ejColorPicker'#278787'
+      normal←frm.Add _SF.ejColorPicker'NormalCP' '#278787'
       normal.On'change' 'CallbackFn'
      
       frm.Add h2'Inline'
      
       frm.Add'Select a "preset" colour scheme: '
-      selpreset←'selpreset'frm.Add Select(⊂PRESETS)
+      selpreset←frm.Add Select'selpreset'PRESETS
       selpreset.On'change' 'CallbackFn'
       frm.Add¨br br
      
-      inline←'InlineCP'frm.Add _SF.ejColorPicker'#278787'
+      inline←frm.Add _SF.ejColorPicker'InlineCP' '#278787'
       inline.Set'displayInline'_true
       inline.Set'modelType' 'palette'
       inline.Set'presetType' 'basic'
