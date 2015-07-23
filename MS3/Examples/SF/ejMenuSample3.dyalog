@@ -11,7 +11,7 @@
       Add build
       m←Add _SF.ejMenu
       opt←'{dataSource: data, id: "id", parentId: "parentId", text: "text", spriteCssClass: "sprite"}'
-      'fields'm.Option opt
+      'fields'm.Set opt
 ⍝      'datasource'm.Option'data'
  ⍝     'id'm.Option'id'
   ⍝    'parentid'm.Option'parentId'
