@@ -33,7 +33,6 @@
       r←0 2⍴'' 0
       r⍪←{⍵(_Test_Page ⍵)}#.Boot.MSRoot,'QA/TestMiPageTemplate'
       r⍪←{⍵(_Test_Page ⍵)}#.Boot.MSRoot,'QA/TestMiPageSample'
-      r⍪←{⍵(_Test_Page ⍵)}#.Boot.MSRoot,'QA/TestMS3Page'
       r⍪←{⍵(_Test_Page ⍵)}#.Boot.MSRoot,'QA/TestMS2Page'
     ∇
 

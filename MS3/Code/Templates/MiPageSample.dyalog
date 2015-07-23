@@ -31,7 +31,7 @@
       :If ~0∊⍴controls
           c←Body.Content
           Body.Content←''
-          (sp←Body.Add StackPanel(⊂FormatControls controls)c).Horizontal←1
+          (sp←Body.Add StackPanel(⊂FormatControls controls)c'<pre> </pre>').Horizontal←1
      
       :EndIf
      
@@ -71,11 +71,12 @@
 
     ∇ r←FormatControls controls;ctrls;ns;desc;field;n;ctrl;i;c;ref;l;u
       ctrls←⊃{⍺ ⍵}⌸/↓[1]0 1↓↑{⎕ML←3 ⋄ {⍵⊂⍨⍵≠'.'}⍕⍵}¨controls
+      ...
       field←{0::'' ⋄ ⍺⍎⍵}
       ns←'_html' '_HTML' '_DC' '_JQ' '_SF'
       desc←'Native HTML5 Elements' '"Enhanced" HTML Elements' 'Dyalog Developed Controls' 'jQuery Widgets' 'Syncfusion Widgets'
       (r←⎕NEW div).class←'widgethelp'
-      r.Add'This Page Contains<br/>'
+      r.Add'This Page Contains<hr>'
       :For n ctrl i :In ctrls{↓(⍺,⍵)[⍋⍵;]}ns⍳{(⊃⍣(¯1+≡⍵))⍵}¨ctrls[;1]
           (r.Add span(i⊃desc)).class←'widgetNs'
           u←r.Add ul
@@ -84,11 +85,15 @@
               :If ''≢l←ref field'MSDoc'
               :AndIf #.Files.Exists #.Boot.MSRoot,l
                   u.Add li(a c(('href'('..',l))('target' '_blank')))
-              :ElseIf ''≢l←ref field'DocBase'
+              :ElseIf ''≢l←ref field'BaseDoc'
               :AndIf #.Files.Exists #.Boot.MSRoot,l
                   u.Add li(a c(('href'('..',l))('target' '_blank')))
               :Else
-                  u.Add li c
+                  :If 'ej'≡2↑c←#.Strings.lc c
+                      u.Add li(a c(('href'('http://js.syncfusion.com/demos/web/#!/azure/',2↓c⊣,'/defaultfunctionalities'))('target' '_blank')))
+                  :Else
+                      u.Add li c
+                  :EndIf
               :EndIf
           :EndFor
       :EndFor

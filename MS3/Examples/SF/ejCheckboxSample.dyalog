@@ -1,7 +1,6 @@
 ﻿:Class ejCheckboxSample : MiPageSample
 
-⍝ This example shows a single check box with a label to its left.
-⍝ When the box is ticked a message apears telling us it was un/ticked.
+⍝ This example
 
     ∇ Compose;cb1
       :Access Public

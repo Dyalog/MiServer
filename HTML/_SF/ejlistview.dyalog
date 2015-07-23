@@ -31,8 +31,8 @@
       JQueryFn←Uses←'ejListView'
       ContainerType←'div'
       ⍝:If 2=|≡args ⋄ args←⊂¨args ⋄ :EndIf
-      (Level Text Href)←args defaultArgs ⍬(0⍴⊂'')(0⍴⊂'')
-      :Implements constructor
+      (Level Text Href)←args,(⍴args)↓⍬(0⍴⊂'')(0⍴⊂'')
+      :Implements constructor :base args
       (Text Href)←(⍬⍴⍴Level)↑¨Text Href
     ∇
     ∇ {r}←AddItem args;text;href

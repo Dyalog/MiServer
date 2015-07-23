@@ -35,6 +35,11 @@
     ∇
 
     ∇ MakeCommon
+<<<<<<< Updated upstream
+=======
+⍝already defined in HtmlElement:
+      (_html _HTML _JQ _SF _JQM _JSS _DC _)←#.(_html _HTML _JQ _SF _JQM _JSS _DC _)
+>>>>>>> Stashed changes
       _PageData←⎕NS''
     ∇
 
@@ -68,8 +73,8 @@
     ∇
 
     ∇ Use resources;n;ind;t;x
-      :Access public
-      resources←{2>|≡⍵:,⊂⍵ ⋄ ⍵}resources
+      :Access public  
+      resources←eis resources
       :For x :In resources
           :If ~(⊂x)∊_used
               :Select ⊃x
@@ -274,3 +279,4 @@
 
 
 :EndClass
+⍝)(!Position!!0 0 0 0 0 0 0

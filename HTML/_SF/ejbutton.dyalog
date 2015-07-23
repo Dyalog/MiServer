@@ -34,7 +34,7 @@
       :EndIf
       InternalEvents←IntEvt
     ∇
-    ∇ r←Render;type
+    ∇ r←Render;type;copy
       :Access public
       :If ~0∊⍴type←GetOption'type'
           :Select ¯4↑type ⍝ probably match any of 'Button' 'button' 'reset' 'Reset' 'Submit' 'submit'
@@ -46,7 +46,9 @@
               ContainerType←'button type="submit"'
           :EndSelect
       :EndIf
+      copy←Container.Content Selector
       Container.Add(⊂Text)
       r←⎕BASE.Render
+      (Container.Content Selector)←copy
     ∇
 :EndClass
