@@ -158,7 +158,9 @@
 
     ∇ {r}←{which}Set attr
       :Access public
-      :If 0≠⎕NC'which' ⋄ attr←,(eis which),[1.1]eis attr ⋄ :EndIf
+      :If 0≠⎕NC'which' ⋄ attr←,(eis which),[1.1]eis attr
+      :Else ⋄ 'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
+      :EndIf
       :If ~0∊⍴attr
           attr←ParseAttr attr
           Attrs[1⊃¨attr]←2⊃¨attr
@@ -248,49 +250,64 @@
       Make2Code(t arg)
     ∇
 
-    ∇ Make2Code(t arg);attr;content
-      :If 0∧.≡≡¨t arg                      ⍝ handle 2-character tag (e.g. 'ul' 'tr')
+    ∇ Make2Code(t arg);attr;content;ref
+      :If 1=≡t arg                      ⍝ handle 2-character tag (e.g. 'ul' 'tr')
           Tag←t,arg
       :Else
-          :If isString arg
-              Content,←arg
-          :ElseIf ~isClass⊃arg
-              :Trap 4 5
-                  (content attr)←arg
-                  :If {(isClass ⍵)∨isInstance ⍵}⊃arg
-                      content←arg
-                      attr←''
-                  :EndIf
-                  Content,←content
-                  :If ~0∊⍴attr
-                      SetAttr attr
-                  :EndIf
-              :Else
-                  Add arg
-              :EndTrap
+        ⍝ If we have a couple of items, the second of which is
+        ⍝ a string or VTV, then we are dealing with attributes:
+          :If (,2)≡⍴arg
+          :AndIf isAttr 2⊃arg
+              (content attr)←arg ⋄ SetAttr attr
           :Else
-              Add arg
+              content←arg
           :EndIf
+          Content,←arg
+⍝
+⍝          :If isString arg
+⍝              Content,←arg
+⍝          :ElseIf ~isClass⊃arg
+⍝              :Trap 4 5
+⍝                  (content attr)←arg
+⍝                  :If {(isClass ⍵)∨isInstance ⍵}⊃arg
+⍝                      content←arg
+⍝                      attr←''
+⍝                  :EndIf
+⍝                  Content,←content
+⍝                  :If (0∊⍴attr)⍱ref←isRef attr
+⍝                      SetAttr attr
+⍝                  :ElseIf ref
+⍝                      Content,←attr
+⍝                  :EndIf
+⍝              :Else
+⍝                  Add arg
+⍝              :EndTrap
+⍝          :Else
+⍝              Add arg
+⍝          :EndIf
           Tag←t
       :EndIf
       Init
     ∇
 
-    ∇ Make3(t content attr)
+    ∇ Make3(t content attr);ref
     ⍝ t - tag/element name (e.g. 'div' or 'table')
     ⍝ content - content
     ⍝ attr - attrs
       :Implements constructor
       :Access public
-      :If 0∧.≡≡¨t content attr    ⍝ handle 3-character tag (e.g. 'pre')
+      :If 1=≡t content attr    ⍝ handle 3-character tag (e.g. 'pre')
           Tag←t,content,attr
       :ElseIf isClass content
           Make2Code t(content attr)
       :Else
           Tag←t
+         ⍝ attr could be a ref. This means that it goes in the contents.
           Add content
-          :If ~0∊⍴attr
+          :If (0∊⍴attr)⍱ref←isRef attr
               SetAttr attr
+          :ElseIf ref
+              Add attr
           :EndIf
       :EndIf
       Init
@@ -430,7 +447,7 @@
 
     ∇ r←{a}eis w
       :Access public shared
-      r←(,∘⊂)⍣((326∊⎕DR w)<2>|≡w),w ⍝ enclose if simple and not mixed
+      r←(,∘⊂)⍣((isString w)∧2>|≡w),w ⍝ enclose if simple character
     ∇
 
     ∇ da←args defaultArgs defaultvalues
@@ -449,7 +466,7 @@
       :Access public
       :If ~0∊⍴r←args
           :If isClass⊃args
-              r←⎕NEW∘{2<⍴,⍵:(⊃⍵)({eis ⍵}(1↓⍵)) ⋄ ⍵}eis args
+              r←⎕NEW∘{2<⍴,⍵:(⊃⍵)({eis ⍵}(1↓⍵)) ⋄ ⍵}args
               :If 0≠⎕NC⊂'_PageRef'
                   r._PageRef←_PageRef
               :EndIf
@@ -549,6 +566,18 @@
       r←9.2∊⎕NC⊂'ao'
     ∇
 
+    ∇ r←isRef obj
+      :Access public shared
+      r←9∊⎕NC'obj'
+    ∇
+    
+    isattr←{isString ⍵:1 ⋄ isRef ⍵:0 ⋄ ∧/∇¨⍵}
+
+    ∇ r←isAttr obj
+      :Access public shared
+      r←isattr obj
+    ∇
+
     ∇ r←renderIt It
       :Access public shared
       r←{326=⎕DR⊃⍵:{isInstance⊃⍵:(⊃⍵).Render
@@ -597,18 +626,3 @@
     :endsection
 
 :endclass  ⍝ HtmlElement
-⍝)(!Enclose!!0 0 0 0 0 0 0
-⍝)(!GenId!!0 0 0 0 0 0 0
-⍝)(!HtmlSafeText!!0 0 0 0 0 0 0
-⍝)(!New!!0 0 0 0 0 0 0
-⍝)(!ParseAttr!!0 0 0 0 0 0 0
-⍝)(!Quote!!0 0 0 0 0 0 0
-⍝)(!context!!0 0 0 0 0 0 0
-⍝)(!defaultArgs!!0 0 0 0 0 0 0
-⍝)(!eis!!0 0 0 0 0 0 0
-⍝)(!fixkeys!!0 0 0 0 0 0 0
-⍝)(!isClass!!0 0 0 0 0 0 0
-⍝)(!isHtmlElement!!0 0 0 0 0 0 0
-⍝)(!isInstance!!0 0 0 0 0 0 0
-⍝)(!isString!!0 0 0 0 0 0 0
-⍝)(!renderIt!!0 0 0 0 0 0 0

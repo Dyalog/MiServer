@@ -6,7 +6,7 @@
      p←⎕NEW page
      p._Request←⎕NEW #.HTTPRequest('' '')
      p._Request.Server←#.Boot.ms
-     p.Render
+     p.Compose
      html←p.Wrap
      :Trap 0
          {}⎕XML html

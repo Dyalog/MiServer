@@ -236,7 +236,7 @@
                       :Else
                           type←selector,'.',⍕type
                       :EndIf
-         
+                      selector←''
                   :Case 'model'
                       :If type≡''
                           name←,'_',selector
@@ -244,7 +244,7 @@
                       :Else
                           type←model,'.',⍕type
                       :EndIf
-                      selector←'' ⍝???BPB
+                      selector←''
                   :Else
                       :If ∨/mask←'model.' 'event.' 'ui.' 'argument.'{⍺≡(⍴⍺)↑⍵}¨⊂selector
                           (type what)←2↑{⎕ML←3 ⋄ ⍵⊂⍨⍵≠'.'}selector

@@ -1,16 +1,13 @@
 ﻿:Class ejGridSample : MiPageSample
     
-    ∇ Compose;rte;frm
+    ∇ Compose
       :Access Public   
-     
-      (frm←Add Form).id←'myform'
-     
-      frm.Add h2'Health Care Spending'
-      mygrid←frm.Add _SF.ejGrid('mygrid'VALUES COLTITLES CELLWIDTHS)
+      Add h2'Health Care Spending'
+      mygrid←Add _SF.ejGrid(VALUES COLTITLES CELLWIDTHS)
       mygrid.CellFormats←FORMATS
       mygrid.ColNames←COLNAMES
       mygrid.CellAlign←CELLALIGN
-      mygrid.Set↓'allowPaging' 'allowSorting' 'allowResizing'[1.5]_true
+      mygrid.Set↓'allowPaging' 'allowSorting' 'allowResizing',[1.5]_true
     ∇
  
     ∇ Make
