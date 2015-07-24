@@ -1,13 +1,14 @@
 ﻿:class ejCheckBox : #._SF._ejWidget
 
 ⍝ Description:: Syncfusion Checkbox widget
-⍝ Constructor:: [Label [Position [Checked]]]
-⍝ Label             - string of text to appear next to the button
-⍝ Position of label - to the left (default) or to the right
-⍝ Checked           - integer denoting if the box is checked or not (1=yes, 0=no)
+⍝ Constructor:: [label [postion [checked]]]
+⍝ label    - string of text to appear next to the button
+⍝ position - position of label relative to the checkbox ('left' (default) or 'right') 
+⍝ checked  - integer denoting if the box is checked or not (1=yes, 0=no, ¯1=indeterminate)
 ⍝ Public Fields::
-⍝ Label          - vector of char vectors containing titles to appear on accordion sections
-⍝ Sections        - vector of vectors containing HTML content for each section
+⍝ Label    - string of text to appear next to the button
+⍝ LabelPos - position of label relative to the checkbox ('left' (default) or 'right') 
+⍝ Checked  - integer denoting if the box is checked or not (1=yes, 0=no, ¯1=indeterminate)
 ⍝ Examples::
 ⍝ ejCheckBox 'Married'
 ⍝ ejCheckBox 'with children' 'right'
@@ -18,7 +19,8 @@
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejCheckBox.html'
     :field public shared readonly IntEvt←'beforeChange' 'change' 'create' 'destroy'
     :field public Label←''
-    :field public LabelPos←'left'  ⍝ valid are 'left' 'right' 
+    :field public LabelPos←'left'  ⍝ valid are 'left' 'right'
+    :field public Checked←¯1       ⍝ 1=yes, 0=no, ¯1=indeterminate
 
     ∇ setup
       JQueryFn←Uses←'ejCheckBox'
@@ -37,10 +39,9 @@
       :Access public
       :Implements constructor
       setup
-      args defaultArgs←'' 'left' 0
-      (Label LabelPos Checked)←args
-      :If Checked=1
-          'checked'Set _true
+      (Label LabelPos Checked)←args defaultArgs Label LabelPos Checked
+      :If Checked∊0 1
+          'checked'Set(Checked+1)⊃_false _true
       :EndIf
     ∇
 

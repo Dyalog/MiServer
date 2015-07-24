@@ -1,4 +1,5 @@
 ﻿:Class ejAccordionAdvanced: MiPageSample
+⍝ Control:: _SF.ejAccordion
 ⍝ Description:: simple example of Syncfusion ejAccordion usage
 
     ∇ Compose;ac;path
