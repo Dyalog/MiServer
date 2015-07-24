@@ -26,25 +26,28 @@
       (Text Level Href)←⊂⍬
       :Implements constructor
     ∇
+
     ∇ make1 args
       :Access public
       JQueryFn←Uses←'ejMenu'
       ContainerType←'ul'
       ⍝:If 2=|≡args ⋄ args←⊂¨args ⋄ :EndIf
       :If 3=|≡args
-          (Text Level Href)←args,(⍴args)↓⍬(0⍴⊂'')(0⍴⊂'')
+          (Text Level Href)←args defaultArgs ⍬(0⍴⊂'')(0⍴⊂'')
       :Else
           Href←{''}¨Level←{0}¨Text←eis args
       :EndIf
      
-      :Implements constructor ⍝:base args
+      :Implements constructor 
       ⍝(Text Href)←(⍬⍴⍴Level)↑¨Text Href
     ∇
+
     ∇ {r}←AddItem args;text;href
       :Access public ⍝ Obs: max 1
       ⍝:If 2=|≡args ⋄ args←⊂¨args ⋄ :EndIf
-      (Text Level Href),←⊂¨3↑{⍵,(⍴⍵)↓⍵ 0 ''},eis args
+      (Text Level Href),←args defaultArgs 0 0 ''
     ∇
+    
     ∇ r←MakeTree(txt level href);ul;mat;n;i;xp;addid;diff;id
      ⍝ Produce an XML form of a tree specified as level, text and references
       →0↓⍨n←⍬⍴⍴r←level        ⍝ 0 element case
@@ -65,6 +68,7 @@
       mat[;1]-←1⍴mat
       r←⎕XML mat                        ⍝ and use ⎕XML to format nicely
     ∇
+    
     ∇ r←Render
       :Access public
       Container.Add MakeTree Text Level Href

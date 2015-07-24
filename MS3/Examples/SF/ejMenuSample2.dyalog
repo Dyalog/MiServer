@@ -3,7 +3,7 @@
 
     ∇ r←Compose
       :Access Public
-      'width'(Add _SF.ejMenu fixExample).Option 632
+      'width'(Add _SF.ejMenu fixExample).Set 632
     ∇
 
     ∇ r3←fixExample;tmp;b;i
@@ -14,7 +14,7 @@
       tmp[i-1;4]⍪←tmp[i;4]
       tmp←(b⍱tmp[;2]∊⊂'ul')⌿tmp
       tmp[;1]÷←2
-      r3←↓⍉tmp[;1 3],⊂''
+      r3←↓⍉tmp[;3 1],⊂''
     ∇
 
 

@@ -30,7 +30,8 @@
     ∇
 
     ∇ r←APLJax
-      :Access public
+      :Access public 
+      ...
       :Select _what
       :Case 'b1' ⋄ pos←1
       :Case 'b2' ⋄ pos-←1
