@@ -35,11 +35,6 @@
     ∇
 
     ∇ MakeCommon
-<<<<<<< Updated upstream
-=======
-⍝already defined in HtmlElement:
-      (_html _HTML _JQ _SF _JQM _JSS _DC _)←#.(_html _HTML _JQ _SF _JQM _JSS _DC _)
->>>>>>> Stashed changes
       _PageData←⎕NS''
     ∇
 
@@ -279,4 +274,3 @@
 
 
 :EndClass
-⍝)(!Position!!0 0 0 0 0 0 0
