@@ -71,7 +71,6 @@
 
     ∇ r←FormatControls controls;ctrls;ns;desc;field;n;ctrl;i;c;ref;l;u
       ctrls←⊃{⍺ ⍵}⌸/↓[1]0 1↓↑{⎕ML←3 ⋄ {⍵⊂⍨⍵≠'.'}⍕⍵}¨controls
-      ...
       field←{0::'' ⋄ ⍺⍎⍵}
       ns←'_html' '_HTML' '_DC' '_JQ' '_SF'
       desc←'Native HTML5 Elements' '"Enhanced" HTML Elements' 'Dyalog Developed Controls' 'jQuery Widgets' 'Syncfusion Widgets'
