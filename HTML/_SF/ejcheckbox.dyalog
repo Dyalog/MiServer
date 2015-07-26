@@ -6,7 +6,7 @@
 ⍝ position - position of label relative to the checkbox ('left' (default) or 'right') 
 ⍝ checked  - integer denoting if the box is checked or not (1=yes, 0=no, ¯1=indeterminate)
 ⍝ Public Fields::
-⍝ Label    - string of text to appear next to the button
+⍝ Label    - string of text to appear next to the checkbox
 ⍝ LabelPos - position of label relative to the checkbox ('left' (default) or 'right') 
 ⍝ Checked  - integer denoting if the box is checked or not (1=yes, 0=no, ¯1=indeterminate)
 ⍝ Examples::
