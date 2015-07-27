@@ -1,5 +1,5 @@
 ﻿:class codesample: MiPageSample
-⍝ Control:: HTML.code 
+⍝ Control:: _html.code 
 ⍝ Description:: this is an example of use of code which defines a piece of computer code
 
     ∇ Compose

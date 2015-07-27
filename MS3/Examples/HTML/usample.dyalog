@@ -1,5 +1,5 @@
 ﻿:class usample: MiPage⍝Sample
-⍝ Control:: HTML.u 
+⍝ Control:: _html.u 
 ⍝ Description:: this is an example of use of u 
     ∇ Compose
       :Access public 

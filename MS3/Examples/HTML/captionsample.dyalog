@@ -1,5 +1,5 @@
 ﻿:class captionsample: MiPage⍝Sample
-⍝ Control:: HTML.caption 
+⍝ Control:: _html.caption 
 ⍝ Description:: this is an example of use of caption which defines a table caption 
 
     ∇ Compose

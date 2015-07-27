@@ -1,5 +1,5 @@
 ﻿:class citesample: MiPage⍝Sample
-⍝ Control:: HTML.cite 
+⍝ Control:: _html.cite 
 ⍝ Description:: this is an example of use of cite which defines the title of a work 
 
     ∇ Compose

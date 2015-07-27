@@ -1,5 +1,5 @@
 ﻿:class brsample: MiPage⍝Sample
-⍝ Control:: HTML.br 
+⍝ Control:: _html.br 
 ⍝ Description:: this is an example of use of br which inserts a break (new line) between lines
 
     ∇ Compose

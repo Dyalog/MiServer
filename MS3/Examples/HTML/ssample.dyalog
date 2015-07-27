@@ -1,5 +1,5 @@
 ﻿:class ssample: MiPage⍝Sample
-⍝ Control:: HTML.s 
+⍝ Control:: _html.s 
 ⍝ Description:: this is an example of use of s 
     ∇ Compose
       :Access public 

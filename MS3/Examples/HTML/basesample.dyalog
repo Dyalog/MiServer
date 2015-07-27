@@ -1,5 +1,5 @@
 ﻿:class basesample: MiPage⍝Sample
-⍝ Control:: HTML.base 
+⍝ Control:: _html.base 
 ⍝ Description:: resets the base URL for relative links
 
     ∇ Compose

@@ -1,5 +1,5 @@
 ﻿:class acronymsample : MiPage
-⍝ Control:: HTML.acronymsample 
+⍝ Control:: _html.acronymsample 
 ⍝ Description:: display text when hovering over an area  
 
     ∇ Compose

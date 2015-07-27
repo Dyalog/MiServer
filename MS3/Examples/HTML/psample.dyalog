@@ -1,5 +1,5 @@
 ﻿:class psample: MiPage⍝Sample
-⍝ Control:: HTML.p 
+⍝ Control:: _html.p 
 ⍝ Description:: this is an example of use of p 
     ∇ Compose
       :Access public 

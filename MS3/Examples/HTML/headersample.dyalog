@@ -1,6 +1,6 @@
 ﻿:class headersample: MiPage⍝Sample
-⍝ Control:: HTML.header 
-⍝ Description:: this is an example of use of header
+⍝ Control:: _html.header 
+⍝ Description:: this is a type if title
  
     ∇ Compose
       :Access public 

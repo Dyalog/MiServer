@@ -1,5 +1,5 @@
 ﻿:class bdisample: MiPageSample
-⍝ Control:: HTML.bdi 
+⍝ Control:: _html.bdi 
 ⍝ Description:: this is an example of use of bdi which tag isolates a part of text that might be formatted in a different direction from other text outside it
 
     ∇ Compose

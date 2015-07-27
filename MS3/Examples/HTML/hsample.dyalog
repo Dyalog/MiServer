@@ -1,6 +1,7 @@
 ﻿:class hsample: MiPage⍝Sample
-⍝ Control:: HTML.h 
-⍝ Description:: this is an example of use of h 
+⍝ Control:: _html.h 
+⍝ Description:: examples of use of hX
+ 
     ∇ Compose
       :Access public 
       Add _.h1 'Header size one'
@@ -11,4 +12,5 @@
       Add _.h6 'Header size six'
       Add'That''s all.'
     ∇
+
 :endclass

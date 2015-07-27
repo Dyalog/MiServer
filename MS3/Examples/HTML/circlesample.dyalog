@@ -1,5 +1,5 @@
 ﻿:class circlesample: MiPage⍝Sample 
-⍝ Control:: HTML.circle 
+⍝ Control:: _html.circle 
 ⍝ Description:: this is an example of use of circle which creates one
 
     ∇ Compose

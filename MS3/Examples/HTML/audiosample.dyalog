@@ -1,5 +1,5 @@
 ﻿:class audiosample: MiPage⍝Sample
-⍝ Control:: HTML.audio 
+⍝ Control:: _html.audio 
 ⍝ Description:: this is an example of use of audio 
 
     ∇ Compose

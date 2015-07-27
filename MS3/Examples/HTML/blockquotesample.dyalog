@@ -1,5 +1,5 @@
 ﻿:class blockquotesample: MiPage⍝Sample
-⍝ Control:: HTML.blockquote 
+⍝ Control:: _html.blockquote 
 ⍝ Description:: this is an example of use of blockquote which indent a block of text 
 
     ∇ Compose

@@ -1,5 +1,5 @@
 ﻿:class addresssample: MiPage⍝Sample
-⍝ Control:: HTML.address 
+⍝ Control:: _html.address 
 ⍝ Description:: makes text Italic on a separate line 
 
     ∇ Compose

@@ -1,5 +1,5 @@
 ﻿:class qsample: MiPage⍝Sample
-⍝ Control:: HTML.q 
+⍝ Control:: _html.q 
 ⍝ Description:: this is an example of use of q 
     ∇ Compose
       :Access public 

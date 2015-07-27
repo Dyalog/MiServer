@@ -1,5 +1,5 @@
 ﻿:class buttonsample: MiPage⍝Sample
-⍝ Control:: HTML.button 
+⍝ Control:: _html.button 
 ⍝ Description:: this is an example of use of the button tag 
 
     ∇ Compose

@@ -1,5 +1,5 @@
 ﻿:class delsample: MiPage⍝Sample
-⍝ Control:: HTML.del
+⍝ Control:: _html.del
 ⍝ Description:: this is an example of use of del which defines deleted text
 
     ∇ Compose

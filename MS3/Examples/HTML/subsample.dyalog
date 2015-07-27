@@ -1,5 +1,5 @@
 ﻿:class subsample: MiPage⍝Sample
-⍝ Control:: HTML.sub 
+⍝ Control:: _html.sub 
 ⍝ Description:: this is an example of use of sub 
     ∇ Compose
       :Access public 

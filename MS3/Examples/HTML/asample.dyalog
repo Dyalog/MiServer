@@ -1,5 +1,5 @@
 ﻿:class asample : MiPage⍝Sample
-⍝ Control:: HTML.asample 
+⍝ Control:: _html.asample 
 ⍝ Description:: this is an example of use of the anchor "a" tag
 
     ∇ Compose

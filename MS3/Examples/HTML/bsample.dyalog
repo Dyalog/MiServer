@@ -1,5 +1,5 @@
 ﻿:class bsample: MiPage⍝Sample
-⍝ Control:: HTML.b 
+⍝ Control:: _html.b 
 ⍝ Description:: this is an example of use of b which makes text Bold
 
     ∇ Compose

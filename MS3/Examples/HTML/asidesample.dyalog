@@ -1,5 +1,5 @@
 ﻿:class asidesample: MiPage⍝Sample
-⍝ Control:: HTML.aside 
+⍝ Control:: _html.aside 
 ⍝ Description:: defines some content aside from the content it is placed in.
 ⍝ The aside content should be related to the surrounding content. 
   

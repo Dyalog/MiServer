@@ -1,5 +1,5 @@
 ﻿:class supsample: MiPage⍝Sample
-⍝ Control:: HTML.sup 
+⍝ Control:: _html.sup 
 ⍝ Description:: this is an example of use of sup 
     ∇ Compose
       :Access public 

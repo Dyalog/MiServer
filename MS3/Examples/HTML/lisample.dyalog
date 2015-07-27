@@ -1,5 +1,5 @@
 ﻿:class lisample: MiPage⍝Sample
-⍝ Control:: HTML.li 
+⍝ Control:: _html.li 
 ⍝ Description:: this is an example of use of li 
     ∇ Compose;myol;myul
       :Access public 

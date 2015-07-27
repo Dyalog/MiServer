@@ -1,5 +1,5 @@
 ﻿:class bigsample: MiPage⍝Sample
-⍝ Control:: HTML.big 
+⍝ Control:: _html.big 
 ⍝ Description:: this is an example of use of big which defines bigger text
 
     ∇ Compose

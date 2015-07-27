@@ -1,5 +1,5 @@
 ﻿:class smallsample: MiPage⍝Sample
-⍝ Control:: HTML.small 
+⍝ Control:: _html.small 
 ⍝ Description:: this is an example of use of small 
     ∇ Compose
       :Access public 

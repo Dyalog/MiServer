@@ -1,5 +1,5 @@
 ﻿:class strongsample: MiPage⍝Sample
-⍝ Control:: HTML.strong 
+⍝ Control:: _html.strong 
 ⍝ Description:: this is an example of use of strong 
     ∇ Compose
       :Access public 

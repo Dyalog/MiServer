@@ -1,5 +1,5 @@
 ﻿:class bdosample: MiPageSample
-⍝ Control:: HTML.bdo 
+⍝ Control:: _html.bdo 
 ⍝ Description:: this is an example of use of bdo which specifies the reading order (lrt - left-to-right or rtl - right-to-left)
 
     ∇ Compose
