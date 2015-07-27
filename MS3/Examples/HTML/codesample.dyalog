@@ -1,10 +1,13 @@
-﻿:class bigsample: MiPage⍝Sample
-⍝ Control:: HTML.big 
-⍝ Description:: this is an example of use of big 
+﻿:class codesample: MiPageSample
+⍝ Control:: HTML.code 
+⍝ Description:: this is an example of use of code which defines a piece of computer code
+
     ∇ Compose
       :Access public 
-      Add'Format '
-      Add _.code 'computer code, '
-      Add'if you want to.'
+      Add 'Format this computer code: {(⊥⍨' '=⍵)↓⍵}'
+      Add _.br _.br
+      Add 'It should become '
+      Add _.code ' {(⊥⍨'' ''=⍵)↓⍵}'
     ∇
+
 :endclass
