@@ -1,6 +1,6 @@
 ﻿:class articlesample : MiPage⍝Sample
 ⍝ Control:: HTML.articlesample 
-⍝ Description:: this is an example of use of the article container
+⍝ Description:: example of use of the article container
 
     ∇ Compose
       :Access public 

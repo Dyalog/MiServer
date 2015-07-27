@@ -1,6 +1,6 @@
 ﻿:class basesample: MiPage⍝Sample
 ⍝ Control:: HTML.base 
-⍝ Description:: this is an example of use of base which resets the base URL for relative links
+⍝ Description:: resets the base URL for relative links
 
     ∇ Compose
       :Access public 

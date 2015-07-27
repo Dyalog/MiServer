@@ -1,6 +1,6 @@
 ﻿:class asample : MiPage⍝Sample
 ⍝ Control:: HTML.asample 
-⍝ Description:: this is an example of use of the "a" tag
+⍝ Description:: this is an example of use of the anchor "a" tag
 
     ∇ Compose
       :Access public 
