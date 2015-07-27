@@ -1,4 +1,6 @@
-﻿:class bigsample : MiPage⍝Sample
+﻿:class bigsample: MiPage⍝Sample
+⍝ Control:: HTML.big 
+⍝ Description:: this is an example of use of big 
     ∇ Compose
       :Access public 
       Add'Format '

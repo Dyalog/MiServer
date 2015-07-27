@@ -1,4 +1,6 @@
-﻿:class canvassample : MiPage⍝Sample
+﻿:class canvassample: MiPage⍝Sample
+⍝ Control:: HTML.canvas 
+⍝ Description:: this is an example of use of canvas 
 
     ∇ Compose
       :Access public 

@@ -1,4 +1,7 @@
-﻿:class audiosample : MiPage⍝Sample
+﻿:class audiosample: MiPage⍝Sample
+⍝ Control:: HTML.audio 
+⍝ Description:: this is an example of use of audio 
+
     ∇ Compose
       :Access public 
       Add'Wazzup '

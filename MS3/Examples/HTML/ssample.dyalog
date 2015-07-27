@@ -1,4 +1,6 @@
-﻿:class ssample : MiPage⍝Sample
+﻿:class ssample: MiPage⍝Sample
+⍝ Control:: HTML.s 
+⍝ Description:: this is an example of use of s 
     ∇ Compose
       :Access public 
       Add'Format '

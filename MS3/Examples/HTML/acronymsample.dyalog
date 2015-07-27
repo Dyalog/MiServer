@@ -1,4 +1,7 @@
-﻿:class acronymsample : MiPage⍝Sample
+﻿:class acronymsample: MiPage
+⍝ Control:: HTML.acronym 
+⍝ Description:: this is an example of use of acronym which allows you to display text when hovering over an area 
+ 
     ∇ Compose
       :Access public 
       Add'In '

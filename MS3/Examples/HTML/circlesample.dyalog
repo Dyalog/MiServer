@@ -1,12 +1,17 @@
-﻿:class circlesample : MiPage⍝Sample
+﻿:class circlesample: MiPage⍝Sample 
+⍝ Control:: HTML.circle 
+⍝ Description:: this is an example of use of circle 
+⍝Documentation::a
+⍝ dsa:: asas
+
     ∇ Compose
       :Access public 
       Add'Nice circle:'
      
      ⍝ We need SVG to paint a circle:
-      mysvg←'height' '100' 'width' '100' Add _.svg
-      'cx' '50' 'cy' '50' 'r' '40' 'stroke' 'black' 'stroke-width' '3' 'fill' 'red' mysvg.Add _.circle 
-	  
+      mysvg←'height' '100' 'width' '100'Add _.svg
+      'cx' '50' 'cy' '50' 'r' '40' 'stroke' 'black' 'stroke-width' '3' 'fill' 'red'mysvg.Add _.circle
+     
       Add'That''s all.'
- 	  ∇
+    ∇
 :endclass

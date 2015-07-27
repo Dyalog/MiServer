@@ -1,4 +1,6 @@
-﻿:class subsample : MiPage⍝Sample
+﻿:class subsample: MiPage⍝Sample
+⍝ Control:: HTML.sub 
+⍝ Description:: this is an example of use of sub 
     ∇ Compose
       :Access public 
       Add'Format '

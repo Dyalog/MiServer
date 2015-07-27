@@ -1,4 +1,6 @@
-﻿:class lisample : MiPage⍝Sample
+﻿:class lisample: MiPage⍝Sample
+⍝ Control:: HTML.li 
+⍝ Description:: this is an example of use of li 
     ∇ Compose;myol;myul
       :Access public 
       Add'Here is an ordered list:'

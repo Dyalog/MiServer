@@ -1,4 +1,6 @@
-﻿:Class InputSample : MiPageSample
+﻿:Class InputSamplesample: MiPageSample
+⍝ Control:: HTML.InputSample 
+⍝ Description:: this is an example of use of InputSample 
 
     Types←'text' 'password' 'checkbox' 'file'
     Data←(⍴Types)⍴⊂''

@@ -1,4 +1,7 @@
-﻿:class asample : MiPage⍝Sample
+﻿:class asample: MiPage⍝Sample
+⍝ Control:: HTML.a 
+⍝ Description:: this is an example of use of the "a" tag which follows a link when the element is clicked
+
     ∇ Compose
       :Access public 
       Add'Click '

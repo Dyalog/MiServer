@@ -1,4 +1,6 @@
-﻿:Class Home : MiPageSample
+﻿:Class Homesample: MiPageSample
+⍝ Control:: HTML.Home 
+⍝ Description:: this is an example of use of Home 
 
     ∇ Render;frm;ig;btn;handler;t
       :Access public

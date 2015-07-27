@@ -1,8 +1,12 @@
-﻿:class blockquotesample : MiPage⍝Sample
+﻿:class blockquotesample: MiPage⍝Sample
+⍝ Control:: HTML.blockquote 
+⍝ Description:: this is an example of use of blockquote which indent a block of text 
+
     ∇ Compose
       :Access public 
-      Add'Format '
+      Add 'Format '
       Add _.blockquote 'a block'
-      Add' of quoted text.'
+      Add ' of quoted text.'
     ∇
+
 :endclass

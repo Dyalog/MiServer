@@ -1,4 +1,6 @@
-﻿:class supsample : MiPage⍝Sample
+﻿:class supsample: MiPage⍝Sample
+⍝ Control:: HTML.sup 
+⍝ Description:: this is an example of use of sup 
     ∇ Compose
       :Access public 
       Add'Format '

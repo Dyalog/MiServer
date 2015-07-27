@@ -1,4 +1,6 @@
-﻿:class usample : MiPage⍝Sample
+﻿:class usample: MiPage⍝Sample
+⍝ Control:: HTML.u 
+⍝ Description:: this is an example of use of u 
     ∇ Compose
       :Access public 
       Add'Format '

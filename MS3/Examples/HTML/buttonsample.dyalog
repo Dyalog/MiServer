@@ -1,4 +1,6 @@
-﻿:class buttonsample : MiPage⍝Sample
+﻿:class buttonsample: MiPage⍝Sample
+⍝ Control:: HTML.button 
+⍝ Description:: this is an example of use of button 
     ∇ Compose
       :Access public 
       Add'Insert '

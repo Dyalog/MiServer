@@ -1,4 +1,6 @@
-﻿:class captionsample : MiPage⍝Sample
+﻿:class captionsample: MiPage⍝Sample
+⍝ Control:: HTML.caption 
+⍝ Description:: this is an example of use of caption 
     ∇ Compose
       :Access public 
       mytable←Add _.table

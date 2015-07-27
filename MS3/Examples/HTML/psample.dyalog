@@ -1,4 +1,6 @@
-﻿:class psample : MiPage⍝Sample
+﻿:class psample: MiPage⍝Sample
+⍝ Control:: HTML.p 
+⍝ Description:: this is an example of use of p 
     ∇ Compose
       :Access public 
       Add'Just a line of text.'

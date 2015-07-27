@@ -1,4 +1,6 @@
-﻿:class hsample : MiPage⍝Sample
+﻿:class hsample: MiPage⍝Sample
+⍝ Control:: HTML.h 
+⍝ Description:: this is an example of use of h 
     ∇ Compose
       :Access public 
       Add _.h1 'Header size one'

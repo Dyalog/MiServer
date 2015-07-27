@@ -1,4 +1,6 @@
-﻿:class bsample : MiPage⍝Sample
+﻿:class bsample: MiPage⍝Sample
+⍝ Control:: HTML.b 
+⍝ Description:: this is an example of use of b 
     ∇ Compose
       :Access public 
       Add'Format '
