@@ -68,7 +68,7 @@
     ∇
 
     ∇ Use resources;n;ind;t;x
-      :Access public  
+      :Access public
       resources←eis resources
       :For x :In resources
           :If ~(⊂x)∊_used
@@ -154,14 +154,42 @@
       :Access public
       ∘∘∘
     ∇
-    ∇ r←renderContent content
-      :If isInstance⊃content
-          r←content.Render
-      :ElseIf isClass⊃content
-          r←(⎕NEW content).Render
-      :Else
-          r←(⎕NEW #.HtmlElement(''content)).Render
-      :EndIf
+
+    ∇ r←renderContent content;c
+      r←''
+      content←eis content
+      :While ~0∊⍴content
+          :Select ≡c←⊃content
+          :Case 0
+              :If isClass c
+                  :Select ⊃⍴content
+                  :Case 1
+                      r,←(⎕NEW c).Render
+                  :Case 2
+                      r,←(⎕NEW c(2⊃content)).Render
+                  :Else
+                      r,←(⎕NEW c(1↓content)).Render
+                  :EndSelect
+              :ElseIf isInstance c
+                  r,←c.Render
+              :Else
+                  r,←(⎕NEW #.HtmlElement(''content)).Render
+              :EndIf
+              content←''
+          :Case 1
+              :If isClass⊃c
+                  r,←(⎕NEW(⊃c)(1↓c)).Render
+              :ElseIf isInstance⊃c
+                  ∘∘∘ ⍝ should not happen! (I think)
+              :Else
+                  r,←(⎕NEW #.HtmlElement(''c)).Render
+              :EndIf
+              content←1↓content
+          :Else
+              r,←renderContent c
+              content←1↓content
+          :EndSelect
+      :EndWhile
     ∇
 
     ∇ r←selector Replace content

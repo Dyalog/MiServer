@@ -374,7 +374,7 @@
     ∇ r←Render;av;t;vs;e;h;c;p
       :Access public
     ⍝ Render by first constructing the Tag, complete with attributes, if any
-      r←Compose Content
+      r←RenderCore Content
       :If ~0∊⍴av←Tag
           h←RenderHandlers
           p←RenderPosition
@@ -393,7 +393,8 @@
       :Access overridable
     ∇
 
-    ∇ r←Compose list;e;t
+    ∇ r←RenderCore list;e;t
+      :Access public
     ⍝ do the bulk of the rendering work
       r←''
       :For e :In eis list
