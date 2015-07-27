@@ -126,8 +126,8 @@
       class←first∊'.'
       special←0,⍨id∨class∨pairs
       :While i≤n
-          :If 1=depths[i]  ⍝ simple vector
-              :If 1≠⍴chunk←{⎕ML←3 ⋄ ((⍵≠' ')≥{~≠\⍵}'"'=⍵)⊂⍵}i⊃arg
+          :If depths[i]∊0 1  ⍝ simple vector
+              :If 1≠⍴chunk←{⎕ML←3 ⋄ ((⍵≠' ')≥{~≠\⍵}'"'=⍵)⊂⍵},i⊃arg
                   del,←ParseAttr chunk
               :Else
                   :If 1=≡chunk←split⊃chunk
@@ -142,7 +142,7 @@
                           :ElseIf (i=n)∨special[1+i]
                               del,←⊂2⍴⊂chunk
                           :Else
-                              del,←⊂arg[0 1+i] ⋄ i+←1
+                              del,←⊂,¨arg[0 1+i] ⋄ i+←1
                           :EndIf
                       :EndSelect
                   :Else

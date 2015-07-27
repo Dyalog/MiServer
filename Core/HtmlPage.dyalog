@@ -110,7 +110,7 @@
     ∇
 
     ∇ {r}←{attr}New what
-      :Access public
+      :Access public shared
       :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
       r←attr ⎕BASE.New what
       r._PageRef←⎕THIS
