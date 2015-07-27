@@ -1,4 +1,4 @@
-﻿:Class ejDatePickerSample : MiPageSample
+﻿:Class ejDatePickerSimple : MiPageSample
 ⍝ Control:: _SF.ejDatePicker
 ⍝ Description::  basic functionality
 

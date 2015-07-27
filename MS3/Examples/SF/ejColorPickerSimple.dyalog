@@ -1,4 +1,5 @@
-﻿:Class ejColorPickerSample : MiPageSample
+﻿:Class ejColorPickerSimple : MiPageSample
+⍝ Control:: _SF.ejColorPicker
     
     PRESETS←'[none]' 'Basic' 'Mono Chrome' 'Flat Colors' 'Sea Wolf' 'Web Colors' 'Sandy' 'Pink Shades' 'Misty' 'Citrus' 'Vintage' 'Moon Light' 'Candy Crush'
 

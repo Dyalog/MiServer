@@ -1,4 +1,4 @@
-﻿:Class ejGridSample : MiPageSample
+﻿:Class ejGridSimple : MiPageSample
 ⍝ Control:: _SF.ejGrid
 ⍝ Description::  Read-only spreadsheet with various modifiable options
     
