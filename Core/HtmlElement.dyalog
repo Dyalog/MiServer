@@ -158,11 +158,12 @@
 
     ∇ {r}←{which}Set attr
       :Access public
-      :If 0≠⎕NC'which' ⋄ attr←,(eis which),[1.1]eis attr
-      :Else ⋄ 'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
+      :If 0≠⎕NC'which' ⋄ attr←↓(eis which),[1.1]eis attr
+      :Else
+          'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
+          attr←ParseAttr attr
       :EndIf
       :If ~0∊⍴attr
-          attr←ParseAttr attr
           Attrs[1⊃¨attr]←2⊃¨attr
       :EndIf
       r←⎕THIS
