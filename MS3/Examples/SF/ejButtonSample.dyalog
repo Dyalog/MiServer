@@ -1,13 +1,13 @@
 ﻿:Class ejButtonSample : MiPageSample
-
-⍝ This example shows 2 buttons, one that en/disables the other one
+⍝ Control:: _SF.ejButton
+⍝ Description::  two buttons, one en/disables the other
 ⍝ and another that displays an alert
 
     ∇ Compose
       :Access Public
      
      ⍝ The first button (b1)
-      b1←'b1' Add _SF.ejButton'Flip -> state'
+      b1←'b1'Add _SF.ejButton'Toggle its state →'
       'type'b1.Set'ej.ButtonType.Button'
       b1.On'click' 'myCallback'
      
@@ -20,7 +20,6 @@
 
     ∇ r←myCallback
       :Access public
-     
      ⍝ This callback simply flips b2's state when b1 is clicked
       :If 'b1'≡_what
           r←'enabled'b2.Update⊃_true _false~b2.GetOption'enabled'

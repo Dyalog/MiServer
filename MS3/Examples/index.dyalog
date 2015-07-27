@@ -1,9 +1,8 @@
 ﻿:Class index : MiPage⍝Sample
 
-    ⍝ Only handles single lines, no blocks
-    finddesc← '^ *⍝ *Description::(?!=^ *⍝ *\w+::)(.*)' ⎕s '\1' ⍠ ('Mode' 'M')
+    finddesc← '^\s*⍝\s*Description:(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)' ⎕s '\1\2' ⍠ ('Mode' 'M') ('DotAll' 1)
 
-    ∇ Compose;examples;dirs;descs;dir;currtab;currtr;currtd;pathfile;file;dirfile;gooddirs
+    ∇ Compose;examples;dirs;descs;dir;currtab;currtr;currtd;pathfile;file;dirfile;gooddirs;desc
       :Access public
      
       Add _.h2'Samples Pages'
@@ -22,8 +21,9 @@
               currtd←currtr.Add _.td
               dirfile←dir,'/',file
               pathfile←examples,dirfile
-              ('href'dirfile)currtd.Add _.a file
-              currtr.Add _.td,finddesc ⎕SE.SALT.Load pathfile,' -source'
+              ('href'dirfile)currtd.Add _.a,⊂¯7↓file
+              desc←1↓⊃finddesc ⎕SE.SALT.Load pathfile,' -source'
+              currtr.Add _.td,⊂('\R'⎕R'<br>'⍠'Mode' 'D')desc~'⍝'
           :EndFor
       :EndFor
     ∇

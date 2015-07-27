@@ -1,6 +1,6 @@
 ﻿:Class ejAccordionAdvanced: MiPageSample
 ⍝ Control:: _SF.ejAccordion
-⍝ Description:: simple example of Syncfusion ejAccordion usage
+⍝ Description:: Syncfusion ejAccordion with callback (alert on opening and closing)
 
     ∇ Compose;ac;path
       :Access public

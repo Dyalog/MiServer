@@ -1,4 +1,4 @@
-﻿﻿:Class ejAccordionSimple: MiPageSample
+﻿:Class ejAccordionSimple: MiPageSample
 ⍝ Control:: _SF.ejAccordion
 ⍝ Description::  two-part accordion with static text content
 

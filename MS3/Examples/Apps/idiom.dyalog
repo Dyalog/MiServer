@@ -1,5 +1,6 @@
 ﻿:class idiom :MiPageSample
-    
+⍝ Description:: Search the FinnAPL and Dyalog idiom lists
+
     ∇ Compose;fm;bn
       :Access public
      

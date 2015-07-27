@@ -1,4 +1,5 @@
-﻿:class tttclient :MiPageSample ⍝ Tic Tac Toe Client Side Data
+﻿:class tttclient :MiPageSample
+⍝ Description:: Text-based Tic Tac Toe storing data client side
       
     ∇ Compose;board;row;bcap;rows;cell;cells;xo;reset;size;width
       :Access public

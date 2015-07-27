@@ -1,4 +1,5 @@
-﻿:class tttserver :MiPageSample ⍝ Tic Tac Toe Server Side Data
+﻿:class tttserver :MiPageSample
+⍝ Description:: Text-based Tic Tac Toe storing data server side
 
     ∇ Compose;board;row;bcap;rows;cell;cells;xo;reset;size;width
       :Access public

@@ -1,4 +1,6 @@
 ﻿:class contact : MiPageSample
+⍝ Description:: A basic "Contact Us" page using various HTML5 controls
+
     ∇ Compose;myp
       :Access public
       Add _.title'This is the title of our page'
