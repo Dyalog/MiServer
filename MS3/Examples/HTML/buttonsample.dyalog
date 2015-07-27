@@ -1,10 +1,13 @@
 ﻿:class buttonsample: MiPage⍝Sample
 ⍝ Control:: HTML.button 
-⍝ Description:: this is an example of use of button 
+⍝ Description:: this is an example of use of the button tag 
+
     ∇ Compose
       :Access public 
-      Add'Insert '
-      Add _.button 'a button'
-      Add' in the page.'
+      Add 'Insert a '
+    ⍝ This button does nothing
+      Add _.button 'button'
+      Add ' in the page.'
     ∇
+
 :endclass

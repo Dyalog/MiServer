@@ -1,4 +1,4 @@
-﻿:Class index : MiPage⍝Sample
+﻿:Class index : MiPageSample
 
     finddesc← '^\s*⍝\s*Description:(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)' ⎕s '\1\2' ⍠ ('Mode' 'M') ('DotAll' 1)
 

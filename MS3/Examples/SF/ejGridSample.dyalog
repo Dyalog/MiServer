@@ -1,15 +1,7 @@
 ﻿:Class ejGridSample : MiPageSample
+⍝ Control:: _SF.ejGrid
+⍝ Description::  Read-only spreadsheet with various modifiable options
     
-    ∇ Compose
-      :Access Public   
-      Add h2'Health Care Spending'
-      mygrid←Add _SF.ejGrid(VALUES COLTITLES CELLWIDTHS)
-      mygrid.CellFormats←FORMATS
-      mygrid.ColNames←COLNAMES
-      mygrid.CellAlign←CELLALIGN
-      mygrid.Set↓'allowPaging' 'allowSorting' 'allowResizing',[1.5]_true
-    ∇
- 
     ∇ Make
       :Access Public
       :Implements Constructor        
@@ -22,4 +14,14 @@
       FORMATS←'' '{0:n1}' '{0:n0}' '{0:c0}' '{0:c1}'
     ∇
 
+    ∇ Compose
+      :Access Public   
+      Add h2'Health Care Spending'
+      mygrid←Add _SF.ejGrid(VALUES COLTITLES CELLWIDTHS)
+      mygrid.CellFormats←FORMATS
+      mygrid.ColNames←COLNAMES
+      mygrid.CellAlign←CELLALIGN
+      mygrid.Set↓'allowPaging' 'allowSorting' 'allowResizing',[1.5]_true
+    ∇
+ 
 :EndClass

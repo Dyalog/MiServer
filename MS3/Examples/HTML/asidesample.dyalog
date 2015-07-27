@@ -1,6 +1,6 @@
 ﻿:class asidesample: MiPage⍝Sample
 ⍝ Control:: HTML.aside 
-⍝ Description:: this is an example of use of aside which defines some content aside from the content it is placed in.
+⍝ Description:: defines some content aside from the content it is placed in.
 ⍝ The aside content should be related to the surrounding content. 
   
   ∇ Compose;note
