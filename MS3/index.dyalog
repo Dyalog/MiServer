@@ -1,6 +1,6 @@
 ﻿:Class index : MiPageTemplate
 
-    ∇ Render;left;mid;right;sp;vp
+    ∇ Compose;left;mid;right;sp;vp
       :Access public
      
       div←{⍵ New _html.div}                                             ⍝ Make a div
@@ -23,7 +23,6 @@
       PopulateMid mid
       PopulateRight right
     ∇
-
 
 
     ∇ PopulateLeft thediv;class;items;name;names;ref;tv;vp
