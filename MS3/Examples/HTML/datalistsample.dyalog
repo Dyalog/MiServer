@@ -1,6 +1,6 @@
 ﻿:class datalistsample: MiPage⍝Sample
 ⍝ Control:: _html.datalist 
-⍝ Description:: this is an example of use of datalist which specifies a list of pre-defined options for an <input> element
+⍝ Description:: this is an example of use of datalist which specifies a list of pre-defined options for an input element
  
     ∇ Compose;mylist
       :Access public 

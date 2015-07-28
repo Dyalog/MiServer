@@ -1,6 +1,6 @@
-﻿:Class InputSamplesample: MiPageSample
+﻿:Class inputsample: MiPageSample
 ⍝ Control:: _html.input 
-⍝ Description:: this is an example of use of InputSample 
+⍝ Description:: this is an example of use of input fields with callback
 
     Types←'text' 'password' 'checkbox' 'file'
     Data←(⍴Types)⍴⊂''
@@ -42,4 +42,5 @@
       Data[Types⍳⊂_what]←⊂data
       r←'#changed'Replace(⎕←'New value for ',_what,': ',data)
     ∇
+
 :EndClass
