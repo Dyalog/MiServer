@@ -1,10 +1,12 @@
 ﻿:class ssample: MiPage⍝Sample
 ⍝ Control:: _html.s 
-⍝ Description:: this is an example of use of s 
+⍝ Description::  strike-through text
+
     ∇ Compose
       :Access public 
-      Add'Format '
+      Add 'Format '
       Add _.s 'strike-through'
-      Add' text.'
+      Add ' text.'
     ∇
+
 :endclass

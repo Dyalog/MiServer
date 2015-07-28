@@ -1,10 +1,12 @@
 ﻿:class subsample: MiPage⍝Sample
 ⍝ Control:: _html.sub 
-⍝ Description:: this is an example of use of sub 
+⍝ Description:: sub-script text
+
     ∇ Compose
       :Access public 
-      Add'Format '
+      Add 'Format '
       Add _.sub 'sub-script'
-      Add' text.'
+      Add ' text.'
     ∇
+
 :endclass

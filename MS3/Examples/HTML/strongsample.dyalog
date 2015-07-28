@@ -1,10 +1,12 @@
 ﻿:class strongsample: MiPage⍝Sample
 ⍝ Control:: _html.strong 
-⍝ Description:: this is an example of use of strong 
+⍝ Description:: strong (bold) text
+
     ∇ Compose
       :Access public 
-      Add'Format '
+      Add 'Format '
       Add _.strong 'strong'
-      Add' text.'
+      Add ' text.'
     ∇
+
 :endclass

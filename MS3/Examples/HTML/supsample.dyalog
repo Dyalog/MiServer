@@ -1,10 +1,12 @@
 ﻿:class supsample: MiPage⍝Sample
 ⍝ Control:: _html.sup 
-⍝ Description:: this is an example of use of sup 
+⍝ Description:: super-script text
+ 
     ∇ Compose
       :Access public 
-      Add'Format '
+      Add 'Format '
       Add _.sup 'super-script'
-      Add' text.'
+      Add ' text.'
     ∇
+
 :endclass

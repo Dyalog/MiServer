@@ -1,10 +1,12 @@
 ﻿:class smallsample: MiPage⍝Sample
 ⍝ Control:: _html.small 
-⍝ Description:: this is an example of use of small 
+⍝ Description:: defines smaller text
+
     ∇ Compose
       :Access public 
-      Add'Format '
+      Add 'Format '
       Add _.small'small'
-      Add' text.'
+      Add ' text.'
     ∇
+
 :endclass

@@ -1,10 +1,12 @@
 ﻿:class usample: MiPage⍝Sample
 ⍝ Control:: _html.u 
-⍝ Description:: this is an example of use of u 
+⍝ Description:: underlined text
+
     ∇ Compose
       :Access public 
-      Add'Format '
+      Add 'Format '
       Add _.u 'under-lined'
-      Add' text.'
+      Add ' text.'
     ∇
+
 :endclass
