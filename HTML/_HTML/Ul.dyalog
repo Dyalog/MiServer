@@ -25,7 +25,7 @@
       :Implements constructor
       :Select ⊃⍴⍴args ⍝ Select on Rank
       :Case 1         ⍝ Vector
-          :If 0 2∊⍨10|⎕DR args  ⍝ simple character vector
+          :If 0 2∊⍨10|⎕DR⊃args ⍝ 1st element is simple char
               args←,⊂args
           :EndIf      ⍝ Matrix
       :Case 2 ⋄ args←↓[1]args ⍝ Split columns
