@@ -597,6 +597,7 @@
       →0
      
      FAIL:
+      ⎕←'Carrying on...'
       ⎕TRAP←0⍴⎕TRAP
       REQ.Fail 500 ⋄ →0
      
@@ -705,4 +706,3 @@
     :endsection
 
 :EndClass
-⍝)(!Virtual!!0 0 0 0 0 0 0

@@ -8,7 +8,7 @@
 ⍝ Public Fields::
 ⍝ Titles          - vector of char vectors containing titles to appear on accordion sections
 ⍝ Sections        - vector of vectors containing HTML content for each section
-⍝ IsURL           - scalar or vector indicating if a section is a URL (¯1 means try to determine at render time)
+⍝ IsURL           - scalar or vector indicating if a section is a URL
 ⍝ Examples::
 ⍝ ejAccordion 'Title1' 'Title2'
 ⍝ ejAccordion ('Title1' 'Title2')('Section1' 'Section2')
@@ -43,7 +43,7 @@
       :Else
           (Titles Sections)←eis¨2↑args
       :EndIf
-      IsURL←(⊃⍴Titles)⍴¯1
+      IsURL←(⊃⍴Titles)⍴0
       InternalEvents←IntEvt
     ∇
 
@@ -52,17 +52,17 @@
       :If 0=⎕NC'title' ⋄ title←'Section ',⍕1+⍴Titles ⋄ :EndIf
       Titles,←⊂title
       Sections,←⊂content
-      IsURL,←¯1
+      IsURL,←0
     ∇
 
-    ∇ r←Render;sections;urls;ids;i;t;section;u
+    ∇ r←Render;sections;n;ids;i;t;section;u
       :Access public
       SetId
       :If ~0∊⍴Titles
-          sections←(⊃⍴Titles)↑Sections
-          urls←IsURL{⍺=¯1:⍵ ⋄ ⍺}¨#.Files.LikelyURL¨sections ⍝ identify likely URLs
+          sections←(n←⊃⍴Titles)↑Sections
+          IsURL←n↑IsURL
           ids←('#',id,'_section_')∘,∘⍕¨⍳⍴Titles
-          :For i t section u :InEach ids Titles sections urls
+          :For i t section u :InEach ids Titles sections IsURL
               (Container.Add #._html.h3).Add #._html.a t('href=',u{~⍺:'"#"' ⋄ '"',⍵,'"'}section)
               i Container.Add #._html.div((~u)/section)
           :EndFor

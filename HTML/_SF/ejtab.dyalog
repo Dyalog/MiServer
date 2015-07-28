@@ -9,7 +9,7 @@
 ⍝ Public Fields::
 ⍝ Titles          - vector of char vectors containing titles to appear on tabbed sections
 ⍝ Sections        - vector of vectors containing HTML content for each section
-⍝ IsURL           - scalar or vector indicating if a section is a URL (¯1 means try to determine at render time)
+⍝ IsURL           - scalar or vector indicating if a section is a URL default is 0
 ⍝ Examples::
 ⍝ ejTab 'Title1' 'Title2'
 ⍝ ejTab ('Title1' 'Title2')('Section1' 'Section2')
@@ -45,7 +45,7 @@
       :Else
           (Titles Sections)←eis¨2↑args
       :EndIf
-      IsURL←(⊃⍴Titles)⍴¯1
+      IsURL←(⊃⍴Titles)⍴0
       InternalEvents←IntEvt
     ∇
 
@@ -54,24 +54,24 @@
       :If 0=⎕NC'title' ⋄ title←'Tab ',⍕1+⍴Titles ⋄ :EndIf
       Titles,←⊂title
       Sections,←⊂content
-      IsURL,←¯1
+      IsURL,←0
     ∇
 
-    ∇ r←Render;sections;urls;ids;i;section;isurl
+    ∇ r←Render;sections;n;IsURL;ids;i;section
       :Access public
       Content←''
       SetId
       :If ~0∊⍴Titles
-          sections←(⊃⍴Titles)↑Sections    ⍝ pad out or truncate
-          urls←IsURL{⍺=¯1:⍵ ⋄ ⍺}¨#.Files.LikelyURL¨sections ⍝ identify likely URLs
+          sections←(n←⊃⍴Titles)↑Sections    ⍝ pad out or truncate
+          IsURL←n↑IsURL
           ids←('#',id,'_section_')∘,∘⍕¨⍳⍴Titles
-          (urls/ids)←urls/Sections
+          (IsURL/ids)←IsURL/Sections
           (Container.Add _html.ul).Add¨Titles{⎕NEW #._html.li(⎕NEW #._html.a(⍺('href="',⍵,'"')))}¨ids
      
-          :For i section :InEach ((~urls)∘/¨ids sections)
+          :For i section :InEach ((~IsURL)∘/¨ids sections)
               Container.Add(i New #._html.div section)
           :EndFor
-          :If ∨/urls
+          :If ∨/IsURL
               'dataType' 'contentType' 'async'Set¨'html' 'html'#.JSON.true
           :EndIf
       :EndIf
