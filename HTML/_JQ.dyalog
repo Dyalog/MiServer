@@ -143,6 +143,7 @@
               Container.Tag←ContainerType
               html←Container.Render
           :EndIf
+          Selector←(~build)/Selector
           r←html,js
         ∇
 
