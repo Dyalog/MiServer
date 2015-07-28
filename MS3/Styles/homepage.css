@@ -1,0 +1,30 @@
+﻿#contentblock{
+margin:0;
+padding:0;
+}
+
+#mainSP {
+width: 100%;
+background-color: #EAE;
+}
+
+#leftBar, #rightBar {
+background-color: #B9B;
+height: 100%;
+width: 100%;
+}
+
+.vspace {
+        padding-bottom: 10px;
+}
+
+.linkbutton {
+	background-color: blue;
+	padding: 3px;
+}
+
+/* SyncFusion Treeview */
+.e-treeview .e-text {
+	font-size: 12px;
+	color: black;
+}
