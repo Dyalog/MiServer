@@ -63,7 +63,7 @@
       SetId
       :If ~0∊⍴Titles
           sections←(⊃⍴Titles)↑Sections    ⍝ pad out or truncate
-          urls←(IsURL≠0)∧#.Files.LikelyURL¨sections ⍝ identify likely URLs
+          urls←IsURL{⍺=¯1:⍵ ⋄ ⍺}¨#.Files.LikelyURL¨sections ⍝ identify likely URLs
           ids←('#',id,'_section_')∘,∘⍕¨⍳⍴Titles
           (urls/ids)←urls/Sections
           (Container.Add _html.ul).Add¨Titles{⎕NEW #._html.li(⎕NEW #._html.a(⍺('href="',⍵,'"')))}¨ids
