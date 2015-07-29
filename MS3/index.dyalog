@@ -94,7 +94,6 @@
       text←{New _.p ⍵}¨('<pre>:Class ',node,' ...</pre>')'&lt;body&gt;'
       text←'Tab1' 'Tab2'
       tab←New _SF.ejTab(('Source' 'HTML')text)
-      tab.IsURL←0 0
       sp←New horz tab(div'divRendered')
       r←'#divSampleTab'Replace sp
     ∇

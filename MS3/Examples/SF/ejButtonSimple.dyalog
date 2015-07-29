@@ -18,7 +18,8 @@
     ∇
 
     ∇ r←myCallback
-      :Access public
+      :Access public 
+      ∘∘∘∘
      ⍝ This callback simply flips b2's state when b1 is clicked
       :If 'b1'≡_what
           r←'enabled'b2.Update⊃_true _false~b2.GetOption'enabled'

@@ -9,7 +9,7 @@
 ⍝ Selected  - Boolean or integer array indicating pre-selected options(s)
 ⍝ Null      - first item to display (has no value) (default '[Select]')
 ⍝ Examples::
-⍝ Select (⊂'Choice 1' 'Choice 2' 'Choice 3')                       ⍝ needs to be enclosed if vector
+⍝ Select ('Choice 1' 'Choice 2' 'Choice 3')	
 ⍝ Select (3 2⍴'Choice 1' 'c1' 'Choice 2' 'c2' 'Choice 3' 'c3')
 ⍝ Select ((3 2⍴'Choice 1' 'c1' 'Choice 2' 'c2' 'Choice 3' 'c3') 2) ⍝ second item is selected
 ⍝ Select ((3 2⍴'Choice 1' 'c1' 'Choice 2' 'c2' 'Choice 3' 'c3') (0 1 0)) ⍝ second item is selected
