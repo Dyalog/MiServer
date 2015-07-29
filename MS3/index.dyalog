@@ -3,6 +3,8 @@
     ∇ Compose;left;mid;right;sp;vp
       :Access public
      
+      Use'ejTreeView' 'ejTab' ⍝ May get added by callbacks
+     
       div←{⍵ New _html.div}                                             ⍝ Make a div
       textspan←{'.textspan'New _html.span ⍵}                            ⍝ And a span
       horz←{⍺←⊣ ⋄ r⊣(r←⍺ New _.StackPanel ⍵).Horizontal←1}  ⍝ Horizontal StackPanel
@@ -29,11 +31,13 @@
         ⍝ Populate the Left Bar
      
       items←1 2 2 2,⍪'Apps' 'one' 'two' 'three'
+     
       :For (name ref) :In ('Base HTML'_html)('Wrapped HTML'_HTML)('Dyalog Controls'_DC)('JQueryUI'_JQ)('SyncFusion'_SF)
           names←{({#.HtmlElement=⊃⊃⌽⎕CLASS ⍵}¨⍵)/⍵}ref.(⍎¨⎕NL ¯9.4)
           class←2↓⍕ref
           items⍪←(1,(≢names)/2),⍪(⊂name),(3+⍴class)↓¨⍕¨names
       :EndFor
+     
       thediv.Add textspan'Samples'
       tv←thediv.Add _.ejTreeView(Samples←items)
       tv.style←'max-height: 300px'
@@ -81,13 +85,18 @@
       r←New _.A d link
     ∇
 
-    ∇ r←onSelectSample;node;section
+    ∇ r←onSelectSample;node;section;sp;tab;text
       :Access Public
         ⍝ When a sample is selected, call this
       node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
       section←⊃Samples[1+node-(⌽node↑Samples[;1])⍳1;2]
      
-      r←'#divSampleTab'Replace'Selected node: ',(⊃Samples[node;2]),' in section ',section
+      text←{New _.p ⍵}¨('<pre>:Class ',node,' ...</pre>')'&lt;body&gt;'
+      text←'Tab1' 'Tab2'
+      tab←New _SF.ejTab(('Source' 'HTML')text)
+      tab.IsURL←0 0
+      sp←New horz tab(div'divRendered')
+      r←'#divSampleTab'Replace sp
     ∇
 
 :EndClass
