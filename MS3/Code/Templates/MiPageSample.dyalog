@@ -31,7 +31,7 @@
       :If ~0∊⍴controls
           c←Body.Content
           Body.Content←''
-          (sp←Body.Add StackPanel(⊂FormatControls controls)c'<pre> </pre>').Horizontal←1
+          (sp←Body.Add StackPanel(⊂FormatControls controls)c).Horizontal←1
      
       :EndIf
      

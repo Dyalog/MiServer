@@ -40,17 +40,18 @@
       :Implements constructor
       setup
       (Label LabelPos Checked)←args defaultArgs Label LabelPos Checked
-      :If Checked∊0 1
-          'checked'Set(Checked+1)⊃_false _true
-      :EndIf
     ∇
 
     ∇ r←Render
       :Access public
       SetId
+     
       :If Checked=¯1
           'checkState' 'enableTriState'Set'Indeterminate'_true
+      :ElseIf Checked∊0 1
+          'checked'Set(Checked+1)⊃_false _true
       :EndIf
+     
       r←⎕BASE.Render
       :If Label≢''
           r←r((LabelPos≡'right'){⍺⍺:⍺,⍵ ⋄ ⍵,⍺})(⎕NEW #._html.label(Label('for'id))).Render
