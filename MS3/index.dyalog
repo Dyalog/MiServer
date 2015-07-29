@@ -1,4 +1,4 @@
-﻿:Class index : MiPageTemplate
+﻿:Class index : MiPageSample
 
     ∇ Compose;left;mid;right;sp;vp
       :Access public
@@ -28,7 +28,7 @@
 
 
     ∇ PopulateLeft thediv;class;items;name;names;ref;tv;vp
-        ⍝ Populate the Left Bar
+     ⍝ Populate the Left Bar
      
       items←1 2 2 2,⍪'Apps' 'one' 'two' 'three'
      
@@ -45,7 +45,7 @@
     ∇
 
     ∇ PopulateRight thediv;pages;ul
-        ⍝ Populate the Right Bar
+     ⍝ Populate the Right Bar
      
       thediv.Add textspan'Documentation'
       pages←1 2⍴'SyncFusion APIs' 'http://helpjs.syncfusion.com/js/api/ejaccordion'
@@ -87,7 +87,7 @@
 
     ∇ r←onSelectSample;node;section;sp;tab;text
       :Access Public
-        ⍝ When a sample is selected, call this
+     ⍝ When a sample is selected, call this
       node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
       section←⊃Samples[1+node-(⌽node↑Samples[;1])⍳1;2]
      
