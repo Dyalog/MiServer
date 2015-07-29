@@ -1,24 +1,24 @@
-﻿:Class index : MiPageSample
+﻿:Class index : MiPageTemplate
 
     ∇ Compose;left;mid;right;sp;vp
       :Access public
      
-      Use'ejTreeView' 'ejTab' ⍝ May get added by callbacks
+      Use'ejTab' ⍝ May get added by callbacks
      
-      div←{⍵ New _html.div}                                             ⍝ Make a div
-      textspan←{'.textspan'New _html.span ⍵}                            ⍝ And a span
+      newdiv←{⍵ New _.div}                                  ⍝ Make a div
+      textspan←{'.textspan'New _.span ⍵}                    ⍝ And a span
       horz←{⍺←⊣ ⋄ r⊣(r←⍺ New _.StackPanel ⍵).Horizontal←1}  ⍝ Horizontal StackPanel
      
       Add _.StyleSheet'/Styles/homepage.css'
      
-      (left mid right)←div¨'leftBar' 'midBar' 'rightBar'
+      (left mid right)←newdiv¨'leftBar' 'midBar' 'rightBar'
      
       sp←'mainSP'horz left mid right
       sp.Items[1 3].style←⊂'width: 150px; max-height: 300px;'
       sp.Items[2].style←⊂'margin: 5px;'
-      sp.style←'height: 250px;'
+      sp.style←'height: 250px; width: 100%;'
      
-      vp←Add _.StackPanel sp(div'divSampleTab')
+      vp←Add _.StackPanel sp(newdiv'divSampleTab')
       vp.style←'width:100%'
      
       PopulateLeft left
@@ -30,16 +30,16 @@
     ∇ PopulateLeft thediv;class;items;name;names;ref;tv;vp
      ⍝ Populate the Left Bar
      
-      items←1 2 2 2,⍪'Apps' 'one' 'two' 'three'
+      items←1 2 2 2,(⍪'Apps' 'one' 'two' 'three'),⊂'Apps'
      
       :For (name ref) :In ('Base HTML'_html)('Wrapped HTML'_HTML)('Dyalog Controls'_DC)('JQueryUI'_JQ)('SyncFusion'_SF)
           names←{({#.HtmlElement=⊃⊃⌽⎕CLASS ⍵}¨⍵)/⍵}ref.(⍎¨⎕NL ¯9.4)
           class←2↓⍕ref
-          items⍪←(1,(≢names)/2),⍪(⊂name),(3+⍴class)↓¨⍕¨names
+          items⍪←(1,(≢names)/2),(⍪(⊂name),(3+⍴class)↓¨⍕¨names),⊂class
       :EndFor
      
       thediv.Add textspan'Samples'
-      tv←thediv.Add _.ejTreeView(Samples←items)
+      tv←thediv.Add _.ejTreeView(0 ¯1↓Samples←items)
       tv.style←'max-height: 300px'
       tv.On'nodeSelect' 'onSelectSample'('node' 'eval' 'argument.id')
     ∇
@@ -78,23 +78,27 @@
 
     ∇ r←LinkButton(label image link);a;d;size
      
-      d←'.linkbutton'New _.div
+      d←newdiv'.linkbutton'
       size←'height: 32px; width: 32px;'
       'src' 'style'(d.Add _.img).Set image size
       d.Add textspan label
       r←New _.A d link
     ∇
 
-    ∇ r←onSelectSample;node;section;sp;tab;text
+
+    ∇ r←onSelectSample;content;control;folder;node;samples;section;sp;space;t;tab;text;titles
       :Access Public
      ⍝ When a sample is selected, call this
       node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
       section←⊃Samples[1+node-(⌽node↑Samples[;1])⍳1;2]
-     
-      text←{New _.p ⍵}¨('<pre>:Class ',node,' ...</pre>')'&lt;body&gt;'
-      text←'Tab1' 'Tab2'
-      tab←New _SF.ejTab(('Source' 'HTML')text)
-      sp←New horz tab(div'divRendered')
+      (control space)←Samples[node;2 3]
+      space,←(space≡'_HTML')/'plus' ⍝ _HTML is in the HTMLplus folder
+      folder←#.Boot.AppRoot,'Examples/',(1↓space),'/'
+      samples←{0::⍬ ⋄ 6⊃#.Files.DirX ⍵}folder,control,'*.dyalog'
+      content←{0::'[file read failed]' ⋄ New _.pre((⎕UCS 10)~⍨#.UnicodeFile.ReadText folder,⍵)}¨samples
+      titles←(⍴control)↓¨¯7↓¨samples
+      tab←New _.ejTab(titles content)
+      sp←New horz tab(newdiv'divRendered')
       r←'#divSampleTab'Replace sp
     ∇
 
