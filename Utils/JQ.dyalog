@@ -80,6 +80,7 @@
       data←'_event: event.type, _what: '
       data,←'(("undefined" == typeof($(event.currentTarget).attr("name")) ? $(event.currentTarget).attr("id") : $(event.currentTarget).attr("name")))'
       data,←', _value: $(event.currentTarget).val()'
+      data,←', _selector: "',selector,'"'
       clientdata←eis clientdata ⍝ :If 2=|≡clientdata ⋄ clientdata←,⊂clientdata ⋄ :EndIf
       :If 0∊⍴clientdata
       :OrIf (1=⍴clientdata)∧'_callback'≡⊃⊃clientdata

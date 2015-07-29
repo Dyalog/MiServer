@@ -199,6 +199,7 @@
           data,←', _event: ',evt,'.type'
           data,←', _what: ',this,'.id'
           data,←', _value: ',this,'.value'
+          data,←', _selector: "',Selector,'"'
           data,←(isString callback)/', _callback: ',quote callback
           data←2↓data
          

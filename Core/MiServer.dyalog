@@ -590,6 +590,7 @@
                       REQ.Response.HTML←('.'⎕R'&'⍠'NEOL' 1⍠'EOL' 'LF')((⎕XML⍠'Whitespace' 'Preserve')⍣2)REQ.Response.HTML
                   :Else
                       ⎕←'*** ⎕XML failed'
+                      ⎕←⎕DMX.Message
                   :EndTrap
               :EndIf
           :EndIf
@@ -651,7 +652,7 @@
     ∇ ConnectionMonitor server
     ⍝ Because AJAX calls don't send a "BlockLast" packet, we need to clean up connection namespaces that didn't get erased
       :While 1
-          ⎕DL 5
+          ⎕DL 30
           {}Common.{⎕EX(⎕NL ¯9)~'C',¨#.DRC.Names ⍵}server
       :EndWhile
     ∇
