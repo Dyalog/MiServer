@@ -123,11 +123,26 @@
 
     dtlb←{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}
 
-    ∇ r←ScriptFollows
-      :Access public
-     ⍝ treat following commented lines in caller as a script, lines beginning with ⍝⍝ are stripped out
-      r←{⎕ML←1 ⋄ ∊{'⍝'=⊃⍵:'' ⋄ ' ',dtlb ⍵}¨1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓⎕NR 2⊃⎕SI
+⍝    ∇ r←ScriptFollows
+⍝      :Access public
+⍝     ⍝ treat following commented lines in caller as a script, lines beginning with ⍝⍝ are stripped out
+⍝      r←{⎕ML←1 ⋄ ∊{'⍝'=⊃⍵:'' ⋄ ' ',dtlb ⍵}¨1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓⎕NR 2⊃⎕SI
+⍝    ∇
+
+    ∇ r←isTrue a
+      :Access public shared
+      →0⍴⍨r←(,1)≡,a
+      →0⍴⍨r←#.JSON.true≡a
+      →0⍴⍨r←'true'≡a
     ∇
+
+    ∇ r←isFalse a
+      :Access public shared
+      →0⍴⍨r←(,0)≡,a
+      →0⍴⍨r←#.JSON.false≡a
+      →0⍴⍨r←'false'≡a
+    ∇
+
     ∇ r←Style style
       :Access public
       r←{(⎕NEW #._html.link).Set(('href'⍵)('rel' 'stylesheet')('type' 'text/css'))}style
