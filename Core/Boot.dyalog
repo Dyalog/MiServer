@@ -434,7 +434,7 @@
           ⎕←'*** MiServer Debug ***'
           ⎕←↑⎕DMX.DM
           ⎕←''
-          ⎕←'      ⎕SIGNAL 800 ⍝ to ignore and carry on'
+          ⎕←'      ⎕SIGNAL 800 ⍝ to ignore this error and carry on'
           ⎕←'      or Press Ctrl-Enter to invoke debugger'
       :Else
           :Select ⎕DMX.EN
@@ -462,7 +462,7 @@
               ⎕←'' 'occurred at:',⍪dmx.(EM(2⊃DM))
               ⎕←'' 'SI Stack is ',(⍕¯1+⍴⎕XSI),' levels deep'
               ⎕←''
-              ⎕←'      ⎕SIGNAL 800 ⍝ to ignore and carry on'
+              ⎕←'      ⎕SIGNAL 800 ⍝ to ignore this error and carry on'
               ⎕←'      ⎕SIGNAL 801 ⍝ to cut back and debug'
               r←''
           :EndSelect

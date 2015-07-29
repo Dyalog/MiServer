@@ -536,8 +536,10 @@
                   inst._what←REQ.GetData'_what'
                   inst._event←REQ.GetData'_event'
                   inst._value←REQ.GetData'_value'
-                  :If ~0∊⍴t←REQ.GetData'_callback' ⍝ does the request specify a callback function
-                      fn←cb←t
+                  inst._selector←REQ.GetData'_selector'
+                  inst._callback←REQ.GetData'_callback'
+                  :If ~0∊⍴inst._callback ⍝ does the request specify a callback function
+                      fn←cb←inst._callback
                   :EndIf
               :EndIf
           :Else
@@ -598,7 +600,7 @@
       →0
      
      FAIL:
-      ⎕←'Carrying on...'
+      ⎕←'* Carrying on...'
       ⎕TRAP←0⍴⎕TRAP
       REQ.Fail 500 ⋄ →0
      

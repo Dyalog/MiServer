@@ -12,6 +12,8 @@
     :field Public _event        ⍝ set by APLJAX callback - event that was triggered
     :field Public _what         ⍝ set by APLJAX callback - name or id of the triggering element
     :field Public _value        ⍝ set by APLJAX callback - value of the triggering element
+    :field Public _selector     ⍝ set by APLJAX callback - CSS/jQuery selector for the element that triggered the event
+    :field Public _callback     ⍝ set by APLJAX callback - name of the callback function
     :field public _PageData
     :field public _AjaxResponse←''
     :field public _DebugCallbacks←0
@@ -148,6 +150,19 @@
     ∇ _resetAjax
       :Access public
       _AjaxResponse←''
+    ∇
+
+    ∇ r←_id
+      :Access public
+      ⍝ as there seems to be a problem with at least some Syncfusion widgets
+      ⍝ being able to provide the id (or name) of the triggering element, we try to obtain it from _what or _selector
+      r←''
+      :Trap 0
+          :If 0∊⍴r←_what
+          :AndIf '#'=⊃_selector
+              r←1↓_selector
+          :EndIf
+      :EndTrap
     ∇
 
     ∇ Respond arg
