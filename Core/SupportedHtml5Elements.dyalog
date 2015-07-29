@@ -18,10 +18,10 @@
       class←,⊂':Class ∆ : #.HtmlElement'
       doc←':field public shared readonly DocBase←''http://www.w3schools.com/tags/tag_∆.asp''' ':field public shared readonly DocDyalog←''/Documentation/DyalogAPIs/html5.html''' ':field public shared readonly APILevel←2'
      
-      make←'∇make' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base ''∆''' '∇'
-      make1←'∇make1 arg' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base ''∆'' arg' '∇'
-      make1a←'∇make1 arg' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base ''∆'' '''' arg' '∇'
-      make2←'∇make2 (content attr);a' ':Access Public' 'NoEndTag←⍺' 'a←(⊂''∆''),⊂⍣(isString a)⊢a←content attr' ':Implements Constructor :Base a' '∇'
+      make←'∇make' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base (,''∆'')' '∇'
+      make1←'∇make1 arg' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base (,''∆'') arg' '∇'
+      make1a←'∇make1 arg' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base (,''∆'') '''' arg' '∇'
+      make2←'∇make2 (content attr);a' ':Access Public' 'NoEndTag←⍺' 'a←(⊂,''∆''),⊂⍣(isString a)⊢a←content attr' ':Implements Constructor :Base a' '∇'
       endclass←,⊂':EndClass'
      
       #._html.(⎕EX ⎕NL ¯9.4)  ⍝ erase all classes
