@@ -57,7 +57,7 @@
       IsURL,←0
     ∇
 
-    ∇ r←Render;sections;n;IsURL;ids;i;section
+    ∇ r←Render;sections;n;ids;i;section
       :Access public
       Content←''
       SetId
