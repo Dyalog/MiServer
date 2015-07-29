@@ -1,11 +1,14 @@
 ﻿:class tableAdvanced: MiPageSample
-⍝ Control:: _html.table _html.tr _html.th _html.td _html.caption _html.tbody _html.thead _html.tfoot
+⍝ Control:: _html.tbody _html.tfoot
 ⍝ Description:: this is an example of use of caption which defines a table caption
 
     ∇ Compose
       :Access public
      
       mydata←?3 5⍴99
+     
+      Add _.h2'Interactive Table'
+      Add _.p'Click data or subtotals to recalculate.'
      
       mytable←Add _.table
      
@@ -23,30 +26,36 @@
      
      ⍝ Body
       mybody←'data'mytable.Add _.tbody
-      'XABCDE'(mybody.Add _.tr).Add¨_.td,¨(⊂'BB'),mydata[1;]
-      'YFGHIJ'(mybody.Add _.tr).Add¨_.td,¨(⊂'DB'),mydata[2;]
-      'ZKLMNO'(mybody.Add _.tr).Add¨_.td,¨(⊂'AB'),mydata[3;]
+      'VABCDE'(mybody.Add _.tr).Add¨_.td,¨(⊂'BB'),mydata[1;]
+      'WFGHIJ'(mybody.Add _.tr).Add¨_.td,¨(⊂'DB'),mydata[2;]
+      'XKLMNO'(mybody.Add _.tr).Add¨_.td,¨(⊂'AB'),mydata[3;]
       mybody.On'click'
      
      ⍝ Footer
       myfoot←'totals'mytable.Add _.tfoot
-      'STUVWXY'(myfoot.Add _.tr).Add¨_.td,¨(⊂'Total'),(+⌿mydata),(+/,mydata) ⍝ uneven rows allowed
+      mytotals←(myfoot.Add _.tr).Add¨7/_.td ⍝ uneven rows allowed
+      'YPQRSTU'mytotals.Add _.b,¨(⊂'Total'),(+⌿mydata),(+/,mydata)
       myfoot.On'click'
      
     ⍝ Caption always goes on top, even if added later
       mytable.Add _.caption'Sales'
     ∇
-   
+
     ∇ js←APLJax
       :Access public
       js←''
       :Select _what
       :Case 'data'
-          :For letter :In 15↑⎕A
-              js,←('#',letter)Replace?99
+          :For i :In ⍳15
+              js,←('#',i⊃⎕A)Replace(i⊃∊mydata)←?99
           :EndFor
       :Case 'totals'
-     
+          subtotals←5⍴0
+          :For i :In ⍳5
+              subtotals[i]←+/mydata[;i]
+              js,←('#',i⊃'PQRST')Replace i⊃subtotals
+          :EndFor
+          js,←('#U')Replace+/subtotals
       :EndSelect
     ∇
 :endclass

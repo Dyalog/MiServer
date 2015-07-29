@@ -1,16 +1,22 @@
 ﻿:class miscSimple: MiPageSample
-⍝ Control:: _html.abbr 
-⍝ Description:: display text when hovering over an area
-
-⍝ This is an example of using the HTML 'abbr' element.
+⍝ Control:: _html.dfn _html.dl _html.dt _html.dd
+⍝ Description:: various rarely used elements
 
     ∇ Compose
-      :Access public 
+      :Access public
      
-      myform←Add _.form
-      'title' '+/÷≢'myform.Add _.dfn'avg'
-      myform.Add¨'2 6 7'_.br'5'
+      'title' '+/÷≢'Add _.dfn'avg'
+      Add¨'2 6 7'_.br'5'
      
+     ⍝ Horizontal ruler
+      Add _.hr
+     
+     ⍝ Definitions
+      mydl←Add _.dl
+      mydl.Add _.dt'Coffee'
+      mydl.Add _.dd'Black hot drink'
+      mydl.Add _.dt'Milk'
+      mydl.Add _.dd'White cold drink'
      
      
     ∇
