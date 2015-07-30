@@ -64,8 +64,8 @@
           :EndIf
      
           'Pages'#.⎕NS'' ⍝ Container Space for loaded classes
-          #.Pages.(MiPage MildPage EAWC RESTful)←#.(MiPage MildPage EAWC RESTful)
-          BuildEAWC ⍝ build the Easy As ⎕WC namespace
+          #.Pages.(MiPage MildPage RESTful)←#.(MiPage MildPage RESTful)
+          ⍝ BuildEAWC ⍝ build the Easy As ⎕WC namespace
           :If #.Files.DirExists AppRoot,'/Code/Templates/'
               disperror ⎕SE.SALT.Load AppRoot,'Code/Templates/* -target=#.Pages'
           :EndIf
@@ -145,25 +145,24 @@
       {}try'#.DRC.Close ''.'''
     ∇
 
-    ∇ BuildEAWC;src;sources;fields;source;list;mask;refs;target
-     ⍝ Build the Easy As ⎕WC namespace from core classes and its own source
-     ⍝ Also build the #._ namespace with shortcuts
-      sources←#._html #._HTML #._SF #._JQ #._DC #._JS
-      fields←''
-      '_'#.⎕NS''
-      :For source :In sources
-          list←source.⎕NL ¯9.4
-          list←list/⍨'_'≠⊃¨list
-          :If ∨/mask←0≠refs←source{6::0 ⋄ (⍕⍺){('.'∊1↓s↓r)<⍺≡(s←⍴⍺)↑r←⍕⍵}t←⍺⍎⍵:t ⋄ 0}¨list
-              fields,←(mask/list){':field public shared ',⍺,'←',⍕⍵}¨mask/refs
-              #._⍎∊(mask/list){'⋄',⍺,'←',⍕⍵}¨mask/refs
-          :EndIf
-      :EndFor
-      target←#
-      :If 9=#.⎕NC'Pages' ⋄ target,←#.Pages ⋄ :EndIf
-      target{⍺.⎕FIX ⍵}¨⊂(⊂':Class EAWC : MiPage'),fields,⊂':EndClass'
-     
-    ∇
+⍝    ∇ BuildEAWC;src;sources;fields;source;list;mask;refs;target
+⍝     ⍝ Build the Easy As ⎕WC namespace from core classes and its own source
+⍝     ⍝ Also build the #._ namespace with shortcuts
+⍝      sources←#._html #._HTML #._SF #._JQ #._DC #._JS
+⍝      fields←''
+⍝      '_'#.⎕NS''
+⍝      :For source :In sources
+⍝          list←source.⎕NL ¯9.4
+⍝          list←list/⍨'_'≠⊃¨list
+⍝          :If ∨/mask←0≠refs←source{6::0 ⋄ (⍕⍺){('.'∊1↓s↓r)<⍺≡(s←⍴⍺)↑r←⍕⍵}t←⍺⍎⍵:t ⋄ 0}¨list
+⍝              fields,←(mask/list){':field public shared ',⍺,'←',⍕⍵}¨mask/refs
+⍝              #._⍎∊(mask/list){'⋄',⍺,'←',⍕⍵}¨mask/refs
+⍝          :EndIf
+⍝      :EndFor
+⍝      target←#
+⍝      :If 9=#.⎕NC'Pages' ⋄ target,←#.Pages ⋄ :EndIf
+⍝      target{⍺.⎕FIX ⍵}¨⊂(⊂':Class EAWC : MiPage'),fields,⊂':EndClass' 
+⍝    ∇
 
     :endsection
 

@@ -1,4 +1,4 @@
-﻿:Class TogglePopup : MiPageSample ⍝ EAWC : MiPage : HtmlPage
+﻿:Class TogglePopup : MiPageSample
     ∇ Compose
       :Access Public
       Add'Click '

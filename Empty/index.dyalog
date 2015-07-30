@@ -1,4 +1,4 @@
-﻿:Class index : EAWC
+﻿:Class index : MiPage
     ∇ Render;fn;data
       :Access public
       Add h2'MiPage Sample - Static Page'

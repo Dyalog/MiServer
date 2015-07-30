@@ -1,4 +1,4 @@
-﻿:Class TwoForms : EAWC
+﻿:Class TwoForms : MiPage
 
     ∇ Render
       :Access public 

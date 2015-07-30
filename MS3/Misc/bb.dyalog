@@ -3,7 +3,7 @@
     ∇ Compose
       :Access public
       cb←Add _.ejCheckBox
-      cb.Label←'Check It Out! '
+      cb.(Label Checked)←'Check It Out! ' 1
     ∇
 
 :EndClass

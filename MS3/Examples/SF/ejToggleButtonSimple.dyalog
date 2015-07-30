@@ -1,4 +1,4 @@
-﻿:Class ejToggleButtonSimple : MiPageSample ⍝ EAWC : MiPage : HtmlPage
+﻿:Class ejToggleButtonSimple : MiPageSample
 ⍝ Control:: _SF.ejToggleButton
 ⍝ Description:: explains all possible syntaxes
 

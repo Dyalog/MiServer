@@ -1,4 +1,4 @@
-﻿:Class ejWaitingPopupSimple : MiPageSample ⍝ EAWC : MiPage : HtmlPage
+﻿:Class ejWaitingPopupSimple : MiPageSample
 ⍝ Control:: _SF.ejWaitingPopup
 ⍝ Description:: interactive showcase for all basic option of toggleable pop-up
 

@@ -1,4 +1,4 @@
-﻿:Class ejWaitingPopupAdvanced : MiPageSample ⍝ EAWC : MiPage : HtmlPage
+﻿:Class ejWaitingPopupAdvanced : MiPageSample 
 ⍝ Control:: _SF.ejWaitingPopup
 ⍝ Description:: toggleable pop-up with arbitrary web content (does not display right)
 

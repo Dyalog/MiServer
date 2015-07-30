@@ -10,8 +10,8 @@
     'SyncFusion Control Samples (_SF)' f 'Examples/SF/Home'
     'JQueryUI Control Samples (_JQ)' f 'Examples/JQ/Home'
 
-    'EAWC without chaining'f'example'
-    'EAWC with chaining'f'example2'
+    'Without chaining'f'example'
+    'With chaining'f'example2'
     'Input Form with Syncfusion DatePicker'f'inputform'
     'Mortgage Calculation (callback demo)'f'mortgage'
     'Syncfusion Accordion'f'accordion'

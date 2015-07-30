@@ -1,4 +1,4 @@
-﻿:Class MiPageSample : #.EAWC
+﻿:Class MiPageSample : #.MiPage
 ⍝ This is a template that "wraps" the page content by
 ⍝ - adding a header and footer
 ⍝ - adding a handler that will toggle the display of the web page and its APL source code
