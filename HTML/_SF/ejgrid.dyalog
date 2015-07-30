@@ -55,7 +55,7 @@
               :If 0≠⍴CellFormats ⋄ coldefs,←CellFormats ⋄ colfields,←⊂'format' ⋄ :EndIf
               :If 0≠⍴CellAlign ⋄ coldefs,←CellAlign ⋄ colfields,←⊂'textAlign' ⋄ :EndIf
      
-              coldefs←colfields #.JSON.formatData coldefs
+              coldefs←colfields #.JSON.fromTable coldefs
               :If 0≠⍴CellFormats ⋄ :AndIf 0≠⍴i←(0=⊃∘⍴¨CellFormats)/⍳⍴CellFormats
                   coldefs[i].⎕EX⊂'format' ⍝ Remove empty formats
               :EndIf
@@ -66,7 +66,7 @@
      
           src←GenId
           'dataSource'Set'⍎',src
-          r←(⎕NEW #._HTML.Script('var ',src,' = ',#.JSON.fromAPL ColNames #.JSON.formatData Values)).Render
+          r←(⎕NEW #._HTML.Script('var ',src,' = ',#.JSON.fromAPL ColNames #.JSON.fromTable Values)).Render
       :EndIf
       r,←⎕BASE.Render
     ∇
@@ -86,7 +86,7 @@
               src←('⍎'=⊃src)↓src
               Items←(fields←Items[1;])⍪items
               r,←Selector Replace''
-              script←';',src,' = ',#.JSON.fromAPL fields #.JSON.formatData 1↓Items
+              script←';',src,' = ',#.JSON.fromAPL fields #.JSON.fromTable 1↓Items
               script,←';$("',Selector,'").',JQueryFn,'({dataSource:',src,'});'
               r,←Execute script
           :EndIf

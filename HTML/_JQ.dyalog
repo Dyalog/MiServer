@@ -84,6 +84,7 @@
         :field public eventHandlers←''
         :field public InternalEvents←'' ⍝ list of events the widget "knows" about
         :field public Force←¯1          ⍝ force event to be treated as internal event, ¯1=check InternalEvents, 1=yes, 0=no
+        :field _build←0
 
         handlerSyntax←'event,ui' 'event'  'ui' 'this.id'
 
@@ -107,9 +108,9 @@
           r←html←js←''
           Use
          
-          build←0∊⍴Selector ⍝ if the user explicitly specifies a selector, assume he's built the content himself
+          _build∨←0∊⍴Selector ⍝ if the user explicitly specifies a selector, assume he's built the content himself
          
-          :If build
+          :If _build
               Container.(id name type style class title)←Container.(id name type style class title){UNDEF≡⍵:⍺ ⋄ UNDEF≢⍺:⍺ ⋄ ⍵}¨⎕THIS.(id name type style class title)
               :If Container.id≡UNDEF
                   :If Container.name≢UNDEF
@@ -129,7 +130,7 @@
           js←#.JQ.JQueryfn JQueryFn Selector Options(JavaScript,handlers)Var
          
          
-          :If build≥0∊⍴Container.Content
+          :If _build≥0∊⍴Container.Content
               :Select ⊃Selector
               :Case '#' ⍝ id?
                   Container.id←1↓Selector
@@ -143,7 +144,6 @@
               Container.Tag←ContainerType
               html←Container.Render
           :EndIf
-          Selector←(~build)/Selector
           r←html,js
         ∇
 
@@ -197,8 +197,10 @@
          
           data←''
           data,←', _event: ',evt,'.type'
-          data,←', _what: ',this,'.id'
-          data,←', _value: ',this,'.value'
+⍝          data,←', _what: ',this,'.id'
+⍝          data,←', _value: ',this,'.value'
+          data,←', _what: this.element.attr("id")'
+          data,←', _value: this.element.attr("value")'
           data,←', _selector: "',Selector,'"'
           data,←(isString callback)/', _callback: ',quote callback
           data←2↓data

@@ -354,7 +354,7 @@
       r←(¯1↓r),']'
     ∇
 
-    ∇ r←a formatData w
+    ∇ r←a fromTable w
       :Access public shared
       r←a{0∊⍴z←⎕NS¨(⊃⍴⍵)⍴⊂'':z
           z⊣z(⍺{⍺.⍎'(',(⍕⍺⍺),')←⍵'})¨(↓⍣(2=⍬⍴⍴⍴⍵))⍵}w
