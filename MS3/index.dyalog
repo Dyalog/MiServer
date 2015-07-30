@@ -85,12 +85,13 @@
       ul.style←'font-size: 10px;'
     ∇
 
-    ∇ PopulateMid mid;btns;size
+    ∇ PopulateMid mid;btns;size;space
      
       mid.Add¨3⍴_.br
       btns←LinkButton'Download MiServer' '/styles/images/download-zone.png' '/download...'
       btns,←LinkButton'Read More' '/styles/images/support.png' '/readmore...'
-      mid.Add horz btns
+      (space←New _.div).style←'width:100px;'
+      mid.Add horz space,btns
     ∇
 
     ∇ r←LinkButton(label image link);a;d;size
