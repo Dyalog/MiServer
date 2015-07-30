@@ -1,6 +1,6 @@
 ﻿:class bdiSimple: MiPageSample
-⍝ Control:: _html.bdi 
-⍝ Description:: this is an example of use of bdi which tag isolates a part of text that might be formatted in a different direction from other text outside it
+⍝ Control:: _html.bdi _html.meta
+⍝ Description:: specify Unicode encoding and isolate text that might be formatted in a different direction from the surrounding text
 
     ∇ Compose
       :Access public 

@@ -1,5 +1,5 @@
-﻿:class meet_team_dyalogSimple: MiPage⍝Sample
-⍝ Control:: _html.meet_team_dyalog 
+﻿:class meet_team_dyalog: MiPage⍝Sample
+⍝ Control::
 ⍝ Description:: this is an example of use of the base tag (see baseSimple above) 
 
     ∇ Compose
