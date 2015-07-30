@@ -111,11 +111,10 @@
       (control space section)←3↑,Samples[1+node-(⌽node↑Samples[;1])⍳2 1;2 3]
       (depth sample)←Samples[node;1 2]
      
-      :If (depth=2)∧3 'Simple'≡Samples[(1↑⍴Samples)⌊node+1;1 3]
+      :If (depth=2)∧3 'Simple'≡Samples[(⊃⍴Samples)⌊node+1;1 2]
           (depth sample)←3 'Simple' ⍝ Clicked on control which has a Simple Sample
       :EndIf
       space,←(space≡'_HTML')/'plus' ⍝ _HTML is in the HTMLplus folder
-     
       :If (depth=2)∧section≢'Apps'  ⍝ Depth 2 outside Apps means no sample
           r←'#divSampleTab'Replace''
       :Else
