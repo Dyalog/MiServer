@@ -35,6 +35,7 @@
       :For (name ref) :In ('Base HTML'_html)('Wrapped HTML'_HTML)('Dyalog Controls'_DC)('JQueryUI'_JQ)('SyncFusion'_SF)
           names←{({#.HtmlElement=⊃⊃⌽⎕CLASS ⍵}¨⍵)/⍵}ref.(⍎¨⎕NL ¯9.4)
           class←2↓⍕ref
+     
           items⍪←(1,(≢names)/2),(⍪(⊂name),(3+⍴class)↓¨⍕¨names),⊂class
       :EndFor
      
@@ -86,7 +87,7 @@
     ∇
 
 
-    ∇ r←onSelectSample;content;control;folder;node;samples;section;sp;space;t;tab;text;titles
+    ∇ r←onSelectSample;content;control;folder;html;i;node;p;page;samples;section;simple;source;sp;space;t;tab;text;titles
       :Access Public
      ⍝ When a sample is selected, call this
       node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
@@ -94,12 +95,39 @@
       (control space)←Samples[node;2 3]
       space,←(space≡'_HTML')/'plus' ⍝ _HTML is in the HTMLplus folder
       folder←#.Boot.AppRoot,'Examples/',(1↓space),'/'
-      samples←{0::⍬ ⋄ 6⊃#.Files.DirX ⍵}folder,control,'*.dyalog'
-      content←{0::'[file read failed]' ⋄ New _.pre((⎕UCS 10)~⍨#.UnicodeFile.ReadText folder,⍵)}¨samples
-      titles←(⍴control)↓¨¯7↓¨samples
-      tab←New _.ejTab(titles content)
-      sp←New horz tab(newdiv'divRendered')
-      r←'#divSampleTab'Replace sp
+      :If 0=⍴samples←{0::⍬ ⋄ 6⊃#.Files.DirX ⍵}folder,control,'*.dyalog'
+          r←'#divSampleTab'Replace''
+      :Else
+          content←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText folder,⍵}¨samples
+          titles←(⍴control)↓¨¯7↓¨samples
+          :If simple←(⍴samples)≥i←titles⍳⊂'Simple'
+              source←i⊃content
+          :EndIf
+          content←{z⊣(z←New _.div(#.HTMLInput.APLToHTMLColour ⍵)).Set'id="codeblock"'}¨content
+        ⍝ content←{New _.pre(#.HTMLUtils.HtmlSafeText ⍵)}¨content ⍝ loses <br>s
+     
+          content←{New _.pre ⍵}¨content
+     
+          tab←New _.ejTab(titles content)
+     
+          :If simple
+              page←#.Pages.⎕FIX source
+     
+              p←⎕NEW page
+              p._Request←⎕NEW #.HTTPRequest('' '')
+              p._Request.Server←#.Boot.ms
+              p.Compose
+              html←6↓¯7↓p.RenderBody
+          :Else
+              html←'No simple sample available'
+          :EndIf
+     
+          sp←New horz tab(New _.div html)
+          r←'#divSampleTab'Replace sp
+      :EndIf
+      →0
+     
+     
     ∇
 
 :EndClass
