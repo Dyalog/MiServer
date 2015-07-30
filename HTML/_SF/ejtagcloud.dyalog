@@ -22,7 +22,7 @@
               :Case 2
                   n←⊃⍴⍉Data
               :EndSelect
-              d←⊃#.JSON.formatData/(n↑'text' 'frequency' 'url')d
+              d←⊃#.JSON.fromTable/(n↑'text' 'frequency' 'url')d
           :EndIf
           Options.dataSource←d
       :EndIf
