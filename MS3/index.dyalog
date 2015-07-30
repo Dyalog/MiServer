@@ -26,23 +26,39 @@
       PopulateRight right
     ∇
 
-
-    ∇ PopulateLeft thediv;class;items;name;names;ref;tv;vp
+    ∇ PopulateLeft thediv;class;depths;group;items;names;ref;samples;tv;vp
      ⍝ Populate the Left Bar
      
-      items←1 2 2 2,(⍪'Apps' 'one' 'two' 'three'),⊂'Apps'
+      names←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX #.Boot.AppRoot,⍵}'/Examples/Apps/*.dyalog'
+      items←(1,(⍴names)⍴2),(⍪(⊂'Apps'),names),⊂'Apps'
      
-      :For (name ref) :In ('Base HTML'_html)('Wrapped HTML'_HTML)('Dyalog Controls'_DC)('JQueryUI'_JQ)('SyncFusion'_SF)
+      :For (group ref) :In ('Base HTML'_html)('Wrapped HTML'_HTML)('Dyalog Controls'_DC)('JQueryUI'_JQ)('SyncFusion'_SF)
           names←{({#.HtmlElement=⊃⊃⌽⎕CLASS ⍵}¨⍵)/⍵}ref.(⍎¨⎕NL ¯9.4)
-          class←2↓⍕ref
-     
-          items⍪←(1,(≢names)/2),(⍪(⊂name),(3+⍴class)↓¨⍕¨names),⊂class
+          class←2↓⍕ref               ⍝ Remove leading #.
+          names←(3+⍴class)↓¨⍕¨names  ⍝
+          samples←class FindSamples names
+          names←(⊂group),⊃,/(⊂¨names),¨samples
+          depths←1,∊2,⍪(⍴¨samples)⍴¨3
+          items⍪←depths,(⍪names),(⊂class)
       :EndFor
      
       thediv.Add textspan'Samples'
       tv←thediv.Add _.ejTreeView(0 ¯1↓Samples←items)
       tv.style←'max-height: 300px'
       tv.On'nodeSelect' 'onSelectSample'('node' 'eval' 'argument.id')
+    ∇
+
+    ∇ r←space FindSamples names;folder;i;samples;suffix
+      space,←(space≡'_HTML')/'plus' ⍝ _HTML is in the HTMLplus folder
+      folder←#.Boot.AppRoot,'Examples/',(1↓space),'/'
+      samples←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX ⍵}folder,'*.dyalog'
+      r←(⍴names)⍴⊂''
+     
+      :For suffix :In 'Simple' 'Advanced'
+          i←(((-⍴suffix)↑¨samples)∊⊂suffix)/⍳⍴samples
+          i←{(⍵≤⍴names)/⍵}names⍳(-⍴suffix)↓¨samples[i]
+          r[i]←r[i],¨⊂⊂suffix
+      :EndFor
     ∇
 
     ∇ PopulateRight thediv;pages;ul
@@ -87,47 +103,31 @@
     ∇
 
 
-    ∇ r←onSelectSample;content;control;folder;html;i;node;p;page;samples;section;simple;source;sp;space;t;tab;text;titles
+    ∇ r←onSelectSample;code;control;depth;folder;html;i;iframe;node;p;page;sample;samples;section;simple;source;sp;space;t;tab;text;titles;url
       :Access Public
      ⍝ When a sample is selected, call this
       node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
-      section←⊃Samples[1+node-(⌽node↑Samples[;1])⍳1;2]
-      (control space)←Samples[node;2 3]
+     
+      (control space section)←3↑,Samples[1+node-(⌽node↑Samples[;1])⍳2 1;2 3]
+      (depth sample)←Samples[node;1 2]
+     
+      :If (depth=2)∧3 'Simple'≡Samples[(1↑⍴Samples)⌊node+1;1 3]
+          (depth sample)←3 'Simple' ⍝ Clicked on control which has a Simple Sample
+      :EndIf
       space,←(space≡'_HTML')/'plus' ⍝ _HTML is in the HTMLplus folder
-      folder←#.Boot.AppRoot,'Examples/',(1↓space),'/'
-      :If 0=⍴samples←{0::⍬ ⋄ 6⊃#.Files.DirX ⍵}folder,control,'*.dyalog'
+     
+      :If (depth=2)∧section≢'Apps'  ⍝ Depth 2 outside Apps means no sample
           r←'#divSampleTab'Replace''
       :Else
-          content←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText folder,⍵}¨samples
-          titles←(⍴control)↓¨¯7↓¨samples
-          :If simple←(⍴samples)≥i←titles⍳⊂'Simple'
-              source←i⊃content
-          :EndIf
-          content←{z⊣(z←New _.div(#.HTMLInput.APLToHTMLColour ⍵)).Set'id="codeblock"'}¨content
-        ⍝ content←{New _.pre(#.HTMLUtils.HtmlSafeText ⍵)}¨content ⍝ loses <br>s
-     
-          content←{New _.pre ⍵}¨content
-     
-          tab←New _.ejTab(titles content)
-     
-          :If simple
-              page←#.Pages.⎕FIX source
-     
-              p←⎕NEW page
-              p._Request←⎕NEW #.HTTPRequest('' '')
-              p._Request.Server←#.Boot.ms
-              p.Compose
-              html←6↓¯7↓p.RenderBody
-          :Else
-              html←'No simple sample available'
-          :EndIf
-     
-          sp←New horz tab(New _.div html)
+          folder←#.Boot.AppRoot
+          url←'Examples/',(1↓space),'/',control,sample,'.dyalog'
+          code←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText ⍵}folder,url
+          (code←New _.div(#.HTMLInput.APLToHTMLColour code)).Set'id="codeblock"'
+          iframe←'src' 'width'(New _.iframe).Set('/',url,'?NoWrapper=1')800
+          sp←New horz code iframe
           r←'#divSampleTab'Replace sp
       :EndIf
-      →0
-     
-     
     ∇
+
 
 :EndClass
