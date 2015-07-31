@@ -12,7 +12,9 @@
       blank←⊂width⍴''          ⍝ Empty cells of matching width
       all←,(size↑⎕A)∘.,⍕¨⍳size ⍝ All cell names
      
-      Add¨(_.title'TTT (Client)')(_.h2'Tic Tac Toe')
+      Add¨_html.h2 _html.title,¨⊂⊂'TTT (Client)'
+      Add¨_.hr _.br
+      Add _.h3'Tic Tac Toe'
       Add¨(_.h5'(Client Side Data)')_.br
      
       board←Add _.table                 ⍝ Framework for board

@@ -8,8 +8,8 @@
           idioms←⎕SE.SALT.Load'[ws]\MS3\Examples\Data\idioms -noname -nolink'
       :EndIf
      
-      Add _.h1'Search Idiom Database'
-      Add _.br
+      Add¨_html.h2 _html.title,¨⊂⊂'Idiom Database'
+      Add¨_.hr _.br
       ef←Add _.EditField'str'
       ef.On'change' ''('str' 'val')
       Add'      Press '

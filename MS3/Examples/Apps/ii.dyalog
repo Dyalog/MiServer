@@ -8,13 +8,11 @@
           idioms←⎕SE.SALT.Load'[ws]\MS3\Examples\Data\idioms -noname -nolink'
       :EndIf
      
-      Add _.h1'Search Idiom Database'
-      Add _.br
+      Add¨_html.h2 _html.title,¨⊂⊂'Instant Idiom Database'
+      Add¨_.hr _.br
+      Add'Start typing to filter: '
       ef←Add _.EditField'str'
       ef.On'keyup' ''('str' 'val')
-      Add'      Press '
-      Add _.Button'Enter'
-      Add'to search'
       Add _.br
       (Add _.div).id←'res'  ⍝ This is a container that will be filled with result
     ∇

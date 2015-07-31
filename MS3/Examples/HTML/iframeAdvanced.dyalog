@@ -1,5 +1,5 @@
-﻿:class iframeSimple: MiPageSample
-⍝ Control:: _html.iframe
+﻿:class iframeAdvanced : MiPageSample
+⍝ Control:: _html.header 
 ⍝ Description:: this is an embedded browser window 
  
     ∇ Compose;ifr
@@ -13,7 +13,7 @@
      
     ⍝ Then we add the iframe
       ifr←Add _.iframe
-      'src'ifr.Set'http://www.dyalog.com' ⍝ add the source
+      'src'ifr.Set'iframeAdvanced' ⍝ add the source
     ⍝ We can add an alternate phrase in case the browser does not support it:
       ifr.Add _.p'Well, it appears your browser won''t do this'
      
