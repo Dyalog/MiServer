@@ -18,7 +18,7 @@
       sp.Items[2].style←⊂'margin: 5px;'
       sp.style←'height: 250px; width: 100%;'
      
-      vp←Add _.StackPanel sp(newdiv'divSampleTab')
+      vp←Add _.StackPanel sp⍝(newdiv'divSampleTab')
       vp.style←'width:100%'
      
       PopulateLeft left
@@ -91,7 +91,7 @@
       btns←LinkButton'Download MiServer' '/styles/images/download-zone.png' '/download...'
       btns,←LinkButton'Read More' '/styles/images/support.png' '/readmore...'
       (space←New _.div).style←'width:100px;'
-      mid.Add horz space,btns
+      ('divSampleTab'mid.Add _.div).Add horz space,btns
     ∇
 
     ∇ r←LinkButton(label image link);a;d;size
