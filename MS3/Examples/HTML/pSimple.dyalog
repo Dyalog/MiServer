@@ -1,4 +1,4 @@
-﻿:class pSimple: MiPage⍝Sample
+﻿:class pSimple: MiPageSample
 ⍝ Control:: _html.p 
 ⍝ Description:: this is an example of use of paragraph
  

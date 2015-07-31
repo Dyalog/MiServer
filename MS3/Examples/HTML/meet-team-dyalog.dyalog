@@ -1,4 +1,4 @@
-﻿:class meet_team_dyalog: MiPage⍝Sample
+﻿:class meet_team_dyalog: MiPageSample
 ⍝ Control::
 ⍝ Description:: this is an example of use of the base tag (see baseSimple above) 
 

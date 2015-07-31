@@ -1,4 +1,4 @@
-﻿:class acronymSimple : MiPage
+﻿:class acronymSimple : MiPageSample
 ⍝ Control:: _html.acronym
 ⍝ Description:: display text when hovering over an area  
 

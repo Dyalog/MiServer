@@ -1,4 +1,4 @@
-﻿:class strongSimple: MiPage⍝Sample
+﻿:class strongSimple: MiPageSample
 ⍝ Control:: _html.strong 
 ⍝ Description:: strong (bold) text
 

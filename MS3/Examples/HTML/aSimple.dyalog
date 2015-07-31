@@ -1,4 +1,4 @@
-﻿:class aSimple : MiPage⍝Sample
+﻿:class aSimple : MiPageSample
 ⍝ Control:: _html.a  
 ⍝ Description:: this is an example of use of the anchor "a" tag
 

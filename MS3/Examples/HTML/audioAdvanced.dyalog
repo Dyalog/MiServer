@@ -15,10 +15,10 @@
      
       Add _.p'Which animal do you hear?'
       mylist←Add _.ul
-      mylist.Add _.li'Unicorn: You must have added a file to the Data folder. How does a unicorn sound?'
+      mylist.Add _.li'Unicorn: You must have added a file to the Data folder. (How does a unicorn sound?)'
       mylist.Add _.li'Horse: Your browser can play .ogg files, e.g. Chrome, Firefox, Opera.'
       mylist.Add _.li'Rooster: Your browser can play .wav files, but not .ogg files, e.g. Safari.'
       mylist.Add _.li'Duck: Your browser can only play .mp3 files, e.g. Internet Explorer.'
-      mylist.Add _.li'None: Your speakers may be off (that is, if you have any at all...)'
+      mylist.Add _.li'None: Your speakers may be off. (Do you have speakers?)'
     ∇
 :endclass

@@ -1,4 +1,4 @@
-﻿:class abbrSimple: MiPage
+﻿:class abbrSimple: MiPageSample
 ⍝ Control:: _html.abbr 
 ⍝ Description:: display text when hovering over an area
 

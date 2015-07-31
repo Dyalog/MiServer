@@ -1,4 +1,4 @@
-﻿:class iSimple: MiPage⍝Sample
+﻿:class iSimple: MiPageSample
 ⍝ Control:: _html.i 
 ⍝ Description:: italicize text 
 

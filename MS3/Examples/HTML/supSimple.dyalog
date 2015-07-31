@@ -1,4 +1,4 @@
-﻿:class supSimple: MiPage⍝Sample
+﻿:class supSimple: MiPageSample
 ⍝ Control:: _html.sup 
 ⍝ Description:: super-script text
  

@@ -1,4 +1,4 @@
-﻿:class subSimple: MiPage⍝Sample
+﻿:class subSimple: MiPageSample
 ⍝ Control:: _html.sub 
 ⍝ Description:: sub-script text
 

@@ -1,4 +1,4 @@
-﻿:class headerSimple: MiPage⍝Sample
+﻿:class headerSimple: MiPageSample
 ⍝ Control:: _html.header 
 ⍝ Description:: this is a type of title
  

@@ -1,4 +1,4 @@
-﻿:class qSimple: MiPage⍝Sample
+﻿:class qSimple: MiPageSample
 ⍝ Control:: _html.q 
 ⍝ Description:: this is an example of use of q 
 

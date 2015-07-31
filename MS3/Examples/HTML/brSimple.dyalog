@@ -1,4 +1,4 @@
-﻿:class brSimple: MiPage⍝Sample
+﻿:class brSimple: MiPageSample
 ⍝ Control:: _html.br 
 ⍝ Description:: this is an example of use of br which inserts a break (new line) between lines
 

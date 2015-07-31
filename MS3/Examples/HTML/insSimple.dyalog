@@ -1,4 +1,4 @@
-﻿:class insSimple: MiPage⍝Sample
+﻿:class insSimple: MiPageSample
 ⍝ Control:: _html.i 
 ⍝ Description:: insert (underlined) text 
 

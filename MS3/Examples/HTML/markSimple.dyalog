@@ -1,4 +1,4 @@
-﻿:class markSimple: MiPage⍝Sample
+﻿:class markSimple: MiPageSample
 ⍝ Control:: _html.i 
 ⍝ Description:: insert marked (highlighted) text 
 

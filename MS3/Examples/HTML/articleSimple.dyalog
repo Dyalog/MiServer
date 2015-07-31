@@ -1,4 +1,4 @@
-﻿:class articleSimple : MiPage⍝Sample
+﻿:class articleSimple : MiPageSample
 ⍝ Control:: _html.article
 ⍝ Description:: example of use of the article container
 

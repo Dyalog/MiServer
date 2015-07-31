@@ -1,4 +1,4 @@
-﻿:class Asample : MiPage   ⍝ MiPageSample ⍝ ← Switch to this base class to add wrapper
+﻿:class Asample : MiPageSample
     ∇ Compose
       :Access public 
       Add'Please '

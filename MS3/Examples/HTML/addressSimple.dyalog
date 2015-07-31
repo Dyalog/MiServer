@@ -1,4 +1,4 @@
-﻿:class addressSimple: MiPage⍝Sample
+﻿:class addressSimple: MiPageSample
 ⍝ Control:: _html.address 
 ⍝ Description:: makes text Italic on a separate line 
 

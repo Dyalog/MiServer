@@ -1,4 +1,4 @@
-﻿:class Audiosample : MiPage⍝Sample
+﻿:class Audiosample : MiPageSample
     ∇ Compose
       :Access public 
       Add'Wazzup '

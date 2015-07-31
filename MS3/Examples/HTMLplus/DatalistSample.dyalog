@@ -1,4 +1,4 @@
-﻿:class DatalistSample : MiPage⍝Sample
+﻿:class DatalistSample : MiPageSample
     ∇ Compose
       :Access public 
       Add'Here is a data list of options:'

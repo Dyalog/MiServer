@@ -1,4 +1,4 @@
-﻿:class bigSimple: MiPage⍝Sample
+﻿:class bigSimple: MiPageSample
 ⍝ Control:: _html.big 
 ⍝ Description:: defines bigger text
 

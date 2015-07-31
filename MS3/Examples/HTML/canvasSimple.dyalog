@@ -1,4 +1,4 @@
-﻿:class canvasSimple: MiPage⍝Sample
+﻿:class canvasSimple: MiPageSample
 ⍝ Control:: _html.canvas 
 ⍝ Description:: this is an example of use of canvas which is only a container for graphics (you must use a script to actually draw the graphics)
 

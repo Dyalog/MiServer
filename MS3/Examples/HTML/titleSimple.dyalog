@@ -1,4 +1,4 @@
-﻿:class titleSimple: MiPage⍝Sample
+﻿:class titleSimple: MiPageSample
 ⍝ Control:: _html.title
 ⍝ Description:: set the title of the browser 
  

@@ -1,4 +1,4 @@
-﻿:class ButtonSample : MiPage⍝Sample
+﻿:class ButtonSample : MiPageSample
     
     ∇ Compose
       :Access public 

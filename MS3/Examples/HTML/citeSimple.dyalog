@@ -1,4 +1,4 @@
-﻿:class citeSimple: MiPage⍝Sample
+﻿:class citeSimple: MiPageSample
 ⍝ Control:: _html.cite 
 ⍝ Description:: this is an example of use of cite which defines the title of a work 
 

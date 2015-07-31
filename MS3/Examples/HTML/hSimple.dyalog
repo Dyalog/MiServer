@@ -1,4 +1,4 @@
-﻿:class hSimple: MiPage⍝Sample
+﻿:class hSimple: MiPageSample
 ⍝ Control:: _html.h1 _html.h2 _html.h3 _html.h4 _html.h5 _html.h6  
 ⍝ Description:: examples of use of hX
  

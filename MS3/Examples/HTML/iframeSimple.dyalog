@@ -1,4 +1,4 @@
-﻿:class iframeSimple: MiPage⍝Sample
+﻿:class iframeSimple: MiPageSample
 ⍝ Control:: _html.header 
 ⍝ Description:: this is an embedded browser window 
  

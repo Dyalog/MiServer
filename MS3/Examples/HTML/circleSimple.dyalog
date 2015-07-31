@@ -1,4 +1,4 @@
-﻿:class circleSimple: MiPage⍝Sample 
+﻿:class circleSimple: MiPageSample 
 ⍝ Control:: _html.circle 
 ⍝ Description:: this is an example of use of circle which creates one
 

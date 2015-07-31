@@ -1,4 +1,4 @@
-﻿:class embedSimple: MiPage⍝Sample
+﻿:class embedSimple: MiPageSample
 ⍝ Control:: _html.embed 
 ⍝ Description:: defines a container for an external application or interactive content (a plug-in)
  

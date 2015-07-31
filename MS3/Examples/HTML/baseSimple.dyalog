@@ -1,4 +1,4 @@
-﻿:class baseSimple: MiPage⍝Sample
+﻿:class baseSimple: MiPageSample
 ⍝ Control:: _html.base 
 ⍝ Description:: resets the base URL for relative links
 

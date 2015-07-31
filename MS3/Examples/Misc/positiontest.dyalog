@@ -1,4 +1,4 @@
-﻿:Class positionTest : MiPage
+﻿:Class positionTest : MiPageSample
 
     ∇ Render;d1
       :Access Public 

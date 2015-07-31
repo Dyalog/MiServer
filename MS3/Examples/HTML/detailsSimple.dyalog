@@ -1,4 +1,4 @@
-﻿:class detailsSimple: MiPage⍝Sample
+﻿:class detailsSimple: MiPageSample
 ⍝ Control:: HTML.header 
 ⍝ Description:: this is an example of use of the details tag whoch specifies additional details that the user can view or hide on demand
  

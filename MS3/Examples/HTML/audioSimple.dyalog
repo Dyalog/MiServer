@@ -1,4 +1,4 @@
-﻿:class audioSimple: MiPage⍝Sample
+﻿:class audioSimple: MiPageSample
 ⍝ Control:: _html.audio 
 ⍝ Description:: this is an example of use of audio 
 

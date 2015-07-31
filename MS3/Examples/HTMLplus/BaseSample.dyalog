@@ -1,4 +1,4 @@
-﻿:class basesample : MiPage⍝Sample
+﻿:class basesample : MiPageSample
     ∇ Compose
       :Access public 
       Add 'Click this link to vainly attempt to go the the indicated page: '

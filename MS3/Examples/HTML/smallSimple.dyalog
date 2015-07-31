@@ -1,4 +1,4 @@
-﻿:class smallSimple: MiPage⍝Sample
+﻿:class smallSimple: MiPageSample
 ⍝ Control:: _html.small 
 ⍝ Description:: defines smaller text
 

@@ -1,4 +1,4 @@
-﻿:Class ejCheckBoxTest : MiPage
+﻿:Class ejCheckBoxTest : MiPageSample
 
 ⍝ This example shows how to display a SyncFusion check box and button on a page.
 ⍝ There is no wrapper or banner or anything else and the button does not react when you click it.

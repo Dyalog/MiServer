@@ -1,4 +1,4 @@
-﻿:class footerSimple: MiPage⍝Sample
+﻿:class footerSimple: MiPageSample
 ⍝ Control:: _html.q 
 ⍝ Description:: this is an example of use of a footer 
 

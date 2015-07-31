@@ -1,4 +1,4 @@
-﻿:class sSimple: MiPage⍝Sample
+﻿:class sSimple: MiPageSample
 ⍝ Control:: _html.s 
 ⍝ Description::  strike-through text
 

@@ -1,4 +1,4 @@
-﻿:class Abbrsample : MiPage⍝Sample
+﻿:class Abbrsample : MiPageSample
     ∇ Compose
       :Access public 
       Add'Hover over '

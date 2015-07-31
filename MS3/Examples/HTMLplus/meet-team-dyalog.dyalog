@@ -1,4 +1,4 @@
-﻿:class meet_team_dyalog : MiPage⍝Sample
+﻿:class meet_team_dyalog : MiPageSample
     ∇ Compose
       :Access public 
       Add _.Base'http://www.dyalog.com/'

@@ -1,4 +1,4 @@
-﻿:class uSimple: MiPage⍝Sample
+﻿:class uSimple: MiPageSample
 ⍝ Control:: _html.u 
 ⍝ Description:: underlined text
 

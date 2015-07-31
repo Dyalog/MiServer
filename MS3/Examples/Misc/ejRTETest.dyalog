@@ -1,4 +1,4 @@
-﻿:Class ejRTETest : MiPage
+﻿:Class ejRTETest : MiPageSample
 
   ∇ Render;rte
     :Access Public

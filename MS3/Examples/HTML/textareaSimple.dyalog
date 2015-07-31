@@ -1,4 +1,4 @@
-﻿:class textareaSimple: MiPage⍝Sample
+﻿:class textareaSimple: MiPageSample
 ⍝ Control:: _html.textarea
 ⍝ Description:: confine text to an area of defined dimensions 
  

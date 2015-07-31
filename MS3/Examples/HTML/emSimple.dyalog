@@ -1,4 +1,4 @@
-﻿:class emSimple: MiPage⍝Sample
+﻿:class emSimple: MiPageSample
 ⍝ Control:: _html.em 
 ⍝ Description:: Emphasize text 
 
