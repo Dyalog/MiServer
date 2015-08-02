@@ -1,11 +1,11 @@
-﻿:Class ejCheckboxSimple : MiPageSample
+﻿:Class ejCheckboxSimple : MiPage⍝Sample
 ⍝ Control:: _SF.ejCheckbox
 ⍝ Description:: single checkbox with callback that reads the current state
 
     ∇ Compose;cb1
       :Access Public
-    ⍝ We create a SyncFusion check box with caption 'Check Me!'
-      cb1←Add _.ejCheckBox'Check Me!'
+    ⍝ We create an unchecked SyncFusion check box with caption 'Check Me!'
+      cb1←Add _.ejCheckBox 0 'Check Me!'
      
     ⍝ We tell the server to call program 'myCallback' when it changes and to set the name
     ⍝ 'state' to TRUE if it (the "model") is checked (FALSE otherwise):
