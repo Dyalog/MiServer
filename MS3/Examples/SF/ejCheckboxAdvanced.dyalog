@@ -93,7 +93,7 @@
           :If ∨/b←i=1 6 11                                       ⍝ is it one of the left column?
               Values[row←i+0,⍳4]←new←1≠Values[i]                 ⍝ yes, what's its value?
               js←'enableTriState'(AllCB[i]).Update _false        ⍝ turn OFF triState for that box
-              js←⊃,/(⊂'checked')(AllCB[row]).Update new          ⍝ and set its checked state
+              js,←⊃,/(⊂'checked')(AllCB[row]).Update new          ⍝ and set its checked state
      
           :Else     ⍝ it's one of the non tri-state boxes
               Values[i]←~Values[i]
