@@ -1,5 +1,12 @@
 ﻿:Class index : MiPageSample
 
+    ∇ GROUPS←GROUPS
+      GROUPS←'Base HTML' 'Wrapped HTML' 'Dyalog Controls' 'JQueryUI' 'SyncFusion'
+    ∇
+
+    ∇ REFS←REFS
+      REFS←_html _HTML _DC _JQ _SF
+    ∇
       Section←{
           regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)'
           opts←('Mode' 'M')('DotAll' 1)
@@ -55,7 +62,8 @@
      
      ⍝ CONTROLS ⍝⍝⍝
       items←0 3⍴⍬
-      :For (group ref) :In ('Base HTML'_html)('Wrapped HTML'_HTML)('Dyalog Controls'_DC)('JQueryUI'_JQ)('SyncFusion'_SF)
+      ⍝:For (group ref) :In ('Base HTML'_html)('Wrapped HTML'_HTML)('Dyalog Controls'_DC)('JQueryUI'_JQ)('SyncFusion'_SF)
+      :For (group ref) :InEach GROUPS REFS
           names←{({#.HtmlElement=⊃⊃⌽⎕CLASS ⍵}¨⍵)/⍵}ref.(⍎¨⎕NL ¯9.4)
           class←2↓⍕ref               ⍝ Remove leading #.
           names←(3+⍴class)↓¨⍕¨names  ⍝
@@ -87,7 +95,7 @@
 
 ⍝    ∇ PopulateRight thediv;pages;ul
 ⍝     ⍝ Populate the Right Bar
-⍝     
+⍝
 ⍝      thediv.Add textspan'Documentation'
 ⍝      pages←1 2⍴'SyncFusion APIs' 'http://helpjs.syncfusion.com/js/api/ejaccordion'
 ⍝      pages⍪←'SyncFusion Demos' 'http://js.syncfusion.com/demos/web/'
@@ -96,9 +104,9 @@
 ⍝      pages[;2]←↓pages[;,2],⊂'target=_blank"'
 ⍝      ul←thediv.Add _.Ul pages
 ⍝      ul.style←'font-size: 10px;'
-⍝     
+⍝
 ⍝      thediv.Add _.br
-⍝     
+⍝
 ⍝      thediv.Add textspan'Resources'
 ⍝      pages←1 2⍴'MiServer Forum' 'http://www.dyalog.com/forum/viewforum.php?f=34'
 ⍝      pages⍪←'Blog' 'http://www.dyalog.com/blog/category/miserver/'
@@ -109,20 +117,24 @@
 ⍝      ul.style←'font-size: 10px;'
 ⍝    ∇
 
-    ∇ PopulateMid mid;btns;size;space;code;middiv;url
+    ∇ PopulateMid mid;url;code;frame;mya
      
-      middiv←'divSampleTab'mid.Add _.div
+      url←'/Examples/Apps/about.dyalog'
+      code←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText ⍵}#.Boot.AppRoot,url
+     
+      mya←('#SampleTitle'mid.Add _.h2).Add _.a('Title'Section code)
+      'target' 'href'mya.Set'_blank'url
+     
+      '#SampleDesc'mid.Add _.p('Description'Section code)
+     
+      frame←'#SampleFrame'mid.Add _.div
+      ('src=',url,'?NoWrapper=1')'width="800"' 'height="400"'frame.Add _.iframe
+     
+      '#SampleSource'mid.Add _.div(#.HTMLInput.APLToHTMLColour code)
+     
       :If 0 ⍝ If we can make a call upon page load and set node
           _PageData.node←1
           middiv.On'load' 'onSelectApp'
-      :Else
-          url←'/Examples/Apps/about.dyalog'
-          ('src=',url,'?NoWrapper=1')'width="800"' 'height="400"'middiv.Add _.iframe
-     
-          code←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText ⍵}#.Boot.AppRoot,url
-          middiv.Add _.h2('Title'Section code)
-          middiv.Add _.p('Description'Section code)
-          middiv.Add #.HTMLInput.APLToHTMLColour code
       :EndIf
     ∇
 
@@ -136,36 +148,39 @@
     ∇
 
 
-    ∇ r←onSelectSample;code;control;depth;folder;html;i;iframe;node;p;page;sample;samples;section;simple;source;sp;space;t;tab;text;titles;url;file
+    ∇ r←onSelectSample;code;control;depth;folder;html;i;iframe;node;p;page;sample;samples;section;simple;source;sp;space;t;tab;text;titles;url;file;link;title
       :Access Public
      ⍝ When a sample is selected, call this
       node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
      
-      (control space section)←3↑,Samples[1+node-(⌽node↑Samples[;1])⍳2 1;2 3]
       (depth sample)←Samples[node;1 2]
-     
+      (control space section)←3↑,Samples[1⌈1+node-(⌽node↑Samples[;1])⍳2 1;2 3]
+      :If depth=1 ⍝ Clicked on group
+          (sample control)←'index' ''
+      :EndIf
       :If (depth=2)∧3 'Simple'≡Samples[(⊃⍴Samples)⌊node+1;1 2]
           (depth sample)←3 'Simple' ⍝ Clicked on control which has a Simple Sample
       :EndIf
       space,←(space≡'_HTML')/'plus' ⍝ _HTML is in the HTMLplus folder
       :If depth=2  ⍝ Depth 2 means no sample
-          r←'#divSampleTab'Replace''
+          r←'#SampleFrame'Replace''
       :Else
           folder←#.Boot.AppRoot
           file←control,sample
           r←'#title'Replace'MS3: ',file
           url←'Examples/',(1↓space),'/',file,'.dyalog'
           code←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText ⍵}folder,url
-          r,←'#divSampleTab'Replace _.h2('Control'Section code)
-          r,←'#divSampleTab'Append _.p('Description'Section code)
-          code←New _.div(#.HTMLInput.APLToHTMLColour code)
+          title←'Control'Section code
+          link←'target' 'href'(New _.a title).Set'_blank'url
+          r,←'#SampleTitle'Replace link
+          r,←'#SampleDesc'Replace'Description'Section code
           iframe←'src' 'width' 'height'(New _.iframe).Set('/',url,'?NoWrapper=1')800 400
-          r,←'#divSampleTab'Append iframe
-          r,←'#divSampleTab'Append code
+          r,←'#SampleFrame'Replace iframe
+          r,←'#SampleSource'Replace #.HTMLInput.APLToHTMLColour code
       :EndIf
     ∇
 
-    ∇ r←onSelectApp;code;iframe;node;sp;url;app;title
+    ∇ r←onSelectApp;code;iframe;node;sp;url;app;title;link
       :Access Public
      ⍝ When an app is selected, call this
       node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
@@ -173,12 +188,13 @@
       url←'Examples/Apps/',app,'.dyalog'
       code←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText ⍵}#.Boot.AppRoot,url
       title←'Title'Section code
-      r←'#divSampleTab'Replace _.h2 title
-      r,←'#divSampleTab'Append _.p('Description'Section code)
+      r←'#title'Replace'MS3: ',title
+      link←'target' 'href'(New _.a title).Set'_blank'url
+      r,←'#SampleTitle'Replace link
+      r,←'#SampleDesc'Replace'Description'Section code
       iframe←'src' 'width' 'height'(New _.iframe).Set('/',url,'?NoWrapper=1')800 400
-      r,←'#title'Replace'MS3: ',title
-      r,←'#divSampleTab'Append iframe
-      r,←'#divSampleTab'Append #.HTMLInput.APLToHTMLColour code
+      r,←'#SampleFrame'Replace iframe
+      r,←'#SampleSource'Replace #.HTMLInput.APLToHTMLColour code
      
     ∇
 

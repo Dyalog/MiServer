@@ -1,5 +1,5 @@
 ﻿:class summarySimple: MiPageSample
-⍝ Control:: HTML.header 
+⍝ Control:: _html.summary
 ⍝ Description:: specifies a summary that the user can view or hide on demand
  
     ∇ Compose;det
