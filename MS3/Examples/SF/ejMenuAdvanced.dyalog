@@ -1,24 +1,28 @@
-﻿:Class ejMenuSimple : MiPageSample
+﻿:Class ejMenuAdvanced : MiPageSample
 ⍝ Control:: _SF.Menu
-⍝ Description:: build menu from "external" data (internal comments)
+⍝ Description:: build menu from "external" data (here internal comments)
+
+⍝ This example is a bit more elaborate than the simple example but it is in fact very simple.
+⍝ The number of menu items is larger but the idea is the same. And all the links yield to the
+⍝ same few places. 
 
     ∇ r←Compose
       :Access Public
       'width'(Add _SF.ejMenu fixExample).Set 632
     ∇
 
-    ∇ r3←fixExample;tmp;b;i
+    ∇ r3←fixExample;tmp;b;i;nr
       :Access public shared
       tmp←⎕XML∊r3←example
       tmp[;3]←1⌽tmp[;3]
       i←b/⍳⍴b←tmp[;2]∊⊂,'a'
       tmp[i-1;4]⍪←tmp[i;4]
-      tmp←(b⍱tmp[;2]∊⊂'ul')⌿tmp
+      nr←1↑⍴tmp←(b⍱tmp[;2]∊⊂'ul')⌿tmp
       tmp[;1]÷←2
-      r3←↓⍉tmp[;3 1],⊂''
+      r3←↓⍉tmp[;3 1],'' 'http://www.dyalog.com' 'http://www.aplsmith.com' ''[??nr⍴3]
     ∇
-
-
+   
+   ⍝ The example is taken from SyncFusion's site
     ∇ lines←example
       :Access shared
      L10:lines←1↓¨1↓L10↓⎕NR'example'
@@ -58,7 +62,14 @@
 ⍝    <li><a>Services</a>
 ⍝      <ul>
 ⍝        <li><a>Consulting</a></li>
-⍝        <li><a>Training</a></li>
+⍝        <li><a>Training</a>
+⍝           <ul>
+⍝              <li><a>APL</a></li>
+⍝              <li><a>C</a></li>
+⍝              <li><a>C++</a></li>
+⍝              <li><a>J</a></li>
+⍝           </ul>
+⍝        </li>
 ⍝      </ul>
 ⍝    </li>
 ⍝  </ul>
