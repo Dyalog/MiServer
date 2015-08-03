@@ -1,4 +1,5 @@
 ﻿:class About : MiPageSample
+⍝ Title:: About
 ⍝ Description:: using a function to automate repeated composition
 
     ∇ Compose
@@ -6,9 +7,8 @@
      
       link←{('target=_blank')('href="',(2⊃⍵),'"')((links[⍺]).Add _.p).Add _.a(⊃⍵)}
      
-      myp←Add _.p'MiServer is a free, open-source web server implemented in '
-      'href' 'http://www.dyalog.com'myp.Add _.a'Dyalog APL'
-      myp.Add'. It enables those knowledgable in APL to build sophisticated '
+      myp←Add _.p'MiServer is a free, open-source web server implemented in Dyalog APL. '
+      myp.Add'It enables those knowledgable in APL to build sophisticated '
       myp.Add'websites without any knowledge of HTML, JavaScript, JQuery, etc.'
      
       links←((Add _.table).Add _.tr).Add¨2/_.td
@@ -26,7 +26,7 @@
       2 link'MiServer Forum' 'http://www.dyalog.com/forum/viewforum.php?f=34'
       2 link'Blog' 'http://www.dyalog.com/blog/category/miserver/'
       2 link'GitHub Repo' 'https://github.com/Dyalog/MiServer'
-      2 link'dyalog.com' 'http://www.dyalog.com'
+      2 link'Dyalog APL' 'http://www.dyalog.com'
      
      
     ∇

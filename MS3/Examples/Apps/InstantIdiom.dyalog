@@ -1,4 +1,5 @@
 ﻿:class InstantIdiom :MiPageSample
+⍝ Title:: Idiom Search (Instant)
 ⍝ Description:: Search the FinnAPL and Dyalog idiom lists
 
     ∇ Compose;fm;bn

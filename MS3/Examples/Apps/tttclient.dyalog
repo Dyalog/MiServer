@@ -1,4 +1,5 @@
 ﻿:class TTTClient :MiPageSample
+⍝ Title:: TTT (Client)
 ⍝ Description:: Text-based Tic Tac Toe storing data client side
       
     ∇ Compose;board;row;bcap;rows;cell;cells;xo;reset;size;width
@@ -11,9 +12,6 @@
       xos←width↑¨xos           ⍝ Equalize lengths
       blank←⊂width⍴''          ⍝ Empty cells of matching width
       all←,(size↑⎕A)∘.,⍕¨⍳size ⍝ All cell names
-     
-      Add _.h3'Tic Tac Toe'
-      Add¨(_.h5'(Client Side Data)')_.br
      
       board←Add _.table                 ⍝ Framework for board
       bcap←board.Add _.caption          ⍝ Caption

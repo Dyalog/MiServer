@@ -1,4 +1,5 @@
 ﻿:class TTTServer :MiPageSample
+⍝ Title:: TTT (Server)
 ⍝ Description:: Text-based Tic Tac Toe storing data server side
 
     ∇ Compose;board;row;bcap;rows;cell;cells;xo;reset;size;width
@@ -13,9 +14,6 @@
       blank←⊂width↑''          ⍝ Empty cells of matching width
       sss←blank/⍨size*2        ⍝ Server Side State
       all←,(size↑⎕A)∘.,⍕¨⍳size ⍝ All cell names
-     
-      Add _.h3'Tic Tac Toe'
-      Add¨(_.h5'(Server Side Data)')_.br
      
       board←Add _.table                 ⍝ Framework for board
       bcap←board.Add _.caption          ⍝ Caption

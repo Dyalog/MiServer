@@ -85,48 +85,43 @@
       :EndFor
     ∇
 
-    ∇ PopulateRight thediv;pages;ul
-     ⍝ Populate the Right Bar
-     
-      thediv.Add textspan'Documentation'
-      pages←1 2⍴'SyncFusion APIs' 'http://helpjs.syncfusion.com/js/api/ejaccordion'
-      pages⍪←'SyncFusion Demos' 'http://js.syncfusion.com/demos/web/'
-      pages⍪←'JQueryUI' 'https://jqueryui.com/'
-      pages⍪←2 2⍴'HTML' 'http://www.w3schools.com/html/' 'CSS' 'http://www.w3schools.com/css/'
-      pages[;2]←↓pages[;,2],⊂'target=_blank"'
-      ul←thediv.Add _.Ul pages
-      ul.style←'font-size: 10px;'
-     
-      thediv.Add _.br
-     
-      thediv.Add textspan'Resources'
-      pages←1 2⍴'MiServer Forum' 'http://www.dyalog.com/forum/viewforum.php?f=34'
-      pages⍪←'Blog' 'http://www.dyalog.com/blog/category/miserver/'
-      pages⍪←'GitHub Repo' 'https://github.com/Dyalog/MiServer'
-      pages⍪←'dyalog.com' 'http://www.dyalog.com'
-      pages[;2]←↓pages[;,2],⊂'target=_blank"'
-      ul←thediv.Add _.Ul pages
-      ul.style←'font-size: 10px;'
-    ∇
+⍝    ∇ PopulateRight thediv;pages;ul
+⍝     ⍝ Populate the Right Bar
+⍝     
+⍝      thediv.Add textspan'Documentation'
+⍝      pages←1 2⍴'SyncFusion APIs' 'http://helpjs.syncfusion.com/js/api/ejaccordion'
+⍝      pages⍪←'SyncFusion Demos' 'http://js.syncfusion.com/demos/web/'
+⍝      pages⍪←'JQueryUI' 'https://jqueryui.com/'
+⍝      pages⍪←2 2⍴'HTML' 'http://www.w3schools.com/html/' 'CSS' 'http://www.w3schools.com/css/'
+⍝      pages[;2]←↓pages[;,2],⊂'target=_blank"'
+⍝      ul←thediv.Add _.Ul pages
+⍝      ul.style←'font-size: 10px;'
+⍝     
+⍝      thediv.Add _.br
+⍝     
+⍝      thediv.Add textspan'Resources'
+⍝      pages←1 2⍴'MiServer Forum' 'http://www.dyalog.com/forum/viewforum.php?f=34'
+⍝      pages⍪←'Blog' 'http://www.dyalog.com/blog/category/miserver/'
+⍝      pages⍪←'GitHub Repo' 'https://github.com/Dyalog/MiServer'
+⍝      pages⍪←'dyalog.com' 'http://www.dyalog.com'
+⍝      pages[;2]←↓pages[;,2],⊂'target=_blank"'
+⍝      ul←thediv.Add _.Ul pages
+⍝      ul.style←'font-size: 10px;'
+⍝    ∇
 
     ∇ PopulateMid mid;btns;size;space;code;middiv;url
-     
-⍝      btns←LinkButton'Download MiServer' '/styles/images/download-zone.png' '/download...'
-⍝      btns,←LinkButton'Read More' '/styles/images/support.png' '/readmore...'
-⍝      (space←New _.div).style←'width:100px;'
-⍝      ('divSampleTab'mid.Add _.div).Add¨(3⍴_.br),horz space,btns
      
       middiv←'divSampleTab'mid.Add _.div
       :If 0 ⍝ If we can make a call upon page load and set node
           _PageData.node←1
           middiv.On'load' 'onSelectApp'
       :Else
-          middiv.Add _.h2'About'
           url←'/Examples/Apps/about.dyalog'
-      ⍝('src=',url,'?NoWrapper=1')'width="600"' 'height="450"'middiv.Add _.iframe
           ('src=',url,'?NoWrapper=1')'width="800"' 'height="400"'middiv.Add _.iframe
      
           code←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText ⍵}#.Boot.AppRoot,url
+          middiv.Add _.h2('Title'Section code)
+          middiv.Add _.p('Description'Section code)
           middiv.Add #.HTMLInput.APLToHTMLColour code
       :EndIf
     ∇
@@ -162,24 +157,26 @@
           url←'Examples/',(1↓space),'/',file,'.dyalog'
           code←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText ⍵}folder,url
           r,←'#divSampleTab'Replace _.h2('Control'Section code)
-          r,←'#divSampleTab'Append _.big('Description'Section code)
-          code←New _.div(#.HTMLInput.APLToHTMLColour code)⍝).Set'id="codeblock"'
+          r,←'#divSampleTab'Append _.p('Description'Section code)
+          code←New _.div(#.HTMLInput.APLToHTMLColour code)
           iframe←'src' 'width' 'height'(New _.iframe).Set('/',url,'?NoWrapper=1')800 400
           r,←'#divSampleTab'Append iframe
           r,←'#divSampleTab'Append code
       :EndIf
     ∇
 
-    ∇ r←onSelectApp;code;iframe;node;sp;url;app
+    ∇ r←onSelectApp;code;iframe;node;sp;url;app;title
       :Access Public
      ⍝ When an app is selected, call this
       node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
       app←node⊃Apps
       url←'Examples/Apps/',app,'.dyalog'
       code←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText ⍵}#.Boot.AppRoot,url
+      title←'Title'Section code
+      r←'#divSampleTab'Replace _.h2 title
+      r,←'#divSampleTab'Append _.p('Description'Section code)
       iframe←'src' 'width' 'height'(New _.iframe).Set('/',url,'?NoWrapper=1')800 400
-      r←'#title'Replace'MS3: ',app
-      r,←'#divSampleTab'Replace _.h2 app
+      r,←'#title'Replace'MS3: ',title
       r,←'#divSampleTab'Append iframe
       r,←'#divSampleTab'Append #.HTMLInput.APLToHTMLColour code
      
