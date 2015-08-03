@@ -4,9 +4,9 @@
 
     ∇ Compose
       :Access public 
-      Add 'Format '
-      Add _.u 'under-lined'
-      Add ' text.'
+      Add'I must'
+      Add _.u'underscore'
+      Add' the importance of this.'
     ∇
 
 :endclass

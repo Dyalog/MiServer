@@ -1,4 +1,11 @@
-﻿:Class index : MiPageTemplate
+﻿:Class index : MiPageSample
+
+      Section←{
+          regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)'
+          opts←('Mode' 'M')('DotAll' 1)
+          res←(regex ⎕S'\1\2'⍠opts)⍵
+          (1↓⊃res)~'⍝'
+      }
 
     ∇ Compose;left;mid;right;sp;vp
       :Access public
@@ -9,29 +16,45 @@
       textspan←{'.textspan'New _.span ⍵}                    ⍝ And a span
       horz←{⍺←⊣ ⋄ r⊣(r←⍺ New _.StackPanel ⍵).Horizontal←1}  ⍝ Horizontal StackPanel
      
+      mytit←'#title'Add _.title'MS3: About'
+     
       Add _.StyleSheet'/Styles/homepage.css'
      
-      (left mid right)←newdiv¨'leftBar' 'midBar' 'rightBar'
+      ⍝(left mid right)←newdiv¨'leftBar' 'midBar' 'rightBar'
+      (left mid)←newdiv¨'leftBar' 'midBar'
      
-      sp←'mainSP'horz left mid right
-      sp.Items[1 3].style←⊂'width: 150px; max-height: 300px;'
+      sp←'mainSP'horz left mid⍝ right
+      sp.Items[1⊣3].style←⊂'width: 200px; max-height: 450px;'
       sp.Items[2].style←⊂'margin: 5px;'
-      sp.style←'height: 250px; width: 100%;'
+      sp.style←'height: 450px; width: 100%;'
      
-      vp←Add _.StackPanel sp(newdiv'divSampleTab')
+      vp←Add _.StackPanel sp
       vp.style←'width:100%'
      
       PopulateLeft left
       PopulateMid mid
-      PopulateRight right
+     ⍝ PopulateRight right
     ∇
 
     ∇ PopulateLeft thediv;class;depths;group;items;names;ref;samples;tv;vp
      ⍝ Populate the Left Bar
      
-      names←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX #.Boot.AppRoot,⍵}'/Examples/Apps/*.dyalog'
-      items←(1,(⍴names)⍴2),(⍪(⊂'Apps'),names),⊂'Apps'
+     ⍝ SEARCH FIELD ⍝⍝⍝
      
+      (thediv.Add _.EditField'str').On'onSearch' ''('str' 'val')
+      thediv.Add _.hr
+     
+     ⍝ SAMPLE APPS ⍝⍝⍝
+      Apps←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX #.Boot.AppRoot,⍵}'/Examples/Apps/*.dyalog'
+      thediv.Add textspan'Sample Apps'
+      tv←thediv.Add _.ejTreeView(1,[1.5]Apps)
+      tv.style←'max-height: 250px'
+      tv.On'nodeSelect' 'onSelectApp'('node' 'eval' 'argument.id')
+     
+      thediv.Add _.hr
+     
+     ⍝ CONTROLS ⍝⍝⍝
+      items←0 3⍴⍬
       :For (group ref) :In ('Base HTML'_html)('Wrapped HTML'_HTML)('Dyalog Controls'_DC)('JQueryUI'_JQ)('SyncFusion'_SF)
           names←{({#.HtmlElement=⊃⊃⌽⎕CLASS ⍵}¨⍵)/⍵}ref.(⍎¨⎕NL ¯9.4)
           class←2↓⍕ref               ⍝ Remove leading #.
@@ -41,11 +64,12 @@
           depths←1,∊2,⍪(⍴¨samples)⍴¨3
           items⍪←depths,(⍪names),(⊂class)
       :EndFor
-     
-      thediv.Add textspan'Samples'
+      thediv.Add textspan'Controls'
       tv←thediv.Add _.ejTreeView(0 ¯1↓Samples←items)
       tv.style←'max-height: 300px'
       tv.On'nodeSelect' 'onSelectSample'('node' 'eval' 'argument.id')
+     
+     
     ∇
 
     ∇ r←space FindSamples names;folder;i;samples;suffix
@@ -85,13 +109,26 @@
       ul.style←'font-size: 10px;'
     ∇
 
-    ∇ PopulateMid mid;btns;size;space
+    ∇ PopulateMid mid;btns;size;space;code;middiv;url
      
-      mid.Add¨3⍴_.br
-      btns←LinkButton'Download MiServer' '/styles/images/download-zone.png' '/download...'
-      btns,←LinkButton'Read More' '/styles/images/support.png' '/readmore...'
-      (space←New _.div).style←'width:100px;'
-      mid.Add horz space,btns
+⍝      btns←LinkButton'Download MiServer' '/styles/images/download-zone.png' '/download...'
+⍝      btns,←LinkButton'Read More' '/styles/images/support.png' '/readmore...'
+⍝      (space←New _.div).style←'width:100px;'
+⍝      ('divSampleTab'mid.Add _.div).Add¨(3⍴_.br),horz space,btns
+     
+      middiv←'divSampleTab'mid.Add _.div
+      :If 0 ⍝ If we can make a call upon page load and set node
+          _PageData.node←1
+          middiv.On'load' 'onSelectApp'
+      :Else
+          middiv.Add _.h2'About'
+          url←'/Examples/Apps/about.dyalog'
+      ⍝('src=',url,'?NoWrapper=1')'width="600"' 'height="450"'middiv.Add _.iframe
+          ('src=',url,'?NoWrapper=1')'width="800"' 'height="400"'middiv.Add _.iframe
+     
+          code←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText ⍵}#.Boot.AppRoot,url
+          middiv.Add #.HTMLInput.APLToHTMLColour code
+      :EndIf
     ∇
 
     ∇ r←LinkButton(label image link);a;d;size
@@ -104,7 +141,7 @@
     ∇
 
 
-    ∇ r←onSelectSample;code;control;depth;folder;html;i;iframe;node;p;page;sample;samples;section;simple;source;sp;space;t;tab;text;titles;url
+    ∇ r←onSelectSample;code;control;depth;folder;html;i;iframe;node;p;page;sample;samples;section;simple;source;sp;space;t;tab;text;titles;url;file
       :Access Public
      ⍝ When a sample is selected, call this
       node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
@@ -116,18 +153,40 @@
           (depth sample)←3 'Simple' ⍝ Clicked on control which has a Simple Sample
       :EndIf
       space,←(space≡'_HTML')/'plus' ⍝ _HTML is in the HTMLplus folder
-      :If (depth=2)∧section≢'Apps'  ⍝ Depth 2 outside Apps means no sample
+      :If depth=2  ⍝ Depth 2 means no sample
           r←'#divSampleTab'Replace''
       :Else
           folder←#.Boot.AppRoot
-          url←'Examples/',(1↓space),'/',control,sample,'.dyalog'
+          file←control,sample
+          r←'#title'Replace'MS3: ',file
+          url←'Examples/',(1↓space),'/',file,'.dyalog'
           code←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText ⍵}folder,url
-          (code←New _.div(#.HTMLInput.APLToHTMLColour code)).Set'id="codeblock"'
-          iframe←'src' 'width'(New _.iframe).Set('/',url,'?NoWrapper=1')800
-          sp←New horz code iframe
-          r←'#divSampleTab'Replace sp
+          r,←'#divSampleTab'Replace _.h2('Control'Section code)
+          r,←'#divSampleTab'Append _.big('Description'Section code)
+          code←New _.div(#.HTMLInput.APLToHTMLColour code)⍝).Set'id="codeblock"'
+          iframe←'src' 'width' 'height'(New _.iframe).Set('/',url,'?NoWrapper=1')800 400
+          r,←'#divSampleTab'Append iframe
+          r,←'#divSampleTab'Append code
       :EndIf
     ∇
 
+    ∇ r←onSelectApp;code;iframe;node;sp;url;app
+      :Access Public
+     ⍝ When an app is selected, call this
+      node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
+      app←node⊃Apps
+      url←'Examples/Apps/',app,'.dyalog'
+      code←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText ⍵}#.Boot.AppRoot,url
+      iframe←'src' 'width' 'height'(New _.iframe).Set('/',url,'?NoWrapper=1')800 400
+      r←'#title'Replace'MS3: ',app
+      r,←'#divSampleTab'Replace _.h2 app
+      r,←'#divSampleTab'Append iframe
+      r,←'#divSampleTab'Append #.HTMLInput.APLToHTMLColour code
+     
+    ∇
 
+    ∇ r←OnSearch
+      :Access Public
+      r←''
+    ∇
 :EndClass
