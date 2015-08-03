@@ -148,7 +148,7 @@
     ∇
 
 
-    ∇ r←onSelectSample;code;control;depth;folder;html;i;iframe;node;p;page;sample;samples;section;simple;source;sp;space;t;tab;text;titles;url;file;link;title
+    ∇ r←onSelectSample;code;control;depth;folder;html;i;iframe;node;p;page;sample;samples;section;simple;source;sp;space;t;tab;text;titles;url;file;link;title;spacedir;spctrl;files;dir;pathfile;ctrlsec;pagea
       :Access Public
      ⍝ When a sample is selected, call this
       node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
@@ -158,17 +158,61 @@
       :If depth=1 ⍝ Clicked on group
           (sample control)←'index' ''
       :EndIf
-      :If (depth=2)∧3 'Simple'≡Samples[(⊃⍴Samples)⌊node+1;1 2]
-          (depth sample)←3 'Simple' ⍝ Clicked on control which has a Simple Sample
+     
+     
+      :If 0
+     
+          examples←_Request.Server.Config.Root,'Examples/'
+          dirs←2↓#.Files.Dir examples,'*.' ⍝ Delete . and ..
+     
+          currtab←Add _.table
+     
+          files←#.Files.Dir examples,dir,'/*Simple.dyalog'
+          files,←#.Files.Dir examples,dir,'/*Advanced.dyalog'
+     
+          :For file :In files
+              currtr←currtab.Add _.tr
+              currtd←currtr.Add _.td
+              dirfile←dir,'/',file
+              pathfile←examples,dirfile
+              source←⎕SE.SALT.Load pathfile,' -source'
+              (control desc)←'Control' 'Description'Section¨⊂source
+              ('href'dirfile)currtd.Add _.a control
+              currtr.Add _.td,⊂('\R'⎕R'<br>'⍠'Mode' 'D')desc
+          :EndFor
+     
       :EndIf
-      space,←(space≡'_HTML')/'plus' ⍝ _HTML is in the HTMLplus folder
-      :If depth=2  ⍝ Depth 2 means no sample
-          r←'#SampleFrame'Replace''
-      :Else
+     
+      spacedir←1↓space,(space≡'_HTML')/'plus' ⍝ _HTML is in the HTMLplus folder
+     
+      :If depth=2  ⍝ Element
+          spctrl←space,'.',control
+          r←'#title'Replace'MS3: ',spctrl
+          r,←'#SampleTitle'Replace spctrl
+          r,←'#SampleDesc'Replace'The below samples demonstrate usage of ',spctrl,'. Click one to fetch.'
+     
+          dir←_Request.Server.Config.Root,'Examples/',spacedir
+          files←'*Simple.dyalog'#.Files.List dir
+          files⍪←'*Advanced.dyalog'#.Files.List dir
+          r,←'#SampleFrame'Replace''
+         ⍝ res←New _.frameset
+          :For file :In files[;1]
+              pathfile←dir,'/',file
+              source←⎕SE.SALT.Load pathfile,' -source'
+              ctrlsec←' ','Control'Section source
+              :If (⊂spctrl)∊1↓¨(' '∘=⊂⊢)ctrlsec ⍝ Split Space-delimited list
+                  pagea←New _.a,⊂'Description'Section source
+                  'href'pagea.Set'Examples/',spacedir,'/',file
+                  r,←'#SampleFrame'Append pagea
+              :EndIf
+          :EndFor
+          r,←'#SampleSource'Replace''
+     
+      :Else ⍝ depth=3 leaf, i.e. Actual Sample
           folder←#.Boot.AppRoot
           file←control,sample
           r←'#title'Replace'MS3: ',file
-          url←'Examples/',(1↓space),'/',file,'.dyalog'
+          url←'Examples/',spacedir,'/',file,'.dyalog'
           code←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText ⍵}folder,url
           title←'Control'Section code
           link←'target' 'href'(New _.a title).Set'_blank'url

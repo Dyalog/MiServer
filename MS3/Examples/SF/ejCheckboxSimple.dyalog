@@ -1,4 +1,4 @@
-﻿:Class ejCheckboxSimple : MiPageSample
+﻿:Class ejCheckBoxSimple : MiPageSample
 ⍝ Control:: _SF.ejCheckbox
 ⍝ Description:: single checkbox with callback that reads the current state
 

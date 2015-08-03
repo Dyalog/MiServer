@@ -1,5 +1,5 @@
-﻿:Class indexJQ : MiPageSample
-⍝ Control:: _JQ
+﻿:Class indexhtml : MiPageSample
+⍝ Control:: Samples Pages
 ⍝ Description:: Samples Pages
 
       Section←{
@@ -9,16 +9,15 @@
           (1↓⊃res)~'⍝'
       }
 
-    ∇ Compose;examples;dirs;descs;dir;currtab;currtr;currtd;pathfile;file;dirfile;gooddirs;desc;source;control;files
+    ∇ Compose;dir;examples;dirs;currtab;files;file;currtr;currtd;dirfile;pathfile;source;control;desc
       :Access public
      
-      dir←'JQ' ⍝ Does a page know its own address?
+      dir←_Request.Page     ⍝ This page
+      dir←dir↓⍨-(⌽dir)⍳'/'  ⍝ Chop file name
+      dir←dir↑⍨1-(⌽dir)⍳'/' ⍝ Chop parent path
      
       examples←_Request.Server.Config.Root,'Examples/'
       dirs←2↓#.Files.Dir examples,'*.' ⍝ Delete . and ..
-     
-      descs←'Mini Applications' 'Native HTML5' 'Dyalog Enhanced HTML5' 'jQuery Web Controls' 'SyncFusion Controls' 'Dyalog Controls' 'Other'
-      gooddirs←'Apps' 'HTML' 'HTMLplus' 'JQ' 'SF' 'DC'
      
       currtab←Add _.table
      

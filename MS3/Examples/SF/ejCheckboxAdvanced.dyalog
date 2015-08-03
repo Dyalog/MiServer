@@ -1,4 +1,4 @@
-﻿:Class ejCheckboxAdvanced : MiPageSample
+﻿:Class ejCheckBoxAdvanced : MiPageSample
 ⍝ Control:: _SF.ejCheckbox
 ⍝ Description:: multiple checkboxes with callback that reads the current state and modify others 
 
