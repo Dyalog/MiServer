@@ -5,7 +5,7 @@
     ∇ Compose
       :Access public
      
-      mysound←'autoplay='Add _.audio'Your browser does not support the audio tag.'
+      mysound←'autoplay=' 'loop=' 'controls='Add _.audio'Your browser does not support the audio tag.'
      
     ⍝ This is a list of alternative sounds in preferred order
       'src=../Data/unicorn.mp3'mysound.Add _.source ⍝ this file doesn't exist

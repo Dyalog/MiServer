@@ -1,4 +1,6 @@
 ﻿:Class StackPanelAdvanced : MiPageSample
+⍝ Control:: _DC.StackPanel
+⍝ Description:: nested StackPanels
 
     rect←{r⊣(r←New _.div).style←2↓∊'; height: ' 'px; width: ' 'px; background-color:',⍪⍕¨⍵}
     addstyle←{⍺.style,←'; ',⍵}
@@ -7,14 +9,13 @@
       :Access public
      
       intro←'Nested StackPanels combined with setting style for the individual items '
-      intro,←'provide a very flexible way to manage page layout.<br/><br/>'
-      intro,←'Below, a horizontal stackpanel with a light grey background contains three '
+      intro,←'provide a very flexible way to manage page layout.'
+      Add _.p intro
+      intro←'Below, a horizontal stackpanel with a light grey background contains three '
       intro,←'vertical stackpanels, each containing a varying number of divs which have been '
-      intro,←'styled to have slightly different sizes and colours.<br/><br/>'
-      intro,←'Some divs have p elements containing text, with different padding and margins defined.'
-     
-      Add _.title'_DC.StackPanel - Simple Example '
-      Add _.h2'_DC.StackPanel - Layout Management'
+      intro,←'styled to have slightly different sizes and colours.'
+      Add _.p intro
+      intro←'Some divs have p elements containing text, with different padding and margins defined.'
       Add _.p intro
      
       rects←rect¨(20 200 '#922')(30 250 '#944')(55 175 '#922')

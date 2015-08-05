@@ -1,5 +1,7 @@
 ﻿:Class StackPanelSimple : MiPageSample
-
+⍝ Control:: _DC.StackPanel
+⍝ Description:: layout vectors of content elements vertically or horizontally
+    
     ∇ Compose;content;hsp;tb;vsp
       :Access public
      
@@ -7,8 +9,6 @@
       intro,←'The constructor argument is simply a vector of content elements. The default '
       intro,←'orientation is Vertical: set the Horizontal property to 1 to get a horizontal panel.'
      
-      Add _.title'_DC.StackPanel - Simple Example '
-      Add _.h2'_DC.StackPanel - Layout Management'
       Add _.p intro
       Add _.p'The following stack panels contain a Select, some text, and a Button.'
      

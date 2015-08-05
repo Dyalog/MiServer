@@ -1,6 +1,6 @@
 ﻿:class addressSimple: MiPageSample
 ⍝ Control:: _html.address 
-⍝ Description:: makes text Italic on a separate line 
+⍝ Description:: add contact information 
 
     ∇ Compose
       :Access public 

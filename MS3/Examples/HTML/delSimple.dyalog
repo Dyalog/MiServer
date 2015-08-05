@@ -1,6 +1,6 @@
 ﻿:class delSimple: MiPageSample
 ⍝ Control:: _html.del
-⍝ Description:: this is an example of use of del which defines deleted text
+⍝ Description:: mark deleted text
 
     ∇ Compose
       :Access public 

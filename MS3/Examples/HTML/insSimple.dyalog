@@ -1,12 +1,12 @@
 ﻿:class insSimple: MiPageSample
-⍝ Control:: _html.i 
-⍝ Description:: insert (underlined) text 
+⍝ Control:: _html.ins 
+⍝ Description:: mark inserted text 
 
     ∇ Compose
       :Access public 
-      Add 'My favorite colour is '
-      Add _.del 'blue'
-      Add _.ins 'red!'
+      Add'This is '
+      Add _.ins'inserted'
+      Add' here!'
     ∇
 
 :endclass

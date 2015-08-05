@@ -4,9 +4,9 @@
 
     ∇ Compose
       :Access public 
-      Add 'Format '
-      Add _.em 'italic'
-      Add ' text.'
+      Add'Format '
+      Add _.em'emphatic'
+      Add' text.'
     ∇
 
 :endclass
