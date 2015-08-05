@@ -1,6 +1,6 @@
 ﻿:class markSimple: MiPageSample
-⍝ Control:: _html.i 
-⍝ Description:: insert marked (highlighted) text 
+⍝ Control:: _html.mark 
+⍝ Description:: insert mark (highlighted) text 
 
     ∇ Compose
       :Access public 

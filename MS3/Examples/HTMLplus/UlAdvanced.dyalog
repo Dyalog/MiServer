@@ -1,5 +1,7 @@
 ﻿:Class UlAdvanced : MiPageSample
-
+⍝ Control:: _HTML.Ul
+⍝ Description:: unordered list with links and callbacks on mouse movements
+    
     ∇ Compose;text;ul;urls;intro
       :Access Public
      
