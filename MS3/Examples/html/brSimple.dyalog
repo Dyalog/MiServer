@@ -1,12 +1,11 @@
 ﻿:class brSimple: MiPageSample
 ⍝ Control:: _html.br 
-⍝ Description:: this is an example of use of br which inserts a break (new line) between lines
-
+⍝ Description:: Insert a line break
     ∇ Compose
       :Access public 
-      Add 'Insert'
+      Add 'Insert '
       Add _.br
-      Add ' line-breaks.'
+      Add 'line-breaks.'
     ∇
 
 :endclass

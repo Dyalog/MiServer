@@ -1,6 +1,6 @@
 ﻿:class audioAdvanced: MiPageSample
 ⍝ Control:: _html.audio _html.source
-⍝ Description:: specify a list of alternate audio sources
+⍝ Description:: Specify a list of alternate audio sources
 
     ∇ Compose
       :Access public

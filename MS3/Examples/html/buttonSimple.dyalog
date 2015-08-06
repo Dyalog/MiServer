@@ -1,6 +1,6 @@
 ﻿:class buttonSimple: MiPageSample
 ⍝ Control:: _html.button 
-⍝ Description:: this is an example of use of the button tag 
+⍝ Description:: Insert a push button
 
     ∇ Compose
       :Access public 

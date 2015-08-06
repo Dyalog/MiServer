@@ -1,6 +1,6 @@
 ﻿:class asideSimple: MiPageSample
 ⍝ Control:: _html.aside 
-⍝ Description:: insert a sidebar with related information
+⍝ Description:: Insert a sidebar with related information
   
     ∇ Compose;note
       :Access public 

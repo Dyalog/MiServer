@@ -1,6 +1,6 @@
 ﻿:class tableSimple: MiPageSample
 ⍝ Control:: _html.table _html.tr _html.th _html.td _html.caption _html.tbody _html.thead _html.tfoot _html.colgroup _html.col   
-⍝ Description:: usage of all table related elements with simple column-wise formatting
+⍝ Description:: Insert a table using all types of formatting options
 
     ∇ Compose
       :Access public

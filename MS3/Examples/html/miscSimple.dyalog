@@ -1,6 +1,6 @@
 ﻿:class miscSimple: MiPageSample
 ⍝ Control:: _html.dfn _html.dl _html.dt _html.dd
-⍝ Description:: various rarely used elements
+⍝ Description:: Add various rarely used elements
 
     ∇ Compose
       :Access public

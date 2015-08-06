@@ -1,6 +1,6 @@
 ﻿:class rubyAdvanced : MiPageSample
 ⍝ Control:: _html.ruby _html.rt  _html.rp
-⍝ Description:: nested ruby text and alternative for non-supporting browsers
+⍝ Description:: Add nested ruby text and an alternative for non-supporting browsers
 
     ∇ Compose
       :Access public

@@ -1,6 +1,6 @@
 ﻿:class spanSimple: MiPageSample
 ⍝ Control:: _html.span 
-⍝ Description:: delimit inline content for manipulation
+⍝ Description:: Delimit inline content for later manipulation
 
     ∇ Compose
       :Access public 

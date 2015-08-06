@@ -1,6 +1,6 @@
 ﻿:class scriptSimple: MiPageSample
 ⍝ Control:: _html.script
-⍝ Description:: insert JavaScript
+⍝ Description:: Embed JavaScript
 
     ∇ Compose
       :Access public

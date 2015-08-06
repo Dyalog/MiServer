@@ -1,6 +1,6 @@
 ﻿:class styleSimple: MiPageSample
 ⍝ Control:: _html.span 
-⍝ Description:: define a style sheet
+⍝ Description:: Embed a style sheet
 
     ∇ Compose
       :Access public 

@@ -1,6 +1,6 @@
 ﻿:class audioSimple: MiPageSample
 ⍝ Control:: _html.audio 
-⍝ Description:: this is an example of use of audio 
+⍝ Description:: Embed an audio stream 
 
     ∇ Compose
       :Access public 

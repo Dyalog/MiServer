@@ -1,12 +1,12 @@
 ﻿:class blockquoteSimple: MiPageSample
 ⍝ Control:: _html.blockquote 
-⍝ Description:: this is an example of use of blockquote which indent a block of text 
+⍝ Description:: Insert a long quotation of text 
 
     ∇ Compose
       :Access public 
-      Add 'Format '
-      Add _.blockquote 'a block'
-      Add ' of quoted text.'
+      Add 'As it was so eloquently put:'
+      Add _.blockquote ('T','...',⍨999⍴'his sentence just keeps going on and on and never seems to stop, especially because t')
+      Add 'That is exactly how I would express it.'
     ∇
 
 :endclass

@@ -1,6 +1,7 @@
 ﻿:Class ejDatePickerAdvanced : MiPageSample
 ⍝ Control:: _SF.ejDatePicker
-⍝ Description::  advance functionality.
+⍝ Description:: Insert mutually interdependant calendars
+
 ⍝ Show 2 calendars to select reservation dates.
 ⍝ The first date cannot be before today and the second cannot be the
 ⍝ date before tomorrow. Its default is 1 week after check in.

@@ -1,7 +1,6 @@
 ﻿:class bdoSimple: MiPageSample
 ⍝ Control:: _html.bdo 
-⍝ Description:: this is an example of use of bdo which specifies the reading order (ltr - left-to-right or rtl - right-to-left)
-
+⍝ Description:: Override the inherent directionality of text, i.e. the left-to-right or right-to-left reading order
     ∇ Compose
       :Access public 
       Add'The next sentence will be reversed: '

@@ -1,6 +1,6 @@
 ﻿:class pSimple: MiPageSample
 ⍝ Control:: _html.p 
-⍝ Description:: this is an example of use of paragraph
+⍝ Description:: Add a paragraph
  
     ∇ Compose
       :Access public 

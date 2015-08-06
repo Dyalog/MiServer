@@ -1,13 +1,12 @@
 ﻿:class citeSimple: MiPageSample
 ⍝ Control:: _html.cite 
-⍝ Description:: this is an example of use of cite which defines the title of a work 
+⍝ Description:: Include a citation 
 
     ∇ Compose
       :Access public 
-      Add 'Indicate '
-    ⍝ In this case this will be in italics but can be changes through CSS
-      Add _.cite 'cited'
-      Add ' works.'
+      Add 'These phenomenal words.'
+    ⍝ Normally this will be in italics but can be changed through CSS
+      Add _.cite '(quoted from this very page)'
     ∇
 
 :endclass

@@ -1,6 +1,6 @@
 ﻿:class titleSimple: MiPageSample
 ⍝ Control:: _html.title
-⍝ Description:: set the title of the browser 
+⍝ Description:: Set the document title in the browser's tab or title bar
  
     ∇ Compose
       :Access public 

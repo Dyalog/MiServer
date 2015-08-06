@@ -1,6 +1,6 @@
 ﻿:Class ejMenuSimple : MiPageSample
 ⍝ Control:: _SF.ejMenu
-⍝ Description:: basic menu with background image
+⍝ Description:: Insert a menu bar with a background image
 
     ∇ r←Compose;items;t;href;img
       :Access Public

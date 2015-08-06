@@ -1,6 +1,6 @@
 ﻿:Class ejGridSimple : MiPageSample
 ⍝ Control:: _SF.ejGrid
-⍝ Description::  Read-only spreadsheet with various modifiable options
+⍝ Description:: Inser a read-only spreadsheet with various options set
     
     ∇ Make
       :Access Public

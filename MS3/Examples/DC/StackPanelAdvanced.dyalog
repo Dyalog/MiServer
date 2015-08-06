@@ -1,6 +1,6 @@
 ﻿:Class StackPanelAdvanced : MiPageSample
 ⍝ Control:: _DC.StackPanel
-⍝ Description:: nested StackPanels
+⍝ Description:: Insert nested StackPanels
 
     rect←{r⊣(r←New _.div).style←2↓∊'; height: ' 'px; width: ' 'px; background-color:',⍪⍕¨⍵}
     addstyle←{⍺.style,←'; ',⍵}

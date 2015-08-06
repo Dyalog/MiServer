@@ -1,6 +1,6 @@
 ﻿:class supSimple: MiPageSample
 ⍝ Control:: _html.sup 
-⍝ Description:: super-script text
+⍝ Description:: Make text superscript
  
     ∇ Compose
       :Access public 

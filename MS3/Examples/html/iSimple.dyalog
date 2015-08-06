@@ -1,6 +1,6 @@
 ﻿:class iSimple: MiPageSample
 ⍝ Control:: _html.i 
-⍝ Description:: italicize text 
+⍝ Description:: Italicize text 
 
     ∇ Compose
       :Access public 

@@ -1,6 +1,6 @@
 ﻿:class delSimple: MiPageSample
 ⍝ Control:: _html.del
-⍝ Description:: mark deleted text
+⍝ Description:: Mark deleted text
 
     ∇ Compose
       :Access public 

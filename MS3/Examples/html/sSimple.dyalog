@@ -1,6 +1,6 @@
 ﻿:class sSimple: MiPageSample
 ⍝ Control:: _html.s 
-⍝ Description::  strike-through text
+⍝ Description:: Strike-through text
 
     ∇ Compose
       :Access public 

@@ -1,6 +1,6 @@
 ﻿:class InstantIdiom :MiPageSample
 ⍝ Title:: Idiom Search (Instant)
-⍝ Description:: Search the FinnAPL and Dyalog idiom lists
+⍝ Description:: Search the FinnAPL and Dyalog idiom lists upon every keystroke
 
     ∇ Compose;fm;bn
       :Access public

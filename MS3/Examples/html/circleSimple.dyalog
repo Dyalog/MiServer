@@ -1,6 +1,6 @@
 ﻿:class circleSimple: MiPageSample 
-⍝ Control:: _html.circle 
-⍝ Description:: this is an example of use of circle which creates one
+⍝ Control:: _html.circle _.svg
+⍝ Description:: Use SVG to draw a circle
 
     ∇ Compose
       :Access public 

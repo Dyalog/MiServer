@@ -1,6 +1,6 @@
 ﻿:Class ejDatePickerSimple : MiPageSample
 ⍝ Control:: _SF.ejDatePicker
-⍝ Description::  basic functionality
+⍝ Description:: Insert a basic calendar to let the user pick a date picker
 
     ∇ Compose;rte
       :Access Public

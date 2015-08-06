@@ -1,6 +1,6 @@
 ﻿:Class ejButtonAdvanced : MiPageSample
 ⍝ Control:: _SF.ejButton
-⍝ Description::  two buttons, one en/disables the other and another that displays an alert
+⍝ Description:: Toggle availablility of one button with another
 
     ∇ Compose
       :Access Public

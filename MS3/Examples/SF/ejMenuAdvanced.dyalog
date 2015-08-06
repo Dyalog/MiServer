@@ -1,6 +1,6 @@
 ﻿:Class ejMenuAdvanced : MiPageSample
 ⍝ Control:: _SF.Menu
-⍝ Description:: build menu from "external" data (here internal comments)
+⍝ Description:: Build a menu from external data
 
 ⍝ This example is a bit more elaborate than the simple example but it is in fact very simple.
 ⍝ The number of menu items is larger but the idea is the same. And all the links yield to the

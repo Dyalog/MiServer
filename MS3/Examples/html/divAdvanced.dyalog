@@ -1,9 +1,10 @@
 ﻿:Class divAdvanced : MiPageSample
 ⍝ Control:: _.html.div
-⍝ Description:: advanced styling event handling
-    ∇ Compose;d1
+⍝ Description:: Add interactivity to a division
+
+    ∇ Compose
       :Access Public
-      Add _.p'Hover over the following text to rereveal translation. Click to make translation permanent.'
+      Add _.p'Hover over the following text to reveal translation. Click to make translation permanent.'
      
       t1←'Loves or pursues or desires to obtain pain of itself '
       t1,←'because it is pain, but circumstances occur in which '

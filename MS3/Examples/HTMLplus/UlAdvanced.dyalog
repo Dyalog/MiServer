@@ -1,6 +1,6 @@
 ﻿:Class UlAdvanced : MiPageSample
 ⍝ Control:: _HTML.Ul
-⍝ Description:: unordered list with links and callbacks on mouse movements
+⍝ Description:: Insert an unordered list of links based on an array of texts and links, and add callbacks on mouse movements
     
     ∇ Compose;text;ul;urls;intro
       :Access Public

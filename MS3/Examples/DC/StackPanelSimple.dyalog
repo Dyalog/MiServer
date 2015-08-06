@@ -1,6 +1,6 @@
 ﻿:Class StackPanelSimple : MiPageSample
 ⍝ Control:: _DC.StackPanel
-⍝ Description:: layout vectors of content elements vertically or horizontally
+⍝ Description:: Layout vectors of content elements vertically and horizontally
     
     ∇ Compose;content;hsp;tb;vsp
       :Access public

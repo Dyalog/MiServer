@@ -1,12 +1,12 @@
 ﻿:class formSimple: MiPageSample
 ⍝ Control:: _html.form _html.input _html.textarea _html.select _html.option _html.optgroup _html.fieldset _html.label
-⍝ Description:: most form related elements
+⍝ Description:: Include a form using most form-related elements
 
     ∇ Compose
       :Access public
       myform←Add _.form
      
-     ⍝ This adds abox with an embedded legend
+     ⍝ This adds a box with an embedded legend
       mybox←myform.Add _.fieldset
       mybox.Add _.legend'Text input elements'
      

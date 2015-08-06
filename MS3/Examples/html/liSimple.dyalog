@@ -1,6 +1,6 @@
 ﻿:class liSimple: MiPageSample
-⍝ Control:: _html.li _html.ol_html.ul
-⍝ Description:: ordered and unordered lists 
+⍝ Control:: _html.li _html.ol _html.ul
+⍝ Description:: Add ordered and unordered lists 
 
     ∇ Compose;myol;myul
       :Access public 

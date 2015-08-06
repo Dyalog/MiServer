@@ -1,12 +1,12 @@
 ﻿:class rubySimple: MiPageSample
 ⍝ Control:: _html.ruby _html.rt
-⍝ Description:: adds ruby text (5.5pt) on top of other text for explanation or pronounciation
+⍝ Description:: Add pronunciation and explanation as ruby text (5.5pt) over the line 
 
     ∇ Compose
       :Access public
      
     ⍝ Intro text
-      Add _.h3'Ruby text was originally meant to indicate proper pronounciation inline. '
+      Add _.h3'Ruby text was originally meant to indicate proper pronunciation inline. '
       myp←Add _.p'My name is '
      
     ⍝ First name
@@ -15,9 +15,9 @@
     ⍝ Last name
       (myp.Add _.ruby' Brudzewsky').Add _.rt'broo-DJAY(O)-skee'
      
-      myp.Add' and now you even know how to pronouce it!'
+      myp.Add' and now you even know how to pronounce it!'
      
-      Add _.h3'However, ruby text is also useful for annotating consise APL code:'
+      Add _.h3'However, ruby text is also useful for annotating concise APL code:'
      
     ⍝ A code segment
       (myp←Add _.p).Add _.code'FirstMatrix'

@@ -1,6 +1,6 @@
 ﻿:class bdiSimple: MiPageSample
 ⍝ Control:: _html.bdi _html.meta
-⍝ Description:: specify Unicode encoding and isolate text that might be formatted in a different direction from the surrounding text
+⍝ Description:: Specify Unicode encoding and isolate text that should be displayed with a reading order that is different from the surrounding text
 
     ∇ Compose
       :Access public 

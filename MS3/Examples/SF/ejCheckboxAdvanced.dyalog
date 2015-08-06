@@ -1,6 +1,6 @@
 ﻿:Class ejCheckBoxAdvanced : MiPageSample
 ⍝ Control:: _SF.ejCheckbox
-⍝ Description:: multiple checkboxes with callback that reads the current state and modify others 
+⍝ Description:: Use callback to toggle checkboxes and whether they allow the indeterminate value 
 
 ⍝ This example shows how to use the SyncFusion CheckBox widget
 

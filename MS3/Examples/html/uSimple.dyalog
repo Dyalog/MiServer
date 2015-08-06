@@ -1,6 +1,6 @@
 ﻿:class uSimple: MiPageSample
 ⍝ Control:: _html.u 
-⍝ Description:: underlined text
+⍝ Description:: Underline text
 
     ∇ Compose
       :Access public 

@@ -1,6 +1,6 @@
 ﻿:Class ejCheckBoxSimple : MiPageSample
 ⍝ Control:: _SF.ejCheckbox
-⍝ Description:: single checkbox with callback that reads the current state
+⍝ Description:: Insert a checkbox with callback
 
     ∇ Compose;cb1
       :Access Public

@@ -1,6 +1,6 @@
 ﻿:class TTTServer :MiPageSample
 ⍝ Title:: TTT (Server)
-⍝ Description:: Text-based Tic Tac Toe storing data server side
+⍝ Description:: Play text-based Tic Tac Toe while storing data server side
 
     ∇ Compose;board;row;bcap;rows;cell;cells;xo;reset;size;width
       :Access public

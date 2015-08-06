@@ -1,6 +1,6 @@
 ﻿:class videoSimple: MiPageSample
 ⍝ Control:: _html.video 
-⍝ Description:: embed video
+⍝ Description:: Embed a video
 
     ∇ Compose
       :Access public 

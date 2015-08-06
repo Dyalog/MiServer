@@ -37,9 +37,6 @@
       2 link'MiServer Forum' 'http://www.dyalog.com/forum/viewforum.php?f=34'
       2 link'Blog' 'http://www.dyalog.com/blog/category/miserver/'
       2 link'GitHub Repo' 'https://github.com/Dyalog/MiServer'
-      ⍝2 link'Dyalog APL' 'http://www.dyalog.com'
-     
-     
     ∇
 
     

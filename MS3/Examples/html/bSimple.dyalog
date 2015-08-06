@@ -1,6 +1,6 @@
 ﻿:class bSimple: MiPageSample
 ⍝ Control:: _html.b 
-⍝ Description:: this is an example of use of b which makes text Bold
+⍝ Description:: Make text bold
 
     ∇ Compose
       :Access public 

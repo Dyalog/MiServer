@@ -1,6 +1,6 @@
 ﻿:class aSimple : MiPageSample
 ⍝ Control:: _html.a  
-⍝ Description:: this is an example of use of the anchor "a" tag
+⍝ Description:: Insert a hyperlink
 
     ∇ Compose
       :Access public 

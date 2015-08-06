@@ -1,6 +1,6 @@
 ﻿:class figureSimple: MiPageSample
 ⍝ Control:: _html.img _html.figure _html.figcaption
-⍝ Description:: insert an image
+⍝ Description:: Insert a figure with a caption
 
     ∇ Compose
       :Access public 

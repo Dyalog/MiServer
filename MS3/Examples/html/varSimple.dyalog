@@ -1,6 +1,6 @@
 ﻿:class varSimple: MiPageSample
 ⍝ Control:: _html.var
-⍝ Description:: indicate a variable
+⍝ Description:: Indicate a variable
 
     ∇ Compose
       :Access public

@@ -1,6 +1,6 @@
 ﻿:class smallSimple: MiPageSample
 ⍝ Control:: _html.small 
-⍝ Description:: defines smaller text
+⍝ Description:: Include small print
 
     ∇ Compose
       :Access public 

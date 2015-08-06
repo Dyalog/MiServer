@@ -1,6 +1,6 @@
 ﻿:class addressSimple: MiPageSample
 ⍝ Control:: _html.address 
-⍝ Description:: add contact information 
+⍝ Description:: Add contact information 
 
     ∇ Compose
       :Access public 

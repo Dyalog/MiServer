@@ -1,6 +1,6 @@
 ﻿:Class ejWaitingPopupSimple : MiPageSample
 ⍝ Control:: _SF.ejWaitingPopup
-⍝ Description:: interactive showcase for all basic option of toggleable pop-up
+⍝ Description:: Insert the three basic forms of toggleable "please wait" indicator 
 
     ∇ Compose
       :Access public
@@ -12,7 +12,7 @@
       wp,←Add _.ejWaitingPopup'Cool stuff coming soon'
       wp,←Add _.ejWaitingPopup'Cool stuff<br>coming <b>very</b> soon...'
      
-     ⍝ More spaceing so the popup will not cover the buttons and prevent clicking
+     ⍝ More spacing so the popup will not cover the buttons and prevent clicking
       Add¨4/_.br
      
       Add _.p'There are three hidden TogglePopups on this page.'

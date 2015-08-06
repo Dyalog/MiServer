@@ -1,6 +1,6 @@
 ﻿:class liAdvanced: MiPageSample
 ⍝ Control:: _html.li _html.ol _html.ul
-⍝ Description:: nested lists 
+⍝ Description:: Add nested lists of varying types
 
     ∇ Compose;myol;myul
       :Access public 

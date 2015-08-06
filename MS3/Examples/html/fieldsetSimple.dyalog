@@ -1,6 +1,6 @@
 ﻿:Class fieldsetSimple: MiPageSample
 ⍝ Control:: _html.fieldset
-⍝ Description:: put a box around related input fields
+⍝ Description:: Group form controls
 
     ∇ Compose
       :Access public

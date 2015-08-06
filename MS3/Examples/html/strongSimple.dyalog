@@ -1,6 +1,6 @@
 ﻿:class strongSimple: MiPageSample
 ⍝ Control:: _html.strong 
-⍝ Description:: strong (bold) text
+⍝ Description:: Mark important text
 
     ∇ Compose
       :Access public 

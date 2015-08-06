@@ -1,6 +1,6 @@
 ﻿:class articleSimple : MiPageSample
 ⍝ Control:: _html.article
-⍝ Description:: mark an independent section of a document, page, or site
+⍝ Description:: Mark an independent section of a document, page, or site
 
     ∇ Compose
       :Access public 

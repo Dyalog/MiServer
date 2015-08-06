@@ -1,6 +1,6 @@
 ﻿:Class ejToggleButtonSimple : MiPageSample
 ⍝ Control:: _SF.ejToggleButton
-⍝ Description:: explains all possible syntaxes
+⍝ Description:: Add toggleable buttons of all types
 
     ∇ Compose
       :Access Public

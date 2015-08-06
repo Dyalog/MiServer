@@ -1,6 +1,6 @@
 ﻿:Class ejButtonSimple : MiPageSample
 ⍝ Control:: _SF.ejButton
-⍝ Description:: basic button
+⍝ Description:: Insert a basic button
 
     ∇ Compose
       :Access Public

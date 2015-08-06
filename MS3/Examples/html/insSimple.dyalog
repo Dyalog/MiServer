@@ -1,6 +1,6 @@
 ﻿:class insSimple: MiPageSample
 ⍝ Control:: _html.ins 
-⍝ Description:: mark inserted text 
+⍝ Description:: Mark inserted text 
 
     ∇ Compose
       :Access public 

@@ -1,6 +1,6 @@
 ﻿:class iframeSimple: MiPageSample
 ⍝ Control:: _html.iframe
-⍝ Description:: this is an embedded browser window 
+⍝ Description:: Embed another webpage
  
     ∇ Compose;ifr
       :Access public 
@@ -9,7 +9,7 @@
       Add _.header'Here is the header'
      
     ⍝ Then we add some text
-      Add _.p(888⍴'Curabitur in nisl congue, sollicitudin leo vitae, lacinia mi.')
+      Add _.p(888⍴'Curabitur in nisl congue, sollicitudin leo vitae, lacinia mi. ')
      
     ⍝ Then we add the iframe
       ifr←Add _.iframe
@@ -18,7 +18,7 @@
       ifr.Add _.p'Well, it appears your browser won''t do this'
      
     ⍝ Finally a bit more text
-      Add _.p(666⍴'Quisque lectus magna, rutrum in fermentum eu, pellentesque a nisl.')
+      Add _.p(666⍴'Quisque lectus magna, rutrum in fermentum eu, pellentesque a nisl. ')
     ∇
 
 :endclass

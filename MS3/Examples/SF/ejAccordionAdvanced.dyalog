@@ -1,6 +1,6 @@
 ﻿:Class ejAccordionAdvanced: MiPageSample
 ⍝ Control:: _SF.ejAccordion
-⍝ Description:: Syncfusion ejAccordion with callback (alert on opening and closing)
+⍝ Description:: Insert a flexible accordion which alerts upon opening and closing sections
 
     ∇ Compose;ac;path
       :Access public

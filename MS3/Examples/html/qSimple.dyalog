@@ -1,6 +1,6 @@
 ﻿:class qSimple: MiPageSample
 ⍝ Control:: _html.q 
-⍝ Description:: this is an example of use of q 
+⍝ Description:: Add an inline quotation
 
     ∇ Compose
       :Access public 

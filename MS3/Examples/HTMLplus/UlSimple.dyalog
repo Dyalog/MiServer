@@ -1,6 +1,6 @@
 ﻿:Class UlSimple : MiPageSample
 ⍝ Control:: _HTML.Ul
-⍝ Description:: automatic contstruction of unordered list from array 
+⍝ Description:: Insert an unordered list based on an array 
 
     ∇ Compose;frm;single;multi;btn
       :Access public

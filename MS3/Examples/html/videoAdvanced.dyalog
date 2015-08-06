@@ -1,6 +1,6 @@
 ﻿:class videoAdvanced: MiPageSample
 ⍝ Control:: _html.video _html.source
-⍝ Description:: specify a list of alternate video sources
+⍝ Description:: Specify a list of alternate video sources
 
     ∇ Compose
       :Access public

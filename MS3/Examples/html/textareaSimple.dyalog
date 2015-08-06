@@ -1,6 +1,6 @@
 ﻿:class textareaSimple: MiPageSample
 ⍝ Control:: _html.textarea
-⍝ Description:: confine text to an area of defined dimensions 
+⍝ Description:: Insert a multi-line text control
  
     ∇ Compose;ta
       :Access public 

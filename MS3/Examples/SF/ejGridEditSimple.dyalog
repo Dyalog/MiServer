@@ -1,6 +1,6 @@
 ﻿:Class ejGridEditSimple : MiPageSample
 ⍝ Control:: _SF.ejGridEdit
-⍝ Description::  editable grid with callback that outputs log of last change
+⍝ Description:: Insert an editable grid with callback that reads changes
     ∇ Compose;tbi
       :Access Public
      

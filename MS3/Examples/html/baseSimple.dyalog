@@ -1,6 +1,6 @@
 ﻿:class baseSimple: MiPageSample
-⍝ Control:: _html.base 
-⍝ Description:: resets the base URL for relative links
+⍝ Control:: _html.base _html.a
+⍝ Description:: Set document base URI for relative links
 
     ∇ Compose
       :Access public 

@@ -1,6 +1,6 @@
 ﻿:class timeSimple: MiPageSample
 ⍝ Control:: _html.time 
-⍝ Description:: indicate a time
+⍝ Description:: Indicate a time
 
     ∇ Compose
       :Access public 

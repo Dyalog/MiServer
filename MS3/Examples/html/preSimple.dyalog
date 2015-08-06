@@ -1,6 +1,6 @@
 ﻿:class preSimple: MiPageSample
 ⍝ Control:: _html.pre 
-⍝ Description:: this is an example of use of pre-formatted paragraph
+⍝ Description:: Add preformatted text
  
     ∇ Compose
       :Access public 

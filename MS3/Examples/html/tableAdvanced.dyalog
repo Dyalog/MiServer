@@ -1,6 +1,6 @@
 ﻿:class tableAdvanced: MiPageSample
 ⍝ Control:: _html.tbody _html.tfoot
-⍝ Description:: this is an example of use of caption which defines a table caption
+⍝ Description:: Insert an interactive table
 
     ∇ Compose
       :Access public

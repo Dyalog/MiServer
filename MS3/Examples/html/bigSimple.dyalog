@@ -1,6 +1,6 @@
 ﻿:class bigSimple: MiPageSample
 ⍝ Control:: _html.big 
-⍝ Description:: defines bigger text
+⍝ Description:: Make text big
 
     ∇ Compose
       :Access public 

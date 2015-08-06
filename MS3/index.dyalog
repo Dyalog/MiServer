@@ -13,7 +13,7 @@
 
     SpaceToDir←{'Examples/',1↓⍵,(⍵≡'_HTML')/'plus'} ⍝ _HTML is in the HTMLplus folder
 
-    Fread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText #.Boot.AppRoot,⍵,'.dyalog'}
+    Dread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText #.Boot.AppRoot,⍵,'.dyalog'}
 
     Dlist←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX #.Boot.AppRoot,⍵,'/*.dyalog'}
 
@@ -70,8 +70,8 @@
       GROUPS←'Base HTML' 'Wrapped HTML' 'Dyalog Controls' 'JQueryUI' 'SyncFusion'
       REFS←_html _HTML _DC _JQ _SF
      
-     ⍝⍝⍝⍝ Fread '/
-     
+      htmlShort←'⍝',¨Dread'Examples/Data/htmlShort'
+      htmlLong←'⍝',¨Dread'Examples/Data/htmlLong'
      
       Use'ejTab' ⍝ May get added by callbacks
      
@@ -145,7 +145,7 @@
      
      ⍝ Read framed pages
       url←'Examples/Apps/About'
-      code←Fread url
+      code←Dread url
      
      ⍝ Create and fill placeholder for title header
       mya←('#SampleTitle'mid.Add _.h2).Add _.a('Title'Section code)
@@ -187,10 +187,9 @@
           files←⊃↓⍉Dlist spacedir
           out←'style="width:800px;height:400px;border:2px inset"'New _.div
      
-          ⍝out.Add
           :For file :In files
               url←spacedir,'/',file
-              code←Fread url
+              code←Dread url
               ctrlsec←'Control'Section code
               :If (⊂spacectrl)∊1↓¨(' '∘=⊂⊢)' ',ctrlsec ⍝ Split Space-delimited list
                   iframe←'src' 'width' 'height'(New _.iframe).Set(url,'?NoWrapper=1')800 400
@@ -200,21 +199,25 @@
                   'target' 'href'title.Set'_blank'url ⍝ new tab
                   item←'style="margin:8px"'out.Add _.p desc
                   item.On'click' 0 ''(APLtoJS GenJS page title desc iframe code)
-                  out.Add item
+                  ⍝out.Add item
               :EndIf
           :EndFor
-          r←GenJS spacectrl spacectrl('The below samples demonstrate usage of ',spacectrl,'.')out''
+          title←1↓control Section htmlShort
+          title←spacectrl,(×≢title)/' (',title,')'
+          desc←control Section htmlLong
+          r←spacectrl title desc out''
      
       :Else ⍝ Sample or Group
-          r←GenJS Update spacedir sample
+          r←Update spacedir sample
       :EndIf
+      r←GenJS r
     ∇
 
     ∇ (page title desc iframe code)←Update(spacedir page);ctrlsec;url
      ⍝ Create new placeholder values
       url←spacedir,'/',page
       iframe←'src' 'width' 'height'(New _.iframe).Set(url,'?NoWrapper=1')800 400
-      code←Fread url
+      code←Dread url
       ctrlsec←'Control'Section code
       desc←'Description'Section code
       title←'target' 'href'(New _.a ctrlsec).Set'_blank'url
@@ -227,7 +230,7 @@
       r,←'#SampleTitle'Replace title
       r,←'#SampleDesc'Replace desc
       r,←'#SampleFrame'Replace iframe
-      r,←'#SampleSource'Replace #.HTMLInput.APLToHTMLColour code
+      r,←'#SampleSource'Replace(×≢code)/#.HTMLInput.APLToHTMLColour code
     ∇
 
     ∇ r←OnSearch

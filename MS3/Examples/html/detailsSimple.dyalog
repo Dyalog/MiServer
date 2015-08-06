@@ -1,6 +1,6 @@
 ﻿:class detailsSimple: MiPageSample
-⍝ Control:: _html.details 
-⍝ Description:: this is an example of use of the details tag whoch specifies additional details that the user can view or hide on demand
+⍝ Control:: _html.details _.html.summary
+⍝ Description:: Add a summary with revealable details
  
     ∇ Compose;det
       :Access public 
