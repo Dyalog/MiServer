@@ -105,7 +105,7 @@
       thediv.Add _.hr
      
      ⍝ SAMPLE APPS ⍝⍝⍝
-      APPS←(Dlist'Apps')~⊂'index'
+      APPS←(Dlist'Examples/Apps')~⊂'index'
       thediv.Add textspan'Sample Apps'
       tv←thediv.Add _.ejTreeView(1,[1.5]APPS)
       tv.style←'max-height: 250px'
@@ -167,7 +167,7 @@
     ∇ r←OnApp
       :Access Public
      ⍝ Gets called upon selection in Sample Apps tree
-      r←GenJS Update'Apps'(Node⊃APPS)
+      r←GenJS Update'Examples/Apps'(Node⊃APPS)
     ∇
 
     ∇ r←OnControl;node;depth;sample;control;space;spacedir;files;out;file;code;ctrlsec;url;iframe;page;desc;title;item;spacectrl
@@ -199,7 +199,6 @@
                   'target' 'href'title.Set'_blank'url ⍝ new tab
                   item←'style="margin:8px"'out.Add _.p desc
                   item.On'click' 0 ''(APLtoJS GenJS page title desc iframe code)
-                  ⍝out.Add item
               :EndIf
           :EndFor
           title←1↓control Section htmlShort
@@ -233,8 +232,32 @@
       r,←'#SampleSource'Replace(×≢code)/#.HTMLInput.APLToHTMLColour code
     ∇
 
-    ∇ r←OnSearch
+    ∇ r←OnSearch;dir;files
       :Access Public
+     
+     ⍝⍝⍝ Controls
+     
+     ⍝⍝⍝ Samples
+     
+      :For dir :In 'Apps' 'html' 'HTMLplus' 'DC' 'JQ' 'SF'
+          files←Dlist'Examples/',dir
+     
+          types←'Simple' 'Advanced'
+     
+          :For file :In files~⊂'index'
+              dirfile←dir,'/',file
+              pathfile←examples,dirfile
+              source←Dread'Examples/',dir,file
+              desc←('\R'⎕R'<br>'⍠'Mode' 'D')'Description'Section source
+              entry←Add _.p
+              (('href="',file,'"',⍨'?NoWrapper=1'/⍨~0∊⍴Get'nowrapper')entry.Add _.a).Add _.button'>'
+              type←1⍳⍨∨/¨types⍷¨⊂file
+              type⊃←types,⊂'App'
+              entry.Add desc,notapps/' (',type,')'
+          :EndFor
+     
+      :EndFor
+     
       r←''
     ∇
 
