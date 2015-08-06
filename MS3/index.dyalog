@@ -10,12 +10,12 @@
     :ENDSECTION
 
     :SECTION UTILITIES ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-    
-    SpaceToDir←{1↓⍵,(⍵≡'_HTML')/'plus'} ⍝ _HTML is in the HTMLplus folder
 
-    Fread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText ⍵}
+    SpaceToDir←{'Examples/',1↓⍵,(⍵≡'_HTML')/'plus'} ⍝ _HTML is in the HTMLplus folder
 
-    Dlist←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX #.Boot.AppRoot,'Examples/',⍵,'/*.dyalog'}
+    Fread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText #.Boot.AppRoot,⍵,'.dyalog'}
+
+    Dlist←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX #.Boot.AppRoot,⍵,'/*.dyalog'}
 
     ∇ node←Node
       node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
@@ -69,6 +69,9 @@
      ⍝ Initialize globals
       GROUPS←'Base HTML' 'Wrapped HTML' 'Dyalog Controls' 'JQueryUI' 'SyncFusion'
       REFS←_html _HTML _DC _JQ _SF
+     
+     ⍝⍝⍝⍝ Fread '/
+     
      
       Use'ejTab' ⍝ May get added by callbacks
      
@@ -138,12 +141,11 @@
       :EndFor
     ∇
 
-
     ∇ PopulateMid mid;url;code;frame;mya
      
      ⍝ Read framed pages
-      url←'/Examples/Apps/about.dyalog'
-      code←Fread #.Boot.AppRoot,url
+      url←'Examples/Apps/About'
+      code←Fread url
      
      ⍝ Create and fill placeholder for title header
       mya←('#SampleTitle'mid.Add _.h2).Add _.a('Title'Section code)
@@ -168,29 +170,29 @@
       r←GenJS Update'Apps'(Node⊃APPS)
     ∇
 
-    ∇ r←OnControl;node;depth;sample;control;space;section;spacedir;dir;files;out;file;pathfile;code;ctrlsec;url;iframe;page;desc;title;item;spacectrl
+    ∇ r←OnControl;node;depth;sample;control;space;spacedir;files;out;file;code;ctrlsec;url;iframe;page;desc;title;item;spacectrl
       :Access Public
      ⍝ Gets called upon selection in Controls tree
      
-      ⍝ Get details
+     ⍝ Get details
       node←Node
-      (depth sample)←SAMPLES[node;1 2]
-      (control space section)←3↑,SAMPLES[2+node-(⌽node↑SAMPLES[;1])⍳2 1;2 3]
-     
+      depth←⊃SAMPLES[node;1]
+      control←depth⊃''(⊃SAMPLES[node;2])(⊃SAMPLES[1⌈1+node-2⍳⍨⌽node↑SAMPLES[;1];2])
+      sample←depth⊃'index' ''(control,⊃SAMPLES[node;2])
+      space←⊃SAMPLES[node;3]
       spacedir←SpaceToDir space
      
       :If depth=2 ⍝ Element
           spacectrl←space,'.',control
-          dir←_Request.Server.Config.Root,'Examples/',spacedir
-          files←⊃↓⍉'*.dyalog'#.Files.List dir
-          out←New _.div
-          'style'out.Set'width:800px;height:400px;border:2px inset'
+          files←⊃↓⍉Dlist spacedir
+          out←'style="width:800px;height:400px;border:2px inset"'New _.div
+     
+          ⍝out.Add
           :For file :In files
-              pathfile←dir,'/',file
-              code←Fread pathfile
+              url←spacedir,'/',file
+              code←Fread url
               ctrlsec←'Control'Section code
               :If (⊂spacectrl)∊1↓¨(' '∘=⊂⊢)' ',ctrlsec ⍝ Split Space-delimited list
-                  url←'/Examples/',spacedir,'/',file
                   iframe←'src' 'width' 'height'(New _.iframe).Set(url,'?NoWrapper=1')800 400
                   page←¯7↓file
                   desc←'Description'Section code
@@ -198,21 +200,21 @@
                   'target' 'href'title.Set'_blank'url ⍝ new tab
                   item←'style="margin:8px"'out.Add _.p desc
                   item.On'click' 0 ''(APLtoJS GenJS page title desc iframe code)
+                  out.Add item
               :EndIf
           :EndFor
           r←GenJS spacectrl spacectrl('The below samples demonstrate usage of ',spacectrl,'.')out''
      
       :Else ⍝ Sample or Group
-          file←depth⊃'index' ''(control,sample) ⍝ 1=Group: index   3=Sample: tagSimple
-          r←GenJS Update spacedir file
+          r←GenJS Update spacedir sample
       :EndIf
     ∇
 
     ∇ (page title desc iframe code)←Update(spacedir page);ctrlsec;url
      ⍝ Create new placeholder values
-      url←'Examples/',spacedir,'/',page,'.dyalog'
-      iframe←'src' 'width' 'height'(New _.iframe).Set('/',url,'?NoWrapper=1')800 400
-      code←Fread #.Boot.AppRoot,url
+      url←spacedir,'/',page
+      iframe←'src' 'width' 'height'(New _.iframe).Set(url,'?NoWrapper=1')800 400
+      code←Fread url
       ctrlsec←'Control'Section code
       desc←'Description'Section code
       title←'target' 'href'(New _.a ctrlsec).Set'_blank'url
