@@ -6,10 +6,13 @@
     :Field Public Shared SAMPLES ⍝ List of all samples
     :Field Public Shared GROUPS  ⍝ Names of groups of elements
     :Field Public Shared REFS    ⍝ ... their refs
+    :Field Public Shared a_A←1   ⍝ a = A
 
     :ENDSECTION
 
     :SECTION UTILITIES ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+
+    Words←{(1↓¨(' '∘=⊂⊢)' ',⍵)~⊂''}
 
     SpaceToDir←{'Examples/',1↓⍵,(⍵≡'_HTML')/'plus'} ⍝ _HTML is in the HTMLplus folder
 
@@ -17,6 +20,8 @@
 
     Dlist←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX #.Boot.AppRoot,⍵,'/*.dyalog'}
 
+    In ←{∨/¨⍷¨/{⎕SE.Dyalog.Utils.lcase⍣a_A¨eis ⍵}¨⍺ ⍵}
+    
     ∇ node←Node
       node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
     ∇
@@ -70,8 +75,8 @@
       GROUPS←'Base HTML' 'Wrapped HTML' 'Dyalog Controls' 'JQueryUI' 'SyncFusion'
       REFS←_html _HTML _DC _JQ _SF
      
-      htmlShort←'⍝',¨Dread'Examples/Data/htmlShort'
-      htmlLong←'⍝',¨Dread'Examples/Data/htmlLong'
+      #.IS←infoShort←'⍝',¨Dread'Examples/Data/infoShort'
+      #.IL←infoLong←'⍝',¨Dread'Examples/Data/infoLong'
      
       Use'ejTab' ⍝ May get added by callbacks
      
@@ -97,10 +102,15 @@
       PopulateMid mid
     ∇
 
-    ∇ PopulateLeft thediv;class;depths;group;items;names;ref;samples;tv;vp
+    ∇ PopulateLeft thediv;class;depths;group;items;names;ref;samples;tv;vp;search;case;style
      
      ⍝ SEARCH FIELD ⍝⍝⍝
-      (thediv.Add _.EditField'str').On'OnSearch' ''('str' 'val')
+      (search←New _.EditField'str').On'change' 'OnSearch'('str' 'val')
+                                    ⍝ 'keyup' 'change'?
+      style←'style="padding: 3px 1px 5px; font-family: APL385 Unicode; font-size: 0.8em;"'
+      (case←'#case'style New _.button'a≡A').On'click' 'OnCase'
+     
+      (thediv.Add _.StackPanel(search case)).Horizontal←1
      
       thediv.Add _.hr
      
@@ -191,7 +201,7 @@
               url←spacedir,'/',file
               code←Dread url
               ctrlsec←'Control'Section code
-              :If (⊂spacectrl)∊1↓¨(' '∘=⊂⊢)' ',ctrlsec ⍝ Split Space-delimited list
+              :If (⊂spacectrl)∊Words ctrlsec ⍝ Extract space-separated words
                   iframe←'src' 'width' 'height'(New _.iframe).Set(url,'?NoWrapper=1')800 400
                   page←¯7↓file
                   desc←'Description'Section code
@@ -201,9 +211,9 @@
                   item.On'click' 0 ''(APLtoJS GenJS page title desc iframe code)
               :EndIf
           :EndFor
-          title←1↓control Section htmlShort
+          title←1↓control Section infoShort
           title←spacectrl,(×≢title)/' (',title,')'
-          desc←control Section htmlLong
+          desc←control Section infoLong
           r←spacectrl title desc out''
      
       :Else ⍝ Sample or Group
@@ -232,33 +242,40 @@
       r,←'#SampleSource'Replace(×≢code)/#.HTMLInput.APLToHTMLColour code
     ∇
 
-    ∇ r←OnSearch;dir;files
+    ∇ r←OnSearch;dir;files;file;code;desc;str;terms
       :Access Public
-     
+      str←⊂Get'str' ⍝ Get search string
      ⍝⍝⍝ Controls
      
+      terms←infoShort/⍨str In infoShort
+      terms,←terms~⍨infoLong/⍨str In infoLong
+      terms←(¯1+terms⍳¨':')↑¨terms
+      (⊃¨terms)←'.'
+      #.RES←''
      ⍝⍝⍝ Samples
-     
       :For dir :In 'Apps' 'html' 'HTMLplus' 'DC' 'JQ' 'SF'
           files←Dlist'Examples/',dir
      
-          types←'Simple' 'Advanced'
+          ⍝types←'Simple' 'Advanced'
      
           :For file :In files~⊂'index'
-              dirfile←dir,'/',file
-              pathfile←examples,dirfile
-              source←Dread'Examples/',dir,file
-              desc←('\R'⎕R'<br>'⍠'Mode' 'D')'Description'Section source
-              entry←Add _.p
-              (('href="',file,'"',⍨'?NoWrapper=1'/⍨~0∊⍴Get'nowrapper')entry.Add _.a).Add _.button'>'
-              type←1⍳⍨∨/¨types⍷¨⊂file
-              type⊃←types,⊂'App'
-              entry.Add desc,notapps/' (',type,')'
+              code←Dread'Examples/',dir,'/',file
+              desc←⊂'Description'Section source
+              :If ∨/str in desc
+              :OrIf ∨/∊(str,terms)⍷¨⊂'Controls'Section code ⍝ always case sensitive
+                  #.RES,←desc
+                     ⍝ include sample
+              :EndIf
           :EndFor
      
       :EndFor
      
       r←''
+    ∇
+
+    ∇ r←OnCase
+      :Access Public
+      r←'#case'Replace'a','≢≡'[1+CASE←~CASE],'A'
     ∇
 
     :ENDSECTION

@@ -20,7 +20,7 @@ code:: Code fragment
 col:: Table column
 colgroup:: Table column group
 command:: Command that a user can invoke
-datagrid:: Interactive tree, list or tabular data
+datagrid:: Interactive tree/list/table
 datalist:: Predefined control values
 dd:: Description description
 del:: Deletion
@@ -33,7 +33,7 @@ dt:: Description term
 em:: Stress emphasis
 embed:: Embedded application
 fieldset:: Form control group
-figure:: A figure with a caption.
+figure:: Figure with caption
 footer:: Section footer
 form:: Form
 h1:: Heading level 1
@@ -62,7 +62,7 @@ menu:: Command menu
 meta:: Metadata
 meter:: Scalar measurement
 nav:: Navigation
-noscript:: Alternative content for no script support
+noscript:: No-script support
 object:: Generic embedded resource
 ol:: Ordered list
 optgroup:: Option group
