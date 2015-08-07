@@ -20,7 +20,7 @@
 
     Dlist←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX #.Boot.AppRoot,⍵,'/*.dyalog'}
 
-    In ←{∨/¨⍷¨/{⎕SE.Dyalog.Utils.lcase⍣a_A¨eis ⍵}¨⍺ ⍵}
+    In←{∨/¨⊃⍷¨/{⎕SE.Dyalog.Utils.lcase⍣a_A¨eis ⍵}¨⍺ ⍵}
     
     ∇ node←Node
       node←⊃2⊃⎕VFI{((+\⍵='_')⍳2)↓⍵}⊃_PageData.node
@@ -249,8 +249,7 @@
      
       terms←infoShort/⍨str In infoShort
       terms,←terms~⍨infoLong/⍨str In infoLong
-      terms←(¯1+terms⍳¨':')↑¨terms
-      (⊃¨terms)←'.'
+      terms←'.',¨1↓¨(¯1+terms⍳¨':')↑¨terms
       #.RES←''
      ⍝⍝⍝ Samples
       :For dir :In 'Apps' 'html' 'HTMLplus' 'DC' 'JQ' 'SF'
@@ -260,8 +259,8 @@
      
           :For file :In files~⊂'index'
               code←Dread'Examples/',dir,'/',file
-              desc←⊂'Description'Section source
-              :If ∨/str in desc
+              desc←⊂'Description'Section code
+              :If ∨/str In desc
               :OrIf ∨/∊(str,terms)⍷¨⊂'Controls'Section code ⍝ always case sensitive
                   #.RES,←desc
                      ⍝ include sample
@@ -270,7 +269,7 @@
      
       :EndFor
      
-      r←''
+      r←Execute'alert("WIP: THIS RESULT WILL SOON BE AVAILABLE:\n',(∊'\n ∘'∘,¨#.RES),'")'
     ∇
 
     ∇ r←OnCase
