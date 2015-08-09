@@ -1,5 +1,5 @@
 ﻿:class TTTClient :MiPageSample
-⍝ Title:: TTT (Client)
+⍝ Control:: TTT (Client)
 ⍝ Description:: Play text-based Tic Tac Toe while storing data client side
       
     ∇ Compose;board;row;bcap;rows;cell;cells;xo;reset;size;width

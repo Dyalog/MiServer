@@ -1,5 +1,5 @@
 ﻿:class navSimple : MiPageSample
-⍝ Title:: _html.nav _html.a
+⍝ Control:: _html.nav _html.a
 ⍝ Description:: Mark the main navigation controls
 
     ∇ Compose
