@@ -134,6 +134,7 @@
           html←∊html          ⍝ Encorporate tags
           html⊂⍨←html=⎕UCS 13 ⍝ Restore lines
           html↓¨⍨←1           ⍝ Remove line markers
+          html,⍨¨←↓↑('<span style="color: blue">['∘,,∘'] </span>')¨⍕¨¯1+⍳⍴html ⍝ Prepend blue line numbers
           html←('pre style="font-family:APL385 Unicode',fontsize,'"')Enclose'code'Enclose CRLF,⍨∊,∘CRLF¨html
       :Else
           html←fontsize APLToHTML APL

@@ -1,6 +1,6 @@
 ﻿:Class ejGridSimple : MiPageSample
 ⍝ Control:: _SF.ejGrid
-⍝ Description:: Inser a read-only spreadsheet with various options set
+⍝ Description:: Insert a read-only spreadsheet with various options set
     
     ∇ Make
       :Access Public
@@ -16,8 +16,8 @@
 
     ∇ Compose
       :Access Public   
-      Add h2'Health Care Spending'
-      mygrid←Add _SF.ejGrid(VALUES COLTITLES CELLWIDTHS)
+      Add _.h2'Health Care Spending'
+      mygrid←Add _.ejGrid(VALUES COLTITLES CELLWIDTHS)
       mygrid.CellFormats←FORMATS
       mygrid.ColNames←COLNAMES
       mygrid.CellAlign←CELLALIGN
