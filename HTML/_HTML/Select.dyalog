@@ -9,7 +9,7 @@
 ⍝ Selected  - Boolean or integer array indicating pre-selected options(s)
 ⍝ Null      - first item to display (has no value) (default '[Select]')
 ⍝ Examples::
-⍝ Select ('Choice 1' 'Choice 2' 'Choice 3')	
+⍝ Select ('Choice 1' 'Choice 2' 'Choice 3')    
 ⍝ Select (3 2⍴'Choice 1' 'c1' 'Choice 2' 'c2' 'Choice 3' 'c3')
 ⍝ Select ((3 2⍴'Choice 1' 'c1' 'Choice 2' 'c2' 'Choice 3' 'c3') 2) ⍝ second item is selected
 ⍝ Select ((3 2⍴'Choice 1' 'c1' 'Choice 2' 'c2' 'Choice 3' 'c3') (0 1 0)) ⍝ second item is selected
@@ -17,7 +17,7 @@
 
     :field public Options←0 2⍴⊂''     ⍝ vector or matrix [;1] display, [;2] value
     :field public Selected←⍬          ⍝ either Boolean integer vector indicating
-    :field public Null←'[Select]' ⍝ character vector "null" choice - the first choice on the list and does not have a value
+    :field public Prompt←'[Select]'     ⍝ character vector "null" choice - the first choice on the list and does not have a value
 
     ∇ make
       :Access public

@@ -11,18 +11,18 @@
     quote←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
 
-    ∇ r←{script}JQueryfn pars;jqfn;sel;jqpars;chain;script;oname
+    ∇ r←{script}JQueryfn pars;jqfn;sel;jqpars;chain;script;oname;prejs
     ⍝ pars - [1] jquery function name, [2] selectors, [3] jquery function parameters, [4] jquery function chain [5] object name for the created object
     ⍝ for usage examples, see other functions in this namespace
       script←{6::1 1 ⋄ script}⍬  ⍝[1] wrap with <script>? [2]add jQuery onload $(function(){});?
       script←2↑script,(⍴,script)↓1 1
       pars←eis pars
-      jqfn sel jqpars chain oname←pars,(⍴pars)↓'' '' '' '' ''
+      jqfn sel jqpars chain oname prejs←pars,(⍴pars)↓'' '' '' '' '' ''
       chain,←(';'=¯1↑chain)↓';'
       sel←quote ¯2↓enlist{⍵,', '}¨eis sel
       :If 9=|⎕NC'jqpars' ⋄ jqpars←#.JSON.toJQueryParameters jqpars
       :ElseIf '{'≠1↑jqpars ⋄ jqpars←'{',jqpars,'}' ⋄ :EndIf
-      r←script[2]{⍺:'$(function(){',⍵,'});' ⋄ ⍵}(oname ine oname,'='),'$(',sel,').',jqfn,'(',jqpars,')',chain
+      r←script[2]{⍺:'$(function(){',⍵,'});' ⋄ ⍵}(prejs ine prejs,';'),(oname ine oname,'='),'$(',sel,').',jqfn,'(',jqpars,')',chain
       r←script[1]{⍺:#.HTMLInput.JS ⍵ ⋄ ⍵}(oname ine'var ',oname,';'),r
     ∇
 
