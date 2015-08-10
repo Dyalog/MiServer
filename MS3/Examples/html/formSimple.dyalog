@@ -4,7 +4,7 @@
 
     ∇ Compose
       :Access public
-      myform←'action="demo_keygen.asp"'⊢'method="get"'Add _.form
+      myform←'method="get"'Add _.form
      
      ⍝ This adds a box with an embedded legend
       mybox←myform.Add _.fieldset
