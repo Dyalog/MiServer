@@ -1,6 +1,6 @@
 ﻿:class abbrSimple: MiPageSample
 ⍝ Control:: _html.abbr 
-⍝ Description:: Add a "tooltip" to an abbreviation
+⍝ Description:: Display definition when hovering over an abbreviation
 
 ⍝ This is an example of using the HTML 'abbr' element.
 

@@ -8,7 +8,7 @@
       :If 0=⎕NC'idioms'
           idioms←⎕SE.SALT.Load'[ws]\MS3\Examples\Data\idioms -noname -nolink'
       :EndIf
-     
+      Add _.style'td:nth-child(2n+3) {font-family:APL385 Unicode}'
       ef←Add _.EditField'str'
       ef.On'change' ''('str' 'val')
       Add'      Press '

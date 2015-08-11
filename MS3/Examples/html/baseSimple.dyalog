@@ -4,8 +4,8 @@
 
     ∇ Compose
       :Access public 
-      Add 'Clicking this link will bring you to the indicated page INSIDE the server '
-      'href' 'meet-team-dyalog'Add _.a'meet-team-dyalog'
-      ∇
+      Add'Clicking this link will bring you to the indicated page INSIDE the server '
+      ('href' 'meet-team-dyalog')('target' '_blank')Add _.a'meet-team-dyalog'
+    ∇
 
 :endclass

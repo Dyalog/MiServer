@@ -2,7 +2,7 @@
 
     :SECTION GLOBALS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
-    :Field TYPES←'Simple' 'Advanced' ⍝ Types of samples (if not App)
+    :Field TYPES←'Simple' 'Advanced' 'Dyalog' ⍝ Types of samples (if not App)
     :Field GROUPS←'Base HTML' 'Wrapped HTML' 'Dyalog Controls' 'JQueryUI' 'SyncFusion' ⍝ Names of groups of elements
     :Field REFS        ⍝ ... their refs
     :Field APPS        ⍝ List of all apps
@@ -20,9 +20,11 @@
 
     :SECTION UTILITIES ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
-    P←' ('∘,,∘')' ⍝ Surround with parens, a.k.a. APL monkey
-
     Q←'"'∘,,∘'"'  ⍝ Surround with quotes, a.k.a. APL dragon
+
+    D←{(×≢⍵)/' – ',⍵} ⍝ Prepend a dash if non-empty
+
+    P←{1⌽(×≢#.HTMLInput.dtlb ⍵)/') (',⍵} ⍝ Surround with parens if non-empty
 
     Words←{(1↓¨(' '∘=⊂⊢)' ',⍵)~⊂''} ⍝ Split at spaces
 
@@ -41,16 +43,16 @@
     Dread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText #.Boot.AppRoot,⍵,'.dyalog'} ⍝ Read dyalog file
 
     Dlist←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX #.Boot.AppRoot,⍵,'/*.dyalog'} ⍝ List dyalog files
-    
+
     NodeID←{⍺←⊢ ⋄ ('#node',⊃⍵)∘,¨⍕¨⍺+⍳⍴⊃⌽⍵} ⍝ Generate node ids (⍵='L' items) optional (⍺=offset)
 
     In←{∨/¨⊃⍷¨/{⎕SE.Dyalog.Utils.lcase¨eis ⍵}¨⍺ ⍵} ⍝ Case-insensitive find
 
     Names←{1↓¨⍵↑¨⍨¯1+⍵⍳¨':'} ⍝ Extract section names from set of several 'name:: description'
 
-    AddShortInfo←{⍵,¨(⍵∊NAMESSHORT)/¨P¨(4+⍴¨⍵)↓¨(INFOSHORT,⊂'')[NAMESSHORT⍳⍵]} ⍝ ⍵ (ShortDesc)
-
-    AddLongInfo←{⍵,¨{⍵,⍨' – [no info available]'↓⍨¯19××≢⍵}¨(4+⍴¨⍵)↓¨(INFOLONG,⊂'')[NAMESLONG⍳⍵]} ⍝ ⍵ - LongDesc
+    AddShortInfo←{⍵,¨P¨(4+⍴¨⍵)↓¨(INFOSHORT,⊂'')[NAMESSHORT⍳⍵]} ⍝ ⍵ (ShortDesc)
+                    ⍝(⍵∊NAMESSHORT)/¨
+    AddLongInfo←{⍵,¨D¨{⍵,'[no info available]'/⍨0∊⍴⍵}¨(4+⍴¨⍵)↓¨(INFOLONG,⊂'')[NAMESLONG⍳⍵]} ⍝ ⍵ - LongDesc
 
       Section←{ ⍝ extract section ⍺:: from code ⍵
           regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)'
@@ -104,20 +106,24 @@
       '#title'Add _.title'MS3: About' ⍝ After the : will be updated
      
       Add _.StyleSheet'/Styles/homepage.css'
-      style←'.menu {cursor:pointer;margin-left:2pt;}'
+      style←'.pane {background-color:inherit;}'
+      style,←'.menu {cursor:pointer;margin-left:2pt;}'
+      style,←'.menu:hover {background-color:lightblue;} '
       style,←'.submenu {max-height:100pt;overflow-y:scroll;}'
       style,←'.menuitem {margin-bottom:0;margin-left:13pt;cursor:pointer;} '
-      style,←'.framed {width:726px;height:400px;border:2px inset;overflow-y:scroll;background-color:white;;} '
-      style,←'.listitem {margin:8px;cursor:pointer;}'
-      style,←'.samplesource {overflow-x:scroll;width:546pt;background-color:#e5e5cc;border:1px #f0f0e0 solid;}'
+      style,←'.menuitem:hover {background-color:lightblue;} '
+      style,←'.framed {width:726px;height:400px;border:2px inset;overflow-y:auto;background-color:white;;} '
+      style,←'.listitem {margin:8px;cursor:pointer;outline:darkblue auto 5pt;padding-left:2pt;padding-right:2pt}'
+      style,←'.listitem:hover {background-color:lightblue;}'
+      style,←'.samplesource {overflow-x:auto;width:546pt;background-color:#e5e5cc;border:1px #f0f0e0 solid;}'
       Add _.style style
      
-      (left mid)←NewDiv¨'leftBar' 'midBar' ⍝ Create panes
+      (left mid)←NewDiv¨'leftBar' 'midBar',¨⊂'.pane' ⍝ Create panes
      
       sp←'mainSP'Horz left mid
       sp.Items[1].style←⊂'width: 200px; max-height: 450px;'
       sp.Items[2].style←⊂'margin: 5px;'
-      sp.style←'height: 450px; width: 100%;'
+      sp.style←'height: 450px;background-color:inherit;'
      
       vp←Add _.StackPanel sp
       vp.style←'width:100%'
@@ -249,7 +255,7 @@
               :EndIf
           :EndFor
           title←1↓control Section INFOSHORT
-          title←spacectrl,(×≢title)/P title
+          title←spacectrl,P title
           desc←control Section INFOLONG
           r←spacectrl title desc out''
       :Else ⍝ Sample (Obsolete)
@@ -315,7 +321,9 @@
           :EndFor
           page←Q str
           desc←New _.span'Showing results for '
-          desc.Add _.em(⍕str,1↓¨terms)
+          desc.Add _.em(⍕str)
+          desc.Add(×≢terms)/D'including relevant element','s'/⍨1≠≢terms
+          desc.Add _.em(⍕1↓¨terms)
           i←(⍕16⌊i),(16<i)/' of ',(⍕i)
           time-⍨←0.001×3⊃⎕AI
           title←(⍕i),' results (',time,' seconds)'
