@@ -104,8 +104,12 @@
       '#title'Add _.title'MS3: About' ⍝ After the : will be updated
      
       Add _.StyleSheet'/Styles/homepage.css'
-      style←'.menu {cursor:pointer;margin-left:2pt;} .menuitem {margin-bottom:0;margin-left:13pt;cursor:pointer;}'
-      style,←'.framed {width:725px;height:400px;border:2px inset} .listitem {margin:8px;cursor:pointer;}'
+      style←'.menu {cursor:pointer;margin-left:2pt;}'
+      style,←'.submenu {max-height:100pt;overflow-y:scroll;}'
+      style,←'.menuitem {margin-bottom:0;margin-left:13pt;cursor:pointer;} '
+      style,←'.framed {width:726px;height:400px;border:2px inset;overflow-y:scroll;background-color:white;;} '
+      style,←'.listitem {margin:8px;cursor:pointer;}'
+      style,←'.samplesource {overflow-x:scroll;width:546pt;background-color:#e5e5cc;border:1px #f0f0e0 solid;}'
       Add _.style style
      
       (left mid)←NewDiv¨'leftBar' 'midBar' ⍝ Create panes
@@ -150,7 +154,7 @@
           CONTROLS,←⊂names
           depths←1,(⍴names)⍴2
           SAMPLES⍪←depths,(⍪(⊂group),names),(⊂class)
-          menu←thediv.Add _.details
+          menu←'.submenu'thediv.Add _.details
           (('#nodeL',⍕i)'.menu'menu.Add _.summary,⊂class,P group).On'click' 'OnControl'
           names←AddShortInfo names ⍝ add short info
           (((⊂¨i NodeID'L'names),¨⊂⊂'.menuitem')menu.Add¨_.p,¨names).On⊂'click' 'OnControl'
@@ -179,9 +183,9 @@
      ⍝ Create and fill placeholder for description line
       '#SampleDesc'mid.Add _.p('Description'Section code)
      ⍝ Create and fill placeholder for embedded page
-      frame←mid.Add NewDiv'#SampleFrame' 'style="background-color:white"'
+      frame←mid.Add NewDiv'#SampleFrame'
       frame.Add Frame url
-      '#SampleSource'mid.Add _.div,⊂#.HTMLInput.APLToHTMLColour code
+      '#SampleSource' '.samplesource'mid.Add _.div,⊂'x-small;border:none'#.HTMLInput.APLToHTMLColour code
     ∇
 
     :ENDSECTION
@@ -271,7 +275,7 @@
       r,←'#SampleTitle'Replace title
       r,←'#SampleDesc'Replace desc
       r,←'#SampleFrame'Replace iframe
-      r,←'#SampleSource'Replace(×≢code)/#.HTMLInput.APLToHTMLColour code
+      r,←'#SampleSource'Replace(×≢code)/'x-small;border:none'#.HTMLInput.APLToHTMLColour code
     ∇
 
     ∇ r←OnSearch;dir;files;file;code;desc;str;terms;entry;url;ctrlsec;iframe;page;title;item;out;i;time;types;type
