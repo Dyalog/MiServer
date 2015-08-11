@@ -2090,6 +2090,11 @@ border-image: initial;
 font-size: 14px;
 margin-left: 2px;
 }
+.e-treeview .e-text.e-editable {
+    background: none;
+    color: none;
+    border:none;
+}
 .e-dropedStatus
 {
 float:left;
@@ -2130,9 +2135,9 @@ width: 10px;
 vertical-align:middle;
 margin-left: 5px;  
 }
-.e-treeview-wrap .e-item div > span, .e-treeview-wrap .e-item div > img
+.e-treeview-wrap .e-item div > a > span,.e-treeview-wrap .e-item div > a > img
 {
-    margin: 1px -2px 0px 3px;
+    margin-right:3px;
 }
 .e-treeview-wrap .e-item div > .e-chkbox-wrap
 {
@@ -2183,9 +2188,10 @@ margin-right: 2px;
 .e-treeview-wrap.e-rtl .e-chkbox-wrap div > span{
 text-align: right;
 }
-.e-treeview-wrap.e-rtl .e-item div > span, .e-treeview-wrap.e-rtl .e-item div > img
+.e-treeview-wrap.e-rtl .e-item div > a > span,.e-treeview-wrap.e-rtl .e-item div > a> img
 {
-    margin: 1px 1px 0px 1px;
+   margin-right: 0px;
+   margin-left: 3px;
 }
 .e-treeview .e-treeview-ul
 {
@@ -8305,6 +8311,13 @@ text-align: right;
     padding: 0 7px 12px;
     text-align: right;
 }
+.e-scheduledialog.e-rtl .e-recureditbtns
+{
+    bottom: -1em;
+    clear: both;
+    padding: 0 7px 12px;
+    text-align: left;
+}
     .e-scheduledialog .e-recureditbtns .e-recurdone
     {
         margin-right:10px;
@@ -9412,6 +9425,7 @@ div[id*='toolbar_zoomSelection_popup'] > div > ul {
     -ms-user-select: none; /* IE 10+ */ /* No support for these yet, use at own risk */
     -o-user-select: none;
     user-select: none;
+    z-index: 100001;
 }
 .e-tile .e-user-select
 {
@@ -10942,7 +10956,7 @@ white-space: nowrap;
 .e-fileexplorer,.e-fileexplorer .e-treeview .e-fe-node-hover,.e-fileexplorer input,input.e-fe-dialog-text {
     border: 1px solid ;
 }
-.e-fileexplorer .e-toolbar {
+.e-fileexplorer .e-toolbar, .e-fe-dialog.e-dialog>.e-header+.e-dialog-scroller {
     border: 0 none;
 }
 .e-fileexplorer .e-treeview .e-fe-node-hover {
@@ -10984,7 +10998,8 @@ white-space: nowrap;
 }
 .e-fileexplorer .e-addressBar {
     width: 260px;
-    padding: 0 0 0 18px;
+    padding: 0px;
+    text-indent: 27px;
 }
 .e-fileexplorer input,input.e-fe-dialog-text {
     height: 22px;
@@ -11037,8 +11052,78 @@ white-space: nowrap;
 }
 .e-fileexplorer .e-uploadbox.e-widget {
     border-radius: 0px;
-    padding: 0px 3px;
-    padding-top: 2px;
+}
+.e-fileexplorer .e-uploadbox.e-dialog .e-titlebar {
+    padding:.25em .25em .25em 1em;
+}
+.e-fileexplorer .e-uploadbox.e-dialog .e-header {
+    font-size: 16px
+}
+.e-fileexplorer .e-uploadbox.e-dialog .e-titlebar .e-title {
+    margin-left: 0;
+    top: 0;
+}
+.e-fileexplorer .e-uploadbox.e-dialog .e-dialog-icon {
+    top: 0;
+    right: 0;
+}
+.e-fileexplorer .e-uploadbox.e-dialog .e-file-upload {
+    float: right;
+    width: 100%;
+}
+.e-fileexplorer .e-uploadbox.e-dialog .e-file-upload > .e-btn{
+    left: 0;
+    height: 30px;
+    float: right;
+    margin: 0 9px 0 9px;
+}
+.e-fileexplorer .e-uploadbox.e-rtl.e-dialog .e-file-upload {
+    float: left;
+}
+.e-fileexplorer .e-uploadbox.e-rtl.e-dialog .e-file-upload > .e-btn{
+    float: left;
+    margin-left: 11px;
+    margin-right: 7px;
+}
+.e-fileexplorer .e-uploadbox.e-dialog .e-head-content {
+    display:none;
+}
+.e-fileexplorer .e-uploadbox .e-file-list .e-file-progress {
+    width: 180px;
+}
+.e-fileexplorer .e-uploadbox .e-file-list .e-file-size {
+    margin-left: 2em;
+}
+.e-fileexplorer .e-uploadbox .e-file-list .e-file-percentage {
+    width: 130px;
+    margin-left: 2em;
+}
+.e-fileexplorer .e-uploadbox .e-file-list .e-file-percentage .e-file-progress-bar {
+    width: auto;
+}
+.e-fileexplorer .e-uploadbox .e-file-list .e-action-perform {
+    margin-left: 17px;
+}
+.e-fileexplorer .e-uploadbox.e-rtl .e-file-list .e-file-size, .e-fileexplorer .e-uploadbox.e-rtl .e-file-list .e-file-percentage {
+    margin-right: 2em;
+    margin-left: 0;
+}
+.e-fileexplorer .e-uploadbox.e-rtl .e-file-list .e-action-perform {
+    margin-left:0px;
+    margin-right:17px;
+}
+.e-fileexplorer .e-uploadbox .e-ul>li {
+    height: 54px;
+}
+.e-fileexplorer .e-uploadbox .e-file-list {
+    height: 53px;
+    top: 0;
+}
+.e-fileexplorer .e-uploadbox .e-file-upload {
+    padding: 12px 0;
+}
+.e-fe-dialog.e-dialog.e-dialog-wrap {
+    border: none;
 }
 .e-fileexplorer .e-tileview {
     margin-bottom: 0px;
@@ -11095,7 +11180,7 @@ white-space: nowrap;
     display: inline-block;
     vertical-align: top;
     padding: 0 0 4px 0;
-    width: 108px;
+    width: 104px;
     border: 1px solid transparent;
 }
 .e-fileexplorer .e-addNewFolder.e-button {
@@ -11116,8 +11201,15 @@ white-space: nowrap;
 }
 .e-fileexplorer .e-thumbImage {
     padding: 4px;
-    height: 100px;
-    width: 100px;
+    display: block;
+    max-width:96px;
+    max-height:88px;
+	text-align:center;
+    width: auto;
+    height: auto;
+	margin-left: auto;
+    margin-right: auto;
+
 }
 .e-fileexplorer .e-name {
     text-align: center;
@@ -11154,10 +11246,7 @@ white-space: nowrap;
 .e-rtl.e-fileexplorer .e-toolbar .e-horizontal.e-ul.e-ul-searchBar,.e-rtl.e-fileexplorer .e-splitter .e-cont2 {
     float: left;
 }
-.e-rtl.e-fileexplorer .e-addressBar {
-    padding-left: 0px;
-    padding-right: 18px;
-}
+
 .e-fileexplorer .e-tileview, .e-fileexplorer .e-toolbar .e-feItem-Addressbar,.e-fileexplorer .e-toolbar .e-feItem-Searchbar {
     padding-left: 0px;
     padding-right: 0px;
@@ -11186,7 +11275,13 @@ white-space: nowrap;
 }
 .e-fileexplorer .e-tree-foldericon {
     height: 18px;
-    width: 14px
+    width: 14px;
+    padding-right: 4px;
+}
+.e-rtl.e-fileexplorer .e-tree-foldericon {
+    padding-right:0;
+    padding-left: 4px;
+    float: right;
 }
 .e-fileexplorer .e-addressbar-foldericon, .e-fileexplorer .e-tree-foldericon {
     font-size: 14px;
@@ -11245,8 +11340,8 @@ white-space: nowrap;
     content: "\e61f";
 }
 .e-fileexplorer .e-nonImage-icon,.e-fileexplorer .e-folder-icon {
-    height: 100px;
-    width: 100px;
+    height: 85px;
+	width: 96px;
     font-family: 'ej-webfont';
     display: block;
     padding: 4px;
@@ -11255,7 +11350,8 @@ white-space: nowrap;
     font-size: 85px;
 }
 .e-fileexplorer .e-nonImage-icon {
-    font-size: 100px;
+    font-size: 85px;
+	text-align: center;
 }
 .e-fileexplorer .e-folder-icon:before {
     position: relative;
@@ -11268,7 +11364,7 @@ white-space: nowrap;
 }
 .e-fileexplorer .e-nonImage-icon:before {
     position: relative;
-    top: -21px;
+    top: -15px;
     content: "\e6b5";
 }
 .e-fe-dialog-btn,.e-fe-dialog-centerbtn,.e-fe-dialog-text {
@@ -11284,12 +11380,11 @@ white-space: nowrap;
 }
 .e-fe-dialog-centerbtn {
     width: 70%;
-    margin-left: 15%;
+    float: right;
 }
 .e-rtl .e-fe-dialog-centerbtn {
     width: 70%;
-    margin-left: 0;
-    margin-right: 15%;
+    float: left;
 }
 .e-fe-btn-ok,
 .e-fe-btn-cancel {
@@ -11343,7 +11438,7 @@ white-space: nowrap;
       width: 138px;
 }
 .e-dialog .e-fe-table tr td {
-    padding: 2px 4px;
+    padding: 4px 4px;
     word-break: break-all;
 }
 .e-dialog .e-fe-table tr td:first-child {
@@ -11361,11 +11456,23 @@ white-space: nowrap;
     padding-bottom:0px;
 }
 .e-fe-dialog.e-dialog > .e-titlebar {
- padding: 0.3em 0.3em 0 0;
+ padding: .25em .25em .25em 1em;
  border: 0 none;
+}
+.e-fe-dialog.e-dialog.e-rtl > .e-titlebar, .e-fileexplorer .e-uploadbox.e-dialog.e-rtl .e-titlebar {
+    padding: .25em 1em .25em .25em;
 }
 .e-fileexplorer .e-uploadbox.e-widget .e-selectpart.e-select {
     border: none;
+}
+.e-dialog.e-imageViewer-wrap .e-titlebar .e-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90%;
+    float: left;
+}
+.e-dialog.e-rtl.e-imageViewer-wrap .e-titlebar .e-title {
+    float: right;
 }
 .e-menu > .e-list.e-fe-separator {
     border-bottom: 1px solid;
@@ -11380,9 +11487,6 @@ white-space: nowrap;
     margin-right: 0px;
     display: inline-table;
     vertical-align: middle;
-}
-.e-fileexplorer .e-treeview .e-text {
-    margin-left: 4px;
 }
 .e-fileexplorer .e-grid tr td:first-child, .e-fileexplorer .e-grid.e-rtl tr td:last-child {
     border-left: 1px solid transparent;
@@ -11443,6 +11547,29 @@ white-space: nowrap;
 .e-fileexplorer .e-icon.e-fe-resize + .e-switchView {
     margin: 0;
 }
+.e-fileexplorer .e-toolbar .e-feItem-Searchbar.e-active, .e-fileexplorer .e-toolbar .e-feItem-Addressbar.e-active{
+    background-color: transparent;
+	border-color: transparent;
+}
+.e-fileexplorer .e-tilenode .e-image{
+	display: table-cell;
+    vertical-align: bottom;    
+	width:100px;
+}
+.e-dialog .e-fe-table table {
+    width: 100%;
+}
+.e-dialog .e-fe-table table tr .e-readonly {
+    width: 100%;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    word-wrap:nowrap;
+}
+.e-dialog .e-fe-table table .e-border {
+    border-bottom: 1px solid;
+}
+
 /*------------------------------FileExplorer End-------------------------------*/
 
 /* validation message */

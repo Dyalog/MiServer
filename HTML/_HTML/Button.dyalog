@@ -9,12 +9,13 @@
      ⍝ arguments are content [name [value]]
       args←eis⍣(~0∊⍴args)⊢args
       (_content name value)←3↑args,(⍴args)↓'OK' 'button' ''
-      id←name
       Set('type' 'button')
     ∇
 
     ∇ html←Render
       :Access public
+      :If id≡UNDEF ⋄ id←name ⋄ :EndIf
+      SetId
       :If 0∊⍴Content
           Content←_content
       :EndIf

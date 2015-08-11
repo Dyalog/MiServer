@@ -149,10 +149,6 @@
 }
 
 /*------------------------Schedule Start-----------------------------------*/
-@media all and (max-width: 360px) and (orientation:portrait), only screen and (max-width : 360px) and (orientation: portrait),all and (max-width: 360px) and (orientation:landscape), only screen and ( min-resolution: 192dpi), only screen and ( min-resolution: 2dppx) {
-    body {
-        margin: 0px;
-    }
 
     .e-scheduledrawer.e-scheduleresponsive .e-list-hdr > li > a > span {
         top:0px !important;
@@ -319,10 +315,6 @@
         vertical-align:middle !important;
     }
 
-    .e-scheduledialog.e-scheduleresponsive .e-button {
-        /*padding:0 !important;*/
-    }
-	
     .e-scheduledialog.e-scheduleresponsive .e-alertbtn .e-alertOk{
         margin:0px 20px 15px 10px;
     }
@@ -391,5 +383,4 @@
     .e-scheduledialog.e-scheduleresponsive .e-widget-content {
         padding: .5em;
     }
-}
 /*-------------------------------------Schedule End-----------------------------*/

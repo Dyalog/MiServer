@@ -354,10 +354,11 @@
       r←(¯1↓r),']'
     ∇
 
-    ∇ r←a fromTable w
+    ∇ r←a fromTable w;z;t
       :Access public shared
-      r←a{0∊⍴z←⎕NS¨(⊃⍴⍵)⍴⊂'':z
-          z⊣z(⍺{⍺.⍎'(',(⍕⍺⍺),')←⍵'})¨(↓⍣(2=⍬⍴⍴⍴⍵))⍵}w
+      :If ~0∊⍴r←⎕NS¨(⊃⍴w)⍴⊂''
+          r(a{⍺.⍎'(',⍕⍺⍺,')←⍵'})¨{1=⍴⍵:⊃⍵ ⋄ ⍵}¨↓w
+      :EndIf
     ∇
 
     ∇ r←aa Add(a w)

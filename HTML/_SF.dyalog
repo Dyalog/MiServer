@@ -1,4 +1,5 @@
 ﻿:Namespace _SF
+    ⍝∇:require =\_JQ.dyalog
 
     :section CommonCode
 

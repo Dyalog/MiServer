@@ -587,14 +587,14 @@
               :Else
                   inst.Wrap REQ
               :EndIf
-              :If Config.FormatHtml
-                  :Trap 0
-                      REQ.Response.HTML←('.'⎕R'&'⍠'NEOL' 1⍠'EOL' 'LF')((⎕XML⍠'Whitespace' 'Preserve')⍣2)REQ.Response.HTML
-                  :Else
-                      ⎕←'*** ⎕XML failed'
-                      ⎕←⎕DMX.Message
-                  :EndTrap
-              :EndIf
+⍝              :If Config.FormatHtml
+⍝                  :Trap 0
+⍝                      REQ.Response.HTML←('.'⎕R'&'⍠'NEOL' 1⍠'EOL' 'LF')((⎕XML⍠'Whitespace' 'Preserve')⍣2)REQ.Response.HTML
+⍝                  :Else
+⍝                      ⎕←'*** ⎕XML failed'
+⍝                      ⎕←⎕DMX.Message
+⍝                  :EndTrap
+⍝              :EndIf
           :EndIf
       :EndHold
       →0
