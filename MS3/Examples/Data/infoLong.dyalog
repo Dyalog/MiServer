@@ -26,7 +26,7 @@ del:: The del element represents a removal from the document.
 details:: The details element represents additional information or controls which the user can obtain on demand.
 dfn:: The dfn element represents the defining instance of a term, where its definition is provided nearby.
 dialog:: The dialog element represents a conversation.
-div:: The div element represents nothing at all. It can be used with the class, lang/xml:lang, and title attributes to mark up semantics common to a group of consecutive elements.
+div:: The div element identifies a "division" of the document. A div can be used with the class, lang/xml:lang, and title attributes to mark up semantics common to a group of consecutive elements - or to identify a section of content which will be manipulated or replaced at runtime.
 dl:: The dl element introduces an association list containing groups of terms and associated descriptions. (a description list).
 dt:: The dt element represents the term, or name, part of a term-description group in a description list (dl element), and the talker, or speaker, part of a talker-discourse pair in a conversation (dialog element).
 em:: The em element represents stress emphasis of its contents.
