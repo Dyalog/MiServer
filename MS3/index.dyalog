@@ -106,20 +106,19 @@
       '#title'Add _.title'MS3: About' ⍝ After the : will be updated
      
       Add _.StyleSheet'/Styles/homepage.css'
-      style←'.pane {background-color:inherit;}'
-      style,←'.menu {cursor:pointer;margin-left:2pt;}'
-      style,←'.menu:hover {background-color:lightblue;} '
-      style,←'.submenu {max-height:100pt;overflow-y:scroll;}'
-      style,←'.menuitem {margin-bottom:0;margin-left:13pt;cursor:pointer;} '
+      style←''
+      style,←'#leftBar {background-color:inherit;margin-right:6px;}'
+      style,←'.menu {cursor:pointer;margin-bottom:0pt;}'
+      style,←'.submenu {max-height:75px;overflow-y:scroll;background-color:white;border:2px groove threedface;}'
+      style,←'.menuitem {margin-bottom:0;margin-left:0px;padding-left:2px;cursor:pointer;} '
       style,←'.menuitem:hover {background-color:lightblue;} '
-      style,←'.framed {width:726px;height:400px;border:2px inset;overflow-y:auto;background-color:white;;} '
-      style,←'.listitem {margin:8px;cursor:pointer;outline:darkblue auto 5pt;padding-left:2pt;padding-right:2pt}'
+      style,←'.framed {width:726px;max-height:600px;min-height:400px;border:2px inset;overflow-y:auto;background-color:white;;} '
+      style,←'.listitem {margin:8px;cursor:pointer;outline:darkblue auto 5px;padding-left:2px;padding-right:2px}'
       style,←'.listitem:hover {background-color:lightblue;}'
-      style,←'.samplesource {overflow-x:auto;width:546pt;background-color:#e5e5cc;border:1px #f0f0e0 solid;}'
+      style,←'.samplesource {overflow-x:auto;width:725px;background-color:#e5e5cc;border:2px inset;}'
       Add _.style style
      
-      (left mid)←NewDiv¨'leftBar' 'midBar',¨⊂'.pane' ⍝ Create panes
-     
+      (left mid)←NewDiv¨'#leftBar' '#midBar' ⍝ Create panes
       sp←'mainSP'Horz left mid
       sp.Items[1].style←⊂'width: 200px; max-height: 450px;'
       sp.Items[2].style←⊂'margin: 5px;'
@@ -132,26 +131,22 @@
       PopulateMid mid
     ∇
 
-    ∇ PopulateLeft thediv;class;depths;group;items;names;ref;samples;tv;vp;search;case;style;menu;i
+    ∇ PopulateLeft thediv;class;depths;group;items;names;ref;samples;tv;vp;search;case;style;menu;i;fs
      
       ⍝ SEARCH FIELD ⍝⍝⍝
       (search←New _.EditField'str').On'change' 'OnSearch'('str' 'val')
       (case←'#case'New _.button'Search').On'click' 'OnSearch'
       thediv.Add Horz search case
      
-      thediv.Add _.hr
-     
       ⍝ SAMPLE APPS ⍝⍝⍝
       APPS←(Dlist'Examples/Apps')~⊂'index'
       APPDESCS←(⊂'Description')Section¨Dread¨'Examples/Apps/'∘,¨APPS
       APPCTRLS←(⊂'Control')Section¨Dread¨'Examples/Apps/'∘,¨APPS
-      ('#nodeA0' '.menu'thediv.Add _.span'Sample Apps').On'click' 'OnApp'
-      (((⊂¨NodeID'A'APPS),¨⊂⊂'.menuitem')thediv.Add¨_.p,¨APPCTRLS).On⊂'click' 'OnApp'
-     
-      thediv.Add _.hr
+      ('#nodeA0' '.menu'(thediv.Add _.h3).Add _.a'Sample Apps').On'click' 'OnApp'
+      menu←'.submenu'thediv.Add _.div
+      (((⊂¨NodeID'A'APPS),¨⊂⊂'.menuitem')menu.Add¨_.p,¨APPCTRLS).On⊂'click' 'OnApp'
      
       ⍝ CONTROLS ⍝⍝⍝
-      'style="margin-left:4pt;"'thediv.Add _.span'Controls'
       i←1
       :For (group ref) :InEach GROUPS REFS
           names←{({#.HtmlElement=⊃⊃⌽⎕CLASS ⍵}¨⍵)/⍵}ref.(⍎¨⎕NL ¯9.4)
@@ -160,24 +155,24 @@
           CONTROLS,←⊂names
           depths←1,(⍴names)⍴2
           SAMPLES⍪←depths,(⍪(⊂group),names),(⊂class)
-          menu←'.submenu'thediv.Add _.details
-          (('#nodeL',⍕i)'.menu'menu.Add _.summary,⊂class,P group).On'click' 'OnControl'
           names←AddShortInfo names ⍝ add short info
+     
+          (('#nodeL',⍕i)'.menu'(thediv.Add _.h3).Add _.a,⊂class,P group).On'click' 'OnControl'
+          menu←'.submenu'thediv.Add _.div
           (((⊂¨i NodeID'L'names),¨⊂⊂'.menuitem')menu.Add¨_.p,¨names).On⊂'click' 'OnControl'
           i+←1+⍴names
-          names←(⊂group),names
       :EndFor
     ∇
 
-    ∇ r←space FindSamples names;i;samples;suffix
-      samples←Dlist SpaceToDir space
-      r←(⍴names)⍴⊂''
-      :For suffix :In TYPES
-          i←(((-⍴suffix)↑¨samples)∊⊂suffix)/⍳⍴samples
-          i←{(⍵≤⍴names)/⍵}names⍳(-⍴suffix)↓¨samples[i]
-          r[i]←r[i],¨⊂⊂suffix
-      :EndFor
-    ∇
+⍝    ∇ r←space FindSamples names;i;samples;suffix
+⍝      samples←Dlist SpaceToDir space
+⍝      r←(⍴names)⍴⊂''
+⍝      :For suffix :In TYPES
+⍝          i←(((-⍴suffix)↑¨samples)∊⊂suffix)/⍳⍴samples
+⍝          i←{(⍵≤⍴names)/⍵}names⍳(-⍴suffix)↓¨samples[i]
+⍝          r[i]←r[i],¨⊂⊂suffix
+⍝      :EndFor
+⍝    ∇
 
     ∇ PopulateMid mid;url;code;frame;mya
      
@@ -209,7 +204,7 @@
           items←(NodeID'M'APPS)out.Add¨_.p,¨descs
           items.Set⊂'.listitem'
           items.On⊂'click' 'OnApp'
-          r←'Apps' 'Sample Apps' 'Small applications to showcase MiServer 3.0 functionality'out''
+          r←'Apps' 'Small applications to showcase MiServer 3.0 functionality'(' apps',⍨≢APPS)out''
       :EndIf
       r←GenJS r
     ∇
@@ -235,7 +230,7 @@
           items←(node NodeID'M'names)out.Add¨_.p,¨descs
           items.Set⊂'.listitem'
           items.On⊂'click' 'OnControl'
-          r←space(space,P number⊃GROUPS)(' controls',⍨⍕⍴names)out''
+          r←space('Members of ',space,P number⊃GROUPS)(' controls',⍨⍕⍴names)out''
       :Case 2 ⍝ Element
           spacectrl←space,'.',control
           files←Dlist spacedir
@@ -255,7 +250,7 @@
               :EndIf
           :EndFor
           title←1↓control Section INFOSHORT
-          title←spacectrl,P title
+          title←'Samples using ',spacectrl,P title
           desc←control Section INFOLONG
           r←spacectrl title desc out''
       :Else ⍝ Sample (Obsolete)
