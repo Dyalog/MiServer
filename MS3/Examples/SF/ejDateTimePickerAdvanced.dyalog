@@ -35,10 +35,8 @@
       :Access public
      
     ⍝ Find the difference between the dates
-      in←dateToIDN stringToDate⍕Get'in'
-      out←dateToIDN 6↑{b←~⍵∊'/-:' ⋄ FI b\b/⍵}Get'out'
-     
-    ⍝ If the new IN date is not before the OUT date we reset OUT to 1 week after
+      in←dateToIDN stringToDate Get'in'
+      out←dateToIDN stringToDate Get'out'
       :If in>out
           r←'#diff'Replace'Going back in time?'
       :Else
@@ -54,19 +52,22 @@
      ⍝ str is of the genre "Wed Aug 05 2015 07:30:21 GMT-0400 (Eastern Daylight Time)"
      ⍝ We need to weed out the day of the week and the time
       str←(+/∧\' '=str)↓str           ⍝ remove the leading spaces
-      :If 0∊⍴t←MONTHS ⎕S 0 3⊢str      ⍝ look for the month as a string. If not found
-          ymd←3↑FI str                ⍝ grab the 1st 3 numbers found
-          ymd←ymd[⍒(2×31<ymd)+ymd<12] ⍝ put in correct order
-      :Else                           ⍝ otherwise (if found)
-          (pos mon)←0 1+1⊃t
-          :If ~0∊⍴t←FI pos↑str        ⍝ any number before the month? (e.g. 2 May 2021)
-              ymd←⌽⍣(31<⍬⍴t)⊢(1↑FI pos↓str),mon,t
-          :Else
-              ymd←¯1⌽mon,2↑FI pos↓str
+     ⍝ What kind of string is this?
+      :If ~∧/1⊃(dt dt)←{b←~⍵∊'/-:' ⋄ ⎕VFI b\b/⍵}str  ⍝ yyyy/mm/dd hh:mm:ss ?
+          :If 0∊⍴t←MONTHS ⎕S 0 3⊢str      ⍝ look for the month as a string. If not found
+              ymd←3↑FI str                ⍝ grab the 1st 3 numbers found
+              ymd←ymd[⍒(2×31<ymd)+ymd<12] ⍝ put in correct order
+          :Else                           ⍝ otherwise (if found)
+              (pos mon)←0 1+1⊃t
+              :If ~0∊⍴t←FI pos↑str        ⍝ any number before the month? (e.g. 2 May 2021)
+                  ymd←⌽⍣(31<⍬⍴t)⊢(1↑FI pos↓str),mon,t
+              :Else
+                  ymd←¯1⌽mon,2↑FI pos↓str
+              :EndIf
           :EndIf
-      :EndIf
      ⍝ Now grab the time
-      dt←ymd,FI⍕'(\d+):(\d+):(\d+)'⎕S'\1 \2 \3'⊢str
+          dt←ymd,FI⍕'(\d+):(\d+):(\d+)'⎕S'\1 \2 \3'⊢str
+      :EndIf
     ∇
 
 :EndClass
