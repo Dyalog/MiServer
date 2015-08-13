@@ -5,7 +5,9 @@
     ∇ Compose
       :Access public
      
-      link←{'target=_blank'((links[⍺]).Add _.p).Add _.A ⍵}
+      link←{myp←⍺.Add _.p
+          ('target' '_blank')('href'(⊃⌽⍵))myp.Add _.a(⊃⍵)
+      }
      
       myp←Add _.p'MiServer is a free, open-source web server implemented in Dyalog '
       myp.Add'APL. It enables those knowledgable in APL to build sophisticated '
@@ -19,22 +21,22 @@
       'src=../Data/Dyalog-D.png' 'alt="Dyalog-D"' 'height="12px"'myp.Add _.img
       myp.Add'to toggle source/output. This applies to the initial index page too.'
      
-      (Add _.StackPanel(links←New¨2/_.fieldset)).Horizontal←1
+      (Add _.StackPanel((left right)←New¨2/_.fieldset)).Horizontal←1
      
-      links[1].Add _.legend'External Resources'
-      1 link'SyncFusion APIs' 'http://helpjs.syncfusion.com/js/api/ejaccordion'
-      1 link'SyncFusion Demos' 'http://js.syncfusion.com/demos/web/'
-      1 link'JQueryUI' 'https://jqueryui.com/'
-      1 link'HTML' 'http://www.w3schools.com/html/'
-      1 link'CSS' 'http://www.w3schools.com/css/'
+      left.Add _.legend'External Resources'
+      left link'SyncFusion APIs' 'http://helpjs.syncfusion.com/js/api/ejaccordion'
+      left link'SyncFusion Demos' 'http://js.syncfusion.com/demos/web/'
+      left link'JQueryUI' 'https://jqueryui.com/'
+      left link'HTML' 'http://www.w3schools.com/html/'
+      left link'CSS' 'http://www.w3schools.com/css/'
      
-      links[2].Add _.legend'MiServer Resources'
-      2 link'Support and feedback' 'mailto:support@dyalog.com'
-      2 link'Download' 'https://github.com/Dyalog/MiServer'
-      2 link'Forum' 'http://www.dyalog.com/forum/viewforum.php?f=34'
-      2 link'Blog' 'http://www.dyalog.com/blog/category/miserver/'
-      2 link'Dyalog Ltd.' 'https://www.dyalog.com/'
+      right.Add _.legend'MiServer Resources'
+      right link'Support and feedback' 'mailto:support@dyalog.com'
+      right link'Download' 'https://github.com/Dyalog/MiServer'
+      right link'Forum' 'http://www.dyalog.com/forum/viewforum.php?f=34'
+      right link'Blog' 'http://www.dyalog.com/blog/category/miserver/'
+      right link'Dyalog Ltd.' 'https://www.dyalog.com/'
     ∇
 
-    
+
 :endclass
