@@ -2,7 +2,6 @@
 
     :field public Method←'post'
     :field public Action←''
-    :field public Serialize←0
 
     ∇ make;c
       :Access public

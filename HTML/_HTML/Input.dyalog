@@ -1,6 +1,7 @@
 ﻿    :class Input : #._html.input
 
         :field public Label←''
+        
 
         ∇ Make1 args;l;n;t;v
           :Access public

@@ -451,14 +451,14 @@
     ∇
 
     ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax;flag
-    ⍝ Handle a "Mildserver Page" request
+    ⍝ Handle a "MiServer Page" request
      RETRY:
       :If 0≡date←3⊃(,''#.Files.List file),0 0 0
           REQ.Fail 404 ⋄ →0
       :EndIf
      
       MS3←RESTful←0
-     
+      APLJax←REQ.isAPLJax
       :If sessioned←326=⎕DR REQ.Session ⍝ do we think we have a session handler active?
       :AndIf 0≠⍴REQ.Session.Pages     ⍝ Look for existing Page in Session
       :AndIf (n←⍴REQ.Session.Pages)≥i←REQ.Session.Pages._PageName⍳⊂REQ.Page
@@ -482,8 +482,8 @@
               :Trap 11 22
                   class←⎕SE.SALT.Load file,' -target=#.Pages'
                   inst←⎕NEW class
-              :Case 11 ⋄ REQ.Fail 500 ⋄ →0 ⍝ Domain Error: HTTP Internal Error
-              :Case 22 ⋄ REQ.Fail 404 ⋄ →0 ⍝ File Name Error: HTTP Page not found
+              :Case 11 ⋄ REQ.Fail 500 ⋄ 1 Log'Domain Error trying to load "',file,'"' ⋄ →0 ⍝ Domain Error: HTTP Internal Error
+              :Case 22 ⋄ REQ.Fail 404 ⋄ 1 Log'File not found - "',file,'"' ⋄ →0 ⍝ File Name Error: HTTP Page not found
               :EndTrap
               4 Log'Creating new instance of page: ',REQ.Page
               inst._PageName←REQ.Page
@@ -529,7 +529,7 @@
           :EndIf
      
           fn←cb←'Render'
-          :If APLJax←REQ.isAPLJax>RESTful ⍝ if it's an APLJax (XmlHttpRequest) request (but not web service)
+          :If APLJax>RESTful ⍝ if it's an APLJax (XmlHttpRequest) request (but not web service)
               REQ.Response.NoWrap←1
               fn←cb←'APLJax' ⍝ default callback function name
               :If MS3
@@ -587,14 +587,6 @@
               :Else
                   inst.Wrap REQ
               :EndIf
-⍝              :If Config.FormatHtml
-⍝                  :Trap 0
-⍝                      REQ.Response.HTML←('.'⎕R'&'⍠'NEOL' 1⍠'EOL' 'LF')((⎕XML⍠'Whitespace' 'Preserve')⍣2)REQ.Response.HTML
-⍝                  :Else
-⍝                      ⎕←'*** ⎕XML failed'
-⍝                      ⎕←⎕DMX.Message
-⍝                  :EndTrap
-⍝              :EndIf
           :EndIf
       :EndHold
       →0
@@ -655,7 +647,11 @@
     ⍝ Because AJAX calls don't send a "BlockLast" packet, we need to clean up connection namespaces that didn't get erased
       :While 1
           ⎕DL 30
-          {}Common.{⎕EX(⎕NL ¯9)~'C',¨#.DRC.Names ⍵}server
+          :Trap 6
+              {}Common.{⎕EX(⎕NL ¯9)~'C',¨#.DRC.Names ⍵}server
+          :Else
+              →0
+          :EndTrap
       :EndWhile
     ∇
 

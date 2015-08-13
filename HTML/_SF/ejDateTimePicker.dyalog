@@ -1,22 +1,22 @@
 ﻿:Class ejDateTimePicker : #._SF._ejWidget
 ⍝ Description:: Syncfusion DatePicker widget
-⍝ Constructor:: [date] [format]
-⍝ date          -  date in JavaScript format (see: http://www.w3schools.com/js/js_dates.asp)  (default 6↑⎕TS)
-⍝ format        -  (default 'yyyy/MM/dd')
+⍝ Constructor:: [datetime] [format]
+⍝ datetime      -  datetime in either JavaScript format or n↑⎕TS (see: http://www.w3schools.com/js/js_dates.asp)  (default 6↑⎕TS)
+⍝ format        -  datetime format, a combination of a date format and a time format (default 'dd-MMM-yyyy hh:mm:ss')
 ⍝ Public Fields::
-⍝ Label    - string of text to appear next to the input field
-⍝ LabelPos - position of label relative to the date input field ('left' (default) or 'right')
+⍝ DateTime      - Datetime in either JavaScript format or n↑⎕TS
+⍝ Format        - Datetime format, a combination of a date format and a time format (default 'dd-MMM-yyyy hh:mm:ss')
 ⍝ Examples::
 ⍝ ejDateTimePicker
 ⍝ ejDateTimePicker '17:53:59 11/27/66 (GMT-5)'
-⍝ ejDateTimePicker (2000 1 1)('dd-MMM-yyyy hh:mm:ss')
+⍝ ejDateTimePicker (1999 12 31 23 59 59)('dd-MMM-yyyy hh:mm:ss')
 
     :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejDateTimePicker.html'
     :Field Public Shared Readonly ApiLevel←2
     :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejDateTimePicker.html'
     :Field Public Shared ReadOnly IntEvt←'change'  'close'  'create'  'destroy'  'focusIn'  'focusOut'  'open'
-    :field public Label←''
-    :field public LabelPos←'left'  ⍝ valid are 'left' 'right'
+    :field public DateTime←''
+    :field public Format←'dd-MMM-yyyy hh:mm:ss'
 
 
     ∇ make0
@@ -26,6 +26,7 @@
       :Implements Constructor
       Container.type←'text'
       InternalEvents←IntEvt
+      DateTime←6↑⎕TS
     ∇
 
     ∇ make args;val;fmt
@@ -33,9 +34,19 @@
       JQueryFn←Uses←'ejDateTimePicker'
       ContainerType←'input'
       :Implements Constructor
-      (val fmt)←args defaultArgs(6↑⎕TS)'dd-MMM-yyyy hh:mm:ss'
-      ('value' 'dateTimeFormat')Set(('⍎new Date("',(⍕val),'")')fmt)
+      (DateTime Format)←args defaultArgs(6↑⎕TS)'dd-MMM-yyyy hh:mm:ss'
       Container.type←'text'
       InternalEvents←IntEvt
+    ∇
+
+    ∇ r←Render;dt
+      :Access public
+      SetId
+      :If 0∊⍴DateTime ⋄ DateTime←6↑⎕TS ⋄ :EndIf
+      :If (0 2∊⍨10|⎕DR DateTime) ⋄ dt←'"',DateTime,'"'
+      :Else ⋄ dt←1↓∊','∘,∘⍕¨DateTime-(⍴,DateTime)↑0 1 ⍝ adjust for JavaScript having 0-origin months (Jan-Dec = 0-11)
+      :EndIf
+      ('value' 'dateTimeFormat')Set(('⍎new Date(',dt,')')Format)
+      r←⎕BASE.Render
     ∇
 :EndClass

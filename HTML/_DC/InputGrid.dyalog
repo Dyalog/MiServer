@@ -15,18 +15,12 @@
     ∇ make1 args;data;sel
       :Access public
       :Implements constructor
-      args←eis args
-      :Select ⊃⍴args
-      :Case 1
-          :Select ⊃⍴⍴args←⊃args
-          :Case 1
-              Labels←Values←data
-          :Case 2
-              (Labels Values)←↓[1]data
-          :EndSelect
-      :Case 2 ⍝ Labels Inputs
+      :If 2=⍴⍴args
+          (Labels Inputs)←↓[1]args
+      :Else
+          args←eis args
           (Labels Inputs)←args
-      :EndSelect
+      :EndIf
     ∇
 
     ∇ html←Render;cells;rows
