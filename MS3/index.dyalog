@@ -3,7 +3,7 @@
     :SECTION GLOBALS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
     :Field TYPES←'Simple' 'Advanced' 'Dyalog' ⍝ Types of samples (if not App)
-    :Field GROUPS←'Base HTML' 'Wrapped HTML' 'Dyalog Controls' 'JQueryUI' 'SyncFusion' ⍝ Names of groups of elements
+    :Field GROUPS←'Base HTML' 'Dyalog Controls' 'JQueryUI' 'SyncFusion' ⍝ Names of groups of elements
     :Field REFS        ⍝ ... their refs
     :Field APPS        ⍝ List of all apps
     :Field SAMPLES     ⍝ List of all samples (well, groups and controls really)
@@ -15,6 +15,7 @@
     :Field CONTROLS←'' ⍝ All control names
     :Field APPDESCS    ⍝ Sample Apps' Description::
     :Field APPCTRLS    ⍝ Sample Apps' Control:: (i.e. the title)
+    :Field SPEEDUP←0   ⍝ Use pregenerated JS to speed up
 
     :ENDSECTION
 
@@ -28,7 +29,7 @@
 
     Words←{(1↓¨(' '∘=⊂⊢)' ',⍵)~⊂''} ⍝ Split at spaces
 
-    SpaceToDir←{'Examples/',1↓⍵,'plus'/⍨⍵≡'_HTML'} ⍝ _HTML is in the HTMLplus folder
+    SpaceToDir←{'Examples/',1↓⍵} ⍝ Convert Space name to Folder name
 
     Frame←{'.framed' ('src=',Q⍵,'?NoWrapper=1') New _.iframe}
 
@@ -87,16 +88,22 @@
       :EndFor
     ∇
 
+    ∇ Speedup;p;r
+      (p←'node0'New _html.p'1').On'click' 'On2'
+      r←p.Render
+      ⍎('\A' '0' '1' '2' '\z'⎕R'NodeOn←{id←(⊃⍵),⍕⊃⌽⍺ ⋄ cont←⊃⍺ ⋄ ''' ''',id,''' ''',cont,''' ''',⍵,''' '''}'⍠'Mode' 'D')r
+    ∇
+
     :ENDSECTION
 
     :SECTION MAIN ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
-    ∇ Compose;left;mid;right;sp;vp;style
+    ∇ Compose;left;mid;right;sp;style
       :Access public
      
      ⍝ Initialize globals
       SAMPLES←0 3⍴⍬
-      REFS←_html _HTML _DC _JQ _SF
+      REFS←_html _DC _JQ _SF
       INFOSHORT←'⍝',¨Dread'Examples/Data/infoShort'
       INFOLONG←'⍝',¨Dread'Examples/Data/infoLong'
       NAMESSHORT←Names INFOSHORT
@@ -108,71 +115,57 @@
       Add _.StyleSheet'/Styles/homepage.css'
       style←''
       style,←'#leftBar {background-color:inherit;margin-right:6px;}'
-      style,←'.menu {cursor:pointer;margin-bottom:0pt;}'
+      style,←'.menu {margin-bottom:0pt;width:110px;padding-left:0;padding-right:0;}'
       style,←'.submenu {max-height:75px;overflow-y:scroll;background-color:white;border:2px groove threedface;}'
       style,←'.menuitem {margin-bottom:0;margin-left:0px;padding-left:2px;cursor:pointer;} '
       style,←'.menuitem:hover {background-color:lightblue;} '
-      style,←'.framed {width:726px;max-height:600px;min-height:400px;border:2px inset;overflow-y:auto;background-color:white;;} '
+      style,←'.framed {width:980px;max-height:600px;min-height:400px;border:2px inset;overflow-y:auto;background-color:white;;} '
       style,←'.listitem {margin:8px;cursor:pointer;outline:darkblue auto 5px;padding-left:2px;padding-right:2px}'
       style,←'.listitem:hover {background-color:lightblue;}'
-      style,←'.samplesource {overflow-x:auto;width:725px;background-color:#e5e5cc;border:2px inset;}'
+      style,←'.samplesource {overflow-x:auto;background-color:#e5e5cc;border:2px inset;}'
       Add _.style style
      
       (left mid)←NewDiv¨'#leftBar' '#midBar' ⍝ Create panes
-      sp←'mainSP'Horz left mid
-      sp.Items[1].style←⊂'width: 200px; max-height: 450px;'
-      sp.Items[2].style←⊂'margin: 5px;'
+      sp←'mainSP'Add _.StackPanel left mid  ⍝ Left is now in top
+     ⍝ sp.Items[1].style←⊂'width: 200px; max-height: 450px;'
+      ⍝sp.Items[2].style←⊂'margin: 5px;'
       sp.style←'height: 450px;background-color:inherit;'
-     
-      vp←Add _.StackPanel sp
-      vp.style←'width:100%'
      
       PopulateLeft left
       PopulateMid mid
     ∇
 
-    ∇ PopulateLeft thediv;class;depths;group;items;names;ref;samples;tv;vp;search;case;style;menu;i;fs
+    ∇ PopulateLeft thediv;class;depths;group;items;names;ref;samples;vp;search;style;menu;i;fs;ac;text
      
-      ⍝ SEARCH FIELD ⍝⍝⍝
-      (search←New _.EditField'str').On'change' 'OnSearch'('str' 'val')
-      (case←'#case'New _.button'Search').On'click' 'OnSearch'
-      thediv.Add Horz search case
+      stuff←''
+     
      
       ⍝ SAMPLE APPS ⍝⍝⍝
       APPS←(Dlist'Examples/Apps')~⊂'index'
       APPDESCS←(⊂'Description')Section¨Dread¨'Examples/Apps/'∘,¨APPS
       APPCTRLS←(⊂'Control')Section¨Dread¨'Examples/Apps/'∘,¨APPS
-      ('#nodeA0' '.menu'(thediv.Add _.h3).Add _.a'Sample Apps').On'click' 'OnApp'
-      menu←'.submenu'thediv.Add _.div
-      (((⊂¨NodeID'A'APPS),¨⊂⊂'.menuitem')menu.Add¨_.p,¨APPCTRLS).On⊂'click' 'OnApp'
-     
-      ⍝ CONTROLS ⍝⍝⍝
-      i←1
-      :For (group ref) :InEach GROUPS REFS
+      text←New _.b
+      text.Add¨'Sample'_.br'Apps'
+      (stuff,←'#nodeA0' '.menu'New _.button'<b>Sample<br>Apps</b>').On'click' 'OnApp'
+      :For (group ref i) :InEach GROUPS REFS(⍳⍴GROUPS)
           names←{({#.HtmlElement=⊃⊃⌽⎕CLASS ⍵}¨⍵)/⍵}ref.(⍎¨⎕NL ¯9.4)
           class←2↓⍕ref              ⍝ Remove leading #.
           names←(3+⍴class)↓¨⍕¨names ⍝ Remove leading #.class.
           CONTROLS,←⊂names
-          depths←1,(⍴names)⍴2
-          SAMPLES⍪←depths,(⍪(⊂group),names),(⊂class)
-          names←AddShortInfo names ⍝ add short info
-     
-          (('#nodeL',⍕i)'.menu'(thediv.Add _.h3).Add _.a,⊂class,P group).On'click' 'OnControl'
-          menu←'.submenu'thediv.Add _.div
-          (((⊂¨i NodeID'L'names),¨⊂⊂'.menuitem')menu.Add¨_.p,¨names).On⊂'click' 'OnControl'
-          i+←1+⍴names
+          text←New _.span
+          text.Add¨(_.b class)_.br(_.small group)
+          (stuff,←('#nodeM',⍕i)'.menu'New _.button text).On'click' 'OnClass'
       :EndFor
+     
+      ⍝ SEARCH FIELD ⍝⍝⍝
+      (stuff,←'style="margin-top:8px"'New _.EditField'str').On'change' 'OnSearch'('str' 'val')
+      text←New _.b
+      text.Add¨'Search'_.br'samples'
+      (stuff,←'#case' '.menu'New _.button text).On'click' 'OnSearch'
+     
+      thediv.Add Horz stuff
+      thediv.Add _.hr
     ∇
-
-⍝    ∇ r←space FindSamples names;i;samples;suffix
-⍝      samples←Dlist SpaceToDir space
-⍝      r←(⍴names)⍴⊂''
-⍝      :For suffix :In TYPES
-⍝          i←(((-⍴suffix)↑¨samples)∊⊂suffix)/⍳⍴samples
-⍝          i←{(⍵≤⍴names)/⍵}names⍳(-⍴suffix)↓¨samples[i]
-⍝          r[i]←r[i],¨⊂⊂suffix
-⍝      :EndFor
-⍝    ∇
 
     ∇ PopulateMid mid;url;code;frame;mya
      
@@ -196,12 +189,12 @@
     ∇ r←OnApp;node;descs;out;items;time;title;i
       :Access Public
      ⍝ Gets called upon selection in Sample Apps tree
-      :If ×node←⍎5↓_what ⍝ ≥1 is an actual app
-          r←Update'Examples/Apps'(node⊃APPS)
+      :If ×node←⍎5↓_what ⍝ ≥1 is an actual app id="nodeA23"
+          r←Update'Examples/Apps/',node⊃APPS
       :Else ⍝ =0 is the header
           descs←APPCTRLS,¨' – '∘,¨APPDESCS
           out←NewDiv'.framed'
-          items←(NodeID'M'APPS)out.Add¨_.p,¨descs
+          items←(NodeID'A'APPS)out.Add¨_.p,¨descs
           items.Set⊂'.listitem'
           items.On⊂'click' 'OnApp'
           r←'Apps' 'Small applications to showcase MiServer 3.0 functionality'(' apps',⍨≢APPS)out''
@@ -209,64 +202,111 @@
       r←GenJS r
     ∇
 
-    ∇ r←OnControl;node;depth;sample;control;space;spacedir;files;out;file;code;ctrlsec;url;iframe;page;desc;title;item;spacectrl;number;names;name;descs;items
+    ∇ r←OnClass;descs;out;items;name;node
       :Access Public
-     ⍝ Gets called upon selection in Controls tree
-     
-     ⍝ Get details
-      node←⍎5↓_what ⍝ id="nodeA23" or id="nodeL23" or id="nodeM23"
-      depth←⊃SAMPLES[node;1]
-      control←depth⊃''(⊃SAMPLES[node;2])(⊃SAMPLES[1⌈1+node-2⍳⍨⌽node↑SAMPLES[;1];2])
-      sample←depth⊃'index' ''(control,⊃SAMPLES[node;2])
-      space←⊃SAMPLES[node;3]
-      spacedir←SpaceToDir space
-     
-      :Select depth
-      :Case 1 ⍝ Group
-          number←+/1=SAMPLES[⍳node;1]
-          names←number⊃CONTROLS
-          descs←AddLongInfo names
-          out←NewDiv'.framed'
-          items←(node NodeID'M'names)out.Add¨_.p,¨descs
+      node←⍎5↓_what ⍝ id="nodeM23"
+      CURRCTRLS←node⊃CONTROLS
+      descs←AddLongInfo CURRCTRLS
+      out←NewDiv'.framed'
+      :If SPEEDUP
+          Speedup
+          (descs,¨⍳⍴CURRCTRLS)NodeOn¨⊂'Control'
+      :Else
+          items←(NodeID'C'CURRCTRLS)out.Add¨_.p,¨descs
           items.Set⊂'.listitem'
           items.On⊂'click' 'OnControl'
-          r←space('Members of ',space,P number⊃GROUPS)(' controls',⍨⍕⍴names)out''
-      :Case 2 ⍝ Element
-          spacectrl←space,'.',control
-          files←Dlist spacedir
-          out←NewDiv'.framed'
-          :For file :In files
-              url←spacedir,'/',file
-              code←Dread url
-              ctrlsec←'Control'Section code
-              :If (⊂spacectrl)∊Words ctrlsec ⍝ Extract space-separated words
-                  desc←⊂'Description'Section code
-                  iframe←Frame url
-                  title←NewWinA desc,⊂url
-                  ctrlsec←New _.em(⍕ctrlsec)
-                  desc←∊desc,Type file
-                  item←'.listitem'out.Add _.p desc
-                  item.On'click' 0 ''(APLtoJS GenJS file title ctrlsec iframe code)
-              :EndIf
-          :EndFor
-          title←1↓control Section INFOSHORT
-          title←'Samples using ',spacectrl,P title
-          desc←control Section INFOLONG
-          r←spacectrl title desc out''
-      :Else ⍝ Sample (Obsolete)
-          r←Update spacedir sample
-      :EndSelect
-      r←GenJS r
+      :EndIf
+      CURRSPACE←2↓⍕node⊃REFS
+      r←GenJS CURRSPACE('Members of ',2↓CURRSPACE,P node⊃GROUPS)(' controls',⍨⍕⍴CURRCTRLS)out''
     ∇
 
-    ∇ (page title desc iframe code)←Update(spacedir page);ctrlsec;url
+    ∇ r←OnControl;node;control;spacectrl;spacedir;files;out;url;code;ctrlsec;desc;iframe;title;item;i;file
+      :Access Public
+      node←⍎5↓_what ⍝ id="nodeC23"
+      control←node⊃CURRCTRLS
+      spacectrl←CURRSPACE,'.',control
+      spacedir←SpaceToDir CURRSPACE
+      files←Dlist spacedir
+      out←NewDiv'.framed'
+      CURRFILES←''
+      CURRDESCS←''
+      i←0
+      :For file :In files
+          url←spacedir,'/',file
+          code←Dread url
+          ctrlsec←'Control'Section code
+          :If (⊂spacectrl)∊Words ctrlsec ⍝ Extract space-separated words
+              i+←1
+              CURRFILES,←⊂url
+              desc←⊂'Description'Section code
+              desc←∊desc,Type file
+              CURRDESCS,←⊂desc
+              item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
+              item.On'click' 'OnSample'
+          :EndIf
+      :EndFor
+      title←1↓control Section INFOSHORT
+      title←'Samples using ',2↓spacectrl,P title
+      desc←control Section INFOLONG
+      r←GenJS spacectrl title desc out''
+    ∇
+
+    ∇ r←OnSample
+      :Access Public
+      r←GenJS Update CURRFILES⊃⍨⍎5↓_what ⍝ id="nodeS23"
+    ∇
+
+    ∇ r←OnSearch;time;str;terms;out;i;dir;files;file;url;code;ctrlsec;desc;item
+      :Access Public
+      time←0.001×3⊃⎕AI ⍝ prepare search statistics
+      :If ×≢str←Get'str'  ⍝ get search string
+      ⍝⍝⍝ Controls
+          terms←INFOSHORT/⍨str In INFOSHORT
+          terms,←terms~⍨INFOLONG/⍨str In INFOLONG
+          terms←'.',¨∪Names terms
+      ⍝⍝⍝ Samples
+          out←NewDiv'.framed'
+          CURRFILES←''
+          CURRDESCS←''
+          i←0
+          :For dir :In 'Apps' 'html' 'HTMLplus' 'DC' 'JQ' 'SF'
+              files←Dlist'Examples/',dir
+              :For file :In files~⊂'index'
+                  url←'Examples/',dir,'/',file
+                  code←Dread url
+                  ctrlsec←'Control'Section code
+                  desc←⊂'Description'Section code
+                  :If ∨/str In desc
+                  :OrIf ∨/∊(terms,⊂str)⍷¨⊂ctrlsec ⍝ always case sensitive
+                      i+←1
+                      CURRFILES,←⊂url
+                      desc←∊desc,Type file
+                      CURRDESCS,←⊂desc
+                      item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
+                      item.On'click' 'OnSample'
+                  :EndIf
+              :EndFor
+          :EndFor
+          desc←New _.span'Showing results for '
+          desc.Add _.em str
+          desc.Add(×≢terms)/D'including relevant element','s'/⍨1≠≢terms
+          desc.Add _.em(⍕1↓¨terms)
+          SEARCH←(Q str)''desc out''
+      :EndIf
+      time-⍨←0.001×3⊃⎕AI
+      (2⊃SEARCH)←(⍕≢CURRFILES),' results (',time,' seconds)'
+      r←GenJS SEARCH
+     
+    ∇
+
+    ∇ (page title desc iframe code)←Update url;ctrlsec
      ⍝ Create new placeholder values
-      url←spacedir,'/',page
+      page←'MS3: Sample'
       iframe←Frame url
       code←Dread url
       ctrlsec←'Control'Section code
       desc←'Description'Section code
-      title←'target' 'href'(New _.a ctrlsec).Set'_blank'url
+      title←NewWinA ctrlsec url
      
     ∇
 
@@ -277,53 +317,6 @@
       r,←'#SampleDesc'Replace desc
       r,←'#SampleFrame'Replace iframe
       r,←'#SampleSource'Replace(×≢code)/'x-small;border:none'#.HTMLInput.APLToHTMLColour code
-    ∇
-
-    ∇ r←OnSearch;dir;files;file;code;desc;str;terms;entry;url;ctrlsec;iframe;page;title;item;out;i;time;types;type
-      :Access Public
-      :If 0∊⍴str←Get'str'  ⍝ get search string
-          r←SEARCH         ⍝ re-display old search
-      :Else
-          time←0.001×3⊃⎕AI ⍝ prepare search statistics
-     
-      ⍝⍝⍝ Controls
-          terms←INFOSHORT/⍨str In INFOSHORT
-          terms,←terms~⍨INFOLONG/⍨str In INFOLONG
-          terms←'.',¨∪Names terms
-      ⍝⍝⍝ Samples
-          out←NewDiv'.framed'
-          i←0
-          :For dir :In 'Apps' 'html' 'HTMLplus' 'DC' 'JQ' 'SF'
-              files←Dlist'Examples/',dir
-              :For file :In files~⊂'index'
-                  url←'Examples/',dir,'/',file
-                  code←Dread url
-                  desc←⊂'Description'Section code
-                  ctrlsec←'Control'Section code
-                  :If ∨/str In desc
-                  :OrIf ∨/∊(str,terms)⍷¨⊂ctrlsec ⍝ always case sensitive
-                      i+←1
-                      :If 16≥i
-                          iframe←Frame url
-                          title←NewWinA url desc
-                          ctrlsec←New _.em(⍕ctrlsec)
-                          desc←∊desc,Type file
-                          item←'.listitem'out.Add _.p desc
-                          item.On'click' 0 ''(APLtoJS GenJS file title ctrlsec iframe code)
-                      :EndIf
-                  :EndIf
-              :EndFor
-          :EndFor
-          page←Q str
-          desc←New _.span'Showing results for '
-          desc.Add _.em(⍕str)
-          desc.Add(×≢terms)/D'including relevant element','s'/⍨1≠≢terms
-          desc.Add _.em(⍕1↓¨terms)
-          i←(⍕16⌊i),(16<i)/' of ',(⍕i)
-          time-⍨←0.001×3⊃⎕AI
-          title←(⍕i),' results (',time,' seconds)'
-          r←SEARCH←GenJS page title desc out''
-      :EndIf
     ∇
 
     :ENDSECTION
