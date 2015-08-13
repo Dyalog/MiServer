@@ -59,17 +59,22 @@
       :EndIf
     ∇
 
+    ∇ r←isChar w
+      :Access public shared
+      r←0 2∊⍨10|⎕DR w
+    ∇
+
     ∇ r←isString w
       :Access public shared
       :Select ≡w
       :Case 2
           :If 1=⍴,w
-              r←{(0 2∊⍨10|⎕DR ⍵)∧1∊⍴⍴1/⍵}⊃w
+              r←{(isChar ⍵)∧1∊⍴⍴1/⍵}⊃w
           :Else
               r←0
           :EndIf
       :CaseList 0 1
-          r←{(0 2∊⍨10|⎕DR ⍵)∧1∊⍴⍴1/⍵}w
+          r←{(isChar ⍵)∧1∊⍴⍴1/⍵}w
       :Else
           r←0
       :EndSelect
