@@ -21,7 +21,7 @@
      
       Add _.h3'Horizontal Stack Panel'
      
-⍝      uses←New _.Select'Octopuses' 'Cactuses' 'Viruses'
+⍝      uses←New _.Select 'Cactuses' 'Octopuses' 'Viruses'
 ⍝      uses.Prompt←'[Pick one]'
 ⍝      content[1]←uses
       hsp←Add _.StackPanel content
