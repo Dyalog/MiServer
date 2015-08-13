@@ -15,7 +15,7 @@
      
       board←Add _.table                 ⍝ Framework for board
       bcap←board.Add _.caption          ⍝ Caption
-      bcap.Add¨(_.big'Board')_.br _.hr  ⍝ ... and its content
+      bcap.Add¨(_.strong'Board')_.br _.hr  ⍝ ... and its content
       rows←board.Add¨size/_.tr          ⍝ Board
      
       :For row :In ⍳size
