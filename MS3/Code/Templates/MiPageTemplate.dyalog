@@ -25,7 +25,7 @@
       (Add _html.div(#.HTMLInput.APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock" style="display: none;"'
      
     ⍝ add a JQuery event handler to toggle the web page/APL source code
-      Add _HTML.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock").toggle();});});'
+      Add _DC.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock").toggle();});});'
      
     ⍝ add the footer to the bottom of the page
       Add #.Files.GetText _Request.Server.Config.Root,'Styles\footer.txt'

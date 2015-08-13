@@ -1,5 +1,5 @@
 ﻿:Class UlSimple : MiPageSample
-⍝ Control:: _HTML.Ul
+⍝ Control:: _DC.Ul
 ⍝ Description:: Insert an unordered list based on an array 
 
     ∇ Compose;frm;single;multi;btn
@@ -10,8 +10,8 @@
       intro,←'constructor that makes it easy to specify the item contents '
       intro,←'and optionally a list of URLs to be navigated to.'
      
-      Add _.title'_HTML.Ul - Simple Example '
-      Add _.h2'_HTML.Ul - Unordered List'
+      Add _.title'_.Ul - Simple Example '
+      Add _.h2'_.Ul - Unordered List'
       Add _.p intro
      
      ⍝ --- Add a simple list of fruits ---

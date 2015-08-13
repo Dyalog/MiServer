@@ -74,8 +74,8 @@
     ∇ r←FormatControls controls;ctrls;ns;desc;field;n;ctrl;i;c;ref;l;u
       ctrls←⊃{⍺ ⍵}⌸/↓[1]0 1↓↑{⎕ML←3 ⋄ {⍵⊂⍨⍵≠'.'}⍕⍵}¨controls
       field←{0::'' ⋄ ⍺⍎⍵}
-      ns←'_html' '_HTML' '_DC' '_JQ' '_SF'
-      desc←'Native HTML5 Elements' '"Enhanced" HTML Elements' 'Dyalog Developed Controls' 'jQuery Widgets' 'Syncfusion Widgets'
+      ns←'_html' '_DC' '_JQ' '_SF'
+      desc←'Native HTML5 Elements' 'Dyalog Controls' 'jQuery Widgets' 'Syncfusion Widgets'
       (r←⎕NEW _.div).class←'widgethelp'
       r.Add'This Page Contains<hr>'
       :For n ctrl i :In ctrls{↓(⍺,⍵)[⍋⍵;]}ns⍳{(⊃⍣(¯1+≡⍵))⍵}¨ctrls[;1]

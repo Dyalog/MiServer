@@ -5,12 +5,12 @@
     ∇ Render;frm;single;multi;btn
       :Access public
      
-      Add title'_HTML.Select Sample'
+      Add title'_.Select Sample'
       Add h2'Please pick some fruits'
      
       (frm←Add Form).id←'myform'
      
-      frm.Add _html.a('Return to _HTML Sample menu'('href' 'Home'))
+      frm.Add _html.a('Return to _DC.Sample menu'('href' 'Home'))
       frm.Add¨br br
      
       single←frm.Add Select'single'FRUITS

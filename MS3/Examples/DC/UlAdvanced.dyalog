@@ -1,17 +1,17 @@
 ﻿:Class UlAdvanced : MiPageSample
-⍝ Control:: _HTML.Ul
+⍝ Control:: _DC.Ul
 ⍝ Description:: Insert an unordered list of links based on an array of texts and links, and add callbacks on mouse movements
     
-    ∇ Compose;text;ul;urls;intro
+    ∇ Compose;text;ul;urls;intro;list
       :Access Public
      
-      intro←'This page illustrates advanced uses of the _HTML.Ul widget.<br>'
-      intro,←'1) The specification of attributes for anchor elements in the list.<br>'
-      intro,←'2) Setting up mouse movement callbacks on the list elements.'
      
-      Add _.title'_HTML.Ul - Advanced Example '
-      Add _.h2'_HTML.Ul - Unordered List'
-      Add _.p intro
+      Add _.title'_.Ul - Advanced Example '
+      Add _.h2'_.Ul - Unordered List'
+      Add _.p'This page illustrates advanced uses of the _DC.Ul widget.'
+      list←⊂'The specification of attributes for anchor elements in the list.'
+      list,←⊂'Setting up mouse movement callbacks on the list elements.'
+      Add _.Ul⊂list
      
       Add _.h3'Useful Links'
       text←'Dyalog Home (opens in this tab)' 'Dyalog Forums (opens new tab)'
@@ -19,7 +19,7 @@
      ⍝ Below, the second link includes a target attribute for the <a> element
       urls←'http://www.dyalog.com'('http://forums.dyalog.com' 'target=_blank')
      
-      ul←Add _HTML.Ul(text urls) ⍝ Construct Ul with texts and urls
+      ul←Add _.Ul(text urls) ⍝ Construct Ul with texts and urls
       Add _.br
       (Add _.div).id←'output' ⍝ A place to write messages
      
