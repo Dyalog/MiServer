@@ -15,7 +15,6 @@
 
 ⍝ define shortcuts to namespaces (initialized later)
     :field public _html        ⍝ reference to base HTML elements namespace
-    :field public _HTML        ⍝ reference to "Enhanced" HTML elements namespace
     :field public _JQ          ⍝ reference to JQuery/JQueryUI widgets namespace
     :field public _SF          ⍝ reference to SyncFusion widgets namespace
     :field public _JQM         ⍝ reference to JQueryMobile widgets namespace
@@ -315,7 +314,7 @@
     ∇
 
     ∇ Init
-      (_html _HTML _JQ _SF _JQM _DC _JSS _)←#.(_html _HTML _JQ _SF _JQM _DC _JSS _)
+      (_html _JQ _SF _JQM _DC _JSS _)←#.(_html _JQ _SF _JQM _DC _JSS _)
       Position←⎕NS''
     ∇
 

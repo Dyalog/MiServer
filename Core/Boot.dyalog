@@ -32,7 +32,7 @@
       utils←(⎕SE.SALT.List MSRoot,'Utils -raw')[;2]   ⍝ find utility libraries
       core←(⊂'Boot')~⍨(⎕SE.SALT.List MSRoot,'Core -raw')[;2]
       extensions←(⎕SE.SALT.List MSRoot,'Extensions -raw')[;2]
-      HTML←∪(⊂'_HTML'),(⎕SE.SALT.List MSRoot,'HTML -raw')[;2] ⍝ force _HTML to be loaded first
+      HTML←(⎕SE.SALT.List MSRoot,'HTML -raw')[;2] ⍝ force to be loaded first
       HTMLsubdirs←HTML∩,⎕SE.SALT.List MSRoot,'HTML -folder'
       :If yes
      
@@ -148,7 +148,7 @@
     ∇ BuildEAWC;src;sources;fields;source;list;mask;refs;target
      ⍝ Build the Easy As ⎕WC namespace from core classes and its own source
      ⍝ Also build the #._ namespace with shortcuts
-      sources←#._html #._HTML #._SF #._JQ #._DC #._JS
+      sources←#._html #._SF #._JQ #._DC #._JS
 ⍝      fields←''
       '_'#.⎕NS''
       :For source :In sources

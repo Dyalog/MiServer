@@ -1,4 +1,5 @@
-﻿    :class Gyro : #._HTML.Script
+﻿    :class Gyro : #._DC.Script
+    ⍝∇:require =\Script.dyalog
 
         :include #.HTMLUtils
 

@@ -1,4 +1,4 @@
-﻿    :class Timer : #._HTML.Script
+﻿    :class Timer : #._DC.Script
         :field public Id
         :field public Event←'tick'
         :field public Delay←5000

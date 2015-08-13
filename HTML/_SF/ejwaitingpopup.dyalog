@@ -40,7 +40,7 @@
       :If 0∊⍴style←Style
           style←'width: 100% !important; margin-left: auto !important; margin-right: auto !important; left: 0px !important; color: black;'
       :EndIf
-      style←(⎕NEW #._HTML.Style((Selector,'_WaitingPopup')style)).Render
+      style←(⎕NEW #._DC.Style((Selector,'_WaitingPopup')style)).Render
       r,←(⊂⍣(1<|≡r))style
     ∇
 
