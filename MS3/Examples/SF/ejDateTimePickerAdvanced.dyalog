@@ -4,15 +4,14 @@
 ⍝ Show 2 calendars to select reservation dates.
 ⍝ Display the time difference as result.
 
-    ∇ Compose;today;fromidn;tbl;tr;td;head;todate;from;now;to
+    ∇ Compose;today;fromidn;tbl;tr;td;head;todate;from;to
       :Access Public
-      today←3↑now←⎕TS
-      fromidn←dateToIDN today
+      fromidn←dateToIDN 3↑today←⎕TS
      
       Add _.h2'R.U. Inn'_.br'Motel reservation system'
      
     ⍝ The in date
-      from←'in'New _SF.ejDateTimePicker now'yyyy/MM/dd HH:mm'
+      from←'in'New _SF.ejDateTimePicker today'yyyy/MM/dd HH:mm'
     ⍝ The callback should return the date (value) of the argument for the IN date/time
     ⍝ and the model's value for the OUT date/time
       from.On'change' 'setNewDate',⊂('in' 'argument' 'value')('out' 'eval' '$("#out").ejDateTimePicker("model.value")')
