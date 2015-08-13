@@ -2,7 +2,7 @@
 ⍝ Control:: _DC.StackPanel
 ⍝ Description:: Layout vectors of content elements vertically and horizontally
     
-    ∇ Compose;content;hsp;tb;vsp
+    ∇ Compose;content;vsp;intro;hsp
       :Access public
      
       intro←'StackPanel objects allow you to manage the layout of your page. '
@@ -14,9 +14,9 @@
      
       Add _.h3'Vertical Stack Panel'
      
-      content←(New _.Select('Bananas' 'Pears' 'Oranges'))
-      content,←(New _.span'This is some text')
-      content,←(New _.Button'Press Me!')
+      content←New _.Select('Bananas' 'Pears' 'Oranges')
+      content,←New _.span'This is some text'
+      content,←New _.Button'Useless button'
       vsp←Add _.StackPanel content
      
       Add _.h3'Horizontal Stack Panel'
