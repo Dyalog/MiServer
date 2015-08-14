@@ -6,8 +6,10 @@
       :Access Public
      
       Add _.h2'Please tell us about yourself'
-      (frm←Add _.Form).id←'myform'
-      (ig←frm.Add _.InputGrid).Border←0
+      frm'myform'Add _.Form
+      ig←frm.Add _.InputGrid
+     
+      ig.Border←0
       ig.Labels←'First name' 'Last name' 'Birthdate'
       ig.Inputs←'fname' 'lname' 'bdate'New¨_.EditField _.EditField _.jqDatePicker
      

@@ -1,17 +1,17 @@
 ﻿:Class EditFieldSimple : MiPageSample
-⍝ Control:: _DC.EditField
-⍝ Description:: Collect text input from the user
+⍝ Control:: _DC.EditField _DC.Button _html.label
+⍝ Description:: Collect input and echo it on a button press
 
     ∇ Render;btn;frm;label;name
       :Access Public
      
-      (frm←Add _.Form).id←'myform'
+      (frm←Add _.Form).id←'myform' ⍝ Create a form
       label←('for' 'name')frm.Add _.label'Please enter your name'
       name←'name'frm.Add _.EditField
       btn←frm.Add _.Button'Done'
       btn.On'click' 'CallbackFn'
      
-      'result'frm.Add _.div
+      'result'frm.Add _.div ⍝ a div to contain output, updated by CallbackFn
     ∇
 
     ∇ r←CallbackFn
