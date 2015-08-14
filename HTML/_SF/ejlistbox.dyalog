@@ -105,4 +105,10 @@
           :EndIf
       :EndIf
     ∇
+
+
+    ∇ r←name getSelectedItem x
+      :Access public
+      r←⊂name'eval' '⍎$("#',(∊id),'").ejListBox("getSelectedItem")'
+    ∇
 :EndClass
