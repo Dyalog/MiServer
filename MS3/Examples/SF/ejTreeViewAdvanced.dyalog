@@ -1,5 +1,5 @@
 ﻿:Class ejTreeViewAdvanced : MiPageSample
-⍝ Control:: _SF.ejTreeViewSimple
+⍝ Control:: _SF.ejTreeView
 ⍝ Description:: An updateable TreeView with a node selection callback
 
     ∇ Compose;items
