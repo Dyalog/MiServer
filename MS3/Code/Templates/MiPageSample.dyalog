@@ -91,7 +91,7 @@
                   u.Add _.li(_.a c(('href'('..',l))('target' '_blank')))
               :Else
                   :If 'ej'≡2↑c←#.Strings.lc c
-                      u.Add _.li(_.a c(('href'('http://js.syncfusion.com/demos/web/#!/azure/',2↓c⊣,'/defaultfunctionalities'))('target' '_blank')))
+                      u.Add _.li(New _.a c(('href'('http://js.syncfusion.com/demos/web/#!/azure/',2↓c⊣,'/defaultfunctionalities'))('target' '_blank')))
                   :Else
                       u.Add _.li c
                   :EndIf
