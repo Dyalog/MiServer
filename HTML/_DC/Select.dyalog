@@ -1,15 +1,15 @@
 ﻿:class Select : #._html.select
 ⍝ Description:: Dyalog Enhanced HTML select
-⍝ Constructor:: [options [[selected] [Prompt]]]
+⍝ Constructor:: [options [[selected] [prompt]]]
 ⍝ options   - vector of options or 2 column matrix of displayed[;1] and returned[;2] values
 ⍝ selected  - Boolean or integer array indicating pre-selected options(s)
-⍝ Prompt      - first item to display (has no value) (default '[Select]')
+⍝ prompt      - first item to display (has no value) (default '[Select]')
 ⍝ Public Fields::
 ⍝ Options   - vector of options or 2 column matrix of displayed[;1] and returned[;2] values
 ⍝ Selected  - Boolean or integer array indicating pre-selected options(s)
 ⍝ Prompt      - first item to display (has no value) (default '[Select]')
 ⍝ Examples::
-⍝ Select  ('Choice 1' 'Choice 2' 'Choice 3')    
+⍝ Select  ('Choice 1' 'Choice 2' 'Choice 3')
 ⍝ Select  (3 2⍴'Choice 1' 'c1' 'Choice 2' 'c2' 'Choice 3' 'c3')
 ⍝ Select ((3 2⍴'Choice 1' 'c1' 'Choice 2' 'c2' 'Choice 3' 'c3') 2) ⍝ second item is selected
 ⍝ Select ((3 2⍴'Choice 1' 'c1' 'Choice 2' 'c2' 'Choice 3' 'c3') (0 1 0)) ⍝ second item is selected
@@ -43,7 +43,17 @@
 
     ∇ r←Render;opts
       :Access public
-      SetId
+      Content←''
+     
+      :If (⊂name)∊UNDEF''
+          :If (⊂id)∊UNDEF''
+              SetId
+          :EndIf
+          name←id
+      :ElseIf UNDEF≡id
+          id←name
+      :EndIf
+     
       :If ~0∊⍴Options
           opts←eis Options
           :If 1=⍴⍴opts
@@ -62,6 +72,6 @@
       :Access public shared
       :If 0=⎕NC'Prompt' ⋄ Prompt←'' ⋄ :EndIf
       :If 1=⍴⍴opts ⋄ opts←opts,⍪opts ⋄ :EndIf
-      r←∊{sel←(⎕UCS 1)=1↑⍺ ⋄ '<option value="',(HtmlSafeText ⍵),'"',(sel/' selected="selected"'),'>',(⍕sel↓⍺),'</option>'}/¨↓(0∊⍴Prompt)↓(Prompt'')⍪opts
+      r←∊{sel←(⎕UCS 1)=1↑⍺ ⋄ '<option',(⍵ ine' value="',(HtmlSafeText ⍵),'"'),(sel/' selected="selected"'),'>',(⍕sel↓⍺),'</option>'}/¨↓(0∊⍴Prompt)↓(Prompt'')⍪opts
     ∇
 :endclass

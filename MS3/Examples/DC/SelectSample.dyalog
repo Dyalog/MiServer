@@ -1,41 +1,46 @@
 ﻿:Class SelectSample : MiPageSample
-     
+
     FRUITS←'Apples' 'Bananas' 'Grapes' 'Oranges' 'Pears' 'Pineapples' 'Plums'
 
     ∇ Render;frm;single;multi;btn
       :Access public
      
-      Add title'_.Select Sample'
-      Add h2'Please pick some fruits'
+      Add _.title'_.Select Sample'
+      Add _.h2'Please pick some fruits'
      
-      (frm←Add Form).id←'myform'
+      Add _.a('Return to _DC.Sample menu'('href' 'Home'))
+      Add¨_.br _.br
      
-      frm.Add _html.a('Return to _DC.Sample menu'('href' 'Home'))
-      frm.Add¨br br
+      (frm←Add _.Form).id←'myform'
      
-      single←frm.Add Select'single'FRUITS
+      single←'single'frm.Add _.Select FRUITS
       single.On'change' 'CallbackFn'
-      frm.Add¨br br
      
-      multi←frm.Add Select'multi'FRUITS
+      frm.Add¨_.br _.br
+     
+      multi←'multi'frm.Add _.Select FRUITS
       multi.Set'multiple' 1       ⍝ Allow multiple selections
       multi.Set'required' 1       ⍝ No post back unless there is a selection
       multi.Set'size'(⊃⍴FRUITS)   ⍝ Show them all
       multi.Set'autofocus' 'true' ⍝ Put the focus here
-      multi.On'change' 'CallbackFn'
-      frm.Add¨br br
      
-      btn←frm.Add button'Press Me!'
-      btn.(id type)←'pressme' 'submit'
-      frm.Add¨br br
+      frm.Add¨_.br _.br
      
-      (Add div).id←'result'
+      (frm.Add _.Button'Press Me!').On'click' 'CallbackFn'
+      frm.Add¨_.br _.br
+     
+      (Add _.div).id←'result'
      
     ∇
 
     ∇ r←CallbackFn
-      :Access Public             
-      r←'#result'Replace p('Selected from ',_what,': ',,⍕Get _what)
+      :Access Public
+      :Select _event
+      :Case 'click'
+          r←'#result'Replace('Selected from multi: ',,⍕Get'multi')
+      :Else
+          r←'#result'Replace('Selected from ',_what,': ',,⍕Get _what)
+      :EndSelect
     ∇
 
 :EndClass
