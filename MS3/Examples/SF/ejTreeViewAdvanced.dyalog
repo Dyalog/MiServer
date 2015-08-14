@@ -23,10 +23,10 @@
       (add←'Add'New _.Button'Add Child Node').On'click' 'onBranch'
       (del←'Del'New _.Button'Delete Branch').On'click' 'onBranch'
       (exp←'Exp'New _.Button'Expand Children').On'click' 'onBranch'
-      (mod←'Mod'New _.Button'Display Model').On'click' 'onModel'('treeModel' 'eval' '$("#tv").ejTreeView("model")')
+      (mod←'Mod'New _.Button'Display Model').On'click' 'onModel'('treeModel' 'eval' 'JSON.stringify($("#tv").ejTreeView("model"))')
      
       ⍝ Create layout: TreeView on left, buttons vertically on the right
-      (Add _.StackPanel tv(New _.StackPanel add del exp mod)).Horizontal←1
+      (Add _.StackPanel tv(New _.StackPanel add del exp mod)('tvModel'New _.div)).Horizontal←1
       'output'Add _.div ⍝ Add a place to output messages
     ∇
 
@@ -66,7 +66,6 @@
           m←insert≠⍳1+1↑⍴items ⍝ Expansion mask
           items←m⍀items ⋄ checked←m\checked
           items[insert;]←(1+depth)name id
-          ⎕←items
      
       :Case 'Del'
           exec←'$("#tv").data("ejTreeView").removeNode($("#',current,'"));'
@@ -84,10 +83,22 @@
       r←Execute exec
     ∇
     
-    ∇ r←onModel
+    ∇ r←onModel;checked;depth;depths;ids;names;ns;parent
       :Access Public
       ⍝ Display the model
-      ∘∘∘
+     
+      ns←#.JSON.toAPL∊Get'treeModel'
+      (ids names parent)←↓[1]↑ns.fields.dataSource.(id name({0::'' ⋄ pid}0))
+      checked←(⍳⍴ids)∊1+ns.checkedNodes
+      ((~parent∊ids,⊂'')/parent)←⍬⍴ids ⍝ patch up any invalid parents to point to first node (paranoia)
+      depths←0=⊃∘⍴¨parent ⍝ Find top level nodes
+      depth←1
+      :While (0∊depths)∧depth<99
+          depths[(parent∊(depths=depth)/ids)/⍳⍴ids]←depth+1
+          depth←depth+1
+      :EndWhile
+     
+      r←'#tvModel'Replace _.Table('Depth' 'Name' 'ID' 'Checked'⍪depths,names,ids,⍪checked)
     ∇
 
 :EndClass
