@@ -1,4 +1,8 @@
 ﻿:Class SelectSample : MiPageSample
+⍝ Control::     _.DC.Select
+⍝ Description:: This example shows how to use the Select object by creating a form with 2 selections of fruits in it.
+⍝ The first single selection is a drop down with no preselection. The second one is a multi selection with 2 items already selected. It occupied a whole window (not drop down). A button at the bottom resets the form to its original state.
+
 
     FRUITS←'Apples' 'Bananas' 'Grapes' 'Oranges' 'Pears' 'Pineapples' 'Plums'
 
