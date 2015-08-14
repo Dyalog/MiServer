@@ -4,7 +4,7 @@
 
     ∇ Compose
       :Access public
-      Add _.p'Click on the sun or on one of the planets to watch it closer:'
+      Add _.p'Click on the sun or on one of the planets for a closer look:'
      
       settings←'src="../Data/planets.gif"' 'width="145"' 'height="126"'
       settings,←'alt="Planets"' 'usemap="#planetmap"'
