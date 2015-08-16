@@ -1,5 +1,7 @@
 ﻿:class HtmlElement             ⍝ this is the most basic element of a page
 
+⍝∇:require =\JSON.dyalog
+
     ⎕io←⎕ml←1
 
     :field public shared _version←1
@@ -12,6 +14,10 @@
     :field public NoEndTag←0  ⍝ set to 1 if this singleton element (does not have a closing tag)
     :field public Position    ⍝ has position information for this element (if position is set)
     :field public Uses←''     ⍝ resources that will be used by this object (can be overridden by derived classes)
+
+    :field public shared _true←#.JSON.true     ⍝ same definition as in #.JSON
+    :field public shared _false←#.JSON.false   ⍝ same definition as in #.JSON
+
 
 ⍝ define shortcuts to namespaces (initialized later)
     :field public _html        ⍝ reference to base HTML elements namespace
@@ -99,7 +105,7 @@
     ∇
 
     ∇ SyncAttrs arg
-      :Implements Trigger id,name,class,style,title,type,value 
+      :Implements Trigger id,name,class,style,title,type,value
       :If ⊃≢/arg.(NewValue OldValue)
           arg.Name Set arg.NewValue
       :EndIf

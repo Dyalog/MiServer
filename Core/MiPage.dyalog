@@ -18,8 +18,6 @@
     :field public _AjaxResponse←''
     :field public _DebugCallbacks←0
     :field public OnLoad←''     ⍝ page equivalent to ⎕LX
-    :field public shared _true←#.JSON.true     ⍝ same definition as in #.JSON
-    :field public shared _false←#.JSON.false   ⍝ same definition as in #.JSON
 
     _used←'' ⍝ keep track of what's been used
 
