@@ -123,6 +123,30 @@
       :EndIf
     ∇
 
+    ∇ r←{proto}GetRaw names
+      :Access public
+      proto←{6::⍵ ⋄ proto}''
+      names←eis names
+      names←,⍕names
+      names←#.Strings.deb names
+      :If ' '∊names
+          names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
+          r←proto∘Get¨names
+      :ElseIf 2≠_PageData.⎕NC names
+          r←,proto
+      :Else
+          r←_PageData⍎names
+          :If 2=≡r
+              :If 1=⍴,r
+                  r←⊃r
+              :EndIf
+          :EndIf
+          :If ~isChar proto
+              r←{0::⍵ ⋄ 0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
+          :EndIf
+      :EndIf
+    ∇
+
     ∇ r←{proto}SessionGet names
       :Access public
       proto←{6::⍵ ⋄ proto}''
