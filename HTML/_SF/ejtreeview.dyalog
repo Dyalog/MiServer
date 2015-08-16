@@ -152,12 +152,12 @@
       r←Execute'$("#',id,'").data("ejTreeView").unselectNode($("#',node,'"));'
     ∇
         
-    ∇ r←getModel
+    ∇ r←name getModel subsel;model
       ⍝ Passes the TreeView model back as a variable called 'model' as input to a callback
-      ⍝ Usage:     aButton.On 'click' 'onButtonClick' tvinstance.getModel
-     
+      ⍝ Usage:     aButton.On 'click' 'onButtonClick' ('model' tvinstance.getModel '')
       :Access Public
-      r←('model' 'eval' 'JSON.stringify($("#tv").ejTreeView("model"))')
+      model←'model',(0≠⍴subsel)/'.',subsel ⍝ "model" or "model.subsel"
+      r←(name'eval'('JSON.stringify($("#tv").ejTreeView("',model,'"))'))
     ∇
         
     :EndSection

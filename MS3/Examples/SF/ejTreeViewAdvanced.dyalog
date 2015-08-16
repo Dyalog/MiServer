@@ -24,8 +24,7 @@
       (del←'Del'New _.Button'Delete').On'click' 'onBranch'
       (exp←'Exp'New _.Button'Expand').On'click' 'onBranch'
       (chk←'Chk'New _.Button'Toggle').On'click' 'onBranch'
-     
-      (mod←'Mod'New _.Button'Display Model(s)').On'click' 'onModel'tv.getModel
+      (mod←'Mod'New _.Button'Display Model(s)').On'click' 'onModel'('model'tv.getModel'')
      
       ⍝ Create layout: TreeView on left, buttons vertically on the right
       (Add _.StackPanel tv(New _.StackPanel add del exp chk mod)('tvModel'New _.div)).Horizontal←1
