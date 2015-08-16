@@ -5,9 +5,10 @@
 ⍝                   or matrix of field definitions with field types as the first row
 ⍝ rightItems      - vector of char vectors
 ⍝                   or matrix of field definitions with field types as the first row
-⍝ selected        - integer or Boolean vector indicating which items are selected
+⍝ useButtons      - Boolean indicating whether to use buttons to move things between lists
 ⍝ Public Fields::
-⍝ Items           - vector of char vectors
+⍝ Left            - the left ejListBox
+⍝ Right char vectors
 ⍝                   or matrix of field definitions
 ⍝ Selected        - integer or Boolean vector indicating which items are selected
 ⍝ Examples::
@@ -18,12 +19,13 @@
     :Field Public Shared Readonly ApiLevel←3
     :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejListBox.html'
 
-    :field public Left
-    :field public Right
-    :field public UseButtons←0
-    :field public width←200
-    :field public height←300
-    :field public gutterWidth←50
+    :field public Left               ⍝ left ListBox
+    :field public Right              ⍝ right ListBox
+    :field public UseButtons←0       ⍝ use buttons to move items between lists?
+    :field public Width←200          ⍝ width of the ListBoxes
+    :field public Height←300         ⍝ height of the ListBoxes
+    :field public Gap←50             ⍝ space between the ListBoxes
+    :field public Captions←'' ''     ⍝ Captions to appear over the ListBoxex
 
     ∇ make
       :Access public
@@ -44,16 +46,21 @@
       (left right UseButtons)←args defaultArgs ⍬ ⍬ 0
       (Left←⎕NEW #._SF.ejListBox left).Side←1
       (Right←⎕NEW #._SF.ejListBox right).Side←2
-      (⍕¨width height)∘{'width' 'height'⍵.Set ⍺}¨Left Right
+      (⍕¨Width Height)∘{'width' 'height'⍵.Set ⍺}¨Left Right
       Horizontal←1
     ∇
 
-    ∇ r←Render;butt
+    ∇ r←Render;butt;rgt;lft
       :Access public
+      Content←⍬
       SetId
       {'allowDragAndDrop'⍵.Set _true}¨Left Right
-      Items←1⌽Right,Left,butt←(id,'_Buttons')New #._html.div
-      'width'butt.Set gutterWidth
+      lft rgt←Left Right
+      :If ∨/~0∘∊∘⍴¨Captions
+          lft rgt←Captions{New #._DC.StackPanel ⍺ ⍵}¨Left Right
+      :EndIf
+      Add¨lft(butt←New #._html.div)rgt
+      'width'(Items[2]).Set Gap
       r←⎕BASE.Render
     ∇
 
