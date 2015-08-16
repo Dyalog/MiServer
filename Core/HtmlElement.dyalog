@@ -86,7 +86,7 @@
     ∇
 
     ∇ r←a ine w
-      :Access public
+      :Access public shared
       r←a{0∊⍴⍺:'' ⋄ ⍵}w ⍝ if not empty
     ∇
     errorIf←{⍺←⊢ ⋄ 0≠⍵:⍺ ⎕SIGNAL ⍵ ⋄ ''}
