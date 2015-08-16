@@ -114,12 +114,12 @@
           r←_PageData⍎names
           :If 2=≡r
               :If 1=⍴,r
-                  r←⊃r
+                  r←#.JSON.toAPL⊃r
               :EndIf
           :EndIf
-          :If ~isChar proto
-              r←{0::⍵ ⋄ 0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
-          :EndIf
+⍝          :If ~isChar proto
+⍝              r←{0::⍵ ⋄ 0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
+⍝          :EndIf
       :EndIf
     ∇
 
