@@ -1,7 +1,9 @@
 ﻿:Class ejListManager : #._DC.StackPanel
-⍝ Description:: Syncfusion ListBox widget
-⍝ Constructor:: [items [selected]]
-⍝ items           - vector of char vectors
+⍝ Description:: Dyalog ListManager widget using Syncfusion ListBoxes
+⍝ Constructor:: [leftItems [rightItems [useButtons]]]
+⍝ leftItems       - vector of char vectors
+⍝                   or matrix of field definitions with field types as the first row
+⍝ rightItems      - vector of char vectors
 ⍝                   or matrix of field definitions with field types as the first row
 ⍝ selected        - integer or Boolean vector indicating which items are selected
 ⍝ Public Fields::
@@ -29,6 +31,7 @@
       :Implements constructor
       Left←⎕NEW #._SF.ejListBox
       Right←⎕NEW #._SF.ejListBox
+      Horizontal←1
     ∇
 
     ∇ makec args;x;left;right
@@ -39,15 +42,18 @@
       ContainerType←'ul'
       :Implements constructor
       (left right UseButtons)←args defaultArgs ⍬ ⍬ 0
-      Left←⎕NEW #._SF.ejListBox left
-      Right←⎕NEW #._SF.ejListBox right
+      (Left←⎕NEW #._SF.ejListBox left).Side←1
+      (Right←⎕NEW #._SF.ejListBox right).Side←2
+      (⍕¨width height)∘{'width' 'height'⍵.Set ⍺}¨Left Right
+      Horizontal←1
     ∇
 
     ∇ r←Render;butt
       :Access public
       SetId
-      (Left Right).id←id∘,¨'_Left' '_right'
-      Items←1⌽Right,Left,UseButtons/butt←(id,'_Buttons')New #._html.div
+      {'allowDragAndDrop'⍵.Set _true}¨Left Right
+      Items←1⌽Right,Left,butt←(id,'_Buttons')New #._html.div
+      'width'butt.Set gutterWidth
       r←⎕BASE.Render
     ∇
 

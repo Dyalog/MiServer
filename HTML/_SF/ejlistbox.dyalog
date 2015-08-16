@@ -18,6 +18,7 @@
 
     :Field Public Items←0⍴⊂''
     :Field Public Selected←⍬
+    :field public Side←0 ⍝ used when part of an ejListManager 1=left, 2=right
 
 ⍝ Items can be a vector of character vectors, or a matrix with field names
 ⍝ in the first row. SubItems *must* be a matrix with field names.
@@ -124,7 +125,11 @@
       :Access public
       ⍝ get the current items in the list
       ⍝ x is one of '' (return text), 'text', or 'id'
-      SetId
+      :If Side=0
+          SetId
+      :Else
+          id←⎕THIS.##.id,Side⊃'_left' '_right'
+      :EndIf
       js←id{'function(){var tmp=[]; $("#',⍺,' li").each(function(){tmp.push($(this).',⍵,')}); return JSON.stringify(tmp);}'}(1+x≡'id')⊃'text()' 'attr("id")'
 ⍝      js←id{'function(){var tmp=[];$("#',⍺,' li").each(function(i,obj){tmp.items.push($(obj[0]).',⍵,')}; return JSON.stringify(tmp);}'}(1+x≡'id')⊃'text()' 'attr("id")'
       r←name'eval'js
