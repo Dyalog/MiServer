@@ -102,6 +102,7 @@
     ∇ r←{proto}Get names
       :Access public
       proto←{6::⍵ ⋄ proto}''
+      names←eis names
       names←,⍕names
       names←#.Strings.deb names
       :If ' '∊names
@@ -111,10 +112,11 @@
           r←,proto
       :Else
           r←_PageData⍎names
-⍝!!! BPB - not sure if we need this - it messes up multiple values for select(combolist) controls
-⍝          :If 1<|≡r
-⍝              r←∊r
-⍝          :EndIf
+          :If 2=≡r
+              :If 1=⍴,r
+                  r←⊃r
+              :EndIf
+          :EndIf
           :If ~isChar proto
               r←{0::⍵ ⋄ 0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
           :EndIf

@@ -3,8 +3,8 @@
 
     ∇ Render
       :Access Public
-      lb←'lb'Add _SF.ejListBox(⍪'text' 'one' 'two' 'three' 'four')
-      (Add _.Button'click').On'click' 'cb'('item'lb.getSelectedItem'')
+      lb←'lb'Add _SF.ejListBox(⍪'one' 'two' 'three' 'four')
+      (Add _.Button'click').On'click' 'cb'('items'lb.getItems'')
     ∇
     ∇ r←cb
       :Access public

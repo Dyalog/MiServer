@@ -92,19 +92,31 @@
     errorIf←{⍺←⊢ ⋄ 0≠⍵:⍺ ⎕SIGNAL ⍵ ⋄ ''}
 
     :section Attribute Handling
+
     ∇ r←fixkeys w
       :Access public shared
       r←{2>|≡⍵:,⊂⍵ ⋄ ⍵}w ⍝ Enclose if simple
     ∇
 
+    ∇ SyncAttrs arg
+      :Implements Trigger id,name,class,style,title,type,value 
+      :If ⊃≢/arg.(NewValue OldValue)
+          arg.Name Set arg.NewValue
+      :EndIf
+    ∇
 
     :property keyed Attrs       ⍝ element attributes
     :access public
-        ∇ set ra;i;new;there;ind
-          there←~new←(⍴_names)<i←_names⍳ind←fixkeys⊃ra.Indexers
-          (_values _names),←new∘/¨ra.NewValue ind
+
+        ∇ set ra;i;new;there;names;ind
+          there←~new←(⍴_names)<i←_names⍳names←fixkeys⊃ra.Indexers
+          (_values _names),←new∘/¨ra.NewValue names
           _values[there/i]←there/ra.NewValue
+          :For i :In {⍵/⍳⍴⍵}7≥'id' 'class' 'style' 'title' 'value' 'type' 'name'⍳names
+              ⍎(i⊃names),'←i⊃ra.NewValue'
+          :EndFor
         ∇
+
         ∇ r←get ra;i;n
           ⎕SIGNAL(1<⍴i←ra.Indexers)⍴4 ⍝ RANK err
           :If 1↑ra.IndexersSpecified
@@ -383,9 +395,9 @@
       :If ~0∊⍴av←Tag
           h←RenderHandlers
           p←RenderPosition
-          :For e :In CommonAttributes
-              av,←{0::'' ⋄ UNDEF≡t←⍎⍵:'' ⋄ e fmtAttr t}e
-          :EndFor
+⍝          :For e :In CommonAttributes
+⍝              av,←{0::'' ⋄ UNDEF≡t←⍎⍵:'' ⋄ e fmtAttr t}e
+⍝          :EndFor
           :If 0<⍴vs←Attrs[]
               av,←∊fmtAttr/¨vs
           :EndIf

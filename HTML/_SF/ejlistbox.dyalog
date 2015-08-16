@@ -54,9 +54,10 @@
       (Items Selected)←args defaultArgs ⍬ ⍬
     ∇
 
-    ∇ r←Render;fields;src;items;t;sel;flds;numItems
+    ∇ r←Render;src;items;t;sel;flds;numItems
       :Access public
       SetId
+     
       r←''
       numItems←⍬⍴⍴items←eis Items
       :If 0∊⍴items ⍝ empty vec or mat
@@ -66,12 +67,13 @@
           items←(⊂'text')⍪⍪items
       :EndIf
       :If 0∊⍴GetOption'fields'
-          fields←items[1;]
-          'fields'Set'⍎',{'{',⍵,'}'}¯1↓∊{⍵,':"',⍵,'",'}¨fields
+          'fields'Set'⍎',{'{',⍵,'}'}¯1↓∊{⍵,':"',⍵,'",'}¨items[1;]
       :EndIf
       flds←(('[{,].*:'⎕S{1↓¯1↓⍵.Match})GetOption'fields')
       :If ~(⊂'id')∊flds ⍝ if no id field - make one
           items,←(⊂'id'),{id,'_item_',⍕⍵}¨⍳numItems
+          'fields'Set'⍎',{'{',⍵,'}'}¯1↓∊{⍵,':"',⍵,'",'}¨items[1;]
+          flds←(('[{,].*:'⎕S{1↓¯1↓⍵.Match})GetOption'fields')
       :EndIf
       src←id,'_datasrc'
       'dataSource'Set'⍎',src
@@ -80,7 +82,7 @@
           'selectedItemlist'Set sel
           :If 1<⍴sel ⋄ 'allowMultiSelection'Set _true ⋄ :EndIf
       :EndIf
-      PreJavaScript←'var ',src,' = ',#.JSON.fromAPL flds #.JSON.fromTable 1↓items
+      PreJavaScript←'var ',src,' = ',#.JSON.fromAPL items[1;]#.JSON.fromTable 1↓items
       r←⎕BASE.Render
     ∇
 
@@ -107,8 +109,27 @@
     ∇
 
 
-    ∇ r←name getSelectedItem x
+    :section Public Callback Methods
+⍝
+    ∇ r←name getSelectedItems x;js
       :Access public
-      r←⊂name'eval'('⍎$("#',id,'").ejListBox("getSelectedItem")')
+      ⍝ get the current items in the list
+      ⍝ x is one of '' (return text), 'text', or 'id'
+      SetId
+      js←id{'function(){var tmp={items:[]};$.each($("#',⍺,'").ejListBox("getSelectedItems"),function(i,obj){tmp.items.push($(obj[0]).',⍵,')}; return tmp.items;}'}(1+x≡'id')⊃'text()' 'attr("id")'
+      r←name'eval'js
     ∇
+
+    ∇ r←name getItems x;js
+      :Access public
+      ⍝ get the current items in the list
+      ⍝ x is one of '' (return text), 'text', or 'id'
+      SetId
+      js←id{'function(){var tmp=[]; $("#',⍺,' li").each(function(){tmp.push($(this).',⍵,')}); return JSON.stringify(tmp);}'}(1+x≡'id')⊃'text()' 'attr("id")'
+⍝      js←id{'function(){var tmp=[];$("#',⍺,' li").each(function(i,obj){tmp.items.push($(obj[0]).',⍵,')}; return JSON.stringify(tmp);}'}(1+x≡'id')⊃'text()' 'attr("id")'
+      r←name'eval'js
+    ∇
+
+    :endsection
+
 :EndClass
