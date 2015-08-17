@@ -93,4 +93,11 @@
       :EndIf
     ∇
 
+    ∇ r←name getModel subsel;model
+      ⍝ Passes the Syncfusion data model back as a variable called 'model' as input to a callback
+      ⍝ Usage:     aButton.On 'click' 'onButtonClick' ('model' instance.getModel '')
+      :Access Public
+      SetId ⋄ model←'model',(0≠⍴subsel)/'.',subsel ⍝ "model" or "model.subsel"
+      r←(name'eval'('JSON.stringify($("#',id,'").ejGrid("',model,'"))'))
+    ∇
 :EndClass
