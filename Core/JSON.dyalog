@@ -149,10 +149,14 @@
           obj←AJchars 1↓¯1↓str                 ⍝ a string?
       :ElseIf (,1)≡⎕IO⊃b←⎕VFI fixNum str       ⍝ a single number
           obj←⊃⊃⌽b
-      :ElseIf 'null'≡str ⋄ obj←⎕NULL
-      :ElseIf 'true'≡str ⋄ obj←true
-      :ElseIf 'false'≡str ⋄ obj←false
-      :Else ⋄ obj←⎕NS'' ⋄ obj.⎕DF str          ⍝ true/false
+      :ElseIf 'null'≡str
+          obj←⎕NULL
+      :ElseIf 'true'≡str
+          obj←true
+      :ElseIf 'false'≡str
+          obj←false
+      :Else
+          obj←str
       :EndIf
     ∇
 
@@ -356,8 +360,31 @@
 
     ∇ r←a fromTable w;z;t
       :Access public shared
+    ⍝ converts a table of APL data into a vector (1 per row in the table) of namespaces containing named objects
+    ⍝ suitable for passing to JSON.fromAPL
+    ⍝ a - column headings (names for the objects in the namespaces)
+    ⍝ w - matrix of data
       :If ~0∊⍴r←⎕NS¨(⊃⍴w)⍴⊂''
           r(a{⍺.⍎'(',⍕⍺⍺,')←⍵'})¨{1=⍴⍵:⊃⍵ ⋄ ⍵}¨↓w
+      :EndIf
+    ∇
+
+    ∇ r←levels nestObjects nss;i;l;mask;n;current
+    ⍝ nest a result of JSON.fromTable according to levels
+    ⍝ nested items are in object "subItems"
+      :Access public shared
+      n←+/∧\levels=current←⊃levels
+      r←n↑nss
+      nss←n↓nss
+      levels←n↓levels
+      :If ~0∊⍴nss
+          n←+/∧\current<levels ⍝ nest the children
+          (⊃¯1↑r).subItems←,(n↑levels)nestObjects n↑nss
+          nss←n↓nss
+          levels←n↓levels
+      :EndIf
+      :If ~0∊⍴nss ⍝ anything left to do?
+          r,←levels nestObjects nss
       :EndIf
     ∇
 
