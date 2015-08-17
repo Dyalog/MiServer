@@ -53,7 +53,7 @@
     ∇
 
     ∇ r←{Prompt}FormatOptions opts;opt
-      :Access Public
+      :Access Public Shared
       :If 0=⎕NC'Prompt' ⋄ Prompt←'' ⋄ :EndIf
       :If 1=⍴⍴opts ⋄ opts←opts,⍪opts ⋄ :EndIf
       opt←(0∊⍴Prompt)↓(Prompt'')⍪opts
