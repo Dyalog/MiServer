@@ -157,7 +157,7 @@
       ⍝ Usage:     aButton.On 'click' 'onButtonClick' ('model' tvinstance.getModel '')
       :Access Public
       SetId ⋄ model←'model',(0≠⍴subsel)/'.',subsel ⍝ "model" or "model.subsel"
-      r←(name'eval'('JSON.stringify($("#tv").ejTreeView("',model,'"))'))
+      r←(name'eval'('JSON.stringify($("#',id,'").ejTreeView("',model,'"))'))
     ∇
         
     :EndSection
