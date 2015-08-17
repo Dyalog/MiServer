@@ -27,33 +27,17 @@
     ∇ make1 args;attr
       :Access public
       :Implements constructor
-      :Select ⊃⍴⍴args
-      :Case 1
-          :If 0 2∊⍨10|⎕DR args ⍝ simple character vector
-              args←,⊂args
-          :ElseIf ~2|⎕DR 2⊃args ⍝
-              args←,⊂args
-          :EndIf
-      :Case 2 ⋄ args←,⊂args
-      :Else
-      :EndSelect
       args←eis args
-      (Options Selected Prompt)←3↑args,(⍴args)↓Options Selected Prompt
+      :If (|≡args)∊0 1 2
+          args←,⊂args
+      :EndIf
+      (Options Selected Prompt)←args defaultArgs Options Selected Prompt
     ∇
 
     ∇ r←Render;opts
       :Access public
       Content←''
-     
-      :If (⊂name)∊UNDEF''
-          :If (⊂id)∊UNDEF''
-              SetId
-          :EndIf
-          name←id
-      :ElseIf UNDEF≡id
-          id←name
-      :EndIf
-     
+      SetId
       :If ~0∊⍴Options
           opts←eis Options
           :If 1=⍴⍴opts
@@ -69,7 +53,7 @@
     ∇
 
     ∇ r←{Prompt}FormatOptions opts;opt
-      :Access Public Shared
+      :Access Public
       :If 0=⎕NC'Prompt' ⋄ Prompt←'' ⋄ :EndIf
       :If 1=⍴⍴opts ⋄ opts←opts,⍪opts ⋄ :EndIf
       opt←(0∊⍴Prompt)↓(Prompt'')⍪opts

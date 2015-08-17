@@ -66,5 +66,6 @@
     ∇
     
     beginsWith←{(,⍺){⍵≡(⍴⍵)↑⍺},⍵}
+    endsWith←{(,⍺){⍵≡(-⍴⍵)↑⍺},⍵}
 
 :EndNamespace

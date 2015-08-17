@@ -57,7 +57,16 @@
 
     ∇ r←Render;src;items;t;sel;flds;numItems
       :Access public
-      SetId
+     
+      :If Side=0  ⍝ if not part of a ejListManager
+          SetId
+      :ElseIf id≡UNDEF
+          :Trap 0
+              id←⎕THIS.##.id,Side⊃'_left' '_right'       ⍝ try to set it
+          :Else
+              SetId                                      ⍝ bail out to default id is
+          :EndTrap
+      :EndIf
      
       r←''
       numItems←⍬⍴⍴items←eis Items
@@ -131,7 +140,6 @@
           id←⎕THIS.##.id,Side⊃'_left' '_right'
       :EndIf
       js←id{'function(){var tmp=[]; $("#',⍺,' li").each(function(){tmp.push($(this).',⍵,')}); return JSON.stringify(tmp);}'}(1+x≡'id')⊃'text()' 'attr("id")'
-⍝      js←id{'function(){var tmp=[];$("#',⍺,' li").each(function(i,obj){tmp.items.push($(obj[0]).',⍵,')}; return JSON.stringify(tmp);}'}(1+x≡'id')⊃'text()' 'attr("id")'
       r←name'eval'js
     ∇
 

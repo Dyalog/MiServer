@@ -481,6 +481,14 @@
   </resource>
 
   <resource>
+    <name>ejTreeGrid</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jsrender</uses>
+    <uses>jquery.globalize</uses>
+  </resource>
+
+  <resource>
     <name>ejTreeMap</name>
     <uses>Syncfusion</uses>
     <uses>jsrender</uses>

@@ -7,6 +7,7 @@
       lm←'lm'sp.Add _DC.ejListManager(⍪'one' 'two' 'three' 'four' 'five')
       (sp.Add _.Button'Click Me').On'click' 'cb'(('left'lm.Left.getItems'')('right'lm.Right.getItems''))
       lm.Captions←{⊂_.b ⍵}¨'Left List' 'Right List'
+      lm.UseButtons←1
     ∇
 
     ∇ r←cb
