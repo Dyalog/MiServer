@@ -1,6 +1,6 @@
 ﻿:Class ejWaitingPopupAdvanced : MiPageSample 
 ⍝ Control:: _SF.ejWaitingPopup
-⍝ Description:: Inseart toggleable pop-up with arbitrary web content (does not display right)
+⍝ Description:: Insert toggleable pop-up with arbitrary web content (does not display right)
 
     ∇ Compose;wp;mydiv;myp
       :Access public

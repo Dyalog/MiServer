@@ -3,7 +3,7 @@
     :SECTION GLOBALS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
     :Field TYPES←'Simple' 'Advanced' 'Dyalog' ⍝ Types of samples (if not App)
-    :Field GROUPS←'Base HTML' 'Dyalog Controls' 'JQueryUI' 'SyncFusion' ⍝ Names of groups of elements
+    :Field GROUPS ⍝ Names of groups of elements
     :Field REFS        ⍝ ... their refs
     :Field APPS        ⍝ List of all apps
     :Field SAMPLES     ⍝ List of all samples (well, groups and controls really)
@@ -15,7 +15,6 @@
     :Field CONTROLS←'' ⍝ All control names
     :Field APPDESCS    ⍝ Sample Apps' Description::
     :Field APPCTRLS    ⍝ Sample Apps' Control:: (i.e. the title)
-    :Field SPEEDUP←0   ⍝ Use pregenerated JS to speed up
 
     :ENDSECTION
 
@@ -88,12 +87,6 @@
       :EndFor
     ∇
 
-    ∇ Speedup;p;r
-      (p←'node0'New _html.p'1').On'click' 'On2'
-      r←p.Render
-      ⍎('\A' '0' '1' '2' '\z'⎕R'NodeOn←{id←(⊃⍵),⍕⊃⌽⍺ ⋄ cont←⊃⍺ ⋄ ''' ''',id,''' ''',cont,''' ''',⍵,''' '''}'⍠'Mode' 'D')r
-    ∇
-
     :ENDSECTION
 
     :SECTION MAIN ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
@@ -103,7 +96,8 @@
      
      ⍝ Initialize globals
       SAMPLES←0 3⍴⍬
-      REFS←_html _DC _JQ _SF
+      GROUPS←'Dyalog Controls' 'Base HTML' 'SyncFusion' 'JQueryUI'
+      REFS←_DC _html _SF _JQ
       INFOSHORT←'⍝',¨Dread'Examples/Data/infoShort'
       INFOLONG←'⍝',¨Dread'Examples/Data/infoLong'
       NAMESSHORT←Names INFOSHORT
@@ -114,57 +108,70 @@
      
       Add _.StyleSheet'/Styles/homepage.css'
       style←''
-      style,←'#leftBar {background-color:inherit;margin-right:6px;}'
-      style,←'.menu {margin-bottom:0pt;width:110px;padding-left:0;padding-right:0;}'
-      style,←'.submenu {max-height:75px;overflow-y:scroll;background-color:white;border:2px groove threedface;}'
-      style,←'.menuitem {margin-bottom:0;margin-left:0px;padding-left:2px;cursor:pointer;} '
-      style,←'.menuitem:hover {background-color:lightblue;} '
-      style,←'.framed {width:980px;max-height:600px;min-height:400px;border:2px inset;overflow-y:auto;background-color:white;;} '
-      style,←'.listitem {margin:8px;cursor:pointer;outline:darkblue auto 5px;padding-left:2px;padding-right:2px}'
-      style,←'.listitem:hover {background-color:lightblue;}'
-      style,←'.samplesource {overflow-x:auto;background-color:#e5e5cc;border:2px inset;}'
+      style,←'#leftBar {background-color:inherit;margin-right:6px;} '
+      style,←'li:hover {background-color:highlight;font-wight:normal;}'
+      style,←'.menu {padding-left,padding-right:0;} '
+      style,←'.cat {font-size:12pt;cursor:pointer;}'
+      style,←'.cat:hover {font-size:12pt;background-color:highlight;}'
+      style,←'.submenu {max-height:75px;overflow-y:scroll;background-color:white;border:2px groove threedface;} '
+      style,←'.menuitem {margin-bottom,margin-left:0px;padding-left:2px;cursor:pointer;} '
+      style,←'.menuitem:hover {background-color:highlight;} '
+      style,←'.framed {width:730px;max-height:600px;min-height:400px;border:2px inset;overflow-y:auto;background-color:white;} '
+      style,←'.listitem {margin:0px;padding:4px;cursor:pointer;} '
+      style,←'.listitem:hover {background-color:highlight;} '
+      style,←'.samplesource {overflow-x:auto;width:730;background-color:#e5e5cc;border:2px inset;} '
       Add _.style style
      
       (left mid)←NewDiv¨'#leftBar' '#midBar' ⍝ Create panes
-      sp←'mainSP'Add _.StackPanel left mid  ⍝ Left is now in top
-     ⍝ sp.Items[1].style←⊂'width: 200px; max-height: 450px;'
-      ⍝sp.Items[2].style←⊂'margin: 5px;'
+      sp←Add'mainSP'Horz left mid  ⍝
+     
+      sp.Items[1].style←⊂'width: 200px; max-height: 450px;'
+      sp.Items[2].style←⊂'margin: 5px;'
       sp.style←'height: 450px;background-color:inherit;'
      
       PopulateLeft left
       PopulateMid mid
     ∇
 
-    ∇ PopulateLeft thediv;class;depths;group;items;names;ref;samples;vp;search;style;menu;i;fs;ac;text
+    ∇ PopulateLeft thediv;class;depths;group;items;names;ref;samples;vp;search;style;menu;i;fs;ac;text;stuff;html;SF;treeall;treecore;core
      
       stuff←''
+      tree←0 3⍴0 '' ''
      
+         ⍝ SEARCH FIELD ⍝⍝⍝
+      (stuff,←New _.EditField'str').On'change' 'OnSearch'('str' 'val')
+      (stuff,←'#case' '.menu'New _.button'Search').On'click' 'OnSearch'
+     
+      thediv.Add Horz stuff
+      thediv.Add _.hr
      
       ⍝ SAMPLE APPS ⍝⍝⍝
       APPS←(Dlist'Examples/Apps')~⊂'index'
       APPDESCS←(⊂'Description')Section¨Dread¨'Examples/Apps/'∘,¨APPS
       APPCTRLS←(⊂'Control')Section¨Dread¨'Examples/Apps/'∘,¨APPS
-      text←New _.b
-      text.Add¨'Sample'_.br'Apps'
-      (stuff,←'#nodeA0' '.menu'New _.button'<b>Sample<br>Apps</b>').On'click' 'OnApp'
-      :For (group ref i) :InEach GROUPS REFS(⍳⍴GROUPS)
-          names←{({#.HtmlElement=⊃⊃⌽⎕CLASS ⍵}¨⍵)/⍵}ref.(⍎¨⎕NL ¯9.4)
-          class←2↓⍕ref              ⍝ Remove leading #.
-          names←(3+⍴class)↓¨⍕¨names ⍝ Remove leading #.class.
-          CONTROLS,←⊂names
-          text←New _.span
-          text.Add¨(_.b class)_.br(_.small group)
-          (stuff,←('#nodeM',⍕i)'.menu'New _.button text).On'click' 'OnClass'
+      ('.cat'thediv.Add _.p'Sample Apps').On'click' 'OnAppHeader'
+      APPS{tree⍪←1 ⍵('nodeA',⍺)}¨APPCTRLS
+      (thediv.Add _.ejTreeView tree).On'nodeSelect' 'OnApp'('node' 'eval' 'argument.id')
+     
+      thediv.Add _.hr
+     
+      ('.cat'thediv.Add _.p'Controls').On'click' 'OnCtrlHeader'
+      core←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/core -noname' ⍝ core←
+      treecore←1 3⍴1 'Core' 'node0C'
+      treeall←1 3⍴1 'All' 'node0A'
+     
+      :For group class :InEach GROUPS(3↓¨⍕¨REFS) ⍝ Remove leading #._
+          names←⎕THIS.⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/tree',class,' -noname'
+          ⍎class,'←names'
+     
+          treecore⍪←2(group,P'_',class)('node__',class)
+          treecore⍪←3,0 1↓names⌿⍨names[;2]∊core
+     
+          treeall⍪←2(group,P'_',class)('node_',class)
+          treeall⍪←⍎class
       :EndFor
      
-      ⍝ SEARCH FIELD ⍝⍝⍝
-      (stuff,←'style="margin-top:8px"'New _.EditField'str').On'change' 'OnSearch'('str' 'val')
-      text←New _.b
-      text.Add¨'Search'_.br'samples'
-      (stuff,←'#case' '.menu'New _.button text).On'click' 'OnSearch'
-     
-      thediv.Add Horz stuff
-      thediv.Add _.hr
+      (thediv.Add _.ejTreeView,⊂treecore⍪treeall).On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id')
     ∇
 
     ∇ PopulateMid mid;url;code;frame;mya
@@ -186,38 +193,73 @@
 
     :SECTION CALLBACKS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
-    ∇ r←OnApp;node;descs;out;items;time;title;i
+    ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title
       :Access Public
-     ⍝ Gets called upon selection in Sample Apps tree
-      :If ×node←⍎5↓_what ⍝ ≥1 is an actual app id="nodeA23"
-          r←Update'Examples/Apps/',node⊃APPS
-      :Else ⍝ =0 is the header
-          descs←APPCTRLS,¨' – '∘,¨APPDESCS
+      node←4↓⊃Get'node'
+      :If '0'∊node ⍝ "All"
+      :ElseIf '_'=⊃node ⍝ Class
+          node←REFS⍳⍎4↓node
+          CURRCTRLS←node⊃CONTROLS
+          descs←AddLongInfo CURRCTRLS
           out←NewDiv'.framed'
-          items←(NodeID'A'APPS)out.Add¨_.p,¨descs
-          items.Set⊂'.listitem'
-          items.On⊂'click' 'OnApp'
-          r←'Apps' 'Small applications to showcase MiServer 3.0 functionality'(' apps',⍨≢APPS)out''
-      :EndIf
-      r←GenJS r
-    ∇
-
-    ∇ r←OnClass;descs;out;items;name;node
-      :Access Public
-      node←⍎5↓_what ⍝ id="nodeM23"
-      CURRCTRLS←node⊃CONTROLS
-      descs←AddLongInfo CURRCTRLS
-      out←NewDiv'.framed'
-      :If SPEEDUP
-          Speedup
-          (descs,¨⍳⍴CURRCTRLS)NodeOn¨⊂'Control'
-      :Else
           items←(NodeID'C'CURRCTRLS)out.Add¨_.p,¨descs
           items.Set⊂'.listitem'
           items.On⊂'click' 'OnControl'
+          CURRSPACE←2↓⍕node⊃REFS ⍝ Strip #.
+          r←GenJS CURRSPACE('Members of ',CURRSPACE,P node⊃GROUPS)(' controls',⍨⍕⍴CURRCTRLS)out''
+      :ElseIf 2≤+/'_'=node ⍝ Category
+          r←''
+      :Else ⍝ Control
+          spacectrl←'_',('_'⎕R'.')node
+          control←node↓⍨node⍳'_'
+          spacedir←'Examples/',(¯1+node⍳'_')↑node
+          files←Dlist spacedir
+          out←NewDiv'.framed'
+          CURRFILES←''
+          CURRDESCS←''
+          i←0
+          :For file :In files
+              url←spacedir,'/',file
+              code←Dread url
+              ctrlsec←'Control'Section code
+              :If (⊂spacectrl)∊Words ctrlsec ⍝ Extract space-separated words
+                  i+←1
+                  CURRFILES,←⊂url
+                  desc←⊂'Description'Section code
+                  desc←∊desc,Type file
+                  CURRDESCS,←⊂desc
+                  item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
+                  item.On'click' 'OnSample'
+              :EndIf
+          :EndFor
+          title←1↓control Section INFOSHORT
+          title←'Samples using ',spacectrl,P title
+          desc←control Section INFOLONG
+          r←GenJS spacectrl title desc out''
       :EndIf
-      CURRSPACE←2↓⍕node⊃REFS
-      r←GenJS CURRSPACE('Members of ',2↓CURRSPACE,P node⊃GROUPS)(' controls',⍨⍕⍴CURRCTRLS)out''
+    ∇
+
+    ∇ r←OnAppHeader;descs;out;items
+      :Access Public
+     ⍝ Gets called upon clicking the "Sample Apps" header
+      descs←APPCTRLS,¨' – '∘,¨APPDESCS
+      out←NewDiv'.framed'
+      items←APPS{('nodeB',⍺)out.Add _.p ⍵}¨descs
+      items.Set⊂'.listitem'
+      items.On⊂'click' 'OnApp'
+      r←GenJS'Apps' 'Small applications to showcase MiServer 3.0 functionality'(' apps',⍨≢APPS)out''
+    ∇
+    
+    ∇ r←OnCtrlHeader;descs;out;items
+      :Access Public
+     ⍝ Gets called upon clicking the "Sample Apps" header
+      r←GenJS'Controls' 'Something about controls' 'Controls' 'list of all controls with long descs' ''
+    ∇
+
+    ∇ r←OnApp
+      :Access Public
+     ⍝ Gets called upon selection in Sample Apps tree
+      r←GenJS Update'Examples/Apps/',5↓⊃Get'node'
     ∇
 
     ∇ r←OnControl;node;control;spacectrl;spacedir;files;out;url;code;ctrlsec;desc;iframe;title;item;i;file
@@ -277,7 +319,7 @@
                   ctrlsec←'Control'Section code
                   desc←⊂'Description'Section code
                   :If ∨/str In desc
-                  :OrIf ∨/∊(terms,⊂str)⍷¨⊂ctrlsec ⍝ always case sensitive
+                  :OrIf ∨/∊(terms,⊂str)In¨⊂ctrlsec ⍝ always case sensitive
                       i+←1
                       CURRFILES,←⊂url
                       desc←∊desc,Type file

@@ -6,7 +6,7 @@
       :Access public
      
       link←{myp←⍺.Add _.p
-          ('target' '_blank')('href'(⊃⌽⍵))myp.Add _.a(⊃⍵)
+          ('target=_blank')('href=',⊃⌽⍵)myp.Add _.a(⊃⍵)
       }
      
       myp←Add _.p'MiServer is a free, open-source web server implemented in Dyalog '
