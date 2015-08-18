@@ -1,14 +1,14 @@
 ﻿:Class Table : #._html.table
-⍝ Description: Improved html table
-⍝ Constructor: {Data} {CellAttr} {HeaderRows} {HeaderAttr} {MakeCellIds} {MakeRowIds}
-
+⍝ Description: Improved html table - accepts matrix of data
+⍝ Constructor: [Data [CellAttr [HeaderRows [HeaderAttr [MakeCellIds [MakeRowIds]]]]]
+⍝
 ⍝ Public Fields:
 ⍝ Data        - matrix of data to display in the table
-⍝ CellAttr    - Cell Attributes
+⍝ CellAttr    - Cell Attributes 
 ⍝ HeaderRows  - # of header rows
 ⍝ HeaderAttr  - Header attributes
-⍝ MakeCellIds - 1 to generate IDs      <td id="r2c3">
-⍝ MakeRowIds  - 1 to generate Row IDs  <tr id="row2">
+⍝ MakeCellIds - 1 to generate IDs      <td id="tableId_r2c3">
+⍝ MakeRowIds  - 1 to generate Row IDs  <tr id="tableId_row2">
 
     :field public Data←0 0⍴⊂''
     :field public CellAttr←''
@@ -30,7 +30,8 @@
     ∇
 
     ∇ html←Render;data;atts;tda;tha;hdrrows;cellids;rowids;rows;x;head;body;table;thead;tbody
-      :Access public
+      :Access public                                 
+      SetId
       data tda tha hdrrows cellids rowids←Data CellAttr HeaderAttr HeaderRows MakeCellIds MakeRowIds
       hdrrows←⍬⍴hdrrows
       data←((rows←×/¯1↓⍴data),¯1↑⍴data)⍴data
@@ -38,7 +39,7 @@
       :If 0≠hdrrows
           head←{z⊣(z←⎕NEW #._html.th).Add ⍵}¨hdrrows↑data
           :If cellids
-              head.id←{∊'rc',¨⍕¨⍵}¨⍳⍴head
+              head.id←{id,'_',∊'rc',¨⍕¨⍵}¨⍳⍴head
           :EndIf
           :If ~0∊⍴tha
               head.Set¨(⍴head)⍴⊂¨eis tha
@@ -47,7 +48,7 @@
       :If 0<(⊃⍴data)-hdrrows
           body←{z⊣(z←⎕NEW #._html.td).Add ⍵}¨hdrrows↓data
           :If cellids
-              body.id←{∊'rc',¨⍕¨⍵}¨hdrrows↓⍳⍴data
+              body.id←{id,'_',∊'rc',¨⍕¨⍵}¨hdrrows↓⍳⍴data
           :EndIf
           :If ~0∊⍴tda
               body.Set¨(⍴body)⍴⊂¨eis tda
@@ -56,7 +57,7 @@
       :If rows>0
           (table←⎕NEW¨rows⍴#._html.tr).Add↓head⍪body
           :If rowids
-              table.id←{'row',⍕⍵}¨⍳rows
+              table.id←{id,'_row',⍕⍵}¨⍳rows
           :EndIf
       :EndIf
       thead←tbody←''
