@@ -53,7 +53,7 @@
 
     AddShortInfo←{⍵,¨P¨(4+⍴¨⍵)↓¨(INFOSHORT,⊂'')[NAMESSHORT⍳⍵]} ⍝ ⍵ (ShortDesc)
                     ⍝(⍵∊NAMESSHORT)/¨
-    AddLongInfo←{⍵,¨D¨{⍵,'[no info available]'/⍨0∊⍴⍵}¨(4+⍴¨⍵)↓¨(INFOLONG,⊂'')[NAMESLONG⍳⍵]} ⍝ ⍵ - LongDesc
+    AddLongInfo←{(New¨_.strong,¨⍵),¨D¨{⍵,'[no info available]'/⍨0∊⍴⍵}¨(4+⍴¨⍵)↓¨(INFOLONG,⊂'')[NAMESLONG⍳⍵]} ⍝ ⍵ - LongDesc
 
       Section←{ ⍝ extract section ⍺:: from code ⍵
           regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)'
@@ -165,15 +165,17 @@
           CONTROLS,←⊂names[;2]/⍨names[;1]=⌈/names[;1]
           ⍎class,'←names'
      
-          treecore⍪←2(group,P'_',class)('node__',class)
-          treecore⍪←3,0 1↓names⌿⍨names[;2]∊CORE
+          :If ∨/names[;2]∊CORE
+              treecore⍪←2(group,P'_',class)('node__',class)
+              treecore⍪←3,0 1↓names⌿⍨names[;2]∊CORE
+          :EndIf
      
           treeall⍪←2(group,P'_',class)('node_',class)
           treeall⍪←⍎class
      
       :EndFor
      
-      (thediv.Add _.ejTreeView,⊂treecore⍪treeall).On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id')
+      ('#tree'thediv.Add _.ejTreeView,⊂treecore⍪treeall).On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id')
     ∇
 
     ∇ PopulateMid mid;url;code;frame;mya
@@ -195,35 +197,22 @@
 
     :SECTION CALLBACKS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
-    ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title;currctrls
+    ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title;currctrls;core
       :Access Public
-      node←4↓Get'node' ⍝ strip 'node' prefix
+      node←4↓(1+'tree'≡_what)⊃_what(Get'node') ⍝ get list-item or node
       :If '0'∊node ⍝ 'All'
           r←''
-      :ElseIf '_'=2⊃node ⍝ Core subset of class
-          node↓⍨←1         ⍝ Remove additional _ e.g. '__html'
+      :ElseIf '_'=⊃node ⍝ Class or core subset thereof
+          core←'_'=2⊃node
+          node↓⍨←core ⍝ Remove additional _ from '__html' if core-only
           i←REFS⍳⍎node
-          currctrls←CORE∩i⊃CONTROLS
+          currctrls←(CORE∘∩⍣core)i⊃CONTROLS ⍝ Filter if core-only
           out←NewDiv'.framed'
-          :If 0∊⍴currctrls
-              '.listitem'out.Add _.p,⊂'[no core controls of ',node,']'
-          :Else
-              descs←AddLongInfo currctrls
-              items←(NodeID'C'currctrls)out.Add¨_.p,¨descs
-              items.Set⊂'.listitem'
-              items.On⊂'click' 'OnControl'
-          :EndIf
-          r←GenJS node('Core controls of ',node,P i⊃GROUPS)(' controls',⍨⍕⍴currctrls)out''
-      :ElseIf '_'=⊃node ⍝ Class
-          node←REFS⍳⍎node
-          CURRCTRLS←node⊃CONTROLS
-          descs←AddLongInfo CURRCTRLS
-          out←NewDiv'.framed'
-          items←(NodeID'C'CURRCTRLS)out.Add¨_.p,¨descs
+          descs←AddLongInfo currctrls
+          items←(currctrls,⍨¨⊂'list',1⌽node)out.Add¨_.p,¨descs ⍝ make IDs like 'DC_Button'
           items.Set⊂'.listitem'
-          items.On⊂'click' 'OnControl'
-          CURRSPACE←2↓⍕node⊃REFS ⍝ Strip #.
-          r←GenJS CURRSPACE('Members of ',CURRSPACE,P node⊃GROUPS)(' controls',⍨⍕⍴CURRCTRLS)out''
+          items.On⊂'click' 'OnTree'
+          r←GenJS node('Members of ',node,P i⊃GROUPS)(' controls',⍨⍕⍴currctrls)out''
       :ElseIf 2≤+/'_'=node ⍝ Category
           r←''
       :Else ⍝ Control
@@ -280,40 +269,6 @@
       :Access Public
      ⍝ Gets called upon selection in Sample Apps tree
       r←GenJS Update'Examples/Apps/',5↓Get'node'
-    ∇
-
-    ∇ r←OnControl;node;control;spacectrl;spacedir;files;out;url;code;ctrlsec;desc;iframe;title;item;i;file
-      :Access Public
-      node←⍎5↓_what ⍝ id="nodeC23"
-      control←node⊃CURRCTRLS
-      spacectrl←CURRSPACE,'.',control
-      spacedir←SpaceToDir CURRSPACE
-      files←Dlist spacedir
-      out←NewDiv'.framed'
-      CURRFILES←''
-      CURRDESCS←''
-      i←0
-      :For file :In files
-          url←spacedir,'/',file
-          code←Dread url
-          ctrlsec←'Control'Section code
-          :If (⊂spacectrl)∊Words ctrlsec ⍝ Extract space-separated words
-              i+←1
-              CURRFILES,←⊂url
-              desc←⊂'Description'Section code
-              desc←∊desc,Type file
-              CURRDESCS,←⊂desc
-              item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
-              item.On'click' 'OnSample'
-          :EndIf
-      :EndFor
-      :If ~×i
-          '.listitem'out.Add _.p,⊂'[no samples using ',spacectrl,']'
-      :EndIf
-      title←1↓control Section INFOSHORT
-      title←'Samples using ',2↓spacectrl,P title
-      desc←control Section INFOLONG
-      r←GenJS spacectrl title desc out''
     ∇
 
     ∇ r←OnSample
