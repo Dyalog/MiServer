@@ -71,11 +71,7 @@
               :If 0≠⍴ColNames ⋄ coldefs,←ColNames ⋄ colfields,←⊂'field' ⋄ :EndIf
               :If 0≠⍴ColTitles ⋄ coldefs,←ColTitles ⋄ colfields,←⊂'headerText' ⋄ :EndIf
               :If 0≠⍴,CellWidths ⋄ coldefs,←cols⍴CellWidths ⋄ colfields,←⊂'width' ⋄ :EndIf
-     
               coldefs←colfields #.JSON.fromTable coldefs
-              :If 0≠⍴CellFormats ⋄ :AndIf 0≠⍴i←(0=⊃∘⍴¨CellFormats)/⍳⍴CellFormats
-                  coldefs[i].⎕EX⊂'format' ⍝ Remove empty formats
-              :EndIf
           :EndIf
           coldefs←#.JSON.fromAPL coldefs
      
