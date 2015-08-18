@@ -35,12 +35,12 @@ fieldset:: The fieldset element represents a set of form controls grouped under 
 figure:: The figure element represents some flow content, optionally with a caption, which can be moved away from the main flow of the document without affecting the document’s meaning.
 footer:: The footer element represents a footer of a section, typically containing information such as who wrote it, links to related documents, and copyright notices.
 form:: The form element represents a collection of form-associated elements, some of which can represent editable values that can be submitted to a server for processing.
-h1: The h1 element defines a header for a section.
-h2: The h2 element defines a header for a section.
-h3: The h3 element defines a header for a section.
-h4: The h4 element defines a header for a section.
-h5: The h5 element defines a header for a section.
-h6: The h6 element defines a header for a section.
+h1:: The h1 element defines a header for a section.
+h2:: The h2 element defines a header for a section.
+h3:: The h3 element defines a header for a section.
+h4:: The h4 element defines a header for a section.
+h5:: The h5 element defines a header for a section.
+h6:: The h6 element defines a header for a section.
 head:: The head element collects the document’s metadata.
 hr:: The hr element represents a paragraph-level thematic break, e.g. a scene change in a story, or a transition to another topic within a section of a reference book.
 html:: The html element represents the root of an HTML document.

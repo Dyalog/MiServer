@@ -15,6 +15,7 @@
     :Field CONTROLS←'' ⍝ All control names
     :Field APPDESCS    ⍝ Sample Apps' Description::
     :Field APPCTRLS    ⍝ Sample Apps' Control:: (i.e. the title)
+    :Field CORE        ⍝ Core subset of controls
 
     :ENDSECTION
 
@@ -102,7 +103,6 @@
       INFOLONG←'⍝',¨Dread'Examples/Data/infoLong'
       NAMESSHORT←Names INFOSHORT
       NAMESLONG←Names INFOLONG
-     ⍝ Use'ejTab' ⍝ May get added by callbacks
      
       '#title'Add _.title'MS3: About' ⍝ After the : will be updated
      
@@ -123,7 +123,7 @@
       Add _.style style
      
       (left mid)←NewDiv¨'#leftBar' '#midBar' ⍝ Create panes
-      sp←Add'mainSP'Horz left mid  ⍝
+      sp←Add'mainSP'Horz left mid
      
       sp.Items[1].style←⊂'width: 200px; max-height: 450px;'
       sp.Items[2].style←⊂'margin: 5px;'
@@ -133,7 +133,7 @@
       PopulateMid mid
     ∇
 
-    ∇ PopulateLeft thediv;class;depths;group;items;names;ref;samples;vp;search;style;menu;i;fs;ac;text;stuff;html;SF;treeall;treecore;core
+    ∇ PopulateLeft thediv;class;depths;group;items;names;ref;samples;vp;search;style;menu;i;fs;ac;text;stuff;html;SF;treeall;treecore
      
       stuff←''
       tree←0 3⍴0 '' ''
@@ -156,19 +156,21 @@
       thediv.Add _.hr
      
       ('.cat'thediv.Add _.p'Controls').On'click' 'OnCtrlHeader'
-      core←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/core -noname' ⍝ core←
+      CORE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/core -noname'
       treecore←1 3⍴1 'Core' 'node0C'
       treeall←1 3⍴1 'All' 'node0A'
      
       :For group class :InEach GROUPS(3↓¨⍕¨REFS) ⍝ Remove leading #._
           names←⎕THIS.⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/tree',class,' -noname'
+          CONTROLS,←⊂names[;2]/⍨names[;1]=⌈/names[;1]
           ⍎class,'←names'
      
           treecore⍪←2(group,P'_',class)('node__',class)
-          treecore⍪←3,0 1↓names⌿⍨names[;2]∊core
+          treecore⍪←3,0 1↓names⌿⍨names[;2]∊CORE
      
           treeall⍪←2(group,P'_',class)('node_',class)
           treeall⍪←⍎class
+     
       :EndFor
      
       (thediv.Add _.ejTreeView,⊂treecore⍪treeall).On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id')
@@ -193,12 +195,27 @@
 
     :SECTION CALLBACKS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
-    ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title
+    ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title;currctrls
       :Access Public
-      node←4↓⊃Get'node'
-      :If '0'∊node ⍝ "All"
+      node←4↓Get'node' ⍝ strip 'node' prefix
+      :If '0'∊node ⍝ 'All'
+          r←''
+      :ElseIf '_'=2⊃node ⍝ Core subset of class
+          node↓⍨←1         ⍝ Remove additional _ e.g. '__html'
+          i←REFS⍳⍎node
+          currctrls←CORE∩i⊃CONTROLS
+          out←NewDiv'.framed'
+          :If 0∊⍴currctrls
+              '.listitem'out.Add _.p,⊂'[no core controls of ',node,']'
+          :Else
+              descs←AddLongInfo currctrls
+              items←(NodeID'C'currctrls)out.Add¨_.p,¨descs
+              items.Set⊂'.listitem'
+              items.On⊂'click' 'OnControl'
+          :EndIf
+          r←GenJS node('Core controls of ',node,P i⊃GROUPS)(' controls',⍨⍕⍴currctrls)out''
       :ElseIf '_'=⊃node ⍝ Class
-          node←REFS⍳⍎4↓node
+          node←REFS⍳⍎node
           CURRCTRLS←node⊃CONTROLS
           descs←AddLongInfo CURRCTRLS
           out←NewDiv'.framed'
@@ -232,6 +249,9 @@
                   item.On'click' 'OnSample'
               :EndIf
           :EndFor
+          :If ~×i
+              '.listitem'out.Add _.p,⊂'[no samples using ',spacectrl,']'
+          :EndIf
           title←1↓control Section INFOSHORT
           title←'Samples using ',spacectrl,P title
           desc←control Section INFOLONG
@@ -249,7 +269,7 @@
       items.On⊂'click' 'OnApp'
       r←GenJS'Apps' 'Small applications to showcase MiServer 3.0 functionality'(' apps',⍨≢APPS)out''
     ∇
-    
+
     ∇ r←OnCtrlHeader;descs;out;items
       :Access Public
      ⍝ Gets called upon clicking the "Sample Apps" header
@@ -259,7 +279,7 @@
     ∇ r←OnApp
       :Access Public
      ⍝ Gets called upon selection in Sample Apps tree
-      r←GenJS Update'Examples/Apps/',5↓⊃Get'node'
+      r←GenJS Update'Examples/Apps/',5↓Get'node'
     ∇
 
     ∇ r←OnControl;node;control;spacectrl;spacedir;files;out;url;code;ctrlsec;desc;iframe;title;item;i;file
@@ -287,6 +307,9 @@
               item.On'click' 'OnSample'
           :EndIf
       :EndFor
+      :If ~×i
+          '.listitem'out.Add _.p,⊂'[no samples using ',spacectrl,']'
+      :EndIf
       title←1↓control Section INFOSHORT
       title←'Samples using ',2↓spacectrl,P title
       desc←control Section INFOLONG
