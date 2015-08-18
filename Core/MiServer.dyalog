@@ -566,8 +566,7 @@
           :EndIf
      
           :If flag←APLJax
-          :AndIf flag←inst.{6::0 ⋄ _CallbackDebug}⍬
-              2 ⎕STOP'CallbackDebugger'
+          :AndIf flag←inst.{6::0 ⋄ _DebugCallbacks}⍬
           :EndIf
      
           :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
@@ -657,7 +656,7 @@
 
     ∇ r←flag Debugger w
       :If flag
-          ⎕←'* Callback debugging active on this page, press Ctrl-Enter to trace'
+          ⎕←'* Callback debugging active on this page, press Ctrl-Enter to trace into Callback function'
           Debug ⎕STOP'Debugger'
       :EndIf
       :Trap 85
