@@ -39,7 +39,7 @@
 
     Horz←{⍺←⊢ ⋄ r⊣(r←⍺ New _.StackPanel ⍵).Horizontal←1} ⍝ Horizontal StackPanel
 
-    Type←{P(1⍳⍨∨/¨TYPES⍷¨⊂⍵)⊃TYPES,⊂'App'} ⍝ Simple/Advanced/App?
+    Type←{P(1⍳⍨∨/¨TYPES⍷¨⊂⍺)⊃(TYPES,¨⊂' sample for ',⍵),⊂'Sample app'} ⍝ Simple/Advanced/App?
 
     Dread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText #.Boot.AppRoot,⍵,'.dyalog'} ⍝ Read dyalog file
 
@@ -52,7 +52,7 @@
     Names←{1↓¨⍵↑¨⍨¯1+⍵⍳¨':'} ⍝ Extract section names from set of several 'name:: description'
 
     AddShortInfo←{⍵,¨P¨(4+⍴¨⍵)↓¨(INFOSHORT,⊂'')[NAMESSHORT⍳⍵]} ⍝ ⍵ (ShortDesc)
-                    ⍝(⍵∊NAMESSHORT)/¨
+
     AddLongInfo←{(New¨_.strong,¨⍵),¨D¨{⍵,'[no info available]'/⍨0∊⍴⍵}¨(4+⍴¨⍵)↓¨(INFOLONG,⊂'')[NAMESLONG⍳⍵]} ⍝ ⍵ - LongDesc
 
       Section←{ ⍝ extract section ⍺:: from code ⍵
@@ -227,12 +227,12 @@
           :For file :In files
               url←spacedir,'/',file
               code←Dread url
-              ctrlsec←'Control'Section code
-              :If (⊂spacectrl)∊Words ctrlsec ⍝ Extract space-separated words
+              ctrlsec←Words'Control'Section code
+              :If (⊂spacectrl)∊ctrlsec ⍝ Extract space-separated words
                   i+←1
                   CURRFILES,←⊂url
                   desc←⊂'Description'Section code
-                  desc←∊desc,Type file
+                  desc←∊desc,file Type⊃ctrlsec
                   CURRDESCS,←⊂desc
                   item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
                   item.On'click' 'OnSample'
@@ -300,7 +300,7 @@
                   :OrIf ∨/∊(terms,⊂str)In¨⊂ctrlsec ⍝ always case sensitive
                       i+←1
                       CURRFILES,←⊂url
-                      desc←∊desc,Type file
+                      desc←∊desc,file Type⊃Words ctrlsec
                       CURRDESCS,←⊂desc
                       item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
                       item.On'click' 'OnSample'
