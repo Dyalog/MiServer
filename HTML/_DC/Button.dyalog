@@ -7,8 +7,6 @@
 ⍝ attr  - attribute(s) for the button
 ⍝ Public Fields:: None
 ⍝ Notes::
-⍝ If either the id or name are undefined, the undefined one is set to the same value as the defined one
-⍝ If both id and name are undefined, a unique id is generated and the name is set to it as well
 ⍝ The default type for this button is 'button', not 'submit' which is the default for the native HTML5 button
 
     :field _content←''
@@ -29,14 +27,7 @@
 
     ∇ r←Render
       :Access public
-      :If (⊂name)∊UNDEF''
-          :If (⊂id)∊UNDEF''
-              SetId
-          :EndIf
-          name←id
-      :ElseIf UNDEF≡id
-          id←name
-      :EndIf
+      SetId
       r←⎕BASE.Render
     ∇
 
