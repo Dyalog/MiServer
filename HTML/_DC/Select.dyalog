@@ -37,7 +37,7 @@
     ∇ r←Render;opts
       :Access public
       Content←''
-      SetId
+      SetInputName
       :If ~0∊⍴Options
           opts←eis Options
           :If 1=⍴⍴opts
