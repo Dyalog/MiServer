@@ -118,7 +118,7 @@
       style,←'.menuitem:hover {background-color:highlight;} '
       style,←'.framed {width:730px;max-height:600px;min-height:400px;border-left:1px inset;overflow-y:auto;} '
       style,←'.iframed {width:730px;max-height:600px;min-height:400px;border:2px inset;overflow-y:auto;background-color:white;} '
-      style,←'.listitem {margin:0px;padding:4px;cursor:pointer;box-sizing:border-box;} '
+      style,←'.listitem {margin:0px;padding:4px 4px 4px 26px;text-indent:-22px;cursor:pointer;box-sizing:border-box;} '
       style,←'.listitem:before {content:"▶";padding: 1px 3px 3px 4px;'
       style,←'    background: ThreeDFace;'
       style,←'    color: ButtonText;'
@@ -227,7 +227,7 @@
           currctrls←(CORE∘∩⍣core)⊃,/CONTROLS ⍝ Filter if core-only
           out←NewDiv'.framed'
           descs←AddLongInfo currctrls
-          items←(currctrls,⍨¨⊂'list',1⌽node)out.Add¨_.p,¨descs ⍝ make IDs like 'DC_Button'
+          items←(currctrls,⍨¨⊂'list',1⌽core↓node)out.Add¨_.p,¨descs ⍝ make IDs like 'DC_Button'
           items.Set⊂'.listitem'
           items.On⊂'click' 'OnTree'
           r←(2↓node)(2↓node,' Controls')((⍕⍴currctrls),(core/' core'),' controls')out''
@@ -342,7 +342,7 @@
                       CURRFILES,←⊂url
                       desc←∊desc,file Type⊃Words ctrlsec
                       item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
-                      item.On'click dblclick' 'OnSample'
+                      item.On'click' 'OnSample'
                   :EndIf
               :EndFor
           :EndFor
