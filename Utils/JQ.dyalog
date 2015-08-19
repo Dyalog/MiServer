@@ -26,7 +26,7 @@
       r←script[1]{⍺:#.HTMLInput.JS ⍵ ⋄ ⍵}(oname ine'var ',oname,';'),r
     ∇
 
-    ∇ r←page On pars;delegate;selector;event;clientdata;response;script;data;cd;name;id;type;what;dtype;success;ajax;useajax
+    ∇ r←page On pars;delegate;selector;event;clientdata;response;script;data;cd;name;id;type;what;dtype;success;ajax;useajax;jquerywrap;scriptwrap
     ⍝ pars - [1] selector(s) (delegates), [2] events to bind to,  [3] data to send to server [4] id if the object whose HTML is to be updated
     ⍝ [1] - a simple character vector of selector(s) or a two element vector of (selectors delegates)
     ⍝ [2] - a character vector of events to bind
@@ -67,6 +67,9 @@
     ⍝       if non-empty, this parameter is the selector for the element whose content will be replaced by the server response
     ⍝ [5] - script - if non-empty, this is javascript to execute in the browser prior to the AJAX call
     ⍝ [6] - useajax - if 0 don't make an AJAX call, just execute the script
+    ⍝ [7] - jQueryWrap - if 0, don't wrap with $(function(){...}
+    ⍝ [8] - ScriptWrap - if 0, don't wrap with <script>...</script>
+     
      
       :Select ⊃⎕NC'page'
       :Case 9 ⋄ page.Use'JQuery' ⋄ page←page.Page ⍝ page is the request object
@@ -75,7 +78,7 @@
      
       pars←eis pars
       delegate←''
-      selector event clientdata response script useajax←6↑pars,(⍴pars)↓'' '' '' '' '' 1
+      selector event clientdata response script useajax jquerywrap scriptwrap←8↑pars,(⍴pars)↓'' '' '' '' '' 1 1 1
       :If 1<|≡selector ⋄ selector delegate←selector ⋄ delegate←', ',quote delegate :EndIf
       data←'_event: event.type, _what: '
       data,←'(("undefined" == typeof($(event.currentTarget).attr("name")) ? $(event.currentTarget).attr("id") : $(event.currentTarget).attr("name")))'
@@ -143,9 +146,11 @@
           success←'success: function(d){$(',(quote response),').empty().html(d);}'
       :EndIf
      
-      ajax←(script ine script,';')
+      ajax←script ine script,';'
       ajax,←useajax/'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
-      r←#.HTMLInput.JS'$(function(){$(',(quote selector),').on(',(quote event),delegate,', function(event){',ajax,'});});'
+      r←'$(',(quote selector),').on(',(quote event),delegate,', function(event){',ajax,'});'
+      :If jquerywrap ⋄ r←'$(function(){',r,'});' ⋄ :EndIf
+      :If scriptwrap ⋄ r←#.HTMLInput.JS r ⋄ :EndIf
     ∇
 
     :section APLJax helpers (for legacy pages)

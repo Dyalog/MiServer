@@ -5,7 +5,6 @@
 ⍝ is in the list of valid sessions. If it is, assign the Session property of the request.
 ⍝ If it isn't, create a new session and set the cookie
 
-    :Field Public TimeOut←10 ⍝ Minutes
     :Field Public Sessions ⍝ Should be private, really
 
     :Class Page
@@ -31,6 +30,7 @@
      
       Sessions←0⍴⎕NEW Session
       root←Server.Config.Root
+      TimeOut←Server.Config.SessionTimeOut
       timeout←TimeOut÷24×60 ⍝ Convert minutes to fractions of a day
      
       :Trap 22

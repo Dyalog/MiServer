@@ -477,7 +477,9 @@
         :Field public ClientData←'' ⍝ any additional client data to send to server
         :Field public Callback←1    ⍝ execute AJAX callback to server?  or the name of the server-side callback function
         :Field public JavaScript←'' ⍝ JavaScript to execute prior to server callback
-        :Field public Page←''       ⍝ server URL to run for an AJAX callback
+        :Field public Page←''       ⍝ server URL to run for an AJAX callback 
+        :Field public jQueryWrap←1  ⍝ wrap handler in $(function(){...});
+        :Field public ScriptWrap←1  ⍝ wrap handler in <script>...</script>
         :field public Uses←'JQuery'
 
         ∇ Make0
@@ -515,6 +517,7 @@
           :If 0∊⍴pg
           :AndIf ''≢req←#.HtmlElement.context'_Request'
               pg←req._Request.Page
+              jQueryWrap←~req._Request.isAPLJax ⍝!!!BPB!!!
           :EndIf
           :If ''≢Delegates
               sel←Selectors Delegates
@@ -525,7 +528,7 @@
           :AndIf ~0∊⍴Callback
               cd,←⊂'_callback' 'string'Callback
           :EndIf
-          r←pg #.JQ.On sel Events cd''JavaScript(0≢⊃Callback)
+          r←pg #.JQ.On sel Events cd''JavaScript(0≢⊃Callback)jQueryWrap ScriptWrap
         ∇
 
     :endclass
