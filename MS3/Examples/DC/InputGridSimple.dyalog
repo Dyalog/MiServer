@@ -22,21 +22,23 @@
       ig.Inputs←'fname' 'lname' 'bdate'New¨_.EditField _.EditField _.jqDatePicker
      
      ⍝ Finally we add a button to generate the display in the 'result' div below
-      btn←'style="margin-top,margin-bottom: 50px"'frm.Add _.Button'Click Me!'
+      btn←'ClickMe' 'style="margin-top,margin-bottom: 50px"'frm.Add _.Button'Click Me!'
       btn.type←'button'
       btn.On'click' 'CallbackFn'
      
       'result'frm.Add _.div  ⍝ this is where the result will appear
     ∇
 
-    ∇ r←CallbackFn
+    ∇ r←CallbackFn;text
       :Access Public  
      ⍝ First we instruct to display 'Hi' followed by the full name
-      r←'#result'Replace _.h2('Hi',⍕Get'fname lname')
      ⍝ and if the birthdate given happens to be today's we pop up a birthday message:
-      :If ⎕TS[2 3]≡2⍴(4⍴100)⊤2⊃⎕VFI(Get'bdate')∩⎕D
-          r,←Execute'alert("Happy Birthday!")'
+     
+      text←'Hi ',(Get'fname'),' ',(Get'lname'),'.'
+      :If ⎕TS[3 2]≡2↑2⊃'/-'⎕VFI Get'bdate'
+          text,←' Happy Birthday!'
       :EndIf
+      r←'#result'Replace _.h2 text
     ∇
 
 :EndClass
