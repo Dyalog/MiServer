@@ -118,8 +118,26 @@
       style,←'.menuitem {margin-bottom,margin-left:0px;padding-left:2px;cursor:pointer;} '
       style,←'.menuitem:hover {background-color:highlight;} '
       style,←'.framed {width:730px;max-height:600px;min-height:400px;border:2px inset;overflow-y:auto;background-color:white;} '
-      style,←'.listitem {margin:0px;padding:4px;cursor:pointer;} '
-      style,←'.listitem:hover {background-color:highlight;} '
+      style,←'.listitem {margin:0px;padding:4px;cursor:pointer;box-sizing:border-box;} '
+      style,←'.listitem:before {content:"▶";padding: 1px 3px 3px 4px;'
+      style,←'    background: ThreeDFace;'⍝#4479BA;'
+      style,←'    color: ButtonText;'
+      style,←'    border-radius: 4px;'
+      style,←'    border: solid 1px ThreeDLightShadow;'⍝#20538D;'
+      style,←'    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);'
+      style,←'    transition-duration: 0.2s;'
+      style,←'    margin-right: 4px;'
+      style,←'}'
+      style,←'.listitem:active:before {'
+      style,←'    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);'
+      style,←'    background: ThreeDShadow;'⍝#2E5481;'
+      style,←'    border: solid 1px ThreeDDarkShadow;'⍝#203E5F;'
+      style,←'}'
+      style,←'.listitem:hover:before {'
+      style,←'    background: ThreeDHighlight;'⍝#356094;'
+      style,←'    border: solid 1px ThreeDFace;'⍝#2A4E77;'
+      style,←'    text-decoration: none;'
+      style,←'}'
       style,←'.noitems {margin:0px;padding:4px;cursor:not-allowed;} '
       style,←'.samplesource {overflow-x:auto;width:730px;background-color:#e5e5cc;border:2px inset;} '
       Add _.style style
@@ -141,8 +159,8 @@
       tree←0 3⍴0 '' ''
      
          ⍝ SEARCH FIELD ⍝⍝⍝
-      (stuff,←New _.EditField'str').On'change' 'OnSearch'('str' 'val')
-      (stuff,←'#case' '.menu'New _.button'Search').On'click' 'OnSearch'
+      stuff,←New _.EditField'searchfield'⍝).On'change' 'OnSearch'('str' 'val')
+      (stuff,←'#searchbutton' '.menu'New _.button'Search').On'click' 'OnSearch'('str' '#searchfield' 'val')
      
       thediv.Add Horz stuff
       thediv.Add _.hr
