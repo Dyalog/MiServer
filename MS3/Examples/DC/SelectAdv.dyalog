@@ -1,4 +1,4 @@
-﻿:Class SelectSimple : MiPageSample
+﻿:Class SelectSample : MiPageSample
 ⍝ Control::     _.DC.Select
 ⍝ Description:: This example shows how to use the Select object by creating a form with 2 selections of fruits in it.
 ⍝ The first single selection is a drop down with no preselection. The second one is a multi selection with 2 items already selected. It occupied a whole window (not drop down). A button at the bottom resets the form to its original state.
@@ -14,7 +14,7 @@
      
       (frm←Add _.Form).id←'myform'
      
-      single←frm.Add _.Select(⊂FRUITS)  ⍝ no preselection
+      single←frm.Add _.Select FRUITS ⍝ no preselection
       frm.Add¨2/_.br
      
       multi←frm.Add _.Select(FRUITS(2 5)) ⍝ preselect 2nd and 5th fruit

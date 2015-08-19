@@ -5,10 +5,10 @@
     ∇ Render;btn;frm;label;name
       :Access Public
      
-      (frm←Add _.Form).id←'myform' ⍝ Create a form
+      frm←'myform' Add _.Form ⍝ Create a form
       label←('for' 'name')frm.Add _.label'Please enter your name'
       name←'name'frm.Add _.EditField
-      btn←frm.Add _.Button'Done'
+      btn←'done'frm.Add _.Button'Done'
       btn.On'click' 'CallbackFn'
      
       'result'frm.Add _.div ⍝ a div to contain output, updated by CallbackFn
