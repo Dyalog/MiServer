@@ -5,7 +5,6 @@
 ⍝           or a matrix of [;1] values for the selectable list [;2] content for the option
 ⍝ Public Fields::
 ⍝ Options - vector of character vectors of values for the selectable list
-⍝ Input   - the input (type="list") element associated with the datalist 
 ⍝ Notes::
 ⍝ Different browsers render (or support) this element differently
 
@@ -29,6 +28,10 @@
     ∇ r←Render;dl
       :Access public
       SetId
+      Content←⍬
+      ⍝ perform some magic to set the id/name of the input element to the id
+      Input.(id name)←⊂id
+      id←id,'_datalist'
       'list'Input.Set id
       :If ~0∊⍴Options
           :If 2=⍴⍴Options
