@@ -272,13 +272,13 @@
                   desc←⊂'Description'Section code
                   desc←∊desc,file Type⊃ctrlsec
                   item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
-                  item.On'click' 'OnSample'
+                  item.On'click dblclick' 'OnSample'
               :EndIf
           :EndFor
           :If ~×i
-              '.noitems'out.Add _.p,⊂'[no samples using ',spacectrl,']'
+              '.noitems'out.Add _.p,⊂'[no samples for ',spacectrl,']'
           :EndIf
-          title←(⍕≢CURRFILES),' results for ',spacectrl
+          title←(⍕≢CURRFILES),' sample pages for ',spacectrl
           desc←'Click on a button below to view it embedded in this page or double-click to see it as a stand-alone page.'
           r←spacectrl title desc out''
       :EndIf
@@ -342,14 +342,14 @@
                       CURRFILES,←⊂url
                       desc←∊desc,file Type⊃Words ctrlsec
                       item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
-                      item.On'click' 'OnSample'
+                      item.On'click dblclick' 'OnSample'
                   :EndIf
               :EndFor
           :EndFor
           :If ~×i
               '.noitems'out.Add _.p,⊂'[no results for ',str,']'
           :EndIf
-          title←(⍕≢CURRFILES),' results for ',Q str
+          title←(⍕≢CURRFILES),' sample pages for ',Q str
           desc←'Click on a button below to view it embedded in this page or double-click to see it as a stand-alone page.'
           SEARCH←(Q str)title desc out''
       :EndIf
