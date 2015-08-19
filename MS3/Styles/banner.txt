@@ -1,5 +1,5 @@
 <div id="banner">
-  <div id="bannerimage" title="Click to toggle web page/source code"><img src="/Styles/Images/Dyalog-D.png"/></div>
+  <div title="Click to toggle web page/source code"><img id="bannerimage" src="/Styles/Images/Dyalog-D.png"/></div>
   <div id="bannertext">
     <h1>MiServer 3.0</h1>
     <i>Anyone who can write an APL function should be able to host it on the web.&#8482;</i>
