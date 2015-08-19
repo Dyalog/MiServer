@@ -31,7 +31,7 @@
 
     SpaceToDir←{'Examples/',1↓⍵} ⍝ Convert Space name to Folder name
 
-    Frame←{'.framed' ('src=',Q⍵,'?NoWrapper=1') New _.iframe}
+    Frame←{'.iframed' ('src=',Q⍵,'?NoWrapper=1') New _.iframe}
 
     NewWinA←{('target' '_blank')('href=',Q⊃⌽⍵) New _.a (⊃⍵)} ⍝ New link that opens in a new window/tab
 
@@ -111,31 +111,31 @@
       Add _.StyleSheet'/Styles/homepage.css'
       style←''
       style,←'#leftBar {background-color:inherit;margin-right:6px;} '
-      ⍝style,←'li:hover {background-color:highlight;font-wight:normal;}'
       style,←'.menu {padding-left,padding-right:0;} '
       style,←'.cat {font-size:12pt;cursor:pointer;border:1px solid transparent;padding:0 4px 2px 4px;} '
       style,←'.cat:hover {background:linear-gradient(to bottom,#ffbb60 0%,#f37603 100%);border:1px solid #f9cb59;font-weight:bold;} '
       style,←'.menuitem {margin-bottom,margin-left:0px;padding-left:2px;cursor:pointer;} '
       style,←'.menuitem:hover {background-color:highlight;} '
-      style,←'.framed {width:730px;max-height:600px;min-height:400px;border:2px inset;overflow-y:auto;background-color:white;} '
+      style,←'.framed {width:730px;max-height:600px;min-height:400px;border-left:1px inset;overflow-y:auto;} '
+      style,←'.iframed {width:730px;max-height:600px;min-height:400px;border:2px inset;overflow-y:auto;background-color:white;} '
       style,←'.listitem {margin:0px;padding:4px;cursor:pointer;box-sizing:border-box;} '
       style,←'.listitem:before {content:"▶";padding: 1px 3px 3px 4px;'
-      style,←'    background: ThreeDFace;'⍝#4479BA;'
+      style,←'    background: ThreeDFace;'
       style,←'    color: ButtonText;'
       style,←'    border-radius: 4px;'
-      style,←'    border: solid 1px ThreeDLightShadow;'⍝#20538D;'
+      style,←'    border: solid 1px ThreeDLightShadow;'
       style,←'    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);'
       style,←'    transition-duration: 0.2s;'
       style,←'    margin-right: 4px;'
       style,←'}'
       style,←'.listitem:active:before {'
       style,←'    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);'
-      style,←'    background: ThreeDShadow;'⍝#2E5481;'
-      style,←'    border: solid 1px ThreeDDarkShadow;'⍝#203E5F;'
+      style,←'    background: ThreeDShadow;'
+      style,←'    border: solid 1px ThreeDDarkShadow;'
       style,←'}'
       style,←'.listitem:hover:before {'
-      style,←'    background: ThreeDHighlight;'⍝#356094;'
-      style,←'    border: solid 1px ThreeDFace;'⍝#2A4E77;'
+      style,←'    background: ThreeDHighlight;'
+      style,←'    border: solid 1px ThreeDFace;'
       style,←'    text-decoration: none;'
       style,←'}'
       style,←'.noitems {margin:0px;padding:4px;cursor:not-allowed;} '
@@ -278,9 +278,8 @@
           :If ~×i
               '.noitems'out.Add _.p,⊂'[no samples using ',spacectrl,']'
           :EndIf
-          title←1↓control Section INFOSHORT
-          title←'Samples using ',spacectrl,P title
-          desc←control Section INFOLONG
+          title←(⍕≢CURRFILES),' results for ',spacectrl
+          desc←'Click on a button below to view it embedded in this page or double-click to see it as a stand-alone page.'
           r←spacectrl title desc out''
       :EndIf
       r←GenJS r
@@ -311,12 +310,16 @@
 
     ∇ r←OnSample
       :Access Public
-      r←GenJS Update CURRFILES⊃⍨⍎5↓_what ⍝ id="nodeS23"
+      :Select _event
+      :Case 'click'
+          r←GenJS Update CURRFILES⊃⍨⍎5↓_what ⍝ id="nodeS23"
+      :Case 'dblclick'
+          r←Execute'window.location.href=',Q CURRFILES⊃⍨⍎5↓_what ⍝ id="nodeS23"
+      :EndSelect
     ∇
 
-    ∇ r←OnSearch;time;str;terms;out;i;dir;files;file;url;code;ctrlsec;desc;item
+    ∇ r←OnSearch;str;terms;out;i;dir;files;file;url;code;ctrlsec;desc;item;title
       :Access Public
-      time←0.001×3⊃⎕AI ⍝ prepare search statistics
       :If ×≢str←Get'str'  ⍝ get search string
       ⍝⍝⍝ Controls
           terms←INFOSHORT/⍨str In INFOSHORT
@@ -339,21 +342,17 @@
                       CURRFILES,←⊂url
                       desc←∊desc,file Type⊃Words ctrlsec
                       item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
-                      item.On'click' 'OnSample'
+                      item.On'click dblclick' 'OnSample'
                   :EndIf
               :EndFor
           :EndFor
           :If ~×i
               '.noitems'out.Add _.p,⊂'[no results for ',str,']'
           :EndIf
-          desc←New _.span'Showing results for '
-          desc.Add _.em str
-          desc.Add(×≢terms)/D'including relevant element','s'/⍨1≠≢terms
-          desc.Add _.em(⍕1↓¨terms)
-          SEARCH←(Q str)''desc out''
+          title←(⍕≢CURRFILES),' results for ',Q str
+          desc←'Click on a button below to view it embedded in this page or double-click to see it as a stand-alone page.'
+          SEARCH←(Q str)title desc out''
       :EndIf
-      time-⍨←0.001×3⊃⎕AI
-      (2⊃SEARCH)←(⍕≢CURRFILES),' results (',time,' seconds)'
       r←GenJS SEARCH
      
     ∇

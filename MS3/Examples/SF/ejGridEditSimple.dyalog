@@ -4,10 +4,10 @@
     ∇ Compose;tbi
       :Access Public
      
-      (frm←Add Form).id←'myform'
+      (frm←Add _.Form).id←'myform'
      
-      frm.Add h2'Editable Grid'
-      mygrid←frm.Add _SF.ejGrid(VALUES COLUMNS)
+      frm.Add _.h2'Editable Grid'
+      mygrid←frm.Add _.ejGrid(VALUES COLUMNS)
       (mygrid.Options.editSettings←⎕NS'').(allowEditing allowAdding allowDeleting)←_true
       ⍝ Alternative: 'editSettings' mygrid.Set '⍎{allowEditing: true, allowAdding: true, allowDeleting: true}'
       mygrid.Options.editSettings.editMode←'Normal'
@@ -19,8 +19,8 @@
       mygrid.On'endDelete' 'CallbackFn'('editcell' 'argument' 'data')
       mygrid.On'endEdit' 'CallbackFn'('editcell' 'argument' 'data')
      
-      frm.Add¨br br
-      (frm.Add div).id←'result'
+      frm.Add¨_.br _.br
+      (frm.Add _.div).id←'result'
     ∇
 
     ∇ r←CallbackFn;preset;t
