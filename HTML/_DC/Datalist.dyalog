@@ -32,7 +32,7 @@
       Input.(id name)←⊂id
       id←id,'_datalist'
       'list'Input.Set id
-      Add{('value="',⍵,'"')New #._html.option}/¨(⍪Options)[;1]
+      Add{('value="',⍵,'"')New #._html.option}¨(⍪Options)[;1]
       r←(Input.Render),⎕BASE.Render
     ∇
 
