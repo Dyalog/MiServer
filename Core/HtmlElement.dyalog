@@ -369,7 +369,7 @@
       r.(Events Callback ClientData JavaScript Delegates)←5↑handler,(⍴handler)↓'' 1 '' '' ''
     ∇
 
-    ∇ r←RenderHandlers;h;myid;selector;handler;str;callback;event;type;evt;action;JS;a;n
+    ∇ r←RenderHandlers;myid;h
       :Access public ⍝!!! remove this after testing
       r←''
       :If ~0∊⍴Handlers
@@ -408,7 +408,7 @@
               av,←∊fmtAttr/¨vs
           :EndIf
           av,←RenderStyles
-          r←av Enclose r,h,p ⍝!!!BPB!!!
+          r←(av Enclose r),h,p ⍝!!!BPB!!!
       :EndIf
     ∇
 

@@ -253,6 +253,7 @@
       Config.Secure←Config Setting'Secure' 1 0
       Config.Server←Config Setting'Server' 0 ''
       Config.SessionHandler←Config Setting'SessionHandler' 0 'SimpleSessions'
+      Config.SessionTimeOut←Config Setting'SessionTimeOut' 1 30 ⍝ 30 minute timeout
       Config.SupportedEncodings←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}',',Config Setting'SupportedEncodings' 0
       Config.TempFolder←folderize Config.Root{0∊⍴⍵:⍵ ⋄ ((isRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
       Config.TrapErrors←Config Setting'TrapErrors' 1 0
