@@ -1,5 +1,5 @@
 ﻿:class menuSimple: MiPageSample
-⍝ Control:: _html.menu _html.menuitem _.div
+⍝ Control:: _html.menu _html.menuitem _html.div
 ⍝ Description:: Create a context menu
 
     Ilo←{'icon="','..Data/',⍵[1],'" label="',⍵[2],'" onclick="window.',⍵[3],'"'}

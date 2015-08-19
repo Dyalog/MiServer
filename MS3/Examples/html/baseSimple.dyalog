@@ -4,7 +4,8 @@
 
     ∇ Compose
       :Access public 
-      Add'Clicking this link will bring you to the indicated page INSIDE the server '
+      'href' 'http://www.dyalog.com/'Add _.base
+      Add _.p'We''ve specified the starting-poing of relative links, so the following link works: '
       ('href' 'meet-team-dyalog')('target' '_blank')Add _.a'meet-team-dyalog'
     ∇
 

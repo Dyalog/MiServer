@@ -2,8 +2,8 @@
 
     :SECTION GLOBALS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
-    :Field TYPES←'Simple' 'Advanced' 'Dyalog' ⍝ Types of samples (if not App)
-    :Field GROUPS ⍝ Names of groups of elements
+    :Field TYPES←'Simple' 'Advanced'⍝ Types of samples (if not App)
+    :Field GROUPS      ⍝ Names of groups of elements
     :Field REFS        ⍝ ... their refs
     :Field APPS        ⍝ List of all apps
     :Field SAMPLES     ⍝ List of all samples (well, groups and controls really)
@@ -46,6 +46,8 @@
     Dlist←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX #.Boot.AppRoot,⍵,'/*.dyalog'} ⍝ List dyalog files
 
     NodeID←{⍺←⊢ ⋄ ('#node',⊃⍵)∘,¨⍕¨⍺+⍳⍴⊃⌽⍵} ⍝ Generate node ids (⍵='L' items) optional (⍺=offset)
+
+    Split←{{⍵↑⍨+/∨\' '≠⌽⍵}¨('_'⎕R' ')⍵((⍳↑⊣){⍺⍵}(⍳↓⊣))'_'} ⍝ Split at first _ and fix _s
 
     In←{∨/¨⊃⍷¨/{⎕SE.Dyalog.Utils.lcase¨eis ⍵}¨⍺ ⍵} ⍝ Case-insensitive find
 
@@ -109,17 +111,17 @@
       Add _.StyleSheet'/Styles/homepage.css'
       style←''
       style,←'#leftBar {background-color:inherit;margin-right:6px;} '
-      style,←'li:hover {background-color:highlight;font-wight:normal;}'
+      ⍝style,←'li:hover {background-color:highlight;font-wight:normal;}'
       style,←'.menu {padding-left,padding-right:0;} '
-      style,←'.cat {font-size:12pt;cursor:pointer;}'
-      style,←'.cat:hover {font-size:12pt;background-color:highlight;}'
-      style,←'.submenu {max-height:75px;overflow-y:scroll;background-color:white;border:2px groove threedface;} '
+      style,←'.cat {font-size:12pt;cursor:pointer;border:1px solid transparent;padding:0 4px 2px 4px;} '
+      style,←'.cat:hover {background:linear-gradient(to bottom,#ffbb60 0%,#f37603 100%);border:1px solid #f9cb59;font-weight:bold;} '
       style,←'.menuitem {margin-bottom,margin-left:0px;padding-left:2px;cursor:pointer;} '
       style,←'.menuitem:hover {background-color:highlight;} '
       style,←'.framed {width:730px;max-height:600px;min-height:400px;border:2px inset;overflow-y:auto;background-color:white;} '
       style,←'.listitem {margin:0px;padding:4px;cursor:pointer;} '
       style,←'.listitem:hover {background-color:highlight;} '
-      style,←'.samplesource {overflow-x:auto;width:730;background-color:#e5e5cc;border:2px inset;} '
+      style,←'.noitems {margin:0px;padding:4px;cursor:not-allowed;} '
+      style,←'.samplesource {overflow-x:auto;width:730px;background-color:#e5e5cc;border:2px inset;} '
       Add _.style style
      
       (left mid)←NewDiv¨'#leftBar' '#midBar' ⍝ Create panes
@@ -133,7 +135,7 @@
       PopulateMid mid
     ∇
 
-    ∇ PopulateLeft thediv;class;depths;group;items;names;ref;samples;vp;search;style;menu;i;fs;ac;text;stuff;html;SF;treeall;treecore
+    ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;style;menu;i;fs;ac;text;stuff;treeall;treecore;names;tree
      
       stuff←''
       tree←0 3⍴0 '' ''
@@ -149,20 +151,21 @@
       APPS←(Dlist'Examples/Apps')~⊂'index'
       APPDESCS←(⊂'Description')Section¨Dread¨'Examples/Apps/'∘,¨APPS
       APPCTRLS←(⊂'Control')Section¨Dread¨'Examples/Apps/'∘,¨APPS
-      ('.cat'thediv.Add _.p'Sample Apps').On'click' 'OnAppHeader'
+      ('.cat'thediv.Add _.span'Sample Apps').On'click' 'OnAppHeader'
       APPS{tree⍪←1 ⍵('nodeA',⍺)}¨APPCTRLS
-      (thediv.Add _.ejTreeView tree).On'nodeSelect' 'OnApp'('node' 'eval' 'argument.id')
+      tree←'#treeA'thediv.Add _.ejTreeView tree
+      tree.On'nodeSelect' 'OnApp'('node' 'eval' 'argument.id')
      
       thediv.Add _.hr
      
-      ('.cat'thediv.Add _.p'Controls').On'click' 'OnCtrlHeader'
+      ('#node01All' '.cat'thediv.Add _.span'Controls').On'click' 'OnTree'
       CORE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/core -noname'
-      treecore←1 3⍴1 'Core' 'node0C'
-      treeall←1 3⍴1 'All' 'node0A'
+      treecore←1 3⍴1 'Core' 'node0_Core'
+      treeall←1 3⍴1 'All' 'node00All'
      
       :For group class :InEach GROUPS(3↓¨⍕¨REFS) ⍝ Remove leading #._
           names←⎕THIS.⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/tree',class,' -noname'
-          CONTROLS,←⊂names[;2]/⍨names[;1]=⌈/names[;1]
+          CONTROLS,←⊂names[;2]/⍨(⊢=⌈/)names[;1]
           ⍎class,'←names'
      
           :If ∨/names[;2]∊CORE
@@ -175,7 +178,8 @@
      
       :EndFor
      
-      ('#tree'thediv.Add _.ejTreeView,⊂treecore⍪treeall).On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id')
+      tree←'#treeC' 'style="max-height:260px"'thediv.Add _.ejTreeView,⊂treecore⍪treeall
+      tree.On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id')
     ∇
 
     ∇ PopulateMid mid;url;code;frame;mya
@@ -190,18 +194,25 @@
      ⍝ Create and fill placeholder for embedded page
       frame←mid.Add NewDiv'#SampleFrame'
       frame.Add Frame url
-      '#SampleSource' '.samplesource'mid.Add _.div,⊂'x-small;border:none'#.HTMLInput.APLToHTMLColour code
+      '#SampleSource' '.samplesource'mid.Add _.div⍝,⊂'x-small;border:none'#.HTMLInput.APLToHTMLColour code ⍝ No source on page load
     ∇
 
     :ENDSECTION
 
     :SECTION CALLBACKS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
-    ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title;currctrls;core
+    ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title;currctrls;core;names;class;group;cat
       :Access Public
-      node←4↓(1+'tree'≡_what)⊃_what(Get'node') ⍝ get list-item or node
+      node←GetNode
       :If '0'∊node ⍝ 'All'
-          r←''
+          core←'_'=2⊃node
+          currctrls←(CORE∘∩⍣core)⊃,/CONTROLS ⍝ Filter if core-only
+          out←NewDiv'.framed'
+          descs←AddLongInfo currctrls
+          items←(currctrls,⍨¨⊂'list',1⌽node)out.Add¨_.p,¨descs ⍝ make IDs like 'DC_Button'
+          items.Set⊂'.listitem'
+          items.On⊂'click' 'OnTree'
+          r←(2↓node)(2↓node,' Controls')((⍕⍴currctrls),(core/' core'),' controls')out''
       :ElseIf '_'=⊃node ⍝ Class or core subset thereof
           core←'_'=2⊃node
           node↓⍨←core ⍝ Remove additional _ from '__html' if core-only
@@ -212,17 +223,26 @@
           items←(currctrls,⍨¨⊂'list',1⌽node)out.Add¨_.p,¨descs ⍝ make IDs like 'DC_Button'
           items.Set⊂'.listitem'
           items.On⊂'click' 'OnTree'
-          r←GenJS node('Members of ',node,P i⊃GROUPS)(' controls',⍨⍕⍴currctrls)out''
-      :ElseIf 2≤+/'_'=node ⍝ Category
-          r←''
+          r←node((i⊃GROUPS),P node)((⍕⍴currctrls),(core/' core'),' controls')out''
+      :ElseIf '_'=⊃⌽node ⍝ Category
+          (class cat)←Split node
+          names←⍎class
+          i←(names[;3]/⍨(⊢=⌊/)names[;1])⍳⊂'node',node
+          currctrls←1↓i⊃names[;2]⊂⍨(⊢=⌊/)names[;1]
+          group←GROUPS⊃⍨REFS⍳⍎'_',class
+          out←NewDiv'.framed'
+          descs←AddLongInfo currctrls
+          items←(currctrls,⍨¨⊂'list',class)out.Add¨_.p,¨descs ⍝ make IDs like 'DC_Button'
+          items.Set⊂'.listitem'
+          items.On⊂'click' 'OnTree'
+          r←('_',class)(group,(P'_',class),' ',cat)(' controls',⍨⍕⍴currctrls)out''
       :Else ⍝ Control
           spacectrl←'_',('_'⎕R'.')node
-          control←node↓⍨node⍳'_'
-          spacedir←'Examples/',(¯1+node⍳'_')↑node
+          (class control)←Split node
+          spacedir←'Examples/',class
           files←Dlist spacedir
           out←NewDiv'.framed'
           CURRFILES←''
-          CURRDESCS←''
           i←0
           :For file :In files
               url←spacedir,'/',file
@@ -233,19 +253,19 @@
                   CURRFILES,←⊂url
                   desc←⊂'Description'Section code
                   desc←∊desc,file Type⊃ctrlsec
-                  CURRDESCS,←⊂desc
                   item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
                   item.On'click' 'OnSample'
               :EndIf
           :EndFor
           :If ~×i
-              '.listitem'out.Add _.p,⊂'[no samples using ',spacectrl,']'
+              '.noitems'out.Add _.p,⊂'[no samples using ',spacectrl,']'
           :EndIf
           title←1↓control Section INFOSHORT
           title←'Samples using ',spacectrl,P title
           desc←control Section INFOLONG
-          r←GenJS spacectrl title desc out''
+          r←spacectrl title desc out''
       :EndIf
+      r←GenJS r
     ∇
 
     ∇ r←OnAppHeader;descs;out;items
@@ -268,7 +288,7 @@
     ∇ r←OnApp
       :Access Public
      ⍝ Gets called upon selection in Sample Apps tree
-      r←GenJS Update'Examples/Apps/',5↓Get'node'
+      r←GenJS Update'Examples/Apps/',1↓GetNode
     ∇
 
     ∇ r←OnSample
@@ -287,7 +307,6 @@
       ⍝⍝⍝ Samples
           out←NewDiv'.framed'
           CURRFILES←''
-          CURRDESCS←''
           i←0
           :For dir :In 'Apps' 'html' 'HTMLplus' 'DC' 'JQ' 'SF'
               files←Dlist'Examples/',dir
@@ -301,12 +320,14 @@
                       i+←1
                       CURRFILES,←⊂url
                       desc←∊desc,file Type⊃Words ctrlsec
-                      CURRDESCS,←⊂desc
                       item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
                       item.On'click' 'OnSample'
                   :EndIf
               :EndFor
           :EndFor
+          :If ~×i
+              '.noitems'out.Add _.p,⊂'[no results for ',str,']'
+          :EndIf
           desc←New _.span'Showing results for '
           desc.Add _.em str
           desc.Add(×≢terms)/D'including relevant element','s'/⍨1≠≢terms
@@ -321,7 +342,7 @@
 
     ∇ (page title desc iframe code)←Update url;ctrlsec
      ⍝ Create new placeholder values
-      page←'MS3: Sample'
+      page←'Sample'
       iframe←Frame url
       code←Dread url
       ctrlsec←'Control'Section code
@@ -339,6 +360,9 @@
       r,←'#SampleSource'Replace(×≢code)/'x-small;border:none'#.HTMLInput.APLToHTMLColour code
     ∇
 
+    ∇ node←GetNode
+      node←4↓(1+'tree'≡4↑_what)⊃_what(Get'node')
+    ∇
     :ENDSECTION
 
 :EndClass
