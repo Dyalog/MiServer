@@ -1,5 +1,5 @@
 ﻿:class Hebrew : MiPageSample
-⍝ Control:: Kids' Hebrew Keyboard
+⍝ Control:: Kids' Keyboard
 ⍝ Description:: Children's educative application for Hebrew alphabet and keyboard
     
     Sound←{'autoplay' ''New _.Audio,⊂'/Examples/Data/Hebrew/',⍵,'.mp3'}
@@ -48,7 +48,6 @@
           TASK←''
       :Else
           r←Sound'Boo'
-          r,←_what Set
       :EndIf
       r←'#output'Replace r
     ∇
