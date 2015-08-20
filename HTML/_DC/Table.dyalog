@@ -1,8 +1,8 @@
 ﻿:Class Table : #._html.table
-⍝ Description: Improved html table - accepts matrix of data
-⍝ Constructor: [Data [CellAttr [HeaderRows [HeaderAttr [MakeCellIds [MakeRowIds]]]]]
+⍝ Description:: Improved html table - accepts matrix of data
+⍝ Constructor:: [Data [CellAttr [HeaderRows [HeaderAttr [MakeCellIds [MakeRowIds]]]]]
 ⍝
-⍝ Public Fields:
+⍝ Public Fields::
 ⍝ Data        - matrix of data to display in the table
 ⍝ CellAttr    - Cell Attributes 
 ⍝ HeaderRows  - # of header rows

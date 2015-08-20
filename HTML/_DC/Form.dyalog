@@ -1,11 +1,11 @@
 ﻿:class Form : #._html.form
-⍝ Description: Same as the base HTML5 form element, but sets the action and method attributes
-⍝ Constructor: [page [method]]
+⍝ Description:: Same as the base HTML5 form element, but sets the action and method attributes
+⍝ Constructor:: [page [method]]
 ⍝ page     - the URL of the page to which to send the form request
 ⍝            default is to call back to the same page that contains the form
 ⍝ method   - the HTTP method ('post' or 'get')                              
 ⍝            default is 'post'
-⍝ Public Fields:
+⍝ Public Fields::
 ⍝ Page     - the URL of the page to which to send the form request
 ⍝            default is to call back to the same page that contains the form
 ⍝ Method   - the HTTP method ('post' or 'get')                              
