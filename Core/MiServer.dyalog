@@ -215,10 +215,11 @@
       Logger.Stop←{}
       Logger.Start←{}
       :If {0::1 ⋄ 85⌶'0'}'' ⍝ Need a left arg?
-          I85←1∘(85⌶)
+          i85←1∘(85⌶)
       :Else
-          I85←85⌶
+          i85←85⌶
       :EndIf
+      ⎕FX'r←I85 w;⎕TRAP' 'r←i85 w'
       Config←config
       :If 0≠⊃rc←¯1 #.DRC.Init''
           ('Unable to initialize Conga. rc=',,⍕rc)⎕SIGNAL 11

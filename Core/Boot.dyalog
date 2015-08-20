@@ -442,11 +442,11 @@
 
     ∇ r←Oops;⎕TRAP;dmx;ends;xsi
     ⍝ debugging framework to bubble up to user's code when rendering fails
-      ⎕TRAP←0⍴⎕TRAP
+      ⎕TRAP←(0 'S')
       r←'⎕SIGNAL 811'
       ends←{(,⍺)≡(-⍴,⍺)↑⍵}
       :If #.HtmlPage∊∊⎕CLASS⊃⊃⎕RSI
-          r←'⎕TRAP←0⍴⎕TRAP'
+          r←'⎕TRAP←(85 ''N'')(0 ''S'')'
           ⎕←''
           ⎕←'*** MiServer Debug ***'
           ⎕←↑⎕DMX.DM

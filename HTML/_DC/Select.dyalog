@@ -56,7 +56,7 @@
       :Access Public Shared
       :If 0=⎕NC'Prompt' ⋄ Prompt←'' ⋄ :EndIf
       :If 1=⍴⍴opts ⋄ opts←opts,⍪opts ⋄ :EndIf
-      opt←(0∊⍴Prompt)↓(Prompt'')⍪opts
+      opt←((¯1≢¯1 GetAttr'multiple')∨0∊⍴Prompt)↓(Prompt'')⍪opts
       r←∊{sel←(⎕UCS 1)=1↑⍺ ⋄ '<option',(⍵ ine' value="',(HtmlSafeText ⍵),'"'),(sel/' selected="selected"'),'>',(⍕sel↓⍺),'</option>'}/opt
      
     ∇

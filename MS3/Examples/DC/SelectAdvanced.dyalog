@@ -29,7 +29,7 @@
       ⍝ Called when the Pick button is pressed
       :Access Public
      
-      selected←1↓∊' ',¨⊃GetRaw'multi'
+      selected←1↓∊' ',¨⊃Get'multi'
       r←'#output'Replace _.p('You picked: ',(⍕selected),(0=⍴selected)/'nothing')
     ∇
 :EndClass

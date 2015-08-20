@@ -41,6 +41,7 @@
     :field public readonly CommonAttributes←'id' 'value' 'name' 'class' 'style' 'title' 'type' ⍝ element attributes that are directly accessible
 
     _names←_values←0⍴⊂'' ⍝ used for attributes
+
     :field public _styles←''
 
     rand←{t←16807⌶2 ⋄r←?⍵ ⋄ t←16807⌶t ⋄ r }
@@ -201,14 +202,28 @@
     ∇ {r}←DelAttr attrname;mask
       :Access public
       attrname←eis attrname
-      mask←~_names∊attrname
-      (_names _values)←mask∘/¨_names _values
+      mask←~_names∊attrname ⋄ (_names _values)←mask∘/¨_names _values
       r←⎕THIS
     ∇
 
-    :endsection
+    ∇ r←{proto}GetAttr attrname
+      :Access public     
+      :If 0=⎕NC'proto' ⋄ proto←'' ⋄ :EndIf
+      attrname←eis attrname
+      :If 1=⍴attrname
+          :Trap 3 ⍝ index error
+              r←_values⊃⍨_names⍳attrname
+          :Else
+              r←proto
+          :EndTrap
+      :Else
+          proto∘GetAttr¨attrname
+      :EndIf
+    ∇
 
-    :section Styles
+    :EndSection
+
+    :Section Styles
 
     ∇ {r}←{what}Style styles;msg
       :Access public
@@ -242,7 +257,7 @@
 
     :EndSection
 
-  ⍝                     The constructors
+  ⍝ The constructors
 
   ⍝ The first arg is the Tag, followed by its contents, then its attributes, if present
   ⍝ Note that attributes can be specified with the tag as in
@@ -286,28 +301,6 @@
               content←arg
           :EndIf
           Content,←arg
-⍝
-⍝          :If isString arg
-⍝              Content,←arg
-⍝          :ElseIf ~isClass⊃arg
-⍝              :Trap 4 5
-⍝                  (content attr)←arg
-⍝                  :If {(isClass ⍵)∨isInstance ⍵}⊃arg
-⍝                      content←arg
-⍝                      attr←''
-⍝                  :EndIf
-⍝                  Content,←content
-⍝                  :If (0∊⍴attr)⍱ref←isRef attr
-⍝                      SetAttr attr
-⍝                  :ElseIf ref
-⍝                      Content,←attr
-⍝                  :EndIf
-⍝              :Else
-⍝                  Add arg
-⍝              :EndTrap
-⍝          :Else
-⍝              Add arg
-⍝          :EndIf
           Tag←t
       :EndIf
       Init

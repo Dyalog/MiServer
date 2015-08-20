@@ -42,7 +42,6 @@
 
     ∇ {r}←Render;b;styles
       :Access public
-⍝      ∘∘∘
       :If ''≢OnLoad
           Use'JQuery'
       :EndIf
@@ -121,10 +120,9 @@
                   r←⊃r
               :EndIf
           :EndIf
-          r←#.JSON.toAPL r
-⍝          :If ~isChar proto
-⍝              r←{0::⍵ ⋄ 0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
-⍝          :EndIf
+          :If isString r
+              r←#.JSON.toAPL r
+          :EndIf
       :EndIf
     ∇
 
@@ -192,11 +190,6 @@
               r←1↓_selector
           :EndIf
       :EndTrap
-    ∇
-
-    ∇ Respond arg
-      :Access public
-      ∘∘∘
     ∇
 
     ∇ r←renderContent content;c
@@ -337,12 +330,5 @@
     ∇
 
     :endsection
-
-    ∇ Debug;⎕TRAP
-      :Access public
-      ⎕TRAP←0⍴⎕TRAP
-      ∘∘∘
-    ∇
-
 
 :EndClass
