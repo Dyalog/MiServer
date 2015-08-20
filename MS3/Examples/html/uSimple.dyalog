@@ -4,7 +4,7 @@
 
     ∇ Compose
       :Access public 
-      Add'I must'
+      Add'I must '
       Add _.u'underscore'
       Add' the importance of this.'
     ∇

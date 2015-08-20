@@ -1,6 +1,6 @@
 ﻿:class paramSimple: MiPageSample
 ⍝ Control:: _html.object _html.param
-⍝ Description:: Define parameter for plugin
+⍝ Description:: Define the parameters for a en embedded object
 
     ∇ Compose
       :Access public 

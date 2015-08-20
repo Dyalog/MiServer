@@ -1,5 +1,5 @@
 ﻿:class trackSimple: MiPageSample
-⍝ Control:: _html.video _html.track
+⍝ Control:: _html.track _html.video 
 ⍝ Description:: Specify subtitles 
 
     ∇ Compose

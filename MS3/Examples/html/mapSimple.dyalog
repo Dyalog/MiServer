@@ -1,6 +1,6 @@
 ﻿:class mapSimple: MiPageSample
 ⍝ Control:: _html.img _html.map _html.area
-⍝ Description:: Insert a client-side image-map, i.e. an image with clickable areas
+⍝ Description:: Insert an image with clickable areas
 
     ∇ Compose
       :Access public

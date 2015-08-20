@@ -56,7 +56,7 @@
 
     AddShortInfo←{⍵,¨P¨(4+⍴¨⍵)↓¨(INFOSHORT,⊂'')[NAMESSHORT⍳⍵]} ⍝ ⍵ (ShortDesc)
 
-    AddLongInfo←{(New¨_.strong,¨⍵),¨D¨{⍵,'[no info available]'/⍨0∊⍴⍵}¨(4+⍴¨⍵)↓¨(INFOLONG,⊂'')[NAMESLONG⍳⍵]} ⍝ ⍵ - LongDesc
+    AddLongInfo←{(New¨_.strong,¨⍵),¨D¨(4+⍴¨⍵)↓¨(INFOLONG,⊂'')[NAMESLONG⍳⍵]} ⍝ ⍵ - LongDesc
 
     ScoreIn←{(100⊥⌽∨/¨TYPES⍷¨⊂⍵)×(⊂⍺)(∊×⍳⍨)Words'Control'Section Dread ⍵} ⍝ ⍺'s relevance in ⍵ (0=none 1=high 2=lower...)
 
@@ -281,7 +281,7 @@
           :EndFor
           CURRFILES⌿⍨←×CURRFILES[;1] ⍝ Weed out 0-score samples
           :If 0∊⍴CURRFILES ⍝ Failed to find a sample, so perform a search instead
-              STR←control
+              STR←spacectrl
               r←OnSearch
               :Return
           :Else
@@ -357,7 +357,7 @@
               '.noitems'out.Add _.p,⊂'[no results for ',str,']'
           :EndIf
           title←(⍕≢CURRFILES),' sample pages for ',Q str
-          desc←'Click on a button below to view it embedded in this page or double-click to see it as a stand-alone page.'
+          desc←'Click on a button below to select a sample.'
           SEARCH←(Q str)title desc out''
       :EndIf
       r←GenJS SEARCH
@@ -375,7 +375,7 @@
      
           desc←#.HTMLInput.dtlb'Description'Section code
           (⊃desc)←⎕SE.Dyalog.Utils.lcase⊃desc
-          desc,⍨←(4↓⊃AddLongInfo,⊂control),' The following example uses ',control,' in order to '
+          desc,⍨←(4↓⊃AddLongInfo,⊂control),' The following example uses the ',control,' element in order to '
           desc,←'.'
       :Else
           page←'Sample'

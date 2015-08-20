@@ -1,6 +1,6 @@
 ﻿:Class ejTreeViewSimple : MiPageSample
 ⍝ Control:: _SF.ejTreeView
-⍝ Description:: A simple TreeView with a node selection callback
+⍝ Description:: Build a simple tree with a node selection callback
 
     ∇ Compose
       :Access Public

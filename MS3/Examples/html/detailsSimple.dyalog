@@ -1,5 +1,5 @@
 ﻿:class detailsSimple: MiPageSample
-⍝ Control:: _html.details _.html.summary
+⍝ Control:: _html.details _html.summary
 ⍝ Description:: Add a summary with revealable details
  
     ∇ Compose;det

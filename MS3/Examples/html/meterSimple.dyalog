@@ -1,6 +1,6 @@
 ﻿:class meterSimple: MiPageSample
 ⍝ Control:: _html.meter
-⍝ Description:: Display gauge for measurement within a given range
+⍝ Description:: Display a gauge for measurement within a given range
 
     ∇ Compose
       :Access public

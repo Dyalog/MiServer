@@ -1,6 +1,6 @@
 ﻿:class formSimple: MiPageSample
-⍝ Control:: _html.form _html.input _html.textarea _html.select _html.option _html.optgroup _html.fieldset _html.label _.keygen
-⍝ Description:: Create a form using many form-related elements
+⍝ Control:: _html.form _html.input _html.textarea _html.select _html.option _html.optgroup _html.fieldset _html.label _html.keygen
+⍝ Description:: Arrange many interactive elements together
 
     ∇ Compose
       :Access public
