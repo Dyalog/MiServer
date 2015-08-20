@@ -1,9 +1,11 @@
 ﻿:class TTTClient :MiPageSample
 ⍝ Control:: TTT (Client)
 ⍝ Description:: Play text-based Tic Tac Toe while storing data client side
-      
+
     ∇ Compose;board;row;bcap;rows;cell;cells;xo;reset;size;width
       :Access public
+     
+      Add _.style'pre {width:20pt;height:20pt;font-size: 12pt;padding: 6pt 4pt 0pt 4pt;margin:0;background-color: lightgoldenrodyellow;}'
      
       size←3                   ⍝ Board size
       wins←{(1 1⍉⌽⍵)⍪(1 1⍉⍵)⍪(⍉⍵)⍪⍵}size size⍴⍳size*2
@@ -60,7 +62,7 @@
           js←Msg'That spot is occupied'
       :EndIf
     ∇
-    
+
     Who←{xos⊃⍨⊃⍋+/xos∘.≡⍵}
     Won←{1∊∧/xos∘.≡⍵[wins]}          ⍝ Scalar boolean if any player won
     Msg←{Execute'alert("',⍵,'!")'}   ⍝ Generate JavaScript for alert popup

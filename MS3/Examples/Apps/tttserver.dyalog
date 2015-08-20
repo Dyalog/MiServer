@@ -5,6 +5,8 @@
     ∇ Compose;board;row;bcap;rows;cell;cells;xo;reset;size;width
       :Access public
      
+      Add _.style'pre {width:20pt;height:20pt;font-size: 12pt;padding: 6pt 4pt 0pt 4pt;margin:0;background-color: lightgoldenrodyellow;}'
+     
       size←3                   ⍝ Board size
       wins←{(1 1⍉⌽⍵)⍪(1 1⍉⍵)⍪(⍉⍵)⍪⍵}size size⍴⍳size*2
       xos←' X ' ' O '          ⍝ Symbol for each player

@@ -138,6 +138,12 @@
       style,←'    border: solid 1px ThreeDFace;'
       style,←'    text-decoration: none;'
       style,←'}'
+      style,←'.listitem:hover:after {content:"\A  Double-click to fill this window ";'
+      style,←'    padding-left,padding-right: 2px;'
+      style,←'    background: orange;'
+      style,←'    text-decoration: none;'
+      style,←'    white-space: pre;'
+      style,←'}'
       style,←'.noitems {margin:0px;padding:4px;cursor:not-allowed;} '
       style,←'.samplesource {overflow-x:auto;width:730px;background-color:#e5e5cc;border:2px inset;} '
       Add _.style style
@@ -222,7 +228,7 @@
     ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title;currctrls;core;names;class;group;cat
       :Access Public
       node←GetNode
-      :If '0'∊node ⍝ 'All'
+      :If '0'∊node ⍝ Core or All
           core←'_'=2⊃node
           currctrls←(CORE∘∩⍣core)⊃,/CONTROLS ⍝ Filter if core-only
           out←NewDiv'.framed'
@@ -238,7 +244,7 @@
           currctrls←(CORE∘∩⍣core)i⊃CONTROLS ⍝ Filter if core-only
           out←NewDiv'.framed'
           descs←AddLongInfo currctrls
-          items←(currctrls,⍨¨⊂'list',1⌽node)out.Add¨_.p,¨descs ⍝ make IDs like 'DC_Button'
+          items←(currctrls,⍨¨⊂'list',1⌽core↓node)out.Add¨_.p,¨descs ⍝ make IDs like 'DC_Button'
           items.Set⊂'.listitem'
           items.On⊂'click' 'OnTree'
           r←node((i⊃GROUPS),P node)((⍕⍴currctrls),(core/' core'),' controls')out''
@@ -272,7 +278,7 @@
                   desc←⊂'Description'Section code
                   desc←∊desc,file Type⊃ctrlsec
                   item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
-                  item.On'click dblclick' 'OnSample'
+                  item.On'click contextmenu' 'OnSample'
               :EndIf
           :EndFor
           :If ~×i
@@ -313,8 +319,8 @@
       :Select _event
       :Case 'click'
           r←GenJS Update CURRFILES⊃⍨⍎5↓_what ⍝ id="nodeS23"
-      :Case 'dblclick'
-          r←Execute'window.location.href=',Q CURRFILES⊃⍨⍎5↓_what ⍝ id="nodeS23"
+      :Case 'contextmenu'
+          r←Execute'window.open("','");',⍨CURRFILES⊃⍨⍎5↓_what ⍝ id="nodeS23"
       :EndSelect
     ∇
 
@@ -342,7 +348,7 @@
                       CURRFILES,←⊂url
                       desc←∊desc,file Type⊃Words ctrlsec
                       item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
-                      item.On'click dblclick' 'OnSample'
+                      item.On'click contextmenu' 'OnSample'
                   :EndIf
               :EndFor
           :EndFor
