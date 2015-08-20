@@ -14,6 +14,7 @@
 ⍝ Height          - the height of the ListBoxes
 ⍝ Gap             - the size of the gap between ListBoxes
 
+    ⍝∇:require =\StackPanel.dyalog
 
     :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejListBox.html'
     :Field Public Shared Readonly ApiLevel←3
