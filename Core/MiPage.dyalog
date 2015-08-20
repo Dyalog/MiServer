@@ -115,7 +115,7 @@
           r←,proto
       :Else
           r←_PageData⍎names
-          :If 2=≡r
+          :If 2≤≡r
               :If 1=⍴,r
                   r←⊃r
               :EndIf

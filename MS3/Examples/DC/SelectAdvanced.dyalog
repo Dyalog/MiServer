@@ -11,18 +11,18 @@
      
       (frm←Add _.Form).id←'myform'
      
-      mult←'multi' frm.Add _.Select (FRUITS(2 5)) ⍝ preselect 2nd and 5th fruit
-      mult.Set 'multiple' 1               ⍝ Allow multiple selections
-      mult.Set 'required' 1               ⍝ No call back unless there is a selection
-      mult.Set 'size'(⊃⍴FRUITS)           ⍝ Make room for all the items
-      mult.Set 'autofocus' 'true'         ⍝ Put the focus here
+      mult←'multi'frm.Add _.Select(FRUITS(2 5)) ⍝ preselect 2nd and 5th fruit
+      mult.Set'multiple' 1               ⍝ Allow multiple selections
+      mult.Set'required' 1               ⍝ No call back unless there is a selection
+      mult.Set'size'(⊃⍴FRUITS)           ⍝ Make room for all the items
+      mult.Set'autofocus' 'true'         ⍝ Put the focus here
       frm.Add _.br
      
-      btn←'PressMe' frm.Add _.Button 'Pick Fruits'
-      btn.On 'click' 'onPick'
+      btn←'PressMe'frm.Add _.Button'Pick Fruits'
+      btn.On'click' 'onPick'
       btn.style←'margin-top: 10px; margin-bottom: 10px;'
      
-      'output' Add _.div
+      'output'Add _.div
     ∇
 
     ∇ r←onPick;selected;selection
@@ -31,8 +31,8 @@
      ⍝ Because MS3 does not know the origin of the attribute it does not
      ⍝ know if it must be enclosed or not. For single selection we will receive
      ⍝ a simple character vector which we must enclose ourselves:
-       selection← eis GetRaw'multi'
-       selected←1↓∊' ',¨selection
-       r←'#output' Replace _.p ('You picked: ',(⍕selected),(0=⍴selected)/'nothing')
+      selection←eis Get'multi'
+      selected←1↓∊' ',¨selection
+      r←'#output'Replace _.p('You picked: ',(⍕selected),(0=⍴selected)/'nothing')
     ∇
 :EndClass
