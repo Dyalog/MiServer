@@ -1,13 +1,12 @@
-﻿ msg←SelectSimple;name;result;pick;afruit
+﻿ msg←SelectSimple;result;output;sel
 ⍝ Test /Examples/DC/SelectSimple
 
- afruit←'Grapes'
- 'fruit'Select afruit
- Click'btnPressMe'
-
- result←Find'output'
- {0≠⍴result.Text}Retry ⍬ ⍝ Wait (a bit) to see if it gets populated
- :If result.Text≢'You picked: ',afruit
-     msg←'Expected output was not produced.'
- :Else ⋄ msg←''
+⍝ Ensure 'fruit' is there:
+ msg←'selection list not there'
+ :If 0≢sel←Find'fruit'
+     sel Sendkeys'P'
+     Click'btnPressMe'
+     output←Find'output'
+     {0≠⍴output.Text}Retry ⍬ ⍝ Wait to see if it gets populated
+     msg←(output.Text≢'You picked: Pears')/'Expected output was not produced.'
  :EndIf
