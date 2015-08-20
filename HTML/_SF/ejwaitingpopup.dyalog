@@ -1,8 +1,8 @@
 ﻿:class ejWaitingPopup : #._SF._ejWidget
-⍝ Description: Syncfusion WaitingPopup widget
-⍝ Constructor: [text]
+⍝ Description:: Syncfusion WaitingPopup widget
+⍝ Constructor:: [text]
 ⍝ text    - text to appear in the popup
-⍝ Public Fields:
+⍝ Public Fields::
 ⍝ Text    - text to appear in the popup
 ⍝ Style   - CSS styles to apply to popup
 ⍝           default is: "height: 200px; width: 500px; margin: 0 auto;"

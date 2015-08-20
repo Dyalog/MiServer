@@ -1,8 +1,8 @@
 ﻿:class ejTreeView : #._SF._ejWidget
-⍝ Description: Syncfusion TreeView widget
-⍝ Constructor:  [items]
+⍝ Description:: Syncfusion TreeView widget
+⍝ Constructor::  [items]
 ⍝ items - [;1] level [;2] name [;3] id [;4] link
-⍝ Public Fields:
+⍝ Public Fields::
 ⍝ Items -
     :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejTreeView.html'
     :field public shared readonly ApiLevel←3

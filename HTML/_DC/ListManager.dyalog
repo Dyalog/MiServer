@@ -1,4 +1,4 @@
-﻿:Class ejListManager : #._DC.StackPanel
+﻿:Class ListManager : #._DC.StackPanel
 ⍝ Description:: Dyalog ListManager widget using Syncfusion ListBoxes
 ⍝ Constructor:: [leftItems [rightItems [useButtons]]]
 ⍝ leftItems       - vector of char vectors
