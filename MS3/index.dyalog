@@ -16,6 +16,7 @@
     :Field APPDESCS    ⍝ Sample Apps' Description::
     :Field APPCTRLS    ⍝ Sample Apps' Control:: (i.e. the title)
     :Field CORE        ⍝ Core subset of controls
+    :Field STR←''      ⍝ String to search for
 
     :ENDSECTION
 
@@ -56,6 +57,8 @@
     AddShortInfo←{⍵,¨P¨(4+⍴¨⍵)↓¨(INFOSHORT,⊂'')[NAMESSHORT⍳⍵]} ⍝ ⍵ (ShortDesc)
 
     AddLongInfo←{(New¨_.strong,¨⍵),¨D¨{⍵,'[no info available]'/⍨0∊⍴⍵}¨(4+⍴¨⍵)↓¨(INFOLONG,⊂'')[NAMESLONG⍳⍵]} ⍝ ⍵ - LongDesc
+
+    ScoreIn←{(100⊥⌽∨/¨TYPES⍷¨⊂⍵)×(⊂⍺)(∊×⍳⍨)Words'Control'Section Dread ⍵} ⍝ ⍺'s relevance in ⍵ (0=none 1=high 2=lower...)
 
       Section←{ ⍝ extract section ⍺:: from code ⍵
           regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)'
@@ -225,7 +228,7 @@
 
     :SECTION CALLBACKS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
-    ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title;currctrls;core;names;class;group;cat
+    ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title;currctrls;core;names;class;group;cat;score
       :Access Public
       node←GetNode
       :If '0'∊node ⍝ Core or All
@@ -266,27 +269,20 @@
           spacedir←'Examples/',class
           files←Dlist spacedir
           out←NewDiv'.framed'
-          CURRFILES←''
-          i←0
+          CURRFILES←0 2⍴0 'url' ⍝ Score URL
           :For file :In files
               url←spacedir,'/',file
-              code←Dread url
-              ctrlsec←Words'Control'Section code
-              :If (⊂spacectrl)∊ctrlsec ⍝ Extract space-separated words
-                  i+←1
-                  CURRFILES,←⊂url
-                  desc←⊂'Description'Section code
-                  desc←∊desc,file Type⊃ctrlsec
-                  item←('#nodeS',⍕i)'.listitem'out.Add _.p desc
-                  item.On'click contextmenu' 'OnSample'
-              :EndIf
+              CURRFILES⍪←(spacectrl ScoreIn url)url
           :EndFor
-          :If ~×i
-              '.noitems'out.Add _.p,⊂'[no samples for ',spacectrl,']'
+          CURRFILES⌿⍨←×CURRFILES[;1] ⍝ Weed out 0-score samples
+          :If 0∊⍴CURRFILES ⍝ Failed to find a sample, so perform a search instead
+              STR←control
+              r←OnSearch
+              :Return
+          :Else
+              CURRFILES←CURRFILES[⍋CURRFILES[;1];2]
+              r←Update⊃CURRFILES
           :EndIf
-          title←(⍕≢CURRFILES),' sample pages for ',spacectrl
-          desc←'Click on a button below to view it embedded in this page or double-click to see it as a stand-alone page.'
-          r←spacectrl title desc out''
       :EndIf
       r←GenJS r
     ∇
@@ -326,7 +322,7 @@
 
     ∇ r←OnSearch;str;terms;out;i;dir;files;file;url;code;ctrlsec;desc;item;title
       :Access Public
-      :If ×≢str←Get'str'  ⍝ get search string
+      :If ×≢str←GetStr  ⍝ get search string
       ⍝⍝⍝ Controls
           terms←INFOSHORT/⍨str In INFOSHORT
           terms,←terms~⍨INFOLONG/⍨str In INFOLONG
@@ -387,5 +383,9 @@
       node←4↓(1+'tree'≡4↑_what)⊃_what(Get'node')
     ∇
     :ENDSECTION
-
+   
+    ∇ str←GetStr
+      str←(1+STR≡'')⊃STR(Get'str')
+      STR←''
+    ∇
 :EndClass
