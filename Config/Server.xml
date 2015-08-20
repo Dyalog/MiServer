@@ -30,7 +30,7 @@
 
 <!-- Extensions -->
     <SessionHandler>SimpleSessions</SessionHandler>     <!-- name of class to perform session management -->
-    <SessionTimeOut>.5</SessionTimeOut>                 <!-- session timeout, in minutes -->
+    <SessionTimeOut>3600</SessionTimeOut>                 <!-- session timeout, in minutes -->
     <Authentication>SimpleAuth</Authentication>         <!-- name of class to perform Basic HTTP authentication -->
     <Logger>Logger</Logger>                             <!-- name of class to perform HTTP request loggin -->
 

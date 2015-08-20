@@ -1,5 +1,5 @@
 ﻿:class Audio: #._html.audio
-⍝ Description: Same as base HTML5 audio but sets default message for browsers that don't support it
+⍝ Description: Same as base HTML5 audio element but sets default message for browsers that don't support it
 ⍝ Constructor: [src]
 ⍝ src      - location of the audio file to play
 ⍝ Public Fields:
