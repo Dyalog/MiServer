@@ -131,24 +131,29 @@
       style,←'    transition-duration: 0.2s;'
       style,←'    margin-right: 4px;'
       style,←'}'
-      style,←'.listitem:active:before {'
+      style,←'.listitem:active:before, #SampleTitle a:active:after {'
       style,←'    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);'
       style,←'    background: ThreeDShadow;'
       style,←'    border: solid 1px ThreeDDarkShadow;'
       style,←'}'
-      style,←'.listitem:hover:before {'
+      style,←'.listitem:hover:before, #SampleTitle a:hover:after {'
       style,←'    background: ThreeDHighlight;'
       style,←'    border: solid 1px ThreeDFace;'
       style,←'    text-decoration: none;'
       style,←'}'
-      style,←'.listitem:hover:after {content:"\A  Double-click to fill this window ";'
-      style,←'    padding-left,padding-right: 2px;'
-      style,←'    background: orange;'
-      style,←'    text-decoration: none;'
-      style,←'    white-space: pre;'
-      style,←'}'
       style,←'.noitems {margin:0px;padding:4px;cursor:not-allowed;} '
       style,←'.samplesource {overflow-x:auto;width:730px;background-color:#e5e5cc;border:2px inset;} '
+      style,←'#SampleTitle a:hover {text-decoration: none}'
+      style,←'#SampleTitle a:after {content:"➚";padding: 0px 4px;'
+      style,←'    background: ThreeDFace;'
+      style,←'    color: ButtonText;'
+      style,←'    border-radius: 4px;'
+      style,←'    border: solid 1px ThreeDLightShadow;'
+      style,←'    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);'
+      style,←'    transition-duration: 0.2s;'
+      style,←'    margin-left: 8px;'
+      style,←'    font-weight: normal;'
+      style,←'}'
       Add _.style style
      
       (left mid)←NewDiv¨'#leftBar' '#midBar' ⍝ Create panes
@@ -280,8 +285,8 @@
               r←OnSearch
               :Return
           :Else
-              CURRFILES←CURRFILES[⍋CURRFILES[;1];2]
-              r←Update⊃CURRFILES
+              CURRFILES←CURRFILES[⍋CURRFILES[;1];2] ⍝ Sort by score
+              r←spacectrl Update⊃CURRFILES
           :EndIf
       :EndIf
       r←GenJS r
@@ -359,15 +364,25 @@
      
     ∇
 
-    ∇ (page title desc iframe code)←Update url;ctrlsec
+    ∇ (page title desc iframe code)←{spacectrl}Update url;ctrlsec;control;space
      ⍝ Create new placeholder values
-      page←'Sample'
       iframe←Frame url
       code←Dread url
-      ctrlsec←'Control'Section code
-      desc←'Description'Section code
-      title←NewWinA ctrlsec url
+      :If ×⎕NC'spacectrl'
+          page←spacectrl
+          (space control)←spacectrl⊂⍨¯1↓1,spacectrl∊'.'
+          title←NewWinA(space,AddShortInfo⊂control)url
      
+          desc←#.HTMLInput.dtlb'Description'Section code
+          (⊃desc)←⎕SE.Dyalog.Utils.lcase⊃desc
+          desc,⍨←(4↓⊃AddLongInfo,⊂control),' The following example uses ',control,' in order to '
+          desc,←'.'
+      :Else
+          page←'Sample'
+          ctrlsec←'Control'Section code
+          title←NewWinA ctrlsec url
+          desc←'Description'Section code
+      :End
     ∇
 
     ∇ r←GenJS(page title desc iframe code)
@@ -383,7 +398,7 @@
       node←4↓(1+'tree'≡4↑_what)⊃_what(Get'node')
     ∇
     :ENDSECTION
-   
+
     ∇ str←GetStr
       str←(1+STR≡'')⊃STR(Get'str')
       STR←''
