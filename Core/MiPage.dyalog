@@ -42,7 +42,7 @@
 
     ∇ {r}←Render;b;styles
       :Access public
-      ∘∘∘
+⍝      ∘∘∘
       :If ''≢OnLoad
           Use'JQuery'
       :EndIf
