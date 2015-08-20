@@ -18,7 +18,8 @@
           Add _.title server.Config.Name
      
         ⍝ add a link to our CSS stylesheet
-          Insert _.StyleSheet'/Styles/sampleStyles.css'
+          _CssReset←'/Styles/cssreset.css'
+          _CssOverride←'/Styles/sampleStyles.css'
      
         ⍝ set a meta tag to make it explicitly UTF-8
           (Add _.meta).Set'http-equiv="content-type" content="text/html;charset=UTF-8"'

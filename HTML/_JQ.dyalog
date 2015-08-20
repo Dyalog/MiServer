@@ -15,7 +15,7 @@
     :section Base Classes
     :class _jqObject : #.HtmlElement
         :field public Selector←''      ⍝ Selector to apply the JQuery function to
-        :field public JavaScript←''    ⍝ additional JavaScript to run AFTER the jQuery function, can be function chain, separate code or both  
+        :field public JavaScript←''    ⍝ additional JavaScript to run AFTER the jQuery function, can be function chain, separate code or both
         :field public PreJavaScript←'' ⍝ additional JavaScript to run BEFORE the jQuery function
         :field public Var←''           ⍝ JavaScript variable name for created object
         :field public JQueryFn←''      ⍝ JQuery function to apply
@@ -103,7 +103,7 @@
           :Implements constructor
         ∇
 
-        ∇ r←Render;build;html;handlers;js
+        ∇ r←Render;build;html;handlers;js;opts
           :Access public
          
           r←html←js←''
@@ -128,7 +128,8 @@
               handlers←';',⍨∊¯1↓¨Options∘RenderHandler¨eventHandlers
           :EndIf
          
-          js←#.JQ.JQueryfn JQueryFn Selector Options(JavaScript,handlers)Var PreJavaScript
+          opts←{6::⍬ ⋄ 1 0≥_PageRef._Request.isAPLJax}⍬
+          js←opts #.JQ.JQueryfn JQueryFn Selector Options(JavaScript,handlers)Var PreJavaScript
          
          
           :If _build≥0∊⍴Container.Content
@@ -153,7 +154,7 @@
           ⍝ args - event callback clientData javascript
           args←eis args
           handler←⎕NS''
-          handler.(Event Callback ClientData JavaScript)←4↑args,(⍴args)↓'' 1 '' ''
+          handler.(Event Callback ClientData JavaScript Hourglass)←5↑args,(⍴args)↓'' 1 '' '' 1
           :If 0∊n←⍴eventHandlers
               eventHandlers,←handler
           :ElseIf n<i←eventHandlers.Event⍳⊂handler.Event
@@ -168,7 +169,7 @@
           r←opts RenderHandlerCore(handler handlerSyntax Force)
         ∇
 
-        ∇ {r}←opts RenderHandlerCore args;handler;widgettype;force;syntax;evt;model;page;event;callback;clientdata;javascript;useajax;data;cd;name;selector;type;what;this
+        ∇ {r}←opts RenderHandlerCore args;handler;widgettype;force;syntax;evt;model;page;event;callback;clientdata;javascript;useajax;data;cd;name;selector;type;what;this;hourglass;dtype;success;ajax;hg;removehg
           :Access public
          ⍝ unified event handling core for jQueryUI and Syncfusion widget
          ⍝ Syncfusion and jQueryUI use different models, if other jQuery-based libraries are used, this may need to be changed
@@ -179,7 +180,7 @@
          ⍝ force - Boolean to force treatment of event as an InternalEvent
          
           args←eis args
-          (handler widgettype force)←3↑args,(⍴args)↓''('event,ui' 'event' 'ui' 'this')0
+          (handler widgettype force)←3↑args,(⍴args)↓(⎕NS'')('event,ui' 'event' 'ui' 'this')0
           (syntax evt model this)←widgettype
          
           r←page←''
@@ -189,7 +190,7 @@
          
           page←quote page
          
-          (event callback clientdata javascript)←handler.(Event Callback ClientData JavaScript)
+          (event callback clientdata javascript hourglass)←handler.(Event Callback ClientData JavaScript Hourglass)
           useajax←(,0)≢,callback ⍝ callback=0 → don't make callback to server; =1 → use APLJax, =charvec → call ⍎charvec
          
           :If force=¯1
@@ -281,9 +282,11 @@
               :EndIf
           :EndFor
          
+          (hg removehg)←hourglass∘{⍺:'document.body.style.cursor="',⍵,'";' ⋄ ''}¨'wait' 'default'
+         
           dtype←'"json"'
-          success←'success: function(obj){APLJaxReturn(obj);}'
-          ajax←(javascript ine javascript,';'),useajax/'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
+          success←'success: function(obj){APLJaxReturn(obj);document.body.style.cursor="default";',removehg,'}'
+          ajax←(javascript ine javascript,';'),useajax/hg,'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
           :If force
               event(opts{⍺⍺⍎⍺,'←⍵'})'function(',syntax,'){',ajax,'}'
           :Else
@@ -353,11 +356,6 @@
           :EndIf
           r←↓[1]value
         ∇
-
-⍝        ∇ name Option value
-⍝          :Access public
-⍝          name Set value
-⍝        ∇
 
         ∇ r←GetOption names
           :Access public
@@ -477,9 +475,10 @@
         :Field public ClientData←'' ⍝ any additional client data to send to server
         :Field public Callback←1    ⍝ execute AJAX callback to server?  or the name of the server-side callback function
         :Field public JavaScript←'' ⍝ JavaScript to execute prior to server callback
-        :Field public Page←''       ⍝ server URL to run for an AJAX callback 
+        :Field public Page←''       ⍝ server URL to run for an AJAX callback
         :Field public jQueryWrap←1  ⍝ wrap handler in $(function(){...});
         :Field public ScriptWrap←1  ⍝ wrap handler in <script>...</script>
+        :Field public Hourglass←1   ⍝ display houglass cursor during AJAX call?
         :field public Uses←'JQuery'
 
         ∇ Make0
@@ -528,7 +527,7 @@
           :AndIf ~0∊⍴Callback
               cd,←⊂'_callback' 'string'Callback
           :EndIf
-          r←pg #.JQ.On sel Events cd''JavaScript(0≢⊃Callback)jQueryWrap ScriptWrap
+          r←pg #.JQ.On sel Events cd''JavaScript(0≢⊃Callback)jQueryWrap ScriptWrap Hourglass
         ∇
 
     :endclass

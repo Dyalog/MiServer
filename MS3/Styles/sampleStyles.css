@@ -1,64 +1,48 @@
-﻿/* CSS Reset - Increases Browser Compatability */
-/* @import url('ResetCSS.css');  - Removed by Adam - MUST REVISIT BEFORE CONF */
-- Removed by Adam - MUST REVISIT BEFORE CONF */
-/* Body and Wrapper */
+﻿/* Body and Wrapper */
 body {
 	color: #000000;
 	background-color: black;
 	font-family: Verdana;
 	margin-top: 0px;
-	font-size: 1.1em;
 }
 #wrapper {
-	background-color: #FFFFCC;
 	width: 1000px;
 	margin: 10px auto;
 }
+#bodyblock {
+	background-color: #FFFFCC;
+}
 /* Banner */
 #banner {
-	background: #997799;
+	background: #660066;
 	padding: 10px;
+	color: white;
+	border-radius: 15px 15px 0px 0px;
+}
+#bannerimg{
+float:left; 
+vertical-align:middle;   
+}
+#bannertext {
+margin-left:20px;
+	font-size: 1.4em;
+	display: inline-block;
 }
 #bannernav {
 	float: right;
 }
-#bannertext {
-	font-size: .8em;
-	float: left;
-	padding-left: 15px;
-	padding-top: 3px;
+#ms30 {
+    font-weight:700;
+}
+#tagline {
+    font-size: .5em;
+    font-style:italic;
 }
 #bannerimage img {
 	padding-top: 4px;
 	vertical-align: middle;
 	float: left;
 	height: 45px;
-}
-a.nav:visited {
-	color: #FF9933;
-	font-weight: bold;
-	text-decoration: none;
-}
-a.nav:active {
-	color: #FF9933;
-	font-weight: bold;
-	text-decoration: none;
-}
-a.nav {
-	color: #FF9933;
-	text-decoration: none;
-	padding: 5px 0;
-	width: 100px;
-	background: #336699;
-	color: #eee;
-	float: left;
-	text-align: center;
-	font-size: 1.0em;
-}
-a.nav:hover {
-	background: silver;
-	color: #000;
-	text-decoration: none;
 }
 /*Template Content Area Styles*/
 #bodyblock {

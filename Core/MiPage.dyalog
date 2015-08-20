@@ -8,12 +8,14 @@
     :field Public _Request     ⍝ HTTPRequest
     :field Public _Scripts←''
     :field Public _Styles←''
-    :field public _Serialized←1 ⍝ serialized forms to return in _PageData
-    :field Public _event        ⍝ set by APLJAX callback - event that was triggered
-    :field Public _what         ⍝ set by APLJAX callback - name or id of the triggering element
-    :field Public _value        ⍝ set by APLJAX callback - value of the triggering element
-    :field Public _selector     ⍝ set by APLJAX callback - CSS/jQuery selector for the element that triggered the event
-    :field Public _callback     ⍝ set by APLJAX callback - name of the callback function
+    :field Public _CssReset←''    ⍝ location of CSS Reset file (if any)
+    :field Public _CssOverride←'' ⍝ location of CSS Override file (if any)
+    :field public _Serialized←1   ⍝ serialized forms to return in _PageData
+    :field Public _event          ⍝ set by APLJAX callback - event that was triggered
+    :field Public _what           ⍝ set by APLJAX callback - name or id of the triggering element
+    :field Public _value          ⍝ set by APLJAX callback - value of the triggering element
+    :field Public _selector       ⍝ set by APLJAX callback - CSS/jQuery selector for the element that triggered the event
+    :field Public _callback       ⍝ set by APLJAX callback - name of the callback function
     :field public _PageData
     :field public _AjaxResponse←''
     :field public _DebugCallbacks←0
@@ -38,14 +40,18 @@
       _PageData←⎕NS''
     ∇
 
-    ∇ {r}←Render;b
+    ∇ {r}←Render;b;styles
       :Access public
+      ∘∘∘
       :If ''≢OnLoad
           Use'JQuery'
       :EndIf
       b←RenderBody
-      :If ~0∊⍴_Styles
-          {(Head.Insert _html.link).Set(('href=',⍵)('rel' 'stylesheet')('type' 'text/css'))}¨∪⌽_Styles
+      styles←_Styles
+      styles←styles,⍨{0∊⍴⍵:⍵ ⋄ ⊂⍵}_CssReset
+      styles←styles,{0∊⍴⍵:⍵ ⋄ ⊂⍵}_CssOverride
+      :If ~0∊⍴styles
+          {(Head.Add _html.link).Set(('href=',⍵)('rel' 'stylesheet')('type' 'text/css'))}¨∪styles
       :EndIf
       :If ~0∊⍴_Scripts
           {(Head.Add _html.script).Set('src=',⍵)}¨∪_Scripts
