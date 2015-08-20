@@ -4,9 +4,5 @@
  Click'btnPushMe'
 
  output←Find'output'
- {0≠⍴output.Text}Retry ⍬ ⍝ Wait (a bit) to see if it gets populated
- :If output.Text≢'You pushed me!'
-     msg←'Expected output was not produced.'
- :Else ⋄ msg←''
- :EndIf
-⍝)(!ejButtonSimple!DanB2!2015 8 19 17 49 55 0
+ {0≠⍴output.Text}Retry ⍬ ⍝ Wait to see if it gets populated
+ msg←(output.Text≢'You pushed me!')/'Expected output was not produced.'
