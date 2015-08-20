@@ -1,10 +1,10 @@
-﻿:Class ejListManagerSimple : MiPageSample
+﻿:Class ListManagerSimple : MiPageSample
 ⍝ Control::     _DC.ListManager
 ⍝ Description:: Select items using a ListManager
 
     ∇ Compose
       :Access public 
-     
+
       fruits←'Apples' 'Oranges' 'Pears' 'Bananas' 'Lemons' 'Raspberries'
       selected←⍬
      

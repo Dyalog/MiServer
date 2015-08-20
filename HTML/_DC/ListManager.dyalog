@@ -32,8 +32,8 @@
       :Access public
       JQueryFn←Uses←'ejListBox'
       :Implements constructor
-      Left←⎕NEW #._SF.ejListBox
-      Right←⎕NEW #._SF.ejListBox
+      (Left←⎕NEW #._SF.ejListBox).Side←1
+      (Right←⎕NEW #._SF.ejListBox).Side←2
       Horizontal←1
     ∇
 
@@ -56,6 +56,7 @@
       Content←⍬
       SetId
       {'allowDragAndDrop'⍵.Set _true}¨Left Right
+      (Left Right)._PageRef←_PageRef
       lft rgt←Left Right
       :If ∨/~0∘∊∘⍴¨Captions
           lft rgt←Captions{New #._DC.StackPanel ⍺ ⍵}¨Left Right
