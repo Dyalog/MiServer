@@ -1,6 +1,6 @@
 ﻿:Class ejListManagerSimple : MiPageSample
-⍝ Control::     _DC.ejListManager
-⍝ Description:: Select items using an ejListManager
+⍝ Control::     _DC.ListManager
+⍝ Description:: Select items using a ListManager
 
     ∇ Compose
       :Access public 
@@ -10,7 +10,7 @@
      
       Add'Select some fruits by dragging them to the list on the right:'
      
-      lm←'fruits'Add _.ejListManager(fruits selected)
+      lm←'fruits'Add _.ListManager(fruits selected)
       lm.(Height Gap)←'150px' '10px'
      
       save←'btnSave'Add _.Button'Pick Fruits'

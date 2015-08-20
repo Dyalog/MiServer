@@ -1,8 +1,8 @@
-﻿ msg←ejListManagerSimple;name;result;pick
+﻿ msg←ListManagerSimple;name;result;pick
 ⍝ Test /Examples/DC/InputGridSimple
 
  pick←'Oranges' 'Lemons'
- 'fruits'ejListMgrSelect pick
+ 'fruits'ListMgrSelect pick
  Click'btnSave'
 
  result←Find'output'
