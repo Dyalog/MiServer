@@ -1,7 +1,7 @@
 ﻿ msg←InputGridSimple;data;result
-⍝ Test /Examples/CS/InputGridSimple
+⍝ Test /Examples/DC/InputGridSimple
 
- data←'Morten' 'Kromberg'(1↓∊'/',¨⌽3↑⎕TS)
+ data←'Morten' 'Kromberg'(1↓∊'/',¨⌽3↑⎕TS) ⍝ It's my birthday every day!
  'fname' 'lname' 'bdate'SendKeys¨data
  Click'ClickMe'
 

@@ -5,7 +5,7 @@
 ⍝ value - the initial value for the input field
 ⍝ attr  - attribute(s) for the input field
 ⍝ Public Fields:: None
-⍝ Notes:: 
+⍝ Notes::
 ⍝ If either the id or name are undefined, the undefined one is set to the same value as the defined one
 ⍝ If both id and name are undefined, a unique id is generated and the name is set to it as well
 
@@ -26,14 +26,7 @@
 
     ∇ r←Render
       :Access public
-      :If (⊂name)∊UNDEF''
-          :If (⊂id)∊UNDEF''
-              SetId
-          :EndIf
-          name←id
-      :ElseIf UNDEF≡id
-          id←name
-      :EndIf
+      SetInputName
       r←⎕BASE.Render
     ∇
 

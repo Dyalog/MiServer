@@ -2,17 +2,20 @@
 ⍝ Control:: _SF.ejButton
 ⍝ Description:: Insert a basic button
 
-    ∇ Compose
+    ∇ Compose;bn
       :Access Public
      
-      bn←'type' 'ej.ButtonType.Button'Add _SF.ejButton'Push me!'
+      bn←Add _SF.ejButton'Push me!'
+      bn.id←'btnPushMe'
       bn.On'click'
+
+      'output' Add _.div
     ∇
 
     ∇ r←APLJax
       :Access public
-    ⍝ When the clicks the button we display an alert
-      r←Execute'alert("You pushed me!")'
+    ⍝ When the clicks the button we display a message
+      r←'#output' Replace 'You pushed me!'
     ∇
 :EndClass
                                         

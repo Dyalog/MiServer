@@ -366,7 +366,8 @@
       :Access public
       handler←eis handler
       Handlers,←r←⎕NEW #._JQ.Handler
-      r.(Events Callback ClientData JavaScript Delegates)←5↑handler,(⍴handler)↓'' 1 '' '' ''
+      r.(Events Callback ClientData JavaScript Delegates jQueryWrap ScriptWrap Hourglass)←8↑handler,(⍴handler)↓'' 1 '' '' '' 1 1 ¯1
+      :If ¯1=r.Hourglass ⋄ r.Hourglass←(,0)≢,r.Callback ⋄ :EndIf
     ∇
 
     ∇ r←RenderHandlers;myid;h
@@ -462,6 +463,20 @@
     :section Utilities
 
     Bracket←{'<',⍵,'>'}
+
+    ∇ SetInputName
+      :Access public
+      ⍝ for input element widgets, this will set the name to the id if not already set
+      ⍝ or the id to the name if not already set
+      :If (⊂name)∊UNDEF''
+          :If (⊂id)∊UNDEF''
+              SetId
+          :EndIf
+          name←id
+      :ElseIf UNDEF≡id
+          id←name
+      :EndIf
+    ∇
 
     ∇ r←tag Enclose txt;nl
       :Access public shared

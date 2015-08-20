@@ -1,31 +1,29 @@
-﻿:Class SelectSample : MiPageSample
+﻿:Class SelectSimple : MiPageSample
 ⍝ Control::     _.DC.Select
-⍝ Description:: This example shows how to use the Select object by creating a form with 2 selections of fruits in it.
-⍝ The first single selection is a drop down with no preselection. The second one is a multi selection with 2 items already selected. It occupied a whole window (not drop down). A button at the bottom resets the form to its original state.
-
+⍝ Description:: Create a simple drop-down
+⍝
 
     FRUITS←'Apples' 'Bananas' 'Grapes' 'Oranges' 'Pears' 'Pineapples' 'Plums'
 
-    ∇ Render;frm;single;multi;btn
+    ∇ Compose;frm;single;multi;btn
       :Access public
      
-      Add _.title'_.Select Sample'
       Add _.h2'Please pick some fruits'
      
-      (frm←Add _.Form).id←'myform'
+      frm←'myform'Add _.Form
+      'fruit'frm.Add _.Select FRUITS
+      btn←'btnPressMe'frm.Add _.Button'Pick'
+      btn.On'click' 'onPick'
+      'output'Add _.div
+    ∇
+
      
-      single←frm.Add _.Select(⊂FRUITS)  ⍝ no preselection
-      frm.Add¨2/_.br
+    ∇ r←onPick;selected
+      ⍝ Called when the Pick button is pressed
+      :Access Public
      
-      multi←frm.Add _.Select(FRUITS(2 5)) ⍝ preselect 2nd and 5th fruit
-      multi.Set'multiple' 1       ⍝ Allow multiple selections
-      multi.Set'required' 1       ⍝ No post back unless there is a selection
-      multi.Set'size'(⊃⍴FRUITS)   ⍝ Show them all
-      multi.Set'autofocus' 'true' ⍝ Put the focus here
-      frm.Add¨2/_.br
-     
-      btn←frm.Add _.button'Reset Selections'
-      btn.(id type)←'pressme' 'submit'
+      selected←Get'fruit'
+      r←'#output'Replace _.p('You picked: ',(⍕selected),(0=⍴selected)/'nothing')
     ∇
 
 :EndClass
