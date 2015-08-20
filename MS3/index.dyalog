@@ -281,9 +281,11 @@
           :EndFor
           CURRFILES⌿⍨←×CURRFILES[;1] ⍝ Weed out 0-score samples
           :If 0∊⍴CURRFILES ⍝ Failed to find a sample, so perform a search instead
-              STR←spacectrl
-              r←OnSearch
-              :Return
+              STR←spacectrl ⍝ Pass implicit argument to OnSearch
+              r←OnSearch ⍝ Capture and modify result
+              (1⊃r)←spacectrl
+              (2⊃r)←'_',class,'.',AddShortInfo⊂control
+              (3⊃r)←(4↓⊃AddLongInfo,⊂control),' ',('0'=⊃2⊃r)/3⊃r
           :Else
               CURRFILES←CURRFILES[⍋CURRFILES[;1];2] ⍝ Sort by score
               r←spacectrl Update⊃CURRFILES
@@ -327,7 +329,10 @@
 
     ∇ r←OnSearch;str;terms;out;i;dir;files;file;url;code;ctrlsec;desc;item;title
       :Access Public
-      :If ×≢str←GetStr  ⍝ get search string
+     
+      str←(1+STR≡'')⊃STR(Get'str') ⍝ get search string
+     
+      :If ×≢str ⍝ Continue only if there is a search string
       ⍝⍝⍝ Controls
           terms←INFOSHORT/⍨str In INFOSHORT
           terms,←terms~⍨INFOLONG/⍨str In INFOLONG
@@ -358,10 +363,11 @@
           :EndIf
           title←(⍕≢CURRFILES),' sample pages for ',Q str
           desc←'Click on a button below to select a sample.'
-          SEARCH←(Q str)title desc out''
+          r←(Q str)title desc out''
+          SEARCH←GenJS⍣(STR≡'')⊢r ⍝ Do not finish up if called by OnTree
+          STR←'' ⍝ Reset
       :EndIf
-      r←GenJS SEARCH
-     
+      r←SEARCH
     ∇
 
     ∇ (page title desc iframe code)←{spacectrl}Update url;ctrlsec;control;space
@@ -399,8 +405,4 @@
     ∇
     :ENDSECTION
 
-    ∇ str←GetStr
-      str←(1+STR≡'')⊃STR(Get'str')
-      STR←''
-    ∇
 :EndClass
