@@ -8,7 +8,7 @@
     ∇ Compose;frm;single;multi;btn
       :Access public
      
-      Add _.h2'Please pick some fruits'
+      Add _.h2'Please pick a fruit'
      
       frm←'myform'Add _.Form
       'fruit'frm.Add _.Select FRUITS
@@ -20,10 +20,10 @@
      
     ∇ r←onPick;selected
       ⍝ Called when the Pick button is pressed
-      :Access Public
-     
+      :Access Public  
+     ⍝ When selecting a single item the result will be a string   
       selected←Get'fruit'
-      r←'#output'Replace _.p('You picked: ',(⍕selected),(0=⍴selected)/'nothing')
+      r←'#output'Replace _.p('You picked: ',selected,(0=⍴selected)/'nothing')
     ∇
 
 :EndClass
