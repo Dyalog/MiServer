@@ -12,16 +12,16 @@
  :AndIf 'You picked: Bananas Pears'≡prev←output.Text
    ⍝ Make a single selection:
      froot←'Grapes'
-    'multi'SelectByText'-'froot
-         Click'PressMe'
+     'multi'SelectItemText'~'froot
+     Click'PressMe'
      output←Find'output'
      {prev≢output.Text}Retry ⍬ ⍝ Wait to see if it gets populated
-:AndIf (prev←output.Text)≡'You picked: ',froot
+ :AndIf (prev←output.Text)≡'You picked: ',froot
    ⍝ Make another selection:
-    'multi'SelectByText'Pears'
-         Click'PressMe'
+     'multi'SelectItemText'Pears'
+     Click'PressMe'
      output←Find'output'
      {prev≢output.Text}Retry ⍬ ⍝ Wait to see if it gets populated
-    :AndIf (prev←output.Text)≡'You picked: ',froot,' Pears'
-    msg←''
+ :AndIf (prev←output.Text)≡'You picked: ',froot,' Pears'
+     msg←''
  :EndIf
