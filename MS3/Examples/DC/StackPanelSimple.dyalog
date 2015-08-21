@@ -1,6 +1,6 @@
 ﻿:Class StackPanelSimple : MiPageSample
 ⍝ Control:: _DC.StackPanel
-⍝ Description:: Layout vectors of content elements vertically and horizontally
+⍝ Description:: Vertical and Horizontal "stacking" of content.
     
     ∇ Compose;content;vsp;intro;hsp;uses
       :Access public
@@ -21,9 +21,6 @@
      
       Add _.h3'Horizontal Stack Panel'
      
-⍝      uses←New _.Select 'Cactuses' 'Octopuses' 'Viruses'
-⍝      uses.Prompt←'[Pick one]'
-⍝      content[1]←uses
       hsp←Add _.StackPanel content
       hsp.Horizontal←1
     ∇
