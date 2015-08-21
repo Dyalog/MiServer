@@ -1,6 +1,6 @@
-﻿:class TTTClient :MiPageSample
-⍝ Control:: TTT (Client)
-⍝ Description:: Play text-based Tic Tac Toe while storing data client side
+﻿:class TTT :MiPageSample
+⍝ Control:: Tic Tac Toe
+⍝ Description:: Text-based Tic Tac Toe game storing data on the server
 
     ∇ Compose;board;row;bcap;rows;cell;cells;xo;reset;size;width
       :Access public
@@ -12,7 +12,9 @@
       xos←' X ' ' O '          ⍝ Symbol for each player
       width←⊃⌈/⍴¨,¨xos         ⍝ Cell size
       xos←width↑¨xos           ⍝ Equalize lengths
-      blank←⊂width⍴''          ⍝ Empty cells of matching width
+      next←⊃xos                ⍝ Next player to place mark
+      blank←⊂width↑''          ⍝ Empty cells of matching width
+      sss←blank/⍨size*2        ⍝ Server Side State
       all←,(size↑⎕A)∘.,⍕¨⍳size ⍝ All cell names
      
       board←Add _.table                 ⍝ Framework for board
@@ -24,7 +26,7 @@
           cell←(row⌷rows).Add¨size/_.td ⍝ Add single row of cells
           cells←cell.Add⊂_.pre,blank    ⍝ Keep constant width
           cells.id←(size↑⎕A),¨⍕row      ⍝ Spreadsheet cell naming style
-          cells.On⊂'click' '',⊂{⍵('#',⍵)'html'}¨all ⍝ Send board along
+          cells.On⊂'click' ''
       :EndFor
      
       Add _.br
@@ -36,34 +38,32 @@
       reset.On'click'
     ∇
 
-    ∇ js←APLJax;curr;reset;ccc;next ⍝ Universal callback function
+    ∇ js←APLJax;curr;reset ⍝ Universal callback function
       :Access public
       js←''
       reset←'reset'≡_what                ⍝ Did user click Reset?
-      ccc←Get¨all                        ⍝ Client Condition Capture
-      ccc←{⍵↑⍨¯1+⍵⍳'<'}¨ccc              ⍝ Strip script content
-      :If reset∨(Won ccc)∨~blank∊ccc     ⍝ Reset the board?
+      :If reset∨(Won sss)∨~blank∊sss     ⍝ Reset the board?
           js,←⊃,/('#',¨all)Replace¨blank ⍝ Client
+          sss⊢¨←blank                    ⍝ Server
           →reset/0
       :EndIf
       curr←all⍳⊂_what                 ⍝ Index of chosen cell
-      next←Who ccc                    ⍝ Who is current player?
-      :If blank≡curr⌷ccc              ⍝ Is selection available?
+      :If blank≡curr⌷sss              ⍝ Is selection available?
           js,←('#',_what)Replace next ⍝ Client update
-          ccc[curr]←⊂next             ⍝ Server update
-          :If Won ccc
+          sss[curr]←⊂next             ⍝ Server update
+          :If Won sss
               js,←Msg next,' wins'
-          :ElseIf ~blank∊ccc
+          :ElseIf ~blank∊sss
               js,←Msg'Tie game'
           :Else
-              js,←'#xo'Replace Who ccc   ⍝ Update footer
+              next←⊃xos⌽⍨xos⍳⊂next  ⍝ Next player
+              js,←'#xo'Replace next ⍝ Update footer
           :EndIf
       :Else
           js←Msg'That spot is occupied'
       :EndIf
     ∇
 
-    Who←{xos⊃⍨⊃⍋+/xos∘.≡⍵}
     Won←{1∊∧/xos∘.≡⍵[wins]}          ⍝ Scalar boolean if any player won
     Msg←{Execute'alert("',⍵,'!")'}   ⍝ Generate JavaScript for alert popup
 

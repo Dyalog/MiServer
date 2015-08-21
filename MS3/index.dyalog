@@ -34,7 +34,7 @@
 
     Frame←{'.iframed' ('src=',Q⍵,'?NoWrapper=1') New _.iframe}
 
-    NewWinA←{('target' '_blank')('href=',Q⊃⌽⍵) New _.a (⊃⍵)} ⍝ New link that opens in a new window/tab
+    NewWinA←{'target="_blank"'('href=',Q⊃⌽⍵) 'title="Click to open in a separate window"'New _.a (⊃⍵)} ⍝ New link that opens in a new window/tab
 
     NewDiv←{⍵ New _.div} ⍝ Make a div
 
@@ -97,77 +97,30 @@
 
     :SECTION MAIN ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
-    ∇ Compose;left;mid;right;sp;style
+    ∇ Compose;left;mid;right;sp
       :Access public
      
      ⍝ Initialize globals
       SAMPLES←0 3⍴⍬
-      GROUPS←'Dyalog Controls' 'Base HTML' 'SyncFusion' 'JQueryUI'
-      REFS←_DC _html _SF _JQ
+      GROUPS←'Dyalog Controls' 'SyncFusion' 'JQueryUI' 'Base HTML'
+      REFS←_DC _SF _JQ _html
       INFOSHORT←'⍝',¨Dread'Examples/Data/infoShort'
       INFOLONG←'⍝',¨Dread'Examples/Data/infoLong'
       NAMESSHORT←Names INFOSHORT
       NAMESLONG←Names INFOLONG
      
+      Add _.StyleSheet'/Styles/homepage.css'
+     
       '#title'Add _.title'MS3: About' ⍝ After the : will be updated
      
-      Add _.StyleSheet'/Styles/homepage.css'
-      style←''
-      style,←'#leftBar {background-color:inherit;margin-right:6px;} '
-      style,←'.menu {padding-left,padding-right:0;} '
-      style,←'.cat {font-size:12pt;cursor:pointer;border:1px solid transparent;padding:0 4px 2px 4px;} '
-      style,←'.cat:hover {background:linear-gradient(to bottom,#ffbb60 0%,#f37603 100%);border:1px solid #f9cb59;font-weight:bold;} '
-      style,←'.menuitem {margin-bottom,margin-left:0px;padding-left:2px;cursor:pointer;} '
-      style,←'.menuitem:hover {background-color:highlight;} '
-      style,←'.framed {width:730px;max-height:600px;min-height:400px;border-left:1px inset;overflow-y:auto;} '
-      style,←'.iframed {width:730px;max-height:600px;min-height:400px;border:2px inset;overflow-y:auto;background-color:white;} '
-      style,←'.listitem {margin:0px;padding:4px 4px 4px 26px;text-indent:-22px;cursor:pointer;box-sizing:border-box;} '
-      style,←'.listitem:before {content:"▶";padding: 1px 3px 3px 4px;'
-      style,←'    background: ThreeDFace;'
-      style,←'    color: ButtonText;'
-      style,←'    border-radius: 4px;'
-      style,←'    border: solid 1px ThreeDLightShadow;'
-      style,←'    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);'
-      style,←'    transition-duration: 0.2s;'
-      style,←'    margin-right: 4px;'
-      style,←'}'
-      style,←'.listitem:active:before, #SampleTitle a:active:after {'
-      style,←'    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);'
-      style,←'    background: ThreeDShadow;'
-      style,←'    border: solid 1px ThreeDDarkShadow;'
-      style,←'}'
-      style,←'.listitem:hover:before, #SampleTitle a:hover:after {'
-      style,←'    background: ThreeDHighlight;'
-      style,←'    border: solid 1px ThreeDFace;'
-      style,←'    text-decoration: none;'
-      style,←'}'
-      style,←'.noitems {margin:0px;padding:4px;cursor:not-allowed;} '
-      style,←'.samplesource {overflow-x:auto;width:730px;background-color:#e5e5cc;border:2px inset;} '
-      style,←'#SampleTitle a:hover {text-decoration: none}'
-      style,←'#SampleTitle a:after {content:"➚";padding: 0px 4px;'
-      style,←'    background: ThreeDFace;'
-      style,←'    color: ButtonText;'
-      style,←'    border-radius: 4px;'
-      style,←'    border: solid 1px ThreeDLightShadow;'
-      style,←'    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);'
-      style,←'    transition-duration: 0.2s;'
-      style,←'    margin-left: 8px;'
-      style,←'    font-weight: normal;'
-      style,←'}'
-      Add _.style style
-     
       (left mid)←NewDiv¨'#leftBar' '#midBar' ⍝ Create panes
-      sp←Add'mainSP'Horz left mid
-     
-      sp.Items[1].style←⊂'width: 200px; max-height: 450px;'
-      sp.Items[2].style←⊂'margin: 5px;'
-      sp.style←'height: 450px;background-color:inherit;'
+      Add'mainSP'Horz left mid
      
       PopulateLeft left
       PopulateMid mid
     ∇
 
-    ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;style;menu;i;fs;ac;text;stuff;treeall;treecore;names;tree
+    ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;menu;i;fs;ac;text;stuff;treeall;treecore;names;tree
      
       stuff←''
       tree←0 3⍴0 '' ''
@@ -183,14 +136,14 @@
       APPS←(Dlist'Examples/Apps')~⊂'index'
       APPDESCS←(⊂'Description')Section¨Dread¨'Examples/Apps/'∘,¨APPS
       APPCTRLS←(⊂'Control')Section¨Dread¨'Examples/Apps/'∘,¨APPS
-      ('.cat'thediv.Add _.span'Sample Apps').On'click' 'OnAppHeader'
+      ('.cat'thediv.Add _.p'Sample Apps').On'click' 'OnAppHeader'
       APPS{tree⍪←1 ⍵('nodeA',⍺)}¨APPCTRLS
       tree←'#treeA'thediv.Add _.ejTreeView tree
       tree.On'nodeSelect' 'OnApp'('node' 'eval' 'argument.id')
      
       thediv.Add _.hr
      
-      ('#node01All' '.cat'thediv.Add _.span'Controls').On'click' 'OnTree'
+      ('#node01All' '.cat'thediv.Add _.p'Controls').On'click' 'OnTree'
       CORE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/core -noname'
       treecore←1 3⍴1 'Core' 'node0_Core'
       treeall←1 3⍴1 'All' 'node00All'
@@ -210,7 +163,7 @@
      
       :EndFor
      
-      tree←'#treeC' 'style="max-height:260px"'thediv.Add _.ejTreeView,⊂treecore⍪treeall
+      tree←'#treeC'thediv.Add _.ejTreeView,⊂treecore⍪treeall
       tree.On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id')
     ∇
 
@@ -224,6 +177,7 @@
      ⍝ Create and fill placeholder for description line
       '#SampleDesc'mid.Add _.p('Description'Section code)
      ⍝ Create and fill placeholder for embedded page
+      mid.Add _.hr
       frame←mid.Add NewDiv'#SampleFrame'
       frame.Add Frame url
       '#SampleSource' '.samplesource'mid.Add _.div⍝,⊂'x-small;border:none'#.HTMLInput.APLToHTMLColour code ⍝ No source on page load
