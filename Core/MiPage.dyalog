@@ -46,14 +46,14 @@
           Use'JQuery'
       :EndIf
       b←RenderBody
-      styles←_Styles
+      styles←∪_Styles
       styles←styles,⍨{0∊⍴⍵:⍵ ⋄ ⊂⍵}_CssReset
       styles←styles,{0∊⍴⍵:⍵ ⋄ ⊂⍵}_CssOverride
       :If ~0∊⍴styles
-          {(Head.Add _html.link).Set(('href=',⍵)('rel' 'stylesheet')('type' 'text/css'))}¨∪styles
+          {Insert #._DC.StyleSheet ⍵}¨∪⌽styles
       :EndIf
       :If ~0∊⍴_Scripts
-          {(Head.Add _html.script).Set('src=',⍵)}¨∪_Scripts
+          {(Add _html.script).Set('src=',⍵)}¨∪_Scripts
       :EndIf
       :If ~0∊⍴Handlers
           b,←∊Handlers.Render
