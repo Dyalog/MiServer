@@ -19,9 +19,8 @@
     ∇
 
     ∇ html←Render
-      :Access Public
-     
-      Add _.legend Legend
+      :Access Public   
+      Insert _.legend Legend
       html←⎕BASE.Render
     ∇
 
