@@ -206,7 +206,7 @@
     ∇
 
     ∇ r←{proto}GetAttr attrname
-      :Access public     
+      :Access public
       :If 0=⎕NC'proto' ⋄ proto←'' ⋄ :EndIf
       attrname←eis attrname
       :If 1=⍴attrname
@@ -506,15 +506,6 @@
               :EndIf
           :Else ⍝If isInstance⊃args
               r←args
-⍝      :ElseIf isString args
-⍝        :If (#._html.span≡⊃⊃⎕CLASS ⎕THIS)⍝∨0∊⍴⎕THIS.Content
-⍝          r←args
-⍝        :Else
-⍝          (r←⎕NEW #._html.span).Content←args
-⍝          r._PageRef←_PageRef
-⍝        :EndIf
-⍝      :Else
-⍝        r←args
           :EndIf
       :EndIf
     ∇
@@ -652,6 +643,11 @@
               id←myid
           :EndIf
       :EndIf
+    ∇
+    dtlb←{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}
+    ∇ r←ScriptFollows
+      :Access public
+      r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
     ∇
 
     :endsection

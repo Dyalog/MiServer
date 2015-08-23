@@ -132,12 +132,6 @@
 
     dtlb←{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}
 
-⍝    ∇ r←ScriptFollows
-⍝      :Access public
-⍝     ⍝ treat following commented lines in caller as a script, lines beginning with ⍝⍝ are stripped out
-⍝      r←{⎕ML←1 ⋄ ∊{'⍝'=⊃⍵:'' ⋄ ' ',dtlb ⍵}¨1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓⎕NR 2⊃⎕SI
-⍝    ∇
-
     ∇ r←isTrue a
       :Access public shared
       →0⍴⍨r←(,1)≡,a
