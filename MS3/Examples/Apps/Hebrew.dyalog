@@ -4,7 +4,7 @@
 
     Sound←{'#sound'Replace'autoplay' ''New _.Audio,⊂'/Examples/Data/Hebrew/',⍵,'.mp3'}
     LetBut←{('.letter',⍕⍵∊'שבגדכפת') ('#letter',⍕⎕UCS ⍵) (RandCol 0) New _.Button ⍵}
-    Indent←{('style="margin-left:',(⍕⍵÷2-0∊⍴Get'nowrapper'),'pt;margin-bottom:2pt"')Add _.span}
+    Indent←{('style="margin-left:',(⍕⍵÷2-0∊⍴Get'nowrapper'),'pt;margin-bottom:2pt"')New _.span}
 
       RandCol←{
           ×⍵:'style="color:rgb(',(1↓∊',',¨⍕¨(1-⍵)⌽127 ¯1 ¯1+?3/128),');"'
@@ -27,23 +27,37 @@
      
       Add _.h2'Click a letter to hear it or › to hear which letter to find. Hover over ? to repeat what to find, and click to see the letter to find.'
      
-      '#play' 'style="font-size:30pt;"'Add _.Button'›'
-      '#hint' '.menu'(Indent 400).Add _.Button'?'
+     
+      Add'#play'(Indent 100).Add _.Button'›'
+      Add'#new'(Indent 100).Add _.Button'×'
+      Add'#hint'(Indent 100).Add _.Button'?'
      
       Add _.hr
-      BUTTONS←''
-      BUTTONS,←(Indent 120).Add¨LetBut¨'קראטוןםפ'
-      Add _.br
-      BUTTONS,←(Indent 0).Add¨LetBut¨'שדגכעיחלךף'
-      Add _.br
-      BUTTONS,←(Indent 40).Add¨LetBut¨'זסבהנמצתץ'
      
-      Add _.Handler'button' 'click' 'OnClick'
-      Add _.Handler'.letter1' 'mouseover mouseout' 'Bold'
+      keys←'#keys'Add _.div
+      keys.Add Keyboard
+     
       Add _.Handler'#hint' 'mouseover mouseout' 'Hint'
+      Add _.Handler'#hint' 'click' 'OnClick'
+      Add _.Handler'#play' 'click' 'OnClick'
+      Add _.Handler'#new' 'click' 'OnClick'
      
       '#sound'Add _.div
-      '#feedback' 'style="font-size:30pt;"' 'dir="ltr"'Add _.bdo
+    ∇
+
+    ∇ kb←Keyboard
+      kb←New _.div
+      (kb.Add Indent 120).Add¨LetBut¨'קראטוןםפ'
+      kb.Add _.br
+      (kb.Add Indent 0).Add¨LetBut¨'שדגכעיחלךף'
+      kb.Add _.br
+      (kb.Add Indent 40).Add¨LetBut¨'זסבהנמצתץ'
+      kb.Add _.br
+      '#feedback' 'style="font-size:45pt;"' 'dir="ltr"'kb.Add _.bdo
+      kb.Add _.Handler'.letter0' 'click' 'OnClick'
+      kb.Add _.Handler'.letter1' 'click' 'OnClick'
+      kb.Add _.Handler'.letter1' 'mouseover mouseout' 'Bold'
+     
     ∇
 
     ∇ r←OnClick;sound
@@ -55,9 +69,13 @@
               r←Sound TASK
           :Case 'hint'
               r←'#hint'Replace ⎕UCS⍎6↓TASK
+              r,←'#feedback'Prepend(RandCol 3)New _.span'? '
           :Case TASK
               r←Sound'Yay'
               r,←'#feedback'Prepend(RandCol 2)New _.span'☺ '
+              TASK←''
+          :Case 'new'
+              r←'#keys'Replace Keyboard
               TASK←''
           :Else
               r←Sound'Boo'
@@ -70,6 +88,8 @@
               r←Sound TASK
           :Case 'hint'
               r←''
+          :Case 'new'
+              r←'#keys'Replace Keyboard
           :Else
               r←Sound _what
               r,←'#feedback'Prepend(RandCol 3)New _.span(⎕UCS⍎6↓_what)
