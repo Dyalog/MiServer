@@ -1,0 +1,11 @@
+<Virtual>
+<!-- valid replacements are 
+     %ServerRoot% - MiServer root directory
+     %SiteRoot%   - web site root -->
+
+  <directory>
+    <alias>Documentation</alias>
+    <path>%SiteRoot%/Documentation/</path>
+  </directory>
+
+</Virtual>

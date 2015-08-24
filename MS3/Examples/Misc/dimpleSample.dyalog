@@ -1,7 +1,5 @@
 ﻿:Class dimpleSample : MiPageSample
 
-    :include #.HTMLUtils
-
     ∇ Compose
       :Access Public
       Add _.dimple ScriptFollows

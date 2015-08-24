@@ -1,7 +1,5 @@
 ﻿:Class d3Sample : MiPageSample
 
-    :include #.HTMLUtils
-
     ∇ Compose
       :Access Public
       Add _.d3 ScriptFollows

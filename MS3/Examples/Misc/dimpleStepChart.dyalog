@@ -1,7 +1,5 @@
 ﻿:Class dimpleStepChart : MiPageSample
 
-    :include #.HTMLUtils
-
     ∇ Compose
       :Access Public
       'chartContainer'Add _.div

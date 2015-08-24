@@ -2,8 +2,6 @@
 ⍝ Control::     _DC.Table
 ⍝ Description:: Display tabular data with a bit of styling
 
-    :Include #.HTMLUtils ⍝ For ScriptFollows
-
     ∇ Compose;lmt;i10;data;myTable;aTable
       :Access public 
      
