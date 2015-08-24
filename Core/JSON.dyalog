@@ -17,7 +17,7 @@
     trim←⌽∘{(+/∧\' '=⍵)↓⍵}⍣2
     us←{≠\⍵≠⍺\t≠¯1↓0,t←⍺/≠\¯1↓0,⍵} ⍝ partitioned ≠\
     isChar←{0 2∊⍨10|⎕dr ⍵}
-    isSingle←{(1=≢,⍵)∧2>≡⍵}
+    isSingle←{(1=⊃⍴,⍵)∧2>≡⍵}
     isSimple←{(0∊⍴⍴⍵)∧0=≡⍵}
     isJSON←{0::0 ⋄ ~0∊⍴ toXML ⍵}
     fixNum←{b←'-'=V←⍵ ⋄ (b/V)←'¯' ⋄ ∧/b←'+'≠V:V ⋄ (b≥¯1⌽v∊'eE')/V}

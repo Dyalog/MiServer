@@ -10,7 +10,7 @@
       Add _.h2'The Little Multiplication Table'
      
       lmt←∘.×⍨i10←⍳10           ⍝ Compute the table
-      data←(' ',i10)⍪i10,lmt    ⍝ Add row and column headings
+      data←('×',i10)⍪i10,lmt    ⍝ Add row and column headings
       myTable←'myTable .myStyle'Add _.Table data ⍝ Give it class .myStyle
       myTable.HeaderRows←1      ⍝ Declare first row to be headers (<th> elements)
      
@@ -20,9 +20,7 @@
       ⍝ And now describe how to style the .myStyle class
      
       Add _.style ScriptFollows
-      ⍝ .myStyle table,
-      ⍝ .myStyle th,
-      ⍝ .myStyle td {
+      ⍝ .myStyle {
       ⍝     border: 1px solid black;
       ⍝     border-collapse: collapse;
       ⍝ }
@@ -30,13 +28,14 @@
       ⍝ .myStyle th {
       ⍝     width: 30px;
       ⍝     text-align: right;
-      ⍝     padding: 2px;
+      ⍝     border: 1px solid black;
+      ⍝     padding: 3px;
       ⍝     background-color: orange;
       ⍝ }
       ⍝ #myTable th,
       ⍝ #myTable td:first-of-type {
       ⍝     font-weight: bold;
-      ⍝     background-color: brown;
+      ⍝     background-color: gold;
       ⍝ }
      
     ∇

@@ -23,7 +23,6 @@
     :field public _html        ⍝ reference to base HTML elements namespace
     :field public _JQ          ⍝ reference to JQuery/JQueryUI widgets namespace
     :field public _SF          ⍝ reference to SyncFusion widgets namespace
-    :field public _JQM         ⍝ reference to JQueryMobile widgets namespace
     :field public _JSS         ⍝ reference to JavaScript Snippets namespace
     :field public _DC          ⍝ reference to Dyalog Controls namespace
     :field public _            ⍝ reference to namespace that refers to all elements/widgets
@@ -207,7 +206,7 @@
     ∇
 
     ∇ r←{proto}GetAttr attrname
-      :Access public     
+      :Access public
       :If 0=⎕NC'proto' ⋄ proto←'' ⋄ :EndIf
       attrname←eis attrname
       :If 1=⍴attrname
@@ -330,7 +329,7 @@
     ∇
 
     ∇ Init
-      (_html _JQ _SF _JQM _DC _JSS _)←#.(_html _JQ _SF _JQM _DC _JSS _)
+      (_html _JQ _SF _DC _JSS _)←#.(_html _JQ _SF _DC _JSS _)
       Position←⎕NS''
     ∇
 
@@ -507,15 +506,6 @@
               :EndIf
           :Else ⍝If isInstance⊃args
               r←args
-⍝      :ElseIf isString args
-⍝        :If (#._html.span≡⊃⊃⎕CLASS ⎕THIS)⍝∨0∊⍴⎕THIS.Content
-⍝          r←args
-⍝        :Else
-⍝          (r←⎕NEW #._html.span).Content←args
-⍝          r._PageRef←_PageRef
-⍝        :EndIf
-⍝      :Else
-⍝        r←args
           :EndIf
       :EndIf
     ∇
@@ -653,6 +643,11 @@
               id←myid
           :EndIf
       :EndIf
+    ∇
+    dtlb←{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}
+    ∇ r←ScriptFollows
+      :Access public
+      r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
     ∇
 
     :endsection

@@ -440,13 +440,12 @@
       :EndTrap
     ∇
 
-    ∇ r←Oops;⎕TRAP;dmx;ends;xsi
+    ∇ r←Oops;dmx;ends;xsi
     ⍝ debugging framework to bubble up to user's code when rendering fails
-      ⎕TRAP←(0 'S')
       r←'⎕SIGNAL 811'
       ends←{(,⍺)≡(-⍴,⍺)↑⍵}
       :If #.HtmlPage∊∊⎕CLASS⊃⊃⎕RSI
-          r←'⎕TRAP←(85 ''N'')(0 ''S'')'
+          r←'⎕TRAP←(800 ''C'' ''→FAIL'')(811 ''E'' ''⎕SIGNAL 801'')(813 ''E'' ''⎕SIGNAL 803'')(812 ''S'')(0 ''S'')'
           ⎕←''
           ⎕←'*** MiServer Debug ***'
           ⎕←↑⎕DMX.DM
@@ -474,11 +473,13 @@
               r←'⎕SIGNAL 812'
               ⎕←'Press Ctrl-Enter to invoke debugger'
           :Else
-              dmx←⎕DMX
-              ⎕←'*** MiServer Debug ***'
-              ⎕←'' 'occurred at:',⍪dmx.(EM(2⊃DM))
-              ⎕←'' 'SI Stack is ',(⍕¯1+⍴⎕XSI),' levels deep'
-              ⎕←''
+              :Trap 0
+                  dmx←⎕DMX
+                  ⎕←'*** MiServer Debug ***'
+                  ⎕←'' 'occurred at:',⍪dmx.(EM(2⊃DM))
+                  ⎕←'' 'SI Stack is ',(⍕¯1+⍴⎕XSI),' levels deep'
+                  ⎕←''
+              :EndTrap
               ⎕←'      ⎕SIGNAL 800 ⍝ to ignore this error and carry on'
               ⎕←'      ⎕SIGNAL 801 ⍝ to cut back and debug'
               r←''
