@@ -394,14 +394,11 @@
       :If ~0∊⍴av←Tag
           h←RenderHandlers
           p←RenderPosition
-⍝          :For e :In CommonAttributes
-⍝              av,←{0::'' ⋄ UNDEF≡t←⍎⍵:'' ⋄ e fmtAttr t}e
-⍝          :EndFor
           :If 0<⍴vs←Attrs[]
               av,←∊fmtAttr/¨vs
           :EndIf
           av,←RenderStyles
-          r←(av Enclose r),h,p ⍝!!!BPB!!!
+          r←(av Enclose r),h,p
       :EndIf
     ∇
 
