@@ -1,5 +1,5 @@
 ﻿:Class ejColorPickerSimple : MiPageSample
-⍝ Control:: _SF.ejColorPicker
+⍝ Control:: _SF.ejColorPicker _.Select
 ⍝ Description:: Insert a basic colour picker with preset palettes
     
     PRESETS←'[none]' 'Basic' 'Mono Chrome' 'Flat Colors' 'Sea Wolf' 'Web Colors' 'Sandy' 'Pink Shades' 'Misty' 'Citrus' 'Vintage' 'Moon Light' 'Candy Crush'
@@ -7,18 +7,18 @@
     ∇ Compose;rte;frm
       :Access Public   
      
-      (frm←Add Form).id←'myform'
+      (frm←Add _.Form).id←'myform'
      
-      frm.Add h2'Default Functionality'
-      normal←frm.Add _SF.ejColorPicker'NormalCP' '#278787'
+      frm.Add _.h2'Default Functionality'
+      normal←frm.Add _.ejColorPicker'NormalCP' '#278787'
       normal.On'change' 'CallbackFn'
      
-      frm.Add h2'Inline'
+      frm.Add _.h2'Inline'
      
       frm.Add'Select a "preset" colour scheme: '
-      selpreset←frm.Add Select'selpreset'PRESETS
+      selpreset←frm.Add _.Select'selpreset'PRESETS
       selpreset.On'change' 'CallbackFn'
-      frm.Add¨br br
+      frm.Add¨_.br _.br
      
       inline←frm.Add _SF.ejColorPicker'InlineCP' '#278787'
       inline.Set'displayInline'_true
@@ -26,7 +26,7 @@
       inline.Set'presetType' 'basic'
       inline.On'change' 'CallbackFn'
      
-      (frm.Add div).id←'result'
+      (frm.Add _.div).id←'result'
     ∇
     
     ∇ r←CallbackFn;preset
@@ -41,7 +41,7 @@
               r,←'presetType'inline.Update(#.Strings.lc preset~' ')
           :EndIf
       :Else
-          r←'#result'Replace p('Selected from ',_what,': ',,⍕Get _what)
+          r←'#result'Replace _.p('Selected from ',_what,': ',,⍕Get _what)
       :EndSelect
     ∇
 

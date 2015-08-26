@@ -1,0 +1,24 @@
+﻿:class Sandbox: MiPageSample
+⍝ Control:: MiPage Sandbox
+⍝ Description:: Create your own MiPage with real-time rendering
+
+    ∇ Compose;src;editor;p
+      :Access public
+      src←':class MySandbox: #.MiPageSample' '∇ Compose' 'Add _.p ''More stuff here''' '∇' ':endclass'
+      ref←⎕FIX src
+      src←⎕SRC ref
+      ed←'#editor' 'cols="80"' 'rows="25"'Add _.textarea(src,¨⊂⎕UCS 13 10)
+      ⍝ed.On'change' 'OnChange'
+      Add'<script>$(function(){$("#editor").on("change", function(event){$.ajax({url: "/Examples/Apps/Sandbox.dyalog", cache: false, type: "POST", dataType: "json", data: {_event: event.type, _what: (("undefined" == typeof($(event.currentTarget).attr("name")) ? $(event.currentTarget).attr("id") : $(event.currentTarget).attr("name"))), _value: $(event.currentTarget).val(), _selector: "#editor",_serialized: $("form").serialize(),_callback: "OnChange"}, success: function(obj){APLJaxReturn(obj);}});});});</script>'
+     
+      '#window'Add _.div
+     
+    ∇
+    
+    ∇ r←OnChange
+      :Access Public
+      ∘∘∘
+      r←''
+     
+    ∇
+:endclass

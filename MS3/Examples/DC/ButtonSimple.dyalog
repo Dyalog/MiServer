@@ -1,5 +1,5 @@
 ﻿:Class ButtonSimple : MiPageSample
-⍝ Control::     _.DC.Button
+⍝ Control:: _.DC.Button
 ⍝ Description:: Create a button with a callback
     
     ∇ Compose;button

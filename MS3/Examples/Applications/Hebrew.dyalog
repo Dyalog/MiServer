@@ -4,7 +4,7 @@
 
     Sound←{'#sound'Replace'autoplay' ''New _.Audio,⊂'/Examples/Data/Hebrew/',⍵,'.mp3'}
     LetBut←{('.letter',⍕⍵∊'שבגדכפת') ('#letter',⍕⎕UCS ⍵) (RandCol 0) New _.Button ⍵}
-    Indent←{('style="margin-left:',(⍕⍵÷2-0∊⍴Get'nowrapper'),'pt;margin-bottom:2pt"')New _.span}
+    Indent←{('style="margin-left:',(⍕⍵÷2-0∊⍴Get'nowrapper'),'pt;margin-bottom:2pt;"')New _.span}
 
       RandCol←{
           ×⍵:'style="color:rgb(',(1↓∊',',¨⍕¨(1-⍵)⌽127 ¯1 ¯1+?3/128),');"'
@@ -28,19 +28,17 @@
       Add _.h2'Click a letter to hear it or › to hear which letter to find. Hover over ? to repeat what to find, and click to see the letter to find.'
      
      
-      Add'#play'(Indent 100).Add _.Button'›'
-      Add'#new'(Indent 100).Add _.Button'×'
-      Add'#hint'(Indent 100).Add _.Button'?'
+      '#play' '.menu'(Add Indent 0).Add _.Button'>'
+      '#hear' '.menu'(Add Indent 50).Add _.Button'↻'
+      '#hint' '.menu'(Add Indent 50).Add _.Button'?'
+      '#new' '.menu'(Add Indent 50).Add _.Button'×'
      
       Add _.hr
      
       keys←'#keys'Add _.div
       keys.Add Keyboard
      
-      Add _.Handler'#hint' 'mouseover mouseout' 'Hint'
-      Add _.Handler'#hint' 'click' 'OnClick'
-      Add _.Handler'#play' 'click' 'OnClick'
-      Add _.Handler'#new' 'click' 'OnClick'
+      Add _.Handler'.menu' 'click' 'OnClick'
      
       '#sound'Add _.div
     ∇
@@ -68,8 +66,9 @@
               TASK←'letter',⍕1487+?27
               r←Sound TASK
           :Case 'hint'
-              r←'#hint'Replace ⎕UCS⍎6↓TASK
-              r,←'#feedback'Prepend(RandCol 3)New _.span'? '
+              r←'#feedback'Prepend(RandCol 1)New _.span(⎕UCS⍎6↓TASK)
+          :Case 'hear'
+              r←Sound TASK
           :Case TASK
               r←Sound'Yay'
               r,←'#feedback'Prepend(RandCol 2)New _.span'☺ '
@@ -86,7 +85,7 @@
           :Case 'play'
               TASK←'letter',⍕1487+?27
               r←Sound TASK
-          :Case 'hint'
+          :CaseList 'hint' 'hear'
               r←''
           :Case 'new'
               r←'#keys'Replace Keyboard
@@ -102,17 +101,4 @@
       r←('#',_what)Replace('שבגדכפת'⍳⎕UCS⍎6↓_what)⊃'שבגדכפתשׁבּגּדּכּפּתּ'⌽⍨7×_event≡'mouseover'
     ∇
 
-    ∇ r←Hint
-      :Access Public
-      :If ×≢TASK
-          :Select _event
-          :Case 'mouseover'
-              r←Sound TASK
-          :Case 'mouseout'
-              r←'#hint'Replace'?'
-          :EndSelect
-      :Else
-          r←''
-      :EndIf
-    ∇
 :endclass

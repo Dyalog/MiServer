@@ -59,6 +59,8 @@
     AddLongInfo←{(New¨_.strong,¨⍵),¨D¨(4+⍴¨⍵)↓¨(INFOLONG,⊂'')[NAMESLONG⍳⍵]} ⍝ ⍵ - LongDesc
 
     ScoreIn←{(100⊥⌽∨/¨TYPES⍷¨⊂⍵)×(⊂⍺)(∊×⍳⍨)Words'Control'Section Dread ⍵} ⍝ ⍺'s relevance in ⍵ (0=none 1=high 2=lower...)
+    
+    SpU←' '⎕R'_' ⍝ Replace spaces with _
 
       Section←{ ⍝ extract section ⍺:: from code ⍵
           regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)'
@@ -131,6 +133,11 @@
      
       thediv.Add Horz stuff
       thediv.Add _.hr
+     
+      ⍝ GETTING STARTED ⍝⍝⍝
+      {⍺ ⍵(SpU ⍵)}
+      '.cat'thediv.Add _.p'Getting Started'
+      tree←1 'Start here' '#GS'
      
       ⍝ SAMPLE APPS ⍝⍝⍝
       APPS←(Dlist'Examples/Apps')~⊂'index'
