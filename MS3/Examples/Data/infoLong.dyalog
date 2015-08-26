@@ -5,7 +5,7 @@ area:: The area element represents either a hyperlink with some text and a corre
 article:: The article element represents an independent section of a document, page, or site. This could be a forum post, a magazine or newspaper article, a blog entry, a user-submitted comment, or any other independent item of content.
 aside:: The aside element represents a section of a page that consists of content that is tangentially related to the content around the aside element, and which could be considered separate from that content. Such sections are often represented as sidebars in printed typography.
 audio:: An audio element represents a sound or audio stream.
-b:: The b element is used to indicate that the enclosed text must be rendered in a bold typeface.
+b:: The b element represents a span of text to be stylistically offset from the normal prose without conveying any extra importance, such as key words in a document abstract, product names in a review, or other spans of text whose typical typographic presentation is boldened.
 base:: The base element is for specifying a base URL against which relative links will be resolved, and the name of the default target for opening links and form submissions.
 bb:: The bb element represents a user agent command that the user can invoke.
 bdo:: The bdo element allows authors to override the Unicode bidi algorithm by explicitly specifying a direction override.
