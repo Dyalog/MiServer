@@ -1,3 +1,1 @@
-The development branch contains the latest work from the MiServer development team
-
-Once they pass QA, features will be moved into the Master branch
+## The Applications folder contains sample applications which demostrate using several controls on a page to implement the user interface
