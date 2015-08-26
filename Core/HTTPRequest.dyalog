@@ -113,30 +113,9 @@
               Data[s;2]←#.JSON.toAPL⊃Data[s;2]
           :EndFor
       :EndIf
-     
-     
-⍝BPB - I think this section can be removed, so I've commented it out to see if there is any effect
-⍝      :If 9=⎕NC'SessionHandler' ⍝ Was a SessionHandler assigned?
-⍝          SessionHandler.HandleRequest ⎕THIS ⍝ If so, let it do its stuff
-⍝      :EndIf
     ∇
 
     :section Argument and Data Handling
-
-⍝    ∇ r←ArgXLT r;i;j;m;z;t
-⍝      :Access public shared
-⍝    ⍝ Translate HTTP command line arguments
-⍝      ((r='+')/r)←' '
-⍝      :If 0≠⍴i←(r='%')/⍳⍴r
-⍝      :AndIf 0≠⍴i←(i<¯1+⍴r)/i
-⍝          z←r[j←i∘.+1 2]
-⍝          t←'UTF-8'⎕UCS 16⊥⍉¯1+('0123456789ABCDEF'⍳z)⌊'0123456789abcdef'⍳z
-⍝          r[(⍴t)↑i]←t
-⍝          j←(,j),(⍴t)↓i
-⍝          m←(⍴r)⍴1 ⋄ m[j]←0
-⍝          r←m/r
-⍝      :EndIf
-⍝    ∇
 
     ∇ r←ArgXLT r;rgx;rgxu;i;j;z;t;m
       :Access public shared
@@ -345,6 +324,11 @@
     ∇ r←isPost
       :Access public instance
       r←Command≡'post'
+    ∇
+
+    ∇ r←isGet
+      :Access public instance
+      r←Command≡'get'
     ∇
 
     ∇ r←JSPlugIn file;root ⍝ Retrieve a JavaScript PlugIn

@@ -169,7 +169,7 @@
           r←opts RenderHandlerCore(handler handlerSyntax Force)
         ∇
 
-        ∇ {r}←opts RenderHandlerCore args;handler;widgettype;force;syntax;evt;model;page;event;callback;clientdata;javascript;useajax;data;cd;name;selector;type;what;this;hourglass;dtype;success;ajax;hg;removehg
+        ∇ {r}←opts RenderHandlerCore args;handler;widgettype;force;syntax;evt;model;page;event;callback;clientdata;javascript;useajax;data;cd;name;selector;type;what;this;hourglass;dtype;success;ajax;hg;removehg;status
           :Access public
          ⍝ unified event handling core for jQueryUI and Syncfusion widget
          ⍝ Syncfusion and jQueryUI use different models, if other jQuery-based libraries are used, this may need to be changed
@@ -286,7 +286,8 @@
          
           dtype←'"json"'
           success←'success: function(obj){APLJaxReturn(obj);document.body.style.cursor="default";',removehg,'}'
-          ajax←(javascript ine javascript,';'),useajax/hg,'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
+          status←'statusCode:{ 408: function(){alert("Session timed out");',removehg,'}}'
+          ajax←(javascript ine javascript,';'),useajax/hg,'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,', ',status,'});'
           :If force
               event(opts{⍺⍺⍎⍺,'←⍵'})'function(',syntax,'){',ajax,'}'
           :Else

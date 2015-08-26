@@ -67,7 +67,7 @@
           #.Pages.(MiPage MildPage RESTful)←#.(MiPage MildPage RESTful)
           BuildEAWC ⍝ build the Easy As ⎕WC namespace
           :If #.Files.DirExists AppRoot,'/Code/Templates/'
-              disperror ⎕SE.SALT.Load AppRoot,'Code/Templates/* -target=#.Pages'
+              disperror ⎕SE.SALT.Load AppRoot,'/Code/Templates/* -target=#.Pages'
           :EndIf
      
       :Else ⍝ Cleanup
@@ -445,7 +445,7 @@
       r←'⎕SIGNAL 811'
       ends←{(,⍺)≡(-⍴,⍺)↑⍵}
       :If #.HtmlPage∊∊⎕CLASS⊃⊃⎕RSI
-          r←'⎕TRAP←(800 ''C'' ''→FAIL'')(811 ''E'' ''⎕SIGNAL 801'')(813 ''E'' ''⎕SIGNAL 803'')(812 ''S'')(0 ''S'')'
+          r←'⎕TRAP←(800 ''C'' ''→FAIL'')(811 ''E'' ''⎕SIGNAL 801'')(813 ''E'' ''⎕SIGNAL 803'')(812 ''S'')(85 ''N'')(0 ''S'')'
           ⎕←''
           ⎕←'*** MiServer Debug ***'
           ⎕←↑⎕DMX.DM

@@ -26,7 +26,7 @@
       r←script[1]{⍺:#.HTMLInput.JS ⍵ ⋄ ⍵}(oname ine'var ',oname,';'),r
     ∇
 
-    ∇ r←page On pars;delegate;selector;event;clientdata;response;script;data;cd;name;id;type;what;dtype;success;ajax;useajax;jquerywrap;scriptwrap;hourglass;hg;removehg
+    ∇ r←page On pars;delegate;selector;event;clientdata;response;script;data;cd;name;id;type;what;dtype;success;ajax;useajax;jquerywrap;scriptwrap;hourglass;hg;removehg;status
     ⍝ pars - [1] selector(s) (delegates), [2] events to bind to,  [3] data to send to server [4] id if the object whose HTML is to be updated
     ⍝ [1] - a simple character vector of selector(s) or a two element vector of (selectors delegates)
     ⍝ [2] - a character vector of events to bind
@@ -149,8 +149,10 @@
           success←'success: function(d){$(',(quote response),').empty().html(d);',removehg,'}'
       :EndIf
      
+      status←'statusCode:{ 408: function(){alert("Session timed out");',removehg,'}}'
+     
       ajax←script ine script,';'
-      ajax,←useajax/hg,'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
+      ajax,←useajax/hg,'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,', ',status,'});'
       r←'$(',(quote selector),').on(',(quote event),delegate,', function(event){',ajax,'});'
       :If jquerywrap ⋄ r←'$(function(){',r,'});' ⋄ :EndIf
       :If scriptwrap ⋄ r←#.HTMLInput.JS r ⋄ :EndIf

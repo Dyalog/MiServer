@@ -458,8 +458,9 @@
           REQ.Fail 404 ⋄ →0
       :EndIf
      
-      MS3←RESTful←0
+      MS3←RESTful←expired←0
       APLJax←REQ.isAPLJax
+     
       :If sessioned←326=⎕DR REQ.Session ⍝ do we think we have a session handler active?
       :AndIf 0≠⍴REQ.Session.Pages     ⍝ Look for existing Page in Session
       :AndIf (n←⍴REQ.Session.Pages)≥i←REQ.Session.Pages._PageName⍳⊂REQ.Page
@@ -496,7 +497,17 @@
                       inst.(_Request _PageRef)←REQ inst
                   :EndIf
               :EndIf
-              :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ :EndIf
+     
+              ⍝ ======= TIMEOUT Logic =======
+              ⍝ If RESTful or not sessioned, let anything through
+              ⍝ If sessioned and expired, let it though
+              ⍝ If sessioned but not expired, check if GET
+              :If RESTful<sessioned>expired
+              :AndIf ~REQ.isGet
+                  REQ.Fail 408 ⋄ →0
+              :EndIf
+     
+              :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID :EndIf
           :Else
               REQ.Fail 404 ⋄ →0
           :EndIf
@@ -563,7 +574,7 @@
           :EndIf
      
           :If (1=Config.TrapErrors)∧9=⎕NC'#.DrA' ⋄ ⎕TRAP←#.DrA.TrapServer
-          :ElseIf (0=Config.Production) ⋄ ⎕TRAP←(800 'C' '→FAIL')(811 'E' '⎕SIGNAL 801')(813 'E' '⎕SIGNAL 803')(812 'S')(0 'E' '⍎#.Boot.Oops') ⍝ enable development debug framework
+          :ElseIf (0=Config.Production) ⋄ ⎕TRAP←(800 'C' '→FAIL')(811 'E' '⎕SIGNAL 801')(813 'E' '⎕SIGNAL 803')(812 'S')(85 'N')(0 'E' '⍎#.Boot.Oops') ⍝ enable development debug framework
           :EndIf
      
           :If flag←APLJax
