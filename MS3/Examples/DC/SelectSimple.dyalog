@@ -1,5 +1,5 @@
 ﻿:Class SelectSimple : MiPageSample
-⍝ Control::     _.DC.Select
+⍝ Control::     _DC.Select
 ⍝ Description:: Create a simple drop-down
 ⍝
 
