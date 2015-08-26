@@ -44,7 +44,8 @@
 
     Dread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText #.Boot.AppRoot,⍵,'.dyalog'} ⍝ Read dyalog file
 
-    Dlist←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX #.Boot.AppRoot,⍵,'/*.dyalog'} ⍝ List dyalog files
+   ⍝Dlist←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX #.Boot.AppRoot,⍵,'/*.dyalog'} ⍝ List dyalog files
+    Dlist←{0::⍬ ⋄ (⎕se.SALT.List #.Boot.AppRoot,⍵,' -raw')[;2]} ⍝ List dyalog files
 
     NodeID←{⍺←⊢ ⋄ ('#node',⊃⍵)∘,¨⍕¨⍺+⍳⍴⊃⌽⍵} ⍝ Generate node ids (⍵='L' items) optional (⍺=offset)
 
@@ -135,15 +136,15 @@
       thediv.Add _.hr
      
       ⍝ GETTING STARTED ⍝⍝⍝
-      {⍺ ⍵(SpU ⍵)}
-      '.cat'thediv.Add _.p'Getting Started'
-      tree←1 'Start here' '#GS'
+      ⍝{⍺ ⍵(SpU ⍵)}
+      ⍝'.cat'thediv.Add _.p'Getting Started'
+      ⍝tree←1 'Start here' '#GS'
      
       ⍝ SAMPLE APPS ⍝⍝⍝
-      APPS←(Dlist'Examples/Apps')~⊂'index'
-      APPDESCS←(⊂'Description')Section¨Dread¨'Examples/Apps/'∘,¨APPS
-      APPCTRLS←(⊂'Control')Section¨Dread¨'Examples/Apps/'∘,¨APPS
-      ('.cat'thediv.Add _.p'Sample Apps').On'click' 'OnAppHeader'
+      APPS←(Dlist'Examples/Applications')~⊂'index'
+      APPDESCS←(⊂'Description')Section¨Dread¨'Examples/Applications/'∘,¨APPS
+      APPCTRLS←(⊂'Control')Section¨Dread¨'Examples/Applications/'∘,¨APPS
+      ('.cat'thediv.Add _.p'Sample Applications').On'click' 'OnAppHeader'
       APPS{tree⍪←1 ⍵('nodeA',⍺)}¨APPCTRLS
       tree←'#treeA'thediv.Add _.ejTreeView tree
       tree.On'nodeSelect' 'OnApp'('node' 'eval' 'argument.id')
@@ -177,7 +178,7 @@
     ∇ PopulateMid mid;url;code;frame;mya
      
      ⍝ Read framed pages
-      url←'Examples/Apps/About'
+      url←'Examples/Applications/About'
       code←Dread url
      ⍝ Create and fill placeholder for title header
       mya←('#SampleTitle'mid.Add _.h2).Add NewWinA('Control'Section code)url
@@ -257,25 +258,25 @@
 
     ∇ r←OnAppHeader;descs;out;items
       :Access Public
-     ⍝ Gets called upon clicking the "Sample Apps" header
+     ⍝ Gets called upon clicking the "Sample Applications" header
       descs←APPCTRLS,¨' – '∘,¨APPDESCS
       out←NewDiv'.framed'
       items←APPS{('nodeB',⍺)out.Add _.p ⍵}¨descs
       items.Set⊂'.listitem'
       items.On⊂'click' 'OnApp'
-      r←GenJS'Apps' 'Small applications to showcase MiServer 3.0 functionality'(' apps',⍨≢APPS)out''
+      r←GenJS'Applications' 'Small applications to showcase MiServer 3.0 functionality'(' apps',⍨≢APPS)out''
     ∇
 
     ∇ r←OnCtrlHeader;descs;out;items
       :Access Public
-     ⍝ Gets called upon clicking the "Sample Apps" header
+     ⍝ Gets called upon clicking the "Sample Applications" header
       r←GenJS'Controls' 'Something about controls' 'Controls' 'list of all controls with long descs' ''
     ∇
 
     ∇ r←OnApp
       :Access Public
-     ⍝ Gets called upon selection in Sample Apps tree
-      r←GenJS Update'Examples/Apps/',1↓GetNode
+     ⍝ Gets called upon selection in Sample Applications tree
+      r←GenJS Update'Examples/Applications/',1↓GetNode
     ∇
 
     ∇ r←OnSample
@@ -302,7 +303,7 @@
           out←NewDiv'.framed'
           CURRFILES←''
           i←0
-          :For dir :In 'Apps' 'html' 'HTMLplus' 'DC' 'JQ' 'SF'
+          :For dir :In 'Applications' 'html' 'HTMLplus' 'DC' 'JQ' 'SF'
               files←Dlist'Examples/',dir
               :For file :In files~⊂'index'
                   url←'Examples/',dir,'/',file
