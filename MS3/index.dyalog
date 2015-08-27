@@ -60,7 +60,7 @@
     AddLongInfo←{(New¨_.strong,¨⍵),¨D¨(4+⍴¨⍵)↓¨(INFOLONG,⊂'')[NAMESLONG⍳⍵]} ⍝ ⍵ - LongDesc
 
     ScoreIn←{(100⊥⌽∨/¨TYPES⍷¨⊂⍵)×(⊂⍺)(∊×⍳⍨)Words'Control'Section Dread ⍵} ⍝ ⍺'s relevance in ⍵ (0=none 1=high 2=lower...)
-    
+
     SpU←' '⎕R'_' ⍝ Replace spaces with _
 
       Section←{ ⍝ extract section ⍺:: from code ⍵
@@ -123,7 +123,7 @@
       PopulateMid mid
     ∇
 
-    ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;menu;i;fs;ac;text;stuff;treeall;treecore;names;tree
+    ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;menu;i;fs;ac;text;stuff;treeall;treecore;names;tree;Last;DelEmpty;DirTree
      
       stuff←''
       tree←0 3⍴0 '' ''
@@ -136,15 +136,36 @@
       thediv.Add _.hr
      
       ⍝ GETTING STARTED ⍝⍝⍝
-      ⍝{⍺ ⍵(SpU ⍵)}
-      ⍝'.cat'thediv.Add _.p'Getting Started'
-      ⍝tree←1 'Start here' '#GS'
+      '.cat'thediv.Add _.p'Getting Started'
+      Last←{⍵ ⍺⍺⍨1-⌊/(⌽⍵)⍳'/\'} ⍝ ↑Last or ↓Last
+      DelEmpty←{((0,⍨2</⍵[;1])∨'/'≠⊃¨⌽¨⍵[;3])⌿⍵}
+      DirTree←{
+          parent←1(↑Last ⍵)('#/',⍵,'/')
+          list←⎕SE.SALT.List #.Boot.AppRoot,⍵,' -rec -raw'
+          0∊⍴list:0 3⍴0 '' ''
+          nodir←~list[;1]∊⍨⊂'<DIR>'
+          prefix←'#/',(↓Last ⍵),nodir/(↑Last ⍵),'/' ⍝ Quirk in SALT.List includes path only if has subfolders
+          files←prefix∘,¨list[;2]
+          ids←('\\'⎕R'/')files
+          levels←2+(+/¨ids∊¨⊂'/\')-+/'/\'∊⍨3⊃parent
+          ((list[;1]≡¨⊂'<DIR>')/ids),←'/'
+          DelEmpty⍣≡parent⍪⍉↑levels(↑Last¨list[;2])ids
+      }
+      tree←0 3⍴0 '' ''
+      tree⍪←1 'Start here' '#/Examples/Applications/About'
+      tree⍪←DirTree'Documentation'
+      tree⍪←DirTree'Examples/Techniques'
+      tree⍪←DirTree'Examples/Applications'
+      tree←'#treeG'thediv.Add _.ejTreeView tree
+      tree.On'nodeSelect' 'OnGS'('node' 'eval' 'argument.id')
+      thediv.Add _.hr
      
       ⍝ SAMPLE APPS ⍝⍝⍝
+      ('.cat'thediv.Add _.p'Sample Applications').On'click' 'OnAppHeader'
+      tree←0 3⍴0 '' ''
       APPS←(Dlist'Examples/Applications')~⊂'index'
       APPDESCS←(⊂'Description')Section¨Dread¨'Examples/Applications/'∘,¨APPS
       APPCTRLS←(⊂'Control')Section¨Dread¨'Examples/Applications/'∘,¨APPS
-      ('.cat'thediv.Add _.p'Sample Applications').On'click' 'OnAppHeader'
       APPS{tree⍪←1 ⍵('nodeA',⍺)}¨APPCTRLS
       tree←'#treeA'thediv.Add _.ejTreeView tree
       tree.On'nodeSelect' 'OnApp'('node' 'eval' 'argument.id')
@@ -194,6 +215,11 @@
     :ENDSECTION
 
     :SECTION CALLBACKS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+    
+    ∇ r←OnGS
+      :Access Public
+      r←''
+    ∇
 
     ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title;currctrls;core;names;class;group;cat;score
       :Access Public
