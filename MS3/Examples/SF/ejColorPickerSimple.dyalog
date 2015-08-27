@@ -1,47 +1,46 @@
 ﻿:Class ejColorPickerSimple : MiPageSample
 ⍝ Control:: _SF.ejColorPicker _.Select
 ⍝ Description:: Insert a basic colour picker with preset palettes
-    
+
     PRESETS←'[none]' 'Basic' 'Mono Chrome' 'Flat Colors' 'Sea Wolf' 'Web Colors' 'Sandy' 'Pink Shades' 'Misty' 'Citrus' 'Vintage' 'Moon Light' 'Candy Crush'
 
-    ∇ Compose;rte;frm
-      :Access Public   
+    ∇ Compose
+      :Access Public
      
-      (frm←Add _.Form).id←'myform'
+      Add _.h2'Default Functionality'
+      normal←'NormalCP'Add _.ejColorPicker'#278787'
+      normal.On'close' 'CallbackFn'('Color' 'model' 'value')
      
-      frm.Add _.h2'Default Functionality'
-      normal←frm.Add _.ejColorPicker'NormalCP' '#278787'
-      normal.On'change' 'CallbackFn'
+      Add _.h2'Inline'
      
-      frm.Add _.h2'Inline'
-     
-      frm.Add'Select a "preset" colour scheme: '
-      selpreset←frm.Add _.Select'selpreset'PRESETS
+      Add'Select a "preset" colour scheme: '
+      selpreset←'selpreset'Add _.Select PRESETS
       selpreset.On'change' 'CallbackFn'
-      frm.Add¨_.br _.br
+      Add¨_.br _.br
      
-      inline←frm.Add _SF.ejColorPicker'InlineCP' '#278787'
+      inline←'InlineCP'Add _SF.ejColorPicker'#278787'
       inline.Set'displayInline'_true
       inline.Set'modelType' 'palette'
       inline.Set'presetType' 'basic'
-      inline.On'change' 'CallbackFn'
+      inline.On'change' 'CallbackFn'('Color' 'model' 'value')
+      Add _.br
      
-      (frm.Add _.div).id←'result'
+      'result'Add _.div
     ∇
-    
+
     ∇ r←CallbackFn;preset
-      :Access Public                                               
+      :Access Public
      
       :Select _what
       :Case 'selpreset'
-          :If '[none]'≡preset←Get'selpreset'
+          :If '[none]'≡preset←_value
               r←'modelType'inline.Update'picker'
           :Else
               r←'modelType'inline.Update'palette'
               r,←'presetType'inline.Update(#.Strings.lc preset~' ')
           :EndIf
       :Else
-          r←'#result'Replace _.p('Selected from ',_what,': ',,⍕Get _what)
+          r←'#result'Replace _.p('Selected from ',_what,': ',,⍕Get'Color')
       :EndSelect
     ∇
 
