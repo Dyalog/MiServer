@@ -2,8 +2,28 @@
 ⍝ Description:: Syncfusion TreeView widget
 ⍝ Constructor::  [items]
 ⍝ items - [;1] level [;2] name [;3] id [;4] link
+⍝
 ⍝ Public Fields::
-⍝ Items -
+⍝ Items - [;1] level [;2] name [;3] id [;4] link 
+⍝
+⍝ Public Method to request model data to be return to the server::
+⍝    r←name getModel subsel - Passes the TreeView model back as a variable called 'model' as input to a callback
+⍝
+⍝ Public Methods to be used in Callbacks::
+⍝    r←addNode name - Will add a node with id "tv_n", where n starts at 0 and increases each time a node is added
+⍝    r←removeNode node - Removes the identified node
+⍝    r←checkAll - Check everything below the current node
+⍝    r←checkNode node - Check a node
+⍝    r←uncheckAll - Uncheck everything below the current node
+⍝    r←uncheckNode node - Uncheck a node
+⍝    r←expandAll - Expands everything below the current node
+⍝    r←expandNode node - Expands everything below a node
+⍝    r←collapseAll - Collapses everything below the current node
+⍝    r←collapseNode node - Collapses everything below a node
+⍝    r←selectNode node - Select a node
+⍝    r←unselectNode node - Unselect a node
+
+
     :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejTreeView.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejTreeView.html'
