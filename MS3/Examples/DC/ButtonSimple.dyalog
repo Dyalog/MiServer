@@ -1,4 +1,4 @@
-﻿:Class ButtonSimple : MiPageSample
+:Class ButtonSimple : MiPageSample
 ⍝ Control:: _DC.Button
 ⍝ Description:: Create a button with a callback
     
