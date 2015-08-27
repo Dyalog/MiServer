@@ -389,7 +389,7 @@
           title←NewWinA(space,AddShortInfo⊂control)url
      
           desc←#.HTMLInput.dtlb'Description'Section code
-          (⊃desc)←⎕SE.Dyalog.Utils.lcase⊃desc
+          (1↑desc)←⎕SE.Dyalog.Utils.lcase⊃desc
           desc,⍨←(4↓⊃AddLongInfo,⊂control),' The following example uses the ',control,' element in order to '
           desc,←'.'
       :Else
