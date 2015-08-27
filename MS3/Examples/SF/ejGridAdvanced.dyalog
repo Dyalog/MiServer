@@ -1,5 +1,5 @@
-﻿:Class ejGridEditSimple : MiPageSample
-⍝ Control:: _SF.ejGridEdit
+﻿:Class ejGridAdvanced : MiPageSample
+⍝ Control:: _SF.ejGrid
 ⍝ Description:: An editable grid
 
     ∇ Compose;tbi;b1;mygrid
