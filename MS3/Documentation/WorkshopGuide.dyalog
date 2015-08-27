@@ -4,7 +4,7 @@
 
     ∇ Compose
       :Access public
-      Add _.h3'By reading this, you agree to the following licence:'
+      Add _.h1'All you need to know'
       ('width'(700+250×0∊⍴Get'nowrapper'))'height="300"' 'data="MiServer 3 Workshop Guide.pdf"'Add _.object
     ∇
 

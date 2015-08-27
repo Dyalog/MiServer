@@ -61,7 +61,7 @@
 
     ScoreIn←{(100⊥⌽∨/¨TYPES⍷¨⊂⍵)×(⊂⍺)(∊×⍳⍨)Words'Control'Section Dread ⍵} ⍝ ⍺'s relevance in ⍵ (0=none 1=high 2=lower...)
 
-    SpU←' '⎕R'_' ⍝ Replace spaces with _
+    Tail←{⍵ ⍺⍺⍨1-⌊/(⌽⍵)⍳'/\'} ⍝ ↑Tail or ↓Tail
 
       Section←{ ⍝ extract section ⍺:: from code ⍵
           regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)'
@@ -123,7 +123,7 @@
       PopulateMid mid
     ∇
 
-    ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;menu;i;fs;ac;text;stuff;treeall;treecore;names;tree;Last;DelEmpty;DirTree
+    ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;menu;i;fs;ac;text;stuff;treeall;treecore;names;tree;DelEmpty;DirTree
      
       stuff←''
       tree←0 3⍴0 '' ''
@@ -137,22 +137,21 @@
      
       ⍝ GETTING STARTED ⍝⍝⍝
       '.cat'thediv.Add _.p'Getting Started'
-      Last←{⍵ ⍺⍺⍨1-⌊/(⌽⍵)⍳'/\'} ⍝ ↑Last or ↓Last
       DelEmpty←{((0,⍨2</⍵[;1])∨'/'≠⊃¨⌽¨⍵[;3])⌿⍵}
       DirTree←{
-          parent←1(↑Last ⍵)('#/',⍵,'/')
+          parent←1(↑Tail ⍵)('/',⍵,'/')
           list←⎕SE.SALT.List #.Boot.AppRoot,⍵,' -rec -raw'
           0∊⍴list:0 3⍴0 '' ''
           nodir←~list[;1]∊⍨⊂'<DIR>'
-          prefix←'#/',(↓Last ⍵),nodir/(↑Last ⍵),'/' ⍝ Quirk in SALT.List includes path only if has subfolders
+          prefix←'/',(↓Tail ⍵),nodir/(↑Tail ⍵),'/' ⍝ Quirk in SALT.List includes path only if has subfolders
           files←prefix∘,¨list[;2]
           ids←('\\'⎕R'/')files
           levels←2+(+/¨ids∊¨⊂'/\')-+/'/\'∊⍨3⊃parent
           ((list[;1]≡¨⊂'<DIR>')/ids),←'/'
-          DelEmpty⍣≡parent⍪⍉↑levels(↑Last¨list[;2])ids
+          DelEmpty⍣≡parent⍪⍉↑levels(↑Tail¨list[;2])ids
       }
       tree←0 3⍴0 '' ''
-      tree⍪←1 'Start here' '#/Examples/Applications/About'
+      tree⍪←1 'Start here' '/Examples/Applications/About'
       tree⍪←DirTree'Documentation'
       tree⍪←DirTree'Examples/Techniques'
       tree⍪←DirTree'Examples/Applications'
@@ -160,17 +159,17 @@
       tree.On'nodeSelect' 'OnGS'('node' 'eval' 'argument.id')
       thediv.Add _.hr
      
-      ⍝ SAMPLE APPS ⍝⍝⍝
-      ('.cat'thediv.Add _.p'Sample Applications').On'click' 'OnAppHeader'
-      tree←0 3⍴0 '' ''
-      APPS←(Dlist'Examples/Applications')~⊂'index'
-      APPDESCS←(⊂'Description')Section¨Dread¨'Examples/Applications/'∘,¨APPS
-      APPCTRLS←(⊂'Control')Section¨Dread¨'Examples/Applications/'∘,¨APPS
-      APPS{tree⍪←1 ⍵('nodeA',⍺)}¨APPCTRLS
-      tree←'#treeA'thediv.Add _.ejTreeView tree
-      tree.On'nodeSelect' 'OnApp'('node' 'eval' 'argument.id')
-     
-      thediv.Add _.hr
+⍝      ⍝ SAMPLE APPS ⍝⍝⍝
+⍝      ('.cat'thediv.Add _.p'Sample Applications').On'click' 'OnAppHeader'
+⍝      tree←0 3⍴0 '' ''
+⍝      APPS←(Dlist'Examples/Applications')~⊂'index'
+⍝      APPDESCS←(⊂'Description')Section¨Dread¨'Examples/Applications/'∘,¨APPS
+⍝      APPCTRLS←(⊂'Control')Section¨Dread¨'Examples/Applications/'∘,¨APPS
+⍝      APPS{tree⍪←1 ⍵('nodeA',⍺)}¨APPCTRLS
+⍝      tree←'#treeA'thediv.Add _.ejTreeView tree
+⍝      tree.On'nodeSelect' 'OnApp'('node' 'eval' 'argument.id')
+⍝
+⍝      thediv.Add _.hr
      
       ('#node01All' '.cat'thediv.Add _.p'Controls').On'click' 'OnTree'
       CORE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/core -noname'
@@ -215,10 +214,32 @@
     :ENDSECTION
 
     :SECTION CALLBACKS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-    
-    ∇ r←OnGS
+
+    ∇ r←OnGS;node;list;nodir;prefix;files;out;file;name;item;title;desc
       :Access Public
-      r←''
+      node←(1+'tree'≡4↑_what)⊃_what(Get'node') ⍝ get id of node if tree or id of what if not
+      node~←'_' ⍝ _ is frame suffix
+      :If '/'=⊃⌽node ⍝ Folder (i.e. Category)
+          node←1↓¯1↓node ⍝ Strip outer slashes
+          list←⎕SE.SALT.List #.Boot.AppRoot,node,' -rec -raw'
+          ⍝0∊⍴list:0 3⍴0 '' ''
+          nodir←~list[;1]∊⍨⊂'<DIR>'
+          prefix←(↓Tail node),nodir/(↑Tail node),'/' ⍝ Quirk in SALT.List includes path only if has subfolders
+          files←('\\'⎕R'/')prefix∘,¨list[;2]
+          files/⍨←list[;1]≢¨⊂'<DIR>'
+          out←NewDiv'.framed'
+          :For file :In files
+              item←('#/',file,'_')'.listitem'out.Add _.p
+              item.Add _.strong(↑Tail file)
+              item.Add' ',#.HTMLInput.dtlb'Description'Section Dread file
+          :EndFor
+          out.Add _.Handler'.listitem' 'click' 'OnGS'
+          title←↑Tail node
+          desc←'Click on a button below to select a sample.'
+          r←GenJS title title desc out''
+      :Else ⍝ File (i.e. Page)
+          r←GenJS Update node
+      :EndIf
     ∇
 
     ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title;currctrls;core;names;class;group;cat;score
