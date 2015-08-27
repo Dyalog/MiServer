@@ -2,11 +2,11 @@
 	margin-top: 0px;
 }
 
-#SampleTitle a: hover {
+#SampleTitle a:hover {
 	text-decoration: none;
 }
 
-#SampleTitle a: after {
+#SampleTitle a:after {
 	content: "➚";
 	padding: 0px 4px;
 }
@@ -67,7 +67,7 @@
 	margin-bottom: 2px;
 }
 
-.cat: hover {
+.cat:hover {
 	background: linear-gradient(to bottom,#ffbb60 0%,#f37603 100%);
 	border: 1px solid #f9cb59;
 	font-weight: bold;
@@ -80,7 +80,7 @@
 	cursor: pointer;
 }
 
-.menuitem: hover {
+.menuitem:hover {
 	background-color: highlight;
 }
 
@@ -117,7 +117,7 @@
 	box-sizing: border-box;
 }
 
-.listitem: before {
+.listitem:before {
 	content: "▶";
 	padding: 1px 3px 3px 4px;
 	background: ThreeDFace;
@@ -129,13 +129,13 @@
 	margin-right: 4px;
 }
 
-.listitem: active: before, #SampleTitle a: active: after {
+.listitem:active: before, #SampleTitle a: active: after {
 	box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
 	background: ThreeDShadow;
 	border: solid 1px ThreeDDarkShadow;
 }
 
-.listitem: hover: before, #SampleTitle a: hover: after {
+.listitem:hover: before, #SampleTitle a: hover: after {
 	background: ThreeDHighlight;
 	border: solid 1px ThreeDFace;
 	text-decoration: none;

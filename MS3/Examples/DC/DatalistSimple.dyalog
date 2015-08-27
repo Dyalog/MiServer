@@ -1,5 +1,5 @@
 ﻿:Class DatalistSimple : MiPageSample
-⍝ Control::     _.DC.Datalist
+⍝ Control::     _DC.Datalist
 ⍝ Description:: Show some data lists
 
     ∇ Compose;button;frm

@@ -1,5 +1,5 @@
 ﻿:Class divAdvanced : MiPageSample
-⍝ Control:: _.html.div
+⍝ Control:: _html.div
 ⍝ Description:: Add interactivity to a division
 
     ∇ Compose

@@ -1,5 +1,5 @@
 ﻿:Class ButtonSimple : MiPageSample
-⍝ Control:: _.DC.Button
+⍝ Control:: _DC.Button
 ⍝ Description:: Create a button with a callback
     
     ∇ Compose;button
@@ -9,7 +9,7 @@
       button←'btnPressMe'Add _.Button'Press me!'
       button.On'click' 'CallbackFn'
       'output'Add _.div ⍝ a div to contain output, updated by CallbackFn
-      'output'Add _.p'For more advanced button features, see the Syncfusion button.'
+      'output'Add _.p'For more advanced button features, see the Syncfusion ejButton.'
     ∇
 
     ∇ r←CallbackFn
