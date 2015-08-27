@@ -1,11 +1,11 @@
 ﻿:Class ejGridEditSimple : MiPageSample
 ⍝ Control:: _SF.ejGridEdit
-⍝ Description:: Insert an editable grid with callback that reads changes
-    ∇ Compose;tbi
+⍝ Description:: An editable grid
+
+    ∇ Compose;tbi;b1;mygrid
       :Access Public
      
-      (frm←Add _.Form).id←'myform'
-     
+      frm←'myform'Add _.Form
       frm.Add _.h2'Editable Grid'
       mygrid←frm.Add _.ejGrid(VALUES COLUMNS)
       (mygrid.Options.editSettings←⎕NS'').(allowEditing allowAdding allowDeleting)←_true
@@ -18,8 +18,12 @@
       mygrid.On'endAdd' 'CallbackFn'('editcell' 'argument' 'data')
       mygrid.On'endDelete' 'CallbackFn'('editcell' 'argument' 'data')
       mygrid.On'endEdit' 'CallbackFn'('editcell' 'argument' 'data')
+      frm.Add _.br
      
+      b1←'btn1'frm.Add _.Button'Save'
+      b1.On'click' 'onSave'('ViewData'mygrid.getModel'currentViewData')
       frm.Add¨_.br _.br
+     
       (frm.Add _.div).id←'result'
     ∇
 
@@ -34,6 +38,14 @@
       :EndSelect
       r←'#result'Replace t
     ∇
+    
+    ∇ r←onSave;data
+      :Access Public
+     
+      ⎕←data←↑(Get'ViewData').(Name Type Tastiness)
+      r←'#result'Replace _.Table('SAVE:' '' ''⍪'Name' 'Type' 'Tastiness'⍪data)
+    ∇
+
 
     ∇ make
       :Access Public
