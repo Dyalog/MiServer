@@ -1,6 +1,7 @@
 ﻿:Class ejTabSimple : MiPageSample
 ⍝ Control:: _SF.ejTab
-⍝ Decription:: Add a simple tabbed interface 
+⍝ Description:: Add a simple tabbed interface
+ 
     ∇ Compose;captions;contents;intro
       :Access public
      

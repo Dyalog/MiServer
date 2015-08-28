@@ -35,7 +35,7 @@
 
     Frame←{'.iframed' ('src=',Q⍵,'?NoWrapper=1') New _.iframe}
 
-    NewWinA←{'target="_blank"'('href=',Q⊃⌽⍵) 'title="Click to open in a separate window"'New _.a (⊃⍵)} ⍝ New link that opens in a new window/tab
+    NewWinA←{'target="_blank"'('href=',Q⊃⌽⍵) 'title="Click to pop out"'New _.a (⊃⍵)} ⍝ New link that opens in a new window/tab
 
     NewDiv←{⍵ New _.div} ⍝ Make a div
 
@@ -66,6 +66,23 @@
     End←{⍺⍺{⍵↑⍨¯1+⍵⍳'_'}⍺⍺ ⍵} ⍝ ⊢End: until first .   ⌽End: from last .
 
     NodeToCtrl←{'_',(⊢End 1↓⍵),'.',⌽End ⍵}
+
+    CtrlToNode←{'#',('\.' ⎕R '_')⍵}
+
+    DelEmpty←{((0,⍨2</⍵[;1])∨'/'≠⊃¨⌽¨⍵[;3])⌿⍵}
+
+      DirTree←{
+          parent←1(↑Tail ⍵)('/',⍵,'/')
+          list←⎕SE.SALT.List #.Boot.AppRoot,⍵,' -rec -raw'
+          0∊⍴list:0 3⍴0 '' ''
+          nodir←~list[;1]∊⍨⊂'<DIR>'
+          prefix←'/',(↓Tail ⍵),nodir/(↑Tail ⍵),'/' ⍝ Quirk in SALT.List includes path only if has subfolders
+          files←prefix∘,¨list[;2]
+          ids←('\\'⎕R'/')files
+          levels←2+(+/¨ids∊¨⊂'/\')-+/'/\'∊⍨3⊃parent
+          ((list[;1]≡¨⊂'<DIR>')/ids),←'/'
+          DelEmpty⍣≡parent⍪⍉↑levels(↑Tail¨list[;2])ids
+      }
 
       Section←{ ⍝ extract section ⍺:: from code ⍵
           regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)'
@@ -132,33 +149,16 @@
       PopulateMid mid
     ∇
 
-    ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;menu;i;fs;ac;text;stuff;treeall;treecore;names;tree;DelEmpty;DirTree;dirs;levels;core;enames
+    ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;menu;i;fs;ac;text;treeall;treecore;names;tree;dirs;levels;core;enames
      
-      stuff←''
-      tree←0 3⍴0 '' ''
-     
-         ⍝ SEARCH FIELD ⍝⍝⍝
-      stuff,←New _.EditField'searchfield'⍝).On'change' 'OnSearch'('str' 'val')
-      (stuff,←'#searchbutton' '.menu'New _.button'Search').On'click' 'OnSearch'('str' '#searchfield' 'val')
-     
-      thediv.Add Horz stuff
+      ⍝ SEARCH FIELD ⍝⍝⍝
+      search←New _.EditField'searchfield'⍝).On'change' 'OnSearch'('str' 'val')
+      (search,←'#searchbutton' '.menu'New _.button'Search').On'click' 'OnSearch'('str' '#searchfield' 'val')
+      thediv.Add Horz search
       thediv.Add _.hr
      
       ⍝ GETTING STARTED ⍝⍝⍝
       '.cat'thediv.Add _.p'Getting Started'
-      DelEmpty←{((0,⍨2</⍵[;1])∨'/'≠⊃¨⌽¨⍵[;3])⌿⍵}
-      DirTree←{
-          parent←1(↑Tail ⍵)('/',⍵,'/')
-          list←⎕SE.SALT.List #.Boot.AppRoot,⍵,' -rec -raw'
-          0∊⍴list:0 3⍴0 '' ''
-          nodir←~list[;1]∊⍨⊂'<DIR>'
-          prefix←'/',(↓Tail ⍵),nodir/(↑Tail ⍵),'/' ⍝ Quirk in SALT.List includes path only if has subfolders
-          files←prefix∘,¨list[;2]
-          ids←('\\'⎕R'/')files
-          levels←2+(+/¨ids∊¨⊂'/\')-+/'/\'∊⍨3⊃parent
-          ((list[;1]≡¨⊂'<DIR>')/ids),←'/'
-          DelEmpty⍣≡parent⍪⍉↑levels(↑Tail¨list[;2])ids
-      }
       tree←0 3⍴0 '' ''
       tree⍪←1 'Start here' '/Examples/Applications/About'
       tree⍪←DirTree'Documentation'
@@ -176,9 +176,8 @@
       ⍝ All
       tree⍪←1 'All' '_'
       levels←1+dirs-⍨+/¨'_'=names
-      ⍝names↓⍨¨←-dirs
       enames←⌽End¨1↓¨names↓¨⍨-dirs
-      tree⍪←⍉↑levels enames names ⍝
+      tree⍪←⍉↑levels enames names
       ⍝ Core
       core←(2=levels)∨(enames∊CORE) ⍝∧(~dirs) not necessary because no category name appears in core list
       enames/⍨←core
@@ -186,9 +185,9 @@
       levels/⍨←core
       levels⌊←3
       core←⍉↑levels enames(names,¨'(')
-      tree⍪⍨←⊃⍪/s{⍵[1,1+⍋↑1↓⍵[;2];]}¨(2=core[;1])⊂[1]core ⍝ Sort classes
+      tree⍪⍨←⊃⍪/{⍵[1,1+⍋↑1↓⍵[;2];]}¨(2=core[;1])⊂[1]core ⍝ Sort classes
       tree⍪⍨←1 'Core' '_(' ⍝ ( is core suffix
-     
+      ⍝ Add the whole tree
       tree←'#treeA'thediv.Add _.ejTreeView tree
       tree.On'nodeSelect' 'OnCA'('node' 'eval' 'argument.id')
      
@@ -251,7 +250,7 @@
           files/⍨←list[;1]≢¨⊂'<DIR>'
           out←NewDiv'.framed'
           :For file :In files
-              item←('#/',file,'_')'.listitem'out.Add _.p
+              item←('#/',file,'_')'.listitem' 'title="Click here to open"'out.Add _.p
               item.Add _.strong(↑Tail file)
               item.Add' ',#.HTMLInput.dtlb'Description'Section Dread file
           :EndFor
@@ -290,7 +289,7 @@
               r←control(control,' Short Info')'Long info'out''
           :Else
               :For file :In CURRFILES
-                  item←('#/',file,'_')'.listitem'out.Add _.p
+                  item←('#',file,'_')'.listitem' 'title="Click here to open"'out.Add _.p
                   item.Add _.strong(↑Tail file)
                   item.Add' ',#.HTMLInput.dtlb'Description'Section Dread file
               :EndFor
@@ -320,7 +319,30 @@
           :EndIf
       :EndIf
       r←GenJS r
-     
+    ∇
+
+    ∇ r←OnList;out;file;item;title;node;desc
+      :Access Public
+     ⍝ Called when user wants the entire list of relevant samples for the current control
+      node←¯1↓_what ⍝ Remove desc _ suffix
+      out←NewDiv'.framed'
+      :If 0=⍴CURRFILES
+          '.noitems'out.Add _.p,⊂'[no samples for ',(¯1↓node),' controls]'
+              ⍝(2⊃r)←'_',class,'.',AddShortInfo⊂control
+              ⍝(3⊃r)←(4↓⊃AddLongInfo,⊂control),' ',('0'=⊃2⊃r)/3⊃r
+          r←control(control,' Short Info')'Long info'out''
+      :Else
+          :For file :In CURRFILES
+              item←('#',file,'_')'.listitem' 'title="Click here to open"'out.Add _.p
+              item.Add _.strong(↑Tail file)
+              item.Add' ',#.HTMLInput.dtlb'Description'Section Dread file
+          :EndFor
+          out.Add _.Handler'.listitem' 'click' 'OnGS'
+          title←NodeToCtrl node
+          desc←'Click on a button below to select a sample.'
+          r←title title desc out''
+      :EndIf
+      r←GenJS r
     ∇
 
     ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title;currctrls;core;names;class;group;cat;score
@@ -384,29 +406,6 @@
       r←GenJS r
     ∇
 
-    ∇ r←OnAppHeader;descs;out;items
-      :Access Public
-     ⍝ Gets called upon clicking the "Sample Applications" header
-      descs←APPCTRLS,¨' – '∘,¨APPDESCS
-      out←NewDiv'.framed'
-      items←APPS{('nodeB',⍺)out.Add _.p ⍵}¨descs
-      items.Set⊂'.listitem'
-      items.On⊂'click' 'OnApp'
-      r←GenJS'Applications' 'Small applications to showcase MiServer 3.0 functionality'(' apps',⍨≢APPS)out''
-    ∇
-
-    ∇ r←OnCtrlHeader;descs;out;items
-      :Access Public
-     ⍝ Gets called upon clicking the "Sample Applications" header
-      r←GenJS'Controls' 'Something about controls' 'Controls' 'list of all controls with long descs' ''
-    ∇
-
-    ∇ r←OnApp
-      :Access Public
-     ⍝ Gets called upon selection in Sample Applications tree
-      r←GenJS Update'Examples/Applications/',1↓GetNode
-    ∇
-
     ∇ r←OnSample
       :Access Public
       :Select _event
@@ -465,25 +464,20 @@
       r←SEARCH
     ∇
 
-    ∇ (page title desc iframe code)←{spacectrl}Update url;ctrlsec;control;space
+    ∇ (page title desc iframe code)←{spacectrl}Update url;ctrlsec;control;space;a
      ⍝ Create new placeholder values
       iframe←Frame url
       code←Dread url
-      :If ×⎕NC'spacectrl'
+      :If a←×⎕NC'spacectrl'
           page←spacectrl
-          (space control)←spacectrl⊂⍨¯1↓1,spacectrl∊'.'
-          title←NewWinA(space,AddShortInfo⊂control)url
-     
-          desc←#.HTMLInput.dtlb'Description'Section code
-          (1↑desc)←⎕SE.Dyalog.Utils.lcase⊃desc
-          desc,⍨←(4↓⊃AddLongInfo,⊂control),' The following example uses the ',control,' element in order to '
-          desc,←'.'
       :Else
-          page←'Sample'
-          ctrlsec←'Control'Section code
-          title←NewWinA ctrlsec url
-          desc←'Description'Section code
-      :End
+          page←⊃Words'Control'Section code
+      :EndIf
+      desc←(#.HTMLInput.dtlb'Description'Section code),' '
+      desc←NewWinA desc url
+      title←page,⍨a/'This example demonstrates mainly '
+      title←('_',⍨CtrlToNode page)(a/'title=',Q'Click here for all ',page,' examples')New _.span title
+      title.On'click' 'OnList'
     ∇
 
     ∇ r←GenJS(page title desc iframe code)

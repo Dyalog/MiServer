@@ -1,14 +1,22 @@
-﻿#SampleTitle {
+#SampleTitle {
 	margin-top: 0px;
+	cursor:pointer
 }
 
-#SampleTitle a:hover {
+#SampleDesc a:hover {
 	text-decoration: none;
 }
 
-#SampleTitle a:after {
-	content: "➚";
-	padding: 0px 4px;
+#SampleDesc a:after {
+	content: "➦";
+	padding: 1px 3px 3px 3px;
+	background: ThreeDFace;
+	color: ButtonText;
+	border-radius: 4px;
+	border: solid 1px ThreeDLightShadow;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+	transition-duration: 0.2s;
+	margin-right: 4px;
 }
 
 #leftBar {
@@ -61,17 +69,7 @@
 
  .cat {
 	font-size: 12pt;
-	cursor: pointer;
-	border: 1px solid transparent;
-	padding: 0 4px 2px 4px;
-	margin-bottom: 2px;
-}
-
-.cat:hover {
-	background: linear-gradient(to bottom,#ffbb60 0%,#f37603 100%);
-	border: 1px solid #f9cb59;
-	font-weight: bold;
-	color: white;
+	margin: 5px;
 }
 
 .menuitem {
@@ -118,8 +116,8 @@
 }
 
 .listitem:before {
-	content: "▶";
-	padding: 1px 3px 3px 4px;
+	content: "➥";
+	padding: 1px 2px 1px 2px;
 	background: ThreeDFace;
 	color: ButtonText;
 	border-radius: 4px;
@@ -129,13 +127,13 @@
 	margin-right: 4px;
 }
 
-.listitem:active:before, #SampleTitle a:active:after {
+.listitem:active:before, #SampleDesc a:active:after {
 	box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
 	background: ThreeDShadow;
 	border: solid 1px ThreeDDarkShadow;
 }
 
-.listitem:hover:before, #SampleTitle a:hover:after {
+.listitem:hover:before, #SampleDesc a:hover:after {
 	background: ThreeDHighlight;
 	border: solid 1px ThreeDFace;
 	text-decoration: none;

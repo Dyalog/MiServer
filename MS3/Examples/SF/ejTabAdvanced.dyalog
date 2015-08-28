@@ -1,4 +1,6 @@
 ﻿:Class ejTabAdvanced : MiPageSample
+⍝ Control:: _SF.ejTab
+⍝ Description:: Add an advanced tabbed interface
 
     ∇ Compose;captions;contents;intro;tab
       :Access public
