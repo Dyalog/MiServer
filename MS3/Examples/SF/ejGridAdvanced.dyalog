@@ -20,7 +20,7 @@
       mygrid.On'endEdit' 'CallbackFn'('editcell' 'argument' 'data')
       frm.Add _.br
      
-      b1←'btn1'frm.Add _.Button'Save'
+      b1←'onSave'frm.Add _.Button'Save'
       b1.On'click' 'onSave'('ViewData'mygrid.getModel'currentViewData')
       frm.Add¨_.br _.br
      

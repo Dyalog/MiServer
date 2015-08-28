@@ -20,6 +20,7 @@
       ig.Labels←'First name' 'Last name' 'Birthdate'
      ⍝ We give an ID to each so we can retrieve their values in the callback
       ig.Inputs←'fname' 'lname' 'bdate'New¨_.EditField _.EditField _.jqDatePicker
+      ig.Inputs[3].Set'dateFormat' 'dd/mm/yy'
      
      ⍝ Finally we add a button to generate the display in the 'result' div below
       btn←'ClickMe' 'style="margin-top,margin-bottom: 50px"'frm.Add _.Button'Click Me!'

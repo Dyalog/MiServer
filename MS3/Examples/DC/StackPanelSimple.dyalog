@@ -17,11 +17,11 @@
       content←New _.Select('Bananas' 'Pears' 'Oranges')
       content,←New _.span'This is some text'
       content,←New _.Button'Useless button'
-      vsp←Add _.StackPanel content
+      vsp←'vsp'Add _.StackPanel content
      
       Add _.h3'Horizontal Stack Panel'
      
-      hsp←Add _.StackPanel content
+      hsp←'hsp'Add _.StackPanel content
       hsp.Horizontal←1
     ∇
 
