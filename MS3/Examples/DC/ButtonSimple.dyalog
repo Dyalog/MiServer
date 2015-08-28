@@ -5,7 +5,7 @@
     ∇ Compose;button
       :Access public 
      
-     ⍝ Create a button with a caption of 'this' and an id/name of 'myname'
+     ⍝ Create a button with a caption of 'Press me!' and an id/name of 'btnPressMe'
       button←'btnPressMe'Add _.Button'Press me!'
       button.On'click' 'CallbackFn'
       'output'Add _.div ⍝ a div to contain output, updated by CallbackFn
