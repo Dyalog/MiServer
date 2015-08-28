@@ -338,9 +338,9 @@
      
       :If 2=conns.⎕NC'PeerCert' ⋄ REQ.PeerCert←conns.PeerCert ⋄ :EndIf       ⍝ Add Client Cert Information
      
-      :If Config.Rest  ⍝ if running RESTful web service...
+      :If Config.RESTful  ⍝ if running RESTful web service...
           n←+/∧\2>+\REQ.Page∊'/\'
-          REQ.RestReq←n↓REQ.Page
+          REQ.RESTfulReq←n↓REQ.Page
           REQ.Page←n↑REQ.Page
       :EndIf
      
@@ -554,22 +554,23 @@
                       fn←cb←inst._callback
                   :EndIf
               :EndIf
-          :Else
-              :If MS3
-                  cb←cb inst.{3=⌊|⎕NC⊂⍵:⍵ ⋄ ⍺}fn←(1+RESTful)⊃'Compose' 'Respond' ⍝ default function to call
-              :EndIf
+          :ElseIf RESTful
+              fn←cb←'Respond'
+          :ElseIf MS3
+              cb←cb inst.{3=⌊|⎕NC⊂⍵:⍵ ⋄ ⍺}fn←'Compose' ⍝ default function to call
           :EndIf
      
           :If 3≠⌊|inst.⎕NC⊂cb            ⍝ and is it a public method?
               1 Log'Method "',fn,'" not found (or not public) in page "',REQ.Page,'"'
               REQ.Fail 500
+              →0
           :EndIf
      
           :If MS3
-              :If (⊂cb)∊'Render' 'Compose'
-                  inst._init ⍝ reset instance's content
-              :ElseIf APLJax
+              :If APLJax
                   inst._resetAjax
+              :Else
+                  inst._init ⍝ reset instance's content
               :EndIf
           :EndIf
      
@@ -584,6 +585,11 @@
           :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
               resp←flag Debugger'inst.',cb,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
               resp←(#.JSON.toAPLJAX⍣APLJax)resp
+              :If RESTful
+              :AndIf 9.1=⎕NC⊂'resp'
+                  resp←#.JSON.fromAPL resp
+                  'Content-Type'REQ.SetHeader'application/json'
+              :EndIf
               REQ.Return resp
           :Else
               :If APLJax

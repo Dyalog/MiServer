@@ -4,8 +4,8 @@
     (CR LF)←NL←⎕UCS 13 10
 
 ⍝ Common Status Codes
-    SC←(200 'OK')(301 'Moved Permanently')(401 'Unauthorized')(404 'Not Found')
-    SC,←(500 'Internal Server Error')(503 'Service Unavailable')
+    SC←(200 'OK')(201 'Created')(204 'No Content')(301 'Moved Permanently')(304 'Not Modified')(400 'Bad Request')(401 'Unauthorized')
+    SC,←(403 'Forbidden')(404 'Not Found')(408 'Request Timeout')(500 'Internal Server Error')(503 'Service Unavailable')
     SC←↑SC
 
 ⍝ Fields related to the Request
@@ -15,7 +15,7 @@
     :Field Public Instance Command
     :Field Public Instance Page
     :Field Public Instance Filename
-    :Field Public Instance RestReq
+    :Field Public Instance RESTfulReq←0      ⍝ RESTful Request (set to charvec if request is RESTful)
     :Field Public Instance Arguments
     :Field Public Instance PeerAddr
     :Field Public Instance PeerCert
@@ -268,9 +268,9 @@
 
     :section Request/Response Content Handling
 
-    ∇ Fail x;i;root;f
+    ∇ Fail x;i;root;f;t
       :Access Public Instance
-     
+      :If 0=⎕NC'nofile' ⋄ nofile←0 ⋄ :EndIf ⍝ set to non-zero to not return "standard" file
       :If 3=10|⎕DR x ⍝ Just a status code
           Response.Status←x
           :If (1↑⍴SC[;1])≥i←SC[;1]⍳x
@@ -279,13 +279,17 @@
       :Else
           Response.(Status StatusText)←x
       :EndIf
-      :For root :In Server.Config.(Root MSRoot) ⍝ try site root, then server root
-          :If #.Files.Exists f←root,'CommonPages\',(⍕x),'.htm'
-              Response.HTML,⍨←(#.Files.GetText f),'<br/>'
-              Response.Headers⍪←'content-type' 'text/html; charset=utf-8'
-              :Leave
-          :EndIf
-      :EndFor
+      :If 0≡RESTfulReq
+          :For root :In Server.Config.(Root MSRoot) ⍝ try site root, then server root
+              :If #.Files.Exists f←root,'CommonPages\',(⍕x),'.htm'
+                  :If ~0∊⍴(⎕UCS 13 10)~⍨t←#.Files.GetText f
+                      Response.HTML,⍨←t,'<br/>'
+                      Response.Headers⍪←'content-type' 'text/html; charset=utf-8'
+                  :EndIf
+                  :Leave
+              :EndIf
+          :EndFor
+      :EndIf
     ∇
 
     ∇ r←isDesktop;cis;desktop;mobile;bot;user_agent ⍝ Detect if we think this is a desktop platform

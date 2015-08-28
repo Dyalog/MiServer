@@ -1,6 +1,6 @@
 ﻿:Class ejDatePicker : #._SF._ejWidget
 ⍝ Description:: Syncfusion DatePicker widget
-⍝ Constructor:: [date] [format]
+⍝ Constructor:: [date [format]]
 ⍝ date          -  date in JavaScript format (see: http://www.w3schools.com/js/js_dates.asp)  (default 3↑⎕TS)
 ⍝ format        -  (default 'yyyy/MM/dd')
 ⍝ Public Fields::

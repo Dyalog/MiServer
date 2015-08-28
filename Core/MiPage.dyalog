@@ -126,6 +126,13 @@
       :EndIf
     ∇
 
+    ∇ r←GetNames str
+      :Access public
+      →0⍴⍨0∊⍴r←_PageData.⎕NL-2 9
+      →0⍴⍨0∊⍴str
+      r←r/⍨r #.Strings.beginsWith¨⊂str
+    ∇
+
     ∇ r←{proto}GetRaw names
       :Access public
       proto←{6::⍵ ⋄ proto}''

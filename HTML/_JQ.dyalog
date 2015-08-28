@@ -128,7 +128,7 @@
               handlers←';',⍨∊¯1↓¨Options∘RenderHandler¨eventHandlers
           :EndIf
          
-          opts←{6::⍬ ⋄ 1 0≥_PageRef._Request.isAPLJax}⍬
+          opts←{0::⍬ ⋄ 1 0≥_PageRef._Request.isAPLJax}⍬
           js←opts #.JQ.JQueryfn JQueryFn Selector Options(JavaScript,handlers)Var PreJavaScript
          
          
@@ -297,7 +297,7 @@
 
         ∇ {name}Set value
           :Access public
-          →(0=⍴,value)⍴0
+          →(0∊⍴value)⍴0
           :If 326≠⎕DR Options ⋄ Options←⎕NS'' ⋄ :EndIf
           :If 0=⎕NC'name'
               :Trap 11
@@ -310,6 +310,7 @@
         ∇
 
         ∇ name(ref SetOption)value;parent;i;ns;split;set;index;lb;new;now;an;n
+          →(0∊⍴value)⍴0
           :If 1<|≡name ⍝ multiple names?
               value←(⊂⍣((⎕DR value)∊80 82))value
               name(ref SetOption)¨value
