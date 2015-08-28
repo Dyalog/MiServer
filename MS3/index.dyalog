@@ -190,30 +190,6 @@
       ⍝ Add the whole tree
       tree←'#treeA'thediv.Add _.ejTreeView tree
       tree.On'nodeSelect' 'OnCA'('node' 'eval' 'argument.id')
-     
-⍝      Old Controls ⍝⍝⍝
-⍝      ('#node01All' '.cat'thediv.Add _.p'Controls').On'click' 'OnTree'
-⍝      CORE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/core -noname'
-⍝      treecore←1 3⍴1 'Core' 'node0_Core'
-⍝      treeall←1 3⍴1 'All' 'node00All'
-⍝
-⍝      :For group class :InEach GROUPS(3↓¨⍕¨REFS) ⍝ Remove leading #._
-⍝          names←⎕THIS.⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/tree',class,' -noname'
-⍝          CONTROLS,←⊂names[;2]/⍨(⊢=⌈/)names[;1]
-⍝          ⍎class,'←names'
-⍝
-⍝          :If ∨/names[;2]∊CORE
-⍝              treecore⍪←2(group,P'_',class)('node__',class)
-⍝              treecore⍪←3,0 1↓names⌿⍨names[;2]∊CORE
-⍝          :EndIf
-⍝
-⍝          treeall⍪←2(group,P'_',class)('node_',class)
-⍝          treeall⍪←⍎class
-⍝
-⍝      :EndFor
-⍝
-⍝      tree←'#treeC'thediv.Add _.ejTreeView,⊂treecore⍪treeall
-⍝      tree.On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id')
     ∇
 
     ∇ PopulateMid mid;url;code;frame;mya
