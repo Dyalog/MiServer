@@ -17,6 +17,8 @@
 ⍝ The containing table has an id of name,'_container'
 ⍝ input cells are assigned a class of (id,'_input')
 
+⍝∇:require =\Table.dyalog
+
     :field public Labels←⍬
     :field public Values←⍬
     :field public SelectedIndex←⍬
