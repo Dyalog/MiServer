@@ -1,4 +1,4 @@
-﻿:Class divAdvanced : MiPageSample
+﻿:Class divSimple : MiPageSample
 ⍝ Control:: _html.div
 ⍝ Description:: Add interactivity to a division
 

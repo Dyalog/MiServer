@@ -17,6 +17,7 @@
     :Field APPCTRLS    ⍝ Sample Apps' Control:: (i.e. the title)
     :Field CORE        ⍝ Core subset of controls
     :Field STR←''      ⍝ String to search for
+    :Field ALLFILES    ⍝ List of pathnames for all sample files
 
     :ENDSECTION
 
@@ -44,7 +45,6 @@
 
     Dread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText #.Boot.AppRoot,⍵,'.dyalog'} ⍝ Read dyalog file
 
-   ⍝Dlist←{0::⍬ ⋄ ¯7↓¨6⊃#.Files.DirX #.Boot.AppRoot,⍵,'/*.dyalog'} ⍝ List dyalog files
     Dlist←{0::⍬ ⋄ (⎕se.SALT.List #.Boot.AppRoot,⍵,' -raw')[;2]} ⍝ List dyalog files
 
     NodeID←{⍺←⊢ ⋄ ('#node',⊃⍵)∘,¨⍕¨⍺+⍳⍴⊃⌽⍵} ⍝ Generate node ids (⍵='L' items) optional (⍺=offset)
@@ -62,6 +62,10 @@
     ScoreIn←{(100⊥⌽∨/¨TYPES⍷¨⊂⍵)×(⊂⍺)(∊×⍳⍨)Words'Control'Section Dread ⍵} ⍝ ⍺'s relevance in ⍵ (0=none 1=high 2=lower...)
 
     Tail←{⍵ ⍺⍺⍨1-⌊/(⌽⍵)⍳'/\'} ⍝ ↑Tail or ↓Tail
+
+    End←{⍺⍺{⍵↑⍨¯1+⍵⍳'_'}⍺⍺ ⍵} ⍝ ⊢End: until first .   ⌽End: from last .
+
+    NodeToCtrl←{'_',(⊢End 1↓⍵),'.',⌽End ⍵}
 
       Section←{ ⍝ extract section ⍺:: from code ⍵
           regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)'
@@ -100,7 +104,7 @@
 
     :SECTION MAIN ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
-    ∇ Compose;left;mid;right;sp
+    ∇ Compose;left;mid;right;sp;list
       :Access public
      
      ⍝ Initialize globals
@@ -111,6 +115,11 @@
       INFOLONG←'⍝',¨Dread'Examples/Data/infoLong'
       NAMESSHORT←Names INFOSHORT
       NAMESLONG←Names INFOLONG
+      list←⊃⍪/{⎕SE.SALT.List #.Boot.AppRoot,'Examples/',⍵,' -rec -raw -full'}¨'DC' 'SF' 'JQ' 'html'
+      ALLFILES←list[;2]/⍨list[;1]≢¨⊂'<DIR>'
+      TREE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/tree -noname'
+      CORE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/core -noname'
+     
      
       Add _.StyleSheet'/Styles/homepage.css'
      
@@ -123,7 +132,7 @@
       PopulateMid mid
     ∇
 
-    ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;menu;i;fs;ac;text;stuff;treeall;treecore;names;tree;DelEmpty;DirTree
+    ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;menu;i;fs;ac;text;stuff;treeall;treecore;names;tree;DelEmpty;DirTree;dirs;levels;core;enames
      
       stuff←''
       tree←0 3⍴0 '' ''
@@ -159,40 +168,53 @@
       tree.On'nodeSelect' 'OnGS'('node' 'eval' 'argument.id')
       thediv.Add _.hr
      
-⍝      ⍝ SAMPLE APPS ⍝⍝⍝
-⍝      ('.cat'thediv.Add _.p'Sample Applications').On'click' 'OnAppHeader'
-⍝      tree←0 3⍴0 '' ''
-⍝      APPS←(Dlist'Examples/Applications')~⊂'index'
-⍝      APPDESCS←(⊂'Description')Section¨Dread¨'Examples/Applications/'∘,¨APPS
-⍝      APPCTRLS←(⊂'Control')Section¨Dread¨'Examples/Applications/'∘,¨APPS
-⍝      APPS{tree⍪←1 ⍵('nodeA',⍺)}¨APPCTRLS
-⍝      tree←'#treeA'thediv.Add _.ejTreeView tree
-⍝      tree.On'nodeSelect' 'OnApp'('node' 'eval' 'argument.id')
+      ⍝ CONTROLS ⍝⍝⍝
+      '.cat'thediv.Add _.p'Controls'
+      tree←0 3⍴0 '' ''
+      names←TREE
+      dirs←'_'=(⊃⌽)¨names
+      ⍝ All
+      tree⍪←1 'All' '_'
+      levels←1+dirs-⍨+/¨'_'=names
+      ⍝names↓⍨¨←-dirs
+      enames←⌽End¨1↓¨names↓¨⍨-dirs
+      tree⍪←⍉↑levels enames names ⍝
+      ⍝ Core
+      core←(2=levels)∨(enames∊CORE) ⍝∧(~dirs) not necessary because no category name appears in core list
+      enames/⍨←core
+      names/⍨←core
+      levels/⍨←core
+      levels⌊←3
+      core←⍉↑levels enames(names,¨'(')
+      tree⍪⍨←⊃⍪/s{⍵[1,1+⍋↑1↓⍵[;2];]}¨(2=core[;1])⊂[1]core ⍝ Sort classes
+      tree⍪⍨←1 'Core' '_(' ⍝ ( is core suffix
+     
+      tree←'#treeA'thediv.Add _.ejTreeView tree
+      tree.On'nodeSelect' 'OnCA'('node' 'eval' 'argument.id')
+     
+⍝      Old Controls ⍝⍝⍝
+⍝      ('#node01All' '.cat'thediv.Add _.p'Controls').On'click' 'OnTree'
+⍝      CORE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/core -noname'
+⍝      treecore←1 3⍴1 'Core' 'node0_Core'
+⍝      treeall←1 3⍴1 'All' 'node00All'
 ⍝
-⍝      thediv.Add _.hr
-     
-      ('#node01All' '.cat'thediv.Add _.p'Controls').On'click' 'OnTree'
-      CORE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/core -noname'
-      treecore←1 3⍴1 'Core' 'node0_Core'
-      treeall←1 3⍴1 'All' 'node00All'
-     
-      :For group class :InEach GROUPS(3↓¨⍕¨REFS) ⍝ Remove leading #._
-          names←⎕THIS.⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/tree',class,' -noname'
-          CONTROLS,←⊂names[;2]/⍨(⊢=⌈/)names[;1]
-          ⍎class,'←names'
-     
-          :If ∨/names[;2]∊CORE
-              treecore⍪←2(group,P'_',class)('node__',class)
-              treecore⍪←3,0 1↓names⌿⍨names[;2]∊CORE
-          :EndIf
-     
-          treeall⍪←2(group,P'_',class)('node_',class)
-          treeall⍪←⍎class
-     
-      :EndFor
-     
-      tree←'#treeC'thediv.Add _.ejTreeView,⊂treecore⍪treeall
-      tree.On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id')
+⍝      :For group class :InEach GROUPS(3↓¨⍕¨REFS) ⍝ Remove leading #._
+⍝          names←⎕THIS.⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/tree',class,' -noname'
+⍝          CONTROLS,←⊂names[;2]/⍨(⊢=⌈/)names[;1]
+⍝          ⍎class,'←names'
+⍝
+⍝          :If ∨/names[;2]∊CORE
+⍝              treecore⍪←2(group,P'_',class)('node__',class)
+⍝              treecore⍪←3,0 1↓names⌿⍨names[;2]∊CORE
+⍝          :EndIf
+⍝
+⍝          treeall⍪←2(group,P'_',class)('node_',class)
+⍝          treeall⍪←⍎class
+⍝
+⍝      :EndFor
+⍝
+⍝      tree←'#treeC'thediv.Add _.ejTreeView,⊂treecore⍪treeall
+⍝      tree.On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id')
     ∇
 
     ∇ PopulateMid mid;url;code;frame;mya
@@ -217,12 +239,12 @@
 
     ∇ r←OnGS;node;list;nodir;prefix;files;out;file;name;item;title;desc
       :Access Public
+     ⍝ Callback for Getting Started
       node←(1+'tree'≡4↑_what)⊃_what(Get'node') ⍝ get id of node if tree or id of what if not
       node~←'_' ⍝ _ is frame suffix
       :If '/'=⊃⌽node ⍝ Folder (i.e. Category)
           node←1↓¯1↓node ⍝ Strip outer slashes
           list←⎕SE.SALT.List #.Boot.AppRoot,node,' -rec -raw'
-          ⍝0∊⍴list:0 3⍴0 '' ''
           nodir←~list[;1]∊⍨⊂'<DIR>'
           prefix←(↓Tail node),nodir/(↑Tail node),'/' ⍝ Quirk in SALT.List includes path only if has subfolders
           files←('\\'⎕R'/')prefix∘,¨list[;2]
@@ -236,10 +258,69 @@
           out.Add _.Handler'.listitem' 'click' 'OnGS'
           title←↑Tail node
           desc←'Click on a button below to select a sample.'
-          r←GenJS title title desc out''
+          r←title title desc out''
       :Else ⍝ File (i.e. Page)
-          r←GenJS Update node
+          r←Update node
       :EndIf
+      r←GenJS r
+    ∇
+
+    ∇ r←OnCA;node;control;files;list;file;scores;code;desc;score;controls;out;item;title;coreonly
+      :Access Public
+     ⍝ Callback for Core/All Controls
+      node←(1+'tree'≡4↑_what)⊃_what(Get'node') ⍝ get id of node if tree or id of what if not
+      coreonly←'('∊node
+      node↓⍨←-coreonly ⍝ drop ( is core suffix
+      :If '_'=⊃⌽node ⍝ Category
+          control←NodeToCtrl¨TREE/⍨∨/¨(⊂node)⍷¨TREE
+          control←(CORE∊⍨{⍵↓⍨⌽⍵⍳'.'}¨control)/⍣coreonly⊢control
+          scores←⍬
+          :For file :In files←ALLFILES[⍋↑ALLFILES] ⍝ !!! make global ALLFILESSORTED !!!
+              controls←Words'Control'Section Dread'Examples/',file
+              score←2×∨/control∊controls       ⍝ 2=relevant Simple, 0=not relevant
+              score-←∨/'Advanced'⍷file           ⍝ 1=relevant Advanced
+              scores,←0⌈score
+          :EndFor
+          CURRFILES←'/Examples/'∘,¨(files/⍨×scores)[⍒scores/⍨×scores] ⍝ put Simple before Advanced
+          out←NewDiv'.framed'
+          :If 0=⍴CURRFILES
+              '.noitems'out.Add _.p,⊂'[no samples for ',(¯1↓node),' controls]'
+              ⍝(2⊃r)←'_',class,'.',AddShortInfo⊂control
+              ⍝(3⊃r)←(4↓⊃AddLongInfo,⊂control),' ',('0'=⊃2⊃r)/3⊃r
+              r←control(control,' Short Info')'Long info'out''
+          :Else
+              :For file :In CURRFILES
+                  item←('#/',file,'_')'.listitem'out.Add _.p
+                  item.Add _.strong(↑Tail file)
+                  item.Add' ',#.HTMLInput.dtlb'Description'Section Dread file
+              :EndFor
+              out.Add _.Handler'.listitem' 'click' 'OnGS'
+              title←↑Tail node
+              desc←'Click on a button below to select a sample.'
+              r←title title desc out''
+          :EndIf
+      :Else ⍝ Control
+          control←NodeToCtrl node
+          scores←⍬
+          :For file :In ALLFILES
+              controls←Words'Control'Section Dread'Examples/',file
+              score←102-2×(50↑controls)⍳⊂control ⍝ 100=most relevant, 0=not relevant at all
+              score-←∨/'Advanced'⍷file           ⍝ subtract 1 if advanced example
+              scores,←0⌈score
+          :EndFor
+          CURRFILES←'/Examples/'∘,¨(ALLFILES/⍨×scores)[⍒scores/⍨×scores] ⍝ sort descending by score
+          :If 0=⍴CURRFILES
+              out←NewDiv'.framed'
+              '.noitems'out.Add _.p,⊂'[no samples using ',control,']'
+              ⍝(2⊃r)←'_',class,'.',AddShortInfo⊂control
+              ⍝(3⊃r)←(4↓⊃AddLongInfo,⊂control),' ',('0'=⊃2⊃r)/3⊃r
+              r←control(control,' Short Info')'Long info'out''
+          :Else
+              r←control Update⊃CURRFILES
+          :EndIf
+      :EndIf
+      r←GenJS r
+     
     ∇
 
     ∇ r←OnTree;node;descs;out;items;spacectrl;control;spacedir;files;file;i;url;code;ctrlsec;desc;item;title;currctrls;core;names;class;group;cat;score
@@ -297,7 +378,7 @@
               (3⊃r)←(4↓⊃AddLongInfo,⊂control),' ',('0'=⊃2⊃r)/3⊃r
           :Else
               CURRFILES←CURRFILES[⍋CURRFILES[;1];2] ⍝ Sort by score
-              r←spacectrl Update⊃CURRFILES
+              r←control Update⊃CURRFILES
           :EndIf
       :EndIf
       r←GenJS r
@@ -334,6 +415,11 @@
       :Case 'contextmenu'
           r←Execute'window.open("','");',⍨CURRFILES⊃⍨⍎5↓_what ⍝ id="nodeS23"
       :EndSelect
+    ∇
+
+    ∇ r←OnSearch2
+      ⎕SE.SALT.List #.Boot.AppRoot,node,' -rec -raw'
+      r←''
     ∇
 
     ∇ r←OnSearch;str;terms;out;i;dir;files;file;url;code;ctrlsec;desc;item;title

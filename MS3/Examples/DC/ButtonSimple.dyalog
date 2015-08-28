@@ -9,7 +9,6 @@
       button←'btnPressMe'Add _.Button'Press me!'
       button.On'click' 'CallbackFn'
       'output'Add _.div ⍝ a div to contain output, updated by CallbackFn
-      'output'Add _.p'For more advanced button features, see the Syncfusion ejButton.'
     ∇
 
     ∇ r←CallbackFn

@@ -129,13 +129,13 @@
 	margin-right: 4px;
 }
 
-.listitem:active: before, #SampleTitle a: active: after {
+.listitem:active:before, #SampleTitle a:active:after {
 	box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
 	background: ThreeDShadow;
 	border: solid 1px ThreeDDarkShadow;
 }
 
-.listitem:hover: before, #SampleTitle a: hover: after {
+.listitem:hover:before, #SampleTitle a:hover:after {
 	background: ThreeDHighlight;
 	border: solid 1px ThreeDFace;
 	text-decoration: none;
