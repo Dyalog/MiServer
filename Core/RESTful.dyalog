@@ -26,27 +26,31 @@
       names←eis names
       names←,⍕names
       names←#.Strings.deb names
-      :If 0∊⍴names
-          r←_PageData.⎕NL-2 9
+      :If ' '∊names
+          names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
+          r←proto∘Get¨names
+      :ElseIf 2≠_PageData.⎕NC names
+          r←,proto
       :Else
-          :If ' '∊names
-              names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
-              r←proto∘Get¨names
-          :ElseIf 2≠_PageData.⎕NC names
-              r←,proto
-          :Else
-              r←_PageData⍎names
-              :If 2≤≡r
-                  :If 1=⍴,r
-                      r←⊃r
-                  :EndIf
+          r←_PageData⍎names
+          :If 2≤≡r
+              :If 1=⍴,r
+                  r←⊃r
               :EndIf
-              :If isString r
-                  r←#.JSON.toAPL r
-              :EndIf
+          :EndIf
+          :If isString r
+              r←#.JSON.toAPL r
           :EndIf
       :EndIf
     ∇
+
+    ∇ r←GetNames str
+      :Access public
+      →0⍴⍨0∊⍴r←_PageData.⎕NL-2 9
+      →0⍴⍨0∊⍴str
+      r←r/⍨r #.Strings.beginsWith¨⊂str
+    ∇
+    
     ∇ r←isChar w
       :Access public shared
       r←0 2∊⍨10|⎕DR w
