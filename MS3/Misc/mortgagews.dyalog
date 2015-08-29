@@ -6,7 +6,7 @@
 ⍝ calculate principle
     calcprin←{0::'Error' ⋄ r n m←⍵÷1200 (÷12) 1 ⋄ .01×⌈100×m÷r÷1-(1+r)*-n}
 
-    ∇ response←Compose;mask;r ⍝ render the initial page
+    ∇ response←Respond;mask;r ⍝ render the initial page
       :Access Public
      
       r←⎕NS ''

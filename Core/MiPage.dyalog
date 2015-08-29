@@ -53,7 +53,7 @@
           {Insert #._DC.StyleSheet ⍵}¨∪⌽styles
       :EndIf
       :If ~0∊⍴_Scripts
-          {(Add _html.script).Set('src=',⍵)}¨∪_Scripts
+          {(Insert _html.script).Set('src=',⍵)}¨∪⌽_Scripts
       :EndIf
       :If ~0∊⍴Handlers
           b,←∊Handlers.Render
