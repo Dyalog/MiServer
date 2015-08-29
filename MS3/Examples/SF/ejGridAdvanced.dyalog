@@ -42,7 +42,7 @@
     ∇ r←onSave;data
       :Access Public
      
-      ⎕←data←↑(Get'ViewData').(Name Type Tastiness)
+      data←↑(Get'ViewData').(Name Type Tastiness)
       r←'#result'Replace _.Table('SAVE:' '' ''⍪'Name' 'Type' 'Tastiness'⍪data)
     ∇
 
