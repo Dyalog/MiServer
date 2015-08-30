@@ -641,12 +641,35 @@
           :EndIf
       :EndIf
     ∇
+
     dtlb←{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}
+
     ∇ r←ScriptFollows
       :Access public
       r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
     ∇
 
+    ∇ r←what Subst text;names;gv;i;repl
+      :Access public
+      r←text
+      :Select ⎕NC⊂'what'
+      :Case 9.1 ⍝ namespace
+          gv←⍒∊⍴¨names←what.⎕NL-2 3 ⍝ variables and functions only
+          repl←{0::⍵ ⋄ (⍺⍺ ⎕R(,⍕⍺⍎⍺⍺))⍵}
+          :For i :In gv
+              r←what((i⊃names)repl)r
+          :EndFor
+      :Case 2.1 ⍝ substitution pairs
+          :If 2=≡what ⋄ what←,⊂what ⋄ :EndIf
+          :If 2≠⍴⍴what ⋄ what←↑what ⋄ :EndIf
+          what←,¨what
+          gv←⍒∊⍴¨what[;1]
+          :For i :In gv
+              r←(((⊂i 1)⊃what)⎕R(,⍕(⊂i 2)⊃what))r
+          :EndFor
+      :EndSelect
+    ∇
+   
     :endsection
 
 :endclass  ⍝ HtmlElement

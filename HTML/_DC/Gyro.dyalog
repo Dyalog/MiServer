@@ -36,7 +36,7 @@
       Uses←'JQuery'
     ∇
 
-    ∇ r←Render;code
+    ∇ r←Render;code;params
       :Access public
       :If 0∊⍴Page
           :If {6::0 ⋄ ''≢c∘←##.context ⍵}'_Request'
@@ -44,22 +44,24 @@
           :EndIf
       :EndIf
      
-      code←ScriptFollows
+      (params←⎕NS'').(∆interval ∆page ∆callback)←Interval Page Callback
+     
+      Code←params Subst ScriptFollows
 ⍝     if (window.DeviceOrientationEvent) {
 ⍝         var time = 0;
 ⍝         var newtime = 0;
 ⍝         window.addEventListener('deviceorientation', function (evt) {
 ⍝             newtime = new Date().getTime();
-⍝             if (⍳ < (newtime - time)) {
+⍝             if (∆interval < (newtime - time)) {
 ⍝                 time = newtime;
 ⍝                 $.ajax({
-⍝                     url: "∆",
+⍝                     url: "∆page",
 ⍝                     cache: false,
 ⍝                     type: "POST",
 ⍝                     dataType: "json",
 ⍝                     data: {
 ⍝                         _event: evt.type,
-⍝                         _callback: "⍴",
+⍝                         _callback: "∆callback",
 ⍝                         alpha: Math.round(evt.alpha),
 ⍝                         beta: Math.round(evt.beta),
 ⍝                         gamma: Math.round(evt.gamma)
@@ -70,8 +72,6 @@
 ⍝         }
 ⍝     else {alert("This device/browser does not support the deviceorientation event");}
      
-      code[code⍳'⍳∆⍴']←⍕¨Interval Page Callback
-      Code←∊code
       r←⎕BASE.Render
     ∇
 :endclass

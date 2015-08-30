@@ -5,10 +5,7 @@
     ∇ Compose;duck
       :Access public 
       Add'Wazzup '
-      duck←'autoplay' '' Add _.Audio 'quack.mp3'
-
-    ⍝ Give the control an id of 'sound'
-      duck.id←'sound'
+      'sound'('autoplay' 'yes')Add _.Audio'quack.mp3' ⍝ set id to 'sound', and turn autoplay on
       Add' duck?'
     ∇
 

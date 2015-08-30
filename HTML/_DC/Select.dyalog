@@ -47,17 +47,20 @@
               sel←{⍵/⍳⍴⍵},sel
           :EndIf
           opts[sel;1],⍨←⎕UCS 1
-          Add((¯1≡¯1 GetAttr'multiple')/Prompt)FormatOptions opts
+          :If ~0∊⍴Prompt
+          :AndIf ~0∊⍴Attrs[⊂'multiple']
+              'disabled="disabled" selected="selected"'Add #._html.option Prompt
+          :EndIf
+          Add FormatOptions opts
       :EndIf
+     
       r←⎕BASE.Render
     ∇
 
-    ∇ r←{Prompt}FormatOptions opts;opt
+    ∇ r←FormatOptions opts;opt
       :Access Public Shared
-      :If 0=⎕NC'Prompt' ⋄ Prompt←'' ⋄ :EndIf
       :If 1=⍴⍴opts ⋄ opts←opts,⍪opts ⋄ :EndIf
-      opt←(0∊⍴Prompt)↓(Prompt'')⍪opts
-      r←∊{sel←(⎕UCS 1)=1↑⍺ ⋄ '<option',(⍵ ine' value="',(HtmlSafeText ⍵),'"'),(sel/' selected="selected"'),'>',(⍕sel↓⍺),'</option>'}/opt
+      r←∊{sel←(⎕UCS 1)=1↑⍺ ⋄ '<option',(⍵ ine' value="',(HtmlSafeText ⍵),'"'),(sel/' selected="selected"'),'>',(⍕sel↓⍺),'</option>'}/opts
      
     ∇
 :endclass
