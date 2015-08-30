@@ -10,12 +10,12 @@ body {
 	margin: 10px auto;
 }
 .bodyblock {
-	background-color: #FFFFCC !important;
+	background-color: #F6F6D9 !important;
 	font-family: Verdana !important;
 }
 /* Banner */
 #banner {
-	background: #660066;
+	background: #92598C;
 	padding: 10px;
 	color: white;
 	border-radius: 15px 15px 0px 0px;
@@ -73,6 +73,19 @@ a.nav:hover {
 	float: left;
 	height: 45px;
 }
+/*Template Footer*/
+#footer {
+	background: #92598C;
+	padding: 10px;
+	color: white;
+	border-radius: 0px 0px 15px 15px;
+	width: 980px;
+	font-size: .6em;
+}
+#footertext {
+	font-size: .6em;
+}
+
 /*Template Content Area Styles*/
 #bodyblock {
 	height: 100%;
@@ -116,37 +129,6 @@ a.nav:hover {
 	color: red;
 	text-decoration: none;
 	font-size: 11px;
-}
-/*Template Footer*/
-#footer {
-	background: #660066;
-	padding: 10px;
-	color: white;
-	border-radius: 0px 0px 15px 15px;
-	width: 980px;
-	font-size: .6em;
-}
-#footertext {
-	font-size: .6em;
-}
-#footer a:link {
-	color: #336699;
-	font-weight: bold;
-	text-decoration: none;
-}
-#footer a:visited {
-	color: #336699;
-	font-weight: bold;
-	text-decoration: none;
-}
-#footer a:active {
-	color: #336699;
-	font-weight: bold;
-	text-decoration: none;
-}
-#footer a:hover {
-	color: #000000;
-	font-weight: bold;
 }
 /* Utility Styles */
 .clear {
