@@ -1,5 +1,5 @@
 ﻿:class KidsKbd : MiPageSample
-⍝ Control:: Kids' Keyboard
+⍝ Control:: Kids Keyboard
 ⍝ Description:: Children's educative application for Yiddish alphabet and keyboard
 
     Sound←{'#sound'Replace'autoplay' ''New _.Audio,⊂'/Examples/Data/KidsKbd/',⍵,'.mp3'}
@@ -17,13 +17,15 @@
       {}16807⌶2
       TASK←''
      
+      header←'Press buttons to hear letter names. ' 'Press › to hear which letter to find. '
       style←''
       :If 0∊⍴Get'nowrapper' ⍝ Full-size
-          style,←'th {padding: 0 60px;} '
+          header←,/header
+          style,←'th {padding: 0 70px;} '
           style,←'button, #feedback {font-size:40pt;} '
           style,←'button {width: 60pt; height: 60pt; '
       :Else ⍝ Half-size
-          style,←'th {padding: 0 30px;} '
+          style,←'th {padding: 0 10px;} '
           style,←'button, #feedback {font-size:20pt;} '
           style,←'button {width: 30pt; height: 30pt; font-size:20pt; '
       :EndIf
@@ -31,10 +33,10 @@
       style,←'button:hover {font-weight:bold; cursor:pointer;} '
       style,←'.serif1 {font-family: serif;} '
       Add _.style style
+      Add _.h2{⍺ ⍵}¨header
      
-      Add _.h2'Press buttons to hear letter names, or press › to hear which letter to find'
       menu←Add _.table
-      (menu.Add _.tr).Add¨_.th,¨'Get letter to find' 'Hear letter again' 'Show the letter' 'Start over'
+      (menu.Add _.tr).Add¨_.th,¨'Hear letter' 'Hear again' 'Show letter' 'Start over'
       buttons←(menu.Add _.tr).Add¨4/_.th
      
       '#play' '.menu'(buttons[1]).Add _.Button'›'
