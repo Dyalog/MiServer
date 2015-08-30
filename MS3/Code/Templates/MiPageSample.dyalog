@@ -38,7 +38,7 @@
           :EndIf
      
         ⍝ wrap the content of the <body> element in a div
-          Body.Push _.div'id="bodyblock"'
+          Body.Push _.div'class="bodyblock"'
      
         ⍝ add the footer to the bottom of the page
           Add #.Files.GetText server.Config.Root,'Styles\footer.txt'
@@ -54,7 +54,8 @@
         ⍝ set the language for the page
           lang←server.Config.Lang ⍝ use the language specified in Server.xml
           Set'lang="',lang,'" xml:lang="',lang,'" xmlns="http://www.w3.org/1999/xhtml"'
-     
+      :Else
+          Body.class←'bodyblock'
       :EndIf
      ⍝ call the base class Wrap function
       r←⎕BASE.Wrap

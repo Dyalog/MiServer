@@ -11,7 +11,7 @@
       Add _.style'td:nth-child(2n+3) {font-family:APL385 Unicode}'
       ef←Add _.EditField'str'
       ef.On'change' ''('str' 'val')
-      Add'      Press '
+      Add' Press '
       Add _.Button'Enter'
       Add'to search'
       Add _.br
@@ -27,14 +27,15 @@
       dyal←found[;3 4 7]⌿⍨found[;1]
       :If ×≢found
           r←'#res'Replace''
-          :If ×≢finn
-              r,←'#res'Append _.h3'One-liners from the reknown FinnAPL Idiom Library'
-              r,←'#res'Append _.Table finn
-          :EndIf
-          :If ×≢dyal
-              r,←'#res'Append _.h3'Recognised and evaluated internally for performance'
+          :If ~0∊⍴dyal
+              r,←'#res'Append _.h3'Dyalog Optimised Idioms'
               r,←'#res'Append _.Table dyal
           :EndIf
+          :If ~0∊⍴finn
+              r,←'#res'Append _.h3'FinnAPL Idiom Library'
+              r,←'#res'Append _.Table finn
+          :EndIf
+     
       :Else
           r←'#res'Replace _.h3'No matching idioms found'
       :EndIf

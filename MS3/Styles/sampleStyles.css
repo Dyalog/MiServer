@@ -9,8 +9,9 @@ body {
 	width: 1000px;
 	margin: 10px auto;
 }
-#bodyblock {
-	background-color: #FFFFCC;
+.bodyblock {
+	background-color: #FFFFCC !important;
+	font-family: Verdana !important;
 }
 /* Banner */
 #banner {
