@@ -1,5 +1,5 @@
 ﻿:Class TableSimple : MiPageSample
-⍝ Control::     _DC.Table
+⍝ Control:: _DC.Table
 ⍝ Description:: Display a matrix as a table
 
     ∇ Compose

@@ -6,10 +6,8 @@
       :Access public
      
       Add _.h2'The Little Multiplication Table'
-     
       mydata←∘.×⍨⍳10
-     
-      mytable←Add _.table
+      mytable←'myTable'Add _.table
       :For row :In ⍳⊃⍴mydata
           myrow←mytable.Add _.tr
           :For col :In ⍳⊃⌽⍴mydata
