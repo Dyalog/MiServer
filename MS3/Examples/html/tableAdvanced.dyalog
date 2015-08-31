@@ -1,6 +1,6 @@
 ﻿:class tableAdvanced: MiPageSample
-⍝ Control:: _html.tbody _html.tfoot
-⍝ Description:: Insert an interactive table
+⍝ Control:: _html.table _html.tbody _.thead _html.tfoot _html.colgroup _html.col _html.tr _html.td _html.th
+⍝ Description:: Insert an interactive table with column-wise formatting
 
     ∇ Compose
       :Access public
