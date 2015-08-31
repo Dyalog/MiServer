@@ -32,13 +32,13 @@
                   c2←¯2↓∊c2,¨⊂⎕UCS 13 10
                   r⍪←c1 c2
               :EndFor
-              :If 0≠wref.⎕NC'DocBase'
-                  r⍪←'Documentation'wref.DocBase
+              :If 0≠wref.⎕NC⊂'DocBase'
+                  r⍪←'Documentation'('target=_blank'New _.A(2⍴⊂wref.DocBase))
               :EndIf
               samples←'/Examples/',(ns~'_'),'/'
               :If ~0∊⍴files←1⌷[2]#.Files.List #.Boot.ms.Config.AppRoot,samples
               :AndIf ~0∊⍴files/⍨←∨/files∘.#.Strings.(beginsWith nocase)widget∘,¨'Simp' 'Adv'
-                  r⍪←'Samples'({New _.A(2⍴⊂⍵)}¨samples∘,¨files)
+                  r⍪←'Sample Pages'({'target=_blank'New _.A(2⍴⊂⍵)}¨samples∘,¨files)
               :EndIf
           :EndIf
       :EndIf

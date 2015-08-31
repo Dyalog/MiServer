@@ -25,7 +25,7 @@
       (Add _html.div(#.HTMLInput.APLToHTMLColour ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock" style="display: none;"'
      
     ⍝ add a JQuery event handler to toggle the web page/APL source code
-      Add _DC.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock").toggle();});});'
+      Add _DC.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock").toggle("slow");});});'
      
     ⍝ wrap the content of the <body> element in a div
       Body.Push _.div'class="bodyblock"'
