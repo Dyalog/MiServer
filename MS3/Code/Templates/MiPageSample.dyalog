@@ -74,30 +74,32 @@
       :EndFor
     ∇
 
-    ∇ r←FormatControls controls;ctrls;ns;desc;field;n;ctrl;i;c;ref;l;u
-      ctrls←⊃{⍺ ⍵}⌸/↓[1]0 1↓↑{⎕ML←3 ⋄ {⍵⊂⍨⍵≠'.'}⍕⍵}¨controls
+    ∇ r←FormatControls controls;ctrls;ns;desc;field;n;ctrl;i;c;ref;l;u;nss;item
+      ctrls←⊃{⍺ ⍵}#.Utils.∆key/↓[1]0 1↓↑{⎕ML←3 ⋄ {⍵⊂⍨⍵≠'.'}⍕⍵}¨controls
       field←{0::'' ⋄ ⍺⍎⍵}
-      ns←'_html' '_DC' '_JQ' '_SF'
-      desc←'Native HTML5 Elements' 'Dyalog Controls' 'jQuery Widgets' 'Syncfusion Widgets'
+      nss←'_DC' '_SF' '_JQ' '_html'
+      desc←'Dyalog Controls' 'Syncfusion Widgets' 'jQuery Widgets' 'Native HTML5 Elements'
       (r←⎕NEW _.div).class←'widgethelp'
-      r.Add'This Page Contains<hr>'
-      :For n ctrl i :In ctrls{↓(⍺,⍵)[⍋⍵;]}ns⍳{(⊃⍣(¯1+≡⍵))⍵}¨ctrls[;1]
+      r.Add'This Page Contains<hr/>'
+      :For (ns ctrl i) :In ctrls{↓(⍺,⍵)[⍋⍵;]}nss⍳{(⊃⍣(¯1+≡⍵))⍵}¨ctrls[;1]
           (r.Add _.span(i⊃desc)).class←'widgetNs'
           u←r.Add _.ul
+          n←#.⍎ns←⊃ns
           :For c :In ctrl
-              ref←(#.⍎⊃n).⍎c
-              :If ''≢l←ref field'MSDoc'
-              :AndIf #.Files.Exists #.Boot.MSRoot,l
-                  u.Add _.li(_.a c(('href'('..',l))('target' '_blank')))
-              :ElseIf ''≢l←ref field'BaseDoc'
-              :AndIf #.Files.Exists #.Boot.MSRoot,l
-                  u.Add _.li(_.a c(('href'('..',l))('target' '_blank')))
-              :Else
-                  :If 'ej'≡2↑c←#.Strings.lc c
-                      u.Add _.li(New _.a c(('href'('http://js.syncfusion.com/demos/web/#!/azure/',2↓c⊣,'/defaultfunctionalities'))('target' '_blank')))
-                  :Else
-                      u.Add _.li c
-                  :EndIf
+              ref←n.⍎c
+              item←⍬
+              :Select ns
+              :Case '_DC'
+                  item←u.Add _.li(New _.a(c(('href=/Documentation/DyalogAPIs/WidgetDoc?namespace=',ns,'&widget=',c)'target=_blank')))
+              :Case '_SF'
+                  item←u.Add _.li(New _.a c(('href'('http://js.syncfusion.com/demos/web/#!/azure/',(2×'ej'≡2↑c)↓c))('target' '_blank')))
+              :Case '_JQ'
+                  item←u.Add _.li(New _.a c(('href'('http://api.jqueryui.co'))('target' '_blank')))
+              :Case '_html'
+                  item←u.Add _.li(New _.a c(('href'('http://www.w3schools.com/tags/tag_',c,'.asp'))('target' '_blank')))
+              :EndSelect
+              :If 0∊⍴item
+                  u.Add _.li c
               :EndIf
           :EndFor
       :EndFor

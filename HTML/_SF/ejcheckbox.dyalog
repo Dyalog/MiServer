@@ -10,7 +10,7 @@
 ⍝ LabelPos - position of label relative to the checkbox ('left' (default) or 'right')
 ⍝ Checked  - integer denoting if the box is checked or not (1=yes, 0=no, ¯1=indeterminate)
 ⍝ Examples::
-⍝ ejCheckBox 
+⍝ ejCheckBox
 ⍝ ejCheckBox ¯1
 ⍝ ejCheckBox 0 'Married'
 ⍝ ejCheckBox 1 'with children' 'right'
@@ -40,6 +40,7 @@
       :Access public
       :Implements constructor
       setup
+      :If 0=≡args ⋄ args←,args ⋄ :EndIf
       (Checked Label LabelPos)←args defaultArgs Checked Label LabelPos
     ∇
 

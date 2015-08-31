@@ -2,22 +2,17 @@
 ⍝ Control:: _SF.ejDatePicker
 ⍝ Description:: Pick a date in yyyy/MM/dd format
 
-    ∇ Compose;rte;frm
+    ∇ Compose;dp
       :Access Public
-     
-      frm←'myform'Add _.Form
-      rte←'dp1'frm.Add _.ejDatePicker(2 23 2015)'yyyy/MM/dd'
-      rte.On'change' 'myCallBack'
-      'message'frm.Add _.div
+      dp←'dp'Add _.ejDatePicker(3↑⎕TS)'yyyy/MM/dd'
+      dp.On'change' 'myCallBack'('newdate' 'argument' 'value')
+      'message'Add _.div
     ∇
-    
+
     ∇ r←myCallBack;date
-      :Access Public 
-     
-      date←Get _what
-      r←'#message'Replace'You selected: ',date
+      :Access Public
+      r←'#message'Replace'You selected: ','No date returned'Get'newdate'
     ∇
 
 
 :EndClass
-

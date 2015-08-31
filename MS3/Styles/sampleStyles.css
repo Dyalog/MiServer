@@ -105,14 +105,18 @@ a.nav:hover {
 /* Widget Help */
 .widgethelp {
 	margin: 10px 0px 10px 10px;
-	background-color: #FFCC00;
+	background-color: rgba(255,217,0,0.19);
 	overflow: auto;
-	padding: 2px;
-	font-size: 11px;
+	padding: 5px;
+	font-size: .8em;
 	display: none;
+	border-style:solid;
+	border-width:1px;
+	border-color:black;
 }
 .widgetNs {
-	font-size: 13px;
+	font-size:80%;
+	font-weight:bolder;
 }
 .widgethelp ul {
 	padding: 0px;
@@ -121,14 +125,14 @@ a.nav:hover {
 .widgethelp li {
 	margin: 0px;
 	padding: 1px;
-	font-size: 11px;
+	font-size: 70%;
 	list-style: square;
 }
 .widgetNs a {
 	font-weight: normal;
 	color: red;
 	text-decoration: none;
-	font-size: 11px;
+	font-size: 70%;
 }
 /* Utility Styles */
 .clear {
