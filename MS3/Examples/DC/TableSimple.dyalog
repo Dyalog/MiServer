@@ -6,8 +6,7 @@
       :Access public
      
       Add _.h2'The Little Multiplication Table'
-     
-      Add _.Table(∘.×⍨⍳10)
+      'myTable'Add _.Table(∘.×⍨⍳10)
     ∇
 
 :EndClass

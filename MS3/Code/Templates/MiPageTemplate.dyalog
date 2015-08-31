@@ -13,7 +13,7 @@
       Add _html.title _Request.Server.Config.Name
      
     ⍝ add a link to our CSS stylesheet
-      Insert _DC.StyleSheet '/Styles/style.css'
+      _CssOverride←'/Styles/style.css'
      
     ⍝ set a meta tag to make it explicitly UTF-8
       (Add _html.meta).Set'http-equiv="content-type" content="text/html;charset=UTF-8"'
@@ -22,10 +22,13 @@
       Body.Push _html.div'id="contentblock"'
      
     ⍝ add a hidden division to the body containing the APL source code
-      (Add _html.div(#.HTMLInput.APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock" style="display: none;"'
+      (Add _html.div(#.HTMLInput.APLToHTMLColour ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock" style="display: none;"'
      
     ⍝ add a JQuery event handler to toggle the web page/APL source code
       Add _DC.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock").toggle();});});'
+     
+    ⍝ wrap the content of the <body> element in a div
+      Body.Push _.div'class="bodyblock"'
      
     ⍝ add the footer to the bottom of the page
       Add #.Files.GetText _Request.Server.Config.Root,'Styles\footer.txt'

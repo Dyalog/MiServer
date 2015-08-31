@@ -9,34 +9,63 @@ body {
 	width: 1000px;
 	margin: 10px auto;
 }
-#bodyblock {
-	background-color: #FFFFCC;
+.bodyblock {
+	background-color: #F6F6D9 !important;
+	font-family: Verdana !important;
 }
 /* Banner */
 #banner {
-	background: #660066;
+	background: #92598C;
 	padding: 10px;
 	color: white;
 	border-radius: 15px 15px 0px 0px;
 }
-#bannerimg{
-float:left; 
-vertical-align:middle;   
+#bannerimg {
+	float: left;
+	vertical-align: middle;
 }
 #bannertext {
-margin-left:20px;
+	margin-left: 20px;
 	font-size: 1.4em;
 	display: inline-block;
 }
 #bannernav {
 	float: right;
+	margin-top: 10px;
+	margin-right: 10px;
+	text-align:right;
+}
+.nav {
+	padding: 5px 15px;
+	background: linear-gradient(rgb(230, 198, 125) 0%, rgb(230, 122, 0) 100%);
+	border-radius: 10px;
+}
+a.nav:link {
+	color: black;
+	font-weight: bold;
+	text-decoration: none;
+}
+a.nav:visited {
+	color: black;
+	font-weight: bold;
+	text-decoration: none;
+}
+a.nav:active {
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+}
+a.nav:hover {
+	color: white;
+	font-weight: bold;
+	text-decoration: underline;
 }
 #ms30 {
-    font-weight:700;
+	font-weight: 700;
 }
 #tagline {
-    font-size: .5em;
-    font-style:italic;
+	font-size: .5em;
+	font-style: italic;
 }
 #bannerimage img {
 	padding-top: 4px;
@@ -44,6 +73,19 @@ margin-left:20px;
 	float: left;
 	height: 45px;
 }
+/*Template Footer*/
+#footer {
+	background: #92598C;
+	padding: 10px;
+	color: white;
+	border-radius: 0px 0px 15px 15px;
+	width: 980px;
+	font-size: .6em;
+}
+#footertext {
+	font-size: .6em;
+}
+
 /*Template Content Area Styles*/
 #bodyblock {
 	height: 100%;
@@ -63,14 +105,18 @@ margin-left:20px;
 /* Widget Help */
 .widgethelp {
 	margin: 10px 0px 10px 10px;
-	background-color: #FFCC00;
+	background-color: rgba(255,217,0,0.19);
 	overflow: auto;
-	padding: 2px;
-	font-size: 11px;
+	padding: 5px;
+	font-size: .8em;
 	display: none;
+	border-style:solid;
+	border-width:1px;
+	border-color:black;
 }
 .widgetNs {
-	font-size: 13px;
+	font-size:80%;
+	font-weight:bolder;
 }
 .widgethelp ul {
 	padding: 0px;
@@ -79,43 +125,14 @@ margin-left:20px;
 .widgethelp li {
 	margin: 0px;
 	padding: 1px;
-	font-size: 11px;
+	font-size: 70%;
 	list-style: square;
 }
 .widgetNs a {
 	font-weight: normal;
 	color: red;
 	text-decoration: none;
-	font-size: 11px;
-}
-/*Template Footer*/
-#footer {
-	background: #997799;
-	width: 980px;
-	padding: 10px;
-	font-size: .6em;
-}
-#footertext {
-	font-size: .6em;
-}
-#footer a:link {
-	color: #336699;
-	font-weight: bold;
-	text-decoration: none;
-}
-#footer a:visited {
-	color: #336699;
-	font-weight: bold;
-	text-decoration: none;
-}
-#footer a:active {
-	color: #336699;
-	font-weight: bold;
-	text-decoration: none;
-}
-#footer a:hover {
-	color: #000000;
-	font-weight: bold;
+	font-size: 70%;
 }
 /* Utility Styles */
 .clear {
@@ -129,7 +146,7 @@ clear: both;
 	margin-left: 30px;
 	font-size: .70em;
 	padding-bottom: 2em;
-}
+} 
 a:link {
 	color: #FF9933;
 	font-weight: bold;
@@ -150,13 +167,15 @@ a:hover {
 	font-weight: bold;
 	text-decoration: underline;
 }
-P {
+/*
+p {
 	color: #000000;
 	margin-top: 0px;
 	margin-bottom: 12px;
 	margin-left: 5px;
 	font-family: Verdana;
 }
+*/
 pre {
 	background-color: #e5e5cc;
 	padding: 5px;

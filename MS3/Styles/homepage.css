@@ -1,4 +1,4 @@
-#SampleTitle {
+﻿#SampleTitle {
 	margin-top: 0px;
 	cursor:pointer
 }
@@ -8,7 +8,7 @@
 }
 
 #SampleDesc a:after {
-	content: "➦";
+	content: "\27A6"; /* "➦"; */
 	padding: 1px 3px 3px 3px;
 	background: ThreeDFace;
 	color: ButtonText;
@@ -116,7 +116,7 @@
 }
 
 .listitem:before {
-	content: "➥";
+	content: "\27A5"; /* "➥"; */
 	padding: 1px 2px 1px 2px;
 	background: ThreeDFace;
 	color: ButtonText;

@@ -22,7 +22,7 @@
      
       (add←'Add'New _.Button'Add Child').On'click' 'onBranch'
       (del←'Del'New _.Button'Delete').On'click' 'onBranch'
-      (exp←'Exp'New _.Button'Expand').On'click' 'onBranch'
+      (exp←'Exp'New _.Button'Expand All').On'click' 'onBranch'
       (chk←'Chk'New _.Button'Toggle').On'click' 'onBranch'
       (mod←'Mod'New _.Button'Display Model(s)').On'click' 'onModel'('model'tv.getModel'')
      
@@ -35,7 +35,7 @@
       ⍝ Handle node select or check/uncheck
       :Access Public
      
-      current←⊃Get'node'
+      current←Get'node'
       item←⊃items[index←items[;3]⍳⊂current;2]
      
       :Select _event
@@ -100,7 +100,7 @@
       :Access Public
       ⍝ Display the model
      
-      ns←#.JSON.toAPL∊Get'model'       ⍝ tv.getModel causes "model" to be returned
+      ns←Get'model'                    ⍝ tv.getModel causes "model" to be returned
       (ids names parent)←↓[1]↑ns.fields.dataSource.(id name({0::'' ⋄ pid}0))
       ckd←(⍳⍴ids)∊1+ns.checkedNodes    ⍝ nodes checked according to model
       ((~parent∊ids,⊂'')/parent)←⍬⍴ids ⍝ patch up any invalid parents to point to first node (paranoia)

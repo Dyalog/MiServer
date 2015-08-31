@@ -39,8 +39,6 @@
 
     ∇ r←Render;s;b;mask;scr;sty
       :Access public
-      ∘∘∘ ⍝ is this ever called?
-     
       :If ~0∊⍴scr←∪Scripts
       :AndIf ∨/mask←{~0∊⍴⍵}¨scr.Content
           Body.Add¨mask/scr
@@ -51,7 +49,7 @@
           Head.Add¨mask/scr
       :EndIf
       :If ~0∊⍴sty←∪⌽Styles
-          Head.Add¨Style¨sty
+          Head.Add¨StylesLinks
       :EndIf
       Content←(Head.Render),b
       r←'<!DOCTYPE html>',∊⎕BASE.Render

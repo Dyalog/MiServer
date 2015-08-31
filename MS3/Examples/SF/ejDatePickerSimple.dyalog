@@ -1,11 +1,18 @@
 ﻿:Class ejDatePickerSimple : MiPageSample
 ⍝ Control:: _SF.ejDatePicker
-⍝ Description:: Insert a basic calendar to let the user pick a date picker
+⍝ Description:: Pick a date in yyyy/MM/dd format
 
-    ∇ Compose;rte
+    ∇ Compose;dp
       :Access Public
-      rte←Add _SF.ejDatePicker(2 23 2015)'yyyy/MM/dd'
+      dp←'dp'Add _.ejDatePicker(3↑⎕TS)'yyyy/MM/dd'
+      dp.On'change' 'myCallBack'('newdate' 'argument' 'value')
+      'message'Add _.div
     ∇
 
-:EndClass
+    ∇ r←myCallBack;date
+      :Access Public
+      r←'#message'Replace'You selected: ','No date returned'Get'newdate'
+    ∇
 
+
+:EndClass
