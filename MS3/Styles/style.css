@@ -1,4 +1,4 @@
-﻿/* Body and Wrapper */
+/* Body and Wrapper */
 body {
 	color: #000000;
 	background-color: black;
@@ -94,6 +94,7 @@ a.nav:hover {
 #contentblock {
 	font-size: .70em;
 	padding-bottom: 2em;
+	padding: 5px 10px;
 }
 #codeblock {
 	font-size: .70em;

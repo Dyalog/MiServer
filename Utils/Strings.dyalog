@@ -2,19 +2,27 @@
 
     (⎕IO ⎕ML)←1
 
-    lower←'abcdefghijklmnopqrstuvwxyzáâãçèêëìíîïðòóôõùúûýàäåæéñöøü'
-    upper←'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÂÃÇÈÊËÌÍÎÏÐÒÓÔÕÙÚÛÝÀÄÅÆÉÑÖØÜ'
+    lowerAlphabet←'abcdefghijklmnopqrstuvwxyzáâãçèêëìíîïðòóôõùúûýàäåæéñöøü'
+    upperAlphabet←'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÂÃÇÈÊËÌÍÎÏÐÒÓÔÕÙÚÛÝÀÄÅÆÉÑÖØÜ'
 
 
     ∇ r←lc r;m
-      m←r∊upper
-      (m/r)←lower[upper⍳m/r]
+      m←r∊upperAlphabet
+      (m/r)←lowerAlphabet[upperAlphabet⍳m/r]
     ∇
 
     ∇ r←uc r;m
-      m←r∊lower
-      (m/r)←upper[lower⍳m/r]
+      m←r∊lowerAlphabet
+      (m/r)←upperAlphabet[lowerAlphabet⍳m/r]
     ∇
+
+    cis←{~0∊⍴(⍺ ⎕S 0 ⎕OPT'IC' 1)⍵} ⍝ Case Insensitive Search
+
+    nocase←{(lc ⍺)⍺⍺ lc ⍵} ⍝ case insensitive operator 
+
+    beginsWith←{(,⍺){⍵≡(⍴⍵)↑⍺},⍵}
+    endsWith←{(,⍺){⍵≡(-⍴⍵)↑⍺},⍵}
+    stringify←{¯2↓∊(↓⍕↑⍵),¨⊂⎕UCS 13 10}
 
     vtom←{⎕ML←3 ⋄ ⍺←' ' ⋄ ⊃⍵⊂⍨~⍵∊⍺} ⍝ vector to matrix
 
@@ -66,7 +74,5 @@
       (∊r)←{w←⍵ ⋄ w⊣((w='¯')/w)←'-'}∊r
     ∇
 
-    beginsWith←{(,⍺){⍵≡(⍴⍵)↑⍺},⍵}
-    endsWith←{(,⍺){⍵≡(-⍴⍵)↑⍺},⍵}
 
 :EndNamespace
