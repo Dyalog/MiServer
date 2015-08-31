@@ -106,6 +106,7 @@ a.nav:hover {
 .widgethelp {
 	margin: 10px 0px 10px 10px;
 	background-color: rgba(255,217,0,0.19);
+        border-radius: 5px;
 	overflow: auto;
 	padding: 5px;
 	font-size: .8em;

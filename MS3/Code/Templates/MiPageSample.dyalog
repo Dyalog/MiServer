@@ -59,6 +59,7 @@
           Body.class←'bodyblock'
       :EndIf
      ⍝ call the base class Wrap function
+     
       r←⎕BASE.Wrap
     ∇
 
@@ -74,35 +75,41 @@
       :EndFor
     ∇
 
-    ∇ r←FormatControls controls;ctrls;ns;desc;field;n;ctrl;i;c;ref;l;u;nss;item
+    ∇ r←FormatControls controls;ctrls;ns;desc;field;n;ctrl;i;c;ref;l;u;nss;item;cn
       ctrls←⊃{⍺ ⍵}#.Utils.∆key/↓[1]0 1↓↑{⎕ML←3 ⋄ {⍵⊂⍨⍵≠'.'}⍕⍵}¨controls
       field←{0::'' ⋄ ⍺⍎⍵}
       nss←'_DC' '_SF' '_JQ' '_html'
       desc←'Dyalog Controls' 'Syncfusion Widgets' 'jQuery Widgets' 'Native HTML5 Elements'
       (r←⎕NEW _.div).class←'widgethelp'
       r.Add'This Page Contains<hr/>'
-      :For (ns ctrl i) :In ctrls{↓(⍺,⍵)[⍋⍵;]}nss⍳{(⊃⍣(¯1+≡⍵))⍵}¨ctrls[;1]
-          (r.Add _.span(i⊃desc)).class←'widgetNs'
-          u←r.Add _.ul
-          n←#.⍎ns←⊃ns
-          :For c :In ctrl
-              ref←n.⍎c
-              item←⍬
-              :Select ns
-              :Case '_DC'
-                  item←u.Add _.li(New _.a(c(('href=/Documentation/DyalogAPIs/WidgetDoc?namespace=',ns,'&widget=',c)'target=_blank')))
-              :Case '_SF'
-                  item←u.Add _.li(New _.a c(('href'('http://js.syncfusion.com/demos/web/#!/azure/',(2×'ej'≡2↑c)↓c))('target' '_blank')))
-              :Case '_JQ'
-                  item←u.Add _.li(New _.a c(('href'('http://api.jqueryui.co'))('target' '_blank')))
-              :Case '_html'
-                  item←u.Add _.li(New _.a c(('href'('http://www.w3schools.com/tags/tag_',c,'.asp'))('target' '_blank')))
-              :EndSelect
-              :If 0∊⍴item
-                  u.Add _.li c
-              :EndIf
+      :Trap 0
+          :For (ns ctrl i) :In ctrls{↓(⍺,⍵)[⍋⍵;]}nss⍳{(⊃⍣(¯1+≡⍵))⍵}¨ctrls[;1]
+              (r.Add _.span(i⊃desc)).class←'widgetNs'
+              u←r.Add _.ul
+              n←#.⍎ns←⊃ns
+              :For c :In ctrl
+                  ref←n.⍎c
+                  item←⍬
+                  :Select ns
+                  :Case '_DC'
+                      item←u.Add _.li(New _.a(c(('href=/Documentation/DyalogAPIs/WidgetDoc?namespace=',ns,'&widget=',c)'target=_blank')))
+                  :Case '_SF'
+                      item←u.Add _.li(New _.a c(('href'('http://js.syncfusion.com/demos/web/#!/azure/',(2×'ej'≡2↑c)↓c))('target' '_blank')))
+                  :Case '_JQ'
+                      item←u.Add _.li(New _.a c(('href'('http://jqueryui.com/',(2×'jq'≡2↑c)↓c))('target' '_blank')))
+                  :Case '_html'
+                      cn←c
+                      :If ~0∊⍴('^h[1-6]$'⎕S{⍵.Match})c
+                          cn←'hn'
+                      :EndIf
+                      item←u.Add _.li(New _.a c(('href'('http://www.w3schools.com/tags/tag_',cn,'.asp'))('target' '_blank')))
+                  :EndSelect
+                  :If 0∊⍴item
+                      u.Add _.li c
+                  :EndIf
+              :EndFor
           :EndFor
-      :EndFor
+      :EndTrap
     ∇
 
 :EndClass

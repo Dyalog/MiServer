@@ -50,10 +50,10 @@
       styles←styles,⍨{0∊⍴⍵:⍵ ⋄ ⊂⍵}_CssReset
       styles←styles,{0∊⍴⍵:⍵ ⋄ ⊂⍵}_CssOverride
       :If ~0∊⍴styles
-          {Insert #._DC.StyleSheet ⍵}¨∪⌽styles
+          {Insert #._DC.StyleSheet ⍵}¨⌽∪styles
       :EndIf
       :If ~0∊⍴_Scripts
-          {(Insert _html.script).Set('src=',⍵)}¨∪⌽_Scripts
+          {(Insert _html.script).Set('src=',⍵)}¨⌽∪_Scripts
       :EndIf
       :If ~0∊⍴Handlers
           b,←∊Handlers.Render
@@ -111,7 +111,7 @@
       :If ' '∊names
           names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
           r←proto∘Get¨names
-      :ElseIf 2≠_PageData.⎕NC names
+      :ElseIf ~(_PageData.⎕NC names)∊2 9
           r←,proto
       :Else
           r←_PageData⍎names

@@ -42,7 +42,7 @@
               head.id←{id,'_',∊'rc',¨⍕¨⍵}¨⍳⍴head
           :EndIf
           :If ~0∊⍴tha
-              head.Set¨(⍴head)⍴⊂¨eis tha
+              head.Set(⍴head)⍴eis tha
           :EndIf
       :EndIf
       :If 0<(⊃⍴data)-hdrrows
@@ -51,7 +51,7 @@
               body.id←{id,'_',∊'rc',¨⍕¨⍵}¨hdrrows↓⍳⍴data
           :EndIf
           :If ~0∊⍴tda
-              body.Set¨(⍴body)⍴⊂¨eis tda
+              body.Set(⍴body)⍴eis tda
           :EndIf
       :EndIf
       :If rows>0

@@ -235,7 +235,7 @@
               msg errorIf 11×0≠2|⍴styles
               _styles,←↓(2,⍨0.5×⍴styles)⍴styles
           :Case 3
-              msg errorIf 11×∧/(,2)∘≡∘⍴¨styles
+              msg errorIf 11×~∧/(,2)∘≡∘⍴¨styles
               _styles,←styles
           :Else
               msg ⎕SIGNAL 11
