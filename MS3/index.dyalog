@@ -69,7 +69,9 @@
 
     CtrlToNode←{'#',('\.' ⎕R '_')⍵}
 
-    DelEmpty←{((0,⍨2</⍵[;1])∨'/'≠⊃¨⌽¨⍵[;3])⌿⍵}
+    DelEmpty←{((0,⍨2</⍵[;1])∨'/'≠⊃¨⌽¨⍵[;3])⌿⍵} 
+    
+    FixSlash←{('\\'⎕R'/')⍵}
 
       DirTree←{
           parent←1(↑Tail ⍵)('/',⍵,'/')
@@ -78,7 +80,7 @@
           nodir←~list[;1]∊⍨⊂'<DIR>'
           prefix←'/',(↓Tail ⍵),nodir/(↑Tail ⍵),'/' ⍝ Quirk in SALT.List includes path only if has subfolders
           files←prefix∘,¨list[;2]
-          ids←('\\'⎕R'/')files
+          ids←FixSlash files
           levels←2+(+/¨ids∊¨⊂'/\')-+/'/\'∊⍨3⊃parent
           ((list[;1]≡¨⊂'<DIR>')/ids),←'/'
           DelEmpty⍣≡parent⍪⍉↑levels(↑Tail¨list[;2])ids
@@ -133,7 +135,7 @@
       NAMESSHORT←Names INFOSHORT
       NAMESLONG←Names INFOLONG
       list←⊃⍪/{⎕SE.SALT.List #.Boot.AppRoot,'Examples/',⍵,' -rec -raw -full'}¨'DC' 'SF' 'JQ' 'html'
-      ALLFILES←list[;2]/⍨list[;1]≢¨⊂'<DIR>'
+      ALLFILES←FixSlash list[;2]/⍨list[;1]≢¨⊂'<DIR>'
       TREE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/tree -noname'
       CORE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/core -noname'
      
@@ -222,7 +224,7 @@
           list←⎕SE.SALT.List #.Boot.AppRoot,node,' -rec -raw'
           nodir←~list[;1]∊⍨⊂'<DIR>'
           prefix←(↓Tail node),nodir/(↑Tail node),'/' ⍝ Quirk in SALT.List includes path only if has subfolders
-          files←('\\'⎕R'/')prefix∘,¨list[;2]
+          files←FixSlash prefix∘,¨list[;2]
           files/⍨←list[;1]≢¨⊂'<DIR>'
           out←NewDiv'.framed'
           :For file :In files
