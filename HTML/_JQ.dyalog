@@ -87,7 +87,7 @@
         :field public Force←¯1          ⍝ force event to be treated as internal event, ¯1=check InternalEvents, 1=yes, 0=no
         :field _build←0
 
-        handlerSyntax←'event,ui' 'event'  'ui' '$(event.target)'
+        handlerSyntax←'event,ui' 'event'  'ui' '$(event.target)'  ⍝ see _JQ.RenderHandlerCore for details
 
         ∇ r←{a}rand w;rnd
           :Access public
@@ -180,7 +180,7 @@
          ⍝ force - Boolean to force treatment of event as an InternalEvent
          
           args←eis args
-          (handler widgettype force)←3↑args,(⍴args)↓(⎕NS'')('event,ui' 'event' 'ui' '$(event.currentTarget)')0
+          (handler widgettype force)←3↑args,(⍴args)↓(⎕NS'')('event,ui' 'event' 'ui' '$(event.target)')0
           (syntax evt model this)←widgettype
          
           r←page←''
@@ -374,7 +374,7 @@
 
         :field public Force←0
 
-        handlerSyntax←⊂'event, ui' 'event'  'ui' '$(event.target)'
+        handlerSyntax←⊂'event,ui' 'event'  'ui' '$(event.target)'
 
         ∇ make
           :Access public
