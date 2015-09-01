@@ -13,8 +13,6 @@
       head,←Tag'link href="/Styles/style.css" rel="stylesheet" type="text/css"' ⍝ add the style sheet reference
       head,←Tag'meta http-equiv="content-type" content="text/html;charset=UTF-8"' ⍝ make it UTF-8
      
-    ⍝↓↓↓ If your code that builds the page updates HTMLHead (content that goes in the <head> element of the HTML document) it gets appended here.
-    ⍝    This means that any style changes introduced by your code will override those in the /Styles/style.css for elements defined by both stylesheets
       head,←req.Response.HTMLHead,CRLF ⍝ Adds additional html head information
       head←'head'Enclose head
      
@@ -24,6 +22,7 @@
       content←'div id="contentblock"'Enclose req.Response.HTML
       content,←'div id="codeblock" style="display: none;"'Enclose APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS
       content,←JS'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock").toggle();});});'
+      content←'div class="bodyblock"' Enclose content
       footer←#.Files.GetText req.Server.Config.Root,'Styles\footer.txt'
      
     ⍝↓↓↓ We enclose the banner/content/footer with a "wrapper" div so that the visible content of the page can be sized, aligned, floated, etc.

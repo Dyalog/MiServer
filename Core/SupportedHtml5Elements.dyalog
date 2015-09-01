@@ -10,7 +10,7 @@
     Elements,←' legend li line* link* main map mark menu menuitem meta* meter nav noscript object ol optgroup option'
     Elements,←' output p param* path* polygon* polyline* pre progress q rect* rp rt ruby s samp script'
     Elements,←' section select small source* span strong style sub summary sup svg table tbody td'
-    Elements,←' textarea tfoot th thead time title tr track u ul var video wbr'
+    Elements,←' textarea tfoot th thead time title tr track u ul var video wbr*'
 
 
     ∇ Build_html_namespace;e;def;noend;class;make;make1;make2;endclass;make1a;doc
