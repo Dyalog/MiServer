@@ -1,4 +1,4 @@
-﻿/* Body and Wrapper */
+/* Body and Wrapper */
 body {
 	color: #000000;
 	background-color: black;
@@ -12,6 +12,7 @@ body {
 .bodyblock {
 	background-color: #F6F6D9 !important;
 	font-family: Verdana !important;
+	min-height: 350pt;
 }
 /* Banner */
 #banner {

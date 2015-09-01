@@ -2,7 +2,7 @@
 ⍝ Control:: _SF.ejTreeView
 ⍝ Description:: Build a simple tree with a node selection callback
 
-    ∇ Compose
+    ∇ Compose ;tv
       :Access Public
      
       items←8 3⍴''
