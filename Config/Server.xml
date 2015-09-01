@@ -26,7 +26,7 @@
     <DefaultPage>index.dyalog</DefaultPage>             <!-- default page to load if none is specified in client request -->
     <DefaultExtension>.dyalog</DefaultExtension>        <!-- default extension for page files -->
     <AllowedHttpCommands>get,post</AllowedHttpCommands> <!-- HTTP commands that we process (for RESTful web services) -->
-    <HttpCacheTime>60</HttpCacheTime>                   <!-- minutes to cache static content, 0 = no caching --> 
+    <HttpCacheTime>0</HttpCacheTime>                   <!-- minutes to cache static content, 0 = no caching --> 
 
 <!-- Extensions -->
     <SessionHandler>SimpleSessions</SessionHandler>     <!-- name of class to perform session management -->
