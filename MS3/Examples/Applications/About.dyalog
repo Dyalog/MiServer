@@ -1,6 +1,6 @@
 ﻿:class About : MiPageSample
 ⍝ Control:: About MiServer
-⍝ Description:: Introduction to MiServer 3.0 with links to external and Dyalog-provided resources
+⍝ Description:: Introduction to MiServer 3.0
 
     ∇ Compose
       :Access public
