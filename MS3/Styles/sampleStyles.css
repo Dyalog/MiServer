@@ -1,4 +1,4 @@
-/* Body and Wrapper */
+﻿/* Body and Wrapper */
 body {
 	color: #000000;
 	background-color: black;
@@ -10,9 +10,11 @@ body {
 	margin: 10px auto;
 }
 .bodyblock {
-	background-color: #F6F6D9 !important;
-	font-family: Verdana !important;
-	min-height: 275pt;
+	background-color: #F6F6D9;
+	font-family: Verdana;
+	min-height: 150px;
+	font-size: 1em;
+	height:100%;
 }
 /* Banner */
 #banner {
@@ -88,12 +90,9 @@ a.nav:hover {
 }
 
 /*Template Content Area Styles*/
-#bodyblock {
-	height: 100%;
-}
+
 #contentblock {
 	margin: 10px;
-	font-size: .70em;
 	padding-bottom: 2em;
 }
 #codeblock {

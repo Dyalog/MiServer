@@ -16,7 +16,9 @@
       :Access public
       {}16807⌶2
       TASK←''
-     
+
+      Add _.Style 'button' ('border-radius' '10px') 
+
       header←'Press buttons to hear letter names. ' 'Press › to hear which letter to find. '
       style←''
       :If 0∊⍴Get'nowrapper' ⍝ Full-size

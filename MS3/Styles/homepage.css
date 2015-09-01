@@ -90,14 +90,14 @@
 
 .framed {
 	width: 730px;
-	min-height: 400px;
+	min-height: 200px;
 	overflow-y: auto;
 }
 
 .iframed {
 	width: 730px;
 	max-height: 600px;
-	min-height: 400px;
+	min-height: 250px;
 	border: none;
 	overflow-y: auto;
 }
