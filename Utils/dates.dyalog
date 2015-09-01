@@ -18,8 +18,10 @@
       ts←6↑ts
       :If 0=⎕NC'_UtcOffset'
           :If 'Win'≡ver←3↑1⊃'.'⎕WG'APLVersion'
-              ⎕USING←,⊂''
-              _UtcOffset←¯60×(System.TimeZone.CurrentTimeZone.GetUtcOffset ⎕NEW System.DateTime(ts)).Hours
+              :Hold '_UtcOffset'
+                  ⎕USING←,⊂''
+                  _UtcOffset←¯60×(System.TimeZone.CurrentTimeZone.GetUtcOffset ⎕NEW System.DateTime(ts)).Hours
+              :EndHold
           :Else
               :If (⊂ver)∊'Lin' 'AIX' 'Sol'
                   _UtcOffset←¯60×⍎¯2↓{⍵↑⍨-' '⍳⍨⌽⍵}⊃⎕SH'date -R'
