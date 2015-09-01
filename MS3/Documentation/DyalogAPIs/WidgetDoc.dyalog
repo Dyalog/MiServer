@@ -1,32 +1,32 @@
 ﻿:Class WidgetDoc : MiPageTemplate
 
-    ∇ Compose;ns;widget;doc
+    ∇ Compose;ns;widget;doc;t;opts;og
       :Access public
-      (ns widget)←Get'namespace widget'
       Add _.StyleSheet'/Styles/widgetDoc.css'
-      doc←ns Document widget
-      :Select doc
-      :Case ¯1
-          (Add _.h3('Namespace "',ns,'" not found.')).Style'color' 'red'
-      :Case ¯2
-          (Add _.h3('Widget "',widget,'" not found in namespace ',ns)).Style'color' 'red'
+      (ns widget)←Get'namespace widget'
+      :If 0∊⍴widget
+          Add _.h3'Select widget'
+          opts←'onchange="window.open(this.value,''this'');this.selectedIndex=0"'Add _.select
+          'disabled=' 'value='opts.Add _.option'[Select widget]'
+          :For ns :In '_DC' '_SF' '_JQ' '_html'
+              og←('label'ns)opts.Add _.optgroup
+              :For widget :In (⍎ns).⎕NL ¯9
+                  ('value=?namespace=',ns,'&widget=',widget)og.Add _.option widget
+              :EndFor
+          :EndFor
       :Else
+          doc←ns Document widget
+          doc[;2]←{New _.pre ⍵}¨doc[;2]
           Add _.h3 ns,'.',widget
-          :If 0∊⍴doc
-              Add _.h4'No documentation found.'
-          :Else
-              doc[;2]←{New _.pre ⍵}¨doc[;2]
-              (Add #._.Table doc).CellAttr←'class="widgetDoc"' 'class="widgetDocContent"'
-          :EndIf
-      :EndSelect
+          (Add #._.Table doc).CellAttr←'class="widgetDoc"' 'class="widgetDocContent"'
+      :EndIf
     ∇
 
     ∇ r←ns Document widget;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files
       :Access public shared
-      r←¯1
+      r←''
       :If 9.1=#.⎕NC⊂ns
           ref←#.⍎ns
-          r←¯2
           :If 9=ref.⎕NC widget
               wref←ref⍎widget
               src←1↓⎕SRC wref
@@ -49,8 +49,7 @@
               :EndIf
               samples←'/Examples/',(ns~'_'),'/'
               :If ~0∊⍴files←1⌷[2]#.Files.List #.Boot.ms.Config.AppRoot,samples
-                  files/⍨←∨/files∘.#.Strings.(beginsWith nocase)widget∘,¨'Simp' 'Adv'
-              :AndIf ~0∊⍴files
+              :AndIf ~0∊⍴files/⍨←∨/files∘.#.Strings.(beginsWith nocase)widget∘,¨'Simp' 'Adv'
                   r⍪←'Sample Pages'({'target=_blank'New _.A(2⍴⊂⍵)}¨samples∘,¨files)
               :EndIf
           :EndIf
