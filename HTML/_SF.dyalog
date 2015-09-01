@@ -17,7 +17,7 @@
 
         :Field public Data←''
 
-        handlerSyntax←'argument' 'argument'  'argument.model' 'argument.model'  ⍝ Syncfusion's event model
+        handlerSyntax←'argument' 'argument'  'argument.model' 'this.element'  ⍝ Syncfusion's event model (see _JQ.RenderHandlerCore for details)
 
         ∇ make
           :Access public

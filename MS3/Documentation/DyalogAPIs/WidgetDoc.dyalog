@@ -45,6 +45,7 @@
                   r⍪←c1 c2
               :EndFor
               :If 0≠wref.⎕NC⊂'DocBase'
+              :AndIf ~0∊⍴wref.DocBase
                   r⍪←'Documentation'('target=_blank'New _.A(2⍴⊂wref.DocBase))
               :EndIf
               samples←'/Examples/',(ns~'_'),'/'
