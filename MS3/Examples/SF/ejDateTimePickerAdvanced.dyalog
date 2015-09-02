@@ -1,8 +1,6 @@
 ﻿:Class ejDateTimePickerAdvanced : MiPageSample
 ⍝ Control:: _SF.ejDateTimePicker
-⍝ Description::  advance functionality.
-⍝ Show 2 calendars to select reservation dates.
-⍝ Display the time difference as result.
+⍝ Description::  Let user select dates/times and display the difference
 
     ∇ Compose;today;fromidn;tbl;tr;td;head;todate;from;to
       :Access Public

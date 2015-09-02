@@ -1,11 +1,11 @@
-﻿:class TTT :MiPageSample
-⍝ Control:: Tic Tac Toe
+﻿:class Tic_Tac_Toe :MiPageSample
+⍝ Control:: Tic_Tac_Toe
 ⍝ Description:: Text-based Tic Tac Toe game storing data on the server
 
     ∇ Compose;board;row;bcap;rows;cell;cells;xo;reset;size;width
       :Access public
      
-      Add _.style'pre {width:20pt;height:20pt;font-size: 12pt;padding: 6pt 4pt 0pt 4pt;margin:0;background-color: lightgoldenrodyellow;}'
+      Add _.style'pre {width:20pt; height:20pt; font-size: 12pt; padding: 6pt 4pt 0pt 4pt; margin:0; border: 1px inset}'
      
       size←3                   ⍝ Board size
       wins←{(1 1⍉⌽⍵)⍪(1 1⍉⍵)⍪(⍉⍵)⍪⍵}size size⍴⍳size*2
@@ -17,10 +17,10 @@
       sss←blank/⍨size*2        ⍝ Server Side State
       all←,(size↑⎕A)∘.,⍕¨⍳size ⍝ All cell names
      
-      board←Add _.table                 ⍝ Framework for board
-      bcap←board.Add _.caption          ⍝ Caption
-      bcap.Add¨(_.strong'Board')_.br _.hr  ⍝ ... and its content
-      rows←board.Add¨size/_.tr          ⍝ Board
+      board←Add _.table                   ⍝ Framework for board
+      bcap←board.Add _.caption            ⍝ Caption
+      bcap.Add¨(_.strong'Board')_.br _.hr ⍝ ... and its content
+      rows←board.Add¨size/_.tr            ⍝ Board
      
       :For row :In ⍳size
           cell←(row⌷rows).Add¨size/_.td ⍝ Add single row of cells
@@ -53,6 +53,8 @@
           sss[curr]←⊂next             ⍝ Server update
           :If Won sss
               js,←Msg next,' wins'
+              next←⊃xos               ⍝ Reset server next player
+              js,←'#xo'Replace next   ⍝ Reset client next player
           :ElseIf ~blank∊sss
               js,←Msg'Tie game'
           :Else

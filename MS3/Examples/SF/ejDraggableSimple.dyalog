@@ -1,6 +1,6 @@
 ﻿:Class ejDraggableSimple : MiPageSample
 ⍝ Control:: _SF.ejDraggable
-⍝ Description:: Take a div for a drag
+⍝ Description:: Allow moving a div around with the mouse
 
     ∇ Compose;drag
       :Access Public

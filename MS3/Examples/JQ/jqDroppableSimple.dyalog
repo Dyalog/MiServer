@@ -26,8 +26,8 @@
       :Access Public
       r←'#dropin'Replace'Good Job!'  ⍝ congratulate the user
       r,←'#dragon'Replace' '         ⍝ blank out the dropped div
-      r,←Execute'#dragon'Css'background-color' 'inherit' ⍝ hide it by making it have its parent's background
-      r,←Execute'#dropin'Css'background-color' 'gold'    ⍝ change the background of the recipient div
+      r,←Execute'#dragon'Css'background-color' 'transparent' ⍝ hide it by making it have its parent's background
+      r,←Execute'#dropin'Css'background-color' 'gold'        ⍝ change the background of the recipient div
     ∇
 
 

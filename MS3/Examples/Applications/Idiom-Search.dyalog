@@ -1,5 +1,5 @@
-﻿:class IdiomSearch :MiPageSample
-⍝ Control:: Idiom Search
+﻿:class Idiom_Search :MiPageSample
+⍝ Control:: Idiom_Search
 ⍝ Description:: Search the FinnAPL and Dyalog idiom lists
 
     ∇ Compose;fm;bn

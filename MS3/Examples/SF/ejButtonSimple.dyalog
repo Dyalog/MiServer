@@ -1,6 +1,6 @@
 ﻿:Class ejButtonSimple : MiPageSample
 ⍝ Control:: _SF.ejButton
-⍝ Description:: Illustrates a simple push-button.
+⍝ Description:: Illustrates a simple push-button
 
     ∇ Compose;bn
       :Access Public
