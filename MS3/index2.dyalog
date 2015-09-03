@@ -172,7 +172,7 @@
       tree.On'nodeSelect' 'OnCA'('node' 'eval' 'argument.id')
     ∇
 
-    ∇ PopulateMid mid;url;code;frame;title;navbuts
+    ∇ PopulateMid mid;url;code;frame;title;navbuts;t;sr;desc
      
      ⍝ Read framed pages
       url←⊃CURRFILES
@@ -186,25 +186,29 @@
       '#title'Add _.title('MS3: ',title) ⍝ after the : will be updated later on
       '#SampleTitle'mid.Add _.h2 title
      
+      desc←'#CtlDescs'mid.Add _.div ⍝ All descriptions will go here
+     
      ⍝ Control: Code fragment [View documentation]
-      '#ControlDesc'mid.Add _.span
-      ('#DocLink'mid.Add _.span).Add'target="_blank'New _.A'View documentation'
-      mid.Add _.br
+      '#ControlDesc'desc.Add _.span
+      ('#DocLink'desc.Add _.span).Add'target="_blank'New _.A'View documentation'
+      desc.Add _.br
      
      ⍝ Sample: Embed a code fragment [Pop out]
-      '#SampleDesc'mid.Add _.span('Description'Section code)
-      ('#PopLink'mid.Add _.span).Add NewWinA'Pop out'url
-      mid.Add _.br
+      '#SampleDesc'desc.Add _.span('Description'Section code)
+      ('#PopLink'desc.Add _.span).Add NewWinA'Pop out'url
+      desc.Add _.br
      
      ⍝ [ ] Show related samples
-      'onchange="$("#rel").toggle()"'mid.Add _.Input'checkbox' '' 'Show related samples' 'right'
-      '#rel' 'style="display: none;"'mid.Add _.div
-      mid.Add _.hr
+      t←'onchange="$("#rel").toggle()"'desc.Add _.Input'checkbox' '' 'Show related samples' 'right'
+      t.style←'margin-left: 0px;'
+      '#rel' 'style="display: none;"'desc.Add _.div
+      desc.Add _.hr
      
      ⍝ Create and fill placeholder for embedded page and its source code
       (mid.Add NewDiv'#SampleFrame').Add Frame url
       mid.Add _.hr
-      'onchange' '$("#SampleSource").toggle()'mid.Add _.Input'checkbox' '' 'Show source code' 'right'
+      t←'onchange' '$("#SampleSource").toggle()'mid.Add _.Input'checkbox' '' 'Show source code' 'right'
+      t.style←'margin-left: 0px;'
       '#SampleSource' '.samplesource' 'style="display: none;"'mid.Add _.div('small;border:none'#.HTMLInput.APLToHTMLColour Dread⊃CURRFILES)
      
     ∇
@@ -246,7 +250,8 @@
     ∇
 
     ∇ r←OnGS;node;list;nodir;prefix;files;out;file;name;item;title;desc
-      :Access Public
+      :Access Public    
+     
      ⍝ Callback for Getting Started
       node←(1+'tree'≡4↑_what)⊃_what(Get'node') ⍝ get id of node if tree or id of what if not
       node~←'_' ⍝ _ is frame suffix
@@ -274,12 +279,14 @@
           SAMPLE←1
           r←Update node
       :EndIf
-      r←(GenJS r),Execute'scroll(0,0);'
+     
+      r←(GenJS r),Execute'scroll(0,0);$("#CtlDescs").hide();'
     ∇
-
+                      
     ∇ r←OnCA;node;control;files;list;file;scores;code;desc;score;controls;out;item;title;coreonly
       :Access Public
      ⍝ Callback for Core/All Controls
+      ∘∘∘
       node←(1+'tree'≡4↑_what)⊃_what(Get'node') ⍝ get id of node if tree or id of what if not
       coreonly←'('∊node
       node↓⍨←-coreonly ⍝ drop ( is core suffix
