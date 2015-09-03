@@ -202,7 +202,8 @@
      
      ⍝ [ ] Show related samples
       t←'onchange="$("#rel").toggle()"'desc.Add _.Input'checkbox' '' 'Show related samples' 'right'
-      t.style←'margin-left: 0px;'
+      t.id←'ShowRelated'
+      t.style←'margin-left: 0px; margin-top: 10px;'
       '#rel' 'style="display: none;"'desc.Add _.div
       desc.Add _.hr
      
@@ -395,11 +396,14 @@
       r←'#title'Replace'MS3: ',page
      
       :If 'treeA'≢_what ⍝ NOT a control selection
-          control←''
+          :If 'treeG'≡_what ⋄ title←'Application ',url
+          :Else ⋄ title←'Sample ',url ⋄ :EndIf
+          r,←'#ControlDesc'Replace''
+          control←'grebmorKnetroM' ⍝ really hope that doesn't find anything!
           r,←'#SampleTitle'Replace title
           (sd←New _.span).Add¨(_.strong'Description: ')(_.em desc)
           r,←'#SampleDesc'Replace sd
-          r,←Execute'$("#CtlDescs").show();'
+          r,←Execute'$("#CtlDescs").',((1+_what≡'treeG')⊃'show' 'hide'),'();'
       :Else
           control←NodeToCtrl CURRCTRL
           r,←(×≢title)/'#SampleTitle'Replace control
@@ -407,7 +411,6 @@
           r,←'#ControlDesc'Replace cd
           (sd←New _.span).Add¨(_.strong'Sample: ')(_.em desc)
           r,←'#SampleDesc'Replace sd
-     
       :EndIf
      
       :If 0
@@ -471,7 +474,9 @@
       r,←'#PopLink'Replace NewWinA'Pop out'url
       r,←'#SampleSource'Replace'small;border:none'#.HTMLInput.APLToHTMLColour code
       url←∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨(⊢End{⍺ ⍵}⌽End)1↓CURRCTRL
-      r,←'#DocLink'Replace NewWinA'View documentation'url
+      :If _what≡'treeA' ⋄ r,←'#DocLink'Replace NewWinA'View documentation'url
+      :Else ⋄ r,←'#DocLink'Replace'' ⋄ :EndIf
+     ⍝ r,←'label[for="ShowRelated"]'Replace'Show ',(⍕≢CURRFILES),' related samples.'
       :If 0⍝=⍴CURRFILES
           r,←Execute'$("#CtlDescs").show();'
           r,←'#SampleDesc'Replace'.noitems'New _.p,⊂'[no samples using ',control,']'
