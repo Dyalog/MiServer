@@ -307,7 +307,7 @@
           name(Options SetOption)value
         ∇
 
-        ∇ name(ref SetOption)value;parent;i;ns;split;set;index;lb;new;now;an;n
+        ∇ name(ref SetOption)value;set;parent;i;ind;newref;chunk;pos;n;now;new;chunkroot
           →(0∊⍴value)⍴0
           :If 1<|≡name ⍝ multiple names?
               value←(⊂⍣((⎕DR value)∊80 82))value
@@ -319,25 +319,26 @@
               :If 0∊⍴parent←(i←-'.'⍳⍨⌽name)↓name
                   name(ref set)value ⍝ single name: assign directly (may be more than 1 name)
               :Else
-                  :If ~'['∊parent
-                      parent ref.⎕NS''
-                  :Else
-                      split←parent⍳']'              ⍝ if present, ] will be ≤⍴parent
-                      :If (⍴parent)≤split+1         ⍝ if ] is in the last 2 positions
-                          an←parent↑⍨¯1+lb←parent⍳'['      ⍝ find the array name
-                          index←2⊃⎕VFI lb↓(split-1)↑parent ⍝ the position wanted
-                          new←⎕NS¨index⍴⊂⍬
-                          :If 0=ref.⎕NC an             ⍝ if it does not exist
-                              an(ref set)new           ⍝ create it as a vector
-                          :EndIf
-                     ⍝ If the index is beyond the current shape, extend it
-                          :If index>n←⍴now←ref⍎an
-                              an(ref set)now,n↓new
-                          :EndIf
+                  ind←name⍳'.'
+                  chunk←¯1↓ind↑name
+                  (chunkroot pos)←'[]'#.Utils.penclose chunk
+                  pos←2⊃⎕VFI pos
+                  :Trap 3 6
+                      newref←ref⍎chunk
+                  :Case 3 ⍝ index error
+                      n←⍴now←ref⍎chunkroot
+                      new←⎕NS¨(pos-n)⍴⊂⍬
+                      chunkroot(ref set)now,new
+                      newref←ref⍎chunk
+                  :Case 6 ⍝ value error
+                      chunkroot ref.⎕NS''
+                      :If ~0∊pos
+                          new←⎕NS¨pos⍴⊂⍬
+                          chunkroot(ref set)new
                       :EndIf
-                      (parent↓⍨1+split)(ref⍎split↑parent).⎕NS''
-                  :EndIf
-                  (1↓i↑name)((ref⍎parent)set)value
+                      newref←ref⍎chunk
+                  :EndTrap
+                  (ind↓name)(newref SetOption)value
               :EndIf
           :EndIf
         ∇
