@@ -226,6 +226,8 @@
       fromframe←'_'=⊃⌽node
       node~←'_' ⍝ _ is frame suffix
       :If '/'=⊃⌽node ⍝ Folder (i.e. Category)
+          r←''
+          :Return
           CURRCTRL←''
           SAMPLE←0
           node←1↓¯1↓node ⍝ Strip outer slashes
@@ -252,45 +254,22 @@
           r←Update node
       :EndIf
      
-      r←(GenJS r),Execute toggle
+      r←(Execute toggle),GenJS r
     ∇
 
     ∇ r←OnCA;node;control;files;list;file;scores;code;desc;score;controls;out;item;title;coreonly;toggle
       :Access Public
      ⍝ Callback for Core/All Controls
       node←(1+'tree'≡4↑_what)⊃_what(Get'node') ⍝ get id of node if tree or id of what if not
-      coreonly←'('∊node
+      COREONLY←coreonly←'('∊node
       node↓⍨←-coreonly ⍝ drop ( is core suffix
       :If '_'=⊃⌽node ⍝ Category
+          r←''
+          :Return
           CURRCTRL←''
           SAMPLE←0
-          control←NodeToCtrl¨TREE/⍨∨/¨(⊂node)⍷¨TREE
-          control←(CORE∊⍨{⍵↓⍨⌽⍵⍳'.'}¨control)/⍣coreonly⊢control
-          scores←⍬
-          :For file :In files←ALLFILES[⍋↑ALLFILES]
-              controls←Words'Control'Section Dread'Examples/',file
-              score←2×∨/control∊controls         ⍝ 2=relevant Simple, 0=not relevant
-              score-←∨/'Advanced'⍷file           ⍝ 1=relevant Advanced
-              scores,←0⌈score
-          :EndFor
-          CURRFILES←'/Examples/'∘,¨(files/⍨×scores)[⍒scores/⍨×scores] ⍝ put Simple before Advanced
-          out←NewDiv'.framed'
-          :If 0=⍴CURRFILES
-              '.noitems'out.Add _.p,⊂'[no samples for ',(¯1↓node),' controls]'
-              ⍝(2⊃r)←'_',class,'.',AddShortInfo⊂control
-              ⍝(3⊃r)←(4↓⊃AddLongInfo,⊂control),' ',('0'=⊃2⊃r)/3⊃r
-              r←control(control,' Short Info')'Long info'out''
-          :Else
-              :For file :In CURRFILES
-                  item←('#',file,'_')'.listitem' 'title="Click here to open"'out.Add _.p
-                  item.Add _.strong(↑Tail file)
-                  item.Add' ',#.HTMLInput.dtlb'Description'Section Dread file
-              :EndFor
-              out.Add _.Handler'.listitem' 'click' 'OnGS'
-              title←('All '/⍨coreonly<1=⍴node),(coreonly/'Core '),(Clean node),' controls'
-              desc←'Click on a button below to select a sample.'
-              r←title title desc out''
-          :EndIf
+          title←('All '/⍨coreonly<1=⍴node),(coreonly/'Core '),(Clean node),' controls'
+          r←title title'' '' ''
           toggle←'$("#CtlDescs").hide();'
       :Else ⍝ Control
           SAMPLE←1
@@ -305,15 +284,13 @@
           :EndFor
           CURRFILES←'/Examples/'∘,¨(ALLFILES/⍨×scores)[⍒scores/⍨×scores] ⍝ sort descending by score
           :If 0=⍴CURRFILES
-              out←NewDiv'.framed'
-              '.noitems'out.Add _.p,⊂'[no samples using ',control,']'
-              ⍝(2⊃r)←'_',class,'.',AddShortInfo⊂control
-              ⍝(3⊃r)←(4↓⊃AddLongInfo,⊂control),' ',('0'=⊃2⊃r)/3⊃r
-              r←control(control,' Short Info')'Long info'out''
+              r←control control'' '' ''
+              toggle←'$("#CtlDescs").hide();'
           :Else
               r←control Update⊃CURRFILES
+              toggle←'$("#CtlDescs").show();'
           :EndIf
-          toggle←'$("#CtlDescs").show();'
+     
       :EndIf
       r←(GenJS r),Execute'scroll(0,0);',toggle
     ∇
@@ -397,14 +374,13 @@
           page←spacectrl
           title←('All '/⍨2≥⍴page),('Core '/⍨'('=⊃⌽page),⌽End page
       :Else
-          ⍝page←Clean'Control'Section Dread node  ⍝!!!! FIX FOR SEARCH !!!!
           page←Clean'Control'Section code
           title←page
       :EndIf
       desc←#.HTMLInput.dtlb'Description'Section code
     ∇
 
-    ∇ r←GenJS(page title desc url code);cd;sd;file;scores;controls;score;out;item;control
+    ∇ r←GenJS(page title desc url code);cd;sd;file;scores;controls;score;out;item;control;coreonly
      ⍝ Generate JavaScript for filling placeholders
       r←'#title'Replace'MS3: ',page
       control←NodeToCtrl CURRCTRL
@@ -419,33 +395,73 @@
       (sd←New _.span).Add¨(_.strong'Sample: ')(_.em desc)
       r,←'#SampleDesc'Replace sd
      
-      scores←⍬
-      :For file :In ALLFILES
-          controls←Words'Control'Section Dread'Examples/',file
-          score←102-2×(50↑controls)⍳⊂control ⍝ 100=most relevant, 0=not relevant at all
-          score-←∨/'Advanced'⍷file           ⍝ subtract 1 if advanced example
-          scores,←0⌈score
-      :EndFor
-      CURRFILES←'/Examples/'∘,¨(ALLFILES/⍨×scores)[⍒scores/⍨×scores] ⍝ sort descending by score
-      out←NewDiv'.framed'
-      :If 0=⍴CURRFILES
-          '.noitems'out.Add _.p,⊂'[no samples using ',control,']'
-      :Else
-          :For file :In 1↓CURRFILES
-              item←('#',file,'_')'.listitem' 'title="Click here to open"'out.Add _.p
-              item.Add _.strong(↑Tail file)
-              item.Add' ',#.HTMLInput.dtlb'Description'Section Dread file
+     
+      :If ''≡desc
+          coreonly←COREONLY
+          control←NodeToCtrl¨TREE/⍨∨/¨(⊂node)⍷¨TREE
+          control←(CORE∊⍨{⍵↓⍨⌽⍵⍳'.'}¨control)/⍣coreonly⊢control
+          scores←⍬
+          :For file :In files←ALLFILES[⍋↑ALLFILES]
+              controls←Words'Control'Section Dread'Examples/',file
+              score←2×∨/control∊controls         ⍝ 2=relevant Simple, 0=not relevant
+              score-←∨/'Advanced'⍷file           ⍝ 1=relevant Advanced
+              scores,←0⌈score
           :EndFor
+          CURRFILES←'/Examples/'∘,¨(files/⍨×scores)[⍒scores/⍨×scores] ⍝ put Simple before Advanced
+          out←NewDiv'.framed'
+          :If 0=⍴CURRFILES
+              '.noitems'out.Add _.p,⊂'[no samples for ',(¯1↓node),' controls]'
+              ⍝(2⊃r)←'_',class,'.',AddShortInfo⊂control
+              ⍝(3⊃r)←(4↓⊃AddLongInfo,⊂control),' ',('0'=⊃2⊃r)/3⊃r
+              r←control(control,' Short Info')'Long info'out''
+          :Else
+              :For file :In CURRFILES
+                  item←('#',file,'_')'.listitem' 'title="Click here to open"'out.Add _.p
+                  item.Add _.strong(↑Tail file)
+                  item.Add' ',#.HTMLInput.dtlb'Description'Section Dread file
+              :EndFor
+              out.Add _.Handler'.listitem' 'click' 'OnGS'
+              title←('All '/⍨coreonly<1=⍴node),(coreonly/'Core '),(Clean node),' controls'
+              ⍝desc←'Click on a button below to select a sample.'
+     
+          :EndIf
+      :Else
+     
+     
+          scores←⍬
+          :For file :In ALLFILES
+              controls←Words'Control'Section Dread'Examples/',file
+              score←102-2×(50↑controls)⍳⊂control ⍝ 100=most relevant, 0=not relevant at all
+              score-←∨/'Advanced'⍷file           ⍝ subtract 1 if advanced example
+              scores,←0⌈score
+          :EndFor
+          CURRFILES←'/Examples/'∘,¨(ALLFILES/⍨×scores)[⍒scores/⍨×scores] ⍝ sort descending by score
+          out←NewDiv'.framed'
+          :If 1<⍴CURRFILES
+              :For file :In 1↓CURRFILES
+                  item←('#',file,'_')'.listitem' 'title="Click here to open"'out.Add _.p
+                  item.Add _.strong(↑Tail file)
+                  item.Add' ',#.HTMLInput.dtlb'Description'Section Dread file
+              :EndFor
+              out.Add _.Handler'.listitem' 'click' 'OnGS'
+          :EndIf
       :EndIf
-      out.Add _.Handler'.listitem' 'click' 'OnGS'
      
       r,←'#rel'Replace out
      
-      r,←'#SampleFrame'Replace Frame url
+      r,←(×≢url)/'#SampleFrame'Replace Frame url
+     
       r,←'#PopLink'Replace NewWinA'Pop out'url
       r,←'#SampleSource'Replace'small;border:none'#.HTMLInput.APLToHTMLColour code
       url←∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨(⊢End{⍺ ⍵}⌽End)1↓CURRCTRL
       r,←'#DocLink'Replace NewWinA'View documentation'url
+      :If 0=⍴CURRFILES
+          r,←Execute'$("#CtlDescs").show();'
+          r,←'#SampleDesc'Replace'.noitems'New _.p,⊂'[no samples using ',control,']'
+          r,←'#PopLink'Replace''
+          r,←'#SampleSource'Replace''
+          r,←'#SampleFrame'Replace''
+      :EndIf
     ∇
 
     ∇ node←GetNode
