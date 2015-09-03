@@ -129,7 +129,7 @@
 
     ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;menu;i;fs;ac;text;treeall;treecore;names;tree;dirs;levels;core;enames
      
-      :If 0
+      :If 1
       ⍝ SEARCH FIELD ⍝⍝⍝
           search←New _.EditField'searchfield'⍝).On'change' 'OnSearch'('str' 'val')
           (search,←'#searchbutton' '.menu'New _.button'Search').On'click' 'OnSearch'('str' '#searchfield' 'val')
@@ -364,8 +364,12 @@
           desc←'Click on a button below to select a sample.'
           ⍝r←(Q str)title desc out''
           r←'#SampleFrame'Replace out
-          r,←'#SampleTitle'Replace(Q str)
-          r,←'#title'Replace(Q str)
+          r,←'#SampleTitle'Replace'Samples related to ',Q str
+          r,←'#SampleSource'Replace'[No source to display]'
+          r,←Execute'$("#CtlDescs").hide();'
+          ⍝r,←'#title'Replace(Q str)
+          ⍝r,←Execute'$("#SampleFrame").show();'
+     
           :Return
           SEARCH←GenJS⍣(STR≡'')⊢r ⍝ Do not finish up if called by OnTree
           STR←'' ⍝ Reset
@@ -389,17 +393,22 @@
     ∇ r←GenJS(page title desc url code);cd;sd;file;scores;controls;score;out;item;control;coreonly
      ⍝ Generate JavaScript for filling placeholders
       r←'#title'Replace'MS3: ',page
-      control←NodeToCtrl CURRCTRL
      
-      :If 'treeG'≡_what
+      :If 'treeA'≢_what ⍝ NOT a control selection
+          control←''
           r,←'#SampleTitle'Replace title
+          (sd←New _.span).Add¨(_.strong'Description: ')(_.em desc)
+          r,←'#SampleDesc'Replace sd
+          r,←Execute'$("#CtlDescs").show();'
       :Else
+          control←NodeToCtrl CURRCTRL
           r,←(×≢title)/'#SampleTitle'Replace control
+          (cd←New _.span).Add¨(_.strong'Control: ')(_.em,⊂ShortInfo⌽End CURRCTRL)
+          r,←'#ControlDesc'Replace cd
+          (sd←New _.span).Add¨(_.strong'Sample: ')(_.em desc)
+          r,←'#SampleDesc'Replace sd
+     
       :EndIf
-      (cd←New _.span).Add¨(_.strong'Control: ')(_.em,⊂ShortInfo⌽End CURRCTRL)
-      r,←'#ControlDesc'Replace cd
-      (sd←New _.span).Add¨(_.strong'Sample: ')(_.em desc)
-      r,←'#SampleDesc'Replace sd
      
       :If 0
           :If ''≡desc
