@@ -476,8 +476,8 @@
       url←∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨(⊢End{⍺ ⍵}⌽End)1↓CURRCTRL
       :If _what≡'treeA' ⋄ r,←'#DocLink'Replace NewWinA'View documentation'url
       :Else ⋄ r,←'#DocLink'Replace'' ⋄ :EndIf
-      r,←'[for=''ShowRelated'']'Replace{'Show ',(⍕⍵),' related sample',((⍵≠1)/'s'),'.'}0⌈¯1+≢CURRFILES
-      :If 0⍝=⍴CURRFILES
+      r,←'[for=''ShowRelated'']'Replace{'Show ',(⍕⍵),' related sample',((⍵≠1)/'s'),'.'}0⌈¯1+⍴CURRFILES
+      :If 0=⍴CURRFILES
           r,←Execute'$("#CtlDescs").show();'
           r,←'#SampleDesc'Replace'.noitems'New _.p,⊂'[no samples using ',control,']'
           r,←'#PopLink'Replace''
