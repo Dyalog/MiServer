@@ -186,7 +186,7 @@
       '#title'Add _.title('MS3: ',title) ⍝ after the : will be updated later on
       '#SampleTitle'mid.Add _.h2 title
      
-      desc←'#CtlDescs'mid.Add _.div ⍝ All descriptions will go here
+      desc←'#CtlDescs' 'style="display:none"'mid.Add _.div ⍝ All descriptions will go here
      
      ⍝ Control: Code fragment [View documentation]
       '#ControlDesc'desc.Add _.span
@@ -217,46 +217,16 @@
 
     :SECTION CALLBACKS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
-    ∇ r←OnNavBut;file;item;out;title;desc
-      :Access Public
-      r←''
-      :Select 2↓_what
-      :Case 'related'
-          SAMPLE←0
-          out←NewDiv'.framed'
-          :For file :In CURRFILES
-              item←('#',file,'_')'.listitem' 'title="Click here to open"'out.Add _.p
-              item.Add _.strong(Clean↑Tail file)
-              item.Add' ',#.HTMLInput.dtlb'Description'Section Dread file
-          :EndFor
-          out.Add _.Handler'.listitem' 'click' 'OnGS'
-          title←''⍝NodeToCtrl node
-          desc←'Click on a button below to select a sample.'
-          r←GenJS title title desc out''
-      :Case 'source'
-          :If SAMPLE
-              r←'#SampleSource'Replace'small;border:none'#.HTMLInput.APLToHTMLColour Dread⊃CURRFILES
-              r,←Execute'location.replace("#source");'
-          :EndIf
-      :Case 'info'
-          :If SAMPLE∧''≢CURRCTRL
-              r←Execute'window.open',P Q∊∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨(⊢End{⍺ ⍵}⌽End)CURRCTRL
-          :EndIf
-      :Case 'out'
-          r←SAMPLE/Execute'window.open',P Q⊃CURRFILES
-      :Case 'urce' ⍝ n.b. 2↓
-          r←Execute'scroll(0,0);'
-      :EndSelect
-    ∇
 
-    ∇ r←OnGS;node;list;nodir;prefix;files;out;file;name;item;title;desc
-      :Access Public    
+    ∇ r←OnGS;node;list;nodir;prefix;files;out;file;name;item;title;desc;toggle;fromframe
+      :Access Public
      
      ⍝ Callback for Getting Started
       node←(1+'tree'≡4↑_what)⊃_what(Get'node') ⍝ get id of node if tree or id of what if not
+      fromframe←'_'=⊃⌽node
       node~←'_' ⍝ _ is frame suffix
-      CURRCTRL←''
       :If '/'=⊃⌽node ⍝ Folder (i.e. Category)
+          CURRCTRL←''
           SAMPLE←0
           node←1↓¯1↓node ⍝ Strip outer slashes
           list←Slist #.Boot.AppRoot,node,' -rec -raw'
@@ -275,18 +245,19 @@
           title←Clean node
           desc←'Click on a button below to select a sample.'
           r←title title desc out''
+          toggle←';scroll(0,0);$("#CtlDescs").hide()'
       :Else ⍝ File (i.e. Page)
           SAMPLE←1
+          toggle←(1+fromframe)⊃'$("#CtlDescs").hide();' '$("#CtlDescs").show();'
           r←Update node
       :EndIf
      
-      r←(GenJS r),Execute'scroll(0,0);$("#CtlDescs").hide();'
+      r←(GenJS r),Execute toggle
     ∇
-                      
-    ∇ r←OnCA;node;control;files;list;file;scores;code;desc;score;controls;out;item;title;coreonly
+
+    ∇ r←OnCA;node;control;files;list;file;scores;code;desc;score;controls;out;item;title;coreonly;toggle
       :Access Public
      ⍝ Callback for Core/All Controls
-      ∘∘∘
       node←(1+'tree'≡4↑_what)⊃_what(Get'node') ⍝ get id of node if tree or id of what if not
       coreonly←'('∊node
       node↓⍨←-coreonly ⍝ drop ( is core suffix
@@ -320,6 +291,7 @@
               desc←'Click on a button below to select a sample.'
               r←title title desc out''
           :EndIf
+          toggle←'$("#CtlDescs").hide();'
       :Else ⍝ Control
           SAMPLE←1
           CURRCTRL←node
@@ -341,8 +313,9 @@
           :Else
               r←control Update⊃CURRFILES
           :EndIf
+          toggle←'$("#CtlDescs").show();'
       :EndIf
-      r←(GenJS r),Execute'scroll(0,0);'
+      r←(GenJS r),Execute'scroll(0,0);',toggle
     ∇
 
     ∇ r←OnList;out;file;item;title;node;desc
@@ -422,25 +395,29 @@
       code←Dread url
       :If ×⎕NC'spacectrl'
           page←spacectrl
+          title←('All '/⍨2≥⍴page),('Core '/⍨'('=⊃⌽page),⌽End page
       :Else
-          page←Clean'Control'Section Dread node  ⍝!!!! FIX FOR SEARCH !!!!
-          ⍝page←⊃Words'Control'Section code
+          ⍝page←Clean'Control'Section Dread node  ⍝!!!! FIX FOR SEARCH !!!!
+          page←Clean'Control'Section code
+          title←page
       :EndIf
       desc←#.HTMLInput.dtlb'Description'Section code
-      title←('All '/⍨2≥⍴page),('Core '/⍨'('=⊃⌽page),⌽End page
     ∇
 
     ∇ r←GenJS(page title desc url code);cd;sd;file;scores;controls;score;out;item;control
      ⍝ Generate JavaScript for filling placeholders
       r←'#title'Replace'MS3: ',page
       control←NodeToCtrl CURRCTRL
-      r,←(×≢title)/'#SampleTitle'Replace control
+     
+      :If 'treeG'≡_what
+          r,←'#SampleTitle'Replace title
+      :Else
+          r,←(×≢title)/'#SampleTitle'Replace control
+      :EndIf
       (cd←New _.span).Add¨(_.strong'Control: ')(_.em,⊂ShortInfo⌽End CURRCTRL)
       r,←'#ControlDesc'Replace cd
       (sd←New _.span).Add¨(_.strong'Sample: ')(_.em desc)
       r,←'#SampleDesc'Replace sd
-     
-     
      
       scores←⍬
       :For file :In ALLFILES
@@ -454,8 +431,7 @@
       :If 0=⍴CURRFILES
           '.noitems'out.Add _.p,⊂'[no samples using ',control,']'
       :Else
-          out.Add _.p'Click on a button below to select a sample.'
-          :For file :In CURRFILES
+          :For file :In 1↓CURRFILES
               item←('#',file,'_')'.listitem' 'title="Click here to open"'out.Add _.p
               item.Add _.strong(↑Tail file)
               item.Add' ',#.HTMLInput.dtlb'Description'Section Dread file
@@ -463,7 +439,7 @@
       :EndIf
       out.Add _.Handler'.listitem' 'click' 'OnGS'
      
-      r,←'#rel'Replace out⍝ !!! INSERT RELATED SAMPLES HERE
+      r,←'#rel'Replace out
      
       r,←'#SampleFrame'Replace Frame url
       r,←'#PopLink'Replace NewWinA'Pop out'url
@@ -471,33 +447,6 @@
       url←∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨(⊢End{⍺ ⍵}⌽End)1↓CURRCTRL
       r,←'#DocLink'Replace NewWinA'View documentation'url
     ∇
-
-
-⍝      '#title'Add _.title('MS3: ',title) ⍝ after the : will be updated later on
-⍝      '#SampleTitle'mid.Add _.span title
-⍝      ('#DocLink'mid.Add _.span).Add'target="_blank'New _.A'View documentation'
-⍝      mid.Add _.br
-⍝
-⍝     ⍝ Control: Code fragment [View documentation]
-⍝      '#ControlDesc'mid.Add _.span
-⍝      mid.Add _.br
-⍝
-⍝     ⍝ Sample: Embed a code fragment [Pop out]
-⍝      '#SampleDesc'mid.Add _.span('Description'Section code)
-⍝      ('#PopLink'mid.Add _.span).Add NewWinA'Pop out'url
-⍝
-⍝     ⍝ [ ] Show related samples
-⍝      'onchange="$("#rel").toggle()"'mid.Add _.Input'checkbox' '' 'Show related samples' 'right'
-⍝      '#rel' 'style="display: none;"'mid.Add _.div
-⍝      mid.Add _.hr
-⍝
-⍝     ⍝ Create and fill placeholder for embedded page and its source code
-⍝      (mid.Add NewDiv'#SampleFrame').Add Frame url
-⍝      mid.Add _.hr
-⍝      'onchange' '$("#SampleSource").toggle()'mid.Add _.Input'checkbox' '' 'Show source code' 'right'
-⍝      '#SampleSource
-
-
 
     ∇ node←GetNode
       node←4↓(1+'tree'≡4↑_what)⊃_what(Get'node')
@@ -511,6 +460,38 @@
           to←'\\''' '\\"' '\\\\' '\\n' '\\r' '\\t' '\\b' '\\f' ⍝ problematic in regex too :-)
           Q(fr ⎕R to⍠'Mode' 'D')⍵ ⍝ Replace problematic chars and sourround with quotes
       }
+
+    ∇ r←OnNavBut;file;item;out;title;desc
+      :Access Public
+      r←''
+      :Select 2↓_what
+      :Case 'related'
+          SAMPLE←0
+          out←NewDiv'.framed'
+          :For file :In CURRFILES
+              item←('#',file,'_')'.listitem' 'title="Click here to open"'out.Add _.p
+              item.Add _.strong(Clean↑Tail file)
+              item.Add' ',#.HTMLInput.dtlb'Description'Section Dread file
+          :EndFor
+          out.Add _.Handler'.listitem' 'click' 'OnGS'
+          title←''⍝NodeToCtrl node
+          desc←'Click on a button below to select a sample.'
+          r←GenJS title title desc out''
+      :Case 'source'
+          :If SAMPLE
+              r←'#SampleSource'Replace'small;border:none'#.HTMLInput.APLToHTMLColour Dread⊃CURRFILES
+              r,←Execute'location.replace("#source");'
+          :EndIf
+      :Case 'info'
+          :If SAMPLE∧''≢CURRCTRL
+              r←Execute'window.open',P Q∊∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨(⊢End{⍺ ⍵}⌽End)CURRCTRL
+          :EndIf
+      :Case 'out'
+          r←SAMPLE/Execute'window.open',P Q⊃CURRFILES
+      :Case 'urce' ⍝ n.b. 2↓
+          r←Execute'scroll(0,0);'
+      :EndSelect
+    ∇
 
     ∇ js←APLtoJS vtv;act;data
       :Access public shared

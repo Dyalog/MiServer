@@ -26,7 +26,7 @@
       style,←'.serif1 {font-family: serif;} '
       Add _.style style
      
-      Add¨_.h2{⍺ ⍵}¨(,/⍣BIG)'Press buttons to hear letter names. ' 'Press › to hear which letter to find. '
+      Add¨_.h3{⍺ ⍵}¨(,/⍣BIG)'Press buttons to hear letter names. ' 'Press › to hear which letter to find. '
      
       menu←Add _.table
       (menu.Add _.tr).Add¨_.th,¨'Hear letter' 'Hear again' 'Show letter' 'Start over'
