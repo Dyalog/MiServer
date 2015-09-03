@@ -1,4 +1,4 @@
-﻿/* Body and Wrapper */
+/* Body and Wrapper */
 body {
 	color: #000000;
 	background-color: black;
@@ -178,11 +178,12 @@ p {
 }
 */
 pre {
-	background-color: #e5e5cc;
+	/* background-color: #e5e5cc; */
 	padding: 5px;
 	font-family: APL385 Unicode;
-	font-size: x-small;
-	border: 1px #f0f0e0 solid;
+	font-size: small;
+	/*border: 1px #f0f0e0 solid;*/
+	white-space: pre-wrap;
 }
 code {
 	font-family: APL385 Unicode;

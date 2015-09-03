@@ -15,10 +15,13 @@
     ⍝  and advice. At the same time, it showcases many of MiServer's capabilities,
     ⍝  as it is built almost entirely in APL using components available in MiServer.
      
-      D←'src=/Examples/Data/Dyalog-D.png' 'alt="Dyalog-D"' 'height="20px"' 'style="vertical-align:bottom;"'New _.img
+      D←'src=/Examples/Data/Dyalog-D.png' 'alt="Dyalog-D"'
+      D,←'height="20px"' 'style="vertical-align:bottom;"'
+      D New←_.img
       (Add _.p ScriptFollows).Add¨D'in the top left corner.'
-    ⍝  Hover over the four buttons on the top right to see their functions. When a sample is popped out
-    ⍝  into its own tab or window, the source code and page content can be toggled by clicking the large Dyalog&nbsp;
+    ⍝  Hover over the four buttons on the top right to see their functions.
+    ⍝  When a sample is popped out into its own tab or window, the source
+    ⍝  code and page content can be toggled by clicking the large Dyalog&nbsp;
     ∇
 
 
