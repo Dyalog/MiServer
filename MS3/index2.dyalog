@@ -37,7 +37,7 @@
     Frame←{'.iframed' ('src=',Q⍵,'?NoWrapper=1') New _.iframe}
 
     NewWinA←{'target="_blank"'('href=',Q⊃⌽⍵) 'title="Click to pop out"'New _.a (⊃⍵)} ⍝ New link that opens in a new window/tab
-    
+
     NewDiv←{⍵ New _.div} ⍝ Make a div
 
     Horz←{⍺←⊢ ⋄ r⊣(r←⍺ New _.StackPanel ⍵).Horizontal←1} ⍝ Horizontal StackPanel
@@ -59,6 +59,8 @@
     Names←{1↓¨⍵↑¨⍨¯1+⍵⍳¨':'} ⍝ Extract section names from set of several 'name:: description'
 
     AddShortInfo←{⍵,¨P¨(4+⍴¨⍵)↓¨(INFOSHORT,⊂'')[NAMESSHORT⍳⍵]} ⍝ ⍵ (ShortDesc)
+
+    ShortInfo←{(4+⍴⍵)↓¨(INFOSHORT,⊂'')[NAMESSHORT⍳⊂⍵]}
 
     AddLongInfo←{(New¨_.strong,¨⍵),¨D¨(4+⍴¨⍵)↓¨(INFOLONG,⊂'')[NAMESLONG⍳⍵]} ⍝ ⍵ - LongDesc
 
@@ -177,23 +179,32 @@
       code←Dread url
      
      
-      '#rel' 'style="display: none;"'mid.Add _.div
      ⍝ Create and fill placeholders for title and header
       title←Clean'Control'Section code
+     
+     ⍝ _html.code
       '#title'Add _.title('MS3: ',title) ⍝ after the : will be updated later on
       '#SampleTitle'mid.Add _.h2 title
-      'onchange="$("#rel").toggle()"'mid.Add _.Input'checkbox' '' 'Show related samples' 'right'
-      'onchange' '$("#SampleSource").toggle()'mid.Add _.Input'checkbox' '' 'Show source code' 'right'
+     
+     ⍝ Control: Code fragment [View documentation]
+      '#ControlDesc'mid.Add _.span
+      ('#DocLink'mid.Add _.span).Add'target="_blank'New _.A'View documentation'
+      mid.Add _.br
+     
+     ⍝ Sample: Embed a code fragment [Pop out]
+      '#SampleDesc'mid.Add _.span('Description'Section code)
       ('#PopLink'mid.Add _.span).Add NewWinA'Pop out'url
       mid.Add _.br
-     ⍝ Create and fill placeholder for description line
-      '#SampleDesc'mid.Add _.span('Description'Section code)
-      ('#DocLink'mid.Add _.span).Add'target="_blank'New _.A'View documentation'
+     
+     ⍝ [ ] Show related samples
+      'onchange="$("#rel").toggle()"'mid.Add _.Input'checkbox' '' 'Show related samples' 'right'
+      '#rel' 'style="display: none;"'mid.Add _.div
       mid.Add _.hr
-     ⍝ Create and fill placeholder for embedded page
+     
+     ⍝ Create and fill placeholder for embedded page and its source code
       (mid.Add NewDiv'#SampleFrame').Add Frame url
       mid.Add _.hr
-     ⍝ Create placeholder for source code
+      'onchange' '$("#SampleSource").toggle()'mid.Add _.Input'checkbox' '' 'Show source code' 'right'
       '#SampleSource' '.samplesource' 'style="display: none;"'mid.Add _.div('small;border:none'#.HTMLInput.APLToHTMLColour Dread⊃CURRFILES)
      
     ∇
@@ -412,17 +423,48 @@
       title←('All '/⍨2≥⍴page),('Core '/⍨'('=⊃⌽page),⌽End page
     ∇
 
-    ∇ r←GenJS(page title desc url code)
+    ∇ r←GenJS(page title desc url code);cd;sd
      ⍝ Generate JavaScript for filling placeholders
       r←'#title'Replace'MS3: ',page
-      r,←(×≢title)/'#SampleTitle'Replace⊃AddShortInfo⊂⌽End CURRCTRL
-      r,←'#SampleDesc'Replace'Sample: ',desc
+      r,←(×≢title)/'#SampleTitle'Replace NodeToCtrl CURRCTRL
+      (cd←New _.span).Add¨'Control: '{⍺ ⍵}New _.i(ShortInfo⌽End CURRCTRL)
+      r,←'#ControlDesc'Replace cd
+      (sd←New _.span).Add¨'Sample: '{⍺ ⍵}New _.i desc
+      r,←'#SampleDesc'Replace sd
+      r,←'#rel'Replace''⍝ !!! INSERT RELATED SAMPLES HERE
       r,←'#SampleFrame'Replace Frame url
       r,←'#PopLink'Replace NewWinA'Pop out'url
       r,←'#SampleSource'Replace'small;border:none'#.HTMLInput.APLToHTMLColour code
       url←∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨(⊢End{⍺ ⍵}⌽End)1↓CURRCTRL
       r,←'#DocLink'Replace NewWinA'View documentation'url
     ∇
+   
+   
+⍝      '#title'Add _.title('MS3: ',title) ⍝ after the : will be updated later on
+⍝      '#SampleTitle'mid.Add _.span title
+⍝      ('#DocLink'mid.Add _.span).Add'target="_blank'New _.A'View documentation'
+⍝      mid.Add _.br
+⍝     
+⍝     ⍝ Control: Code fragment [View documentation]
+⍝      '#ControlDesc'mid.Add _.span
+⍝      mid.Add _.br
+⍝     
+⍝     ⍝ Sample: Embed a code fragment [Pop out]
+⍝      '#SampleDesc'mid.Add _.span('Description'Section code)
+⍝      ('#PopLink'mid.Add _.span).Add NewWinA'Pop out'url
+⍝     
+⍝     ⍝ [ ] Show related samples
+⍝      'onchange="$("#rel").toggle()"'mid.Add _.Input'checkbox' '' 'Show related samples' 'right'
+⍝      '#rel' 'style="display: none;"'mid.Add _.div
+⍝      mid.Add _.hr
+⍝     
+⍝     ⍝ Create and fill placeholder for embedded page and its source code
+⍝      (mid.Add NewDiv'#SampleFrame').Add Frame url
+⍝      mid.Add _.hr
+⍝      'onchange' '$("#SampleSource").toggle()'mid.Add _.Input'checkbox' '' 'Show source code' 'right'
+⍝      '#SampleSource
+   
+   
 
     ∇ node←GetNode
       node←4↓(1+'tree'≡4↑_what)⊃_what(Get'node')
