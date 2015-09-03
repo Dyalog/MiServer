@@ -60,7 +60,6 @@
 
 .framed {
 	width: 730px;
-	min-height: 400px;
 	overflow-y: auto;
 }
 

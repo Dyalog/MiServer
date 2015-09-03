@@ -60,7 +60,7 @@
 
     AddShortInfo←{⍵,¨P¨(4+⍴¨⍵)↓¨(INFOSHORT,⊂'')[NAMESSHORT⍳⍵]} ⍝ ⍵ (ShortDesc)
 
-    ShortInfo←{(4+⍴⍵)↓¨(INFOSHORT,⊂'')[NAMESSHORT⍳⊂⍵]}
+    ShortInfo←{(4+⍴⍵)↓⊃(INFOSHORT,⊂'')[NAMESSHORT⍳⊂⍵]}
 
     AddLongInfo←{(New¨_.strong,¨⍵),¨D¨(4+⍴¨⍵)↓¨(INFOLONG,⊂'')[NAMESLONG⍳⍵]} ⍝ ⍵ - LongDesc
 
@@ -423,48 +423,74 @@
       title←('All '/⍨2≥⍴page),('Core '/⍨'('=⊃⌽page),⌽End page
     ∇
 
-    ∇ r←GenJS(page title desc url code);cd;sd
+    ∇ r←GenJS(page title desc url code);cd;sd;file;scores;controls;score;out;item;control
      ⍝ Generate JavaScript for filling placeholders
       r←'#title'Replace'MS3: ',page
-      r,←(×≢title)/'#SampleTitle'Replace NodeToCtrl CURRCTRL
-      (cd←New _.span).Add¨'Control: '{⍺ ⍵}New _.i(ShortInfo⌽End CURRCTRL)
+      control←NodeToCtrl CURRCTRL
+      r,←(×≢title)/'#SampleTitle'Replace control
+      (cd←New _.span).Add¨(_.strong'Control: ')(_.em,⊂ShortInfo⌽End CURRCTRL)
       r,←'#ControlDesc'Replace cd
-      (sd←New _.span).Add¨'Sample: '{⍺ ⍵}New _.i desc
+      (sd←New _.span).Add¨(_.strong'Sample: ')(_.em desc)
       r,←'#SampleDesc'Replace sd
-      r,←'#rel'Replace''⍝ !!! INSERT RELATED SAMPLES HERE
+     
+     
+     
+      scores←⍬
+      :For file :In ALLFILES
+          controls←Words'Control'Section Dread'Examples/',file
+          score←102-2×(50↑controls)⍳⊂control ⍝ 100=most relevant, 0=not relevant at all
+          score-←∨/'Advanced'⍷file           ⍝ subtract 1 if advanced example
+          scores,←0⌈score
+      :EndFor
+      CURRFILES←'/Examples/'∘,¨(ALLFILES/⍨×scores)[⍒scores/⍨×scores] ⍝ sort descending by score
+      out←NewDiv'.framed'
+      :If 0=⍴CURRFILES
+          '.noitems'out.Add _.p,⊂'[no samples using ',control,']'
+      :Else
+          out.Add _.p'Click on a button below to select a sample.'
+          :For file :In CURRFILES
+              item←('#',file,'_')'.listitem' 'title="Click here to open"'out.Add _.p
+              item.Add _.strong(↑Tail file)
+              item.Add' ',#.HTMLInput.dtlb'Description'Section Dread file
+          :EndFor
+      :EndIf
+      out.Add _.Handler'.listitem' 'click' 'OnGS'
+     
+      r,←'#rel'Replace out⍝ !!! INSERT RELATED SAMPLES HERE
+     
       r,←'#SampleFrame'Replace Frame url
       r,←'#PopLink'Replace NewWinA'Pop out'url
       r,←'#SampleSource'Replace'small;border:none'#.HTMLInput.APLToHTMLColour code
       url←∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨(⊢End{⍺ ⍵}⌽End)1↓CURRCTRL
       r,←'#DocLink'Replace NewWinA'View documentation'url
     ∇
-   
-   
+
+
 ⍝      '#title'Add _.title('MS3: ',title) ⍝ after the : will be updated later on
 ⍝      '#SampleTitle'mid.Add _.span title
 ⍝      ('#DocLink'mid.Add _.span).Add'target="_blank'New _.A'View documentation'
 ⍝      mid.Add _.br
-⍝     
+⍝
 ⍝     ⍝ Control: Code fragment [View documentation]
 ⍝      '#ControlDesc'mid.Add _.span
 ⍝      mid.Add _.br
-⍝     
+⍝
 ⍝     ⍝ Sample: Embed a code fragment [Pop out]
 ⍝      '#SampleDesc'mid.Add _.span('Description'Section code)
 ⍝      ('#PopLink'mid.Add _.span).Add NewWinA'Pop out'url
-⍝     
+⍝
 ⍝     ⍝ [ ] Show related samples
 ⍝      'onchange="$("#rel").toggle()"'mid.Add _.Input'checkbox' '' 'Show related samples' 'right'
 ⍝      '#rel' 'style="display: none;"'mid.Add _.div
 ⍝      mid.Add _.hr
-⍝     
+⍝
 ⍝     ⍝ Create and fill placeholder for embedded page and its source code
 ⍝      (mid.Add NewDiv'#SampleFrame').Add Frame url
 ⍝      mid.Add _.hr
 ⍝      'onchange' '$("#SampleSource").toggle()'mid.Add _.Input'checkbox' '' 'Show source code' 'right'
 ⍝      '#SampleSource
-   
-   
+
+
 
     ∇ node←GetNode
       node←4↓(1+'tree'≡4↑_what)⊃_what(Get'node')
