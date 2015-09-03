@@ -415,7 +415,7 @@
     ∇ r←GenJS(page title desc url code)
      ⍝ Generate JavaScript for filling placeholders
       r←'#title'Replace'MS3: ',page
-      r,←(×≢title)/'#SampleTitle'Replace⊃AddLongInfo⊂⌽End CURRCTRL
+      r,←(×≢title)/'#SampleTitle'Replace⊃AddShortInfo⊂⌽End CURRCTRL
       r,←'#SampleDesc'Replace'Sample: ',desc
       r,←'#SampleFrame'Replace Frame url
       r,←'#PopLink'Replace NewWinA'Pop out'url
