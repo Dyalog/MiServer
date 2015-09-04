@@ -1,6 +1,6 @@
 ﻿:class AudioSimple : MiPageSample
 ⍝ Control:: _DC.Audio
-⍝ Description:: Play a sound
+⍝ Description:: Quack Quack Quack!
 
     ∇ Compose;duck
       :Access public 

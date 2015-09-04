@@ -1,13 +1,13 @@
 ﻿:Class DatalistSimple : MiPageSample
 ⍝ Control::     _DC.Datalist
-⍝ Description:: Show some data lists
+⍝ Description:: An auto-completeable drop-down
 
     ∇ Compose;button;frm
       :Access Public 
      
       :With frm←'myform'Add _.Form ⍝ We need a form to get data back on callbacks
      
-          Add _.p'A Datalist is an auto-completing drop-down:'
+          Add _.p'Hint: type "t" to get some auto-completed content.'
      
           'opts'Add _.Datalist('Tres' 'Three' 'Tre' 'Four')
      

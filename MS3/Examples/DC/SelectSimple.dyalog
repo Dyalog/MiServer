@@ -1,6 +1,6 @@
 ﻿:Class SelectSimple : MiPageSample
 ⍝ Control::     _DC.Select
-⍝ Description:: Create a simple drop-down
+⍝ Description:: Pick fruits from a simple drop-down
 ⍝
 
     FRUITS←'Apples' 'Bananas' 'Grapes' 'Oranges' 'Pears' 'Pineapples' 'Plums'

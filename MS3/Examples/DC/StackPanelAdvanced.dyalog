@@ -41,7 +41,7 @@
      
       ⍝ Put them in an "outer" Horizontal grey StackPanel
       (outer←'outer'Add _.StackPanel(red green blue)).Horizontal←1
-      outer.style←'background-color: #AAA; height: 200px;'
+      outer.style←'background-color: #AAA; height: 190px;'
     ∇
 
 :EndClass

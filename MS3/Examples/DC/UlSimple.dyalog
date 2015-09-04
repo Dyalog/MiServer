@@ -1,6 +1,6 @@
 ﻿:Class UlSimple : MiPageSample
 ⍝ Control:: _DC.Ul
-⍝ Description:: Insert an unordered list based on an array 
+⍝ Description:: A list of fruits and a list of clickable web page URLs 
 
     ∇ Compose;frm;single;multi;btn
       :Access public
@@ -16,7 +16,7 @@
      
      ⍝ --- Add a simple list of fruits ---
       Add _.h3'Fruits'       ⍝ Put a heading before it
-      fruits←'Apples' 'Bananas' 'Grapes' 'Oranges' 'Plums'
+      fruits←'Apples' 'Bananas' 'Grapes' 'Oranges'
       Add _.Ul fruits   ⍝ Construct Ul with a vector of vectors
      
      ⍝ --- Add a list of interesting web pages ---

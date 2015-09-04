@@ -18,8 +18,9 @@
       content,←New _.span'This is some text'
       content,←New _.Button'Useless button'
       vsp←'vsp'Add _.StackPanel content
-     
+      
       Add _.h3'Horizontal Stack Panel'
+      Add _.p'The same controls, arranged horizontally.'
      
       hsp←'hsp'Add _.StackPanel content
       hsp.Horizontal←1

@@ -1,3 +1,6 @@
+Audio:: Embed audio files
+Button:: Used to initiate actions
+Datalist:: Auto-completing drop-down 
 a:: Hyperlink
 abbr:: Abbreviation
 address:: Contact information

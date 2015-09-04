@@ -1,6 +1,6 @@
 ﻿:Class SelectAdvanced : MiPageSample
 ⍝ Control::     _DC.Select
-⍝ Description:: Use a Select control to allow multiple selections from a list.
+⍝ Description:: Select one or more fruits from a list.
 
     FRUITS←'Apples' 'Bananas' 'Grapes' 'Oranges' 'Pears' 'Pineapples' 'Plums'
 

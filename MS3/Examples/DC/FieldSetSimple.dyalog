@@ -1,6 +1,6 @@
 ﻿:Class FieldsetSimple : MiPageSample
 ⍝ Control:: _DC.Fieldset _html.label _.EditField
-⍝ Description:: Enter first and last name in a FieldSet and react to onkeypress events
+⍝ Description:: Enter first and last name in a FieldSet (reacts to each keystroke)
 
     ∇ Render;fieldset;field;prompt;edit;frm;label
       :Access Public

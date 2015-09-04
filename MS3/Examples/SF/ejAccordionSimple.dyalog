@@ -1,6 +1,6 @@
 ﻿:Class ejAccordionSimple: MiPageSample
 ⍝ Control:: _SF.ejAccordion
-⍝ Description:: Insert an accordion
+⍝ Description:: An Accordion with two sections.
 
     ∇ Compose;ac;path
       :Access public
