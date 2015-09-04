@@ -184,6 +184,7 @@ pre {
 	font-size: small;
 	/*border: 1px #f0f0e0 solid;*/
 	white-space: pre-wrap;
+	word-wrap: break-word;
 }
 code {
 	font-family: APL385 Unicode;
