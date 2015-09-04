@@ -44,7 +44,22 @@
 
     Type←{P(1⍳⍨∨/¨TYPES⍷¨⊂⍺)⊃(TYPES,¨⊂' sample for ',⍵),⊂'Sample app'} ⍝ Simple/Advanced/App?
 
-    Dread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText #.Boot.AppRoot,⍵,'.dyalog'} ⍝ Read dyalog file
+    ∇ r←Dread page;i
+    ⍝ Read a page via the DREADCACHE
+      :Trap 999 ⍝ 0
+          :If 0=⎕NC'#.DREADCACHE' ⋄ #.DREADCACHE←⎕NS'' ⋄ #.DREADCACHE.(Keys←Data←⍬) ⋄ :EndIf
+          :If (≢#.DREADCACHE.Keys)≥i←#.DREADCACHE.Keys⍳⊂page
+              r←i⊃#.DREADCACHE.Data
+          :Else
+              #.DREADCACHE.Data,←⊂r←#.UnicodeFile.ReadNestedText #.Boot.AppRoot,page,'.dyalog'
+              #.DREADCACHE.Keys,←⊂page
+          :EndIf
+      :Else
+          r←,⊂'[file read failed]'
+      :EndTrap
+    ∇
+
+    ⍝ Dread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText #.Boot.AppRoot,⍵,'.dyalog'} ⍝ Read dyalog file
 
     Dlist←{0::⍬ ⋄ (Slist #.Boot.AppRoot,⍵,' -raw')[;2]} ⍝ List dyalog files
 
@@ -477,7 +492,7 @@
       :If _what≡'treeA' ⋄ r,←'#DocLink'Replace NewWinA'View documentation'url
       :Else ⋄ r,←'#DocLink'Replace'' ⋄ :EndIf
       r,←'[for=''ShowRelated'']'Replace{'Show ',(⍕⍵),' related sample',((⍵≠1)/'s'),'.'}0⌈¯1+⍴CURRFILES
-      :If 0=⍴CURRFILES
+      :If (0=⍴CURRFILES)∧_what≡'treeA'
           r,←Execute'$("#CtlDescs").show();'
           r,←'#SampleDesc'Replace'.noitems'New _.p,⊂'[no samples using ',control,']'
           r,←'#PopLink'Replace''
