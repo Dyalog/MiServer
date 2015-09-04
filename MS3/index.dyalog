@@ -407,7 +407,7 @@
       :If ×⎕NC'spacectrl'
           page←spacectrl
       :Else
-          page←Clean'Control'Section Dread node
+          page←Clean'Control'Section Dread code
           ⍝page←⊃Words'Control'Section code
       :EndIf
       desc←#.HTMLInput.dtlb'Description'Section code
