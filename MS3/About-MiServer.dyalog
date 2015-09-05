@@ -1,4 +1,4 @@
-﻿:class About_MiServer : MiPageSample
+﻿:Class About_MiServer : MiPageSample
 ⍝ Control:: About_MiServer
 ⍝ Description:: Introduction to MiServer 3.0
 
@@ -32,7 +32,7 @@
     ⍝  code and page content can be toggled by clicking the large Dyalog&nbsp;
      
       Add _.p ScriptFollows
-    ⍝  We hope that you will enjoy using MiServer! Please use the
+    ⍝  We hope that you will enjoy MiServer; join us on the
     ⍝  forums (see the <strong>Resources</strong> drop-down at the top right), and contribute
     ⍝  samples or extensions via <a href="https://github.com/dyalog/miserver/">GitHub</a>.
      
