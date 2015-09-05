@@ -433,6 +433,7 @@
       :Access Public
      
       str←(1+STR≡'')⊃STR(Get'str') ⍝ get search string
+      :If str≡'Clear The Cache' ⋄ ⎕EX'#.DREADCACHE' ⋄ :EndIf
      
       :If ×≢str ⍝ Continue only if there is a search string
       ⍝⍝⍝ Controls
