@@ -33,6 +33,10 @@
     ∇ make1 args;data;sel;pos;horz
       :Access public
       :Implements constructor
+      :If 2=≡args
+      :AndIf ∧/isString¨args
+          args←,⊂args
+      :EndIf
       (data SelectedIndex LabelPos Horizontal)←args defaultArgs ⍬ SelectedIndex LabelPos Horizontal
       :If ~0∊⍴data
           :Select ⊃⍴⍴data
@@ -58,6 +62,7 @@
               Data←(1,⍴inps)⍴inps
           :Else ⍝ vertical layout
               inps←⎕NEW¨n⍴#._html.input
+              inps.value←Values
               inps.(name type)←(⊂name'radio')
               inps.id←(⊂name,'_'),¨⍕¨⍳n
               :If ⍬≢SelectedIndex ⋄ inps[SelectedIndex].Attrs[⊂'checked']←⊂'checked' ⋄ :EndIf
@@ -70,7 +75,10 @@
           :EndIf
           (tmpname tmpid)←name id
           id←name,'_container'
-          name←''
+          name←UNDEF
+          :If ~0∊⍴⎕THIS.Handlers
+              ⎕THIS.Handlers.Selectors←⊂1↓∊',#'∘,¨inps.id
+          :EndIf
           r←⎕BASE.Render
           (name id)←tmpname tmpid
       :EndIf

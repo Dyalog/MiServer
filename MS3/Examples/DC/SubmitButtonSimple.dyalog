@@ -5,7 +5,7 @@
     :Field Public fname←''
     :Field Public lname←'' 
 
-    ∇ Compose;frm;field;prompt;value;fieldset;hello
+    ∇ Compose;frm;field;prompt;value;fieldset;hello;inputs
       :Access Public
      
       :If _Request.Command≡'get' ⍝ Reset names on a GET
@@ -13,7 +13,7 @@
       :EndIf
      
       Add _.p ScriptFollows
-      ⍝ The SubmitbUTTON control will cause a POST of the form that it is in back to the server.
+      ⍝ The SubmitButton control will cause a submission of the form that it is in back to the server.
       ⍝ Unlike callbacks that are set up using handlers or the On function, this will cause the
       ⍝ Compose function to run each time the button is pressed. Because the class has two
       ⍝ public fields with the same name as the EditFields created below, MiServer will populate
@@ -24,15 +24,12 @@
       ⍝ is considerd old-fashioned: new applications should use AJAX-style interation, as do
       ⍝ the vast majority of the MS3 samples.
      
-      frm←Add _.form
+      frm←Add _.Form
       fieldset←frm.Add _.Fieldset'Personalia:' ⍝ The fieldset will surround our input fields
-     
-      :For (field prompt value) :In ('fname' 'First Name:'fname)('lname' 'Last Name:'lname)
-          ('for'field)fieldset.Add _.label prompt   ⍝ Create label
-          field fieldset.Add _.EditField value       ⍝ Create EditField
-          fieldset.Add _.br                               ⍝ Next input on new line
-      :EndFor
-     
+      inputs←fieldset.Add _.InputGrid
+      inputs.Labels←'First Name:' 'Last Name:'
+      inputs.Inputs←{New _.EditField ⍵}¨'fname' 'lname'	
+              
       Add _.br
       frm.Add _.SubmitButton'Submit'
       frm.Add _.ResetButton'Reset'

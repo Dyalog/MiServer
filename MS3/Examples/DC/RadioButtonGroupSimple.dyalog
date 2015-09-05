@@ -7,7 +7,7 @@
      
      ⍝ Create a button with a caption of 'Press me!' and an id/name of 'btnPressMe'
       frm←Add _.Form
-      button←'Transport'frm.Add _.RadioButtonGroup(,⊂'Train' 'Plane' 'Automobile' 'Riverboat' 'Submarine')
+      button←'Transport'frm.Add _.RadioButtonGroup('Train' 'Plane' 'Automobile' 'Riverboat' 'Submarine')
       button.On'change' 'CallbackFn'
       'output'frm.Add _.div ⍝ a div to contain output, updated by CallbackFn
     ∇
