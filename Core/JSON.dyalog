@@ -358,12 +358,13 @@
       r←(¯1↓r),']'
     ∇
 
-    ∇ r←a fromTable w;z;t
+    ∇ r←{a}fromTable w;z;t
       :Access public shared
     ⍝ converts a table of APL data into a vector (1 per row in the table) of namespaces containing named objects
     ⍝ suitable for passing to JSON.fromAPL
-    ⍝ a - column headings (names for the objects in the namespaces)
-    ⍝ w - matrix of data
+    ⍝ a - (optional) column headings (names for the objects in the namespaces)
+    ⍝ w - matrix of data, if a is not supplied, w[1;] is assumed to be the column headings
+      :If 0=⎕NC'a' ⋄ a←1↑w ⋄ w↓⍨←1 ⋄ :EndIf
       :If ~0∊⍴r←⎕NS¨(⊃⍴w)⍴⊂''
           r(a{⍺.⍎'(',⍕⍺⍺,')←⍵'})¨{1=⍴⍵:⊃⍵ ⋄ ⍵}¨↓w
       :EndIf
