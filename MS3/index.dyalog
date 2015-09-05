@@ -142,7 +142,7 @@
       PopulateMid mid
     ∇
 
-    ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;menu;i;fs;ac;text;treeall;treecore;names;tree;dirs;levels;core;enames
+    ∇ PopulateLeft thediv;class;depths;group;items;ref;samples;vp;search;menu;i;fs;ac;text;treeall;treecore;names;tree;dirs;levels;core;enames;t
      
       :If 1
       ⍝ SEARCH FIELD ⍝⍝⍝
@@ -183,6 +183,8 @@
       core←⍉↑levels enames(names,¨'(')
       tree⍪⍨←⊃⍪/{⍵[1,1+⍋↑1↓⍵[;2];]}¨(2=core[;1])⊂[1]core ⍝ Sort classes
       tree⍪⍨←1 'Core' '_(' ⍝ ( is core suffix
+      i←(tree[;2]∊t←'DC' 'SF' 'JQ' 'html')/⍳1↑⍴tree
+      tree[i;2]←('Dyalog Controls' 'Syncfusion' 'JQueryUI' 'HTML')[t⍳tree[i;2]]
       tree[;2]←Clean¨tree[;2]
       ⍝ Add the whole tree
       tree←'#treeA'thediv.Add _.ejTreeView tree
