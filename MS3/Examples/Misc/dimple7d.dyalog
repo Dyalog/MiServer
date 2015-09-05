@@ -1,11 +1,14 @@
-﻿:Class dimpleExample : MiPageSample
+﻿:Class dimple7d : MiPageSample
 
-    ∇ Compose
+    ∇ Compose;chart;text
       :Access public
       Use'dimple'
-      Add _.h4'dimple example copied from'
-      Add _.A'http://dimplejs.org/advanced_examples_viewer.html?id=advanced_animated_multiple_pie_bubbles'
-      ('chartContainer'Add _.div).Add _.Script ScriptFollows
+      Add _.h4'An example of what "dimple" can do'
+     
+      Add'Copied from '
+      Add _.A'dimplejs.org' 'http://dimplejs.org/advanced_examples_viewer.html?id=advanced_animated_multiple_pie_bubbles'
+     
+      (chart←'chartContainer'New _.div).Add _.Script ScriptFollows
 ⍝    var svg = dimple.newSvg("#chartContainer", 590, 400);
 ⍝    d3.tsv("/Examples/Data/example_data.tsv", function (data) {
 ⍝      var myChart = new dimple.chart(svg, data);
@@ -42,5 +45,12 @@
 ⍝
 ⍝      myChart.draw();
 ⍝    });
+     
+      (text←New _.p ScriptFollows).style←'width: 200px'
+⍝ "This demonstrates both combining pie and ring charts and using them with a storyboard
+⍝ to display seven different dimensions.<br><br>REMEMBER: Just because you can, doesn't mean you should!"
+     
+      (Add _.StackPanel(chart text)).Horizontal←1
+     
     ∇
 :EndClass

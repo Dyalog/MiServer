@@ -15,13 +15,27 @@
     ⍝  and advice. At the same time, it showcases many of MiServer's capabilities,
     ⍝  as it is built almost entirely in APL using components available in MiServer.
      
+      Add _.p ScriptFollows
+    ⍝  Unfold the branches of the  <strong>Getting Started</strong> tree at the top left
+    ⍝  to find documentation and some small demonstration applications. The
+    ⍝  <strong>Controls</strong> tree contains lists of all the controls or widgets that
+    ⍝  are built-in to MiServer 3.0, with examples of use.
+     
       D←'src=/Examples/Data/Dyalog-D.png' 'alt="Dyalog-D"'
       D,←'height="20px"' 'style="vertical-align:bottom;"'
       D New←_.img
       (Add _.p ScriptFollows).Add¨D'in the top left corner.'
-    ⍝  Hover over the four buttons on the top right to see their functions.
+    ⍝  <strong>Tip:</strong> Some of the samples will be a little cramped when displayed in line
+    ⍝  on this page. Look for the "pop out" link to view a sample
+    ⍝  in a tab of its own.
     ⍝  When a sample is popped out into its own tab or window, the source
     ⍝  code and page content can be toggled by clicking the large Dyalog&nbsp;
+     
+      Add _.p ScriptFollows
+    ⍝  We hope that you will enjoy using MiServer! Please use the
+    ⍝  forums (see the <strong>Resources</strong> drop-down at the top right), and contribute
+    ⍝  samples or extensions via <a href="https://github.com/dyalog/miserver/">GitHub</a>.
+     
     ∇
 
 
