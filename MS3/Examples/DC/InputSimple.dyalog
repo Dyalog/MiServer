@@ -1,6 +1,6 @@
 ﻿:Class InputSimple : MiPageSample
 ⍝ Control:: _DC.Input
-⍝ Description::
+⍝ Description:: Five different variations of Input elements
 
     ∇ Compose;frm;field;prompt;value;fieldset;hello;inputs;tab
       :Access Public
@@ -14,7 +14,7 @@
      
       tab←Add _.Table(6 3⍴⊂'')(5 3⍴⊂'')1
       tab.Data[1;]←'Description' 'Input' 'Output'
-      (1↓tab.Data[;1])←'Simple text input' 'Text input, label on right' 'Number input' 'Password input (don''t use a real password!)' 'Range input'
+      (1↓tab.Data[;1])←'Text input' 'Text input (label on right) ' 'Number input' 'Password input' 'Range input'
       tab.Data[2;2]←('inp1'New _.Input'text' '' 'First Name: ')
       tab.Data[3;2]←('inp2'New _.Input'text' '' ' Last Name' 'right')
       tab.Data[4;2]←('inp3'New _.Input'number' '' 'Age: ')
@@ -26,8 +26,9 @@
     ∇
 
     ∇ r←myCallback;content
-      :Access public
-      r←('#out',3↓_what)Replace'You entered ',_value
+      :Access public                    
+      :If _what≡'inp4' ⋄ _value←'(that''s a secret)' ⋄ :EndIf
+      r←('#out',3↓_what)Replace'Entered: ',_value
     ∇
 
 :EndClass

@@ -18,8 +18,8 @@
       Add _.h2'Other Reading'
      
       Add _.p ScriptFollows
-     ⍝ Also look up the <a href="/Examples/DC/StyleSheetSimple">Simple StyleSheet Example</a>, which shows how to add an external style sheet, and
-     ⍝ take a look at the <a href="/Examples/DC/TableAdvanced">Advanced Table Example</a> which uses a combination of
+     ⍝ Also look up the <a href="/Examples/DC/StyleSheetSimple?NoWrapper=1">Simple StyleSheet Example</a>, which shows how to add an external style sheet, and
+     ⍝ take a look at the <a href="/Examples/DC/TableAdvanced?NoWrapper=1">Advanced Table Example</a> which uses a combination of
      ⍝ the raw html _.style control and the ScriptFollows to add a significant quantity of style in-line.
     ∇
 

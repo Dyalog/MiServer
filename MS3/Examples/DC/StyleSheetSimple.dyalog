@@ -12,13 +12,13 @@
      ⍝ but if you need different styles in some parts of the site, you can use the _.StyleSheet control
      ⍝ to add a stylesheet.
      
-      Add _.StyleSheet '/styles/redh2.css'
+      Add _.StyleSheet'/styles/redh2.css'
       Add _.h2'Other Reading'
      
       Add _.p ScriptFollows
-     ⍝ Also look up the <a href="/Examples/DC/StyleSimple">Simple Style Example</a>, which shows how to embed style in 
+     ⍝ Also look up the <a href="/Examples/DC/StyleSimple?NoWrapper=1">Simple Style Example</a>, which shows how to embed style in
      ⍝ a page without ann external style sheet, and
-     ⍝ take a look at the <a href="/Examples/DC/TableAdvanced">Advanced Table Example</a> which uses a combination of
+     ⍝ take a look at the <a href="/Examples/DC/TableAdvanced?NoWrapper=1">Advanced Table Example</a> which uses a combination of
      ⍝ the raw html _.style control and the ScriptFollows to add a significant quantity of style in-line.
     ∇
 

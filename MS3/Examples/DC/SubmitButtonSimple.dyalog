@@ -28,8 +28,8 @@
       fieldset←frm.Add _.Fieldset'Personalia:' ⍝ The fieldset will surround our input fields
       inputs←fieldset.Add _.InputGrid
       inputs.Labels←'First Name:' 'Last Name:'
-      inputs.Inputs←{New _.EditField ⍵}¨'fname' 'lname'	
-              
+      inputs.Inputs←{New _.EditField ⍵}¨('fname'fname)('lname'lname)
+     
       Add _.br
       frm.Add _.SubmitButton'Submit'
       frm.Add _.ResetButton'Reset'
