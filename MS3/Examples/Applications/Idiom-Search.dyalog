@@ -1,16 +1,31 @@
-﻿:class Idiom_Search :MiPageSample
+﻿:Class Idiom_Search :MiPageSample
 ⍝ Control:: Idiom_Search
-⍝ Description:: Search the FinnAPL and Dyalog idiom lists
+⍝ Description:: Search the Dyalog and FinnAPL idiom lists
 
     ∇ Compose;fm;bn
-      :Access public
+      :Access Public
      
       :If 0=⎕NC'idioms'
           idioms←⎕SE.SALT.Load'[ws]\MS3\Examples\Data\idioms -noname -nolink'
       :EndIf
-      Add _.style'td:nth-child(2n+3) {font-family:APL385 Unicode}'
+     
+      Add _.style ScriptFollows
+       ⍝ .IdiomTable {
+       ⍝     border: 1px solid black;
+       ⍝     border-collapse: collapse;
+       ⍝     font-size: 13px;
+       ⍝ }
+       ⍝ #str,
+       ⍝ .IdiomTable td:nth-child(1n+2) {font-family:APL385 Unicode;}
+       ⍝ .IdiomTable td,
+       ⍝ .IdiomTable {
+       ⍝     border: 1px solid black;
+       ⍝     padding: 3px;
+       ⍝ }
+       ⍝ .IdiomTable tr:nth-child(odd) {background-color: orange;}
+     
       ef←Add _.EditField'str'
-      ef.On'change' ''('str' 'val')
+      ef.On'change' 'Search'('str' 'val')
       Add' Press '
       Add _.Button'Enter'
       Add'to search'
@@ -18,7 +33,7 @@
       (Add _.div).id←'res'  ⍝ This is a container that will be filled with result
     ∇
 
-    ∇ r←APLJax;found;finn;dyal
+    ∇ r←Search;found;finn;dyal
       :Access public
       found←idioms⌿⍨∨/∨/¨idioms[;2 3 4]⍷¨⍨⊂Get'str'
       found←found\⍨7⍴1 0
@@ -29,11 +44,11 @@
           r←'#res'Replace''
           :If ~0∊⍴dyal
               r,←'#res'Append _.h3'Dyalog Optimised Idioms'
-              r,←'#res'Append _.Table dyal
+              r,←'#res'Append'.IdiomTable'New _.Table dyal
           :EndIf
           :If ~0∊⍴finn
               r,←'#res'Append _.h3'FinnAPL Idiom Library'
-              r,←'#res'Append _.Table finn
+              r,←'#res'Append'.IdiomTable'New _.Table(finn[;1 3 5]) ⍝ /// What is in these columns?
           :EndIf
      
       :Else
@@ -41,4 +56,4 @@
       :EndIf
     ∇
 
-:endclass
+:EndClass
