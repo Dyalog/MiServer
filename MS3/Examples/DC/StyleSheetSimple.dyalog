@@ -12,7 +12,7 @@
      ⍝ but if you need different styles in some parts of the site, you can use the _.StyleSheet control
      ⍝ to add a stylesheet.
      
-      Add _.StyleSheet'/styles/redh2.css'
+      Add _.StyleSheet'/Examples/Data/redh2.css'
       Add _.h2'Other Reading'
      
       Add _.p ScriptFollows

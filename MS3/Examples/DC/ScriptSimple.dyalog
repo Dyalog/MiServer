@@ -13,14 +13,9 @@
       ⍝ Note: the first and second arguments are mutually exclusive.
      
       Add _.Script ScriptFollows
-      ⍝ function bgChange(){$("#p1").css("background-color","orange")}
+      ⍝ function bgChange(){document.getElementById("p1").style.color = "orange";}
      
       'onclick="bgChange()"'Add _.Button'Click Me!'
-    ∇
-
-    ∇ r←myCallback;content
-      :Access public
-      r←('#out',3↓_what)Replace'You entered ',_value
     ∇
 
 :EndClass
