@@ -1,4 +1,4 @@
-﻿:Class mortgage : MiPageSample
+﻿:Class mortgage : MiPage
 
   ⍝ ↓ calculate payment based on principal, rate, and term
     calcpmt←{0::'Error' ⋄ p r n←⍵÷1 1200 (÷12) ⋄ .01×⌈100×p×r÷1-(1+r)*-n}

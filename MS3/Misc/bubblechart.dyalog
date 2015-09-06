@@ -31,7 +31,7 @@
     ∇ r←GetCIAData;stats;data
       :Access public shared
       ⍝ [;1] country [;2] % GDP [;3] population [;4] GDP [;5] $/capita
-      stats←(20↑1 #.Files.FREAD _Request.Server.Config.AppRoot,'Data/stats.DCF')[;1 2 3 5]
+      stats←(20↑1 #.Files.FREAD _Request.Server.Config.AppRoot,'/Examples/Data/stats.DCF')[;1 2 3 5]
       stats[;4]←⌊0.5+stats[;4]
       r←'text' 'y' 'size' 'x' 'fill'#.JSON.fromTable stats,(1↑⍴stats)⍴'Navy' 'Coral' 'Crimson' 'Red' 'Fuchsia' 'Purple' 'OrangeRed'
     ∇
