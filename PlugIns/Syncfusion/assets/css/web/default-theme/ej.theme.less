@@ -984,11 +984,12 @@ line-height: normal;
 /*---------------------------------Schedule Theme--------------------------------*/
 (~"@{skin}.e-schedule"),
 (~"@{skin}.e-schedule.e-scheduleouter") {
-    border: @border-size @border-type @content-border-color;
     color: @content-font-color;
     background-color: @gcontent-bg-color;
 }
-
+(~"@{skin}.e-schedule.e-scheduleouter > div") {
+    border: @border-size @border-type @content-border-color;
+}
 (~"@{skin}.e-schedule .icon-AddGrad:before") {
     color: #2382C3;
 }
@@ -1874,14 +1875,7 @@ color:#5c5c5c;
 }
  (~"@{skin}.e-fe-dialog.e-dialog>.e-titlebar")
  {
-    background:@content-bg-color;    
     border-color:@content-border-color;
- }
- (~"@{skin}.e-fe-dialog.e-dialog > .e-titlebar .e-dialog-icon"){
-    color:@content-font-color;
- }
- (~"@{skin}.e-fe-dialog.e-dialog > .e-titlebar .e-dialog-icon:hover"){
-    color: @header-font-color;
  }
 
 (~"@{skin} .e-menu > .e-list.e-fe-separator") {
@@ -1892,6 +1886,15 @@ color:#5c5c5c;
 }
 (~"@{skin} .e-fileexplorer .e-toolbar .e-hover .e-tool-input") {
 	border-color: @active-border-color;
+}
+
+(~"@{skin}.e-dialog .e-fe-table table tr .e-readonly") {
+  background:@content-bg-color;    
+  color: @content-font-color;
+}
+
+(~"@{skin}.e-dialog .e-fe-table table .e-border") {
+    border-color:@content-border-color;
 }
 
 /*------------------------------------------------------------------*/

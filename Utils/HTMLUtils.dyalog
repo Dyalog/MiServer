@@ -111,13 +111,15 @@
           (' ',⍨¯2↓enlist(eis ⍺),¨⊂', '),Styles ⍵
       }
 
-    ∇ r←HtmlSafeText txt;i;m;u;ucs
+    ∇ r←HtmlSafeText txt;i;m;u;ucs;s
     ⍝ make text HTML "safe"
       r←,⎕FMT txt
       i←'&<>"#'⍳r
       i-←(i=1)∧1↓(i=5),0 ⍝ mark & that aren't &#
       m←i∊⍳4
       u←127<ucs←⎕UCS r
+      s←' '=r
+      (s/r)←⊂'&nbsp;'
       (m/r)←('&amp;' '&lt;' '&gt;' '&quot;')[m/i]
       (u/r)←(~∘' ')¨↓'G<&#ZZZ9;>'⎕FMT u/ucs
       r←enlist r

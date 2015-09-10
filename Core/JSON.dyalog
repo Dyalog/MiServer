@@ -17,7 +17,7 @@
     trim←⌽∘{(+/∧\' '=⍵)↓⍵}⍣2
     us←{≠\⍵≠⍺\t≠¯1↓0,t←⍺/≠\¯1↓0,⍵} ⍝ partitioned ≠\
     isChar←{0 2∊⍨10|⎕dr ⍵}
-    isSingle←{(1=≢,⍵)∧2>≡⍵}
+    isSingle←{(1=⊃⍴,⍵)∧2>≡⍵}
     isSimple←{(0∊⍴⍴⍵)∧0=≡⍵}
     isJSON←{0::0 ⋄ ~0∊⍴ toXML ⍵}
     fixNum←{b←'-'=V←⍵ ⋄ (b/V)←'¯' ⋄ ∧/b←'+'≠V:V ⋄ (b≥¯1⌽v∊'eE')/V}
@@ -149,10 +149,14 @@
           obj←AJchars 1↓¯1↓str                 ⍝ a string?
       :ElseIf (,1)≡⎕IO⊃b←⎕VFI fixNum str       ⍝ a single number
           obj←⊃⊃⌽b
-      :ElseIf 'null'≡str ⋄ obj←⎕NULL
-      :ElseIf 'true'≡str ⋄ obj←true
-      :ElseIf 'false'≡str ⋄ obj←false
-      :Else ⋄ obj←⎕NS'' ⋄ obj.⎕DF str          ⍝ true/false
+      :ElseIf 'null'≡str
+          obj←⎕NULL
+      :ElseIf 'true'≡str
+          obj←true
+      :ElseIf 'false'≡str
+          obj←false
+      :Else
+          obj←str
       :EndIf
     ∇
 
@@ -287,7 +291,7 @@
       :Access public shared
       nvp←,nvp
       :If 0∊⍴nvp ⋄ r←'[]' ⋄ :Return ⋄ :EndIf
-      strip←{1↓¯1↓⍵}
+      strip←{(⊂(1↑⍵),¯1↑⍵)∊'""' '[]' '{}':1↓¯1↓⍵ ⋄ ⍵}
       fmt←{(isChar ⍵)>(isJSON ⍵)∨t←'⍎'=1↑,⍵:'"',(JAchars ⍵),'"'
           ⋄ t:1↓⍕⍵
           ⋄ strip toAPLJAX ⍵}
@@ -354,10 +358,36 @@
       r←(¯1↓r),']'
     ∇
 
-    ∇ r←a formatData w
+    ∇ r←{a}fromTable w;z;t
       :Access public shared
-      r←a{0∊⍴z←⎕NS¨(⊃⍴⍵)⍴⊂'':z
-          z⊣z(⍺{⍺.⍎'(',(⍕⍺⍺),')←⍵'})¨(↓⍣(2=⍬⍴⍴⍴⍵))⍵}w
+    ⍝ converts a table of APL data into a vector (1 per row in the table) of namespaces containing named objects
+    ⍝ suitable for passing to JSON.fromAPL
+    ⍝ a - (optional) column headings (names for the objects in the namespaces)
+    ⍝ w - matrix of data, if a is not supplied, w[1;] is assumed to be the column headings
+      :If 0=⎕NC'a' ⋄ a←,1↑w ⋄ w↓⍨←1 ⋄ :EndIf
+      :If (80 82∊⍨⎕DR a) ⋄ :AndIf (⍴,a)=2⊃⍴w ⋄ a←,¨a ⋄ :EndIf
+      :If ~0∊⍴r←⎕NS¨(⊃⍴w)⍴⊂''
+          r(a{⍺.⍎'(',(⍕⍺⍺),')←⍵'})¨{1=⍴⍵:⊃⍵ ⋄ ⍵}¨↓w
+      :EndIf
+    ∇
+
+    ∇ r←levels nestObjects nss;i;l;mask;n;current
+    ⍝ nest a result of JSON.fromTable according to levels
+    ⍝ nested items are in object "subItems"
+      :Access public shared
+      n←+/∧\levels=current←⊃levels
+      r←n↑nss
+      nss←n↓nss
+      levels←n↓levels
+      :If ~0∊⍴nss
+          n←+/∧\current<levels ⍝ nest the children
+          (⊃¯1↑r).subItems←,(n↑levels)nestObjects n↑nss
+          nss←n↓nss
+          levels←n↓levels
+      :EndIf
+      :If ~0∊⍴nss ⍝ anything left to do?
+          r,←levels nestObjects nss
+      :EndIf
     ∇
 
     ∇ r←aa Add(a w)

@@ -13,7 +13,7 @@
     :Field Public CellFormats←⍬  ⍝       format
     :Field Public CellAlign←⍬    ⍝       textAlign
 
-    script←{⎕NEW #._HTML.Script ⍵}
+    script←{⎕NEW #._DC.Script ⍵}
     ⍝ window.gridData=[{OrderID:10248,CustomerID:"VINET",EmployeeID:5,OrderDate:new Date(8364186e5),
     ⍝ShipName:"Vins et alcools Chevalier",ShipCity:"Reims",ShipAddress:"59 rue de l'Abbaye",
     ⍝ ShipRegion:null,ShipPostalCode:"51100",ShipCountry:"France",Freight:32.38,Verified:!0},...
@@ -55,7 +55,7 @@
               :If 0≠⍴CellFormats ⋄ coldefs,←CellFormats ⋄ colfields,←⊂'format' ⋄ :EndIf
               :If 0≠⍴CellAlign ⋄ coldefs,←CellAlign ⋄ colfields,←⊂'textAlign' ⋄ :EndIf
      
-              coldefs←colfields #.JSON.formatData coldefs
+              coldefs←colfields #.JSON.fromTable coldefs
               :If 0≠⍴CellFormats ⋄ :AndIf 0≠⍴i←(0=⊃∘⍴¨CellFormats)/⍳⍴CellFormats
                   coldefs[i].⎕EX⊂'format' ⍝ Remove empty formats
               :EndIf
@@ -66,7 +66,7 @@
      
           src←GenId
           'dataSource'Set'⍎',src
-          r←(⎕NEW #._HTML.Script('var ',src,' = ',#.JSON.fromAPL ColNames #.JSON.formatData Values)).Render
+          r←(⎕NEW #._DC.Script('var ',src,' = ',#.JSON.fromAPL ColNames #.JSON.fromTable Values)).Render
       :EndIf
       r,←⎕BASE.Render
     ∇
@@ -86,11 +86,18 @@
               src←('⍎'=⊃src)↓src
               Items←(fields←Items[1;])⍪items
               r,←Selector Replace''
-              script←';',src,' = ',#.JSON.fromAPL fields #.JSON.formatData 1↓Items
+              script←';',src,' = ',#.JSON.fromAPL fields #.JSON.fromTable 1↓Items
               script,←';$("',Selector,'").',JQueryFn,'({dataSource:',src,'});'
               r,←Execute script
           :EndIf
       :EndIf
     ∇
 
+    ∇ r←name getModel subsel;model
+      ⍝ Passes the Syncfusion data model back as a variable called 'model' as input to a callback
+      ⍝ Usage:     aButton.On 'click' 'onButtonClick' ('model' instance.getModel '')
+      :Access Public
+      SetId ⋄ model←'model',(0≠⍴subsel)/'.',subsel ⍝ "model" or "model.subsel"
+      r←(name'eval'('JSON.stringify($("#',id,'").ejGrid("',model,'"))'))
+    ∇
 :EndClass

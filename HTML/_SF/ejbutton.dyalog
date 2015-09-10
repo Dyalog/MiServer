@@ -46,9 +46,7 @@
               ContainerType←'button type="submit"'
           :EndSelect
       :EndIf
-      copy←Container.Content Selector
       Container.Add(⊂Text)
       r←⎕BASE.Render
-      (Container.Content Selector)←copy
     ∇
 :EndClass

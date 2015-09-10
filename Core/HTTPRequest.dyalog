@@ -4,8 +4,8 @@
     (CR LF)←NL←⎕UCS 13 10
 
 ⍝ Common Status Codes
-    SC←(200 'OK')(301 'Moved Permanently')(401 'Unauthorized')(404 'Not Found')
-    SC,←(500 'Internal Server Error')(503 'Service Unavailable')
+    SC←(200 'OK')(201 'Created')(204 'No Content')(301 'Moved Permanently')(304 'Not Modified')(400 'Bad Request')(401 'Unauthorized')
+    SC,←(403 'Forbidden')(404 'Not Found')(408 'Request Timeout')(500 'Internal Server Error')(503 'Service Unavailable')
     SC←↑SC
 
 ⍝ Fields related to the Request
@@ -15,7 +15,7 @@
     :Field Public Instance Command
     :Field Public Instance Page
     :Field Public Instance Filename
-    :Field Public Instance RestReq
+    :Field Public Instance RESTfulReq←0      ⍝ RESTful Request (set to charvec if request is RESTful)
     :Field Public Instance Arguments
     :Field Public Instance PeerAddr
     :Field Public Instance PeerCert
@@ -104,7 +104,7 @@
               new⍪←1 URLDecodeArgs s
           :EndFor
           Data←((~(⊃⍴Data)↑mask)⌿Data)⍪new
-       ⍝   Data←{0 1∊⍨⊃⍴⍵:⊃⍵ ⋄ ⍵}¨⊃{⍺ ⍵}⌸/↓[1]Data
+          Data←{0 1∊⍨⊃⍴⍵:⊃⍵ ⋄ ⍵}¨⊃{⍺ ⍵}#.Utils.∆key/↓[1]Data
       :EndIf
      
       :If ∨/mask←Data[;1]{⍵≡(-⍴⍵)↑⍺}¨⊂'_ejModel' ⍝ do we have any Syncfusion model data?
@@ -113,30 +113,9 @@
               Data[s;2]←#.JSON.toAPL⊃Data[s;2]
           :EndFor
       :EndIf
-     
-     
-⍝BPB - I think this section can be removed, so I've commented it out to see if there is any effect
-⍝      :If 9=⎕NC'SessionHandler' ⍝ Was a SessionHandler assigned?
-⍝          SessionHandler.HandleRequest ⎕THIS ⍝ If so, let it do its stuff
-⍝      :EndIf
     ∇
 
     :section Argument and Data Handling
-
-⍝    ∇ r←ArgXLT r;i;j;m;z;t
-⍝      :Access public shared
-⍝    ⍝ Translate HTTP command line arguments
-⍝      ((r='+')/r)←' '
-⍝      :If 0≠⍴i←(r='%')/⍳⍴r
-⍝      :AndIf 0≠⍴i←(i<¯1+⍴r)/i
-⍝          z←r[j←i∘.+1 2]
-⍝          t←'UTF-8'⎕UCS 16⊥⍉¯1+('0123456789ABCDEF'⍳z)⌊'0123456789abcdef'⍳z
-⍝          r[(⍴t)↑i]←t
-⍝          j←(,j),(⍴t)↓i
-⍝          m←(⍴r)⍴1 ⋄ m[j]←0
-⍝          r←m/r
-⍝      :EndIf
-⍝    ∇
 
     ∇ r←ArgXLT r;rgx;rgxu;i;j;z;t;m
       :Access public shared
@@ -289,9 +268,9 @@
 
     :section Request/Response Content Handling
 
-    ∇ Fail x;i;root;f
+    ∇ Fail x;i;root;f;t
       :Access Public Instance
-     
+      :If 0=⎕NC'nofile' ⋄ nofile←0 ⋄ :EndIf ⍝ set to non-zero to not return "standard" file
       :If 3=10|⎕DR x ⍝ Just a status code
           Response.Status←x
           :If (1↑⍴SC[;1])≥i←SC[;1]⍳x
@@ -300,13 +279,17 @@
       :Else
           Response.(Status StatusText)←x
       :EndIf
-      :For root :In Server.Config.(Root MSRoot) ⍝ try site root, then server root
-          :If #.Files.Exists f←root,'CommonPages\',(⍕x),'.htm'
-              Response.HTML,⍨←(#.Files.GetText f),'<br/>'
-              Response.Headers⍪←'content-type' 'text/html; charset=utf-8'
-              :Leave
-          :EndIf
-      :EndFor
+      :If 0≡RESTfulReq
+          :For root :In Server.Config.(Root MSRoot) ⍝ try site root, then server root
+              :If #.Files.Exists f←root,'CommonPages\',(⍕x),'.htm'
+                  :If ~0∊⍴(⎕UCS 13 10)~⍨t←#.Files.GetText f
+                      Response.HTML,⍨←t,'<br/>'
+                      Response.Headers⍪←'content-type' 'text/html; charset=utf-8'
+                  :EndIf
+                  :Leave
+              :EndIf
+          :EndFor
+      :EndIf
     ∇
 
     ∇ r←isDesktop;cis;desktop;mobile;bot;user_agent ⍝ Detect if we think this is a desktop platform
@@ -345,6 +328,11 @@
     ∇ r←isPost
       :Access public instance
       r←Command≡'post'
+    ∇
+
+    ∇ r←isGet
+      :Access public instance
+      r←Command≡'get'
     ∇
 
     ∇ r←JSPlugIn file;root ⍝ Retrieve a JavaScript PlugIn

@@ -94,7 +94,7 @@
 
     ∇ html←{fontsize}APLToHTML APL
     ⍝ returns APL code formatted for HTML
-      fontsize←{6::'' ⋄ ';fontsize:',⍎⍵}'fontsize'
+      fontsize←{6::'' ⋄ ';font-size:',⍎⍵}'fontsize'
       :If 1<|≡APL ⋄ APL←enlist,∘CRLF¨APL ⋄ :EndIf
       :Trap 0
           html←3↓¯4↓'whitespace' 'preserve'⎕XML 1 3⍴0 'x'APL
@@ -108,7 +108,7 @@
      ⍝ returns APL code formatted for HTML with syntax colouring
      ⍝ Uses global APLToHTMLColourScheme e.g. ('blue' 19 23)('green' 1)('gray' 32)('red' 4)...
       ⎕ML←1
-      fontsize←{6::'' ⋄ ';fontsize:',⍎⍵}'fontsize'
+      fontsize←{6::'' ⋄ ';font-size:',⍎⍵}'fontsize'
       :Trap 0
           :If 0=⎕NC'APLToHTMLColourScheme'
               APLToHTMLColourScheme←,⊂'blue' 17 19 23 48 56 57 146,(147+⍳5),214,(215+⍳5)
@@ -134,6 +134,7 @@
           html←∊html          ⍝ Encorporate tags
           html⊂⍨←html=⎕UCS 13 ⍝ Restore lines
           html↓¨⍨←1           ⍝ Remove line markers
+          html,⍨¨←↓↑('<span style="color: blue">['∘,,∘'] </span>')¨⍕¨¯1+⍳⍴html ⍝ Prepend blue line numbers
           html←('pre style="font-family:APL385 Unicode',fontsize,'"')Enclose'code'Enclose CRLF,⍨∊,∘CRLF¨html
       :Else
           html←fontsize APLToHTML APL

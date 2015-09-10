@@ -11,22 +11,22 @@
     quote←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
 
-    ∇ r←{script}JQueryfn pars;jqfn;sel;jqpars;chain;script;oname
+    ∇ r←{script}JQueryfn pars;jqfn;sel;jqpars;chain;script;oname;prejs
     ⍝ pars - [1] jquery function name, [2] selectors, [3] jquery function parameters, [4] jquery function chain [5] object name for the created object
     ⍝ for usage examples, see other functions in this namespace
       script←{6::1 1 ⋄ script}⍬  ⍝[1] wrap with <script>? [2]add jQuery onload $(function(){});?
       script←2↑script,(⍴,script)↓1 1
       pars←eis pars
-      jqfn sel jqpars chain oname←pars,(⍴pars)↓'' '' '' '' ''
+      jqfn sel jqpars chain oname prejs←pars,(⍴pars)↓'' '' '' '' '' ''
       chain,←(';'=¯1↑chain)↓';'
       sel←quote ¯2↓enlist{⍵,', '}¨eis sel
       :If 9=|⎕NC'jqpars' ⋄ jqpars←#.JSON.toJQueryParameters jqpars
       :ElseIf '{'≠1↑jqpars ⋄ jqpars←'{',jqpars,'}' ⋄ :EndIf
-      r←script[2]{⍺:'$(function(){',⍵,'});' ⋄ ⍵}(oname ine oname,'='),'$(',sel,').',jqfn,'(',jqpars,')',chain
+      r←script[2]{⍺:'$(function(){',⍵,'});' ⋄ ⍵}(prejs ine prejs,';'),(oname ine oname,'='),'$(',sel,').',jqfn,'(',jqpars,')',chain
       r←script[1]{⍺:#.HTMLInput.JS ⍵ ⋄ ⍵}(oname ine'var ',oname,';'),r
     ∇
 
-    ∇ r←page On pars;delegate;selector;event;clientdata;response;script;data;cd;name;id;type;what;dtype;success;ajax;useajax
+    ∇ r←page On pars;delegate;selector;event;clientdata;response;script;data;cd;name;id;type;what;dtype;success;ajax;useajax;jquerywrap;scriptwrap;hourglass;hg;removehg;status
     ⍝ pars - [1] selector(s) (delegates), [2] events to bind to,  [3] data to send to server [4] id if the object whose HTML is to be updated
     ⍝ [1] - a simple character vector of selector(s) or a two element vector of (selectors delegates)
     ⍝ [2] - a character vector of events to bind
@@ -67,6 +67,10 @@
     ⍝       if non-empty, this parameter is the selector for the element whose content will be replaced by the server response
     ⍝ [5] - script - if non-empty, this is javascript to execute in the browser prior to the AJAX call
     ⍝ [6] - useajax - if 0 don't make an AJAX call, just execute the script
+    ⍝ [7] - jQueryWrap - if 0, don't wrap with $(function(){...}
+    ⍝ [8] - ScriptWrap - if 0, don't wrap with <script>...</script>
+    ⍝ [9] - Hourglass - if 1, display hourglass cursor during AJAX call
+     
      
       :Select ⊃⎕NC'page'
       :Case 9 ⋄ page.Use'JQuery' ⋄ page←page.Page ⍝ page is the request object
@@ -75,11 +79,12 @@
      
       pars←eis pars
       delegate←''
-      selector event clientdata response script useajax←6↑pars,(⍴pars)↓'' '' '' '' '' 1
+      selector event clientdata response script useajax jquerywrap scriptwrap hourglass←9↑pars,(⍴pars)↓'' '' '' '' '' 1 1 1 1
       :If 1<|≡selector ⋄ selector delegate←selector ⋄ delegate←', ',quote delegate :EndIf
       data←'_event: event.type, _what: '
       data,←'(("undefined" == typeof($(event.currentTarget).attr("name")) ? $(event.currentTarget).attr("id") : $(event.currentTarget).attr("name")))'
       data,←', _value: $(event.currentTarget).val()'
+      data,←', _selector: "',selector,'"'
       clientdata←eis clientdata ⍝ :If 2=|≡clientdata ⋄ clientdata←,⊂clientdata ⋄ :EndIf
       :If 0∊⍴clientdata
       :OrIf (1=⍴clientdata)∧'_callback'≡⊃⊃clientdata
@@ -134,17 +139,23 @@
           :EndIf
       :EndFor
      
+      (hg removehg)←hourglass∘{⍺:'document.body.style.cursor="',⍵,'";' ⋄ ''}¨'wait' 'default'
+     
       :If 0∊⍴response ⍝ if no response element specified
           dtype←'"json"'
-          success←'success: function(obj){APLJaxReturn(obj);}'
+          success←'success: function(obj){APLJaxReturn(obj);',removehg,'}'
       :Else
           dtype←'"html"'
-          success←'success: function(d){$(',(quote response),').empty().html(d);}'
+          success←'success: function(d){$(',(quote response),').empty().html(d);',removehg,'}'
       :EndIf
      
-      ajax←(script ine script,';')
-      ajax,←useajax/'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
-      r←#.HTMLInput.JS'$(function(){$(',(quote selector),').on(',(quote event),delegate,', function(event){',ajax,'});});'
+      status←'statusCode:{ 408: function(){alert("Session timed out");',removehg,'}}'
+     
+      ajax←script ine script,';'
+      ajax,←useajax/hg,'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,', ',status,'});'
+      r←'$(',(quote selector),').on(',(quote event),delegate,', function(event){',ajax,'});'
+      :If jquerywrap ⋄ r←'$(function(){',r,'});' ⋄ :EndIf
+      :If scriptwrap ⋄ r←#.HTMLInput.JS r ⋄ :EndIf
     ∇
 
     :section APLJax helpers (for legacy pages)

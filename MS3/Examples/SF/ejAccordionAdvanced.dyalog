@@ -1,9 +1,12 @@
 ﻿:Class ejAccordionAdvanced: MiPageSample
 ⍝ Control:: _SF.ejAccordion
-⍝ Description:: simple example of Syncfusion ejAccordion usage
+⍝ Description:: An accordion which notifies the server on open/close
 
     ∇ Compose;ac;path
       :Access public
+      '#Which' Add _.div  _.p 'Click on the headers to open or close sections.'
+      Add _.br
+
       ac←Add _SF.ejAccordion      ⍝ add the accordion widget
       ac.Titles←'First' 'Second'  ⍝ headings for each of two sections
       path←_Request.Server.Config.AppRoot,'Examples/Data/SampleText'
@@ -17,7 +20,7 @@
 
     ∇ r←myCallback
       :Access public
-      r←Execute #._JSS.Alert'You ',_event,'d section ',(''Get'opened closed')
+      r←'#Which' Replace _.p ('You ',_event,'d section ',(''Get'opened closed'))
     ∇
 
 :EndClass

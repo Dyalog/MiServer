@@ -2,21 +2,32 @@
 ⍝ Description:: Dyalog text input field widget
 ⍝ Constructor:: name [value [attr1=data1 attr2=data2 ...]]
 ⍝ name  - the id/name for the input field
-⍝ value - the
-⍝ attr  - one of 'submit' (default), 'reset', or 'button'
-⍝ Public Fields::
-⍝ Text - the text to appear on the button
+⍝ value - the initial value for the input field
+⍝ attr  - attribute(s) for the input field
+⍝ Public Fields:: None
+⍝ Notes::
+⍝ If either the id or name are undefined, the undefined one is set to the same value as the defined one
+⍝ If both id and name are undefined, a unique id is generated and the name is set to it as well
 
-⍝ HTML:: <input id=⍵[1] value=⍵[2]
+    ∇ make0
+      :Access public
+      :Implements constructor
+      type←'text'
+    ∇
 
     ∇ make args;att
       :Access public
       :Implements constructor
       args←eis args
-      name value att←3↑args,(2=⍴args)↓UNDEF''
+      name value att←args defaultArgs UNDEF UNDEF''
       Set att
-      id←name
       type←'text'
-     
     ∇
+
+    ∇ r←Render
+      :Access public
+      SetInputName
+      r←⎕BASE.Render
+    ∇
+
 :endclass

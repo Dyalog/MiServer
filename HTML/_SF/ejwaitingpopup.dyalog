@@ -1,8 +1,8 @@
 ﻿:class ejWaitingPopup : #._SF._ejWidget
-⍝ Description: Syncfusion WaitingPopup widget
-⍝ Constructor: [text]
+⍝ Description:: Syncfusion WaitingPopup widget
+⍝ Constructor:: [text]
 ⍝ text    - text to appear in the popup
-⍝ Public Fields:
+⍝ Public Fields::
 ⍝ Text    - text to appear in the popup
 ⍝ Style   - CSS styles to apply to popup
 ⍝           default is: "height: 200px; width: 500px; margin: 0 auto;"
@@ -40,7 +40,7 @@
       :If 0∊⍴style←Style
           style←'width: 100% !important; margin-left: auto !important; margin-right: auto !important; left: 0px !important; color: black;'
       :EndIf
-      style←(⎕NEW #._HTML.Style((Selector,'_WaitingPopup')style)).Render
+      style←(⎕NEW #._DC.Style((Selector,'_WaitingPopup')style)).Render
       r,←(⊂⍣(1<|≡r))style
     ∇
 

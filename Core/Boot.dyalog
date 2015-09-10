@@ -4,11 +4,10 @@
 
     :section Startup/Shutdown
     ∇ Run root
-    ⍝ root is the path to the #.Start
      
       AppRoot←folderize root  ⍝ application (website) root
-     
       AppRoot Load 1 ⍝ load essential objects
+      #.Utils.SetupCompatibility
       ms←Init ConfigureServer AppRoot ⍝ read configuration and create server instance
       ConfigureDatasources ms
       ConfigureVirtual ms
@@ -32,7 +31,7 @@
       utils←(⎕SE.SALT.List MSRoot,'Utils -raw')[;2]   ⍝ find utility libraries
       core←(⊂'Boot')~⍨(⎕SE.SALT.List MSRoot,'Core -raw')[;2]
       extensions←(⎕SE.SALT.List MSRoot,'Extensions -raw')[;2]
-      HTML←∪(⊂'_HTML'),(⎕SE.SALT.List MSRoot,'HTML -raw')[;2] ⍝ force _HTML to be loaded first
+      HTML←(⎕SE.SALT.List MSRoot,'HTML -raw')[;2] ⍝ force to be loaded first
       HTMLsubdirs←HTML∩,⎕SE.SALT.List MSRoot,'HTML -folder'
       :If yes
      
@@ -64,10 +63,10 @@
           :EndIf
      
           'Pages'#.⎕NS'' ⍝ Container Space for loaded classes
-          #.Pages.(MiPage MildPage EAWC RESTful)←#.(MiPage MildPage EAWC RESTful)
+          #.Pages.(MiPage MildPage RESTful)←#.(MiPage MildPage RESTful)
           BuildEAWC ⍝ build the Easy As ⎕WC namespace
           :If #.Files.DirExists AppRoot,'/Code/Templates/'
-              disperror ⎕SE.SALT.Load AppRoot,'Code/Templates/* -target=#.Pages'
+              disperror ⎕SE.SALT.Load AppRoot,'/Code/Templates/* -target=#.Pages'
           :EndIf
      
       :Else ⍝ Cleanup
@@ -148,21 +147,20 @@
     ∇ BuildEAWC;src;sources;fields;source;list;mask;refs;target
      ⍝ Build the Easy As ⎕WC namespace from core classes and its own source
      ⍝ Also build the #._ namespace with shortcuts
-      sources←#._html #._HTML #._SF #._JQ #._DC #._JS
-      fields←''
+      sources←#._html #._SF #._JQ #._DC #._JS
+⍝      fields←''
       '_'#.⎕NS''
       :For source :In sources
           list←source.⎕NL ¯9.4
           list←list/⍨'_'≠⊃¨list
           :If ∨/mask←0≠refs←source{6::0 ⋄ (⍕⍺){('.'∊1↓s↓r)<⍺≡(s←⍴⍺)↑r←⍕⍵}t←⍺⍎⍵:t ⋄ 0}¨list
-              fields,←(mask/list){':field public shared ',⍺,'←',⍕⍵}¨mask/refs
+⍝              fields,←(mask/list){':field public shared ',⍺,'←',⍕⍵}¨mask/refs
               #._⍎∊(mask/list){'⋄',⍺,'←',⍕⍵}¨mask/refs
           :EndIf
       :EndFor
-      target←#
-      :If 9=#.⎕NC'Pages' ⋄ target,←#.Pages ⋄ :EndIf
-      target{⍺.⎕FIX ⍵}¨⊂(⊂':Class EAWC : MiPage'),fields,⊂':EndClass'
-     
+⍝      target←#
+⍝      :If 9=#.⎕NC'Pages' ⋄ target,←#.Pages ⋄ :EndIf
+⍝      target{⍺.⎕FIX ⍵}¨⊂(⊂':Class EAWC : MiPage'),fields,⊂':EndClass'
     ∇
 
     :endsection
@@ -247,13 +245,14 @@
       Config.Name←Config Setting'Name' 0 'MiServer'
       Config.Port←Config Setting'Port' 1 8080
       Config.Production←Config Setting'Production' 1 0 ⍝ production mode?  (0/1 = development debug framework en/disabled)
-      Config.Rest←Config Setting'Rest' 1 0 ⍝ RESTful web service?
+      Config.RESTful←Config Setting'RESTful' 1 0 ⍝ RESTful web service?
       Config.RootCertDir←Config Setting'RootCertDir' 0 ''
       Config.Root←folderize MSRoot{((isRelPath ⍵)/⍺),⍵}AppRoot
       Config.SSLFlags←Config Setting'SSLFlags' 1(32+64)  ⍝ Accept Without Validating, RequestClientCertificate
       Config.Secure←Config Setting'Secure' 1 0
       Config.Server←Config Setting'Server' 0 ''
       Config.SessionHandler←Config Setting'SessionHandler' 0 'SimpleSessions'
+      Config.SessionTimeOut←Config Setting'SessionTimeOut' 1 30 ⍝ 30 minute timeout
       Config.SupportedEncodings←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}',',Config Setting'SupportedEncodings' 0
       Config.TempFolder←folderize Config.Root{0∊⍴⍵:⍵ ⋄ ((isRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
       Config.TrapErrors←Config Setting'TrapErrors' 1 0
@@ -423,18 +422,17 @@
       :EndTrap
     ∇
 
-    ∇ r←Oops;⎕TRAP;dmx;ends;xsi
+    ∇ r←Oops;dmx;ends;xsi
     ⍝ debugging framework to bubble up to user's code when rendering fails
-      ⎕TRAP←0⍴⎕TRAP
       r←'⎕SIGNAL 811'
       ends←{(,⍺)≡(-⍴,⍺)↑⍵}
       :If #.HtmlPage∊∊⎕CLASS⊃⊃⎕RSI
-          r←'⎕TRAP←0⍴⎕TRAP'
+          r←'⎕TRAP←(800 ''C'' ''→FAIL'')(811 ''E'' ''⎕SIGNAL 801'')(813 ''E'' ''⎕SIGNAL 803'')(812 ''S'')(85 ''N'')(0 ''S'')'
           ⎕←''
           ⎕←'*** MiServer Debug ***'
           ⎕←↑⎕DMX.DM
           ⎕←''
-          ⎕←'      ⎕SIGNAL 800 ⍝ to ignore and carry on'
+          ⎕←'      ⎕SIGNAL 800 ⍝ to ignore this error and carry on'
           ⎕←'      or Press Ctrl-Enter to invoke debugger'
       :Else
           :Select ⎕DMX.EN
@@ -457,12 +455,14 @@
               r←'⎕SIGNAL 812'
               ⎕←'Press Ctrl-Enter to invoke debugger'
           :Else
-              dmx←⎕DMX
-              ⎕←'*** MiServer Debug ***'
-              ⎕←'' 'occurred at:',⍪dmx.(EM(2⊃DM))
-              ⎕←'' 'SI Stack is ',(⍕¯1+⍴⎕XSI),' levels deep'
-              ⎕←''
-              ⎕←'      ⎕SIGNAL 800 ⍝ to ignore and carry on'
+              :Trap 0
+                  dmx←⎕DMX
+                  ⎕←'*** MiServer Debug ***'
+                  ⎕←'' 'occurred at:',⍪dmx.(EM(2⊃DM))
+                  ⎕←'' 'SI Stack is ',(⍕¯1+⍴⎕XSI),' levels deep'
+                  ⎕←''
+              :EndTrap
+              ⎕←'      ⎕SIGNAL 800 ⍝ to ignore this error and carry on'
               ⎕←'      ⎕SIGNAL 801 ⍝ to cut back and debug'
               r←''
           :EndSelect

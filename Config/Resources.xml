@@ -30,7 +30,7 @@
 
   <resource>
     <name>JQuery</name>
-    <script>/JQuery/jquery-1.10.2.min.js</script>
+    <script>/JQuery/jquery-1.11.3.min.js</script>
     <script>/JQuery/APL_JavaScript_Utils.js</script>
   </resource>
 
@@ -478,6 +478,14 @@
   <resource>
     <name>ejToolbar</name>
     <uses>Syncfusion</uses>
+  </resource>
+
+  <resource>
+    <name>ejTreeGrid</name>
+    <uses>Syncfusion</uses>
+    <uses>jquery.easing</uses>
+    <uses>jsrender</uses>
+    <uses>jquery.globalize</uses>
   </resource>
 
   <resource>

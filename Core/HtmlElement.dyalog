@@ -1,5 +1,7 @@
 ﻿:class HtmlElement             ⍝ this is the most basic element of a page
 
+⍝∇:require =\JSON.dyalog
+
     ⎕io←⎕ml←1
 
     :field public shared _version←1
@@ -13,12 +15,14 @@
     :field public Position    ⍝ has position information for this element (if position is set)
     :field public Uses←''     ⍝ resources that will be used by this object (can be overridden by derived classes)
 
+    :field public shared _true←#.JSON.true     ⍝ same definition as in #.JSON
+    :field public shared _false←#.JSON.false   ⍝ same definition as in #.JSON
+
+
 ⍝ define shortcuts to namespaces (initialized later)
     :field public _html        ⍝ reference to base HTML elements namespace
-    :field public _HTML        ⍝ reference to "Enhanced" HTML elements namespace
     :field public _JQ          ⍝ reference to JQuery/JQueryUI widgets namespace
     :field public _SF          ⍝ reference to SyncFusion widgets namespace
-    :field public _JQM         ⍝ reference to JQueryMobile widgets namespace
     :field public _JSS         ⍝ reference to JavaScript Snippets namespace
     :field public _DC          ⍝ reference to Dyalog Controls namespace
     :field public _            ⍝ reference to namespace that refers to all elements/widgets
@@ -36,6 +40,7 @@
     :field public readonly CommonAttributes←'id' 'value' 'name' 'class' 'style' 'title' 'type' ⍝ element attributes that are directly accessible
 
     _names←_values←0⍴⊂'' ⍝ used for attributes
+
     :field public _styles←''
 
     rand←{t←16807⌶2 ⋄r←?⍵ ⋄ t←16807⌶t ⋄ r }
@@ -60,17 +65,22 @@
       :EndIf
     ∇
 
+    ∇ r←isChar w
+      :Access public shared
+      r←0 2∊⍨10|⎕DR w
+    ∇
+
     ∇ r←isString w
       :Access public shared
       :Select ≡w
       :Case 2
           :If 1=⍴,w
-              r←{(0 2∊⍨10|⎕DR ⍵)∧1∊⍴⍴1/⍵}⊃w
+              r←{(isChar ⍵)∧1∊⍴⍴1/⍵}⊃w
           :Else
               r←0
           :EndIf
       :CaseList 0 1
-          r←{(0 2∊⍨10|⎕DR ⍵)∧1∊⍴⍴1/⍵}w
+          r←{(isChar ⍵)∧1∊⍴⍴1/⍵}w
       :Else
           r←0
       :EndSelect
@@ -82,25 +92,37 @@
     ∇
 
     ∇ r←a ine w
-      :Access public
+      :Access public shared
       r←a{0∊⍴⍺:'' ⋄ ⍵}w ⍝ if not empty
     ∇
     errorIf←{⍺←⊢ ⋄ 0≠⍵:⍺ ⎕SIGNAL ⍵ ⋄ ''}
 
     :section Attribute Handling
+
     ∇ r←fixkeys w
       :Access public shared
       r←{2>|≡⍵:,⊂⍵ ⋄ ⍵}w ⍝ Enclose if simple
     ∇
 
+    ∇ SyncAttrs arg
+      :Implements Trigger id,name,class,style,title,type,value
+      :If ⊃≢/arg.(NewValue OldValue)
+          arg.Name Set arg.NewValue
+      :EndIf
+    ∇
 
     :property keyed Attrs       ⍝ element attributes
     :access public
-        ∇ set ra;i;new;there;ind
-          there←~new←(⍴_names)<i←_names⍳ind←fixkeys⊃ra.Indexers
-          (_values _names),←new∘/¨ra.NewValue ind
+
+        ∇ set ra;i;new;there;names;ind
+          there←~new←(⍴_names)<i←_names⍳names←fixkeys⊃ra.Indexers
+          (_values _names),←new∘/¨ra.NewValue names
           _values[there/i]←there/ra.NewValue
+          :For i :In {⍵/⍳⍴⍵}7≥'id' 'class' 'style' 'title' 'value' 'type' 'name'⍳names
+              ⍎(i⊃names),'←i⊃ra.NewValue'
+          :EndFor
         ∇
+
         ∇ r←get ra;i;n
           ⎕SIGNAL(1<⍴i←ra.Indexers)⍴4 ⍝ RANK err
           :If 1↑ra.IndexersSpecified
@@ -126,8 +148,8 @@
       class←first∊'.'
       special←0,⍨id∨class∨pairs
       :While i≤n
-          :If 1=depths[i]  ⍝ simple vector
-              :If 1≠⍴chunk←{⎕ML←3 ⋄ ((⍵≠' ')≥{~≠\⍵}'"'=⍵)⊂⍵}i⊃arg
+          :If depths[i]∊0 1  ⍝ simple vector
+              :If 1≠⍴chunk←{⎕ML←3 ⋄ ((⍵≠' ')≥{~≠\⍵}'"'=⍵)⊂⍵},i⊃arg
                   del,←ParseAttr chunk
               :Else
                   :If 1=≡chunk←split⊃chunk
@@ -142,7 +164,7 @@
                           :ElseIf (i=n)∨special[1+i]
                               del,←⊂2⍴⊂chunk
                           :Else
-                              del,←⊂arg[0 1+i] ⋄ i+←1
+                              del,←⊂,¨arg[0 1+i] ⋄ i+←1
                           :EndIf
                       :EndSelect
                   :Else
@@ -158,11 +180,12 @@
 
     ∇ {r}←{which}Set attr
       :Access public
-      :If 0≠⎕NC'which' ⋄ attr←,(eis which),[1.1]eis attr
-      :Else ⋄ 'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
+      :If 0≠⎕NC'which' ⋄ attr←↓(eis which),[1.1]eis attr
+      :Else
+          'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
+          attr←ParseAttr attr
       :EndIf
       :If ~0∊⍴attr
-          attr←ParseAttr attr
           Attrs[1⊃¨attr]←2⊃¨attr
       :EndIf
       r←⎕THIS
@@ -178,14 +201,28 @@
     ∇ {r}←DelAttr attrname;mask
       :Access public
       attrname←eis attrname
-      mask←~_names∊attrname
-      (_names _values)←mask∘/¨_names _values
+      mask←~_names∊attrname ⋄ (_names _values)←mask∘/¨_names _values
       r←⎕THIS
     ∇
 
-    :endsection
+    ∇ r←{proto}GetAttr attrname
+      :Access public
+      :If 0=⎕NC'proto' ⋄ proto←'' ⋄ :EndIf
+      attrname←eis attrname
+      :If 1=⍴attrname
+          :Trap 3 ⍝ index error
+              r←_values⊃⍨_names⍳attrname
+          :Else
+              r←proto
+          :EndTrap
+      :Else
+          proto∘GetAttr¨attrname
+      :EndIf
+    ∇
 
-    :section Styles
+    :EndSection
+
+    :Section Styles
 
     ∇ {r}←{what}Style styles;msg
       :Access public
@@ -198,7 +235,7 @@
               msg errorIf 11×0≠2|⍴styles
               _styles,←↓(2,⍨0.5×⍴styles)⍴styles
           :Case 3
-              msg errorIf 11×∧/(,2)∘≡∘⍴¨styles
+              msg errorIf 11×~∧/(,2)∘≡∘⍴¨styles
               _styles,←styles
           :Else
               msg ⎕SIGNAL 11
@@ -219,7 +256,7 @@
 
     :EndSection
 
-  ⍝                     The constructors
+  ⍝ The constructors
 
   ⍝ The first arg is the Tag, followed by its contents, then its attributes, if present
   ⍝ Note that attributes can be specified with the tag as in
@@ -263,28 +300,6 @@
               content←arg
           :EndIf
           Content,←arg
-⍝
-⍝          :If isString arg
-⍝              Content,←arg
-⍝          :ElseIf ~isClass⊃arg
-⍝              :Trap 4 5
-⍝                  (content attr)←arg
-⍝                  :If {(isClass ⍵)∨isInstance ⍵}⊃arg
-⍝                      content←arg
-⍝                      attr←''
-⍝                  :EndIf
-⍝                  Content,←content
-⍝                  :If (0∊⍴attr)⍱ref←isRef attr
-⍝                      SetAttr attr
-⍝                  :ElseIf ref
-⍝                      Content,←attr
-⍝                  :EndIf
-⍝              :Else
-⍝                  Add arg
-⍝              :EndTrap
-⍝          :Else
-⍝              Add arg
-⍝          :EndIf
           Tag←t
       :EndIf
       Init
@@ -314,7 +329,7 @@
     ∇
 
     ∇ Init
-      (_html _HTML _JQ _SF _JQM _DC _JSS _)←#.(_html _HTML _JQ _SF _JQM _DC _JSS _)
+      (_html _JQ _SF _DC _JSS _)←#.(_html _JQ _SF _DC _JSS _)
       Position←⎕NS''
     ∇
 
@@ -343,10 +358,11 @@
       :Access public
       handler←eis handler
       Handlers,←r←⎕NEW #._JQ.Handler
-      r.(Events Callback ClientData JavaScript Delegates)←5↑handler,(⍴handler)↓'' 1 '' '' ''
+      r.(Events Callback ClientData JavaScript Delegates jQueryWrap ScriptWrap Hourglass)←8↑handler,(⍴handler)↓'' 1 '' '' '' 1 1 ¯1
+      :If ¯1=r.Hourglass ⋄ r.Hourglass←(,0)≢,r.Callback ⋄ :EndIf
     ∇
 
-    ∇ r←RenderHandlers;h;myid;selector;handler;str;callback;event;type;evt;action;JS;a;n
+    ∇ r←RenderHandlers;myid;h
       :Access public ⍝!!! remove this after testing
       r←''
       :If ~0∊⍴Handlers
@@ -374,18 +390,15 @@
     ∇ r←Render;av;t;vs;e;h;c;p
       :Access public
     ⍝ Render by first constructing the Tag, complete with attributes, if any
-      r←Compose Content
+      r←RenderCore Content
       :If ~0∊⍴av←Tag
           h←RenderHandlers
           p←RenderPosition
-          :For e :In CommonAttributes
-              av,←{0::'' ⋄ UNDEF≡t←⍎⍵:'' ⋄ e fmtAttr t}e
-          :EndFor
           :If 0<⍴vs←Attrs[]
               av,←∊fmtAttr/¨vs
           :EndIf
           av,←RenderStyles
-          r←av Enclose r,h,p ⍝!!!BPB!!!
+          r←(av Enclose r),h,p
       :EndIf
     ∇
 
@@ -393,7 +406,8 @@
       :Access overridable
     ∇
 
-    ∇ r←Compose list;e;t
+    ∇ r←RenderCore list;e;t
+      :Access public
     ⍝ do the bulk of the rendering work
       r←''
       :For e :In eis list
@@ -439,6 +453,20 @@
 
     Bracket←{'<',⍵,'>'}
 
+    ∇ SetInputName
+      :Access public
+      ⍝ for input element widgets, this will set the name to the id if not already set
+      ⍝ or the id to the name if not already set
+      :If (⊂name)∊UNDEF''
+          :If (⊂id)∊UNDEF''
+              SetId
+          :EndIf
+          name←id
+      :ElseIf UNDEF≡id
+          id←name
+      :EndIf
+    ∇
+
     ∇ r←tag Enclose txt;nl
       :Access public shared
       tag←,tag
@@ -447,7 +475,7 @@
 
     ∇ r←{a}eis w
       :Access public shared
-      r←(,∘⊂)⍣((isString w)∧2>|≡w),w ⍝ enclose if simple character
+      r←((,∘⊂)⍣((isString w)∧2>|≡w))w ⍝ enclose if simple character
     ∇
 
     ∇ da←args defaultArgs defaultvalues
@@ -475,15 +503,6 @@
               :EndIf
           :Else ⍝If isInstance⊃args
               r←args
-⍝      :ElseIf isString args
-⍝        :If (#._html.span≡⊃⊃⎕CLASS ⎕THIS)⍝∨0∊⍴⎕THIS.Content
-⍝          r←args
-⍝        :Else
-⍝          (r←⎕NEW #._html.span).Content←args
-⍝          r._PageRef←_PageRef
-⍝        :EndIf
-⍝      :Else
-⍝        r←args
           :EndIf
       :EndIf
     ∇
@@ -623,6 +642,34 @@
       :EndIf
     ∇
 
+    dtlb←{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}
+
+    ∇ r←ScriptFollows
+      :Access public
+      r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
+    ∇
+
+    ∇ r←what Subst text;names;gv;i;repl
+      :Access public
+      r←text
+      :Select ⎕NC⊂'what'
+      :Case 9.1 ⍝ namespace
+          gv←⍒∊⍴¨names←what.⎕NL-2 3 ⍝ variables and functions only
+          repl←{0::⍵ ⋄ (⍺⍺ ⎕R(,⍕⍺⍎⍺⍺))⍵}
+          :For i :In gv
+              r←what((i⊃names)repl)r
+          :EndFor
+      :Case 2.1 ⍝ substitution pairs
+          :If 2=≡what ⋄ what←,⊂what ⋄ :EndIf
+          :If 2≠⍴⍴what ⋄ what←↑what ⋄ :EndIf
+          what←,¨what
+          gv←⍒∊⍴¨what[;1]
+          :For i :In gv
+              r←(((⊂i 1)⊃what)⎕R(,⍕(⊂i 2)⊃what))r
+          :EndFor
+      :EndSelect
+    ∇
+   
     :endsection
 
 :endclass  ⍝ HtmlElement

@@ -215,10 +215,11 @@
       Logger.Stop←{}
       Logger.Start←{}
       :If {0::1 ⋄ 85⌶'0'}'' ⍝ Need a left arg?
-          I85←1∘(85⌶)
+          i85←1∘(85⌶)
       :Else
-          I85←85⌶
+          i85←85⌶
       :EndIf
+      ⎕FX'r←I85 w;⎕TRAP' 'r←i85 w'
       Config←config
       :If 0≠⊃rc←¯1 #.DRC.Init''
           ('Unable to initialize Conga. rc=',,⍕rc)⎕SIGNAL 11
@@ -337,9 +338,9 @@
      
       :If 2=conns.⎕NC'PeerCert' ⋄ REQ.PeerCert←conns.PeerCert ⋄ :EndIf       ⍝ Add Client Cert Information
      
-      :If Config.Rest  ⍝ if running RESTful web service...
+      :If Config.RESTful  ⍝ if running RESTful web service...
           n←+/∧\2>+\REQ.Page∊'/\'
-          REQ.RestReq←n↓REQ.Page
+          REQ.RESTfulReq←n↓REQ.Page
           REQ.Page←n↑REQ.Page
       :EndIf
      
@@ -451,13 +452,14 @@
     ∇
 
     ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax;flag
-    ⍝ Handle a "Mildserver Page" request
+    ⍝ Handle a "MiServer Page" request
      RETRY:
       :If 0≡date←3⊃(,''#.Files.List file),0 0 0
           REQ.Fail 404 ⋄ →0
       :EndIf
      
-      MS3←RESTful←0
+      MS3←RESTful←expired←0
+      APLJax←REQ.isAPLJax
      
       :If sessioned←326=⎕DR REQ.Session ⍝ do we think we have a session handler active?
       :AndIf 0≠⍴REQ.Session.Pages     ⍝ Look for existing Page in Session
@@ -482,8 +484,8 @@
               :Trap 11 22
                   class←⎕SE.SALT.Load file,' -target=#.Pages'
                   inst←⎕NEW class
-              :Case 11 ⋄ REQ.Fail 500 ⋄ →0 ⍝ Domain Error: HTTP Internal Error
-              :Case 22 ⋄ REQ.Fail 404 ⋄ →0 ⍝ File Name Error: HTTP Page not found
+              :Case 11 ⋄ REQ.Fail 500 ⋄ 1 Log'Domain Error trying to load "',file,'"' ⋄ →0 ⍝ Domain Error: HTTP Internal Error
+              :Case 22 ⋄ REQ.Fail 404 ⋄ 1 Log'File not found - "',file,'"' ⋄ →0 ⍝ File Name Error: HTTP Page not found
               :EndTrap
               4 Log'Creating new instance of page: ',REQ.Page
               inst._PageName←REQ.Page
@@ -495,7 +497,17 @@
                       inst.(_Request _PageRef)←REQ inst
                   :EndIf
               :EndIf
-              :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ :EndIf
+     
+              ⍝ ======= TIMEOUT Logic =======
+              ⍝ If RESTful or not sessioned, let anything through
+              ⍝ If sessioned and expired, let it though
+              ⍝ If sessioned but not expired, check if GET
+              :If RESTful<sessioned>expired
+              :AndIf ~REQ.isGet
+                  REQ.Fail 408 ⋄ →0
+              :EndIf
+     
+              :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID :EndIf
           :Else
               REQ.Fail 404 ⋄ →0
           :EndIf
@@ -529,48 +541,55 @@
           :EndIf
      
           fn←cb←'Render'
-          :If APLJax←REQ.isAPLJax>RESTful ⍝ if it's an APLJax (XmlHttpRequest) request (but not web service)
+          :If APLJax>RESTful ⍝ if it's an APLJax (XmlHttpRequest) request (but not web service)
               REQ.Response.NoWrap←1
               fn←cb←'APLJax' ⍝ default callback function name
               :If MS3
                   inst._what←REQ.GetData'_what'
                   inst._event←REQ.GetData'_event'
                   inst._value←REQ.GetData'_value'
-                  :If ~0∊⍴t←REQ.GetData'_callback' ⍝ does the request specify a callback function
-                      fn←cb←t
+                  inst._selector←REQ.GetData'_selector'
+                  inst._callback←REQ.GetData'_callback'
+                  :If ~0∊⍴inst._callback ⍝ does the request specify a callback function
+                      fn←cb←inst._callback
                   :EndIf
               :EndIf
-          :Else
-              :If MS3
-                  cb←cb inst.{3=⌊|⎕NC⊂⍵:⍵ ⋄ ⍺}fn←(1+RESTful)⊃'Compose' 'Respond' ⍝ default function to call
-              :EndIf
+          :ElseIf RESTful
+              fn←cb←'Respond'
+          :ElseIf MS3
+              cb←cb inst.{3=⌊|⎕NC⊂⍵:⍵ ⋄ ⍺}fn←'Compose' ⍝ default function to call
           :EndIf
      
           :If 3≠⌊|inst.⎕NC⊂cb            ⍝ and is it a public method?
               1 Log'Method "',fn,'" not found (or not public) in page "',REQ.Page,'"'
               REQ.Fail 500
+              →0
           :EndIf
      
           :If MS3
-              :If (⊂cb)∊'Render' 'Compose'
-                  inst._init ⍝ reset instance's content
-              :ElseIf APLJax
+              :If APLJax
                   inst._resetAjax
+              :Else
+                  inst._init ⍝ reset instance's content
               :EndIf
           :EndIf
      
           :If (1=Config.TrapErrors)∧9=⎕NC'#.DrA' ⋄ ⎕TRAP←#.DrA.TrapServer
-          :ElseIf (0=Config.Production) ⋄ ⎕TRAP←(800 'C' '→FAIL')(811 'E' '⎕SIGNAL 801')(813 'E' '⎕SIGNAL 803')(812 'S')(0 'E' '⍎#.Boot.Oops') ⍝ enable development debug framework
+          :ElseIf (0=Config.Production) ⋄ ⎕TRAP←(800 'C' '→FAIL')(811 'E' '⎕SIGNAL 801')(813 'E' '⎕SIGNAL 803')(812 'S')(85 'N')(0 'E' '⍎#.Boot.Oops') ⍝ enable development debug framework
           :EndIf
      
           :If flag←APLJax
-          :AndIf flag←inst.{6::0 ⋄ _CallbackDebug}⍬
-              2 ⎕STOP'CallbackDebugger'
+          :AndIf flag←inst.{6::0 ⋄ _DebugCallbacks}⍬
           :EndIf
      
           :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
               resp←flag Debugger'inst.',cb,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
               resp←(#.JSON.toAPLJAX⍣APLJax)resp
+              :If RESTful
+              :AndIf 9.1=⎕NC⊂'resp'
+                  resp←#.JSON.fromAPL resp
+                  'Content-Type'REQ.SetHeader'application/json'
+              :EndIf
               REQ.Return resp
           :Else
               :If APLJax
@@ -585,18 +604,12 @@
               :Else
                   inst.Wrap REQ
               :EndIf
-              :If Config.FormatHtml
-                  :Trap 0
-                      REQ.Response.HTML←('.'⎕R'&'⍠'NEOL' 1⍠'EOL' 'LF')((⎕XML⍠'Whitespace' 'Preserve')⍣2)REQ.Response.HTML
-                  :Else
-                      ⎕←'*** ⎕XML failed'
-                  :EndTrap
-              :EndIf
           :EndIf
       :EndHold
       →0
      
      FAIL:
+      ⎕←'* Carrying on...'
       ⎕TRAP←0⍴⎕TRAP
       REQ.Fail 500 ⋄ →0
      
@@ -650,14 +663,18 @@
     ∇ ConnectionMonitor server
     ⍝ Because AJAX calls don't send a "BlockLast" packet, we need to clean up connection namespaces that didn't get erased
       :While 1
-          ⎕DL 5
-          {}Common.{⎕EX(⎕NL ¯9)~'C',¨#.DRC.Names ⍵}server
+          ⎕DL 30
+          :Trap 6
+              {}Common.{⎕EX(⎕NL ¯9)~'C',¨#.DRC.Names ⍵}server
+          :Else
+              →0
+          :EndTrap
       :EndWhile
     ∇
 
     ∇ r←flag Debugger w
       :If flag
-          ⎕←'* Callback debugging active on this page, press Ctrl-Enter to trace'
+          ⎕←'* Callback debugging active on this page, press Ctrl-Enter to trace into Callback function'
           Debug ⎕STOP'Debugger'
       :EndIf
       :Trap 85
@@ -705,4 +722,3 @@
     :endsection
 
 :EndClass
-⍝)(!Virtual!!0 0 0 0 0 0 0
