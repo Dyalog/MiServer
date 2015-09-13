@@ -1,4 +1,4 @@
-﻿:Namespace SQL
+:Namespace SQL
     (⎕IO ⎕ML)←1
 
     ∇ r←ConnectTo database;ind;ds;dsn;opts;rc;conx;pwd;user;ms;find
@@ -15,7 +15,12 @@
               :If 0=⊃#.SQA.Init''
                   (dsn opts user pwd)←{6::'' ⋄ ⍎⍵}¨'ds.'∘,¨'DSN' 'DriverOptions' 'User' 'Password'
                   conx←{⊃('C'∘,¨⍕¨⍳1+⍴⍵)~⍵}⊃¨2 2⊃#.SQA.Tree'.'
-                  :If 0=1⊃rc←#.SQA.Connect conx dsn pwd user('DriverOptions'(opts)) ⋄ r←0 conx
+                 ⍝:If 0=1⊃rc←#.SQA.Connect conx dsn pwd user('DriverOptions'(opts)) ⋄ r←0 conx
+                  :If 1>1⊃rc←#.SQA.Connect conx dsn pwd user('DriverOptions'(opts)) ⋄ r←0 conx
+                 ⍝ Baas: warning (¯1) means conn was established, so return ok!
+                 ⍝ discussed with BHC in Italy ;-)
+                  :Else ⋄ r←601 ''('Unable to connect to "',database,'" due to ',⍕3⊃rc)
+                  :EndIf
                   :Else ⋄ r←601 ''('Unable to connect to "',database,'" due to ',⍕3⊃rc)
                   :EndIf
               :EndIf
