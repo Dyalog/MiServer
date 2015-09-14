@@ -4,7 +4,7 @@
 ⍝ this list will grow over time as usage patterns are discovered
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     enlist←{∊⍵}
-    quote←{'"'∊⍵:⍵ ⋄ '"',(⍕⍵),'"'}
+    quote←{0∊⍴⍵: '' ⋄ '"'∊⍵:⍵ ⋄ '"',(⍕⍵),'"'}
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     fmtSelector←{{'this'≡⍵:⍵ ⋄quote ⍵}¯2↓enlist{⍵,', '}¨eis ⍵}
     fmtData←{0=2|⎕DR ⍵:quote ⍵ ⋄ ⍕⍵}

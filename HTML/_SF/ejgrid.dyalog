@@ -31,7 +31,7 @@
       JQueryFn←Uses←'ejGrid'
       :Implements Constructor
       InternalEvents←IntEvt
-      (Values ColTitles CellWidths)←3↑args,(⍴args)↓(0 0⍴⍬)⍬ ⍬
+      (Values ColTitles CellWidths)←args defaultArgs(0 0⍴⍬)⍬ ⍬
       :If 0≠⍴ColTitles
           :If 326=⎕DR⊃ColTitles ⋄ Columns←ColTitles ⋄ ColTitles←⍬
           :Else ⋄ ColNames←ColTitles~¨' '
