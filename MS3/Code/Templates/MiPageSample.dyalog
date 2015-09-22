@@ -94,7 +94,7 @@
                   :Case '_DC'
                       item←u.Add _.li(New _.a(c(('href=/Documentation/DyalogAPIs/WidgetDoc?namespace=',ns,'&widget=',c)'target=_blank')))
                   :Case '_SF'
-                      item←u.Add _.li(New _.a c(('href'('http://js.syncfusion.com/demos/web/#!/azure/',(2×'ej'≡2↑c)↓c))('target' '_blank')))
+                      item←u.Add _.li(New _.a c(('href'('http://js.syncfusion.com/demos/web/default.htm#!/azure/',#.Strings.lc(2×'ej'≡2↑c)↓c))('target' '_blank')))
                   :Case '_JQ'
                       item←u.Add _.li(New _.a c(('href'('http://jqueryui.com/',(2×'jq'≡2↑c)↓c))('target' '_blank')))
                   :Case '_html'
