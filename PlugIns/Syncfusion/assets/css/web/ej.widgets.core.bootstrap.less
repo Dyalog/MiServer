@@ -106,13 +106,13 @@
 }
 .e-tab > ul.e-addborderright .e-item, .e-tab .e-addborderleft.e-content-item,
 .e-split .e-splitarrowleft .e-splitbutton, .e-split .e-splitarrowright .e-drp-btn, .e-rtl.e-split .e-splitarrowright .e-splitbutton, .e-rtl.e-split .e-splitarrowleft .e-drp-btn,
-.e-fileexplorer .e-grid tr td:last-child, .e-fileexplorer .e-grid.e-rtl tr td:first-child
+.e-fileexplorer .e-grid tr td.e-last-rowcell, .e-fileexplorer .e-grid.e-rtl tr td:first-child
 {
     border-radius: @border-right-radius;
 }
 .e-tab > ul.e-addborderleft .e-item, .e-tab .e-addborderright.e-content-item,
 .e-split .e-splitarrowright .e-splitbutton, .e-split .e-splitarrowleft .e-drp-btn, .e-rtl.e-split .e-splitarrowleft .e-splitbutton, .e-rtl.e-split .e-splitarrowright .e-drp-btn,
-.e-fileexplorer, .e-fileexplorer .e-grid tr td:first-child, .e-fileexplorer .e-grid.e-rtl tr td:last-child
+.e-fileexplorer, .e-fileexplorer .e-grid tr td:first-child, .e-fileexplorer .e-grid.e-rtl tr td.e-last-rowcell
 {
     border-radius: @border-left-radius;
 }
@@ -859,6 +859,7 @@ width: 83%;
 }
 .e-datepicker .e-header a:hover,.e-datepicker .e-header a:focus {
 text-decoration: none;
+padding:0px;
 }
 .e-datepicker .e-footer {
 text-align: center;
@@ -3717,6 +3718,61 @@ white-space: nowrap;
 width: auto;
 vertical-align: middle;
 }
+.e-grid .e-verticallines .e-rowcell,
+.e-grid .e-verticallines .e-normaledit td.e-rowcell,
+.e-grid .e-verticallines .e-detailrowcollapse,
+.e-grid .e-verticallines .e-detailrowexpand ,
+.e-grid .e-verticallines .e-filterbarcell{
+  border-width: 0 0 0 @border-size;
+}
+.e-grid.e-rtl .e-verticallines .e-rowcell,
+.e-grid.e-rtl .e-verticallines .e-normaledit td.e-rowcell,
+.e-grid.e-rtl .e-verticallines .e-detailrowcollapse,
+.e-grid.e-rtl .e-verticallines .e-detailrowexpand ,
+.e-grid.e-rtl .e-verticallines .e-filterbarcell{
+  border-width: 0 @border-size 0 0;
+}
+.e-grid .e-verticallines .e-detailcell,
+.e-grid .e-horizontallines .e-detailcell,
+.e-grid .e-hidelines .e-detailcell,
+.e-grid .e-verticallines .e-detailindentcell,
+.e-grid .e-horizontallines .e-detailindentcell,
+.e-grid .e-hideLines .e-detailindentcell,
+.e-grid.e-rtl .e-hidelines .e-rowcell,
+.e-grid.e-rtl .e-hidelines .e-normaledit td.e-rowcell,
+.e-grid.e-rtl .e-hidelines tr.e-editedrow td.e-rowcell,
+.e-grid .e-hidelines .e-rowcell,
+.e-grid .e-hidelines .e-normaledit td.e-rowcell,
+.e-grid .e-hidelines tr.e-editedrow td.e-rowcell,
+.e-grid .e-hidelines .e-detailrowcollapse,
+.e-grid .e-hidelines .e-detailrowexpand,
+.e-grid .e-horizontallines .e-headercell,
+.e-grid .e-hidelines .e-headercell,
+.e-grid.e-rtl .e-horizontallines .e-headercell,
+.e-grid.e-rtl .e-hidelines .e-headercell,
+.e-grid .e-hidelines .e-filterbarcell,
+.e-grid.e-rtl .e-hidelines .e-filterbarcell {
+  border-width: 0px;
+}
+.e-grid .e-verticallines .e-detailcell,
+.e-grid .e-horizontallines .e-detailcell {
+  padding: 0px;
+}
+.e-grid .e-horizontallines .e-rowcell,
+.e-grid .e-horizontallines .e-normaledit td.e-rowcell,
+.e-grid .e-horizontallines .e-detailrowcollapse,
+.e-grid .e-horizontallines .e-detailrowexpand,
+.e-grid.e-rtl .e-horizontallines .e-rowcell,
+.e-grid.e-rtl .e-horizontallines .e-normaledit td.e-rowcell,
+.e-grid.e-rtl .e-horizontallines .e-detailrowcollapse,
+.e-grid.e-rtl .e-horizontallines .e-detailrowexpand,
+.e-grid .e-horizontallines .e-filterbarcell{
+  border-width: @border-size 0 0 0;
+}
+.e-grid .e-horizontallines td.e-lastrowcell,
+.e-grid .e-horizontallines .e-normaledit td.e-rowcell {
+  border-width: @border-size 0 @border-size 0;
+}
 .e-grid.e-wrap .e-columnheader .e-headercelldiv,
 .e-grid.e-wrap .e-rowcell,.e-grid.e-wrap.e-responsive .e-rowcell{
 height: Auto;
@@ -3827,7 +3883,6 @@ width: 69%;
 border-width: @border-size;
 border-style: @border-type;
 text-indent: @border-size;
-margin-left: 1%;
 font-family: @font-family;
 font-size: @font-size;
 padding-right: 20%;
@@ -3991,7 +4046,8 @@ border: 10px solid transparent;
 .e-grid .e-filterdiv {
 position:relative;
 width:100%;
-left:1%;
+text-align:center;
+left:0px;
 right:1%;
 }
 .e-grid .e-normaledit td {
@@ -4477,7 +4533,7 @@ padding-left: 18px;
 display:block;
 height:30px;
 }
-.e-rtl .e-grid-filterstatusbar .e-msgdiv,.e-rtl .e-grid-filterstatusbarbottom .e-msgdiv{
+.e-grid.e-rtl .e-grid-filterstatusbar .e-msgdiv,.e-grid.e-rtl .e-grid-filterstatusbarbottom .e-msgdiv{
 margin-right:5px;
 }
 .e-grid.e-rtl .e-animatebutton {
@@ -7624,6 +7680,12 @@ div.e-dialog.e-columnSelector {
 .e-schedule .e-headertable{
     width:100%;
 }
+.e-schedule .e-resourceheadertext{
+	overflow:hidden;
+    width:inherit;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
 .e-schedule .e-headerdays{
 	position:relative;
 	width:100%;
@@ -8039,7 +8101,7 @@ float:right;
 }
 .e-schedule .e-tophandle
 {
-    height: 10px;
+    height: 2px;
     position: absolute;
     top: 0;
     width: 100%;
@@ -8054,7 +8116,7 @@ float:right;
 }
 .e-schedule .e-bottomhandle
 {
-    height: 10px;
+    height: 3px;
     position: absolute;
     width: 100%;
     bottom: 0;
@@ -8665,10 +8727,11 @@ width:80%;
 .e-schedule .e-nsexpand:before{
 	content:"\e712";
 	font-size:14px !important;
+	line-height: 0px;
 }
 
 .e-schedule .e-appointresizer-top {
-    margin-top: -4px;
+    margin-top: 1px;
 }
 
 .e-schedule .e-appointresizer-bottom{
@@ -11046,9 +11109,12 @@ white-space: nowrap;
 }
 .e-fileexplorer .e-scrollbar.e-hscrollbar{
 	 position: relative;
-     top: -24px;
+     top: -11px;
 	 background: transparent;
-	}
+}
+.e-fileexplorer .e-tree-wrapper .e-widget.e-scrollbar, .e-fileexplorer .e-tree-wrapper .e-widget.e-scrollbar [class^="e-"] {
+    box-sizing: border-box;
+}
 .e-fileexplorer .e-statusbar .e-itemStaus {
     margin: 4px 0 0 18px;
 }
@@ -11505,11 +11571,11 @@ white-space: nowrap;
     display: inline-table;
     vertical-align: middle;
 }
-.e-fileexplorer .e-grid tr td:first-child, .e-fileexplorer .e-grid.e-rtl tr td:last-child {
+.e-fileexplorer .e-grid tr td:first-child, .e-fileexplorer .e-grid.e-rtl tr td.e-last-rowcell {
     border-left: 1px solid transparent;
     border-right: 0;
 }
-.e-fileexplorer .e-grid tr td:last-child, .e-fileexplorer .e-grid.e-rtl tr td:first-child {
+.e-fileexplorer .e-grid tr td.e-last-rowcell, .e-fileexplorer .e-grid.e-rtl tr td:first-child {
     border-right: 1px solid transparent;
     border-left: 0;
 }

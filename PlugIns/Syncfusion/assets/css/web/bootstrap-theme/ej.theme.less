@@ -1817,15 +1817,17 @@ color:#5c5c5c;
 (~"@{skin}.e-fileexplorer input"), 
 (~"@{skin}.e-fileexplorer .e-splitter .e-splitbar"),
 (~"@{skin}.e-fileexplorer .e-statusbar"),(~"@{skin}.e-fileexplorer .e-grid .e-gridheader"),
-(~"@{skin} input.e-fe-dialog-text")
+(~"@{skin} input.e-fe-dialog-text"),
+(~"@{skin}.e-fe-toolbar.e-responsive-toolbar input")
 {
-    border-color: @default-bg-stcolor;
+    border-color: @default-border-color;
 }
 
 (~"@{skin}.e-fileexplorer input"), (~"@{skin}.e-fileexplorer .e-treeview .e-text"),
 (~"@{skin}.e-fileexplorer .e-grid .e-headercelldiv"), (~"@{skin}.e-fileexplorer .e-grid .e-gridcontent tr"),
 (~"@{skin}.e-fileexplorer .e-tileview .e-tilenode .e-name"),(~"@{skin} input.e-fe-dialog-text"),
-(~"@{skin}.e-fileexplorer .e-grid td.e-active"), (~"@{skin}.e-fileexplorer .e-grid .e-gridcontent tr.e-hover td")
+(~"@{skin}.e-fileexplorer.e-js .e-grid td.e-active"), (~"@{skin}.e-fileexplorer .e-grid .e-gridcontent tr.e-hover td"),
+(~"@{skin}.e-fe-toolbar.e-responsive-toolbar input")
 {
     color: @content-font-color;
 }
@@ -1870,7 +1872,7 @@ color:#5c5c5c;
     color: @active-font-color;
 }
 
-(~"@{skin}.e-fileexplorer input") ,(~"@{skin} input.e-fe-dialog-text")
+(~"@{skin}.e-fileexplorer input") ,(~"@{skin} input.e-fe-dialog-text"), (~"@{skin}.e-fe-toolbar.e-responsive-toolbar input")
 {
     background: @content-bg-color;
 }
@@ -1923,7 +1925,8 @@ color:#5c5c5c;
 (~"@{skin} .e-fileexplorer .e-toolbar") {
     border-bottom-color: @active-bg-stcolor;
 }
-(~"@{skin} .e-fileexplorer .e-toolbar .e-hover .e-tool-input") {
+(~"@{skin}.e-fileexplorer .e-toolbar .e-hover .e-tool-input"), (~"@{skin}.e-fe-toolbar.e-responsive-toolbar .e-hover .e-tool-input"),
+(~"@{skin}.e-fileexplorer .e-toolbar .e-tool-input:focus"), (~"@{skin}.e-fe-toolbar.e-responsive-toolbar .e-tool-input:focus") {
 	border-color: @active-border-color;
 }
 
@@ -4086,7 +4089,7 @@ margin-left: 25px;
     font-weight: normal;
 }
 
-(~"@{skin} .editcondition"), (~"@{skin} .value2"), (~"@{skin} .borderrangeLbl"), (~"@{skin} .borderstyleLbl"), (~"@{skin} .fontsizeLbl"){
+(~"@{skin} .editcondition"), (~"@{skin} .value2"), (~"@{skin} .borderrangeLbl"), (~"@{skin} .borderstyleLbl"), (~"@{skin} .fSizeLbl"){
     margin-left: 15px;
 }
 
@@ -4468,7 +4471,7 @@ content:"\e6a0";
    height: 20px;
    top: 0px;
    left: 30px;
-   fontSize: 16px;
+   font-size: 16px;
    position: absolute;
 }
 
@@ -5642,7 +5645,7 @@ opacity: 1 !important;
    height: 20px;
    top: 0px;
    left: 30px;
-   fontSize: 16px;
+   font-size: 16px;
    position: absolute;
 }
 
