@@ -499,7 +499,7 @@
       r←'#title'Replace'MS3: ',page
      
       :If 'treeA'≢_what ⍝ NOT a control selection
-          :If 'treeG'≡_what ⋄ title←'Application ',url
+          :If 'treeG'≡_what ⋄ title←url ⍝ title←'Application ',url
           :Else ⋄ title←'Sample ',url ⋄ :EndIf
           r,←'#ControlDesc'Replace''
           control←'grebmorKnetroM' ⍝ really hope that doesn't find anything!

@@ -2,7 +2,7 @@
 
     (⎕IO ⎕ML)←1
     ⎕FX 'r←CRLF' 'r←⎕UCS 13 10' ⍝ So it will be :Included
-    enlist←{∊⍵} ⍝ APL2 enlist
+    enlist←{⎕ML←1 ⋄ ∊⍵} ⍝ APL2 enlist
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     ischar←{0 2∊⍨10|⎕DR⍵}
