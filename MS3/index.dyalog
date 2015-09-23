@@ -148,7 +148,7 @@
 
     Dlist←{0::⍬ ⋄ (Slist #.Boot.AppRoot,⍵,' -raw')[;2]} ⍝ List dyalog files
 
-    Slist←{l←⎕SE.SALT.List ⍵ ⋄ l[;2]←('\\'⎕R'/')(l[;2]) ⋄ l} ⍝ SALT.List with /'s
+    Slist←{l←⎕SE.SALT.List ⍵ ⋄ l[;2]←('\\'⎕R'/')(l[;2]) ⋄ l}
 
   ⍝  NodeID←{⍺←⊢ ⋄ ('#node',⊃⍵)∘,¨⍕¨⍺+⍳⍴⊃⌽⍵} ⍝ Generate node ids (⍵='L' items) optional (⍺=offset)
 
@@ -178,9 +178,9 @@
 
     DelEmpty←{((0,⍨2</⍵[;1])∨'/'≠⊃¨⌽¨⍵[;3])⌿⍵}
 
-      DirTree←{
+      DirTree←{⍺←''
           parent←1(↑Tail ⍵)('/',⍵,'/')
-          list←Slist #.Boot.AppRoot,⍵,' -rec -raw'
+          list←Slist #.Boot.AppRoot,⍵,' -rec -raw',(0≠⍴⍺)/' -ext=',⍺
           0∊⍴list:0 3⍴0 '' ''
           nodir←~list[;1]∊⍨⊂'<DIR>'
           prefix←'/',(↓Tail ⍵),nodir/(↑Tail ⍵),'/' ⍝ Quirk in SALT.List includes path only if has subfolders
@@ -241,7 +241,7 @@
       '.cat'thediv.Add _.p'Getting Started'
       tree←0 3⍴0 '' ''
       tree⍪←1 'Start here',CURRFILES
-      tree⍪←DirTree'Documentation'
+      tree⍪←'pdf'DirTree'Documentation'
       tree⍪←DirTree'Examples/Techniques'
       tree⍪←DirTree'Examples/Applications'
       tree[;2]←Clean¨tree[;2]
@@ -483,10 +483,13 @@
 
     ∇ (page title desc url code)←{spacectrl}Update url;ctrlsec;control;space
      ⍝ Create new placeholder values
+     
       code←Dread url
       :If ×⎕NC'spacectrl'
           page←spacectrl
           title←('All '/⍨2≥⍴page),('Core '/⍨'('=⊃⌽page),⌽End page
+      :ElseIf '/Doc'≡4↑url
+          desc←0/page←title←url
       :Else
           page←Clean'Control'Section code
           title←page
@@ -499,14 +502,25 @@
       r←'#title'Replace'MS3: ',page
      
       :If 'treeA'≢_what ⍝ NOT a control selection
-          :If 'treeG'≡_what ⋄ title←url ⍝ title←'Application ',url
-          :Else ⋄ title←'Sample ',url ⋄ :EndIf
-          r,←'#ControlDesc'Replace''
+     
           control←'grebmorKnetroM' ⍝ really hope that doesn't find anything!
-          r,←'#SampleTitle'Replace title
-          (sd←New _.span).Add¨(_.strong'Description: ')(_.em desc)
-          r,←'#SampleDesc'Replace sd
-          r,←Execute'$("#CtlDescs").',((1+_what≡'treeG')⊃'show' 'hide'),'();'
+          :If '/Doc'≡4↑url
+              r←'#ControlDesc'Replace('width=750 height=850 data="',url,'.pdf"')Add _.object
+              r,←'#SampleDesc'Replace''
+              r,←'#PopLink'Replace''
+              r,←'#SampleSource'Replace''
+              r,←'#SampleFrame'Replace''
+              r,←Execute'$("#SampleFrame").hide();$("#CtlDescs").show();'
+              →0
+          :Else
+              :If 'treeG'≡_what ⋄ title←url ⍝ title←'Application ',url
+              :Else ⋄ title←'Sample ',url ⋄ :EndIf
+              r,←'#ControlDesc'Replace''
+              r,←'#SampleTitle'Replace title
+              (sd←New _.span).Add¨(_.strong'Description: ')(_.em desc)
+              r,←'#SampleDesc'Replace sd
+              r,←Execute'$("#CtlDescs").',((1+_what≡'treeG')⊃'show' 'hide'),'();'
+          :EndIf
       :Else
           control←NodeToCtrl CURRCTRL
           r,←(×≢title)/'#SampleTitle'Replace control
