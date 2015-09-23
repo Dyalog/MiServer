@@ -10,7 +10,7 @@
       'watermarkText' 'width'n.Set'Enter a 3-digit Number' 200
       'minValue' 'maxValue'n.Set 100 999
      
-     ⍝ 'validationRules' 'validationMessage'c.Set'⍎{required:true}' 'The currency value is required.'
+      'validationRules' 'validationMessage'c.Set'⍎{required:true}' 'The currency value is required.'
      
       'decimalPlaces' 'enableStrictMode' 'showSpinButton'p.Set 1 _true _false
      

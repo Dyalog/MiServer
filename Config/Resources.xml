@@ -459,6 +459,7 @@
     <name>ejTextBoxes</name>
     <uses>Syncfusion</uses>
     <uses>jquery.globalize</uses>
+    <uses>jquery.validate</uses>
     <uses>cultures</uses>
   </resource>
 
