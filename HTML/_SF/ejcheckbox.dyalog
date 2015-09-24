@@ -25,7 +25,7 @@
 
     ∇ setup
       JQueryFn←Uses←'ejCheckBox'
-      ContainerType←'input'
+      ContainerTag←'input'
       Container.type←'checkbox'
       InternalEvents←IntEvt
     ∇

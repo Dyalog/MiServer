@@ -22,7 +22,7 @@
     ∇ make0
       :Access Public
       JQueryFn←Uses←'ejDateTimePicker'
-      ContainerType←'input'
+      ContainerTag←'input'
       :Implements Constructor
       Container.type←'text'
       InternalEvents←IntEvt
@@ -32,7 +32,7 @@
     ∇ make args;val;fmt
       :Access Public
       JQueryFn←Uses←'ejDateTimePicker'
-      ContainerType←'input'
+      ContainerTag←'input'
       :Implements Constructor
       (DateTime Format)←args defaultArgs(6↑⎕TS)'dd-MMM-yyyy hh:mm:ss'
       Container.type←'text'

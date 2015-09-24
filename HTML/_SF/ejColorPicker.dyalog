@@ -35,7 +35,7 @@
     ⍝ If inline, container should be a div, else it should be a text input
       :Access Public
       :If 'true'≢⍕⎕THIS.GetOption'displayInline'
-          ContainerType←'input'
+          ContainerTag←'input'
           Container.type←'text'
       :EndIf
       ('value' 'palette')Set Color Palette

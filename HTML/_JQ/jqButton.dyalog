@@ -27,17 +27,17 @@
       :Access public
       :Select #.Strings.lc Type
       :CaseList 'button' 'submit' 'reset' 'checkbox' 'radio'
-          ContainerType←'input'
+          ContainerTag←'input'
           Container.type←Type
       :Case 'anchor'
-          ContainerType←,'a'
+          ContainerTag←,'a'
           Container.Add(⊂Text)
       :Else
-          ContainerType←'button'
+          ContainerTag←'button'
           Container.Add(⊂Text)
       :EndSelect
       r←⎕BASE.Render
-      :If 'input'≡ContainerType
+      :If 'input'≡ContainerTag
           :If ~0∊⍴Text
               r,←(⎕NEW #._html.label(Text('for'Container.id))).Render
           :EndIf

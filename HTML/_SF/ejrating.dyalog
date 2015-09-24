@@ -12,14 +12,17 @@
       :Access public
       JQueryFn←Uses←'ejRating'
       :Implements constructor
-      ContainerType←'input'
+      ContainerTag←'input'
     ∇
+
     ∇ make1 arg  ⍝ [1] max, [2] current, [3] increment, [4] min
       :Access public
       JQueryFn←Uses←'ejRating'
       (Input←⎕NEW #._DC.EditField arg).class←'rating'
       :Implements constructor :base arg
+      ContainerTag←'input'
     ∇
+
     ∇ r←Render
       :Access public
       'change'Set'function(args){$("',Selector,'").val(args.value)}'

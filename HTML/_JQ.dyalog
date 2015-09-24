@@ -80,7 +80,7 @@
     :class _jqWidget : _jqObject
 
         :field public Options←''    ⍝ options for the object to be created
-        :field public ContainerType←'div' ⍝ default container type
+        :field public ContainerTag←'div' ⍝ default container type
         :field public Container
         :field public eventHandlers←''
         :field public InternalEvents←'' ⍝ list of events the widget "knows" about
@@ -139,11 +139,11 @@
               :Case '.' ⍝ class?
                   Container.class←1↓Selector
               :EndSelect
-              :If ContainerType{⍵≡(⍴⍵)↑⍺}'input'
+              :If ContainerTag{⍵≡(⍴⍵)↑⍺}'input'
               :AndIf UNDEF≡Container.name
                   Container.name←('.#'∊⍨⊃Selector)↓Selector
               :EndIf
-              Container.Tag←ContainerType
+              Container.Tag←ContainerTag
               html←Container.Render
           :EndIf
           r←html,js
@@ -283,7 +283,7 @@
           (hg removehg)←hourglass∘{⍺:'document.body.style.cursor="',⍵,'";' ⋄ ''}¨'wait' 'default'
          
           dtype←'"json"'
-          success←'success: function(obj){APLJaxReturn(obj);document.body.style.cursor="default";',removehg,'}'
+          success←'success: function(obj){APLJaxReturn(obj);document.body.style.cursor="default";}'
           status←'statusCode:{ 408: function(){alert("Session timed out");',removehg,'}}'
           ajax←(javascript ine javascript,';'),useajax/hg,'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,', ',status,'});'
           :If force

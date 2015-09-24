@@ -16,7 +16,7 @@
     ∇ make
       :Access public
       JQueryFn←Uses←'ejButton'
-      ContainerType←'button'
+      ContainerTag←'button'
       :Implements constructor
       InternalEvents←IntEvt
     ∇
@@ -25,8 +25,8 @@
       :Access public
       args←eis args
       JQueryFn←Uses←'ejButton'
-      ContainerType←'button'
-      (text type)←2↑args,(⍴args)↓'' ''
+      ContainerTag←'button'
+      (text type)←args defaultArgs '' ''
       Text←text
       :Implements constructor
       :If ~0∊⍴type
@@ -39,11 +39,11 @@
       :If ~0∊⍴type←GetOption'type'
           :Select ¯4↑type ⍝ probably match any of 'Button' 'button' 'reset' 'Reset' 'Submit' 'submit'
           :Case 'tton'
-              ContainerType←'button type="button"'
+              ContainerTag←'button type="button"'
           :Case 'eset'
-              ContainerType←'button type="reset"'
+              ContainerTag←'button type="reset"'
           :Case 'bmit'
-              ContainerType←'button type="submit"'
+              ContainerTag←'button type="submit"'
           :EndSelect
       :EndIf
       Container.Add(⊂Text)

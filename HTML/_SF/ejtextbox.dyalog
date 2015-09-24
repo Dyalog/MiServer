@@ -3,6 +3,7 @@
     :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejTextBoxes.html'
     :Field Public Shared Readonly ApiLevel←1
     :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejTextBoxes.html'
+    :Field Public Shared Readonly IntEvt←'change' 'create' 'destroy' 'focusIn' 'focusOut'
 
     :Field Public Type←'Numeric' ⍝ Numeric|Currency|Percentage
     :Field Public value←''       
@@ -10,9 +11,10 @@
     ∇ make
       :Access Public
       Uses←'ejTextBoxes'
-      ContainerType←'input'
+      ContainerTag←'input'
       :Implements Constructor    
       Container.type←'text'
+      InternalEvents←IntEvt
     ∇
 
     ∇ make1 args
@@ -21,9 +23,10 @@
       args←eis args ⍝ Enclose if simple
       (Type value)←args,(⍴args)↓'Numeric' ''
       Uses←'ejTextBoxes'
-      ContainerType←'input'
+      ContainerTag←'input'
       :Implements Constructor    
       Container.type←'text'
+      InternalEvents←IntEvt
     ∇
     
     ∇ r←Render

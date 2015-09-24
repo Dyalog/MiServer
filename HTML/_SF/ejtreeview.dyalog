@@ -36,6 +36,7 @@
       JQueryFn←Uses←'ejTreeView'
       :Implements constructor
       InternalEvents←IntEvt
+      ContainerTag←'ul'
     ∇
 
     ∇ make1 args
@@ -43,7 +44,7 @@
       JQueryFn←Uses←'ejTreeView'
       :Implements constructor
       InternalEvents←IntEvt
-      ContainerType←'ul'
+      ContainerTag←'ul'
       Items←args
     ∇
 

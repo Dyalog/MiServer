@@ -32,6 +32,7 @@
       :Access public
       JQueryFn←Uses←'ejListBox'
       :Implements constructor
+      ContainerTag←'ul'
       (Left←⎕NEW #._SF.ejListBox).Side←1
       (Right←⎕NEW #._SF.ejListBox).Side←2
       Horizontal←1
@@ -42,7 +43,7 @@
       :If 2=≡args ⋄ args←,⊂args ⋄ :EndIf
       args←eis args
       JQueryFn←Uses←'ejListBox'
-      ContainerType←'ul'
+      ContainerTag←'ul'
       :Implements constructor
       (left right UseButtons)←args defaultArgs ⍬ ⍬ 0
       (Left←⎕NEW #._SF.ejListBox left).Side←1

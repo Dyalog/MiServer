@@ -22,7 +22,7 @@
     ∇ make0
       :Access Public
       JQueryFn←Uses←'ejDatePicker'
-      ContainerType←'input'
+      ContainerTag←'input'
       :Implements Constructor
       Container.type←'text'
       InternalEvents←IntEvt
@@ -32,7 +32,7 @@
     ⍝ Selector [value [dateFormat]]
       :Access Public
       JQueryFn←Uses←'ejDatePicker'
-      ContainerType←'input'
+      ContainerTag←'input'
       :Implements Constructor
       (val fmt)←args defaultArgs(3↑⎕TS)'yyyy/MM/dd'
       ('value' 'dateFormat')Set(('⍎new Date("',(⍕val),'")')fmt)

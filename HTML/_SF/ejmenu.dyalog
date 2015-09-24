@@ -33,7 +33,7 @@
     ∇ make
       :Access public
       JQueryFn←Uses←'ejMenu'
-      ContainerType←'ul'
+      ContainerTag←'ul'
       (Text Level Href)←⊂⍬
       :Implements constructor
     ∇
@@ -41,7 +41,7 @@
     ∇ make1 args
       :Access public
       JQueryFn←Uses←'ejMenu'
-      ContainerType←'ul'
+      ContainerTag←'ul'
       :If 3=|≡args
           (Text Level Href)←args defaultArgs(0⍴⊂'')(⍬)(0⍴⊂'')
       :Else

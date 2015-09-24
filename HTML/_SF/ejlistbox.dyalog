@@ -41,7 +41,7 @@
     ∇ make
       :Access public
       JQueryFn←Uses←'ejListBox'
-      ContainerType←'ul'
+      ContainerTag←'ul'
       :Implements constructor
     ∇
 
@@ -50,7 +50,7 @@
       :If 2=≡args ⋄ args←,⊂args ⋄ :EndIf
       args←eis args
       JQueryFn←Uses←'ejListBox'
-      ContainerType←'ul'
+      ContainerTag←'ul'
       :Implements constructor
       (Items Selected)←args defaultArgs ⍬ ⍬
     ∇

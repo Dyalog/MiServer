@@ -18,7 +18,7 @@
     ∇ make
       :Access public
       JQueryFn←Uses←'ejToggleButton'
-      ContainerType←'input'
+      ContainerTag←'input'
       :Implements constructor
       Container.type←'checkbox'
       Text←2⍴⊂'Button'
@@ -28,7 +28,7 @@
       :Access public
       args←eis args
       JQueryFn←Uses←'ejToggleButton'
-      ContainerType←'input'
+      ContainerTag←'input'
       :Implements constructor
       Container.type←'checkbox'
       Text←2⍴args

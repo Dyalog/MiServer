@@ -19,17 +19,18 @@
    ⍝ 2  BC     s.r.us
    ⍝ Example:
    ⍝   M←⎕NEW ejListView ((1 2 2 3 3 1 2 2)('MK' 'BB' 'DB' 'AB' 'RH' 'GC' 'HB' 'BC')(⍬ '#loc' ⍬ 'apl.dk' 'apl.ca' ⍬ '#accounts' 's.r.us'))
+
     ∇ make
       :Access public
       JQueryFn←Uses←'ejListView'
-      ContainerType←'div'
+      ContainerTag←'div'
       (Level Text Href)←⊂⍬
       :Implements constructor
     ∇
     ∇ make1 args
       :Access public
       JQueryFn←Uses←'ejListView'
-      ContainerType←'div'
+      ContainerTag←'div'
       ⍝:If 2=|≡args ⋄ args←⊂¨args ⋄ :EndIf
       (Level Text Href)←args,(⍴args)↓⍬(0⍴⊂'')(0⍴⊂'')
       :Implements constructor :base args
