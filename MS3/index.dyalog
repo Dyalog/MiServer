@@ -505,11 +505,13 @@
      
           control←'grebmorKnetroM' ⍝ really hope that doesn't find anything!
           :If '/Doc'≡4↑url
-              r←'#ControlDesc'Replace('width=750 height=850 data="',url,'.pdf"')Add _.object
+              r←'#ControlDesc'Replace('width=740 height=900 data="',url,'.pdf"')Add _.object
               r,←'#SampleDesc'Replace''
               r,←'#PopLink'Replace''
+              r,←'#DocLink'Replace''
               r,←'#SampleSource'Replace''
               r,←'#SampleFrame'Replace''
+              r,←'#SampleTitle'Replace''
               r,←Execute'$("#SampleFrame").hide();$("#CtlDescs").show();'
               →0
           :Else
@@ -528,6 +530,7 @@
           r,←'#ControlDesc'Replace cd
           (sd←New _.span).Add¨(_.strong'Sample: ')(_.em desc)
           r,←'#SampleDesc'Replace sd
+          r,←Execute'$("#SampleFrame").show();'
       :EndIf
      
       :If 0

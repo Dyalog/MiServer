@@ -6,7 +6,7 @@ body {
 	margin-top: 0px;
 }
 #wrapper {
-	width: 960px;
+	width: 990px;
 	margin: 10px auto;
 }
 .bodyblock {
@@ -82,7 +82,7 @@ a.nav:hover {
 	padding: 10px;
 	color: white;
 	border-radius: 0px 0px 15px 15px;
-	width: 940px;
+	width: 970px;
 	font-size: .6em;
 }
 #footertext {
