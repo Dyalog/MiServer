@@ -21,8 +21,6 @@
                  ⍝ discussed with BHC in Italy ;-)
                   :Else ⋄ r←601 ''('Unable to connect to "',database,'" due to ',⍕3⊃rc)
                   :EndIf
-                  :Else ⋄ r←601 ''('Unable to connect to "',database,'" due to ',⍕3⊃rc)
-                  :EndIf
               :EndIf
           :EndIf
       :EndIf
@@ -43,7 +41,9 @@
           :Else ⋄ data←2↓ctl ⋄ :EndIf
       :EndIf
       →(0<1⊃z←#.SQA.Exec(⊂c),data)⍴l2
-      →(0<1⊃z←0 #.SQA.Describe c)⍴l2 ⋄ r.Columns←{(0=(⊂1 3)⊃¨⍵)/(⊂1 1)⊃¨⍵}2 2⊃z
+      →(0<1⊃z←0 #.SQA.Describe c)⍴l2
+      →(0=⍴2 2⊃z)/l2  ⍝ MB: emails with BHC/BPB after err on DELETE
+      r.Columns←{(0=(⊂1 3)⊃¨⍵)/(⊂1 1)⊃¨⍵}2 2⊃z
       →(0<2 1 5⊃z)⍴l1        ⍝ Fetch if there are Bind Vars
       r.(ReturnCode Data)←0(0 0⍴0) ⋄ →l2
      l1:
