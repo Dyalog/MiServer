@@ -146,7 +146,7 @@
       first←⊃¨arg
       single←1=⊃∘⍴∘,¨arg
       gotId←∨/id←single<first∊'#' ⍝ any tokens that look like an id?
-      class←first∊'.'
+      class←single<first∊'.'
       special←0,⍨id∨class∨pairs
       :While i≤n
           :If depths[i]∊0 1  ⍝ simple vector
