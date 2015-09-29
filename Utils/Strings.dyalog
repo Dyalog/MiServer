@@ -2,8 +2,13 @@
 
     (⎕IO ⎕ML)←1
 
-    lowerAlphabet←'abcdefghijklmnopqrstuvwxyzáâãçèêëìíîïðòóôõùúûýàäåæéñöøü'
-    upperAlphabet←'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÂÃÇÈÊËÌÍÎÏÐÒÓÔÕÙÚÛÝÀÄÅÆÉÑÖØÜ'
+    ∇ r←lowerAlphabet ⍝ made a function so it can be :Include'd
+      r←'abcdefghijklmnopqrstuvwxyzáâãçèêëìíîïðòóôõùúûýàäåæéñöøü'
+    ∇
+
+    ∇ r←upperAlphabet ⍝ made a function so it can be :Include'd
+      r←'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÂÃÇÈÊËÌÍÎÏÐÒÓÔÕÙÚÛÝÀÄÅÆÉÑÖØÜ'
+    ∇
 
 
     ∇ r←lc r;m
@@ -18,7 +23,7 @@
 
     cis←{~0∊⍴(⍺ ⎕S 0 ⎕OPT'IC' 1)⍵} ⍝ Case Insensitive Search
 
-    nocase←{(lc ⍺)⍺⍺ lc ⍵} ⍝ case insensitive operator 
+    nocase←{(lc ⍺)⍺⍺ lc ⍵} ⍝ case insensitive operator
 
     beginsWith←{(,⍺){⍵≡(⍴⍵)↑⍺},⍵}
     endsWith←{(,⍺){⍵≡(-⍴⍵)↑⍺},⍵}
