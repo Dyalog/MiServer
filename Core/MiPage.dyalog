@@ -1,4 +1,4 @@
-﻿:Class MiPage : #.HtmlPage
+:Class MiPage : #.HtmlPage
 
     ⍝∇:require =\HtmlPage.dyalog
     ⍝∇:require =\JSON.dyalog
@@ -165,12 +165,15 @@
       :If ' '∊names
           names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
           r←proto∘SessionGet¨names
-      :ElseIf 2≠_Request.Session.⎕NC names
+⍝      :ElseIf 2≠_Request.Session.⎕NC names
+⍝ MB: edited with Brian in Italy to also return objects (actually: anything)
+      :ElseIf 0=_Request.Session.⎕NC names
           r←proto
       :Else
           r←_Request.Session⍎names
           :If 1<|≡r ⋄ r←∊r ⋄ :EndIf
           :If ~0 2∊⍨10|⎕DR proto
+          :AndIf 0≠1↑0⍴r  ⍝ only make r numeric if it needs to be changed...(avoiding DomErr!)
               r←{0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
           :EndIf
       :EndIf
