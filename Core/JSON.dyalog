@@ -20,7 +20,7 @@
     isSingle←{(1=⊃⍴,⍵)∧2>≡⍵}
     isSimple←{(0∊⍴⍴⍵)∧0=≡⍵}
     isJSON←{0::0 ⋄ ~0∊⍴ toXML ⍵}
-    fixNum←{b←'-'=V←⍵ ⋄ (b/V)←'¯' ⋄ ∧/b←'+'≠V:V ⋄ (b≥¯1⌽v∊'eE')/V}
+    fixNum←{b←'-'=V←⍵ ⋄ (b/V)←'¯' ⋄ ∧/b←'+'≠V:V ⋄ (b≥¯1⌽V∊'eE')/V}
     fmtNum←{(2|⎕dr ⍵)⍲∨/b←'¯'=r←⍕⍵:r ⋄ (b/r)←'-' ⋄ r}
     strip←{⍺←'{}' ⋄ ∧/⍺=(1↑⍵),¯1↑⍵:1↓¯1↓⍵ ⋄ ⍵}
     validName←{('.'∊⍵)<0≤⎕NC ⍵}
