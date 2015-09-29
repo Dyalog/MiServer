@@ -165,14 +165,13 @@
       :If ' '∊names
           names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
           r←proto∘SessionGet¨names
-⍝      :ElseIf 2≠_Request.Session.⎕NC names
-⍝ MB: edited with Brian in Italy to also return objects (actually: anything)
       :ElseIf 0=_Request.Session.⎕NC names
           r←proto
       :Else
           r←_Request.Session⍎names
           :If 1<|≡r ⋄ r←∊r ⋄ :EndIf
-          :If ~0 2∊⍨10|⎕DR proto
+          :If ~0 2∊⍨10|⎕DR proto  ⍝ if the prototype is numeric
+          :AndIf 0 2∊⍨10|⎕DR r    ⍝ and the element is character
               r←{0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
           :EndIf
       :EndIf

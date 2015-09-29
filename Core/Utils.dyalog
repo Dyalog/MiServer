@@ -25,7 +25,7 @@
           z←≢1
           ∆tally←≢
       :Else
-          ∆tally←{(1⌊⍴⍴⍵)*⍨⊃⍴⍵}
+          ∆tally←{⍬⍴(⍴⍵),1}
       :EndTrap
     ∇
 
