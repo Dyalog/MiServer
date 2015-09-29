@@ -133,7 +133,7 @@
         ∇
     :endproperty
 
-    ∇ del←ParseAttr arg;n;i;split;depths;pairs;chunk;special;gotId;first;id;class
+    ∇ del←ParseAttr arg;n;i;split;depths;pairs;chunk;special;gotId;first;id;class;single
       :Access public shared
 ⍝ Parse html sttributes
       arg←eis arg
@@ -144,7 +144,8 @@
       depths←|0,⍨≡¨arg
       pairs←'='∊¨arg
       first←⊃¨arg
-      gotId←∨/id←first∊'#' ⍝ any tokens that look like an id?
+      single←1=⊃∘⍴∘,¨arg
+      gotId←∨/id←single<first∊'#' ⍝ any tokens that look like an id?
       class←first∊'.'
       special←0,⍨id∨class∨pairs
       :While i≤n

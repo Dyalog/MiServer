@@ -4,7 +4,7 @@
 
     penclose←{⎕ML←3 ⋄ ⍺←↑,⍵ ⋄ (~⍵∊⍺)⊂,⍵ } ⍝ APL2 style partitioned enclose (optional ⍺ is character(s) to break on)
 
-    ∇ SetupCompatibility
+    ∇ SetupCompatibility;z
     ⍝ create covers for primitives that may not exist in earlier versions of Dyalog
      
     ⍝ key operator
@@ -18,6 +18,14 @@
                   ↑(⊂[1↓⍳⍴⍴⍺]((⍳⍴i)=i⍳i)⌿⍺)⍺⍺¨(2≠/¯1,i[j])⊂[⎕IO]⍵⌷⍨⊂j
               }⍵
           }
+      :EndTrap
+     
+    ⍝ tally
+      :Trap 2
+          z←≢1
+          ∆tally←≢
+      :Else
+          ∆tally←{(1⌊⍴⍴⍵)*⍨⊃⍴⍵}
       :EndTrap
     ∇
 
