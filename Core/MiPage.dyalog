@@ -1,4 +1,4 @@
-﻿:Class MiPage : #.HtmlPage
+:Class MiPage : #.HtmlPage
 
     ⍝∇:require =\HtmlPage.dyalog
     ⍝∇:require =\JSON.dyalog
@@ -173,6 +173,7 @@
           r←_Request.Session⍎names
           :If 1<|≡r ⋄ r←∊r ⋄ :EndIf
           :If ~0 2∊⍨10|⎕DR proto
+          :AndIf 0≠1↑0⍴r  ⍝ only make r numeric if it needs to be changed...(avoiding DomErr!)
               r←{0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
           :EndIf
       :EndIf
