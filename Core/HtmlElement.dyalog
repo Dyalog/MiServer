@@ -622,11 +622,6 @@
       r←s{(¯1↓⍺↑⍵)(1↓¯1↓⍺↓⍵)}¨r
     ∇
 
-    ∇ Describe
-      :Access public overridable
-      ∘∘∘
-    ∇
-
     ∇ r←GenId
       :Access public shared
       r←'id',⍕rand ¯1+2*31

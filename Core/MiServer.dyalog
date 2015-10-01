@@ -453,6 +453,7 @@
 
     ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax;flag
     ⍝ Handle a "MiServer Page" request
+     
      RETRY:
       :If 0≡date←3⊃(,''#.Files.List file),0 0 0
           REQ.Fail 404 ⋄ →0
@@ -482,7 +483,7 @@
       :Else                        ⍝ First use of Page in this Session, or page expired
           :If 0≠⍴z←#.Files.GetText file
               :Trap 11 22
-                  class←⎕SE.SALT.Load file,' -target=#.Pages'
+                  class←⎕SE.SALT.Load file,' -target=#.Pages -noname'
                   inst←⎕NEW class
               :Case 11 ⋄ REQ.Fail 500 ⋄ 1 Log'Domain Error trying to load "',file,'"' ⋄ →0 ⍝ Domain Error: HTTP Internal Error
               :Case 22 ⋄ REQ.Fail 404 ⋄ 1 Log'File not found - "',file,'"' ⋄ →0 ⍝ File Name Error: HTTP Page not found
