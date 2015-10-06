@@ -117,20 +117,22 @@
 
     :section Argument and Data Handling
 
-    ∇ r←ArgXLT r;rgx;rgxu;i;j;z;t;m
+    ∇ r←ArgXLT r;rgx;rgxu;i;j;z;t;m;⎕IO;lens;fill
       :Access public shared
      ⍝ Translate HTTP command line arguments
+      ⎕IO←0
       ((r='+')/r)←' '
       rgx←'[0-9a-fA-F]'
       rgxu←'%[uU]',(4×⍴rgx)⍴rgx ⍝ 4 characters
-      r←(rgxu ⎕R{{⎕UCS 16⊥⍉¯1+('0123456789ABCDEF'⍳⍵)⌊'0123456789abcdef'⍳⍵}2↓⍵.Match})r
+      r←(rgxu ⎕R{{⎕UCS 16⊥⍉('0123456789ABCDEF'⍳⍵)⌊'0123456789abcdef'⍳⍵}2↓⍵.Match})r
       :If 0≠⍴i←(r='%')/⍳⍴r
-      :AndIf 0≠⍴i←(i<¯1+⍴r)/i
+      :AndIf 0≠⍴i←(i≤¯2+⍴r)/i
           z←r[j←i∘.+1 2]
-          t←'UTF-8'⎕UCS 16⊥⍉¯1+('0123456789ABCDEF'⍳z)⌊'0123456789abcdef'⍳z
-          r[(⍴t)↑i]←t
-          j←(,j),(⍴t)↓i
-          m←(⍴r)⍴1 ⋄ m[j]←0
+          t←'UTF-8'⎕UCS 16⊥⍉('0123456789ABCDEF'⍳z)⌊'0123456789abcdef'⍳z
+          lens←⊃∘⍴¨'UTF-8'∘⎕UCS¨t  ⍝ UTF-8 is variable length encoding
+          fill←i[¯1↓+\0,lens]
+          r[fill]←t
+          m←(⍴r)⍴1 ⋄ m[(,j),i~fill]←0
           r←m/r
       :EndIf
     ∇
