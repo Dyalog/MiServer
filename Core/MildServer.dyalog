@@ -39,7 +39,7 @@
     enlist←{⎕ML←1 ⋄ ∊⍵}
     fromutf8←{0::(⎕AV,'?')[⎕AVU⍳⍵] ⋄ 'UTF-8' ⎕UCS ⍵} ⍝ Turn raw UTF-8 input into text
     toutf8←{'UTF-8' ⎕UCS ⍵}                          ⍝ Turn text into UTF-8 byte stream
-    setting←{0=⎕NC ⍵:⍺ ⋄ ⍎⍵} 
+    setting←{0=⎕NC ⍵:⍺ ⋄ ⍎⍵}
     I85←{}
 
       bit←{⎕IO←0  ⍝ used by Log
@@ -234,12 +234,15 @@
       Logger.Log←{}
       Logger.Stop←{}
       Logger.Start←{}
-      ibeam85←{11::0 ⋄ 85⌶'1'}⍬
      
-      :If {0::1 ⋄ 85⌶'0'}'' ⍝ Need a left arg?
-          I85←1∘(85⌶)
-      :Else
-          I85←85⌶
+      ibeam85←{11::0 ⋄ 2::{11::0 ⋄ 85⌶'1'} ⋄ 0(85⌶)'1'}⍬  ⍝ 85⌶ supported?
+     
+      :If ibeam85
+          :If {0::1 ⋄ 85⌶'0'}'' ⍝ Need a left arg?  (14.1+)
+              I85←1∘(85⌶)
+          :Else
+              I85←85⌶
+          :EndIf
       :EndIf
      
       Config←config
