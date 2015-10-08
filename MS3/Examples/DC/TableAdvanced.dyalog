@@ -17,7 +17,7 @@
      
       ⍝ And now describe how to style the .myStyle class
      
-      Add _.style ScriptFollows
+      Add _.(style ScriptFollows)
       ⍝ .myStyle {
       ⍝     border: 1px solid black;
       ⍝     border-collapse: collapse;

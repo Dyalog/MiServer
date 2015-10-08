@@ -24,7 +24,7 @@
       td←tr.Add _.td
       from←'in'td.Add _SF.ejDatePicker today'yyyy/MM/dd'
       from.Set'minDate'(newDate today)
-      from.On'change' 'setNewDate',⊂('in' 'model' 'value')('out' 'eval' '$("#out").ejDatePicker("model.value")')
+      from.On'change' 'setNewDate'(('in' 'argument' 'value')('out' 'eval' '$("#out").ejDatePicker("model.value")'))
      
     ⍝ The out date
       td←tr.Add _.td

@@ -8,7 +8,7 @@
 ⍝ File  - the location of the JavaScript file to link to
 ⍝ Notes::
 ⍝ Code and File are mutually exclusive if both are specified, Code will be used
-⍝ This is frequently used with ScriptFollows to embed inline scripts
+⍝ This is frequently used with _.ScriptFollows to embed inline scripts
 ⍝ Examples::
 ⍝ Script '' '/Scripts/myJavaScriptFile.js'
 ⍝ Script 'alert("Hello World!");'

@@ -7,7 +7,7 @@
      
       Add _.h2'Adding Style to a Page'
      
-      Add _.p ScriptFollows
+      Add _.(p ScriptFollows)
      ⍝ Most of the styling for your page should be done using the default style sheet for your site,
      ⍝ Possibly overriden by other specialised style sheets for groups of pages. However, sometimes
      ⍝ you need a one-off modification which doesn't justify the creation of a new sheet. The _.Style
@@ -17,7 +17,7 @@
       Add _.Style'h2'('color' 'red')
       Add _.h2'Other Reading'
      
-      Add _.p ScriptFollows
+      Add _.(p ScriptFollows)
      ⍝ Also look up the <a href="/Examples/DC/StyleSheetSimple?NoWrapper=1">Simple StyleSheet Example</a>, which shows how to add an external style sheet, and
      ⍝ take a look at the <a href="/Examples/DC/TableAdvanced?NoWrapper=1">Advanced Table Example</a> which uses a combination of
      ⍝ the raw html _.style control and the ScriptFollows to add a significant quantity of style in-line.

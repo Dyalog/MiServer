@@ -9,7 +9,7 @@
           idioms←⎕SE.SALT.Load'[ws]\MS3\Examples\Data\idioms -noname -nolink'
       :EndIf
      
-      Add _.style ScriptFollows
+      Add _.(style ScriptFollows)
        ⍝ .IdiomTable {
        ⍝     border: 1px solid black;
        ⍝     border-collapse: collapse;

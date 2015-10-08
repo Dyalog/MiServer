@@ -323,38 +323,6 @@
       :Case 4
           r,←∊',',⍨¨strip¨toAPLJAX¨nvp
       :EndSelect
-⍝
-⍝      :For p :In ,nvp
-⍝          :Select |≡p
-⍝          :Case 0
-⍝              r,←(⍕p),']'
-⍝          :Case 1
-⍝              r,←(fromAPL p),']'
-⍝          :Case 2
-⍝              :If 2=⍴,p
-⍝                  d←{(isChar ⍵)>isJSON ⍵:'"',(JAchars ⍵),'"' ⋄ strip fromNVP ⍵}2⊃p
-⍝                  r,←'{"',(1⊃p),'":',d,'},'
-⍝              :Else
-⍝                  r,←(fromAPL⊃p),']'
-⍝              :EndIf
-⍝          :Case 3
-⍝              r,←'{'
-⍝              :If (1=≡⊃p)∧2=⍴,p
-⍝                  :If isChar⊃p
-⍝                      r,←'"',(⊃p),'":',(strip toAPLJAX 2⊃p),','
-⍝                  :Else
-⍝                      r←fromAPL p
-⍝                  :EndIf
-⍝              :Else
-⍝                  :For x :In p
-⍝                      d←{1<⍴⍴⍵:∊(↓⍕⍵),¨⊂'<br/>' ⋄ ⍵}2⊃x
-⍝                      d←{(isChar ⍵)>isJSON ⍵:'"',(JAchars ⍵),'"' ⋄ ⍕⍵}d
-⍝                      r,←'"',(1⊃x),'":',d,','
-⍝                  :EndFor
-⍝              :EndIf
-⍝              r←(¯1↓r),'},'
-⍝          :EndSelect
-⍝      :EndFor
       r←(¯1↓r),']'
     ∇
 

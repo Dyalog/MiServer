@@ -3,6 +3,7 @@
     (⎕ML ⎕IO)←1
 
     :section Startup/Shutdown
+
     ∇ Run root
      
       AppRoot←folderize root  ⍝ application (website) root
@@ -18,11 +19,13 @@
       ms.Run
     ∇
 
-    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;disperror;core;HTML;extensions;HTMLsubdirs
+    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;core;HTML;extensions;HTMLsubdirs;disperror
       ⍝ Load required objects for MiServer
       ⍝ Note: DRC namespace is not SALTed
       ⍝ yes - 1 to perform load, 0 to clean up
+     
       disperror←{}∘{326=⎕DR ⍵:'' ⋄ '***'≡3↑⍵:⎕←⍵ ⋄ ''}
+     
       classes←''
       :If 0≠⎕NC'AppRoot'
           classes←(⎕SE.SALT.List AppRoot,'Code -raw')[;1 2] ⍝ Classes in application folder
@@ -48,7 +51,7 @@
           :For f :In HTML
               disperror ⎕SE.SALT.Load MSRoot,'HTML/',f,' -target=#'
               :If (⊂f)∊HTMLsubdirs
-                  ⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
+                  disperror¨⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
               :EndIf
           :EndFor
      
@@ -144,7 +147,7 @@
       {}try'#.DRC.Close ''.'''
     ∇
 
-    ∇ BuildEAWC;src;sources;fields;source;list;mask;refs;target
+    ∇ BuildEAWC;src;sources;fields;source;list;mask;refs;target;⎕TRAP
      ⍝ Build the Easy As ⎕WC namespace from core classes and its own source
      ⍝ Also build the #._ namespace with shortcuts
       sources←#._html #._SF #._JQ #._DC #._JS
@@ -154,13 +157,10 @@
           list←source.⎕NL ¯9.4
           list←list/⍨'_'≠⊃¨list
           :If ∨/mask←0≠refs←source{6::0 ⋄ (⍕⍺){('.'∊1↓s↓r)<⍺≡(s←⍴⍺)↑r←⍕⍵}t←⍺⍎⍵:t ⋄ 0}¨list
-⍝              fields,←(mask/list){':field public shared ',⍺,'←',⍕⍵}¨mask/refs
               #._⍎∊(mask/list){'⋄',⍺,'←',⍕⍵}¨mask/refs
           :EndIf
       :EndFor
-⍝      target←#
-⍝      :If 9=#.⎕NC'Pages' ⋄ target,←#.Pages ⋄ :EndIf
-⍝      target{⍺.⎕FIX ⍵}¨⊂(⊂':Class EAWC : MiPage'),fields,⊂':EndClass'
+      '#._'⎕NS'#._DC.ScriptFollows'
     ∇
 
     :endsection
@@ -422,11 +422,11 @@
       :EndTrap
     ∇
 
-    ∇ r←Oops;dmx;ends;xsi
+    ∇ r←Oops;dmx;ends;xsi;⎕TRAP
     ⍝ debugging framework to bubble up to user's code when rendering fails
       r←'⎕SIGNAL 811'
       ends←{(,⍺)≡(-⍴,⍺)↑⍵}
-      :If #.HtmlPage∊∊⎕CLASS⊃⊃⎕RSI
+      :If {0::0 ⋄ #.HtmlPage∊∊⎕CLASS ⍵}⊃⊃⎕RSI
           r←'⎕TRAP←(800 ''C'' ''→FAIL'')(811 ''E'' ''⎕SIGNAL 801'')(813 ''E'' ''⎕SIGNAL 803'')(812 ''S'')(85 ''N'')(0 ''S'')'
           ⎕←''
           ⎕←'*** MiServer Debug ***'

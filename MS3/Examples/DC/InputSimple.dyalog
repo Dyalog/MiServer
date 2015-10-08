@@ -5,7 +5,7 @@
     ∇ Compose;frm;field;prompt;value;fieldset;hello;inputs;tab
       :Access Public
      
-      Add _.p ScriptFollows
+      Add _.(p ScriptFollows)
       ⍝ The Dyalog Control Input enhances the base HTML input element in a number of ways.<br/>
       ⍝ The first argument specifies the type of input field.  HTML5 specifies a wide variety of
       ⍝ input type; however different browsers vary in their support for these additional types.<br/>

@@ -165,7 +165,7 @@
     ∇ r←URLEncode data;⎕IO;z;ok;nul;m;enlist
       :Access Public Shared
       nul←⎕UCS ⎕IO←0
-      enlist←{⎕ML←3 ⋄ ∊⍵}
+      enlist←{⎕ML←1 ⋄ ∊⍵}
       ok←nul,enlist ⎕UCS¨(⎕UCS'aA0')+⍳¨26 26 10
      
       z←⎕UCS'UTF-8'⎕UCS enlist nul,¨,data
