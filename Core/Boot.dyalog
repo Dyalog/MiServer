@@ -19,7 +19,7 @@
       ms.Run
     ∇
 
-    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;core;HTML;extensions;HTMLsubdirs;disperror
+    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;disperror;core;HTML;extensions;HTMLsubdirs
       ⍝ Load required objects for MiServer
       ⍝ Note: DRC namespace is not SALTed
       ⍝ yes - 1 to perform load, 0 to clean up
@@ -147,7 +147,7 @@
       {}try'#.DRC.Close ''.'''
     ∇
 
-    ∇ BuildEAWC;src;sources;fields;source;list;mask;refs;target;⎕TRAP
+    ∇ BuildEAWC;src;sources;fields;source;list;mask;refs;target
      ⍝ Build the Easy As ⎕WC namespace from core classes and its own source
      ⍝ Also build the #._ namespace with shortcuts
       sources←#._html #._SF #._JQ #._DC #._JS
@@ -160,7 +160,6 @@
               #._⍎∊(mask/list){'⋄',⍺,'←',⍕⍵}¨mask/refs
           :EndIf
       :EndFor
-      '#._'⎕NS'#._DC.ScriptFollows'
     ∇
 
     :endsection
@@ -422,7 +421,7 @@
       :EndTrap
     ∇
 
-    ∇ r←Oops;dmx;ends;xsi;⎕TRAP
+    ∇ r←Oops;dmx;ends;xsi
     ⍝ debugging framework to bubble up to user's code when rendering fails
       r←'⎕SIGNAL 811'
       ends←{(,⍺)≡(-⍴,⍺)↑⍵}

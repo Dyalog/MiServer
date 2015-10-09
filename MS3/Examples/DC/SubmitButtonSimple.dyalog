@@ -12,14 +12,14 @@
           fname←lname←''
       :EndIf
      
-      Add _.(p ScriptFollows)
+      Add _.p ScriptFollows
       ⍝ The SubmitButton control will cause a submission of the form that it is in back to the server.
       ⍝ Unlike callbacks that are set up using handlers or the On function, this will cause the
       ⍝ Compose function to run each time the button is pressed. Because the class has two
       ⍝ public fields with the same name as the EditFields created below, MiServer will populate
       ⍝ these two variables with the input each time the form is posted back.
      
-      Add _.(p ScriptFollows)
+      Add _.p ScriptFollows
       ⍝ Today, this type of page, which refreshes completely each time the button is pressed,
       ⍝ is considerd old-fashioned: new applications should use AJAX-style interation, as do
       ⍝ the vast majority of the MS3 samples.

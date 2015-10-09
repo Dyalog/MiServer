@@ -85,13 +85,13 @@
   <resource>
     <name>jquery.easing</name>
     <uses>JQuery</uses>
-    <script>/Syncfusion/external/jquery.easing.1.3.js</script>
+    <script>/Syncfusion/external/jquery.easing.1.3.min.js</script>
   </resource>
 
   <resource>
     <name>jquery.globalize</name>
     <uses>JQuery</uses>
-    <script>/Syncfusion/external/jquery.globalize.js</script>
+    <script>/Syncfusion/external/jquery.globalize.min.js</script>
   </resource>
 
   <resource>
@@ -107,7 +107,7 @@
 
   <resource>
     <name>jsrender</name>
-    <script>/Syncfusion/external/jsrender.js</script>
+    <script>/Syncfusion/external/jsrender.min.js</script>
   </resource>
 
   <resource>

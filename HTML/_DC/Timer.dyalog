@@ -37,7 +37,7 @@
       Uses←'JQuery'
       (params←⎕NS'').(∆Delay ∆Autostart ∆Event ∆Prefix)←Delay Autostart Event Prefix
      
-      Code←params Subst #._DC.ScriptFollows
+      Code←params Subst ScriptFollows
 ⍝     var ∆Prefixtimer; var ∆Prefixrunning=0; var ∆Prefixdelay=∆Delay;
 ⍝     function ∆Prefixnext(){$("body").trigger("∆Event");∆Prefixtimer=setTimeout("∆Prefixnext()",∆Prefixdelay);}
 ⍝     function ∆Prefixrun(){if (!∆Prefixrunning){∆Prefixrunning=1; ∆Prefixnext();}}

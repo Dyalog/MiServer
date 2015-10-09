@@ -46,7 +46,7 @@
      
       (params←⎕NS'').(∆interval ∆page ∆callback)←Interval Page Callback
      
-      Code←params Subst #._DC.ScriptFollows
+      Code←params Subst ScriptFollows
 ⍝     if (window.DeviceOrientationEvent) {
 ⍝         var time = 0;
 ⍝         var newtime = 0;

@@ -133,51 +133,50 @@
         ∇
     :endproperty
 
-    ∇ attr←ParseAttr arg;split;item;t;f
+    ∇ del←ParseAttr arg;n;i;split;depths;pairs;chunk;special;gotId;first;id;class;single
       :Access public shared
-      ⍝ Parse html sttributes
-⍝
-⍝     1)	In only the first token, a simple string (i.e. not in the form 'abc=def') without a leading '#' or '.' is treated as an id
-⍝        'foo'  > id="foo"
-⍝
-⍝        In all other positions, a string of this type is treated as a singleton attribute
-⍝        'foo' 'goo' 'moo' > id="foo" goo="goo" moo="moo"
-⍝
-⍝     2)	Single simple string beginning with '#' is an id
-⍝        '#foo'  > id="foo"
-⍝        'goo=moo' '#foo' > goo="moo" id="foo"
-⍝
-⍝     3)	Single simple string beginning with '.' is treated as a class
-⍝        '.foo'  > class="foo"
-⍝        'foo' '.goo' 'moo' > id="foo" class="goo" moo="moo"
-⍝
-⍝     4)	Attributes must be paired either as in 'foo=goo' or ('foo' 'goo'), if there is a single pair, it must be enclosed
-⍝        ⊂'href' '#top'  > href="#top"
-⍝
-⍝        The value portion of an attribute pair may begin with '#' or '.' without special interpretation
-⍝        ('href' '#top') '#foo' > href="#top" id="foo"
-     
-      arg←eis,arg
-      attr←⍬
-      split←{0=⊢/v←∨\(≠\'"'=⍵)<'='=⍵:⍵ ⋄ ((~v)/⍵)({'"'∧.=∊1 ¯1↑¨⊂⍵:¯1↓1↓⍵ ⋄ ⍵}1↓v/⍵)}
-      :For i :In ⍳⍴arg
-          :Select ≡item←,i⊃arg
-          :Case 1
-              :If 1<≡t←split item
-                  attr,←⊂t
-              :ElseIf 3>f←'#.'⍳1↑item
-                  attr,←⊂((f⊃'id' 'class')(1↓item))
-              :ElseIf i=1
-                  attr,←⊂'id'item
+⍝ Parse html sttributes
+      arg←eis arg
+      n←⍴arg
+      i←1
+      del←⍬
+      split←{0=⊢/v←∨\'='=⍵:⍵ ⋄ ((~v)/⍵)({'"'∧.=∊1 ¯1↑¨⊂⍵:¯1↓1↓⍵ ⋄ ⍵}1↓v/⍵)}
+      depths←|0,⍨≡¨arg
+      pairs←'='∊¨arg
+      first←⊃¨arg
+      single←1=⊃∘⍴∘,¨arg
+      gotId←∨/id←single<first∊'#' ⍝ any tokens that look like an id?
+      class←single<first∊'.'
+      special←0,⍨id∨class∨pairs
+      :While i≤n
+          :If depths[i]∊0 1  ⍝ simple vector
+              :If 1≠⍴chunk←{⎕ML←3 ⋄ ((⍵≠' ')≥{~≠\⍵}'"'=⍵)⊂⍵},i⊃arg
+                  del,←ParseAttr chunk
               :Else
-                  attr,←⊂2⍴⊂item
+                  :If 1=≡chunk←split⊃chunk
+                      :Select 1⊃chunk
+                      :Case '#'
+                          del,←⊂'id'(1↓chunk) ⋄ gotId←1
+                      :Case '.'
+                          del,←⊂'class'(1↓chunk)
+                      :Else
+                          :If gotId<(depths[1+i]≥2)∨(n=1)∨special[1+i]
+                              del,←⊂'id'chunk ⋄ gotId←1
+                          :ElseIf (i=n)∨special[1+i]
+                              del,←⊂2⍴⊂chunk
+                          :Else
+                              del,←⊂,¨arg[0 1+i] ⋄ i+←1
+                          :EndIf
+                      :EndSelect
+                  :Else
+                      del,←⊂2⍴chunk
+                  :EndIf
               :EndIf
-          :Case 2
-              attr,←⊂item
           :Else
-              ('Invalid attribute specification: ',⍕item)⎕SIGNAL 11
-          :EndSelect
-      :EndFor
+              del,←ParseAttr i⊃arg
+          :EndIf
+          i+←1
+      :EndWhile
     ∇
 
     ∇ {r}←{which}Set attr
@@ -643,7 +642,8 @@
 
     ∇ r←ScriptFollows
       :Access public
-      r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
+      r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+⍝      r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
     ∇
 
     ∇ r←what Subst text;names;gv;i;repl
@@ -666,7 +666,7 @@
           :EndFor
       :EndSelect
     ∇
-
+   
     :endsection
 
 :endclass  ⍝ HtmlElement

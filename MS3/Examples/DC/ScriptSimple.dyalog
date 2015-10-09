@@ -5,7 +5,7 @@
     ∇ Compose
       :Access Public
      
-      'p1'Add _.(p ScriptFollows)
+      'p1'Add _.p ScriptFollows
       ⍝ The Dyalog Control Script enhances the base HTML script element in a number of ways.<br/>
       ⍝ The first argument, if nonempty, is treated as inline content for the script.
       ⍝ The second argument, specifies the type of input field.  HTML5 specifies a wide variety of

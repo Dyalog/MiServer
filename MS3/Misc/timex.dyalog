@@ -1,7 +1,5 @@
 ﻿:Class Timex : MiPageSample
 
-    :Include #.HTMLUtils
-
     ∇ Render;index;tc;name;cv
       :Access public
       Add h2'Canvas'
@@ -11,7 +9,7 @@
       Add div'' 'id=msg'
       Add #.JQO.JSTimer'myTimer' 'tick' 1000
      
-      Add Script ScriptFollows
+      Add _.(Script ScriptFollows)
 ⍝function draw(xpos, ypos, width, height){
 ⍝var ctx = document.getElementById("canvas").getContext("2d");
 ⍝ctx.clearRect(0,0,300,300);
