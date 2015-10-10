@@ -9,7 +9,7 @@
     :Field Public Authentication←⎕NS ''
     :Field Public Logger←⎕NS ''
     :Field Public Application←⎕NS ''
-
+    :field Public PageTemplates←⍬
     :field Public Encoders←⍬  ⍝ pointers to instances of content encoders
     :field Public Datasources←⍬
 
@@ -229,6 +229,8 @@
       :If 2.2>CongaVersion
           'MiServer 3.0 requires Conga 2.2 or later'⎕SIGNAL 11
       :EndIf
+     
+      PageTemplates←#.Pages.⎕NL ¯9.4
      
       'Unable to allocate TCP/IP port'⎕SIGNAL(0≠1⊃,AllocatePort)/11
     ∇
@@ -481,37 +483,36 @@
               :If RESTful←∨/(∊⎕CLASS inst)∊#.RESTful ⋄ inst._Request←REQ ⋄ :EndIf
           :EndIf
       :Else                        ⍝ First use of Page in this Session, or page expired
-          :If 0≠⍴z←#.Files.GetText file
-              :Trap 11 22
-                  class←⎕SE.SALT.Load file,' -target=#.Pages -noname'
-                  inst←⎕NEW class
-              :Case 11 ⋄ REQ.Fail 500 ⋄ 1 Log'Domain Error trying to load "',file,'"' ⋄ →0 ⍝ Domain Error: HTTP Internal Error
-              :Case 22 ⋄ REQ.Fail 404 ⋄ 1 Log'File not found - "',file,'"' ⋄ →0 ⍝ File Name Error: HTTP Page not found
-              :EndTrap
-              4 Log'Creating new instance of page: ',REQ.Page
-              inst._PageName←REQ.Page
-              inst._PageDate←date
-              MS3←RESTful←0
-              :If 9=⎕NC'#.HtmlPage'
-                  :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage
-                  :OrIf RESTful←∨/(∊⎕CLASS inst)∊#.RESTful
-                      inst.(_Request _PageRef)←REQ inst
-                  :EndIf
+⍝          :If 0≠⍴z←#.Files.GetText file
+          :Trap 11 22
+              inst←Config.AppRoot LoadMSP file ⍝ ⎕NEW ⎕SE.SALT.Load file,' -target=#.Pages'
+          :Case 11 ⋄ REQ.Fail 500 ⋄ 1 Log'Domain Error trying to load "',file,'"' ⋄ →0 ⍝ Domain Error: HTTP Internal Error
+          :Case 22 ⋄ REQ.Fail 404 ⋄ 1 Log'File not found - "',file,'"' ⋄ →0 ⍝ File Name Error: HTTP Page not found
+          :EndTrap
+          4 Log'Creating new instance of page: ',REQ.Page
+          inst._PageName←REQ.Page
+          inst._PageDate←date
+          MS3←RESTful←0
+          :If 9=⎕NC'#.HtmlPage'
+              :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage
+              :OrIf RESTful←∨/(∊⎕CLASS inst)∊#.RESTful
+                  inst.(_Request _PageRef)←REQ inst
               :EndIf
+          :EndIf
      
               ⍝ ======= TIMEOUT Logic =======
               ⍝ If RESTful or not sessioned, let anything through
               ⍝ If sessioned and expired, let it though
               ⍝ If sessioned but not expired, check if GET
-              :If RESTful<sessioned>expired
-              :AndIf ~REQ.isGet
-                  REQ.Fail 408 ⋄ →0
-              :EndIf
-     
-              :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID :EndIf
-          :Else
-              REQ.Fail 404 ⋄ →0
+          :If RESTful<sessioned>expired
+          :AndIf ~REQ.isGet
+              REQ.Fail 408 ⋄ →0
           :EndIf
+     
+          :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID :EndIf
+⍝          :Else  ⍝ empty file or file not found
+⍝              REQ.Fail 404 ⋄ →0
+⍝          :EndIf
       :EndIf
      
       :If sessioned ⋄ token←REQ.(Page,⍕Session.ID)
@@ -632,6 +633,44 @@
       :Else ⋄ html,←'code'#.HTMLInput.Enclose'<font face="APL385 Unicode">',(⊃,/#.DrA.LastError,¨⊂'<br>'),'</font>'
       :EndIf
       REQ.Return html
+    ∇
+
+    ∇ inst←root LoadMSP file;path;name;ext;rpath;ns;tree;class;level;n;created;node;mask
+      path name ext←#.Files.SplitFilename file
+      rpath←(⍴root)↓path
+      ns←#.Pages
+      tree←'/'#.Utils.penclose rpath
+      created←(n←⍴tree)⍴0
+     
+      :For level :In ⍳n
+          :Select ⊃ns.⎕NC⊂node←level⊃tree
+          :Case 0
+              :Trap 11
+                  ns←⍎node ns.⎕NS''
+              :Else
+                  1 Log'Unable to create namespace in #.Pages for page in file "',file,'"'
+                  ⎕SIGNAL 11
+              :EndTrap
+              ns⍎'(',(⍕PageTemplates),')←',∊'##.'∘,∘⍕¨PageTemplates
+              created[level]←1
+          :Case 9.1
+              ns←ns⍎node
+          :Else
+              1 Log'Unable to create namespace in #.Pages for page in file "',file,'" due to name conflict'
+              :While ∨/created  ⍝ clean up any created nodes
+                  ns←ns.##
+                  ns.⎕EX⊃(mask←⌽<\⌽created)/tree
+                  created∧/←~mask
+              :EndWhile
+              ⎕SIGNAL 11
+          :EndSelect
+      :EndFor
+     
+      inst←⎕NEW class←⎕SE.SALT.Load file,' -target=',⍕ns
+     
+      :If ~name(≡#.Strings.nocase)⊃class←⍕class
+          1 Log'Filename/Classname mismatch: ',file,' ≢ ',class
+      :EndIf
     ∇
 
     ∇ (req buffer)←MakeHTTPRequest req;x;v;s;p;l;m;n;i;c;h
