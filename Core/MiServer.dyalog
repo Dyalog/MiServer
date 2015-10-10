@@ -668,7 +668,7 @@
      
       inst←⎕NEW class←⎕SE.SALT.Load file,' -target=',⍕ns
      
-      :If ~name(≡#.Strings.nocase)⊃class←⍕class
+      :If ~name(≡#.Strings.nocase)class←⊃¯1↑'.'#.Utils.penclose⍕class
           1 Log'Filename/Classname mismatch: ',file,' ≢ ',class
       :EndIf
     ∇
