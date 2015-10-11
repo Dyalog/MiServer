@@ -30,7 +30,7 @@
       SetInputName
       r←⎕BASE.Render
       :If ~0∊⍴Label
-          r←r((LabelPos≡'right'){⍺⍺:⍺,⍵ ⋄ ⍵,⍺})(⎕NEW #._html.label(Label('for'id))).Render
+          r←r((LabelPos≡'right'){⍺⍺:⍺,⍵ ⋄ ⍵,⍺})(⎕NEW #._html.label(Label(,⊂'for'id))).Render
       :EndIf
     ∇
 :endclass
