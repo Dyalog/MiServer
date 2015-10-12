@@ -312,7 +312,7 @@
      ⍝ Create and fill placeholder for embedded page and its source code
       (mid.Add NewDiv'#SampleFrame').Add Frame url
       mid.Add _.hr
-      t←(⊂'onchange' '$("#SampleSource").toggle()')mid.Add _.Input'checkbox' '' 'Show source code' 'right'
+      t←'onchange' '$("#SampleSource").toggle()'mid.Add _.Input'checkbox' '' 'Show source code' 'right'
       t.style←'margin-left: 0px;'
       '#SampleSource' '.samplesource' 'style="display: none;"'mid.Add _.div('small;border:none'#.HTMLInput.APLToHTMLColour Dread⊃CURRFILES)
      
