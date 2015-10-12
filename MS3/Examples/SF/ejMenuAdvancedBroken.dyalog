@@ -9,7 +9,7 @@
 ⍝      i←a/⍳⍴a←tmp[;2]∊⊂,'a' ⋄ tmp[i-1;3]←tmp[i;3] ⋄ tmp←(~a)⌿tmp
 ⍝      items←↓⍉tmp[;1 3],⊂''
       Add build
-      m←Add _SF.ejMenu
+      m←Add _.ejMenu
       opt←'{dataSource: data, id: "id", parentId: "parentId", text: "text", spriteCssClass: "sprite"}'
       'fields'm.Set opt
 ⍝      'datasource'm.Option'data'

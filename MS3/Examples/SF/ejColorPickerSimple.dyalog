@@ -19,9 +19,9 @@
       Add¨_.br _.br
      
       inline←'InlineCP'Add _SF.ejColorPicker'#278787'
-      inline.Set'displayInline'_true
-      inline.Set'modelType' 'palette'
-      inline.Set'presetType' 'basic'
+      inline.Set⊂'displayInline'_true
+      inline.Set⊂'modelType' 'palette'
+      inline.Set⊂'presetType' 'basic'
       inline.On'change' 'CallbackFn'('Color' 'model' 'value')
       Add _.br
      

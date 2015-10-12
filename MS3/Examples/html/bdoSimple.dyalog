@@ -5,7 +5,7 @@
       :Access public 
       Add'The next sentence will be reversed: '
       Add _.br
-      'dir' 'rtl'Add _.bdo'This sentence is reversed'
+      'dir=rtl'Add _.bdo'This sentence is reversed'
     ∇
 
 :endclass

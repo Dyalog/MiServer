@@ -14,14 +14,14 @@
 ⍝    </div>
      
       mydiv←'mydiv'Add _.div
-      mydiv.Set'align' 'center'
+      mydiv.Set⊂'align' 'center'
       'src' '../Data/spin.gif'mydiv.Add _.img
       mydiv.Add _.p'Create cutting-edge '
       myp←mydiv.Add _.p
       myp.Add _.b'HTML5'
       myp.Add' web applications '
       mydiv.Add _.p'with ease'
-      (wp←Add ejWaitingPopup).Set'template' '#mydiv'
+      (wp←Add ejWaitingPopup).Set⊂'template' '#mydiv'
      
      ⍝ By default, the pop-up is hidden
       'showOnInit'wp.Set _true
