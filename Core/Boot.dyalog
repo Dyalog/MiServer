@@ -246,7 +246,7 @@
       Config.Production←Config Setting'Production' 1 0 ⍝ production mode?  (0/1 = development debug framework en/disabled)
       Config.RESTful←Config Setting'RESTful' 1 0 ⍝ RESTful web service?
       Config.RootCertDir←Config Setting'RootCertDir' 0 ''
-      Config.Root←folderize MSRoot{((isRelPath ⍵)/⍺),⍵}AppRoot
+      Config.Root←AppRoot ⍝ folderize MSRoot{((isRelPath ⍵)/⍺),⍵}AppRoot
       Config.SSLFlags←Config Setting'SSLFlags' 1(32+64)  ⍝ Accept Without Validating, RequestClientCertificate
       Config.Secure←Config Setting'Secure' 1 0
       Config.Server←Config Setting'Server' 0 ''
@@ -409,6 +409,7 @@
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     isRef←{(0∊⍴⍴⍵)∧326=⎕DR ⍵}
     folderize←{¯1↑⍵∊'/\':⍵ ⋄ ⍵,fileSep}
+    makeSitePath←{⍺{((isRelPath ⍵)/⍺),⍵},folderize ⍵}
 
     ∇ r←SubstPath r
       r←(#.Strings.subst∘('%ServerRoot%'(¯1↓MSRoot)))r
