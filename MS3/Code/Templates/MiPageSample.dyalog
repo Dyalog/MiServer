@@ -9,7 +9,7 @@
       :If 0∊⍴Get'nowrapper'
           server←_Request.Server
      
-          controls←∪Walk Body.Content
+          controls←'' ⍝∪Walk Body.Content
      
         ⍝ we use Syncfusion (which uses jQuery) to set up the controls to do cool stuff
           Use'Syncfusion' ⍝ this is a resource defined in Config/Resources.xml

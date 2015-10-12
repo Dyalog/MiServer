@@ -2,7 +2,7 @@
 
     ∇ Compose
       :Access Public
-      Add _.dimple ScriptFollows
+      Add _.(dimple ScriptFollows)
 ⍝    var svg = dimple.newSvg("#contentblock", 590, 400);
 ⍝    var data = [
 ⍝    { "Brand":"Coolio", "Region":"Hipsville", "Sales Volume":1000 },

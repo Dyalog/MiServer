@@ -8,7 +8,7 @@
       Add'Copied from '
       Add _.A'dimplejs.org' 'http://dimplejs.org/advanced_examples_viewer.html?id=advanced_animated_multiple_pie_bubbles'
      
-      (chart←'chartContainer'New _.div).Add _.Script ScriptFollows
+      (chart←'chartContainer'New _.div).Add _.(Script ScriptFollows)
 ⍝    var svg = dimple.newSvg("#chartContainer", 590, 400);
 ⍝    d3.tsv("/Examples/Data/example_data.tsv", function (data) {
 ⍝      var myChart = new dimple.chart(svg, data);

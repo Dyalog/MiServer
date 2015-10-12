@@ -102,9 +102,9 @@
       :EndFor
     ∇
 
-    ∇ r←{proto}Get names
+    ∇ r←{proto}Get names;noproto;char
       :Access public
-      proto←{6::⍵ ⋄ proto}''
+      :If noproto←0=⎕NC'proto' ⋄ proto←'' ⋄ :EndIf
       names←eis names
       names←,⍕names
       names←#.Strings.deb names
@@ -120,8 +120,14 @@
                   r←⊃r
               :EndIf
           :EndIf
-          :If isString r
+          :If noproto≥char←0=2|⎕DR proto
+          :AndIf isString r
               r←#.JSON.toAPL r
+          :EndIf
+          :If noproto⍱char
+              :If 1≠2|⎕DR r
+                  r←,proto
+              :EndIf
           :EndIf
       :EndIf
     ∇

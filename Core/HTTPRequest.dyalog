@@ -124,11 +124,11 @@
       ((r='+')/r)←' '
       rgx←'[0-9a-fA-F]'
       rgxu←'%[uU]',(4×⍴rgx)⍴rgx ⍝ 4 characters
-      r←(rgxu ⎕R{{⎕UCS 16⊥⍉('0123456789ABCDEF'⍳⍵)⌊'0123456789abcdef'⍳⍵}2↓⍵.Match})r
+      r←(rgxu ⎕R{{⎕UCS 16⊥⍉16|'0123456789ABCDEF0123456789abcdef'⍳⍵}2↓⍵.Match})r
       :If 0≠⍴i←(r='%')/⍳⍴r
       :AndIf 0≠⍴i←(i≤¯2+⍴r)/i
           z←r[j←i∘.+1 2]
-          t←'UTF-8'⎕UCS 16⊥⍉('0123456789ABCDEF'⍳z)⌊'0123456789abcdef'⍳z
+          t←'UTF-8'⎕UCS 16⊥⍉16|'0123456789ABCDEF0123456789abcdef'⍳z
           lens←⊃∘⍴¨'UTF-8'∘⎕UCS¨t  ⍝ UTF-8 is variable length encoding
           fill←i[¯1↓+\0,lens]
           r[fill]←t
@@ -165,7 +165,7 @@
     ∇ r←URLEncode data;⎕IO;z;ok;nul;m;enlist
       :Access Public Shared
       nul←⎕UCS ⎕IO←0
-      enlist←{⎕ML←3 ⋄ ∊⍵}
+      enlist←{⎕ML←1 ⋄ ∊⍵}
       ok←nul,enlist ⎕UCS¨(⎕UCS'aA0')+⍳¨26 26 10
      
       z←⎕UCS'UTF-8'⎕UCS enlist nul,¨,data

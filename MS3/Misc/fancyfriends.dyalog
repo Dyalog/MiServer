@@ -1,7 +1,5 @@
 ﻿:Class FancyFriends : MiPageSample
 
-    :include #.HTMLUtils
-
     ∇ Render;index;tc;name
       :Access public
       Add Style('.friendly' 'background-color:yellow')
@@ -20,7 +18,7 @@
       tc.Options.(mouseover mouseout)←⊂'onMouse'
       tc.Data←PEOPLE[SELECTED],(≢¨FRIENDS[SELECTED]),⍪(_Request.Page,'?index=')∘,¨⍕¨SELECTED
      
-      Add Script ScriptFollows
+      Add _.(Script ScriptFollows)
 ⍝function onMouse(evt) {
 ⍝    $.ajax({
 ⍝        url: "fancyfriends.dyalog",
