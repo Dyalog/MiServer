@@ -8,7 +8,7 @@
 
     ∇ r←Compose
       :Access Public
-      'width'(Add _SF.ejMenu fixExample).Set 632
+      'width'(Add _.ejMenu fixExample).Set 632
     ∇
 
     ∇ r3←fixExample;tmp;b;i;nr

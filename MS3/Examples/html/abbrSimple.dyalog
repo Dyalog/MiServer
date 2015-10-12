@@ -7,8 +7,7 @@
      
       p←Add _.p ⍝ All text should be in a paragraph
       p.Add'Hover over '
-      attrs←'title' 'HTML abbreviation element' ⍝ The title attribute defines the text to display
-      attrs p.Add _.abbr'abbr'
+      'title="HTML abbreviation element"'p.Add _.abbr'abbr' ⍝ The title attribute defines the text to display
       p.Add' with the mouse, to see how this element can be used to make expansions of abbreviations visible.'
     ∇
 :endclass

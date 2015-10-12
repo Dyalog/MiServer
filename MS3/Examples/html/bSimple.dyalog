@@ -5,7 +5,7 @@
     ∇ Compose
       :Access public 
       Add 'Format '
-      Add _.b 'bold'
+      Add _.b 'bolder'
       Add ' text.'
     ∇
 

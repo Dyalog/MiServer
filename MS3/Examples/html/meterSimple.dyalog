@@ -10,7 +10,7 @@
      
       pct←?0
       Add('%: ',⍨⍕⌊0.5+100×pct)
-      'value'pct Add _.meter
+      (⊂'value'pct)Add _.meter
      
     ∇
 :endclass

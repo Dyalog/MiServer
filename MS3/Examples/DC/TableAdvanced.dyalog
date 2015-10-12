@@ -1,5 +1,5 @@
 ﻿:Class TableAdvanced : MiPageSample
-⍝ Control::     _DC.Table
+⍝ Control:: _DC.Table
 ⍝ Description:: Display tabular data with a bit of styling
 
     ∇ Compose;lmt;i10;data;myTable;aTable

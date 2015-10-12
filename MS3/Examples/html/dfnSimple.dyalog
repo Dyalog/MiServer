@@ -5,8 +5,8 @@
     ∇ Compose
       :Access public
      
-	  Add ⎕UCS 6/160 ⍝ emulate APL's six-space-prompt
-      'title' '+/÷≢'Add _.dfn'avg'
+      Add ⎕UCS 6/160 ⍝ emulate APL's six-space-prompt
+      'title="+/÷≢"'Add _.dfn'avg'
       Add¨'2 6 7'_.br'5'
-     ∇
+    ∇
 :endclass

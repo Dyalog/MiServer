@@ -19,7 +19,7 @@
       to←'out'New _SF.ejDateTimePicker todate'yyyy/MM/dd HH:mm'
       to.On'change' 'setNewDate',⊂('out' 'argument' 'value')('in' 'eval' '$("#in").ejDateTimePicker("model.value")')
      
-      Add #._.InputGrid('Check In' 'Check Out',⍪from to)
+      Add _.InputGrid('Check In' 'Check Out',⍪from to)
      
       'diff'Add _.div
     ∇

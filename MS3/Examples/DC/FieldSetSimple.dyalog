@@ -11,7 +11,7 @@
       fieldset←frm.Add _.Fieldset'Personalia:' ⍝ The fieldset will surround our input fields
      
       :For (field prompt) :In ('fname' 'First Name:')('lname' 'Last Name:')
-          label←('for'field)fieldset.Add _.label prompt   ⍝ Create label
+          label←(⊂'for'field)fieldset.Add _.label prompt   ⍝ Create label
           edit←field fieldset.Add _.EditField             ⍝ Create EditField
           edit.On'keyup' 'CallbackFn'
           ⍝ NB: unlike keypress, the keyup event is called AFTER the field is updated
