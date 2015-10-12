@@ -162,7 +162,7 @@
       attr←⍬
       split←{0=⊢/v←∨\(≠\'"'=⍵)<'='=⍵:⍵ ⋄ ((~v)/⍵)({'"'∧.=∊1 ¯1↑¨⊂⍵:¯1↓1↓⍵ ⋄ ⍵}1↓v/⍵)}
       :For i :In ⍳⍴arg
-          :Select ≡item←,i⊃arg
+          :Select |≡item←,i⊃arg
           :Case 1
               :If ~0∊⍴item
                   :If ∨/eq←'='=item              ⍝ any '=' (i.e.
