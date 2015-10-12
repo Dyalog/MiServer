@@ -1,4 +1,5 @@
 <Server>
     <Name>MiServer 3.0</Name>
     <AllowedHttpCommands>get,put,delete,post</AllowedHttpCommands>
+    <UserID>miserver</UserID>
 </Server>
