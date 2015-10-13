@@ -11,7 +11,7 @@
      ⍝ Any MiServer page which is going to be used to post data back to the server
      ⍝ will need a form. If you use a classical Submit button, all the input elements
      ⍝ within the form that the button is in will be sent to the server as part of the POST.
-     ⍝ see <a href="/Examples/DC/SubmitButtonSimple?NoWrapper=1">/Examples/DC/InputSubmitSimple</a> for an example.
+     ⍝ see <a href="/Examples/DC/SubmitButtonSimple?NoWrapper=1">/Examples/DC/SubmitButtonSimple</a> for an example.
      
       Add _.p ScriptFollows
      ⍝ If you use events and AJAX-style interaction, the default handler will serialise

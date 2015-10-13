@@ -58,7 +58,7 @@
       rows←⎕NEW¨(⊃⍴cells)⍴#._html.tr
       rows.Add↓cells
       Content←rows.Render
-      Set'border'(⍕Border)
+      Set(⊂'border'(⍕Border))
       html←⎕BASE.Render
     ∇
 :endclass
