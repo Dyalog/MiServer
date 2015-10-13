@@ -6,7 +6,7 @@
       :Access Public
      
       F1←'myform'Add _.Form ⍝ Create a form
-      label←('for"name"')F1.Add _.label'Please enter your name'
+      label←('for="name"')F1.Add _.label'Please enter your name'
       name←'name'F1.Add _.EditField
       done←'done'F1.Add _.Button'Done'
       done.On'click' 'CallbackFn'
