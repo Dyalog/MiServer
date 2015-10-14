@@ -193,6 +193,7 @@
       :If 0≠⎕NC'which' ⋄ attr←↓(eis which),[1.1]eis attr
       :Else
           'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
+     
           :If 1=≡attr ⍝ simple vector
           :AndIf ~(1↑attr)∊'#.'
               attr←,⊂2⍴⊂attr
@@ -201,6 +202,21 @@
           :AndIf 1∧.≥≡¨attr
               attr←,⊂attr
           :EndIf
+     
+          attr←1 ParseAttr attr
+      :EndIf
+      :If ~0∊⍴attr
+          Attrs[1⊃¨attr]←2⊃¨attr
+      :EndIf
+      r←⎕THIS
+    ∇
+
+    ∇ {r}←{which}SetAttribute attr
+    ⍝ set attributes, treating
+     
+      :If 0≠⎕NC'which' ⋄ attr←↓(eis which),[1.1]eis attr
+      :Else
+          'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
           attr←ParseAttr attr
       :EndIf
       :If ~0∊⍴attr
@@ -211,8 +227,8 @@
 
     ∇ {r}←{which}SetAttr attr
       :Access public
-      :If 0=⎕NC'which' ⋄ r←Set attr
-      :Else ⋄ r←which Set attr
+      :If 0=⎕NC'which' ⋄ r←SetAttribute attr
+      :Else ⋄ r←which SetAttribute attr
       :EndIf
     ∇
 

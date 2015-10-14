@@ -56,7 +56,7 @@
      
       r←⎕BASE.Render
       :If Label≢''
-          r←r((LabelPos≡'right'){⍺⍺:⍺,⍵ ⋄ ⍵,⍺})(⎕NEW #._html.label(Label('for'id))).Render
+          r←r((LabelPos≡'right'){⍺⍺:⍺,⍵ ⋄ ⍵,⍺})(⎕NEW #._html.label(Label(⊂'for'id))).Render
       :EndIf
     ∇
 
