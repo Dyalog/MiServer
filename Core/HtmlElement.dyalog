@@ -194,11 +194,7 @@
       :Else
           'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
      
-          :If 1=≡attr ⍝ simple vector
-          :AndIf ~(1↑attr)∊'#.'
-              attr←,⊂2⍴⊂attr
-          :EndIf
-          :If 2=⍴attr  ⍝ 'attr' 'value' is never shorthanded (e.g. given special treatment for id/class)
+          :If 2=⍴,attr  ⍝ 'attr' 'value' is never shorthanded (e.g. given special treatment for id/class)
           :AndIf 1∧.≥≡¨attr
               attr←,⊂attr
           :EndIf
