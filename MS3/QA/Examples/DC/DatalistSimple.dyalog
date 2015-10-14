@@ -1,11 +1,11 @@
-﻿ msg←DatalistSimple;name;result
+﻿ msg←Test dummy;name;result
 ⍝ Test /Examples/DC/InputGridSimple
 
- {'opts'SendKeys ⍵ ⋄ ⎕DL 0.2}¨'F',Keys.(Down Return) ⍝ Auto-complete using F, down-arrow, enter
- Click'btnPressMe'
+ {'opts'Selenium.SendKeys ⍵ ⋄ ⎕DL 0.2}¨'F',Selenium.Keys.(Down Return) ⍝ Auto-complete using F, down-arrow, enter
+ Selenium.Click'btnPressMe'
 
- result←Find'output'
- {0≠⍴result.Text}Retry ⍬ ⍝ Wait (a bit) to see if it gets populated
+ result←Selenium.Find'output'
+ {0≠⍴result.Text}Selenium.Retry ⍬ ⍝ Wait (a bit) to see if it gets populated
  :If result.Text≢'You selected "Four"!'
      msg←'Expected output was not produced.'
  :Else ⋄ msg←''

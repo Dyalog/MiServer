@@ -1,10 +1,10 @@
-﻿ msg←ButtonSimple;result;output
+﻿ msg←Test dummy;result;output
 ⍝ Test /Examples/DC/ButtonSimple
 
- Click'btnPressMe'
+ Selenium.Click'btnPressMe'
 
- output←Find'output'
- {0≠⍴output.Text}Retry ⍬ ⍝ Wait (a bit) to see if it gets populated
+ output←Selenium.Find'output'
+ {0≠⍴output.Text}Selenium.Retry ⍬ ⍝ Wait (a bit) to see if it gets populated
  :If output.Text≢'Thank You!'
      msg←'Expected output was not produced.'
  :Else ⋄ msg←''

@@ -9,7 +9,7 @@
      
       lmt←∘.×⍨i10←⍳10           ⍝ Compute the table
       data←('×',i10)⍪i10,lmt    ⍝ Add row and column headings
-      myTable←'myTable .myStyle'Add _.Table data ⍝ Give it class .myStyle
+      myTable←'myTable' '.myStyle' Add _.Table data ⍝ Give it class .myStyle
       myTable.HeaderRows←1      ⍝ Declare first row to be headers (<th> elements)
      
       Add _.h2'... With Default Formatting'

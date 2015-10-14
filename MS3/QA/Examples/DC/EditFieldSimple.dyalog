@@ -1,11 +1,11 @@
-﻿ msg←EditFieldSimple;name;result
+﻿ msg←Test dummy;name;result
 ⍝ Test /Examples/DC/InputGridSimple
 
- 'name'SendKeys name←'Brian'
- Click'done'
+ 'name'Selenium.SendKeys name←'Brian'
+ Selenium.Click'done'
 
- result←Find'result'
- {0≠⍴result.Text}Retry ⍬ ⍝ Wait (a bit) to see if it gets populated
+ result←Selenium.Find'result'
+ {0≠⍴result.Text}Selenium.Retry ⍬ ⍝ Wait (a bit) to see if it gets populated
  :If result.Text≢'Hello, ',name,'!'
      msg←'Expected output was not produced.'
  :Else ⋄ msg←''

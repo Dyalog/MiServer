@@ -1,4 +1,4 @@
-﻿ msg←StackPanelSimple
+﻿ msg←Test dummy
 ⍝ There is little to do here
 
- msg←(0∊Find¨'hsp' 'vsp')/'StackPanel controls not found'
+ msg←(0∊Selenium.Find¨'hsp' 'vsp')/'StackPanel controls not found'
