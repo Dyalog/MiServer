@@ -5,17 +5,17 @@
     ∇ Compose;frm;field;prompt;value;fieldset;hello;inputs;tab
       :Access Public
      
-      Add _.p ScriptFollows
-      ⍝ The Dyalog Control Input enhances the base HTML input element in a number of ways.<br/>
-      ⍝ The first argument specifies the type of input field.  HTML5 specifies a wide variety of
-      ⍝ input type; however different browsers vary in their support for these additional types.<br/>
-      ⍝ The second argument specifies the initial value for the input field.<br/>
-      ⍝ The third and fourth arguments specify the label and label position for the input field.
+      Add ScriptFollows
+      ⍝ <p>The Dyalog Control Input enhances the base HTML input element in a number of ways.</p>
+      ⍝ <p>The first argument specifies the type of input field.  HTML5 specifies a wide variety of
+      ⍝ input type; however different browsers vary in their support for these additional types.</p>
+      ⍝ <p>The second argument specifies the initial value for the input field.</p>
+      ⍝ <p>The third and fourth arguments specify the label and label position for the input field.</p>
      
       tab←Add _.Table(6 3⍴⊂'')(5 3⍴⊂'')1
       tab.Data[1;]←'Description' 'Input' 'Output'
       (1↓tab.Data[;1])←'Text input' 'Text input (label on right) ' 'Number input' 'Password input' 'Range input'
-      tab.Data[2;2]←('inp1'New _.Input'text' '' 'First Name: ')
+      tab.Data[2;2]←('inp1'New _.Input'text' '(optional)' 'First Name: ')
       tab.Data[3;2]←('inp2'New _.Input'text' '' ' Last Name' 'right')
       tab.Data[4;2]←('inp3'New _.Input'number' '' 'Age: ')
       tab.Data[5;2]←('inp4'New _.Input'password' '' 'Password: ')
@@ -26,7 +26,7 @@
     ∇
 
     ∇ r←myCallback;content
-      :Access public                    
+      :Access public
       :If _what≡'inp4' ⋄ _value←'(that''s a secret)' ⋄ :EndIf
       r←('#out',3↓_what)Replace'Entered: ',_value
     ∇

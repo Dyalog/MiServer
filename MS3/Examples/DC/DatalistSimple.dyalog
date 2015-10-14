@@ -3,27 +3,25 @@
 ⍝ Description:: An auto-completeable drop-down
 
     ∇ Compose;button;frm
-      :Access Public 
+      :Access Public
      
-      :With frm←'myform'Add _.Form ⍝ We need a form to get data back on callbacks
+      frm←'myform'Add _.Form ⍝ We need a form to get data back on callbacks
      
-          Add _.p'Hint: type "t" to get some auto-completed content.'
+      frm.Add _.p'Hint: type "t" to get some auto-completed content.'
      
-          'opts'Add _.Datalist('Tres' 'Three' 'Tre' 'Four')
+      'opts'frm.Add _.Datalist('Tres' 'Three' 'Tre' 'Four')
      
-          button←'btnPressMe'Add _.Button'Press me!'
-          button.On'click' 'CallbackFn'
+      button←'btnPressMe'frm.Add _.Button'Press me!'
+      button.On'click' 'CallbackFn'
      
-          'output'Add _.div ⍝ a div to contain output, updated by CallbackFn
-      :EndWith
+      'output'frm.Add _.div ⍝ a div to contain output, updated by CallbackFn
     ∇
 
     ∇ r←CallbackFn;data
-      :Access Public          
+      :Access Public
      
       data←Get'opts'
       r←'#output'Replace _.p'You selected "',data,'"!'
     ∇
 
 :EndClass
-
