@@ -16,7 +16,7 @@
 ⍝ input cells are assigned a class of (id,'_input')
 ⍝ This facilitates being able to easily assign styling to the cells
 ⍝ Examples::
-⍝ ipg←'myIpg' Add ('lab1' 'lab2')(('inp1' New _.input)('inp2' New _.input))
+⍝ ipg←'myIpg' Add _.InputGrid ('lab1' 'lab2')(('inp1' New _.input)('inp2' New _.input))
 ⍝ Add _.Style '.myIpg_label' 'background-color:aliceblue' ⍝ set the label background color
 
     :field public Border←0
