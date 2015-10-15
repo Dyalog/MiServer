@@ -36,6 +36,11 @@
       :Access Public
      
       current←Get'node'
+      :If (index←items[;3]⍳⊂current)>⊃⍴items
+          r←'#output'Replace _.p(_event,' on unknown node "',current,'"')
+          →0⊣current←''
+      :EndIf
+     
       item←⊃items[index←items[;3]⍳⊂current;2]
      
       :Select _event
@@ -59,10 +64,8 @@
       :Select _what
      
       :Case 'Add'
-          id←'tv_',⍕added ⍝ SyncFusion will give new nodes these id's
           added+←1
-          name←'Added Item ',⍕added
-     
+          name←id←'Added Item ',⍕added
           r←tv.addNode name
           insert←index+(index↓items[;1])⍳depth ⍝ Insertion point will be just before next node at same level
           m←insert≠⍳1+1↑⍴items ⍝ Expansion mask

@@ -6,7 +6,7 @@
  Selenium.Click'Chk'  ⍝ Turn checkbox on
  output←Selenium.Find'output'
  :If {'1 nodes checked.'≢output.Text}Selenium.Retry ⍬ ⍝ Wait to see if it gets populated
-     msg←'Node Add & Check Failed.'
+     →0⊣msg←'Node Add & Check Failed.'
  :EndIf
 
  Selenium.Click'Del'  ⍝ Delete the added node again (or models won't match :()
