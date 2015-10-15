@@ -104,6 +104,7 @@
     :Field STR←''      ⍝ String to search for
     :Field ALLFILES    ⍝ List of pathnames for all sample files
     :Field SAMPLE←1    ⍝ The current view is a sample (i.e. has source-code and related samples)
+    :Field FILEEXT←'mipage' ⍝ From server.xml
 
     :ENDSECTION
 
@@ -136,7 +137,7 @@
           :If (≢#.DREADCACHE.Keys)≥i←#.DREADCACHE.Keys⍳⊂page
               r←i⊃#.DREADCACHE.Data
           :Else
-              #.DREADCACHE.Data,←⊂r←#.UnicodeFile.ReadNestedText #.Boot.AppRoot,page,'.mipage'
+              #.DREADCACHE.Data,←⊂r←#.UnicodeFile.ReadNestedText #.Boot.AppRoot,page,(~'.'∊page)/'.',FILEEXT
               #.DREADCACHE.Keys,←⊂page
           :EndIf
       :Else
@@ -144,11 +145,11 @@
       :EndTrap
     ∇
 
-    ⍝ Dread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText #.Boot.AppRoot,⍵,'.mipage'} ⍝ Read dyalog file
+    ⍝ Dread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText #.Boot.AppRoot,⍵,'.',FILEEXT} ⍝ Read dyalog file
 
-    Dlist←{0::⍬ ⋄ (Slist #.Boot.AppRoot,⍵,' -raw')[;2]} ⍝ List dyalog files
+    Dlist←{0::⍬ ⋄ (Slist #.Boot.AppRoot,⍵,' -raw -ext=',FILEEXT)[;2]} ⍝ List dyalog files
 
-    Slist←{l←⎕SE.SALT.List ⍵ ⋄ l[;2]←('\\'⎕R'/')(l[;2]) ⋄ l}
+    Slist←{l←⎕SE.SALT.List ⍵ ⋄ l[;2]←('\\'⎕R'/')l[;2] ⋄ l}
 
   ⍝  NodeID←{⍺←⊢ ⋄ ('#node',⊃⍵)∘,¨⍕¨⍺+⍳⍴⊃⌽⍵} ⍝ Generate node ids (⍵='L' items) optional (⍺=offset)
 
@@ -168,7 +169,7 @@
 
     Tail←{⍵ ⍺⍺⍨1-(⌽⍵)⍳'/'} ⍝ ↑Tail or ↓Tail
 
-    End←{⍺⍺{⍵↑⍨¯1+⍵⍳'_'}⍺⍺ ⍵} ⍝ ⊢End: until first .   ⌽End: from last .
+    End←{⍺⍺{⍵↑⍨¯1+⍵⍳'_'}⍺⍺ ⍵} ⍝ ⊢End: until first _   ⌽End: from last _
 
     NodeToCtrl←{'_',(⊢End 1↓⍵),'.',⌽End ⍵}
 
@@ -178,9 +179,9 @@
 
     DelEmpty←{((0,⍨2</⍵[;1])∨'/'≠⊃¨⌽¨⍵[;3])⌿⍵}
 
-      DirTree←{⍺←''
+      DirTree←{⍺←FILEEXT
           parent←1(↑Tail ⍵)('/',⍵,'/')
-          list←Slist #.Boot.AppRoot,⍵,' -rec -raw',(0≠⍴⍺)/' -ext=',⍺
+          list←Slist #.Boot.AppRoot,⍵,' -rec -raw -ext=',⍺
           0∊⍴list:0 3⍴0 '' ''
           nodir←~list[;1]∊⍨⊂'<DIR>'
           prefix←'/',(↓Tail ⍵),nodir/(↑Tail ⍵),'/' ⍝ Quirk in SALT.List includes path only if has subfolders
@@ -189,7 +190,7 @@
           ((list[;1]≡¨⊂'<DIR>')/files),←'/'
           DelEmpty⍣≡parent⍪⍉↑levels(↑Tail¨list[;2])files
       }
-
+      
       Section←{ ⍝ extract section ⍺:: from code ⍵
           regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)'
           opts←('Mode' 'M')('DotAll' 1)
@@ -210,11 +211,11 @@
       SAMPLES←0 3⍴⍬
       GROUPS←'Dyalog Controls' 'SyncFusion' 'JQueryUI' 'Base HTML'
       REFS←_DC _SF _JQ _html
-      INFOSHORT←'⍝',¨Dread'Examples/Data/infoShort'
-      INFOLONG←'⍝',¨Dread'Examples/Data/infoLong'
+      INFOSHORT←'⍝',¨Dread'Examples/Data/infoShort.dyalog'
+      INFOLONG←'⍝',¨Dread'Examples/Data/infoLong.dyalog'
       NAMESSHORT←Names INFOSHORT
       NAMESLONG←Names INFOLONG
-      list←⊃⍪/{Slist #.Boot.AppRoot,'Examples/',⍵,' -rec -raw -full'}¨'DC' 'SF' 'JQ' 'html'
+      list←⊃⍪/{Slist #.Boot.AppRoot,'Examples/',⍵,' -rec -raw -full -ext=',FILEEXT}¨'DC' 'SF' 'JQ' 'html'
       ALLFILES←list[;2]/⍨list[;1]≢¨⊂'<DIR>'
       TREE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/tree -noname'
       CORE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/core -noname'
@@ -336,7 +337,7 @@
           CURRCTRL←''
           SAMPLE←0
           node←1↓¯1↓node ⍝ Strip outer slashes
-          list←Slist #.Boot.AppRoot,node,' -rec -raw'
+          list←Slist #.Boot.AppRoot,node,' -rec -raw -ext=',FILEEXT
           nodir←~list[;1]∊⍨⊂'<DIR>'
           prefix←(↓Tail node),nodir/(Clean↑Tail node),'/' ⍝ Quirk in SALT.List includes path only if has subfolders
           files←prefix∘,¨list[;2]
