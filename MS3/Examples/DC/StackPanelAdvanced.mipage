@@ -24,19 +24,19 @@
      
       ⍝ Three RED rectangles in a vertical StackPanel with text in the 2nd one
       rects←rect¨(20 200 '#922')(30 250 '#944')(55 175 '#922')
-      rects[2]addstyle'padding: 10px;'
-      rects[2].Add _.p'2nd red div<br/>padding 10px'
+      rects[3]addstyle'padding: 10px;'
+      rects[3].Add _.span'padding 10px'
       (red←'red'New _.StackPanel rects).style←'background-color: #C99;'
      
       ⍝ Two GREEN rectangles with 2 lines of text in the 1st one
-      rects←rect¨(40 100 '#494')(105 180 '#696')
+      rects←rect¨(40 120 '#494')(105 180 '#696')
       rects[1]addstyle'margin: 5px;'
-      rects[1].Add _.p'1st green div<br/>margins 5px'
+      rects[1].Add _.span'margins 5px'
       (green←'green'New _.StackPanel rects).style←'background-color: #9C9;'
      
       ⍝ Four BLUE rectangles with text in the 3rd one
-      rects←rect¨(30 180 '#669')(45 100 '#449')(25 120 '#669')(55 100 '#449')
-      rects[3].Add _.p'3rd blue<br/>no padding'
+      rects←rect¨(30 180 '#669')(45 100 '#449')(25 120 '#669')(55 170 '#449')
+      rects[4].Add _.span'no padding or margins'
       (blue←'blue'New _.StackPanel rects).style←'background-color: #99C;'
      
       ⍝ Put them in an "outer" Horizontal grey StackPanel

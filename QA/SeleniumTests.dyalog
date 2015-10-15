@@ -27,7 +27,7 @@
       :EndIf
     ∇
 
-    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n
+    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext
      
       :If 0=⍴AppRoot←#.Load site
           ⎕←'Test abandoned' ⋄ →0
@@ -42,16 +42,17 @@
       Selenium.DLLPATH←selpath
      
       Config←#.Boot.ConfigureServer AppRoot
-      n←⍴files←(⍴AppRoot)↓¨FindAllFiles AppRoot,'/QA'
+      ext←Config.DefaultExtension
+      Config.DefaultExtension←'.dyalog' ⍝ We are searching for code
+      n←⍴files←(⍴AppRoot)↓¨¯7↓¨FindAllFiles AppRoot,'/QA'
       ⍝ // Add code to compare this to the mipages found in the whole app
       SITE←'http://127.0.0.1:',⍕Config.Port
      
       Selenium.InitBrowser''
      
-      start←START←⎕AI[3] ⋄ COUNT←0 ⋄ FAIL←0
+      START←⎕AI[3] ⋄ COUNT←0 ⋄ FAIL←0
      
       :For i :In ⍳n
-          start←⎕AI[3]
           COUNT+←1
           :If 0=⍴t←Run1Test z←i⊃files
               ⍞←'.'
@@ -60,9 +61,6 @@
               ⎕←'*** FAILED *** ',z,': ',t
           :EndIf
       :EndFor
-     
-      time←⎕AI[3]-start
-      t←(n≠1)/'Run #',(⍕i),'/',(⍕n),': '
      
       ⎕←'Total of ',(⍕COUNT),' samples tested in ',(∊(⍕¨24 60⊤⌊0.5+(⎕AI[3]-START)÷1000),¨'ms'),': ',(⍕FAIL),' failed.'
     ∇

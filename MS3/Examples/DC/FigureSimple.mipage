@@ -4,8 +4,9 @@
 
     ∇ Compose
       :Access Public      
-      fig←(Add _.Figure).Caption←'APL Mandelbrot Set'
-      fig.Add _.img '' ('src' '/Examples/Data/pic4.png')
+      Add '<br />'
+      (fig←'fig' Add _.Figure).Caption←'APL Mandelbrot Set'
+      fig.Add _.img (⊂'src' '/Examples/Data/pic4.png')
     ∇
 
 :EndClass
