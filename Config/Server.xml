@@ -23,8 +23,8 @@
 
 <!-- Page/Request Settings -->
     <Lang>en</Lang>                                     <!-- language setting --> 
-    <DefaultPage>index.dyalog</DefaultPage>             <!-- default page to load if none is specified in client request -->
-    <DefaultExtension>.dyalog</DefaultExtension>        <!-- default extension for page files -->
+    <DefaultPage>index.mipage</DefaultPage>             <!-- default page to load if none is specified in client request -->
+    <DefaultExtension>.mipage</DefaultExtension>        <!-- default extension(s) for page files -->
     <AllowedHttpCommands>get,post</AllowedHttpCommands> <!-- HTTP commands that we process (for RESTful web services) -->
     <HttpCacheTime>60</HttpCacheTime>                   <!-- minutes to cache static content, 0 = no caching --> 
 

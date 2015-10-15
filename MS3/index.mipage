@@ -136,7 +136,7 @@
           :If (≢#.DREADCACHE.Keys)≥i←#.DREADCACHE.Keys⍳⊂page
               r←i⊃#.DREADCACHE.Data
           :Else
-              #.DREADCACHE.Data,←⊂r←#.UnicodeFile.ReadNestedText #.Boot.AppRoot,page,'.dyalog'
+              #.DREADCACHE.Data,←⊂r←#.UnicodeFile.ReadNestedText #.Boot.AppRoot,page,'.mipage'
               #.DREADCACHE.Keys,←⊂page
           :EndIf
       :Else
@@ -144,7 +144,7 @@
       :EndTrap
     ∇
 
-    ⍝ Dread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText #.Boot.AppRoot,⍵,'.dyalog'} ⍝ Read dyalog file
+    ⍝ Dread←{0::,⊂'[file read failed]' ⋄ #.UnicodeFile.ReadNestedText #.Boot.AppRoot,⍵,'.mipage'} ⍝ Read dyalog file
 
     Dlist←{0::⍬ ⋄ (Slist #.Boot.AppRoot,⍵,' -raw')[;2]} ⍝ List dyalog files
 

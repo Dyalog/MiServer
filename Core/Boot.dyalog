@@ -229,8 +229,8 @@
       Config.CertFile←Config Setting'CertFile' 0 ''
       Config.ClassName←Config Setting'ClassName' 0 'MiServer'
       Config.Debug←Config Setting'Debug' 1 0
-      Config.DefaultExtension←Config Setting'DefaultExtension' 0 '.dyalog'
-      Config.DefaultPage←Config Setting'DefaultPage' 0 'index.dyalog'
+      Config.DefaultExtension←Config Setting'DefaultExtension' 0 '.mipage'
+      Config.DefaultPage←Config Setting'DefaultPage' 0 'index.mipage'
       Config.FormatHtml←Config Setting'FormatHtml' 1 0
       Config.Host←Config Setting'Host' 0 'localhost'
       Config.HttpCacheTime←Config Setting'HttpCacheTime' 1 0 ⍝ default to off (0)

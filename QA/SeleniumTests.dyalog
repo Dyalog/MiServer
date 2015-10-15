@@ -17,14 +17,17 @@
       :EndIf
     ∇
 
-    ∇ r←FindAllFiles root;folders
-      r←(⊂root,'/'),¨('*.dyalog'#.Files.List root)[;1]
+    ∇ r←FindAllFiles root;folders;ext
+      :If 0=⎕NC'Config.DefaultExtension' ⋄ ext←'.dyalog'
+      :Else ⋄ ext←Config.DefaultExtension
+      :EndIf
+      r←(⊂root,'/'),¨(('*',ext)#.Files.List root)[;1]
       :If 0≠⍴folders←{(('.'≠⊃¨⍵[;1])∧⍵[;4])/⍵[;1]}#.Files.List root
           r←r,⊃,/FindAllFiles¨(⊂root,'/'),¨folders
       :EndIf
     ∇
 
-    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files
+    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n
      
       :If 0=⍴AppRoot←#.Load site
           ⎕←'Test abandoned' ⋄ →0
@@ -45,7 +48,8 @@
      
       Selenium.InitBrowser''
      
-      START←⎕AI[3] ⋄ COUNT←0 ⋄ FAIL←0
+      start←START←⎕AI[3] ⋄ COUNT←0 ⋄ FAIL←0
+     
       :For i :In ⍳n
           start←⎕AI[3]
           COUNT+←1

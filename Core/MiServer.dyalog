@@ -453,12 +453,17 @@
  ⍝     :EndHold
     ∇
 
-    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax;flag
+    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax;flag;orig
     ⍝ Handle a "MiServer Page" request
      
      RETRY:
-      :If 0≡date←3⊃(,''#.Files.List file),0 0 0
-          REQ.Fail 404 ⋄ →0
+      :If 0≡date←3⊃(,''#.Files.List orig←file),0 0 0
+          :If Config.DefaultExtension≢'.dyalog'
+          :AndIf 0≡date←3⊃(,''#.Files.List file←'.dyalog',⍨(-'.'⍳⍨⌽file)↓file),0 0 0
+              REQ.Fail 404 ⋄ →0
+          :Else
+              1 Log'File not found: "',orig,'" using "',file,'" instead.'
+          :EndIf
       :EndIf
      
       MS3←RESTful←expired←0
