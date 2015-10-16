@@ -17,7 +17,7 @@
      
       Add _.p ScriptFollows
      ⍝ Also look up the <a href="/Examples/DC/StyleSimple?NoWrapper=1">Simple Style Example</a>, which shows how to embed style in
-     ⍝ a page without ann external style sheet, and
+     ⍝ a page without an external style sheet, and
      ⍝ take a look at the <a href="/Examples/DC/TableAdvanced?NoWrapper=1">Advanced Table Example</a> which uses a combination of
      ⍝ the raw html _.style control and the ScriptFollows to add a significant quantity of style in-line.
     ∇

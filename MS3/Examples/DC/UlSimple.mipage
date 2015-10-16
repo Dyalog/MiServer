@@ -17,7 +17,7 @@
      ⍝ --- Add a simple list of fruits ---
       Add _.h3'Fruits'       ⍝ Put a heading before it
       fruits←'Apples' 'Bananas' 'Grapes' 'Oranges'
-      Add _.Ul fruits   ⍝ Construct Ul with a vector of vectors
+      'fruits' Add _.Ul fruits   ⍝ Construct Ul with a vector of vectors
      
      ⍝ --- Add a list of interesting web pages ---
       Add _.h3'Useful Links'

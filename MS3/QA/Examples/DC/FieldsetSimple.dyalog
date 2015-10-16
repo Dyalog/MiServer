@@ -1,5 +1,4 @@
 ﻿ msg←Test dummy;data;result
-⍝ Test /Examples/DC/InputGridSimple
 
  data←'Morten' 'Kromberg'
  'fname' 'lname'Selenium.SendKeys¨data

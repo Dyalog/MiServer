@@ -1,5 +1,4 @@
-﻿ msg←Test dummy;name;result;pick
-⍝ Test /Examples/DC/InputGridSimple
+﻿ msg←Test dummy;result;pick
 
  pick←'Oranges' 'Lemons'
  'fruits'Selenium.ListMgrSelect pick
