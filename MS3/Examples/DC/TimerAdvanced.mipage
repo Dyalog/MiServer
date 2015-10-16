@@ -1,0 +1,28 @@
+﻿:Class TimerAdvanced : MiPageSample
+⍝ Control:: _DC.Timer
+⍝ Description:: Interactive control of multiple timers
+
+    ∇ Compose
+      :Access public
+      200 1000 AddTimer¨2↑⎕A
+    ∇
+    
+    ∇ delay AddTimer X
+      ⍎X,'←''─────────╫'''
+      ((X,'timer')Add _.Timer delay 0 'tick'X).On'tick' 'Update'
+      {((X,⍵)Add _.button ⍵).On'click' 'Click'}¨'run' 'stop'
+      ('#output',X)Add _.span(⍎X)
+      Add _.br
+    ∇
+
+    ∇ r←Update
+      :Access public
+      r←('#output',⊃_what)Replace⍎X,'←1⌽''','''',⍨⍎X
+    ∇
+
+    ∇ r←Click
+      :Access public
+      r←Execute'$(function(){',_what,'();});'
+    ∇
+
+:EndClass
