@@ -1,4 +1,4 @@
-﻿:class HtmlElement             ⍝ this is the most basic element of a page
+:class HtmlElement             ⍝ this is the most basic element of a page
 
 ⍝∇:require =\JSON.dyalog
 
@@ -470,7 +470,8 @@
     ∇ r←RenderPosition
       :Access public
       r←''
-      :If ~0∊⍴Position.⎕NL-2
+      :If 9=⎕NC'Position'
+      :AndIf ~0∊⍴Position.⎕NL-2
           Uses,←⊂'JQueryUI'
           r←#.JQ.JQueryfn'position'('#',SetId)Position
           Use
