@@ -46,9 +46,9 @@
               opts←⍬
               :For i :In ⍳⍴links
                   :If 326=⎕DR link←i⊃links ⍝ Nested array
-                      (opt←'href'(⊃link)New _.a(i⊃text)).Set 1↓link
+                      (opt←(⊂'href'(⊃link))New _.a(i⊃text)).Set 1↓link
                   :Else
-                      opt←'href'link New _.a(i⊃text)
+                      opt←(⊂'href'link)New _.a(i⊃text)
                   :EndIf
                   opts,←opt
               :EndFor
