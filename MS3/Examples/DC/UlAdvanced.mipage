@@ -19,7 +19,7 @@
      ⍝ Below, the second link includes a target attribute for the <a> element
       urls←'http://www.dyalog.com'('http://forums.dyalog.com' 'target=_blank')
      
-      ul←Add _.Ul(text urls) ⍝ Construct Ul with texts and urls
+      ul←'links' Add _.Ul(text urls) ⍝ Construct Ul with texts and urls
       ('style="margin-top:24pt;height:12pt"'Add _.div).id←'output' ⍝ A place to write messages
      
      ⍝ Set up a handler which returns the html content of <a> elements within <li>

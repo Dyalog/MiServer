@@ -69,7 +69,7 @@
               ⍞←'.'
           :Else
               FAIL+←1
-              ⎕←'*** FAILED *** ',(⍕i),' of ',(⍕n),': ',z,': ',t
+              ⎕←'*** FAILED *** #',(⍕i),' of ',(⍕n),': ',z,': ',t
           :EndIf
       :EndFor
      

@@ -31,13 +31,13 @@
       inputs.Inputs←{New _.EditField ⍵}¨('fname'fname)('lname'lname)
      
       Add _.br
-      frm.Add _.SubmitButton'Submit'
-      frm.Add _.ResetButton'Reset'
+      'Submit' frm.Add _.SubmitButton'Submit'
+      'Reset' frm.Add _.ResetButton'Reset'
      
       :If 0≠⍴fname,lname ⋄ hello←'Hello, ',fname,' ',lname,'!'
       :Else ⋄ hello←'' ⋄ :EndIf
      
-      Add _.div hello ⍝ CallbackFn will update this
+      'result' Add _.div hello 
     ∇
 
 :EndClass
