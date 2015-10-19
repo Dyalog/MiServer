@@ -2,7 +2,7 @@
 ⍝ Control:: _DC.Script
 ⍝ Description::
 
-    ∇ Compose
+    ∇ Compose;JS
       :Access Public
      
       Add _.h4'The Dyalog Control Script enhances the base HTML script element in a number of ways.'
@@ -11,17 +11,20 @@
       ⍝ The second argument, specifies the type of input field.
       ⍝ HTML5 specifies a wide variety of input types; however if nonempty, it is treated as filename to link to.
       ⍝ Note that the first and second arguments are mutually exclusive.
-      'p2'Add _.p
-      Add _.Script ScriptFollows
+      ⍝ The below JavaScript is the best way to reverse this paragraph.
+      ⍝ !noitcnuf esreveR ⌽ s'LPA rof ssendoog knahT
+     
+      JS←ScriptFollows
       ⍝ function reverse() {
       ⍝ var s = document.getElementById("p1").textContent
       ⍝ var o = '';
       ⍝ for (var i = s.length - 1; i >= 0; i--)
       ⍝   o += s[i];
       ⍝ document.getElementById("p1").textContent = o;
-      ⍝ document.getElementById("p2").textContent = "Thank goodness for APL's ⌽ Reverse function!";
       ⍝ }
-      reverse←'#reverse' 'onclick="reverse();"'Add _.Button'Click to reverse!'
+     
+      Add¨_.pre _.Script,¨⊂JS
+      '#reverse' 'onclick="reverse();"'Add _.Button'Click here to run the script!'
     ∇
 
 :EndClass
