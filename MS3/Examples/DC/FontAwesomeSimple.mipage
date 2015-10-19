@@ -7,7 +7,7 @@
       Use'FontAwesome'  ⍝ this should'n be required if "Uses" in the FontAwesome-class would work...
      
       intro←'This widget simplifies access to the icons provided in FontAwesome which are used all over the web.'
-      intro,←'Also "difficult" combinations should be simplified by this class - pls. study the source-code of this example-page for more details...'
+      intro,←'Also "difficult" combinations should be simplified by this class - please study the source-code of this example-page for more details...'
      
       Add _.title'_.FontAwesome'
       Add _.h2'Some Examples'
@@ -47,7 +47,7 @@
 			Add _.h3 'Bordered & Pulled Icons'
       d←Add _.div
       d.Add _.FontAwesome'quote-left 2x pull-left border' 
-      d.Add _.div'<i>...even quotations should like nice in APL!</i>" said the anonymous danish CTO of an orange-coloured APL-Vendor...'   'style="font-style:italics;width: 300px;"'
+      d.Add _.div'<i>...even quotations should look nice in APL!</i>" said the anonymous Danish CTO of an orange-coloured APL-Vendor...'   'style="font-style:italics;width: 300px;"'
 			
 			Add _.h3 'Animated Icons'
       Add _.FontAwesome'circle-o-notch spin'
