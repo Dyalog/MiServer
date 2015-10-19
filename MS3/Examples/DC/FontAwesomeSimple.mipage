@@ -1,0 +1,92 @@
+﻿:Class FontAwesome : MiPageSample
+⍝ Control:: _DC.FontAwesome
+⍝ Description:: an easy cover for the wonderful icons from FontAwesome
+
+    ∇ Compose;frm;single;multi;btn
+      :Access public
+      Use'FontAwesome'  ⍝ this should'n be required if "Uses" in the FontAwesome-class would work...
+     
+      intro←'This widget simplifies access to the icons provided in FontAwesome which are used all over the web.'
+      intro,←'Also "difficult" combinations should be simplified by this class - pls. study the source-code of this example-page for more details...'
+     
+      Add _.title'_.FontAwesome'
+      Add _.h2'Some Examples'
+      Add _.p intro
+     
+      Add _.h3 'Basic Icons'
+      Add _.FontAwesome'camera'
+      Add _.FontAwesome'retro'
+      Add _.FontAwesome'user'
+      Add _.FontAwesome'home'
+      Add _.FontAwesome'book'
+      Add _.FontAwesome'pencil'
+      Add _.FontAwesome'terminal'
+      Add _.FontAwesome'flag'
+      Add _.FontAwesome'trash'
+      
+      Add _.br
+      Add 'Actually there are > 400 icons in the entire collection - see link below!'
+      
+      Add _.h3 'Larger Icons'
+      Add _.FontAwesome'camera'
+      Add _.FontAwesome'camera 2x'
+      Add _.FontAwesome'camera 3x'
+      Add _.FontAwesome'camera 4x'
+      Add _.FontAwesome'camera 5x'
+      Add _.FontAwesome'camera-retro 5x'
+      Add _.FontAwesome'camera-retro 4x'
+      Add _.FontAwesome'camera-retro 3x'
+      Add _.FontAwesome'camera-retro 2x'
+      Add _.FontAwesome'camera-retro'
+
+      Add _.h3 'List Icons'
+      fa←Add _.FontAwesome
+      ⍝ examples also illustrate
+      fa.ul(('check-square' 'List icons' '#foo1')('check-square' ('can be used' 'style="color: green;"'))('spinner spin' ('as bullets' '#bulletsInner')'#bulletsOuter')('square' 'in lists'))
+     
+			Add _.h3 'Bordered & Pulled Icons'
+      d←Add _.div
+      d.Add _.FontAwesome'quote-left 2x pull-left border' 
+      d.Add _.div'<i>...even quotations should like nice in APL!</i>" said the anonymous danish CTO of an orange-coloured APL-Vendor...'   'style="font-style:italics;width: 300px;"'
+			
+			Add _.h3 'Animated Icons'
+      Add _.FontAwesome'circle-o-notch spin'
+      Add'And this dynamic stuff just rolls...'
+     
+      Add _.br
+      Add _.FontAwesome'refresh spin'
+      Add'...and spins...'
+     
+			Add _.br     
+      Add _.FontAwesome'spinner pulse'
+      Add'...forever and ever!'
+
+
+     	Add _.h3 'Rotated & Flipped'
+     	Add _.FontAwesome'shield' ⋄	Add 'normal' ⋄ Add _.br
+     	Add _.FontAwesome'shield rotate-90' ⋄	Add 'rotate-90'⋄ Add _.br
+     	Add _.FontAwesome'shield rotate-180' ⋄	Add 'rotate-180'⋄ Add _.br
+     	Add _.FontAwesome'shield rotate-270' ⋄	Add 'rotate-270'⋄ Add _.br
+     	Add _.FontAwesome'shield flip-horizontal' ⋄	Add 'flip-horizontal'⋄ Add _.br
+     	Add _.FontAwesome'shield flip-vertical' ⋄	Add 'flip-vertical'⋄ Add _.br
+     	
+     
+     
+     	Add _.h3 'Stacked Icons'
+     	fa←Add _.FontAwesome 'square-o 2x'
+     	fa.stack'twitter'
+     	fa.size←'lg'
+     	
+     	fa←Add _.FontAwesome 
+     	fa.size←'lg'
+     	fa.stack'camera' 
+     	fa.stack'ban 2x' (,⊂'style' 'color:red;')
+     
+     ⍝ --- Add a list of interesting web pages ---
+      Add _.h2'Useful Links'
+      text←'FontAwesome Homepage' 'Examples and Doco' 'List of Icons'
+      urls←'http://'∘,¨'fortawesome.github.io/Font-Awesome/' 'fortawesome.github.io/Font-Awesome/examples/' 'fortawesome.github.io/Font-Awesome/icons/'
+      Add _.Ul(text urls) ⍝ Construct Ul with texts and urls
+    ∇
+
+:EndClass

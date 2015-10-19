@@ -4,6 +4,11 @@
      %SiteRoot%   - web site root -->
 
   <directory>
+    <alias>FontAwesome</alias>
+    <path>%ServerRoot%\PlugIns\font-awesome-4.4.0\</path>
+  </directory>
+
+  <directory>
     <alias>JQuery</alias>
     <path>%ServerRoot%/PlugIns/JQuery/</path>
   </directory>

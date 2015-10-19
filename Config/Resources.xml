@@ -1,6 +1,16 @@
 <Resources>
 
 <!-- 
+*******************************
+*      fontawesome resources  *
+*******************************
+
+<resource>
+  	<name>FontAwesome</name>
+     <style>/FontAwesome/css/font-awesome.min.css</style>
+</resource>
+
+<!-- 
 **************************
 *      d3 resources      *
 **************************
