@@ -1,5 +1,4 @@
-﻿ msg←Test dummy;output
+﻿ msg←Test dummy
 ⍝ Test /Examples/DC/ScriptSimple
  Selenium.Click'reverse'
- output←Selenium.Find'p1'
- msg←output Selenium.WaitFor 'Thank goodness'
+ msg←'p1'Selenium.WaitFor'Thank goodness'
