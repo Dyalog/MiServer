@@ -20,7 +20,7 @@
      
      ⍝ A place to write the message
       Add _.br
-      'message'Add _.div
+      'output'Add _.div
     ∇
 
     ∇ r←myCallback
@@ -28,10 +28,10 @@
      ⍝ This callback simply flips b2's state when b1 is clicked
       :If 'btn1'≡_what
           r←'enabled'b2.Update⊃_true _false~b2.GetOption'enabled'
-          r,←'#message'Replace''
+          r,←'#output'Replace''
       :Else
           Count+←1
-          r←'#message'Replace⍕'You pressed the right button',Count,'times.'
+          r←'#output'Replace⍕'You pressed the right button',Count,'times.'
       :EndIf
      
     ∇
