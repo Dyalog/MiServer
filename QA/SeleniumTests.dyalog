@@ -32,7 +32,7 @@
       :EndIf
     ∇
 
-    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter
+    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH
      
       (site filter)←2↑(eis site),'' ''
       :If 0=⍴AppRoot←#.Load site
@@ -45,6 +45,7 @@
           :Else ⋄ ⎕←'Unable to load Selenium' ⋄ →0
           :EndTrap
       :EndIf
+      ⎕PATH,←' Selenium'
       Selenium.DLLPATH←selpath
      
       Config←#.Boot.ConfigureServer AppRoot

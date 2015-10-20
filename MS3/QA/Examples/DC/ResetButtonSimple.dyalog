@@ -1,2 +1,2 @@
 ﻿ msg←Test dummy
- msg←'output'Selenium.WaitFor'The ResetButton'
+ msg←'output'WaitFor'The ResetButton'
