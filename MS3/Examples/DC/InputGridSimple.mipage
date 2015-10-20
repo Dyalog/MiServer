@@ -22,12 +22,12 @@
       ig.Inputs←'fname' 'lname' 'bdate' New¨ _.EditField  _.EditField  _.jqDatePicker
       ig.Inputs[3].Set 'dateFormat' 'dd/mm/yy'
      
-     ⍝ Finally we add a button to generate the display in the 'result' div below
+     ⍝ Finally we add a button to generate the display in the 'output' div below
       btn←'ClickMe' 'style="margin-top,margin-bottom: 50px"' frm.Add _.Button 'Click Me!'
       btn.type←'button'
       btn.On 'click' 'CallbackFn'
      
-      'result' frm.Add _.div  ⍝ this is where the result will appear
+      'output' frm.Add _.div  ⍝ this is where the result will appear
     ∇
 
     ∇ r←CallbackFn;text
@@ -39,7 +39,7 @@
       :If ⎕TS[3 2]≡2↑2⊃'/-'⎕VFI Get'bdate'
           text,←' Happy Birthday!'
       :EndIf
-      r←'#result' Replace _.h2 text
+      r←'#output' Replace _.h2 text
     ∇
 
 :EndClass

@@ -15,8 +15,6 @@
      ⍝ #myt_row11 {background-color:gray;}
      ⍝ #myt_r11c11 {background-color:red;}
      ⍝ tr > td:first-child {font-weight:bold;background-color:hotpink}
-      →0
-     
     ∇
 
 :EndClass

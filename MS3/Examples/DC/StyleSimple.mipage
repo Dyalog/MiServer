@@ -5,7 +5,7 @@
     ∇ Compose
       :Access Public
      
-      Add _.h2'Adding Style to a Page'
+      'output' Add _.h2'Adding Style to a Page'
      
       Add _.p ScriptFollows
      ⍝ Most of the styling for your page should be done using the default style sheet for your site,

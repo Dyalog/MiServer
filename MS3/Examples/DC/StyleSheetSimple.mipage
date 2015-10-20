@@ -7,7 +7,7 @@
      
       Add _.h2'Adding Style to a Page'
      
-      Add _.p ScriptFollows
+      'output' Add _.p ScriptFollows
      ⍝ Most of the styling for your page should be done using the default style sheet for your site,
      ⍝ but if you need different styles in some parts of the site, you can use the _.StyleSheet control
      ⍝ to add a stylesheet.

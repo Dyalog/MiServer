@@ -37,7 +37,7 @@
       :If 0≠⍴fname,lname ⋄ hello←'Hello, ',fname,' ',lname,'!'
       :Else ⋄ hello←'' ⋄ :EndIf
      
-      'result' Add _.div hello 
+      'output' Add _.div hello 
     ∇
 
 :EndClass
