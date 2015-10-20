@@ -1,12 +1,5 @@
-﻿ msg←Test dummy;result;pick
+﻿ msg←Test dummy
 
- pick←'Oranges' 'Lemons'
- 'fruits'Selenium.ListMgrSelect pick
+ 'fruits'Selenium.ListMgrSelect'Oranges' 'Lemons'
  Selenium.Click'btnSave'
-
- result←Selenium.Find'output'
- {0≠⍴result.Text}Selenium.Retry ⍬ ⍝ Wait (a bit) to see if it gets populated
- :If result.Text≢'You picked:',∊' ',¨pick
-     msg←'Expected output was not produced.'
- :Else ⋄ msg←''
- :EndIf
+ msg←'output'WaitFor'You picked: Oranges Lemons'

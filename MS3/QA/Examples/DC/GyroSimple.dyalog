@@ -1,3 +1,3 @@
-﻿ msg←Test dummy;result;m
+﻿ msg←Test dummy;result
  result←Selenium.Find¨'alpha' 'beta' 'gamma'
  msg←∊∪result WaitFor¨'0'
