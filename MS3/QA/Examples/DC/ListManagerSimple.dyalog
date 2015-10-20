@@ -2,4 +2,4 @@
 
  'fruits'Selenium.ListMgrSelect'Oranges' 'Lemons'
  Selenium.Click'btnSave'
- msg←'output'WaitFor'You picked: Oranges Lemons'
+ msg←'output'Selenium.WaitFor'You picked: Oranges Lemons'
