@@ -2,7 +2,7 @@
 ⍝ Control:: _DC.Figure
 ⍝ Description:: A figure with a caption
 
-    ∇ Compose
+    ∇ Compose;fig
       :Access Public      
       Add '<br />'
       (fig←'fig' Add _.Figure).Caption←'APL Mandelbrot Set'

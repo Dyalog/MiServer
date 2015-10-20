@@ -18,14 +18,14 @@
           fieldset.Add _.br                               ⍝ Next input on new line
       :EndFor
      
-      'result'Add _.div ⍝ CallbackFn will update this
+      'output'Add _.div ⍝ CallbackFn will update this
     ∇
 
     ∇ r←CallbackFn;text
       :Access Public  
      
       text←'Hi ',(Get'fname'),' ',(Get'lname'),'!'
-      r←'#result'Replace _.h2 text
+      r←'#output'Replace _.h2 text
     ∇
 
 :EndClass
