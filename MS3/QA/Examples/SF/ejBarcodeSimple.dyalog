@@ -1,5 +1,4 @@
-﻿ msg←Test dummy;output;ok
+﻿ msg←Test dummy;output
 
  output←Selenium.Find¨'bc1' 'bc2'
- ok←{(116 116)(174 147)≡output.Size.(Height Width)}Selenium.Retry ⍬ ⍝ Wait to see if it gets populated
- msg←(~ok)/'Barcode images did not have the expected size'
+ msg←'Barcode images did not have the expected size'/⍨{(116 116)(174 147)≡output.Size.(Height Width)}Selenium.Retry ⍬
