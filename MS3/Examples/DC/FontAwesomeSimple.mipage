@@ -1,4 +1,4 @@
-﻿:Class FontAwesome : MiPageSample
+﻿:Class FontAwesomeSimple : MiPageSample
 ⍝ Control:: _DC.FontAwesome
 ⍝ Description:: an easy cover for the wonderful icons from FontAwesome
 
