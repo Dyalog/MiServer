@@ -1,3 +1,2 @@
-﻿ msg←Test dummy;body
- body←Selenium.Find'contentblock'
- msg←('Adding Style'≢12↑body.Text)/'Page does not begin which expected text'
+﻿ msg←Test dummy
+ msg←'output'WaitFor'Adding Style' 'Page does not begin which expected text'

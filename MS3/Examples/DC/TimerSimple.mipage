@@ -7,14 +7,14 @@
       Add _.h4'Timer Sample - will append timestamp every 2 seconds (5 times)'
       Add _.Timer 2000
       COUNTER←0 ⋄ LIMIT←5
-      'result'Add _.div
+      'output'Add _.div
       On'tick' 'cb'
     ∇
 
     ∇ r←cb
       :Access public
       COUNTER+←1
-      r←(COUNTER≤LIMIT)/'#result'Append'<br/>',⍕⎕TS
+      r←(COUNTER≤LIMIT)/'#output'Append'<br/>Now the time is: ',⍕3↓⎕TS
     ∇
 
 :EndClass

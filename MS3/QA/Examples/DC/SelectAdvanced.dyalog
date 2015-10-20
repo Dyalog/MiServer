@@ -1,27 +1,20 @@
-﻿ msg←Test dummy;result;output;sel;froot;prev
+﻿ msg←Test dummy
 ⍝ Test /Examples/DC/SelectAdvanced
 
 ⍝ Ensure 'multi' (the selection list) is there:
- msg←'selection list not there'
- :If 0≢sel←Selenium.Find'multi'
+ :If 0∊⍴msg←'selection list not there'/⍨0≡Find'multi'
+
    ⍝ Grab the 2 elements already chosen:
-     Selenium.Click'PressMe'
-     output←Selenium.Find'output'
-     {0≠⍴output.Text}Selenium.Retry ⍬ ⍝ Wait to see if it gets populated
-     msg←'Expected output was not produced.'
- :AndIf 'You picked: Bananas Pears'≡prev←output.Text
+     Click'PressMe'
+ :AndIf 0∊⍴msg←'output'WaitFor'You picked: Bananas Pears'
+
    ⍝ Make a single selection:
-     froot←'Grapes'
-     'multi'Selenium.SelectItemText'~'froot
+     'multi'SelectItemText'~' 'Grapes'
      Selenium.Click'PressMe'
-     output←Selenium.Find'output'
-     {prev≢output.Text}Selenium.Retry ⍬ ⍝ Wait to see if it gets populated
- :AndIf (prev←output.Text)≡'You picked: ',froot
+ :AndIf 0∊⍴msg←'output'WaitFor'You picked: Grapes'
+
    ⍝ Make another selection:
-     'multi'Selenium.SelectItemText'Pears'
-     Selenium.Click'PressMe'
-     output←Selenium.Find'output'
-     {prev≢output.Text}Selenium.Retry ⍬ ⍝ Wait to see if it gets populated
- :AndIf (prev←output.Text)≡'You picked: ',froot,' Pears'
-     msg←''
+     'multi'SelectItemText'Pears'
+     Click'PressMe'
+     msg←'output'WaitFor'You picked: Grapes Pears'
  :EndIf
