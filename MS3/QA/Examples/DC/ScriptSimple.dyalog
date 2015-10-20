@@ -1,4 +1,4 @@
 ﻿ msg←Test dummy
 ⍝ Test /Examples/DC/ScriptSimple
- Selenium.Click'reverse'
- msg←'output'Selenium.WaitFor'Thank goodness'
+ Click'reverse'
+ msg←'output'WaitFor'Thank goodness'

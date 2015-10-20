@@ -10,7 +10,7 @@
 
    ⍝ Make a single selection:
      'multi'SelectItemText'~' 'Grapes'
-     Selenium.Click'PressMe'
+     Click'PressMe'
  :AndIf 0∊⍴msg←'output'WaitFor'You picked: Grapes'
 
    ⍝ Make another selection:

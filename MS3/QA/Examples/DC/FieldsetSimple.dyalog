@@ -1,4 +1,4 @@
 ﻿ msg←Test dummy
 
- 'fname' 'lname'Selenium.SendKeys¨'Morten' 'Kromberg'
- msg←'output'Selenium.WaitFor'Hi Morten Kromberg!'
+ 'fname' 'lname'SendKeys¨'Morten' 'Kromberg'
+ msg←'output'WaitFor'Hi Morten Kromberg!'
