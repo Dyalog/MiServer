@@ -14,7 +14,7 @@
      
       captions←'Tab One' 'Another' 'Third Tab'
       contents←'This is the contents of '∘,¨captions
-      Add _.ejTab(captions contents)
+      'tab1' Add _.ejTab(captions contents)
     ∇
 
 :EndClass

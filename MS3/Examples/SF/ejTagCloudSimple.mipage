@@ -5,7 +5,7 @@
     ∇ Compose;data;tc
       :Access public
       data←↑{⍵(⊃#.⎕SIZE ⍵)}¨#.⎕NL ¯9.4
-      (Add _.ejTagCloud data).Set'titleText' 'Class Sizes'
+      ('tc1' Add _.ejTagCloud data).Set'titleText' 'Class Sizes'
     ∇
 
 :EndClass
