@@ -1,11 +1,4 @@
-﻿ msg←Test dummy;data;result
+﻿ msg←Test dummy
 
- data←'Morten' 'Kromberg'
- 'fname' 'lname'Selenium.SendKeys¨data
-
- result←Selenium.Find'result'
- {0≠⍴result.Text}Selenium.Retry ⍬ ⍝ Wait (a bit) to see if it gets populated
- :If result.Text≢'Hi ',(1⊃data),' ',(2⊃data),'!'
-     msg←'Expected output was not produced.'
- :Else ⋄ msg←''
- :EndIf
+ 'fname' 'lname'Selenium.SendKeys¨'Morten' 'Kromberg'
+ msg←'output'Selenium.WaitFor'Hi Morten Kromberg!'

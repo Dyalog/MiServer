@@ -1,13 +1,12 @@
 ﻿:Class ASimple : MiPageSample
 ⍝ Control:: _DC.A
-⍝ Description:: A link to the Dyalog home page
+⍝ Description:: Insert a link
 
-    ∇ Compose;content;href
-      :Access Public 
-     
-      content←'Click here to go to the Dyalog Home Page!' ⍝ Content to display
-      href←'http://www.dyalog.com'                        ⍝ Link address
-      'aDyalog'Add _.A content href
+    ∇ Compose;content;href;url
+      :Access Public
+      url←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_DC&widget=A' ⍝ Link address
+      ⍝ id         ⍝ Content to display
+      'link'Add _.A,⊂'Click here to see the documentation for _DC.A!'url
     ∇
 
 :EndClass

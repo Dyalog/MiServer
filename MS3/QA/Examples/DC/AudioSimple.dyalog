@@ -1,3 +1,3 @@
 ﻿ msg←Test dummy
-⍝ There is little to do here
- msg←(0≡Selenium.Find'sound')/'Control not found'
+⍝ This checks the presense of the audio tag
+ msg←'Control not found'/⍨~{0≢Selenium.Find'sound'}Selenium.Retry ⍬

@@ -1,5 +1,4 @@
-﻿ msg←Test dummy;result
- 'name'Selenium.SendKeys name←'Brian'
+﻿ msg←Test dummy;input;output
+ 'input'Selenium.SendKeys input←'Brian'
  Selenium.Click'done'
- result←Selenium.Find'result'
- msg←result Selenium.WaitFor('Hello, ',name,'!')'Expected output was not produced.'
+ msg←'output'Selenium.WaitFor'Hello, ',input,'!'
