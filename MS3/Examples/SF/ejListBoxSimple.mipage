@@ -1,0 +1,11 @@
+﻿:Class ejListBoxSimple : MiPageSample
+⍝ Control:: _SF.ejListBox
+⍝ Description:: Display a listbox of options for selection
+
+    ∇ Compose
+      :Access Public
+      '#lb'Add _.ejListBox,⊂'ejListBox' 'allows' 'easy' 'overview' 'of' 'choices'
+    ∇
+
+:EndClass
+                                        
