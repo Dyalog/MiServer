@@ -1,6 +1,7 @@
-﻿:Class FontIconsBase :  #.HtmlElement
-    :field public shared readonly DocBase←'http://fortawesome.github.io/Font-Awesome/icons/'
+:Class FontIconsBase :  #.HtmlElement
+    :field public shared readonly DocBase←'http://fontawesome.io/icons/'
     :field public Family←'fa'  ⍝ bt=Blacktie or other prefixes for FontIcons
+    :field public Resource←'placeholder'
     :field public Container←'i'
     :field public icon←''   
     :field public StackSize←'1x'    ⍝ only relevant for the outer tag in stacks!
@@ -29,15 +30,6 @@
       icon←cnt
       :Implements Constructor    :Base'' ('' atts)
       Content←''
-⍝ setting Content to '' shouldn't be neccessary, but without it, we're getting wrong results as seen below:
-⍝ d←⎕new MiPage
-⍝ d.Add _.FontAwesome 'camera' '#bla'
-⍝ +d.Render
-⍝<!DOCTYPE html><html><head></head>
-⍝<body><i id="bla" class="fa fa-camera">#bla</i>
-⍝                                       ↑↑↑↑ somehow the id made it into the Content!
-⍝</body>
-⍝</html>
     ∇
 
     ∇ {r}←stack arg
@@ -81,13 +73,8 @@
     ∇ r←Render;icon3;i1;i2;Stack∆
       :Access Public
      
-    ⍝ unfortunately this usage of "Uses" does not work, if has no effect on the header (also see my email from Oct17th)
-      :Select Family
-      :Case 'fa' ⋄ Uses←'FontAwesome'
-      :Case 'bt' ⋄ Uses←'BlackTie'
-      :Else
-             ⍝ when user uses FontIcon-app, he needs to handle "Use" on his own!
-      :EndSelect
+    ⍝ Brian: unfortunately this usage of "Uses" does not work, if has no effect on the header (also see my email from Oct17th)
+      Uses←Resource
      
       :If 0<⍴Stack
           Stack∆←Stack
@@ -98,7 +85,6 @@
           :Else
               r←''
           :EndIf
-          ⎕←'first=',r
           :For obj :In Stack∆
               obj.icon←(RemoveSize obj.icon),' stack',obj.GetSize
               r∆←obj.Render
@@ -138,4 +124,46 @@
     ∇ R←setClass includeFamily
       R←Family{⎕ML←1 ⋄ (includeFamily/⍺),∊(' ',⍺,'-')∘,¨1↓¨(⍵=' ')⊂⍵}' ',icon
     ∇
+    
+    
+    ∇ {R}←Classname DeriveClass(rsc fmly);cls
+      :Access public shared
+      ⍝ example: 'myfa'DeriveClass'FontAwesome'  'fa'
+      ⍝          Add _.myfa'camera'
+      :If rsc[1]=':'
+          rsc←'⍎https://use.fonticons.com/',(1↓rsc),'.js'
+      :EndIf
+      cls←ScriptFollows
+      ⍝ :Class %Classname : #._DC.FontIconsBase 
+      ⍝   :field public readonly family←'%family'
+      ⍝   :field public readonly Resource←'%Resource'
+      ⍝   ∇ make0
+      ⍝     :access public
+      ⍝      Resource {6::⍺∇1↓⍵ ⋄ (1⊃⍵).Use ⍺}⎕rsi ⍝ find environment where we can execute "Use"
+      ⍝     :implements constructor :base
+      ⍝   ∇
+      ⍝
+      ⍝   ∇ make1 arg
+      ⍝     :access public
+      ⍝      Resource {6::⍺∇1↓⍵ ⋄ (1⊃⍵).Use ⍺}⎕rsi ⍝ find environment where we can execute "Use"
+      ⍝     :implements constructor :base arg
+      ⍝   ∇
+      ⍝
+      ⍝   ∇ make2 (arg1 arg2)
+      ⍝     :access public
+      ⍝      Resource {6::⍺∇1↓⍵ ⋄ (1⊃⍵).Use ⍺}⎕rsi ⍝ find environment where we can execute "Use"
+      ⍝     :implements constructor :base (arg1 arg2)
+      ⍝   ∇
+      ⍝ :EndClass
+      cls←(('%Classname'Classname)('%family'fmly)('%Resource'rsc))Subst cls
+     
+      ⍝ Morten: ⎕fix did not like to fix the class as vector with NL - perhaps an extension for the future???
+      cls←(⎕UCS 13)#.Utils.penclose cls~⎕UCS 10
+     
+      :If 0=⎕NC'#._' ⋄ '#._'⎕NS'' ⋄ :EndIf ⍝ might not be there yet during boot, when FontAwesome-Class is being set up...
+      R←#._.⎕FIX cls
+    ∇
+    
+   ⍝ ideally FontAwesome should be made available right after loading this class...
+   ⍝ 'FontAwesome'DeriveClass'FontAwesome' 'fa'
 :EndClass
