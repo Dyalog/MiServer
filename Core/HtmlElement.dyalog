@@ -671,13 +671,13 @@
     dtlb←{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}
 
     ∇ r←ScriptFollows
-      :Access public
+      :Access public shared
       r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
 ⍝      r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
     ∇
 
     ∇ r←what Subst text;names;gv;i;repl
-      :Access public
+      :Access public shared
       r←text
       :Select ⎕NC⊂'what'
       :Case 9.1 ⍝ namespace
