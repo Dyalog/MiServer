@@ -3,7 +3,7 @@
 ⍝ Description:: Insert an interface to select date and time
     ∇ Compose
       :Access Public
-      Add _.ejDateTimePicker
+      'dtp'Add _.ejDateTimePicker ⍬'yyyy M d h'
     ∇
 
 :EndClass
