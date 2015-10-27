@@ -1,6 +1,17 @@
 <Resources>
 
 <!-- 
+*******************************
+*      fontawesome resources  *
+*******************************
+-->
+
+<resource>
+  	<name>FontAwesome</name>
+     <style>/FontAwesome/css/font-awesome.min.css</style>
+</resource>
+
+<!-- 
 **************************
 *      d3 resources      *
 **************************
@@ -103,6 +114,7 @@
   <resource>
     <name>cultures</name>
     <script>/Syncfusion/external/jquery.globalize.js</script>
+    <script>/Syncfusion/external/globalize.cultures.min.js</script>
   </resource>
 
   <resource>

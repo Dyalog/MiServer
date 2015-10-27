@@ -1,3 +1,3 @@
-﻿ msg←AudioSimple
-⍝ There is little to do here
-msg←(0≡Find'sound')/'Control not found'
+﻿ msg←Test dummy
+⍝ This checks the presense of the audio tag
+ msg←'Control not found'/⍨~{0≢Find'sound'}Retry ⍬

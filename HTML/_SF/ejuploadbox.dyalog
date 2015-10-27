@@ -3,7 +3,7 @@
     :Field Public Shared Readonly ApiLevel←3
     :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejUploadBox.html'
     :Field Public TargetFolder←''
-    :Field Public SaveUrl←'../CommonPages/saveFiles.dyalog'
+    :Field Public SaveUrl←'../CommonPages/saveFiles.mipage'
     :Field Public Async←#.JSON.true
      
     ∇ make

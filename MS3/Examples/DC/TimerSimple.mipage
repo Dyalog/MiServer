@@ -1,0 +1,20 @@
+﻿:Class TimerSimple : MiPageSample
+⍝ Control:: _DC.Timer
+⍝ Description:: Signal timed events to the server
+
+    ∇ Compose
+      :Access public 
+      Add _.h4'Timer Sample - will append timestamp every 2 seconds (5 times)'
+      Add _.Timer 2000
+      COUNTER←0 ⋄ LIMIT←5
+      'output'Add _.div
+      On'tick' 'cb'
+    ∇
+
+    ∇ r←cb
+      :Access public
+      COUNTER+←1
+      r←(COUNTER≤LIMIT)/'#output'Append'<br/>Now the time is: ',⍕3↓⎕TS
+    ∇
+
+:EndClass

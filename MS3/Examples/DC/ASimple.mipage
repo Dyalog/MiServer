@@ -1,0 +1,12 @@
+﻿:Class ASimple : MiPageSample
+⍝ Control:: _DC.A
+⍝ Description:: Insert a link
+
+    ∇ Compose;content;href;url
+      :Access Public
+      url←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_DC&widget=A' ⍝ Link address
+      ⍝ id         ⍝ Content to display
+      'link'Add _.A,⊂'Click here to see the documentation for _DC.A!'url
+    ∇
+
+:EndClass

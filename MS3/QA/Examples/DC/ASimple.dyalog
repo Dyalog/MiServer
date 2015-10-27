@@ -1,8 +1,5 @@
-﻿ msg←ASimple
+﻿ msg←Test dummy;error
 
- Click'aDyalog' ⍝ Click on the URL
- :If {'http://www.dyalog.com/'≡BROWSER.Url}Retry ⍬ ⍝ Wait (a bit) to see if it gets populated
-     msg←''
- :Else
-     msg←'Click on link failed to navigate to http://www.dyalog.com/ - URL reported: ',BROWSER.Url
- :EndIf
+ Click'link' ⍝ Click on the URL
+ error←'Click on link failed to navigate to WidgetDoc - URL reported: '
+ msg←(~{'A'≡⊃⌽Selenium.BROWSER.Url}Retry ⍬)/error,Selenium.BROWSER.Url ⍝ Wait a bit to see if it gets populated

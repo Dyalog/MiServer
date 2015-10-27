@@ -1,6 +1,6 @@
 ﻿:class InputGrid : #._html.table
 ⍝ Description:: Dyalog Widget - produce a 2-column (or 2-row) grid of labels and inputs
-⍝ Constructor:: labels inputs | [;labels inputs]
+⍝ Constructor:: [[labels inputs] | [;labels inputs]]
 ⍝ labels   - a vector of labels
 ⍝ inputs   - a vector of input objects
 ⍝ N.B. - labels and inputs must be of equal length
@@ -16,7 +16,7 @@
 ⍝ input cells are assigned a class of (id,'_input')
 ⍝ This facilitates being able to easily assign styling to the cells
 ⍝ Examples::
-⍝ ipg←'myIpg' Add ('lab1' 'lab2')(('inp1' New _.input)('inp2' New _.input))
+⍝ ipg←'myIpg' Add _.InputGrid ('lab1' 'lab2')(('inp1' New _.input)('inp2' New _.input))
 ⍝ Add _.Style '.myIpg_label' 'background-color:aliceblue' ⍝ set the label background color
 
     :field public Border←0
@@ -58,7 +58,7 @@
       rows←⎕NEW¨(⊃⍴cells)⍴#._html.tr
       rows.Add↓cells
       Content←rows.Render
-      Set'border'(⍕Border)
+      Set(⊂'border'(⍕Border))
       html←⎕BASE.Render
     ∇
 :endclass

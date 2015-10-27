@@ -2,9 +2,14 @@
 
     ∇ Compose
       :Access public
-      cb←Add _.ejCheckBox
-      cb.(Label Checked)←'Check It Out! ' 1
-      cb.On'change' 0 '' 'alert(JSON.stringify(this.element.attr("id")))'
+      :If isPost
+          ∘∘∘
+      :Else
+          :With Add _.Form
+              (Add _.input).(id name type)←2 1/'upload' 'file'
+              Add _.SubmitButton'OK'
+          :EndWith
+      :EndIf
     ∇
 
 :EndClass

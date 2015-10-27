@@ -37,7 +37,7 @@
       'type'Set'text/javascript'
       :If ~0∊⍴File
       :AndIf 0∊⍴Content ⍝ if inline script, ignore the file
-          Set('src'File)
+          Set(⊂'src'File)
       :EndIf
       html←⎕BASE.Render
     ∇

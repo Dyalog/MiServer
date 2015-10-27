@@ -1,0 +1,20 @@
+﻿:class GyroSimple : MiPageSample
+⍝ Control:: _DC.Gyro
+⍝ Description:: Simple accelerometer interaction (use it from a platform which responds to movement)
+
+
+    ∇ Compose
+      :Access public
+      Add _.Table('Direction (alpha):' 'Front/Back (beta):' 'Left/Right (gamma):',⍪{⍵ New _.span'??'}¨'alpha' 'beta' 'gamma')
+
+    ⍝ The default behaviour of Gyro is to call APLJax every 0.25 seconds:
+      Add _.Gyro  ⍝ 'APLJax'  250
+    ∇
+
+    ∇ r←APLJax;rep
+      :Access public
+      rep←{('#',⍵)Replace ¯1 Get ⍵}
+      r←⊃,/rep¨'alpha' 'beta' 'gamma'
+    ∇
+
+:endclass

@@ -1,0 +1,30 @@
+﻿:Class ScriptSimple : MiPageSample
+⍝ Control:: _DC.Script
+⍝ Description::
+
+    ∇ Compose;JS
+      :Access Public
+     
+      Add _.h4'The Dyalog Control Script enhances the base HTML script element in a number of ways.'
+      'output' Add _.p ScriptFollows
+      ⍝ The first argument, if nonempty, is treated as inline content for the script.
+      ⍝ The second argument, specifies the type of input field.
+      ⍝ HTML5 specifies a wide variety of input types; however if nonempty, it is treated as filename to link to.
+      ⍝ Note that the first and second arguments are mutually exclusive.
+      ⍝ The below JavaScript is the best way to reverse this paragraph.
+      ⍝ !noitcnuf esreveR ⌽ s'LPA rof ssendoog knahT
+     
+      JS←ScriptFollows
+      ⍝ function reverse() {
+      ⍝ var s = document.getElementById("output").textContent
+      ⍝ var o = '';
+      ⍝ for (var i = s.length - 1; i >= 0; i--)
+      ⍝   o += s[i];
+      ⍝ document.getElementById("output").textContent = o;
+      ⍝ }
+     
+      Add¨_.pre _.Script,¨⊂JS
+      '#reverse' 'onclick="reverse();"'Add _.Button'Click here to run the script!'
+    ∇
+
+:EndClass

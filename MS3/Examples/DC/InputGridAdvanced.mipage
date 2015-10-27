@@ -1,0 +1,36 @@
+﻿:Class InputGridAdvanced : MiPageSample
+⍝ Control:: _DC.InputGrid
+⍝ Description:: Various costumizations of grid-aligned inputs
+
+    ∇ Compose;ig;btn;handler;frm
+      :Access Public
+     
+      Add _.h2'Please tell us about yourself'
+     
+      frm←Add _.form
+     
+     ⍝ We give an ID so we can refer to the label cells and input cells later
+      ig←'myig'frm.Add _.InputGrid
+     
+      ig.Labels←'First name' 'Last name' 'Birthdate'
+      ig.Inputs←New¨_.EditField _.EditField _.jqDatePicker
+      ig.Inputs[3].Set'dateFormat' 'dd/mm/yy'
+     
+     ⍝ Show the grid
+      ig.Border←1
+     
+     ⍝ Inputs next to each other (instead of above)
+      ig.Horizontal←1
+     
+     ⍝ Labels below inputs (instead of on top)
+      ig.Flip←1
+     
+    ⍝ We added an ID earlier so InputGrid automatically created these two classes:
+      Add _.style ScriptFollows
+    ⍝ .myig_label {color:sandybrown;background-color:aliceblue;}
+    ⍝ .myig_input {background-color:rebeccapurple;height:32pt;}
+     
+    ∇
+
+
+:EndClass

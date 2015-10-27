@@ -1,27 +1,20 @@
-﻿ msg←SelectAdvanced;result;output;sel;froot;prev
+﻿ msg←Test dummy
 ⍝ Test /Examples/DC/SelectAdvanced
 
 ⍝ Ensure 'multi' (the selection list) is there:
- msg←'selection list not there'
- :If 0≢sel←Find'multi'
+ :If 0∊⍴msg←'selection list not there'/⍨0≡Find'multi'
+
    ⍝ Grab the 2 elements already chosen:
      Click'PressMe'
-     output←Find'output'
-     {0≠⍴output.Text}Retry ⍬ ⍝ Wait to see if it gets populated
-     msg←'Expected output was not produced.'
- :AndIf 'You picked: Bananas Pears'≡prev←output.Text
+ :AndIf 0∊⍴msg←'output'WaitFor'You picked: Bananas Pears'
+
    ⍝ Make a single selection:
-     froot←'Grapes'
-     'multi'SelectItemText'~'froot
+     'multi'SelectItemText'~' 'Grapes'
      Click'PressMe'
-     output←Find'output'
-     {prev≢output.Text}Retry ⍬ ⍝ Wait to see if it gets populated
- :AndIf (prev←output.Text)≡'You picked: ',froot
+ :AndIf 0∊⍴msg←'output'WaitFor'You picked: Grapes'
+
    ⍝ Make another selection:
      'multi'SelectItemText'Pears'
      Click'PressMe'
-     output←Find'output'
-     {prev≢output.Text}Retry ⍬ ⍝ Wait to see if it gets populated
- :AndIf (prev←output.Text)≡'You picked: ',froot,' Pears'
-     msg←''
+     msg←'output'WaitFor'You picked: Grapes Pears'
  :EndIf

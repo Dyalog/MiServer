@@ -1,0 +1,11 @@
+﻿:Class ejTagCloudSimple : MiPageSample
+⍝ Control:: _SF.ejTagCloud
+⍝ Description:: Display a Tag Cloud of Classes in Root (#.⎕NL ¯9.4)
+ 
+    ∇ Compose;data;tc
+      :Access public
+      data←↑{⍵(⊃#.⎕SIZE ⍵)}¨#.⎕NL ¯9.4
+      ('tc1' Add _.ejTagCloud data).Set'titleText' 'Class Sizes'
+    ∇
+
+:EndClass

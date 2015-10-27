@@ -1,0 +1,12 @@
+﻿:Class FigureSimple : MiPageSample
+⍝ Control:: _DC.Figure
+⍝ Description:: A figure with a caption
+
+    ∇ Compose;fig
+      :Access Public      
+      Add '<br />'
+      (fig←'fig' Add _.Figure).Caption←'APL Mandelbrot Set'
+      fig.Add _.img (⊂'src' '/Examples/Data/pic4.png')
+    ∇
+
+:EndClass

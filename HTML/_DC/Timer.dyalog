@@ -28,7 +28,7 @@
     ∇ Make1 args
       :Access public
       :Implements constructor
-      (Delay Autostart Event Prefix)←args defaultArgs Delay Autostart Event Prefix
+      (Delay Autostart Event Prefix)←(,args)defaultArgs Delay Autostart Event Prefix
     ∇
 
 

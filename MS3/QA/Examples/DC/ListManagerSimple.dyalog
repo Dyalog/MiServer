@@ -1,13 +1,5 @@
-﻿ msg←ListManagerSimple;name;result;pick
-⍝ Test /Examples/DC/InputGridSimple
+﻿ msg←Test dummy
 
- pick←'Oranges' 'Lemons'
- 'fruits'ListMgrSelect pick
+ 'fruits'ListMgrSelect'Oranges' 'Lemons'
  Click'btnSave'
-
- result←Find'output'
- {0≠⍴result.Text}Retry ⍬ ⍝ Wait (a bit) to see if it gets populated
- :If result.Text≢'You picked:',∊' ',¨pick
-     msg←'Expected output was not produced.'
- :Else ⋄ msg←''
- :EndIf
+ msg←'output'WaitFor'You picked: Oranges Lemons'

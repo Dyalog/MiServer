@@ -1,5 +1,5 @@
 ﻿:class Gyro : #._DC.Script
-⍝ Description:: create a gyroscopic listener (e.g. for use with mobile phones or tables)
+⍝ Description:: create a gyroscopic listener (e.g. for use with mobile phones or tablets)
 ⍝ Constructor:: [callback [interval [page]]]
 ⍝ interval    - the number of milliseconds to wait between requests sent to the server
 ⍝ page        - the URL of the page to which to send the request

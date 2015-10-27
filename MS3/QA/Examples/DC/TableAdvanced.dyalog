@@ -1,7 +1,4 @@
-﻿ msg←TableAdvanced
-⍝ Just check to see whether the litte multiplication table seems to have been produced
+﻿ msg←Test dummy
+⍝ Just check to see whether the little multiplication table seems to have been produced
 
- :If '90' '100'≢('CssSelectors' Find '#myTable td')[108 109].Text
-     msg←'Expected output was not produced.'
- :Else ⋄ msg←''
- :EndIf
+ msg←'Expected output was not produced.'/⍨'90' '100'≢('CssSelectors'Find'#myt td')[108 109].Text

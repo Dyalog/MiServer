@@ -15,7 +15,7 @@
       :Access public
       JQueryFn←Uses←'ejBarcode'
       :Implements constructor
-      'text symbologyType'Option'' 'ej.SymbologyType.code128A'
+      'text symbologyType'Set'' 'code128A'
       InternalEvents←IntEvt
     ∇
 
@@ -23,9 +23,9 @@
       :Access public
       JQueryFn←Uses←'ejBarcode'
       args←eis args
-      (text type)←args defaultArgs '' 'ej.SymbologyType.code128A'
+      (text type)←args defaultArgs'' 'code128A'
       :Implements constructor :base
-      'text symbologyType'Option text type
+      'text symbologyType'Set text type
       InternalEvents←IntEvt
     ∇
 :EndClass

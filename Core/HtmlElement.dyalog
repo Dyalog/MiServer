@@ -1,4 +1,4 @@
-﻿:class HtmlElement             ⍝ this is the most basic element of a page
+:class HtmlElement             ⍝ this is the most basic element of a page
 
 ⍝∇:require =\JSON.dyalog
 
@@ -193,6 +193,26 @@
       :If 0≠⎕NC'which' ⋄ attr←↓(eis which),[1.1]eis attr
       :Else
           'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
+     
+          :If 2=⍴,attr  ⍝ 'attr' 'value' is never shorthanded (e.g. given special treatment for id/class)
+          :AndIf 1∧.≥≡¨attr
+              attr←,⊂attr
+          :EndIf
+     
+          attr←1 ParseAttr attr
+      :EndIf
+      :If ~0∊⍴attr
+          Attrs[1⊃¨attr]←2⊃¨attr
+      :EndIf
+      r←⎕THIS
+    ∇
+
+    ∇ {r}←{which}SetAttribute attr
+    ⍝ set attributes, treating
+     
+      :If 0≠⎕NC'which' ⋄ attr←↓(eis which),[1.1]eis attr
+      :Else
+          'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
           attr←ParseAttr attr
       :EndIf
       :If ~0∊⍴attr
@@ -203,8 +223,8 @@
 
     ∇ {r}←{which}SetAttr attr
       :Access public
-      :If 0=⎕NC'which' ⋄ r←Set attr
-      :Else ⋄ r←which Set attr
+      :If 0=⎕NC'which' ⋄ r←SetAttribute attr
+      :Else ⋄ r←which SetAttribute attr
       :EndIf
     ∇
 
@@ -450,7 +470,8 @@
     ∇ r←RenderPosition
       :Access public
       r←''
-      :If ~0∊⍴Position.⎕NL-2
+      :If 9=⎕NC'Position'
+      :AndIf ~0∊⍴Position.⎕NL-2
           Uses,←⊂'JQueryUI'
           r←#.JQ.JQueryfn'position'('#',SetId)Position
           Use
