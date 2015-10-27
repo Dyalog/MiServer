@@ -21,7 +21,7 @@
      
       Add _.InputGrid('Check In' 'Check Out',⍪from to)
      
-      'diff'Add _.div
+      'output'Add _.div
     ∇
 
     newDate←{'⍎new Date("',(⍕⍵),'")'}
@@ -34,16 +34,14 @@
     ⍝ Find the difference between the dates
       in←stringToDate Get'in'
       out←stringToDate Get'out'
-      :If 0∊∊⍴¨in out
-          r←''
-      :Else
+      :Trap ⍴r←''
           (in out)←dateToIDN¨in out
           :If in>out
-              r←'#diff'Replace'Going back in time?'
+              r←'#output'Replace'Going back in time?'
           :Else
-              r←'#diff'Replace'The difference in days is: ',⍕out-in
+              r←'#output'Replace'The difference in days is: ',⍕out-in
           :EndIf
-      :EndIf
+      :EndTrap
     ∇
 
     MONTHS←↓12 3⍴'JanFebMarAprMayJunJulAugSepOctNovDec'
