@@ -34,13 +34,15 @@
     ⍝ Find the difference between the dates
       in←stringToDate Get'in'
       out←stringToDate Get'out'
-      :Trap ⍴r←''
+      :Trap 11
           (in out)←dateToIDN¨in out
           :If in>out
               r←'#output'Replace'Going back in time?'
           :Else
               r←'#output'Replace'The difference in days is: ',⍕out-in
           :EndIf
+      :Else
+          r←'#output'Replace'Invalid input!'
       :EndTrap
     ∇
 
