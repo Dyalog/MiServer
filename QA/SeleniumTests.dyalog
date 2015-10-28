@@ -1,5 +1,5 @@
 ﻿:Namespace SeleniumTests
-    
+
     ∇ x←eis x
 ⍝ Enclose if simple
       :If (≡x)∊0 1 ⋄ x←,⊂,x ⋄ :EndIf
@@ -32,7 +32,7 @@
       :EndIf
     ∇
 
-    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH
+    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames
      
       (site filter)←2↑(eis site),'' ''
       :If 0=⍴AppRoot←#.Load site
@@ -62,6 +62,10 @@
      
       Selenium.InitBrowser''
      
+     ⍝ Localize non-alphanumeric key names for easy access
+      keynames←⍕#.SeleniumTests.Selenium.Keys.⎕NL ¯2
+      ⍎keynames,'←∊#.SeleniumTests.Selenium.Keys.(',keynames,')'
+     
       START←⎕AI[3] ⋄ COUNT←0 ⋄ FAIL←0
      
       :For i :In ⍳n
@@ -77,4 +81,4 @@
       ⎕←'Total of ',(⍕COUNT),' samples tested in ',(∊(⍕¨24 60⊤⌊0.5+(⎕AI[3]-START)÷1000),¨'ms'),': ',(⍕FAIL),' failed.'
     ∇
 
-:EndNamespace 
+:EndNamespace
