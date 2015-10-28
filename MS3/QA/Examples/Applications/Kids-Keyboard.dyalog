@@ -3,7 +3,7 @@
  ALEF←'letter1488'
 
  ⍝ Check if letter button is there
- :If 0=⍴'No "Alef"'/⍨0≡alef←Find ALEF
+ :If 0=⍴msg←'No "Alef"'/⍨0≡alef←Find ALEF
 
  ⍝ Check if it causes expected output
      Click ALEF
