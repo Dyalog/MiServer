@@ -4,20 +4,32 @@
 
     ∇ Compose
       :Access public
-      200 1000 AddTimer¨2↑⎕A
-    ∇
-    
-    ∇ delay AddTimer X
-      ⍎X,'←''─────────╫'''
-      ((X,'timer')Add _.Timer delay 0 'tick'X).On'tick' 'Update'
-      {((X,⍵)Add _.button ⍵).On'click' 'Click'}¨'run' 'stop'
-      ('#output',X)Add _.span(⍎X)
+     
+      A←'─────────╫'
+      Add _.Timer 200 0 'Atick' 'A'
+      {(⍵ Add _.button ⍵).On'click' 'Click'}¨'Arun' 'Astop'
+      '#Aoutput'Add _.span A
+      On'Atick' 'Aupdate'
+     
       Add _.br
+     
+      B←'─────────╫'
+      Add _.Timer 300 0 'Btick' 'B'
+      {(⍵ Add _.button ⍵).On'click' 'Click'}¨'Brun' 'Bstop'
+      '#Boutput'Add _.span B
+      On'Btick' 'Bupdate'
+     
     ∇
 
-    ∇ r←Update
+
+    ∇ r←Aupdate
       :Access public
-      r←('#output',⊃_what)Replace⍎X,'←1⌽''','''',⍨⍎X
+      r←'#Aoutput'Replace A←1⌽A
+    ∇
+
+    ∇ r←Bupdate
+      :Access public
+      r←'#Boutput'Replace B←1⌽B
     ∇
 
     ∇ r←Click

@@ -1,6 +1,6 @@
 ﻿ msg←Test dummy;X;O
 
- X O←'XO'
+ (X O)←'XO'
 
  ⍝ Check that X is the first player
  :If 0=⍴msg←'xo'WaitFor X

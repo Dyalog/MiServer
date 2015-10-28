@@ -13,13 +13,12 @@
  :AndIf 0=⍴msg←'No sound'/⍨0≡sound←Find'autoplay'
 
  ⍝ Check that the correct sound is played
-
  :AndIf 0=⍴msg←'Wrong sound'/⍨~∨/ALEF⍷sound.GetAttribute,⊂'src'
 
  ⍝ Check that colour changes upon starting over
      old←alef.GetAttribute,⊂'style'
-     Click'new' ⋄ ⎕DL 0.2 ⍝ Wait for update to finish - "Find" will catch the old one immediately
-     new←(Find ALEF).GetAttribute,⊂'style'
+     Click'new' ⋄ ⎕DL 0.2 ⍝ Wait for update to finish... (May fail on slow machines or if colour happens to be the same)
+     new←(Find ALEF).GetAttribute,⊂'style' ⍝ ... otherwise "Find" will return the old one immediately
  :AndIf 0=⍴msg←'Failed to recolour'/⍨new≡old
 
  ⍝ Check that the output is emptied now that we started over
