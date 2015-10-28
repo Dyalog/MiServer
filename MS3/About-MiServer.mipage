@@ -21,7 +21,7 @@
     ⍝  <strong>Controls</strong> tree contains lists of all the controls or widgets that
     ⍝  are built-in to MiServer 3.0, with examples of use.
      
-      D←'src=/Examples/Data/Dyalog-D.png' 'alt="Dyalog-D"'
+      D←'Dyalog-D' 'src=/Examples/Data/Dyalog-D.png' 'alt="Dyalog-D"'
       D,←'height="20px"' 'style="vertical-align:bottom;"'
       D New←_.img
       (Add _.p ScriptFollows).Add¨D'in the top left corner.'
@@ -34,7 +34,7 @@
       Add _.p ScriptFollows
     ⍝  We hope that you will enjoy MiServer; join us on the
     ⍝  forums (see the <strong>Resources</strong> drop-down at the top right), and contribute
-    ⍝  samples or extensions via <a href="https://github.com/dyalog/miserver/">GitHub</a>.
+    ⍝  samples or extensions via <a id="GitHub" href="https://github.com/dyalog/miserver/">GitHub</a>.
      
     ∇
 
