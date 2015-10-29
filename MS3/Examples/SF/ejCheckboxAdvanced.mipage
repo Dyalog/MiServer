@@ -8,7 +8,7 @@
 ⍝ The first one of each line is tristate, that is it can be in one of three states.
 ⍝ It is ticked if all the boxes to its right are ticked, it is unticked if all the ones to its
 ⍝ right are not ticked and it is shown as a square if there is a mixture of ticked and unticked
-⍝ to its right.
+⍝ to its right (state=indeterminate).
 ⍝ Furthermore, if it is clicked it turns ON or OFF the boxes to its right to match its own state.
 ⍝ Finally, a single box on a fourth row is used to turn ON/OFF all the boxes on top of it.
 ⍝ It is also tristate and will show if all the boxes above are all ON or all OFF or mixed. 
@@ -49,6 +49,7 @@
           'enableTriState'c0.Set _false ⍝ which is tristate
         ⍝ If TriState is disabled its checkState value is ignored
           'checkState'c0.Set'indeterminate'
+          'checked'c0.Set _false        ⍝ initialize it
           'showRoundedCorner'c0.Set _true
           tr.Add _.td                   ⍝ add an empty column for spacing
           r4←tr.Add¨4/_.td              ⍝ add 4 more columns for the 2-state boxes
@@ -91,7 +92,7 @@
       :Else       ⍝ must be a box above
           i←Allids⍳⊂_selector                                    ⍝ which one is it?
           :If ∨/b←i=1 6 11                                       ⍝ is it one of the left column?
-              Values[row←i+0,⍳4]←new←1≠Values[i]                 ⍝ yes, what's its value?
+              Values[row←i+0,⍳4]←new←1≠Values[i]                 ⍝ yes, what is its value?
               js←'enableTriState'(AllCB[i]).Update _false        ⍝ turn OFF triState for that box
               js,←⊃,/(⊂'checked')(AllCB[row]).Update new          ⍝ and set its checked state
      
