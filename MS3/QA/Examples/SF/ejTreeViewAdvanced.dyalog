@@ -1,20 +1,19 @@
-﻿ msg←Test dummy;text;pages;output;ok
+﻿ msg←Test dummy
 
- Selenium.Click'Add'
- Selenium.Click'Added Item 1' ⍝ Select the new node
+ ⍝ Test that we can add a node
+ Click'Add'
+ 'LinkText'Click'Added Item 1' ⍝ Select the new node
+ :If 0=⍴msg←'output'WaitFor'Node "Added Item 1"' 'Add node failed'
 
- Selenium.Click'Chk'  ⍝ Turn checkbox on
- output←Selenium.Find'output'
- :If {'1 nodes checked.'≢output.Text}Selenium.Retry ⍬ ⍝ Wait to see if it gets populated
-     →0⊣msg←'Node Add & Check Failed.'
- :EndIf
+ ⍝ Test that we can check a node
+     'tv'SendKeys Space   ⍝ Turn checkbox on
+ :AndIf 0=⍴msg←'output'WaitFor'1 nodes checked.' 'Check node failed'
 
- Selenium.Click'Del'  ⍝ Delete the added node again (or models won't match :()
+ ⍝ Test for proper model
+     Click'Del' ⍝ delete the node server side
+     'tv'SendKeys Delete ⍝ make the client model match
+     Click'Mod' ⍝ ... and display the model
+ :AndIf 0=⍴msg←'Display Model button did not work, or models do not agree.'/⍨~{38=('CssSelectors'Selenium.Find'#tvModel td').Count}Retry ⍬
+     msg←'tvModel'WaitFor'Server≡Browser' 'Server/Browser model mismatch.'
 
- Selenium.Click'Mod'  ⍝ Display model
- :If {38=('CssSelectors'Selenium.Find'#tvModel td').Count}Selenium.Retry 0
-     text←('CssSelectors'Selenium.Find'#tvModel td')[0].Text
-     msg←(text≢'Server≡Browser')/'Server and Browser model did not match.'
- :Else
-     msg←'Display Model button did not work, or models do not agree.'
  :EndIf
