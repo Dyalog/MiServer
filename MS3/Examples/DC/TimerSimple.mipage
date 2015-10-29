@@ -4,9 +4,9 @@
 
     ∇ Compose
       :Access public 
-      Add _.h4'Timer Sample - will append timestamp every 2 seconds (5 times)'
-      Add _.Timer 2000
-      COUNTER←0 ⋄ LIMIT←5
+      Add _.h4'Timer Sample - will append timestamp every half-second (10 times)'
+      Add _.Timer 500
+      COUNTER←0 ⋄ LIMIT←10
       'output'Add _.div
       On'tick' 'cb'
     ∇
