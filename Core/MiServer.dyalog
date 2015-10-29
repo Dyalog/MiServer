@@ -299,7 +299,7 @@
       :EndIf
     ∇
 
-    ∇ r←conns HandleRequest arg;buf;m;Answer;obj;CMD;pos;req;Data;z;r;hdr;REQ;status;file;tn;length;done;offset;res;closed;sess;chartype;raw;enc;which;html;encoderc;encodeMe;startsize;cacheMe;root;page;filename;eoh;n;i
+    ∇ r←conns HandleRequest arg;buf;m;Answer;obj;CMD;pos;req;Data;z;r;hdr;REQ;status;file;tn;length;done;offset;res;closed;sess;chartype;raw;enc;which;html;encoderc;encodeMe;startsize;cacheMe;root;page;filename;eoh;n;i;ext
       ⍝ Handle a Web Server Request
       r←0
       obj buf←arg
@@ -354,7 +354,7 @@
      
       :If REQ.Response.Status≠401 ⍝ Authentication did not fail
      
-          filename←Config Virtual REQ.Page
+          ext←⊃¯1↑#.Files.SplitFilename filename←Config Virtual REQ.Page
           :If Config.AllowedHttpCommands∊⍨⊂REQ.Command
      
               :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
@@ -373,7 +373,9 @@
      
       res←REQ.Response
      
-      encodeMe←conns.Handler<Config.UseContentEncoding ⍝ initialize a flag whether to encode this response, don't compresss if running as a handler
+      enc←','#.Utils.penclose' '~⍨REQ.GetHeader'accept-encoding' ⍝ check if client supports encoding
+      encodeMe←(0<⍴enc)∧conns.Handler<Config.UseContentEncoding  ⍝ initialize a flag whether to encode this response, don't compresss if running as a handler
+      encodeMe>←(⊂ext)∊'png' 'gif' 'jpg' ⍝ don't try to compress compressed graphics, should probably add zip files, etc
       cacheMe←0
      
       :If 1=res.File ⍝ See HTTPRequest.ReturnFile
@@ -381,14 +383,12 @@
               length←⍴file ⋄ tn←0
           :Else
               :Trap 22
-                  tn←file ⎕NTIE tn←0
-                  length←⎕NSIZE tn
-                  res.HTML←⎕NREAD tn 83 BlockSize 0
-                  cacheMe←0≠Config.HttpCacheTime ⍝ for now, cache all files if set to use caching
-                  :If encodeMe
-                      encodeMe∧←length<BlockSize ⍝ if we can read entire file and are we encoding...
-                      encodeMe>←(⊂¯4↑file)∊'.png' '.gif' '.jpg' ⍝ don't try to compress compressed graphics, should probably add zip files, etc
+                  tn←file ⎕NTIE 0
+                  :If encodeMe ⋄ length←⎕NSIZE tn ⍝ if using compression, read the entire file
+                  :Else ⋄ length←BlockSize        ⍝ otherwise send it a block at a time
                   :EndIf
+                  res.HTML←⎕NREAD tn 83 length 0
+                  cacheMe←0≠Config.HttpCacheTime ⍝ for now, cache all files if set to use caching
               :Else
                   REQ.Fail 404
                   length←⍴res.HTML
@@ -399,8 +399,7 @@
       :EndIf
      
       :If (200=res.Status)∧encodeMe ⍝ if our HTTP status is 200 (OK) and we're okay to encode
-      :AndIf 1024<⍴res.HTML ⍝ BPB used to be 0
-      :AndIf 0≠⍴enc←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}' '~⍨',',REQ.GetHeader'accept-encoding' ⍝ check if client supports encoding
+      :AndIf 1024<⍴res.HTML ⍝ don't bother compressing less than 1K
       :AndIf 0≠which←⊃Encoders.Encoding{(⍴⍺){(⍺≥⍵)/⍵}⍺⍳⍵}enc ⍝ try to match what encodings they accept to those we provide
           (encoderc html)←Encoders[which].Compress res.HTML
           :If 0=encoderc
@@ -408,7 +407,7 @@
               :If startsize>⍴html ⍝ did we save anything by compressing
                   length←⍴res.HTML←html ⍝ use it
                   res.Headers⍪←'Content-Encoding'(Encoders[which].Encoding)
-                  4 Log'Used compression, transmitted% = ',2⍕length{⎕DIV←1 ⋄ ⍺÷⍵}startsize
+                  4 Log'Used compression on "',REQ.Page,'", transmitted% = ',2⍕length{⎕DIV←1 ⋄ ⍺÷⍵}startsize
               :Else
                   4 Log'Compression not used on "',REQ.Page,'", startsize = ',(⍕startsize),', compressed length = ',⍕length
                   :If 83≠⎕DR res.HTML
