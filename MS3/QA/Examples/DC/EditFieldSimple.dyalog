@@ -1,4 +1,4 @@
-﻿ msg←Test dummy;input;output
- 'input'SendKeys⊢input←'Brian'
+﻿ msg←Test dummy
+ 'input'SendKeys'Brian'
  Click'done'
- msg←'output'WaitFor'Hello, ',input,'!'
+ msg←'output'WaitFor'Hello, Brian!'

@@ -21,7 +21,7 @@
      
       Add _.InputGrid('Check In' 'Check Out',⍪from to)
      
-      'diff'Add _.div
+      'output'Add _.div
     ∇
 
     newDate←{'⍎new Date("',(⍕⍵),'")'}
@@ -32,13 +32,18 @@
       :Access public
      
     ⍝ Find the difference between the dates
-      in←dateToIDN stringToDate Get'in'
-      out←dateToIDN stringToDate Get'out'
-      :If in>out
-          r←'#diff'Replace'Going back in time?'
+      in←stringToDate Get'in'
+      out←stringToDate Get'out'
+      :Trap 11
+          (in out)←dateToIDN¨in out
+          :If in>out
+              r←'#output'Replace'Going back in time?'
+          :Else
+              r←'#output'Replace'The difference in days is: ',⍕out-in
+          :EndIf
       :Else
-          r←'#diff'Replace'The difference in days is: ',⍕out-in
-      :EndIf
+          r←'#output'Replace'Invalid input!'
+      :EndTrap
     ∇
 
     MONTHS←↓12 3⍴'JanFebMarAprMayJunJulAugSepOctNovDec'

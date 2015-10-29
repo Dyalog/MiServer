@@ -5,7 +5,7 @@
     Sound←{'#sound' Replace 'autoplay' '' New _.Audio ('/Examples/Data/KidsKbd/',⍵,'.mp3')}
     LetBut←{('.letter',⍕⍵∊'שבגדכפת') ('#letter',⍕⎕UCS ⍵) (RandCol 0) New _.Button ⍵}
     Indent←{('style="margin-left:',(⍕⍵÷2-BIG),'pt;margin-bottom:2pt;"') New _.span}
-    Print←{'#feedback' Prepend ('.serif',⍕⍵∊⎕UCS 1487+⍳27) (RandCol ⍺) New _.span ⍵}
+    Print←{'#output' Prepend ('.serif',⍕⍵∊⎕UCS 1487+⍳27) (RandCol ⍺) New _.span ⍵}
     RandCol←{'style="color:rgb(',(1↓∊',',¨⍕¨RGB ⍵),');"'}
       RGB←{
           ×⍵:(1-⍵)⌽127 ¯1 ¯1+?3/128
@@ -20,7 +20,7 @@
       Add _.Style'button'('border-radius' '10px')
       style←''
       style,←'th {padding: 0 ',(⍕10×7*BIG),'px;}'
-      style,←'button, #feedback {font-size: ',(⍕20×2*BIG),'pt;} '
+      style,←'button, #output {font-size: ',(⍕20×2*BIG),'pt;} '
       style,←'button {width: ',(⍕30×2*BIG),'pt; height: ',(⍕30×2*BIG),'pt; margin:2pt; font-family: serif;} '
       style,←'button:hover {font-weight:bold; cursor:pointer;} '
       style,←'.serif1 {font-family: serif;} '
@@ -61,7 +61,7 @@
       kb.Add _.Handler'.letter0' 'click' 'OnClick'
       kb.Add _.Handler'.letter1' 'click' 'OnClick'
       kb.Add _.Handler'.letter1' 'mouseover mouseout' 'Dot'
-      '#feedback' 'dir="ltr"'kb.Add _.bdo
+      '#output' 'dir="ltr"'kb.Add _.bdo
     ∇
 
 

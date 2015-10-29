@@ -24,35 +24,33 @@
        ⍝ }
        ⍝ .IdiomTable tr:nth-child(odd) {background-color: orange;}
      
-      ef←Add _.EditField'str'
-      ef.On'change' 'Search'('str' 'val')
+      ef←Add _.EditField'input'
+      ef.On'change' 'Search'('input' 'val')
       Add' Press '
       Add _.Button'Enter'
       Add'to search'
       Add _.br
-      (Add _.div).id←'res'  ⍝ This is a container that will be filled with result
+      (Add _.div).id←'output'  ⍝ This is a container that will be filled with result
     ∇
 
     ∇ r←Search;found;finn;dyal
       :Access public
-      found←idioms⌿⍨∨/∨/¨idioms[;2 3 4]⍷¨⍨⊂Get'str'
-      found←found\⍨7⍴1 0
-      found[;2×⍳3]←⊂6/⎕UCS 160
-      finn←found[;2+⍳5]⌿⍨~found[;1]
-      dyal←found[;3 4 7]⌿⍨found[;1]
+      found←idioms⌿⍨∨/∨/¨idioms[;2 3 4]⍷¨⍨⊂Get'input'
+      finn←found[;2 3 4]⌿⍨~found[;1]
+      dyal←found[;2 4]⌿⍨found[;1]
       :If ×≢found
-          r←'#res'Replace''
+          r←'#output'Replace''
           :If ~0∊⍴dyal
-              r,←'#res'Append _.h3'Dyalog Optimised Idioms'
-              r,←'#res'Append'.IdiomTable'New _.Table dyal
+              r,←'#output'Append _.h3'Dyalog Optimised Idioms'
+              r,←'#output'Append'#dyal' '.IdiomTable'New _.Table dyal
           :EndIf
           :If ~0∊⍴finn
-              r,←'#res'Append _.h3'FinnAPL Idiom Library'
-              r,←'#res'Append'.IdiomTable'New _.Table(finn[;1 3 5]) ⍝ /// What is in these columns?
+              r,←'#output'Append _.h3'FinnAPL Idiom Library'
+              r,←'#output'Append'#finn' '.IdiomTable'New _.Table finn
           :EndIf
      
       :Else
-          r←'#res'Replace _.h3'No matching idioms found'
+          r←'#output'Replace _.h3'No matching idioms found'
       :EndIf
     ∇
 
