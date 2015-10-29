@@ -299,7 +299,7 @@
       :EndIf
     ∇
 
-    ∇ r←conns HandleRequest arg;buf;m;Answer;obj;CMD;pos;req;Data;z;r;hdr;REQ;status;file;tn;length;done;offset;res;closed;sess;chartype;raw;enc;which;html;encoderc;encodeMe;startsize;cacheMe;root;page;filename;eoh;n;i;ext
+    ∇ r←conns HandleRequest arg;buf;m;Answer;obj;CMD;pos;req;Data;z;r;hdr;REQ;status;file;tn;length;done;offset;res;closed;sess;chartype;raw;enc;which;html;encoderc;encodeMe;startsize;cacheMe;root;page;filename;eoh;n;i;ext;enctype
       ⍝ Handle a Web Server Request
       r←0
       obj buf←arg
@@ -406,8 +406,8 @@
               length←startsize←⍴res.HTML
               :If startsize>⍴html ⍝ did we save anything by compressing
                   length←⍴res.HTML←html ⍝ use it
-                  res.Headers⍪←'Content-Encoding'(Encoders[which].Encoding)
-                  4 Log'Used compression on "',REQ.Page,'", transmitted% = ',2⍕length{⎕DIV←1 ⋄ ⍺÷⍵}startsize
+                  res.Headers⍪←'Content-Encoding'(enctype←Encoders[which].Encoding)
+                  4 Log'Used ',enctype,' compression on "',REQ.Page,'", transmitted% = ',2⍕length{⎕DIV←1 ⋄ ⍺÷⍵}startsize
               :Else
                   4 Log'Compression not used on "',REQ.Page,'", startsize = ',(⍕startsize),', compressed length = ',⍕length
                   :If 83≠⎕DR res.HTML
