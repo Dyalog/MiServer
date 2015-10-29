@@ -36,7 +36,7 @@
      
     ⍝ Header
       head←tbl.Add _.thead
-      (head.Add _.tr).Add¨_.th,¨'S/U' '' 'C1' 'C2' 'C3' 'C4'
+      (head.Add _.tr).Add¨_.th,¨'Row' '' 'C1' 'C2' 'C3' 'C4'
      
     ⍝ Body
       allids←,'C',¨⍕¨10 20 30∘.+0,⍳4
@@ -86,9 +86,9 @@
       js←''
       :If _selector≡'#forall'                                    ⍝ turn everything ON or OFF for everything?
           previous←Values
-          Values[]←new←'false'≢Get'state'                        ⍝ keep their setting on the server
+          Values[]←new←'false'≢⍕Get'state'                       ⍝ keep their setting on the server
           js←⊃,/(⊂'checked')((Values≠previous)/AllCB).Update new ⍝ reset those that have changed
-      :Else         ⍝ must be a box above
+      :Else       ⍝ must be a box above
           i←Allids⍳⊂_selector                                    ⍝ which one is it?
           :If ∨/b←i=1 6 11                                       ⍝ is it one of the left column?
               Values[row←i+0,⍳4]←new←1≠Values[i]                 ⍝ yes, what's its value?
