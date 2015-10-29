@@ -12,5 +12,6 @@
  ⍝ Test that the submit button works
      'fname' 'lname'SendKeys¨'Morten' 'Kromberg'
      Click'Submit'
+     ⎕DL 0.1 ⍝ wait for the page to refresh
      msg←'output'WaitFor'Hello, Morten Kromberg!' 'Submit did not produce expected output'
  :EndIf
