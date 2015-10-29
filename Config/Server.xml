@@ -14,7 +14,7 @@
     <Port>8080</Port>                                <!-- Port that MiServer listens on -->
     <IPVersion>IPv4</IPVersion>                      <!-- TCP/IP version, IPv4, IPv6, or IP to let Conga decide -->
     <UseContentEncoding>1</UseContentEncoding>       <!-- for HTTP compression -->
-    <SupportedEncodings>deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->
+    <SupportedEncodings>gzip,deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->
     <Secure>0</Secure>                               <!-- Running secure? (SSL) if 0, remaining settings below have no meaning -->
     <CertFile></CertFile>                            <!-- Private Certificate file -->
     <KeyFile></KeyFile>                              <!-- Public Key file -->
