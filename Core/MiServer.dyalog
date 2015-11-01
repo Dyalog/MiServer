@@ -324,7 +324,7 @@
           :EndIf
       :EndIf
      
-      conns.Buffer←fromutf8 conns.(Pos↓Buffer)
+      conns.Buffer←conns.(Pos↓Buffer)
      
       :If conns.Handler  ⍝ if we're running as a mapping handler
           conns.(Req Buffer)←MakeHTTPRequest conns.Req ⍝ fake MiServer out by building an HTTP request from what we've got

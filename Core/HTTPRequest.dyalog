@@ -38,6 +38,7 @@
     enlist←{⎕ML←1 ⋄ ∊⍵}
     begins←{⍺≡(⍴⍺)↑⍵}
     split←{p←(⍺⍷⍵)⍳1 ⋄ ((p-1)↑⍵)(p↓⍵)} ⍝ Split ⍵ on first occurrence of ⍺
+    sint←{⍵-256×⍵>127}
 
     ∇ r←eis w
       :Access public shared
@@ -79,7 +80,7 @@
      
       :If (1↑⍴hdrs)≥i←hdrs[;1]⍳⊂'content-type'
       :AndIf 'multipart/form-data'begins z←{(+/∧\⍵=' ')↓⍵}⊃hdrs[i;2]
-          z←'--',(8+('boundary='⍷z)⍳1)↓z ⍝ boundary string
+          z←'UTF-8'⎕UCS'--',(8+('boundary='⍷z)⍳1)↓z ⍝ boundary string
           Data←↑DecodeMultiPart¨¯1↓z{(⍴⍺)↓¨(⍺⍷⍵)⊂⍵}data ⍝ ¯1↓ because last boundary has '--' appended
       :ElseIf 'application/x-www-form-urlencoded'begins z
           Data←1 URLDecodeArgs data
@@ -191,23 +192,24 @@
       r←len d
     ∇
 
-    ∇ r←DecodeMultiPart data;d;t;filename;name;i
-      d←'Content-Disposition: 'GetParam data
+    ∇ r←DecodeMultiPart data;d;t;filename;name;i;hdr;ind
+      hdr←'UTF-8'⎕UCS data↑⍨ind←1+1⍳⍨13 10 13 10⍷data
+      d←'Content-Disposition: 'GetParam hdr
       :If (⍴d)≥i←5+('name="'⍷d)⍳1
           name←(¯1+name⍳'"')↑name←i↓d
       :Else ⋄ name←''
       :EndIf
      
-      t←'Content-Type: 'GetParam data
+      t←'Content-Type: 'GetParam hdr
      
-      data←(3+((NL,NL)⍷data)⍳1)↓data ⍝ Drop up to 1st doubleCR
-      data←(¯1+¯1↑(NL⍷data)/⍳⍴data)↑data ⍝ Drop from last CR
+      data←(2+ind)↓data ⍝ Drop up to 1st doubleCR
+      data←(¯1+¯1↑(13 10⍷data)/⍳⍴data)↑data ⍝ Drop from last CR
      
-      :Select t ⍝ Content type
-      :CaseList 'plain/text' 'text/plain' 'text/html' '' ⍝ These are already processed
-          ⍝ :Trap 92 ⋄ data←'UTF-8'⎕UCS ⎕UCS data ⋄ :EndTrap ⍝ From UTF-8 (will probably fail in Classic)
- ⍝   :CaseList 'text/xml' 'application/msword' 'application/pdf' 'application/octet-stream' 'image/gif' 'image/pjpeg' 'image/bmp' 'application/x-zip-compressed' 'application/vnd.ms-excel'
+      :Select 5↑t ⍝ Content type
+      :CaseList 'text/' '     ' ⍝ text formats
+          :Trap 92 ⋄ data←'UTF-8'⎕UCS data ⋄ :EndTrap ⍝ From UTF-8
       :Else
+          data←sint data
           :If (⍴d)≥i←9+('filename="'⍷d)⍳1
               filename←(¯1+filename⍳'"')↑filename←i↓d
           :Else ⋄ filename←''
