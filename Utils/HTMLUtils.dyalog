@@ -30,7 +30,7 @@
       r←'<',tag,' />',nl/CRLF
     ∇
 
-      Attrs←{
+      FormatAttrs←{
       ⍝ format name/value pairs as tag attributes
       ⍝  ⍵ - name/value pairs, valid forms:
       ⍝  'name="value"'

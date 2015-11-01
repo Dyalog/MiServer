@@ -5,6 +5,11 @@
 
     (⎕IO ⎕ML)←1
 
+    ∇ r←data Append name
+     ⍝ Append data to existing file
+      r←{(⎕NUNTIE ⍵)⊢data ⎕NAPPEND ⍵}Nopen name
+    ∇
+
     ∇ r←text AppendText name;tn
      ⍝ Append text to existing file (must be single byte text)
       tn←Nopen name
