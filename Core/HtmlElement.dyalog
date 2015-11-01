@@ -1,4 +1,6 @@
-﻿:class HtmlElement             ⍝ this is the most basic element of a page
+:class HtmlElement             ⍝ this is the most basic element of a page
+
+⍝∇:require =\JSON.dyalog
 
     ⎕io←⎕ml←1
 
@@ -13,12 +15,14 @@
     :field public Position    ⍝ has position information for this element (if position is set)
     :field public Uses←''     ⍝ resources that will be used by this object (can be overridden by derived classes)
 
+    :field public shared _true←#.JSON.true     ⍝ same definition as in #.JSON
+    :field public shared _false←#.JSON.false   ⍝ same definition as in #.JSON
+
+
 ⍝ define shortcuts to namespaces (initialized later)
     :field public _html        ⍝ reference to base HTML elements namespace
-    :field public _HTML        ⍝ reference to "Enhanced" HTML elements namespace
     :field public _JQ          ⍝ reference to JQuery/JQueryUI widgets namespace
     :field public _SF          ⍝ reference to SyncFusion widgets namespace
-    :field public _JQM         ⍝ reference to JQueryMobile widgets namespace
     :field public _JSS         ⍝ reference to JavaScript Snippets namespace
     :field public _DC          ⍝ reference to Dyalog Controls namespace
     :field public _            ⍝ reference to namespace that refers to all elements/widgets
@@ -36,6 +40,7 @@
     :field public readonly CommonAttributes←'id' 'value' 'name' 'class' 'style' 'title' 'type' ⍝ element attributes that are directly accessible
 
     _names←_values←0⍴⊂'' ⍝ used for attributes
+
     :field public _styles←''
 
     rand←{t←16807⌶2 ⋄r←?⍵ ⋄ t←16807⌶t ⋄ r }
@@ -60,17 +65,22 @@
       :EndIf
     ∇
 
+    ∇ r←isChar w
+      :Access public shared
+      r←0 2∊⍨10|⎕DR w
+    ∇
+
     ∇ r←isString w
       :Access public shared
       :Select ≡w
       :Case 2
           :If 1=⍴,w
-              r←{(0 2∊⍨10|⎕DR ⍵)∧1∊⍴⍴1/⍵}⊃w
+              r←{(isChar ⍵)∧1∊⍴⍴1/⍵}⊃w
           :Else
               r←0
           :EndIf
       :CaseList 0 1
-          r←{(0 2∊⍨10|⎕DR ⍵)∧1∊⍴⍴1/⍵}w
+          r←{(isChar ⍵)∧1∊⍴⍴1/⍵}w
       :Else
           r←0
       :EndSelect
@@ -82,25 +92,37 @@
     ∇
 
     ∇ r←a ine w
-      :Access public
+      :Access public shared
       r←a{0∊⍴⍺:'' ⋄ ⍵}w ⍝ if not empty
     ∇
     errorIf←{⍺←⊢ ⋄ 0≠⍵:⍺ ⎕SIGNAL ⍵ ⋄ ''}
 
     :section Attribute Handling
+
     ∇ r←fixkeys w
       :Access public shared
       r←{2>|≡⍵:,⊂⍵ ⋄ ⍵}w ⍝ Enclose if simple
     ∇
 
+    ∇ SyncAttrs arg
+      :Implements Trigger id,name,class,style,title,type,value
+      :If ⊃≢/arg.(NewValue OldValue)
+          arg.Name Set arg.NewValue
+      :EndIf
+    ∇
 
     :property keyed Attrs       ⍝ element attributes
     :access public
-        ∇ set ra;i;new;there;ind
-          there←~new←(⍴_names)<i←_names⍳ind←fixkeys⊃ra.Indexers
-          (_values _names),←new∘/¨ra.NewValue ind
+
+        ∇ set ra;i;new;there;names;ind
+          there←~new←(⍴_names)<i←_names⍳names←fixkeys⊃ra.Indexers
+          (_values _names),←new∘/¨ra.NewValue names
           _values[there/i]←there/ra.NewValue
+          :For i :In {⍵/⍳⍴⍵}7≥'id' 'class' 'style' 'title' 'value' 'type' 'name'⍳names
+              ⍎(i⊃names),'←i⊃ra.NewValue'
+          :EndFor
         ∇
+
         ∇ r←get ra;i;n
           ⎕SIGNAL(1<⍴i←ra.Indexers)⍴4 ⍝ RANK err
           :If 1↑ra.IndexersSpecified
@@ -111,58 +133,89 @@
         ∇
     :endproperty
 
-    ∇ del←ParseAttr arg;n;i;split;depths;pairs;chunk;special;gotId;first;id;class
+    ∇ attr←{plain}ParseAttr arg;split;item;t;f;i;eq;nq;items;n
       :Access public shared
-⍝ Parse html sttributes
-      arg←eis arg
-      n←⍴arg
-      i←1
-      del←⍬
-      split←{0=⊢/v←∨\'='=⍵:⍵ ⋄ ((~v)/⍵)({'"'∧.=∊1 ¯1↑¨⊂⍵:¯1↓1↓⍵ ⋄ ⍵}1↓v/⍵)}
-      depths←|0,⍨≡¨arg
-      pairs←'='∊¨arg
-      first←⊃¨arg
-      gotId←∨/id←first∊'#' ⍝ any tokens that look like an id?
-      class←first∊'.'
-      special←0,⍨id∨class∨pairs
-      :While i≤n
-          :If 1=depths[i]  ⍝ simple vector
-              :If 1≠⍴chunk←{⎕ML←3 ⋄ ((⍵≠' ')≥{~≠\⍵}'"'=⍵)⊂⍵}i⊃arg
-                  del,←ParseAttr chunk
-              :Else
-                  :If 1=≡chunk←split⊃chunk
-                      :Select 1⊃chunk
-                      :Case '#'
-                          del,←⊂'id'(1↓chunk) ⋄ gotId←1
-                      :Case '.'
-                          del,←⊂'class'(1↓chunk)
+      ⍝ Parse html sttributes
+⍝
+⍝     1)    In only the first token, a simple string (i.e. not in the form 'abc=def') without a leading '#' or '.' is treated as an id
+⍝        'foo'  > id="foo"
+⍝
+⍝        In all other positions, a string of this type is treated as a singleton attribute
+⍝        'foo' 'goo' 'moo' > id="foo" goo="goo" moo="moo"
+⍝
+⍝     2)    Single simple string beginning with '#' is an id
+⍝        '#foo'  > id="foo"
+⍝        'goo=moo' '#foo' > goo="moo" id="foo"
+⍝
+⍝     3)    Single simple string beginning with '.' is treated as a class
+⍝        '.foo'  > class="foo"
+⍝        'foo' '.goo' 'moo' > id="foo" class="goo" moo="moo"
+⍝
+⍝     4)    Attributes must be paired either as in 'foo=goo' or ('foo' 'goo'), if there is a single pair, it must be enclosed
+⍝        ⊂'href' '#top'  > href="#top"
+⍝
+⍝        The value portion of an attribute pair may begin with '#' or '.' without special interpretation
+⍝        ('href' '#top') '#foo' > href="#top" id="foo"
+     
+      :If 0=⎕NC'plain' ⋄ plain←0 ⋄ :EndIf
+      arg←eis,arg
+      attr←⍬
+      split←{0=⊢/v←∨\(≠\'"'=⍵)<'='=⍵:⍵ ⋄ ((~v)/⍵)({'"'∧.=∊1 ¯1↑¨⊂⍵:¯1↓1↓⍵ ⋄ ⍵}1↓v/⍵)}
+      :For i :In ⍳⍴arg
+          :Select |≡item←,i⊃arg
+          :Case 1
+              :If ~0∊⍴item
+                  :If ∨/eq←'='=item              ⍝ any '=' (i.e.
+                  :AndIf 0≠n←eq+.∧nq←~≠\'"'=item
+                      :If n=1
+                          attr,←⊂split item
                       :Else
-                          :If gotId<(depths[1+i]≥2)∨(n=1)∨special[1+i]
-                              del,←⊂'id'chunk ⋄ gotId←1
-                          :ElseIf (i=n)∨special[1+i]
-                              del,←⊂2⍴⊂chunk
-                          :Else
-                              del,←⊂arg[0 1+i] ⋄ i+←1
-                          :EndIf
-                      :EndSelect
+                          attr,←⊃,/1 ParseAttr¨item{⎕ML←3 ⋄ ⍵⊂⍺}nq⍲item=' '
+                      :EndIf
+                  :ElseIf 3>f←'#.'⍳1↑item
+                      attr,←⊂((f⊃'id' 'class')(1↓item))
+                  :ElseIf plain<i=1
+                      attr,←⊂'id'item
                   :Else
-                      del,←⊂2⍴chunk
+                      attr,←⊂2⍴⊂item
                   :EndIf
               :EndIf
+          :Case 2
+              attr,←⊂item
           :Else
-              del,←ParseAttr i⊃arg
-          :EndIf
-          i+←1
-      :EndWhile
+              ('Invalid attribute specification: ',⍕item)⎕SIGNAL 11
+          :EndSelect
+      :EndFor
     ∇
 
     ∇ {r}←{which}Set attr
       :Access public
-      :If 0≠⎕NC'which' ⋄ attr←,(eis which),[1.1]eis attr
-      :Else ⋄ 'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
+      :If 0≠⎕NC'which' ⋄ attr←↓(eis which),[1.1]eis attr
+      :Else
+          'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
+     
+          :If 2=⍴,attr  ⍝ 'attr' 'value' is never shorthanded (e.g. given special treatment for id/class)
+          :AndIf 1∧.≥≡¨attr
+              attr←,⊂attr
+          :EndIf
+     
+          attr←1 ParseAttr attr
       :EndIf
       :If ~0∊⍴attr
+          Attrs[1⊃¨attr]←2⊃¨attr
+      :EndIf
+      r←⎕THIS
+    ∇
+
+    ∇ {r}←{which}SetAttribute attr
+    ⍝ set attributes, treating
+     
+      :If 0≠⎕NC'which' ⋄ attr←↓(eis which),[1.1]eis attr
+      :Else
+          'Set cannot be called with a scalar ref'⎕SIGNAL 11/⍨(0=≡attr)∧326∊⎕DR attr
           attr←ParseAttr attr
+      :EndIf
+      :If ~0∊⍴attr
           Attrs[1⊃¨attr]←2⊃¨attr
       :EndIf
       r←⎕THIS
@@ -170,22 +223,36 @@
 
     ∇ {r}←{which}SetAttr attr
       :Access public
-      :If 0=⎕NC'which' ⋄ r←Set attr
-      :Else ⋄ r←which Set attr
+      :If 0=⎕NC'which' ⋄ r←SetAttribute attr
+      :Else ⋄ r←which SetAttribute attr
       :EndIf
     ∇
 
     ∇ {r}←DelAttr attrname;mask
       :Access public
       attrname←eis attrname
-      mask←~_names∊attrname
-      (_names _values)←mask∘/¨_names _values
+      mask←~_names∊attrname ⋄ (_names _values)←mask∘/¨_names _values
       r←⎕THIS
     ∇
 
-    :endsection
+    ∇ r←{proto}GetAttr attrname
+      :Access public
+      :If 0=⎕NC'proto' ⋄ proto←'' ⋄ :EndIf
+      attrname←eis attrname
+      :If 1=⍴attrname
+          :Trap 3 ⍝ index error
+              r←_values⊃⍨_names⍳attrname
+          :Else
+              r←proto
+          :EndTrap
+      :Else
+          proto∘GetAttr¨attrname
+      :EndIf
+    ∇
 
-    :section Styles
+    :EndSection
+
+    :Section Styles
 
     ∇ {r}←{what}Style styles;msg
       :Access public
@@ -198,7 +265,7 @@
               msg errorIf 11×0≠2|⍴styles
               _styles,←↓(2,⍨0.5×⍴styles)⍴styles
           :Case 3
-              msg errorIf 11×∧/(,2)∘≡∘⍴¨styles
+              msg errorIf 11×~∧/(,2)∘≡∘⍴¨styles
               _styles,←styles
           :Else
               msg ⎕SIGNAL 11
@@ -219,7 +286,7 @@
 
     :EndSection
 
-  ⍝                     The constructors
+  ⍝ The constructors
 
   ⍝ The first arg is the Tag, followed by its contents, then its attributes, if present
   ⍝ Note that attributes can be specified with the tag as in
@@ -263,28 +330,6 @@
               content←arg
           :EndIf
           Content,←arg
-⍝
-⍝          :If isString arg
-⍝              Content,←arg
-⍝          :ElseIf ~isClass⊃arg
-⍝              :Trap 4 5
-⍝                  (content attr)←arg
-⍝                  :If {(isClass ⍵)∨isInstance ⍵}⊃arg
-⍝                      content←arg
-⍝                      attr←''
-⍝                  :EndIf
-⍝                  Content,←content
-⍝                  :If (0∊⍴attr)⍱ref←isRef attr
-⍝                      SetAttr attr
-⍝                  :ElseIf ref
-⍝                      Content,←attr
-⍝                  :EndIf
-⍝              :Else
-⍝                  Add arg
-⍝              :EndTrap
-⍝          :Else
-⍝              Add arg
-⍝          :EndIf
           Tag←t
       :EndIf
       Init
@@ -314,7 +359,7 @@
     ∇
 
     ∇ Init
-      (_html _HTML _JQ _SF _JQM _DC _JSS _)←#.(_html _HTML _JQ _SF _JQM _DC _JSS _)
+      (_html _JQ _SF _DC _JSS _)←#.(_html _JQ _SF _DC _JSS _)
       Position←⎕NS''
     ∇
 
@@ -343,10 +388,11 @@
       :Access public
       handler←eis handler
       Handlers,←r←⎕NEW #._JQ.Handler
-      r.(Events Callback ClientData JavaScript Delegates)←5↑handler,(⍴handler)↓'' 1 '' '' ''
+      r.(Events Callback ClientData JavaScript Delegates jQueryWrap ScriptWrap Hourglass)←8↑handler,(⍴handler)↓'' 1 '' '' '' 1 1 ¯1
+      :If ¯1=r.Hourglass ⋄ r.Hourglass←(,0)≢,r.Callback ⋄ :EndIf
     ∇
 
-    ∇ r←RenderHandlers;h;myid;selector;handler;str;callback;event;type;evt;action;JS;a;n
+    ∇ r←RenderHandlers;myid;h
       :Access public ⍝!!! remove this after testing
       r←''
       :If ~0∊⍴Handlers
@@ -374,18 +420,15 @@
     ∇ r←Render;av;t;vs;e;h;c;p
       :Access public
     ⍝ Render by first constructing the Tag, complete with attributes, if any
-      r←Compose Content
+      r←RenderCore Content
       :If ~0∊⍴av←Tag
           h←RenderHandlers
           p←RenderPosition
-          :For e :In CommonAttributes
-              av,←{0::'' ⋄ UNDEF≡t←⍎⍵:'' ⋄ e fmtAttr t}e
-          :EndFor
           :If 0<⍴vs←Attrs[]
               av,←∊fmtAttr/¨vs
           :EndIf
           av,←RenderStyles
-          r←av Enclose r,h,p ⍝!!!BPB!!!
+          r←(av Enclose r),h,p
       :EndIf
     ∇
 
@@ -393,7 +436,8 @@
       :Access overridable
     ∇
 
-    ∇ r←Compose list;e;t
+    ∇ r←RenderCore list;e;t
+      :Access public
     ⍝ do the bulk of the rendering work
       r←''
       :For e :In eis list
@@ -426,7 +470,8 @@
     ∇ r←RenderPosition
       :Access public
       r←''
-      :If ~0∊⍴Position.⎕NL-2
+      :If 9=⎕NC'Position'
+      :AndIf ~0∊⍴Position.⎕NL-2
           Uses,←⊂'JQueryUI'
           r←#.JQ.JQueryfn'position'('#',SetId)Position
           Use
@@ -439,6 +484,20 @@
 
     Bracket←{'<',⍵,'>'}
 
+    ∇ SetInputName
+      :Access public
+      ⍝ for input element widgets, this will set the name to the id if not already set
+      ⍝ or the id to the name if not already set
+      :If (⊂name)∊UNDEF''
+          :If (⊂id)∊UNDEF''
+              SetId
+          :EndIf
+          name←id
+      :ElseIf UNDEF≡id
+          id←name
+      :EndIf
+    ∇
+
     ∇ r←tag Enclose txt;nl
       :Access public shared
       tag←,tag
@@ -447,7 +506,7 @@
 
     ∇ r←{a}eis w
       :Access public shared
-      r←(,∘⊂)⍣((isString w)∧2>|≡w),w ⍝ enclose if simple character
+      r←((,∘⊂)⍣((isString w)∧2>|≡w))w ⍝ enclose if simple character
     ∇
 
     ∇ da←args defaultArgs defaultvalues
@@ -475,15 +534,6 @@
               :EndIf
           :Else ⍝If isInstance⊃args
               r←args
-⍝      :ElseIf isString args
-⍝        :If (#._html.span≡⊃⊃⎕CLASS ⎕THIS)⍝∨0∊⍴⎕THIS.Content
-⍝          r←args
-⍝        :Else
-⍝          (r←⎕NEW #._html.span).Content←args
-⍝          r._PageRef←_PageRef
-⍝        :EndIf
-⍝      :Else
-⍝        r←args
           :EndIf
       :EndIf
     ∇
@@ -602,11 +652,6 @@
       r←s{(¯1↓⍺↑⍵)(1↓¯1↓⍺↓⍵)}¨r
     ∇
 
-    ∇ Describe
-      :Access public overridable
-      ∘∘∘
-    ∇
-
     ∇ r←GenId
       :Access public shared
       r←'id',⍕rand ¯1+2*31
@@ -621,6 +666,35 @@
               id←myid
           :EndIf
       :EndIf
+    ∇
+
+    dtlb←{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}
+
+    ∇ r←ScriptFollows
+      :Access public shared
+      r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+⍝      r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
+    ∇
+
+    ∇ r←what Subst text;names;gv;i;repl
+      :Access public shared
+      r←text
+      :Select ⎕NC⊂'what'
+      :Case 9.1 ⍝ namespace
+          gv←⍒∊⍴¨names←what.⎕NL-2 3 ⍝ variables and functions only
+          repl←{0::⍵ ⋄ (⍺⍺ ⎕R(,⍕⍺⍎⍺⍺))⍵}
+          :For i :In gv
+              r←what((i⊃names)repl)r
+          :EndFor
+      :Case 2.1 ⍝ substitution pairs
+          :If 2=≡what ⋄ what←,⊂what ⋄ :EndIf
+          :If 2≠⍴⍴what ⋄ what←↑what ⋄ :EndIf
+          what←,¨what
+          gv←⍒∊⍴¨what[;1]
+          :For i :In gv
+              r←(((⊂i 1)⊃what)⎕R(,⍕(⊂i 2)⊃what))r
+          :EndFor
+      :EndSelect
     ∇
 
     :endsection

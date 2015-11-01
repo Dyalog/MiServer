@@ -1,0 +1,20 @@
+﻿:Class RadioButtonGroupAdvanced : MiPageSample
+⍝ Control:: _DC.RadioButtonGroup
+⍝ Description:: Special options for RadioButtonGroup
+
+    ∇ Compose;button;frm
+      :Access public
+     
+      frm←Add _.Form
+      frm.Add _.p ScriptFollows
+     ⍝ Notice how the options are laid out horizontally with the labels to the right,
+     ⍝ and that the second option is pre-selected:
+      button←'Transport'frm.Add _.RadioButtonGroup('Train' 'Plane' 'Automobile' 'Riverboat' 'Submarine')
+      button.SelectedIndex←2
+      button.LabelPos←'right'
+      button.Horizontal←1
+     
+    ∇
+
+
+:EndClass

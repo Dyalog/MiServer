@@ -1,0 +1,18 @@
+﻿:class trackSimple: MiPageSample
+⍝ Control:: _html.track _html.video 
+⍝ Description:: Specify subtitles (closed captions)
+
+    ∇ Compose
+      :Access public
+     
+      movie←'autoplay=' 'width="320"' 'height="240"' 'controls='Add _.video
+      movie.Add'Your browser does not support the video tag.'
+      'src=../Data/animals.mp4'movie.Add _.source
+    ⍝ This is a list of available subtitles
+      'src="../Data/english.vtt"' 'kind="subtitles"' 'srclang="en"' 'label="English"'movie.Add _.track
+      'src="../Data/danish.vtt"' 'kind="subtitles"' 'srclang="da"' 'label="Danish"'movie.Add _.track
+      Add _.p'Some browsers do not support subtitles.'
+      Add _.p'You may need to click [CC] to turn on the display of subtitles.'
+     
+    ∇
+:endclass

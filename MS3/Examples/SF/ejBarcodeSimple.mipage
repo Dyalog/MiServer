@@ -1,0 +1,17 @@
+﻿:Class ejBarcodeSimple : MiPageSample
+⍝ Control:: _SF.ejBarcode
+⍝ Description:: Show information as barcodes
+
+    ∇ Compose
+      :Access Public
+     
+      Add _.p'If you have a smartphone, you may be able to scan this code to go to Dyalog''s homepage:'
+      'bc1' Add _.ejBarcode'http://dyalog.com/' 'qrBarcode'
+     
+      Add _.p'If you show this barcode at a bookstore, they may find you a really good book:'
+      'bc2' Add _.ejBarcode '0956463800'
+     
+    ∇
+
+:EndClass
+                                        

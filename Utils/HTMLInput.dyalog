@@ -2,7 +2,7 @@
 
     (⎕IO ⎕ML)←1
     ⎕FX 'r←CRLF' 'r←⎕UCS 13 10' ⍝ So it will be :Included
-    enlist←{∊⍵} ⍝ APL2 enlist
+    enlist←{⎕ML←1 ⋄ ∊⍵} ⍝ APL2 enlist
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     ischar←{0 2∊⍨10|⎕DR⍵}
@@ -29,7 +29,7 @@
       r←'<',tag,' />',nl/CRLF
     ∇
 
-      Attrs←{
+      FormatAttrs←{
       ⍝ format name/value pairs as tag attributes
       ⍝  ⍵ - name/value pairs, valid forms:
       ⍝  'name="value"'
@@ -94,7 +94,7 @@
 
     ∇ html←{fontsize}APLToHTML APL
     ⍝ returns APL code formatted for HTML
-      fontsize←{6::'' ⋄ ';fontsize:',⍎⍵}'fontsize'
+      fontsize←{6::'' ⋄ ';font-size:',⍎⍵}'fontsize'
       :If 1<|≡APL ⋄ APL←enlist,∘CRLF¨APL ⋄ :EndIf
       :Trap 0
           html←3↓¯4↓'whitespace' 'preserve'⎕XML 1 3⍴0 'x'APL
@@ -108,7 +108,7 @@
      ⍝ returns APL code formatted for HTML with syntax colouring
      ⍝ Uses global APLToHTMLColourScheme e.g. ('blue' 19 23)('green' 1)('gray' 32)('red' 4)...
       ⎕ML←1
-      fontsize←{6::'' ⋄ ';fontsize:',⍎⍵}'fontsize'
+      fontsize←{6::'' ⋄ ';font-size:',⍎⍵}'fontsize'
       :Trap 0
           :If 0=⎕NC'APLToHTMLColourScheme'
               APLToHTMLColourScheme←,⊂'blue' 17 19 23 48 56 57 146,(147+⍳5),214,(215+⍳5)
@@ -134,6 +134,7 @@
           html←∊html          ⍝ Encorporate tags
           html⊂⍨←html=⎕UCS 13 ⍝ Restore lines
           html↓¨⍨←1           ⍝ Remove line markers
+          html,⍨¨←↓↑('<span style="color: blue">['∘,,∘'] </span>')¨⍕¨¯1+⍳⍴html ⍝ Prepend blue line numbers
           html←('pre style="font-family:APL385 Unicode',fontsize,'"')Enclose'code'Enclose CRLF,⍨∊,∘CRLF¨html
       :Else
           html←fontsize APLToHTML APL
@@ -146,7 +147,7 @@
       :If 0=⎕NC'id' ⋄ id←'' ⋄ :EndIf
       pars←eis pars
       content href title target other←5↑pars,(⍴pars)↓'' '' '' '' ''
-      html←('a',(Attrs'id' 'href' 'title' 'target'{(⍵ ine ⍺)⍵}¨id href title target),Attrs other)Enclose content
+      html←('a',(FormatAttrs'id' 'href' 'title' 'target'{(⍵ ine ⍺)⍵}¨id href title target),FormatAttrs other)Enclose content
     ∇
 
     ∇ html←{n}BRA html

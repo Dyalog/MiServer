@@ -4,8 +4,8 @@
      %SiteRoot%   - web site root -->
 
   <directory>
-    <alias>Documentation</alias>
-    <path>%ServerRoot%/Documentation/</path>
+    <alias>FontAwesome</alias>
+    <path>%ServerRoot%\PlugIns\font-awesome-4.4.0\</path>
   </directory>
 
   <directory>
@@ -15,7 +15,7 @@
 
   <directory>
     <alias>Syncfusion</alias>
-    <path>%ServerRoot%/PlugIns/Syncfusion/</path>
+    <path>%ServerRoot%/PlugIns/Syncfusion-13.3.0.7/</path>
   </directory>
 
   <directory>

@@ -8,16 +8,18 @@
     :field Public _Request     ⍝ HTTPRequest
     :field Public _Scripts←''
     :field Public _Styles←''
-    :field public _Serialized←1 ⍝ serialized forms to return in _PageData
-    :field Public _event        ⍝ set by APLJAX callback - event that was triggered
-    :field Public _what         ⍝ set by APLJAX callback - name or id of the triggering element
-    :field Public _value        ⍝ set by APLJAX callback - value of the triggering element
+    :field Public _CssReset←''    ⍝ location of CSS Reset file (if any)
+    :field Public _CssOverride←'' ⍝ location of CSS Override file (if any)
+    :field public _Serialized←1   ⍝ serialized forms to return in _PageData
+    :field Public _event          ⍝ set by APLJAX callback - event that was triggered
+    :field Public _what           ⍝ set by APLJAX callback - name or id of the triggering element
+    :field Public _value          ⍝ set by APLJAX callback - value of the triggering element
+    :field Public _selector       ⍝ set by APLJAX callback - CSS/jQuery selector for the element that triggered the event
+    :field Public _callback       ⍝ set by APLJAX callback - name of the callback function
     :field public _PageData
     :field public _AjaxResponse←''
     :field public _DebugCallbacks←0
     :field public OnLoad←''     ⍝ page equivalent to ⎕LX
-    :field public shared _true←#.JSON.true     ⍝ same definition as in #.JSON
-    :field public shared _false←#.JSON.false   ⍝ same definition as in #.JSON
 
     _used←'' ⍝ keep track of what's been used
 
@@ -38,17 +40,20 @@
       _PageData←⎕NS''
     ∇
 
-    ∇ {r}←Render;b
+    ∇ {r}←Render;b;styles
       :Access public
       :If ''≢OnLoad
           Use'JQuery'
       :EndIf
       b←RenderBody
-      :If ~0∊⍴_Styles
-          {(Head.Insert _html.link).Set(('href=',⍵)('rel' 'stylesheet')('type' 'text/css'))}¨∪⌽_Styles
+      styles←∪_Styles
+      styles←styles,⍨{0∊⍴⍵:⍵ ⋄ ⊂⍵}_CssReset
+      styles←styles,{0∊⍴⍵:⍵ ⋄ ⊂⍵}_CssOverride
+      :If ~0∊⍴styles
+          {Insert #._DC.StyleSheet ⍵}¨⌽∪styles
       :EndIf
       :If ~0∊⍴_Scripts
-          {(Head.Add _html.script).Set('src=',⍵)}¨∪_Scripts
+          {(Insert _html.script).Set('src=',⍵)}¨⌽∪_Scripts
       :EndIf
       :If ~0∊⍴Handlers
           b,←∊Handlers.Render
@@ -68,7 +73,7 @@
     ∇
 
     ∇ Use resources;n;ind;t;x
-      :Access public  
+      :Access public
       resources←eis resources
       :For x :In resources
           :If ~(⊂x)∊_used
@@ -97,9 +102,47 @@
       :EndFor
     ∇
 
-    ∇ r←{proto}Get names
+    ∇ r←{proto}Get names;noproto;char
+      :Access public
+      :If noproto←0=⎕NC'proto' ⋄ proto←'' ⋄ :EndIf
+      names←eis names
+      names←,⍕names
+      names←#.Strings.deb names
+      :If ' '∊names
+          names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
+          r←proto∘Get¨names
+      :ElseIf ~(_PageData.⎕NC names)∊2 9
+          r←,proto
+      :Else
+          r←_PageData⍎names
+          :If 2≤≡r
+              :If 1=⍴,r
+                  r←⊃r
+              :EndIf
+          :EndIf
+          :If noproto≥char←0=2|⎕DR proto
+          :AndIf isString r
+              r←#.JSON.toAPL r
+          :EndIf
+          :If noproto⍱char
+              :If 1≠2|⎕DR r
+                  r←,proto
+              :EndIf
+          :EndIf
+      :EndIf
+    ∇
+
+    ∇ r←GetNames str
+      :Access public
+      →0⍴⍨0∊⍴r←_PageData.⎕NL-2 9
+      →0⍴⍨0∊⍴str
+      r←r/⍨r #.Strings.beginsWith¨⊂str
+    ∇
+
+    ∇ r←{proto}GetRaw names
       :Access public
       proto←{6::⍵ ⋄ proto}''
+      names←eis names
       names←,⍕names
       names←#.Strings.deb names
       :If ' '∊names
@@ -109,13 +152,12 @@
           r←,proto
       :Else
           r←_PageData⍎names
-⍝!!! BPB - not sure if we need this - it messes up multiple values for select(combolist) controls
-⍝          :If 1<|≡r
-⍝              r←∊r
-⍝          :EndIf
-          :If 0 2∊⍨10|⎕DR proto
-              r←∊r
-          :Else
+          :If 2=≡r
+              :If 1=⍴,r
+                  r←⊃r
+              :EndIf
+          :EndIf
+          :If ~isChar proto
               r←{0::⍵ ⋄ 0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
           :EndIf
       :EndIf
@@ -129,12 +171,13 @@
       :If ' '∊names
           names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
           r←proto∘SessionGet¨names
-      :ElseIf 2≠_Request.Session.⎕NC names
+      :ElseIf 0=_Request.Session.⎕NC names
           r←proto
       :Else
           r←_Request.Session⍎names
           :If 1<|≡r ⋄ r←∊r ⋄ :EndIf
-          :If ~0 2∊⍨10|⎕DR proto
+          :If ~0 2∊⍨10|⎕DR proto  ⍝ if the prototype is numeric
+          :AndIf 0 2∊⍨10|⎕DR r    ⍝ and the element is character
               r←{0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}r
           :EndIf
       :EndIf
@@ -150,18 +193,54 @@
       _AjaxResponse←''
     ∇
 
-    ∇ Respond arg
+    ∇ r←_id
       :Access public
-      ∘∘∘
+      ⍝ as there seems to be a problem with at least some Syncfusion widgets
+      ⍝ being able to provide the id (or name) of the triggering element, we try to obtain it from _what or _selector
+      r←''
+      :Trap 0
+          :If 0∊⍴r←_what
+          :AndIf '#'=⊃_selector
+              r←1↓_selector
+          :EndIf
+      :EndTrap
     ∇
-    ∇ r←renderContent content
-      :If isInstance⊃content
-          r←content.Render
-      :ElseIf isClass⊃content
-          r←(⎕NEW content).Render
-      :Else
-          r←(⎕NEW #.HtmlElement(''content)).Render
-      :EndIf
+
+    ∇ r←renderContent content;c
+      r←''
+      content←eis content
+      :While ~0∊⍴content
+          :Select ≡c←⊃content
+          :Case 0
+              :If isClass c
+                  :Select ⊃⍴content
+                  :Case 1
+                      r,←(⎕NEW c).Render
+                  :Case 2
+                      r,←(⎕NEW c(2⊃content)).Render
+                  :Else
+                      r,←(⎕NEW c(1↓content)).Render
+                  :EndSelect
+              :ElseIf isInstance c
+                  r,←c.Render
+              :Else
+                  r,←(⎕NEW #.HtmlElement(''content)).Render
+              :EndIf
+              content←''
+          :Case 1
+              :If isClass⊃c
+                  r,←(⎕NEW(⊃c)(1↓c)).Render
+              :ElseIf isInstance⊃c
+                  ∘∘∘ ⍝ should not happen! (I think)
+              :Else
+                  r,←(⎕NEW #.HtmlElement(''c)).Render
+              :EndIf
+              content←1↓content
+          :Else
+              r,←renderContent c
+              content←1↓content
+          :EndSelect
+      :EndWhile
     ∇
 
     ∇ r←selector Replace content
@@ -265,12 +344,5 @@
     ∇
 
     :endsection
-
-    ∇ Debug;⎕TRAP
-      :Access public
-      ⎕TRAP←0⍴⎕TRAP
-      ∘∘∘
-    ∇
-
 
 :EndClass

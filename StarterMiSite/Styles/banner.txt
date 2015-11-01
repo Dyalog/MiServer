@@ -1,0 +1,9 @@
+<div id="banner">
+	<div id="bannerimg">
+		<img id="bannerimage" src="/Styles/Images/duck.png" title="Click to toggle web page/source code" /> </div>
+	<div id="bannertext">
+		<span id="ms30" onclick="window.location.href='/';">Sample MiSite</span>	
+	</div>
+<div class="clear">
+</div>
+</div>

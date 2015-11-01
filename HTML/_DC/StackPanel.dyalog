@@ -1,15 +1,19 @@
 ﻿:Class StackPanel : #._html.table 
-⍝ Description: Dyalog control to emulate WPF StackPanel
-⍝ Constructor: [items]
+
+⍝ Description:: Dyalog control to emulate WPF StackPanel
+⍝ Constructor:: [items]
 ⍝ items - vector of content for each cell of the StackPanel
-⍝ Public Fields:
-⍝ Items      - vector of references to table cell (<td>) containers for each item
+⍝ Public Fields::
+⍝ Items - vector of references to table cell (<td>) containers for each item
 ⍝ Horizontal - Boolean indicating whether cell orientation is horizontal (1) or vertical (0)
-⍝ Public Methods:
-⍝ Add   - ref ← Add itemcontent
-⍝         ref is a reference to the content
-⍝ Usage Notes:
+⍝ Public Methods::
+⍝ Add - Add itemcontent
+⍝       The result of Add is a reference to the content
+⍝ Usage Notes::
 ⍝ The table cells that make up the StackPanel may be accessed via Items  
+
+    :field public shared readonly DocBase←''
+
     :Field public Items←⍬
     :Field public Horizontal←0 ⍝ orientation
 

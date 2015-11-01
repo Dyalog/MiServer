@@ -1,0 +1,22 @@
+﻿:Class RadioButtonGroupSimple : MiPageSample
+⍝ Control:: _DC.RadioButtonGroup
+⍝ Description:: Create an entire group of radio buttons at once
+    
+    ∇ Compose;button;frm
+      :Access public 
+     
+      frm←Add _.Form
+      frm.Add _.p'RadioButtonGroup provides an easy way to let the user select between mutually exclusive options.'
+      frm.Add _.p'Select one of the options to trigger feedback:'
+      button←'Transport'frm.Add _.RadioButtonGroup('Train' 'Plane' 'Automobile' 'Riverboat' 'Submarine')
+      button.On'change' 'CallbackFn'
+      'output'frm.Add _.div ⍝ a div to contain output, updated by CallbackFn
+    ∇
+
+    ∇ r←CallbackFn
+      :Access Public   
+     
+      r←'#output'Replace _.p'You selected: ',Get'Transport'
+    ∇
+    
+:EndClass

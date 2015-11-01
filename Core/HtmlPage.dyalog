@@ -5,7 +5,7 @@
     :field public Head
     :field public Body
     :field public Scripts
-    :field public Styles
+    :field public StylesLinks
 
     ∇ make
       :Access public
@@ -28,10 +28,10 @@
       :Access public
       :If ~0∊⍴scr←∪Scripts
       :AndIf ∨/mask←{0∊⍴⍵}¨scr.Content
-          Head.Add¨⌽mask/scr
+          Head.Add¨mask/scr
       :EndIf
-      :If ~0∊⍴Styles
-          Head.Add¨Style¨∪⌽Styles
+      :If ~0∊⍴StylesLinks
+          Head.Add¨StylesLinks
       :EndIf
       Content←(Head.Render),b
       r←'<!DOCTYPE html>',∊⎕BASE.Render
@@ -49,7 +49,7 @@
           Head.Add¨mask/scr
       :EndIf
       :If ~0∊⍴sty←∪⌽Styles
-          Head.Add¨Style¨sty
+          Head.Add¨StylesLinks
       :EndIf
       Content←(Head.Render),b
       r←'<!DOCTYPE html>',∊⎕BASE.Render
@@ -61,7 +61,7 @@
       Head←⎕NEW #.HtmlElement'head'
       (Body Head)._PageRef←⎕THIS
       Scripts←''
-      Styles←''
+      StylesLinks←''
       Handlers←''
       Content←Head,Body
     ∇
@@ -75,7 +75,9 @@
           :ElseIf #._JQ.Handler∊c
               r←Body.Handlers,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
               :If 0∊⍴r.Selectors ⋄ r.Selectors←'html' ⋄ :EndIf ⍝ if no selector specified, use page level
-          :ElseIf ⊃∨/c∊¨⊂#._html.(title style meta link noscript base) ⍝ elements that belong exclusively or primarily in the <head> element
+          :ElseIf ⊃∨/c∊¨⊂#._html.(style link)
+              r←StylesLinks,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
+          :ElseIf ⊃∨/c∊¨⊂#._html.(title meta noscript base) ⍝ elements that belong exclusively or primarily in the <head> element
               r←attr Head.Add what
           :Else
               r←attr Body.Add what
@@ -91,8 +93,13 @@
       :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
       :If isClass⊃what
           :If #._html.script∊c←∊⎕CLASS⊃what
-              r←Scripts,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
-          :ElseIf ⊃∨/c∊¨⊂#._html.(title style meta link noscript base) ⍝ elements that belong exclusively or primarily in the <head> element
+              r←Scripts,⍨←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
+          :ElseIf #._JQ.Handler∊c
+              r←Body.Handlers,⍨←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
+              :If 0∊⍴r.Selectors ⋄ r.Selectors←'html' ⋄ :EndIf ⍝ if no selector specified, use page level
+          :ElseIf ⊃∨/c∊¨⊂#._html.(style link)
+              r←StylesLinks,⍨←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
+          :ElseIf ⊃∨/c∊¨⊂#._html.(title meta noscript base) ⍝ elements that belong exclusively or primarily in the <head> element
               r←attr Head.Insert what
           :Else
               r←attr Body.Insert what
@@ -123,11 +130,20 @@
 
     dtlb←{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}
 
-    ∇ r←ScriptFollows
-      :Access public
-     ⍝ treat following commented lines in caller as a script, lines beginning with ⍝⍝ are stripped out
-      r←{⎕ML←1 ⋄ ∊{'⍝'=⊃⍵:'' ⋄ ' ',dtlb ⍵}¨1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓⎕NR 2⊃⎕SI
+    ∇ r←isTrue a
+      :Access public shared
+      →0⍴⍨r←(,1)≡,a
+      →0⍴⍨r←#.JSON.true≡a
+      →0⍴⍨r←'true'≡a
     ∇
+
+    ∇ r←isFalse a
+      :Access public shared
+      →0⍴⍨r←(,0)≡,a
+      →0⍴⍨r←#.JSON.false≡a
+      →0⍴⍨r←'false'≡a
+    ∇
+
     ∇ r←Style style
       :Access public
       r←{(⎕NEW #._html.link).Set(('href'⍵)('rel' 'stylesheet')('type' 'text/css'))}style

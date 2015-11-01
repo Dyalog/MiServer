@@ -14,11 +14,12 @@
 
     :section Base Classes
     :class _jqObject : #.HtmlElement
-        :field public Selector←''   ⍝ Selector to apply the JQuery function to
-        :field public JavaScript←'' ⍝ additional JavaScript to run, can be function chain, separate code or both
-        :field public Var←''        ⍝ JavaScript variable name for created object
-        :field public JQueryFn←''   ⍝ JQuery function to apply
-        :field public JQPars←''     ⍝ JQuery function parameters
+        :field public Selector←''      ⍝ Selector to apply the JQuery function to
+        :field public JavaScript←''    ⍝ additional JavaScript to run AFTER the jQuery function, can be function chain, separate code or both
+        :field public PreJavaScript←'' ⍝ additional JavaScript to run BEFORE the jQuery function
+        :field public Var←''           ⍝ JavaScript variable name for created object
+        :field public JQueryFn←''      ⍝ JQuery function to apply
+        :field public JQPars←''        ⍝ JQuery function parameters
         :field public shared readonly _true←#.JSON.true     ⍝ same definition as in #.JSON
         :field public shared readonly _false←#.JSON.false   ⍝ same definition as in #.JSON
         :field public ScriptOptions←1 1 ⍝ determines how script will be rendered [1] wrap with <script>...</script>, [2] wrap with $(function(){...})
@@ -32,13 +33,13 @@
           :Access public
           :Implements constructor
           pars←eis pars
-          JQueryFn Selector JQPars JavaScript Var←4↑pars,(⍴pars)↓'' '' '' '' ''
+          JQueryFn Selector JQPars JavaScript Var PreJavaScript←6↑pars,(⍴pars)↓'' '' '' '' '' ''
         ∇
 
         ∇ r←Render
           :Access public
           Use
-          r←ScriptOptions #.JQ.JQueryfn JQueryFn Selector JQPars JavaScript Var
+          r←ScriptOptions #.JQ.JQueryfn JQueryFn Selector JQPars JavaScript Var PreJavaScript
         ∇
 
         ∇ r←isSelector str ⍝ checks if str is probably a jQuery selector
@@ -79,13 +80,14 @@
     :class _jqWidget : _jqObject
 
         :field public Options←''    ⍝ options for the object to be created
-        :field public ContainerType←'div' ⍝ default container type
+        :field public ContainerTag←'div' ⍝ default container type
         :field public Container
         :field public eventHandlers←''
         :field public InternalEvents←'' ⍝ list of events the widget "knows" about
         :field public Force←¯1          ⍝ force event to be treated as internal event, ¯1=check InternalEvents, 1=yes, 0=no
+        :field _build←0
 
-        handlerSyntax←'event,ui' 'event'  'ui' 'this.id'
+        handlerSyntax←'event,ui' 'event'  'ui' '$(event.target)'  ⍝ see _JQ.RenderHandlerCore for details
 
         ∇ r←{a}rand w;rnd
           :Access public
@@ -101,15 +103,15 @@
           :Implements constructor
         ∇
 
-        ∇ r←Render;build;html;handlers;js
+        ∇ r←Render;build;html;handlers;js;opts
           :Access public
          
           r←html←js←''
           Use
          
-          build←0∊⍴Selector ⍝ if the user explicitly specifies a selector, assume he's built the content himself
+          _build∨←0∊⍴Selector ⍝ if the user explicitly specifies a selector, assume he's built the content himself
          
-          :If build
+          :If _build
               Container.(id name type style class title)←Container.(id name type style class title){UNDEF≡⍵:⍺ ⋄ UNDEF≢⍺:⍺ ⋄ ⍵}¨⎕THIS.(id name type style class title)
               :If Container.id≡UNDEF
                   :If Container.name≢UNDEF
@@ -126,21 +128,22 @@
               handlers←';',⍨∊¯1↓¨Options∘RenderHandler¨eventHandlers
           :EndIf
          
-          js←#.JQ.JQueryfn JQueryFn Selector Options(JavaScript,handlers)Var
+          opts←{0::⍬ ⋄ 1 0≥_PageRef._Request.isAPLJax}⍬
+          js←opts #.JQ.JQueryfn JQueryFn Selector Options(JavaScript,handlers)Var PreJavaScript
          
          
-          :If build≥0∊⍴Container.Content
+          :If _build≥0∊⍴Container.Content
               :Select ⊃Selector
               :Case '#' ⍝ id?
                   Container.id←1↓Selector
               :Case '.' ⍝ class?
                   Container.class←1↓Selector
               :EndSelect
-              :If ContainerType{⍵≡(⍴⍵)↑⍺}'input'
+              :If ContainerTag{⍵≡(⍴⍵)↑⍺}'input'
               :AndIf UNDEF≡Container.name
                   Container.name←('.#'∊⍨⊃Selector)↓Selector
               :EndIf
-              Container.Tag←ContainerType
+              Container.Tag←ContainerTag
               html←Container.Render
           :EndIf
           r←html,js
@@ -151,7 +154,7 @@
           ⍝ args - event callback clientData javascript
           args←eis args
           handler←⎕NS''
-          handler.(Event Callback ClientData JavaScript)←4↑args,(⍴args)↓'' 1 '' ''
+          handler.(Event Callback ClientData JavaScript Hourglass)←5↑args,(⍴args)↓'' 1 '' '' 1
           :If 0∊n←⍴eventHandlers
               eventHandlers,←handler
           :ElseIf n<i←eventHandlers.Event⍳⊂handler.Event
@@ -166,7 +169,7 @@
           r←opts RenderHandlerCore(handler handlerSyntax Force)
         ∇
 
-        ∇ {r}←opts RenderHandlerCore args;handler;widgettype;force;syntax;evt;model;page;event;callback;clientdata;javascript;useajax;data;cd;name;selector;type;what;this
+        ∇ {r}←opts RenderHandlerCore args;handler;widgettype;force;syntax;evt;model;page;event;callback;clientdata;javascript;useajax;data;cd;name;selector;type;what;this;hourglass;dtype;success;ajax;hg;removehg;status
           :Access public
          ⍝ unified event handling core for jQueryUI and Syncfusion widget
          ⍝ Syncfusion and jQueryUI use different models, if other jQuery-based libraries are used, this may need to be changed
@@ -177,7 +180,7 @@
          ⍝ force - Boolean to force treatment of event as an InternalEvent
          
           args←eis args
-          (handler widgettype force)←3↑args,(⍴args)↓''('event,ui' 'event' 'ui' 'this')0
+          (handler widgettype force)←3↑args,(⍴args)↓(⎕NS'')('event,ui' 'event' 'ui' '$(event.target)')0
           (syntax evt model this)←widgettype
          
           r←page←''
@@ -187,7 +190,7 @@
          
           page←quote page
          
-          (event callback clientdata javascript)←handler.(Event Callback ClientData JavaScript)
+          (event callback clientdata javascript hourglass)←handler.(Event Callback ClientData JavaScript Hourglass)
           useajax←(,0)≢,callback ⍝ callback=0 → don't make callback to server; =1 → use APLJax, =charvec → call ⍎charvec
          
           :If force=¯1
@@ -196,8 +199,9 @@
          
           data←''
           data,←', _event: ',evt,'.type'
-          data,←', _what: ',this,'.id'
-          data,←', _value: ',this,'.value'
+          data,←', _what:  ',this,'.attr("id")'
+          data,←', _value: ',this,'.attr("value")'
+          data,←', _selector: "',Selector,'"'
           data,←(isString callback)/', _callback: ',quote callback
           data←2↓data
          
@@ -276,9 +280,12 @@
               :EndIf
           :EndFor
          
+          (hg removehg)←hourglass∘{⍺:'document.body.style.cursor="',⍵,'";' ⋄ ''}¨'wait' 'default'
+         
           dtype←'"json"'
-          success←'success: function(obj){APLJaxReturn(obj);}'
-          ajax←(javascript ine javascript,';'),useajax/'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,'});'
+          success←'success: function(obj){APLJaxReturn(obj);document.body.style.cursor="default";}'
+          status←'statusCode:{ 408: function(){alert("Session timed out");',removehg,'}}'
+          ajax←(javascript ine javascript,';'),useajax/hg,'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,', ',status,'});'
           :If force
               event(opts{⍺⍺⍎⍺,'←⍵'})'function(',syntax,'){',ajax,'}'
           :Else
@@ -288,7 +295,7 @@
 
         ∇ {name}Set value
           :Access public
-          →(0=⍴,value)⍴0
+          →(0∊⍴value)⍴0
           :If 326≠⎕DR Options ⋄ Options←⎕NS'' ⋄ :EndIf
           :If 0=⎕NC'name'
               :Trap 11
@@ -300,7 +307,8 @@
           name(Options SetOption)value
         ∇
 
-        ∇ name(ref SetOption)value;parent;i;ns;split;set;index;lb;new;now;an;n
+        ∇ name(ref SetOption)value;set;parent;i;ind;newref;chunk;pos;n;now;new;chunkroot
+          →(0∊⍴value)⍴0
           :If 1<|≡name ⍝ multiple names?
               value←(⊂⍣((⎕DR value)∊80 82))value
               name(ref SetOption)¨value
@@ -311,25 +319,26 @@
               :If 0∊⍴parent←(i←-'.'⍳⍨⌽name)↓name
                   name(ref set)value ⍝ single name: assign directly (may be more than 1 name)
               :Else
-                  :If ~'['∊parent
-                      parent ref.⎕NS''
-                  :Else
-                      split←parent⍳']'              ⍝ if present, ] will be ≤⍴parent
-                      :If (⍴parent)≤split+1         ⍝ if ] is in the last 2 positions
-                          an←parent↑⍨¯1+lb←parent⍳'['      ⍝ find the array name
-                          index←2⊃⎕VFI lb↓(split-1)↑parent ⍝ the position wanted
-                          new←⎕NS¨index⍴⊂⍬
-                          :If 0=ref.⎕NC an             ⍝ if it does not exist
-                              an(ref set)new           ⍝ create it as a vector
-                          :EndIf
-                     ⍝ If the index is beyond the current shape, extend it
-                          :If index>n←⍴now←ref⍎an
-                              an(ref set)now,n↓new
-                          :EndIf
+                  ind←name⍳'.'
+                  chunk←¯1↓ind↑name
+                  (chunkroot pos)←'[]'#.Utils.penclose chunk
+                  pos←2⊃⎕VFI pos
+                  :Trap 3 6
+                      newref←ref⍎chunk
+                  :Case 3 ⍝ index error
+                      n←⍴now←ref⍎chunkroot
+                      new←⎕NS¨(pos-n)⍴⊂⍬
+                      chunkroot(ref set)now,new
+                      newref←ref⍎chunk
+                  :Case 6 ⍝ value error
+                      chunkroot ref.⎕NS''
+                      :If ~0∊pos
+                          new←⎕NS¨pos⍴⊂⍬
+                          chunkroot(ref set)new
                       :EndIf
-                      (parent↓⍨1+split)(ref⍎split↑parent).⎕NS''
-                  :EndIf
-                  (1↓i↑name)((ref⍎parent)set)value
+                      newref←ref⍎chunk
+                  :EndTrap
+                  (ind↓name)(newref SetOption)value
               :EndIf
           :EndIf
         ∇
@@ -349,11 +358,6 @@
           r←↓[1]value
         ∇
 
-⍝        ∇ name Option value
-⍝          :Access public
-⍝          name Set value
-⍝        ∇
-
         ∇ r←GetOption names
           :Access public
           r←{6::'' ⋄ Options.⍎⍵}¨{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
@@ -371,7 +375,7 @@
 
         :field public Force←0
 
-        handlerSyntax←⊂'event, ui' 'event'  'ui'
+        handlerSyntax←⊂'event,ui' 'event'  'ui' '$(event.target)'
 
         ∇ make
           :Access public
@@ -473,6 +477,9 @@
         :Field public Callback←1    ⍝ execute AJAX callback to server?  or the name of the server-side callback function
         :Field public JavaScript←'' ⍝ JavaScript to execute prior to server callback
         :Field public Page←''       ⍝ server URL to run for an AJAX callback
+        :Field public jQueryWrap←1  ⍝ wrap handler in $(function(){...});
+        :Field public ScriptWrap←1  ⍝ wrap handler in <script>...</script>
+        :Field public Hourglass←1   ⍝ display houglass cursor during AJAX call?
         :field public Uses←'JQuery'
 
         ∇ Make0
@@ -510,6 +517,7 @@
           :If 0∊⍴pg
           :AndIf ''≢req←#.HtmlElement.context'_Request'
               pg←req._Request.Page
+              jQueryWrap←~req._Request.isAPLJax ⍝!!!BPB!!!
           :EndIf
           :If ''≢Delegates
               sel←Selectors Delegates
@@ -520,7 +528,7 @@
           :AndIf ~0∊⍴Callback
               cd,←⊂'_callback' 'string'Callback
           :EndIf
-          r←pg #.JQ.On sel Events cd''JavaScript(0≢⊃Callback)
+          r←pg #.JQ.On sel Events cd''JavaScript(0≢⊃Callback)jQueryWrap ScriptWrap Hourglass
         ∇
 
     :endclass

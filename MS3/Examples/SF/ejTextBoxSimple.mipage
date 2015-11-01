@@ -1,0 +1,28 @@
+﻿:Class ejTextBoxSimple : MiPageSample
+⍝ Control:: _SF.ejTextBox
+⍝ Description:: Validate numbers, currency and percentages
+
+    ∇ Compose;tb1;p;c;n;frm;tb;values
+      :Access Public
+     
+      frm←Add _.Form
+     
+      (n c p)←'num' 'cur' 'pct'{⍺ frm.Add _.ejTextBox ⍵}¨'Numeric' 'Currency'('Percentage' 99.9)
+     
+      'watermarkText' 'width'n.Set'Enter a 3-digit Number' 200
+      'minValue' 'maxValue'n.Set 100 999
+     
+      'validationRules' 'validationMessage'c.Set'⍎{required:true}' '⍎{required:"The currency value is required."}'
+     
+      'decimalPlaces' 'enableStrictMode' 'showSpinButton'p.Set 1 _true _false
+     
+      frm.Add _.SubmitButton'OK'
+     
+      :If isPost
+          values←⍬∘Get¨'num' 'cur' 'pct'
+          Add _.Table('num' 'cur' 'pct',⍪values)
+      :EndIf
+    ∇
+
+
+:EndClass

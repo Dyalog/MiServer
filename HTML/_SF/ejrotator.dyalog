@@ -9,7 +9,7 @@
       :Access public
       JQueryFn←Uses←'ejRotator'
       :Implements constructor
-      ContainerType←'ul'
+      ContainerTag←'ul'
     ∇
 
     ∇ make1 args
@@ -24,7 +24,7 @@
       :Else ⍝ vector of pairs?
           (Captions Urls)←↓⍉↑args
       :EndIf
-      ContainerType←'ul'
+      ContainerTag←'ul'
     ∇
 
     ∇ r←Render;items

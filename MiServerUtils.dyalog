@@ -9,7 +9,7 @@
 
     ∇ BuildMSDocs;ns;nss;w;z
       ⎕SE.SALT.Load'tools/code/fileUtils'
-      nss←#.(_HTML _JQ _SF _DC _JSS)
+      nss←#.(_JQ _SF _DC _JSS)
       Build_htmlHelp
       :For ns :In nss
           :For w :In ns.⎕NL ¯9.4
@@ -19,7 +19,7 @@
     ∇
 
     ∇ Build_htmlHelp
-      tab←⎕NEW _HTML.Table(⍉{⍵{⍵⍴(×/⍵)↑⍺}8,⌈(⍴⍵)÷8}make¨(⊂'SALT_Data')~⍨_html.⎕NL ¯9)
+      tab←⎕NEW _DC.Table(⍉{⍵{⍵⍴(×/⍵)↑⍺}8,⌈(⍴⍵)÷8}make¨(⊂'SALT_Data')~⍨_html.⎕NL ¯9)
       tab.class←'htmltags'
     ∇
 

@@ -1,0 +1,20 @@
+﻿:Class TableAdvanced : MiPageSample
+⍝ Control:: _DC.Table
+⍝ Description:: Display tabular data with a bit of styling
+
+    ∇ Compose;lmt;i10;data;mytable;aTable;mycolgroup;mycols
+      :Access public
+     
+      Add _.h2'The Little Multiplication Table'
+     
+      lmt←∘.×⍨i10←⍳10           ⍝ Compute the table
+      data←('×',i10)⍪i10,lmt    ⍝ Add row and column headings
+      mytable←'myt'Add _.Table,⊂data'' 1 'style="background-color:hotpink;"' 1 1
+     
+      Add _.style ScriptFollows
+     ⍝ #myt_row11 {background-color:gray;}
+     ⍝ #myt_r11c11 {background-color:red;}
+     ⍝ tr > td:first-child {font-weight:bold;background-color:hotpink}
+    ∇
+
+:EndClass

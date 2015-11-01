@@ -14,7 +14,7 @@
     <Port>8080</Port>                                <!-- Port that MiServer listens on -->
     <IPVersion>IPv4</IPVersion>                      <!-- TCP/IP version, IPv4, IPv6, or IP to let Conga decide -->
     <UseContentEncoding>1</UseContentEncoding>       <!-- for HTTP compression -->
-    <SupportedEncodings>deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->
+    <SupportedEncodings>gzip,deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->
     <Secure>0</Secure>                               <!-- Running secure? (SSL) if 0, remaining settings below have no meaning -->
     <CertFile></CertFile>                            <!-- Private Certificate file -->
     <KeyFile></KeyFile>                              <!-- Public Key file -->
@@ -23,14 +23,14 @@
 
 <!-- Page/Request Settings -->
     <Lang>en</Lang>                                     <!-- language setting --> 
-    <DefaultPage>index.dyalog</DefaultPage>             <!-- default page to load if none is specified in client request -->
-    <DefaultExtension>.dyalog</DefaultExtension>        <!-- default extension for page files -->
+    <DefaultPage>index.mipage</DefaultPage>             <!-- default page to load if none is specified in client request -->
+    <DefaultExtension>.mipage</DefaultExtension>        <!-- default extension(s) for page files -->
     <AllowedHttpCommands>get,post</AllowedHttpCommands> <!-- HTTP commands that we process (for RESTful web services) -->
-    <HttpCacheTime>0</HttpCacheTime>                    <!-- minutes to cache static content, 0 = no caching --> 
-    <FormatHtml>1</FormatHtml>                          <!-- format HTML output? (uses []XML) -->
+    <HttpCacheTime>60</HttpCacheTime>                   <!-- minutes to cache static content, 0 = no caching --> 
 
 <!-- Extensions -->
     <SessionHandler>SimpleSessions</SessionHandler>     <!-- name of class to perform session management -->
+    <SessionTimeOut>3600</SessionTimeOut>                 <!-- session timeout, in minutes -->
     <Authentication>SimpleAuth</Authentication>         <!-- name of class to perform Basic HTTP authentication -->
     <Logger>Logger</Logger>                             <!-- name of class to perform HTTP request loggin -->
 

@@ -1,0 +1,97 @@
+.navbut {
+	float: right;
+	margin: 4px;
+}
+
+#leftBar {
+	padding-right: 8pt;
+	border-right: 2px groove;
+	width: 200px;
+	background-color: inherit;
+	height: 100%;
+	width: 100%;
+}
+
+#midBar {
+	width: 98%;
+	padding: 0 16px;
+	background-color: inherit;
+}
+
+#mainSP {
+	background-color: inherit;
+	height: 450px;
+}
+
+#searchfield {
+	width: 100px;
+}
+
+#contentblock {
+	margin: 0;
+	padding: 0;
+}
+
+#SampleTitle {
+	margin-top: 0;
+}
+
+#SampleSource {
+	overflow-x: auto;
+	width: 730px;
+}
+
+/* SyncFusion Treeview */
+.e-treeview .e-text {
+	font-size: 12px;
+	color: black;
+}
+
+.cat {
+	font-size: 12pt;
+	margin: 5px;
+}
+
+.noitems {
+	margin: 0px;
+	padding: 4px;
+	cursor: not-allowed;
+}
+
+.framed {
+	width: 730px;
+	overflow-y: auto;
+}
+
+.iframed {
+	width: 730px;
+	max-height: 600px;
+	min-height: 400px;
+	border: none;
+	overflow-y: auto;
+}
+
+.listitem {
+	margin: 0px;
+	padding: 4px 4px 4px 26px;
+	text-indent: -22px;
+	cursor: pointer;
+}
+
+.listitem:before {
+	content: "\279C"; /* Heavy Round-Tipped Rigthwards Arrow */
+	padding: 1px 3px 1px 2px;
+	background: ButtonFace;
+	color: ButtonText;
+	border-radius: 4px;
+	border: solid 1px ThreeDLightShadow;
+	margin-right: 4px;
+}
+
+.listitem:hover:before {
+	color: white;
+	background: linear-gradient(rgb(230, 198, 125) 0%, rgb(230, 122, 0) 100%);
+	border: transparent 1px; 
+	text-decoration: none;
+	border: solid 1px transparent;
+}

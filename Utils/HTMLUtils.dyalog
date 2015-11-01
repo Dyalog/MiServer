@@ -2,7 +2,7 @@
 
     (⎕IO ⎕ML)←1
     ⎕FX 'r←CRLF' 'r←⎕UCS 13 10' ⍝ So it will be :Included
-    enlist←{∊⍵} ⍝ APL2 enlist
+    enlist←{⎕ML←1 ⋄ ∊⍵} ⍝ APL2 enlist
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     ischar←{0 2∊⍨10|⎕DR⍵}
@@ -30,7 +30,7 @@
       r←'<',tag,' />',nl/CRLF
     ∇
 
-      Attrs←{
+      FormatAttrs←{
       ⍝ format name/value pairs as tag attributes
       ⍝  ⍵ - name/value pairs, valid forms:
       ⍝  'name="value"'
@@ -111,13 +111,15 @@
           (' ',⍨¯2↓enlist(eis ⍺),¨⊂', '),Styles ⍵
       }
 
-    ∇ r←HtmlSafeText txt;i;m;u;ucs
+    ∇ r←HtmlSafeText txt;i;m;u;ucs;s
     ⍝ make text HTML "safe"
       r←,⎕FMT txt
       i←'&<>"#'⍳r
       i-←(i=1)∧1↓(i=5),0 ⍝ mark & that aren't &#
       m←i∊⍳4
       u←127<ucs←⎕UCS r
+      s←' '=r
+      (s/r)←⊂'&nbsp;'
       (m/r)←('&amp;' '&lt;' '&gt;' '&quot;')[m/i]
       (u/r)←(~∘' ')¨↓'G<&#ZZZ9;>'⎕FMT u/ucs
       r←enlist r

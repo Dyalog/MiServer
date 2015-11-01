@@ -5,7 +5,7 @@
     ∇ make0
       :Access Public
       JQueryFn←Uses←'ejTimePicker'
-      ContainerType←'input'
+      ContainerTag←'input'
       :Implements Constructor
       Container.type←'text'
     ∇
@@ -13,7 +13,7 @@
     ∇ make args;n
       :Access Public
       JQueryFn←Uses←'ejTimePicker'
-      ContainerType←'input'
+      ContainerTag←'input'
       :Implements Constructor :base args
      
       :If (≡args)∊0 1 ⋄ args←,⊂args ⋄ :EndIf

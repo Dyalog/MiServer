@@ -8,14 +8,14 @@
     ∇ Make0
       :Access public
       JQueryFn←'datepicker'
-      ContainerType←'input'
+      ContainerTag←'input'
       :Implements constructor
     ∇
 
     ∇ Make1 args;i
       :Access public
       JQueryFn←'datepicker'
-      ContainerType←'input'
+      ContainerTag←'input'
       args←eis args
       (i Text)←2↑args,(⍴args)↓'' ''
       :Implements constructor :base args

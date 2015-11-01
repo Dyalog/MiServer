@@ -1,0 +1,23 @@
+﻿:Class index : MiPageSample
+  ∇ Render;f;list
+    :Access public
+    Add h2'Welcome to MiServer 3.0'
+    list←Add ul
+    f←{(list.Add li).Add a(⍺('href'⍵))}
+    'Basic HTML Control Samples (_html)' f 'Examples/HTML/Home'
+    'Augmented HTML Control Samples (_HTML)' f 'Examples/HTMLplus/Home'
+    'Dyalog Control Samples (_DC)' f 'Examples/DC/Home'
+    'SyncFusion Control Samples (_SF)' f 'Examples/SF/Home'
+    'JQueryUI Control Samples (_JQ)' f 'Examples/JQ/Home'
+
+    'Without chaining'f'example'
+    'With chaining'f'example2'
+    'Input Form with Syncfusion DatePicker'f'inputform'
+    'Mortgage Calculation (callback demo)'f'mortgage'
+    'Syncfusion Accordion'f'accordion'
+    'Syncfusion TagCloud w/database access'f'tagcloud'
+    'Syncfusion BubbleChart'f'bubblechart'
+    'Syncfusion "Friends" TagCloud'f'friends'
+    'Syncfusion "Friends" TagCloud with highlighting'f'fancyfriends'
+  ∇
+:EndClass

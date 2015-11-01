@@ -1,0 +1,13 @@
+﻿:Class ejToggleButtonSimple : MiPageSample
+⍝ Control:: _SF.ejToggleButton
+⍝ Description:: A button with two states
+
+    ∇ Compose
+      :Access Public
+     
+      Add _.br
+      Add _.p'A ToggleButton has two states:'
+      'btn1' Add _.ejToggleButton'Toggle me if you dare...' 'That was a <b>BOLD</b> move!'
+     
+    ∇
+:EndClass

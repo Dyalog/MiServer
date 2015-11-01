@@ -5,12 +5,13 @@
     ∇ make
       :Access public
       JQueryFn←Uses←'ejRTE'
-      ContainerType←'textarea'
+      ContainerTag←'textarea'
       :Implements constructor
     ∇
     ∇ make1 args
       :Access public
       JQueryFn←Uses←'ejRTE'
-      :Implements constructor :base args
+      ContainerTag←'textarea'
+      :Implements constructor
     ∇
 :EndClass
