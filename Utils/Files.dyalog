@@ -1,4 +1,4 @@
-﻿:Namespace Files
+:Namespace Files
 
 ⍝ Provides cover functions for many file operations
 ⍝ Eventually all will be implemented for both Windows and *nix
@@ -386,14 +386,15 @@
       :EndSelect
     ∇
 
-    ∇ r←{noext}SplitFilename filename;filesep;mask;path;file;ext
+    ∇ r←{noext}SplitFilename filename;filesep;mask;path;ext;file
     ⍝ splits a filename into: path name ext
       noext←{6::0 ⋄ noext}''
       filesep←(~isWin)↓'\/'
       mask←⌽∨\⌽filename∊filesep
       path←mask/filename
       file←(~mask)/filename
-      :If noext
+      :If 2=⎕NC'noext'
+      :AndIf noext
           r←path file
       :Else
           mask←∨\⌽<\⌽'.'=file
