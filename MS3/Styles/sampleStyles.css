@@ -1,3 +1,9 @@
+/* APL font on devices without it */
+@font-face {
+    font-family: APL385 Unicode;
+    src: url(/Styles/apl385.ttf);
+}
+
 /* Body and Wrapper */
 body {
 	color: #000000;
