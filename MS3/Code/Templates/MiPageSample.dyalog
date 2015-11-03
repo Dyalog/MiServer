@@ -67,7 +67,7 @@
      
      ⍝ First we extract proper lists of controls
       controls←4/⊂''
-      source←(⍳∘'⍝'↑⊢)source       ⍝ remove comments
+      source←(⍳∘'⍝'↑⊢)¨source      ⍝ remove comments
       source←{⍵/⍨~≠\''''=⍵}¨source ⍝ remove strings but leaves one ' as separator
       :For control :In 'Handler' 'Position'~⍨∪('_(DC|SF|JQ|html|)\.(\w+)'⎕S'\2')source ⍝ find controls
          ⍝ add to right list: /¯¯¯¯¯SF¯¯¯¯¯\  /¯¯¯¯¯JQ¯¯¯¯¯\  /¯¯¯¯DC¯¯¯¯\ /¯html
