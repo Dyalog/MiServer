@@ -83,9 +83,9 @@
           z←'UTF-8'⎕UCS'--',(8+('boundary='⍷z)⍳1)↓z ⍝ boundary string
           Data←↑DecodeMultiPart¨¯1↓z{(⍴⍺)↓¨(⍺⍷⍵)⊂⍵}data ⍝ ¯1↓ because last boundary has '--' appended
       :ElseIf 'application/x-www-form-urlencoded'begins z
-          Data←1 URLDecodeArgs data
+          Data←1 URLDecodeArgs'UTF-8'⎕UCS data
       :ElseIf 'text/plain'begins z
-          Data←1 2⍴'Data'data ⍝ if text, create artificial "Data" entry
+          Data←1 2⍴'Data'('UTF-8'⎕UCS data) ⍝ if text, create artificial "Data" entry
       :Else
           Data←0 2⍴⊂''
       :EndIf
