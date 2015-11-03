@@ -1,4 +1,4 @@
-:class HtmlElement             ⍝ this is the most basic element of a page
+﻿:class HtmlElement             ⍝ this is the most basic element of a page
 
 ⍝∇:require =\JSON.dyalog
 
@@ -676,24 +676,30 @@
 ⍝      r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}dtlb¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
     ∇
 
-    ∇ r←what Subst text;names;gv;i;repl
+    ∇ r←what Subst text;names;gv;i;repl;fixL;fixR
       :Access public shared
       r←text
+      fixL←'[][{}()?*.+\\^$|]'⎕R'\\\0' ⍝ precede regex metacharacters by \
+      fixR←{(1+'\'=⍵)/⍵}               ⍝ double \s
       :Select ⎕NC⊂'what'
       :Case 9.1 ⍝ namespace
-          gv←⍒∊⍴¨names←what.⎕NL-2 3 ⍝ variables and functions only
-          repl←{0::⍵ ⋄ (⍺⍺ ⎕R(,⍕⍺⍎⍺⍺))⍵}
-          :For i :In gv
-              r←what((i⊃names)repl)r
-          :EndFor
+          gv←⍒∊⍴¨names←what.⎕NL ¯2 3 ⍝ variables and functions only
+⍝          repl←{0::⍵ ⋄ (⍺⍺ ⎕R(fixR,⍕⍺⍎⍺⍺))⍵} ⍝ object names do not need to be fixed
+         ⍝ Another way to do this would be
+          r←(names ⎕R(fixR¨what⍎⍕names))r
+⍝          :For i :In gv
+⍝              r←what((i⊃names)repl)r
+⍝          :EndFor
       :Case 2.1 ⍝ substitution pairs
-          :If 2=≡what ⋄ what←,⊂what ⋄ :EndIf
+          :If 2=|≡what ⋄ what←,⊂what ⋄ :EndIf
           :If 2≠⍴⍴what ⋄ what←↑what ⋄ :EndIf
           what←,¨what
-          gv←⍒∊⍴¨what[;1]
-          :For i :In gv
-              r←(((⊂i 1)⊃what)⎕R(,⍕(⊂i 2)⊃what))r
-          :EndFor
+⍝          gv←⍒∊⍴¨what[;1]
+         ⍝ Another way of doing this would be
+          r←(fixL¨what[;1])⎕R(fixR¨what[;2])⊢r
+⍝          :For i :In gv
+⍝              r←((fixL(⊂i 1)⊃what)⎕R(fixR,⍕(⊂i 2)⊃what))r
+⍝          :EndFor
       :EndSelect
     ∇
 
