@@ -1,6 +1,6 @@
 ﻿:Class ejCheckBoxAdvanced : MiPageSample
 ⍝ Control:: _SF.ejCheckbox
-⍝ Description:: Use callback to toggle checkboxes and whether they allow the indeterminate value 
+⍝ Description:: Use callback to toggle checkboxes and whether they allow the indeterminate value
 
 ⍝ This example shows how to use the SyncFusion CheckBox widget
 
@@ -11,15 +11,15 @@
 ⍝ to its right (state=indeterminate).
 ⍝ Furthermore, if it is clicked it turns ON or OFF the boxes to its right to match its own state.
 ⍝ Finally, a single box on a fourth row is used to turn ON/OFF all the boxes on top of it.
-⍝ It is also tristate and will show if all the boxes above are all ON or all OFF or mixed. 
+⍝ It is also tristate and will show if all the boxes above are all ON or all OFF or mixed.
 
 ⍝ To specify that a check box is checked we set the option 'checked' to TRUE using a 1.
 ⍝ To specify that a check box can be in 3 states we set the 'enableTriState' option to TRUE.
 ⍝ When a box is tristate the option 'checkState' is used to specify which of the 3 states it is in:
-⍝ Check, Uncheck or Indeterminate. Note that if the 'checked' option of a tristate box is also 
+⍝ Check, Uncheck or Indeterminate. Note that if the 'checked' option of a tristate box is also
 ⍝ set to TRUE it will display as ticked even if the option 'checkState' is set to Uncheck.
 
-    ∇ Compose;cb1;i;tbl;grp;cols;head;body;foot;last;allids;td;tr;c4;c0;r4
+    ∇ Compose;cb1;i;tbl;grp;cols;head;body;foot;last;allids;td;tr;c4;c0;r4;state
       :Access Public
     ⍝ We create a series of SyncFusion check boxes in a table
      
@@ -49,7 +49,6 @@
           'enableTriState'c0.Set _false ⍝ which is tristate
         ⍝ If TriState is disabled its checkState value is ignored
           'checkState'c0.Set'indeterminate'
-          'checked'c0.Set _false        ⍝ initialize it
           'showRoundedCorner'c0.Set _true
           tr.Add _.td                   ⍝ add an empty column for spacing
           r4←tr.Add¨4/_.td              ⍝ add 4 more columns for the 2-state boxes
@@ -78,12 +77,17 @@
      
     ⍝ Remember the ids and their values here
       Values←{0}¨Allids←'#',¨allids
+     
+    ⍝ For debugging:
+      state←{⍵\⍵/⍳⍴⍵}AllCB.Checked
+ ⍝     'output'Add _.div(⍕state)
+     
     ∇
 
     UCI←  'uncheck'  'check'  'indeterminate'
 
     ∇ js←chkBoxes;i;mb;b;row;new;c0;uci;previous
-      :Access public                          
+      :Access public
       js←''
       :If _selector≡'#forall'                                    ⍝ turn everything ON or OFF for everything?
           previous←Values
@@ -103,7 +107,8 @@
               b←<\6 11 16>i
               :If Values[i←b/1 6 11]≠new←0 1 ¯1[uci←0 4⍳+/b⌿mb]  ⍝ has it changed?
                   c0←i⊃AllCB
-                  js←'enableTriState'c0.Update uci⊃_false _false _true
+                  +js←'enableTriState'c0.Update uci⊃_false _false _true
+                  +js,←'checkState'c0.Update uci⊃UCI ⍝ 'indeterminate'
                   :If new≠¯1
                       js,←'checked'c0.Update new
                   :EndIf
@@ -118,6 +123,8 @@
       :If uci<3
           js,←'checked'LastCB.Update uci-1
       :EndIf
+      js←⌽js
+⍝      js,←'#output'Replace⍕{⍵\⍵/⍳⍴⍵}AllCB.Checked
     ∇
 
 :EndClass
