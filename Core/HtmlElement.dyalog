@@ -679,7 +679,7 @@
       :Access public shared
       r←text
       fixL←'[][{}()?*.+\\^$|]'⎕R'\\\0' ⍝ precede regex metacharacters by \
-      fixR←{(1+'\'=⍵)/⍵}               ⍝ double \s
+      fixR←'&' '%' '\\'⎕R'\\\0'        ⍝ add \ to & % \
       :Select ⎕NC⊂'what'
       :Case 9.1 ⍝ namespace
           gv←⍒∊⍴¨names←what.⎕NL ¯2 3 ⍝ variables and functions only, sort so that 'foo' matches before 'fo'
