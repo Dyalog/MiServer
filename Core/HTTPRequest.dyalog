@@ -274,7 +274,6 @@
 
     ∇ Fail x;i;root;f;t
       :Access Public Instance
-      :If 0=⎕NC'nofile' ⋄ nofile←0 ⋄ :EndIf ⍝ set to non-zero to not return "standard" file
       :If 3=10|⎕DR x ⍝ Just a status code
           Response.Status←x
           :If (1↑⍴SC[;1])≥i←SC[;1]⍳x

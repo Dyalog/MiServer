@@ -488,10 +488,12 @@
           :EndIf
       :Else                        ⍝ First use of Page in this Session, or page expired
 ⍝          :If 0≠⍴z←#.Files.GetText file
-          :Trap 11 22
+          :Trap 11 22 92
               inst←Config.AppRoot LoadMSP file ⍝ ⎕NEW ⎕SE.SALT.Load file,' -target=#.Pages'
           :Case 11 ⋄ REQ.Fail 500 ⋄ 1 Log'Domain Error trying to load "',file,'"' ⋄ →0 ⍝ Domain Error: HTTP Internal Error
           :Case 22 ⋄ REQ.Fail 404 ⋄ 1 Log'File not found - "',file,'"' ⋄ →0 ⍝ File Name Error: HTTP Page not found
+          :Case 92 ⋄ REQ.Response.HTML,←'<p>Unable to load page ',REQ.Page,' due to a translation error.<br/>This is typically caused by trying to load a page containing Unicode characters when running MiServer under a Classic (not Unicode) version of Dyalog APL.</p>'
+              REQ.Fail 500 ⋄ →0
           :EndTrap
           4 Log'Creating new instance of page: ',REQ.Page
           inst._PageName←REQ.Page

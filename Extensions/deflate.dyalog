@@ -1,5 +1,7 @@
 ﻿:Class deflate: ContentEncoder
 
+    ⍝∇:require =\ContentEncoder.dyalog
+
     :property Encoding
     :access public shared
     :implements Property ContentEncoder.encoding
