@@ -358,8 +358,8 @@
       Response.HTML←enlist x
       :If 2=⎕NC'hdrs'
           Response.Headers⍪←hdrs
-      :Else
-          Response.Headers⍪←'content-type'(type,'; charset=utf-8')
+      :ElseIf ~∨/Response.Headers[;1](≡#.Strings.nocase)¨⊂'content-type'
+          Response.Headers⍪←'content-type'(type,'; charset=utf-8') ⍝ set content-type if not already set
       :EndIf
     ∇
 
@@ -378,7 +378,7 @@
       'content-type'SetHeader'application/binary'(Server.Config.ContentTypes GetFromTableDefault)#.Strings.lc{(1-(⌽⍵)⍳'.')↑⍵}x
     ∇
 
-    ∇ {hdr}SetHeader value;val
+    ∇ {hdr}SetHeader value;val;mask
       :Access public instance
     ⍝ accepts value in forms
     ⍝ ('hdr1' 'val1')[('hdr2' 'val2')]
@@ -400,7 +400,11 @@
           (hdr value)←eis¨hdr value
           val←hdr,⍪value
       :EndIf
-      Response.Headers⍪←val
+      :If ∨/mask←<\Response.Headers[;1](≡#.Strings.nocase)¨hdr
+          (mask⌿Response.Headers)←val
+      :Else
+          Response.Headers⍪←val
+      :EndIf
     ∇
 
     ∇ {tags}Script x

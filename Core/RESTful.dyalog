@@ -50,7 +50,7 @@
       →0⍴⍨0∊⍴str
       r←r/⍨r #.Strings.beginsWith¨⊂str
     ∇
-    
+
     ∇ r←isChar w
       :Access public shared
       r←0 2∊⍨10|⎕DR w
@@ -105,14 +105,19 @@
       :EndIf
     ∇
 
+    ∇ SetContentType x
+      :Access public
+      _Request.SetContentType x
+    ∇
+
     ∇ r←_Command
       :Access public
       r←_Request.Command
     ∇
 
-    ∇ r←_RESTfulReq
+    ∇ r←_URI
       :Access public
-      r←_Request.RESTfulReq
+      r←#.Utils.penclose _Request.RESTfulReq
     ∇
 
     :endsection
