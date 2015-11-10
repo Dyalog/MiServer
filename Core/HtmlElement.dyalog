@@ -683,7 +683,7 @@
       :Select ⎕NC⊂'what'
       :Case 9.1 ⍝ namespace
           gv←⍒∊⍴¨names←what.⎕NL ¯2 3 ⍝ variables and functions only, sort so that 'foo' matches before 'fo'
-          r←(names ⎕R(fixR¨⍕¨what⍎⍕names[gv]))r
+          r←(names[gv]⎕R(fixR¨⍕¨what⍎⍕names[gv]))r
       :Case 2.1 ⍝ substitution pairs
           :If 2=|≡what ⋄ what←,⊂what ⋄ :EndIf
           :If 2≠⍴⍴what ⋄ what←↑what ⋄ :EndIf
