@@ -543,8 +543,10 @@
               :EndIf
               :If ∨/mask←'_'≠1⊃¨data[;1]
                   args←mask⌿data
-                  args[;1]←inst._PageData PrepareJSONTargets args[;1]
-                  ⍎'inst._PageData.(',(⍕args[;1]),')←args[;2]'
+                  :Trap 0
+                      args[;1]←inst._PageData PrepareJSONTargets args[;1]
+                      ⍎'inst._PageData.(',(⍕args[;1]),')←args[;2]'
+                  :EndTrap
               :EndIf
           :EndIf
      
@@ -594,8 +596,8 @@
               resp←flag Debugger'inst.',cb,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
               resp←(#.JSON.toAPLJAX⍣APLJax)resp
               :If RESTful
-              :AndIf 9.1=⎕NC⊂'resp'
-                  resp←#.JSON.fromAPL resp
+              :AndIf ~∨/(⊂'content-type')(≡#.Strings.nocase)¨REQ.Response.Headers[;1]
+                  resp←1 #.JSON.fromAPL resp
                   'Content-Type'REQ.SetHeader'application/json'
               :EndIf
               REQ.Return resp
