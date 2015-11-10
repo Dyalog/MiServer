@@ -1,0 +1,40 @@
+﻿:Class InputFileSimple : MiPageSample
+⍝ Control:: html.Input
+⍝ Description:: inout-control to handle file-uploads
+    
+    ∇ Compose;frm;tab;nam;ext;nu;inp;c;fnam
+      :Access Public
+     
+      Add ScriptFollows
+      ⍝ <p>The standard HTML input-control has several purposes. If Parameter <code>type="file"</code> is used,
+      ⍝ the control can handle file-uploads as demonstrated here.</p>
+     
+      :If _Request.isPost  ⍝ anything uploaded
+      :AndIf 1<⍴inp←Get'ipfl'
+      		⍝ Create directory if does not exist...
+      		:if ~#.Files.Exists #.Boot.AppRoot,'Examples\Data\uploaded'
+      			#.Files.MkDir #.Boot.AppRoot,'Examples\Data\uploaded'
+      		:endif
+          (nam ext)←1↓#.Files.SplitFilename 1⊃inp
+          nam←#.Boot.AppRoot,'Examples\Data\uploaded\',nam ⋄ c←0
+          :While #.Files.Exists fnam←nam,((c>0)/⍕c),ext ⋄ c+←1 ⋄ :EndWhile
+          :Select ⎕DR 2⊃inp
+          :Case 83
+              nu←fnam ⎕NCREATE 0 ⋄ (2⊃inp)⎕NAPPEND nu,83 ⋄ ⎕NUNTIE nu
+          :Else
+              ⎕←'No :case found for uploaded file ',(1⊃inp),' with type=',(⎕DR 2⊃inp),'see result of Get''inp'' below!'
+              ⎕se.Dyalog.Utils.display inp
+          :EndSelect
+          Add 'Saved uploaded file as ' 
+          Add _.span fnam'#filename'
+      :EndIf
+     
+      frm←Add _.Form  ⍝ dialog is always shown so that we can upload again after having sent a file!
+      frm.Add _.input''(('type' 'file')'#ipfl'('name' 'ipfl'))
+      frm.Add _.br
+      '#submit'frm.Add _.Input'submit' 'Submit' 
+     
+     
+    ∇
+
+:EndClass

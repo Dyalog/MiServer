@@ -1,6 +1,6 @@
 ﻿:class InputGrid : #._html.table
 ⍝ Description:: Dyalog Widget - produce a 2-column (or 2-row) grid of labels and inputs
-⍝ Constructor:: [[labels inputs] | [;labels inputs]]
+⍝ Constructor:: [labels inputs | ;labels inputs]
 ⍝ labels   - a vector of labels
 ⍝ inputs   - a vector of input objects
 ⍝ N.B. - labels and inputs must be of equal length

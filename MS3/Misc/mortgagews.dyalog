@@ -6,7 +6,7 @@
 ⍝ calculate principle
     calcprin←{0::'Error' ⋄ r n m←⍵÷1200 (÷12) 1 ⋄ .01×⌈100×m÷r÷1-(1+r)*-n}
 
-    ∇ response←Respond;mask;r ⍝ render the initial page
+    ∇ r←Respond;mask
       :Access Public
      
       r←⎕NS ''
@@ -23,7 +23,6 @@
           :endif
       :endif 
 
-      response←1 #.JSON.fromAPL r
     ∇
 
 :EndClass

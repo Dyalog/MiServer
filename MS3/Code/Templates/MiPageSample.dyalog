@@ -3,13 +3,11 @@
    ⍝ - adding a header and footer
    ⍝ - adding a handler that will toggle the display of the web page and its APL source code
 
-    ∇ {r}←Wrap;lang;server;controls;sp;c
+    ∇ {r}←Wrap;lang;server;c;src;ctrlsdiv
       :Access Public
      
       :If 0∊⍴Get'nowrapper'
           server←_Request.Server
-     
-          controls←⍬ ⍝∪Walk Body.Content
      
         ⍝ we use Syncfusion (which uses jQuery) to set up the controls to do cool stuff
           Use'Syncfusion' ⍝ this is a resource defined in Config/Resources.xml
@@ -28,14 +26,15 @@
           Body.Push _.div'id="contentblock"'
      
         ⍝ add a hidden division to the body containing the APL source code
-          (Add _.div(#.HTMLInput.APLToHTMLColour ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
+          (Add _.div(#.HTMLInput.APLToHTMLColour src←⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
      
-          :If ~0∊⍴controls
-              c←Body.Content
-              Body.Content←''
-              (sp←Body.Add _.StackPanel(⊂FormatControls controls)c).Horizontal←1
+        ⍝ create a division with info about the controls used
+          ctrlsdiv←CtrlsDiv src
      
-          :EndIf
+        ⍝ extract the content and re-write it in parallel to the controls info div
+          c←Body.Content
+          Body.Content←''
+          (Body.Add _.StackPanel ctrlsdiv c).Horizontal←1
      
         ⍝ wrap the content of the <body> element in a div
           Body.Push _.div'class="bodyblock"'
@@ -61,6 +60,38 @@
      ⍝ call the base class Wrap function
      
       r←⎕BASE.Wrap
+    ∇
+
+    ∇ r←CtrlsDiv source;control;controls;lia;ns;ul;cali;h
+     ⍝ Creates a div with info on the controls used in source
+     
+     ⍝ First we extract proper lists of controls
+      controls←4/⊂''
+      source←(⍳∘'⍝'↑⊢)¨source      ⍝ remove comments
+      source←{⍵/⍨~≠\''''=⍵}¨source ⍝ remove strings but leaves one ' as separator
+      :For control :In 'Handler' 'Position'~⍨∪('_(DC|SF|JQ|html|)\.(\w+)'⎕S'\2')source ⍝ find controls
+         ⍝ add to right list: /¯¯¯¯¯SF¯¯¯¯¯\  /¯¯¯¯¯JQ¯¯¯¯¯\  /¯¯¯¯DC¯¯¯¯\ /¯html
+          controls[⊃2 3 1 4/⍨('ej'≡2↑control)('jq'≡2↑control)(⎕A∊⍨⊃control)1],←⊂⊂control
+      :EndFor
+      controls←{⍵[⍋↑⍵]}¨controls   ⍝ sort the lists
+     
+     ⍝ Now we create and populate the info div
+      r←'.widgethelp'New _.div'This Page Contains<hr/>'
+      lia←'<li><a target="_blank" href="'
+      h←'http://'
+      :For ns :In (×≢¨controls)/⍳4 ⍝ do not process if empty
+          '.widgetNs'r.Add _.span,⊂ns⊃'Dyalog Controls' 'Syncfusion Widgets' 'jQuery Widgets' 'Native HTML5 Elements'
+          ul←r.Add _.ul
+          :For control :In ns⊃controls
+              cali←'">',control,'</a></li>'
+              :Select ns
+              :Case 1 ⋄ ul.Add lia,'/Documentation/DyalogAPIs/WidgetDoc?namespace=_DC&widget=',control,cali           ⍝ DC
+              :Case 2 ⋄ ul.Add lia,h,'js.syncfusion.com/demos/web/default.htm#!/azure/',(#.Strings.lc 2↓control),cali ⍝ SF
+              :Case 3 ⋄ ul.Add lia,h,'jqueryui.com/',(2↓control),cali                                                 ⍝ JQ
+              :Case 4 ⋄ ul.Add lia,h,'www.w3schools.com/tags/tag_',(('\d'⎕R'n')control),'.asp',cali                   ⍝ html
+              :EndSelect
+          :EndFor
+      :EndFor
     ∇
 
     ∇ r←Walk content;e

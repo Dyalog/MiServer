@@ -10,8 +10,8 @@
 		<select onchange="window.open(this.value,'_blank');this.selectedIndex=0">
 		<option disabled="disabled" selected="selected" value="">Resources</option>
 		<optgroup label="Dyalog">
-		<option value="https://github.com/Dyalog/MiServer/archive/master.zip" onclick="openWin()">Download MiServer</option>
-		<option value="https://github.com/dyalog/miserver/tree/master">MiServer on GitHub</option>
+		<option value="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip" onclick="openWin()">Download MiServer</option>
+		<option value="https://github.com/Dyalog/MiServer/tree/miserver.dyalog.com">MiServer on GitHub</option>
 		<option value="http://www.dyalog.com/forum/viewforum.php?f=34">MiServer Forum</option>
 		<option value="http://www.dyalog.com/blog/category/miserver/">MiServer Blog Entries</option>
 		<option value="http://www.dyalog.com/">Dyalog Website</option>

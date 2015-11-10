@@ -433,7 +433,7 @@
     ∇ r←OnSearch;str;terms;out;i;dir;files;file;url;code;ctrlsec;desc;item;title
       :Access Public
      
-      str←(1+STR≡'')⊃STR(Get'str') ⍝ get search string
+      str←(1+STR≡'')⊃STR(''Get'str') ⍝ get search string
       :If str≡'Clear The Cache' ⋄ ⎕EX'#.DREADCACHE' ⋄ :EndIf
      
       :If ×≢str ⍝ Continue only if there is a search string

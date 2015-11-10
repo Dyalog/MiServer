@@ -29,7 +29,7 @@
       r←'<',tag,' />',nl/CRLF
     ∇
 
-      Attrs←{
+      FormatAttrs←{
       ⍝ format name/value pairs as tag attributes
       ⍝  ⍵ - name/value pairs, valid forms:
       ⍝  'name="value"'
@@ -147,7 +147,7 @@
       :If 0=⎕NC'id' ⋄ id←'' ⋄ :EndIf
       pars←eis pars
       content href title target other←5↑pars,(⍴pars)↓'' '' '' '' ''
-      html←('a',(Attrs'id' 'href' 'title' 'target'{(⍵ ine ⍺)⍵}¨id href title target),Attrs other)Enclose content
+      html←('a',(FormatAttrs'id' 'href' 'title' 'target'{(⍵ ine ⍺)⍵}¨id href title target),FormatAttrs other)Enclose content
     ∇
 
     ∇ html←{n}BRA html

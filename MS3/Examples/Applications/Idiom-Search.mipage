@@ -35,7 +35,7 @@
 
     ∇ r←Search;found;finn;dyal
       :Access public
-      found←idioms⌿⍨∨/∨/¨idioms[;2 3 4]⍷¨⍨⊂Get'input'
+      found←idioms⌿⍨∨/∨/¨idioms[;2 3 4]⍷¨⍨⊂''Get'input'
       finn←found[;2 3 4]⌿⍨~found[;1]
       dyal←found[;2 4]⌿⍨found[;1]
       :If ×≢found

@@ -1,8 +1,8 @@
 ﻿:class RadioButtonGroup : #._DC.Table
 ⍝ Description:: Dyalog Radio Button Group widget
-⍝ Constructor:: [(Values | [;Labels Values]) [SelectedIndex [LabelPos [Horizontal]]]]
+⍝ Constructor:: [{Values | ;Labels Values} [SelectedIndex [LabelPos [Horizontal]]]]
 ⍝ Values           - a vector of values for the radio buttons (Labels will be set to the same as Values)
-⍝ [;Labels Values] - a matrix of [;1] labels [;2] values
+⍝ ;Labels Values   - a matrix of [;1] labels [;2] values
 ⍝ SelectedIndex    - index of a pre-selected choice (⍬ is the default)
 ⍝ LabelPos         - label position relative to the radio button ('left' is the default)
 ⍝ Horizontal       - 0 if the labels/buttons are to be arranged in a vertical grid, 1 if horizontal
