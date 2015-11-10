@@ -1,5 +1,5 @@
 ﻿:class datalistSimple: MiPageSample
-⍝ Control:: _html.datalist _html.input _.option
+⍝ Control:: _html.datalist _html.input _html.option
 ⍝ Description:: Add a predefined list of options for later use in a control
  
     ∇ Compose;mylist
