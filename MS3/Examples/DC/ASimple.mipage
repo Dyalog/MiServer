@@ -4,9 +4,14 @@
 
     ∇ Compose;content;href;url
       :Access Public
-      url←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_DC&widget=A' ⍝ Link address
-      ⍝ id         ⍝ Content to display
-      'link'Add _.A,⊂'Click here to see the documentation for _DC.A!'url
+      Add'Links allow the user to go to another page. Click '
+      url←'../Data/pic',(⍕?4),'.png' ⍝ Random link address
+     ⍝  id            text
+     ⍝  ↓              ↓
+      'link'Add _.A,⊂'here'url
+     ⍝                      ↑
+     ⍝              internet address
+      Add' to go to one of our nice banners.'
     ∇
 
 :EndClass

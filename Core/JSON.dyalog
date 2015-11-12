@@ -121,9 +121,9 @@
       r←Q,(∊r),Q←q/'"'
     ∇
 
-    ∇ r←name Name data
+    ∇ r←name toNS data
       :Access public shared
-      r←name{r←⎕NS'' ⋄ r⊣r⍎⍺,'←⍵'}data
+      r←name{r←⎕NS'' ⋄ r⊣r⍎'(',(⍕⍺),')←⍵'}data
     ∇
 
 ⍝   ---------------------------------------------------------------------
@@ -660,10 +660,10 @@
     ⎕RL←(2*30)|×/{⍵+0=2|⍵}⎕AI
 
     ∇ ns←makeDict arg;depth;Nentries;i;name;value;⎕IO;VC;nvc
-     ⍝ Create a dictionnary. This is a list of name/value pairs encapsulated in a namespace.
-     ⍝ The argument specifies the depth of the dictionnary, the number (<0→max) of entries
+     ⍝ Create a dictionary. This is a list of name/value pairs encapsulated in a namespace.
+     ⍝ The argument specifies the depth of the dictionary, the number (<0→max) of entries
      ⍝ and other parameters in the make up of objects themselves.
-     ⍝ Ex: makeDict 3 ¯9 2 1 will create a dictionnary 3 levels deep of max 9 names each depth 2 of vectors
+     ⍝ Ex: makeDict 3 ¯9 2 1 will create a dictionary 3 levels deep of max 9 names each depth 2 of vectors
       ns←⎕NS⍴⎕IO←0 ⋄ nvc←⍴VC←⎕AV~⎕UCS 0 8 9 10 13 4
       Nentries←{⍵≥0:⍵ ⋄ (×⍺)⌈?1+|⍵}/(depth Nentries)←2↑arg←arg,(⍴,arg)↓1 ¯10
       :For i :In ?⍨Nentries

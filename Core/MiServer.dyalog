@@ -488,10 +488,12 @@
           :EndIf
       :Else                        ⍝ First use of Page in this Session, or page expired
 ⍝          :If 0≠⍴z←#.Files.GetText file
-          :Trap 11 22
+          :Trap 11 22 92
               inst←Config.AppRoot LoadMSP file ⍝ ⎕NEW ⎕SE.SALT.Load file,' -target=#.Pages'
           :Case 11 ⋄ REQ.Fail 500 ⋄ 1 Log'Domain Error trying to load "',file,'"' ⋄ →0 ⍝ Domain Error: HTTP Internal Error
           :Case 22 ⋄ REQ.Fail 404 ⋄ 1 Log'File not found - "',file,'"' ⋄ →0 ⍝ File Name Error: HTTP Page not found
+          :Case 92 ⋄ REQ.Response.HTML,←'<p>Unable to load page ',REQ.Page,' due to a translation error.<br/>This is typically caused by trying to load a page containing Unicode characters when running MiServer under a Classic (not Unicode) version of Dyalog APL.</p>'
+              REQ.Fail 500 ⋄ →0
           :EndTrap
           4 Log'Creating new instance of page: ',REQ.Page
           inst._PageName←REQ.Page
@@ -541,8 +543,10 @@
               :EndIf
               :If ∨/mask←'_'≠1⊃¨data[;1]
                   args←mask⌿data
-                  args[;1]←inst._PageData PrepareJSONTargets args[;1]
-                  ⍎'inst._PageData.(',(⍕args[;1]),')←args[;2]'
+                  :Trap 0
+                      args[;1]←inst._PageData PrepareJSONTargets args[;1]
+                      ⍎'inst._PageData.(',(⍕args[;1]),')←args[;2]'
+                  :EndTrap
               :EndIf
           :EndIf
      
@@ -592,8 +596,8 @@
               resp←flag Debugger'inst.',cb,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
               resp←(#.JSON.toAPLJAX⍣APLJax)resp
               :If RESTful
-⍝              :AndIf 9.1=⎕NC⊂'resp'
-                  resp←#.JSON.fromAPL resp
+              :AndIf ~∨/(⊂'content-type')(≡#.Strings.nocase)¨REQ.Response.Headers[;1]
+                  resp←1 #.JSON.fromAPL resp
                   'Content-Type'REQ.SetHeader'application/json'
               :EndIf
               REQ.Return resp

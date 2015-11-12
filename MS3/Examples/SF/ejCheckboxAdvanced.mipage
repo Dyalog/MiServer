@@ -1,4 +1,4 @@
-﻿:Class ejCheckBoxMedium : MiPageSample
+﻿:Class ejCheckBoxAdvanced: MiPageSample
 ⍝ Control:: _SF.ejCheckBox
 
 ⍝ Description:: 2 checkboxes with callbacks
@@ -11,31 +11,32 @@
       Add _.br
      
     ⍝ We create an unchecked SyncFusion check box with caption 'Check Me!'
-      cb2←'cb2'Add _.ejCheckBox 0 'Set Box 1 as triState'
+      cb2←'cb2'Add _.ejCheckBox 0 'Box 1 is triState'
      
     ⍝ We tell the server to call program 'myCallback' any changes and to return
     ⍝ the value of the checkState variable in the model under the name 'state'
-      (cb2 cb1).On⊂'change' 'myCallback'('state' 'model' 'checkState')
+      (cb2 cb1).On⊂'change' 'myCallback'(('state1' 'cb1' 'model' 'checkState')('state2' 'cb2' 'model' 'checkState'))
      
     ⍝ A place to write the message
       Add _.br
-      'message'Add _.div
+      'output'Add _.div
     ∇
 
-    ∇ r←myCallback;st;i
+    ∇ r←myCallback;st1;st2;tri
       :Access public
-      st←Get'state'
+      st1←Get'state1'
+      st2←Get'state2'
+     
       :If _what≡'cb1'
         ⍝ Display the state of the check box in the message area
-          r←'#message'Replace st
+          r←'#output'Replace st1
      
       :Else ⍝ must be cb2
         ⍝ Change the text of the check box
-          i←1+st≡'check'
-          r←'enableTriState'cb1.Update i⊃_false _true
-          r,←'checkState'cb1.Update i⊃'check' 'indeterminate'
-          r,←'#message'Replace''
-          r,←'#cb2'Replace i⊃'Set Box 1 as triState' 'Unset Box 1 as triState'
+          tri←st2≡'check'
+          r←'enableTriState'cb1.Update(tri+1)⊃_false _true
+          r,←'checkState'cb1.Update st1 ⍝i⊃'check' 'indeterminate'
+          r,←'#output'Replace'Box 1 is now ',(4×tri)↓'not triState'
      
       :EndIf
     ∇

@@ -1,5 +1,5 @@
 ﻿:class detailsAdvanced: MiPageSample
-⍝ Control:: _html.details _.html.summary
+⍝ Control:: _html.details _html.summary
 ⍝ Description:: Make an expandable menu
 
     ∇ Compose

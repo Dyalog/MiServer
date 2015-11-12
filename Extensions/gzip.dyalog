@@ -1,5 +1,7 @@
 ﻿:Class gzip: ContentEncoder
 
+    ⍝∇:require =\ContentEncoder.dyalog
+
     :property Encoding
     :access public shared
     :implements Property ContentEncoder.encoding
