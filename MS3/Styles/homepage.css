@@ -32,7 +32,20 @@
 	padding: 0;
 }
 
+#ShowRelated {
+    margin-left: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#ShowSource{
+	margin-left: 0px;
+}
 #SampleTitle {
+	margin-top: 0;
+}
+
+#Header {
 	margin-top: 0;
 }
 
