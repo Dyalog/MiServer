@@ -1,7 +1,6 @@
-﻿ msg←Test dummy;result;path;nu
+﻿ msg←Test dummy;result;path;nu;c1;c2;f
 ⍝ try to upload ALL files in the Data-directory (sample page will store them in Data\uploaded
  msg←''
-→0
  :For f :In (27∊⍨⍳32)#.Files.Dir(path←AppRoot,'Examples\Data\'),'*.*'  ⍝ all files, no directories
      (Find'ipfl').SendKeys⊂path,f  ⍝ must send all at once, otherwise causing Selenium-Exception because of filename...
      Click'submit'
