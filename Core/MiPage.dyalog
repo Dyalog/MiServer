@@ -69,7 +69,13 @@
 
     ∇ {r}←Wrap
       :Access public
-      r←Render
+      :trap 997  ⍝ Baas: URL ⎕SIGNAL 997  to redirect!
+	      r←Render
+      :else 
+      	url←1⊃⎕dm
+      	⎕←'Redirecting in MiPage.Wrap to ',url
+      	_Request.Response.HTML←r←'<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;URL=',url,'"></head><body></body></html>'
+      :endtrap
     ∇
 
     ∇ Use resources;n;ind;t;x

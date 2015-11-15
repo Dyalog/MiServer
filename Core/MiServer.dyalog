@@ -358,7 +358,13 @@
           :If Config.AllowedHttpCommands∊⍨⊂REQ.Command
      
               :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
-                  filename HandleMSP REQ
+                  :Trap 997
+                      filename HandleMSP REQ
+                  :Else
+                  ⎕←'Redirected in MiServer.HandleRequest to ',1⊃⎕dm 
+                      REQ.Response.HTML←'<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;URL=',(1⊃⎕DM),'"></head><body></body></html>'
+                      →0
+                  :EndTrap
               :Else
                   :If REQ.Command≡'get'
                       REQ.ReturnFile filename
@@ -602,6 +608,11 @@
               :EndIf
               REQ.Return resp
           :Else
+              :If ⎕EN=997
+              	  ⎕←'Redirecting to ',(1⊃⎕dm),' in MiServer.HandleMSP'
+                  REQ.Response.HTML←'<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;URL=',(1⊃⎕DM),'"></head><body></body></html>'
+                  →0
+              :EndIf
               :If APLJax
                   1 Log'No result returned by callback method "',cb,'" in page "',REQ.Page,'"'
                   REQ.Return''
