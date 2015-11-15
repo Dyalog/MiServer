@@ -598,7 +598,7 @@
           :AndIf flag←inst.{6::0 ⋄ _DebugCallbacks}⍬
           :EndIf
      
-          :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
+          :Trap 85 997  ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
               resp←flag Debugger'inst.',cb,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
               resp←(#.JSON.toAPLJAX⍣APLJax)resp
               :If RESTful
