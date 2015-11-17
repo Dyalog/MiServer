@@ -1,8 +1,22 @@
-﻿:Class index : MiPageSample ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-⍝                                                                                                ⍝
-⍝   This is the home page of the MiServer Sample Site (MS3), accessible at miserver.dyalog.com   ⍝
-⍝                                                                                                ⍝
-⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+﻿:Class index : MiPageSample ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
+⍝ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ ⍝
+⍝ │ This is the home page of the MiServer Sample Site, MS3, accessible at miserver.dyalog.com   │ ⍝
+⍝ ├─────────────────────────────────────────────────────────────────────────────────────────────┤ ⍝
+⍝ │ The code is split up in three sections called MAIN, CALLBACKS, and SHOW:                    │ ⍝
+⍝ │                                                                                             │ ⍝
+⍝ │     ∘ MAIN is doing all the initial set-up , building the various parts of the page, set-   │ ⍝
+⍝ │       ting the inital values of globals, and binding event-handlers to clicks, etc.         │ ⍝
+⍝ │                                                                                             │ ⍝
+⍝ │     ∘ CALLBACKS resumes control after the user triggers one of the handlers and redirects   │ ⍝
+⍝ │       to appropriate feedback.                                                              │ ⍝
+⍝ │                                                                                             │ ⍝
+⍝ │     ∘ SHOW generates the necessary code to make the browser displaying appropriate data     │ ⍝
+⍝ │       in their respective interface areas.                                                  │ ⍝
+⍝ │                                                                                             │ ⍝
+⍝ │ There is also a dependancy, the scripted namespace indexUtils, which contains all general   │ ⍝
+⍝ │ and special sub-routines used by function in the above sections.                            │ ⍝
+⍝ └─────────────────────────────────────────────────────────────────────────────────────────────┘ ⍝
+⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :SECTION MAIN ⍝ ACTIONS BEFORE FIRST USER INTERACTION
 
@@ -31,9 +45,9 @@
       sb←'#searchbutton' '.menu'New _.button'Search'      ⍝ search button (note: type="submit")
       f←'onsubmit="return false;"'left.Add _.form         ⍝ prevent submit-button from POSTing
       f.On'submit' 'OnSearch'('str' '#searchfield' 'val') ⍝ callback upon Enter or button-click
-      f.Add Horz sf sb                                    ⍝ add the search field and button next to each other
+      f.Add Horz sf sb                                    ⍝ textfield and button next to each other
      
-      left.Add¨Tree¨'Getting Started' 'Controls' ⍝ NB: Must have MakeTreeXX where XX is initials of title!!!
+      left.Add¨Tree¨'Getting Started' 'Controls' ⍝ NB: Needs MakeTreeXX (XX is initials of title)!
     ∇
 
     ∇ tree←MakeTreeGS ⍝ Make the "Getting Started" tree
@@ -54,7 +68,7 @@
       tree←⍉↑tree
     ∇
 
-    ∇ mid←MakeMid;url;code;title;attrs;d;hidden ⍝ Make middle pane with info, framed content and source
+    ∇ mid←MakeMid;url;code;title;attrs;d;hidden ⍝ Make middle pane; info, framed content, source
       mid←'#midBar'New _.div         ⍝ container
       hidden←'style="display:none;"' ⍝ attribute to start hidden
       code←Dread url←⊃CURRFILES      ⍝ read initial page
@@ -62,13 +76,13 @@
       title←Clean'Control'Section code   ⍝ create and fill placeholder for title
       '#Title'Add _.title('MS3: ',title) ⍝ this goes on the browser tab
      
-      hidden'#Header'mid.Add _.h2        ⍝ heading placeholder for category lists and search results
-      d←'#Sample'mid.Add _.div           ⍝ container for file info so its visibility can be toggled
+      hidden'#Header'mid.Add _.h2        ⍝ placeholder for category lists and search results
+      d←'#Sample'mid.Add _.div           ⍝ container for file info so visibility can be toggled
       '#SampleTitle'd.Add _.strong title ⍝ filename
       d.Add'– '
       '#SampleDesc'd.Add _.span('Description'Section code) ⍝ sample description
       ('#PopLink'd.Add _.span).Add NewWinA'Pop out'url     ⍝ "Pop out" link
-      d.Add _.br                                           ⍝ line break
+      d.Add _.br
      
       d←hidden'#Control'mid.Add _.div ⍝ container for widget info for toggleable visibilty
       '#ControlTitle'd.Add _.strong   ⍝ placeholder for widget name
@@ -77,35 +91,35 @@
       '#DocLink'd.Add _.span     ⍝ placeholder for link to WidgetDoc page
       d.Add _.br
      
-      attrs←'#ShowRelated' 'onchange=$("#rel").toggle(400)'
-      attrs d.Add _.Input'checkbox' '' 'Show 0 related samples ' 'right' ⍝ checkbox to toggle list of related samples
-      hidden'#rel'd.Add _.div                                            ⍝ related-samples list starts hidden
+      attrs←'#ShowRelated' 'onchange=$("#rel").toggle(400)'              ⍝ built-in toggleing
+      attrs d.Add _.Input'checkbox' '' 'Show 0 related samples ' 'right' ⍝ checkbox to show related
+      hidden'#rel'd.Add _.div                                            ⍝ list starts hidden
      
       mid.Add _.hr
       ('#SampleFrame'mid.Add _.div).Add Frame url ⍝ embedded page
       mid.Add _.hr
      
       attrs←'#ShowSource' 'onchange=$("#SampleSource").toggle(400)'    ⍝ smooth transition
-      attrs mid.Add _.Input'checkbox' '' 'Show source code' 'right'    ⍝ checkbox to toggle source code visibility
+      attrs mid.Add _.Input'checkbox' '' 'Show source code' 'right'    ⍝ toggle show/hide source
       hidden'#SampleSource' '.samplesource'mid.Add _.div Ⓒ Format code ⍝ ... starts hidden
      
       '#Handler'mid.Add _.div ⍝ placeholder for list item event handler
     ∇
 
-    :ENDSECTION
+    :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 
     :SECTION CALLBACKS ⍝ PROGRAMS THAT RUN AFTER THE USER TRIGGERS AN EVENT HANDLER
 
     ∇ r←OnTree;node;list;control;nost;ns ⍝ Handle callbacks from the ejTreeViews
       :Access Public
-      nost←'*'~⍨node←Get'node'                        ⍝ was sent along as "node" by the event handler
+      nost←'*'~⍨node←Get'node'                        ⍝ was sent along by the event handler
       :If '/'=⊃⌽nost                                  ⍝ if selected a category:
-          :If 'GS'In _what                                ⍝ if selected node under "Getting Started":
+          :If 'GS'In _what                                ⍝ if selected node of "Getting Started":
               r←('pdf'/⍨'Documentation'In nost)ShowFiles node ⍝ restrict to PDFs if documentation
           :Else                                           ⍝ if selected node under "Controls":
               r←ShowCat node                                  ⍝ show all files in that category
           :EndIf
-      :ElseIf '.'∊nost                                ⍝ if filename with extention, e.g. "something.mipage" or "other.pdf":
+      :ElseIf '.'∊nost                                ⍝ if filename with extention, e.g. other.pdf:
           r←ShowFile nost                                 ⍝ load it up
       :Else                                           ⍝ if selected a widget:
           CURRFILES←Relevant LastSub nost                 ⍝ find relevant samples
@@ -124,7 +138,7 @@
 
     ∇ r←OnSearch;str ⍝ Callback for search
       :Access Public
-      str←Get'str'
+      str←Get'str'                                      ⍝ sent along by event handler
       :If str≡CaseLess'clear cache'                     ⍝ special phrase to reset the cache
           ⎕EX CACHE'C'                                  ⍝ erase old cache and shortcut
           Cache CACHE                                   ⍝ make new ones
@@ -134,7 +148,7 @@
       :EndIf
     ∇
 
-    :ENDSECTION
+    :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 
     :SECTION SHOW ⍝ SUB-ROUTINES THAT GENERATE JAVASCRIPT TO SHOW NEW STUFF
 
@@ -162,57 +176,57 @@
       r,←Hide'#Sample'                                   ⍝ no page either
     ∇
 
-    ∇ r←ShowFile node;name;url;code;nost ⍝ Display a MiPage or PDF in the middle pane and update info
+    ∇ r←ShowFile node;name;url;code;nost ⍝ Display a MiPage or PDF in the middle and uppdate info
       r←''
       nost←node~'*'
       url←NoExt nost
       name←Clean LastSub url
-      r,←'#Title'Replace'MS3: ',name                             ⍝ browser tab
-      :If FILEEXT In nost                                        ⍝ if an embedded page:
-          CURRFILES(⊢,~)←⊂url                                        ⍝ move selected file to the front of the list
-          code←Dread url                                             ⍝ read the source
-          r,←'#SampleTitle'Replace name                              ⍝ filename
-          r,←'#SampleDesc'Replace'Description'Section code           ⍝ page description
-          r,←'#PopLink'Replace NewWinA'Pop out'url                   ⍝ link to open in new tab
-          r,←'#SampleFrame'Replace Frame nost                        ⍝ embedded page
-          r,←'#SampleSource'Replace Format code                      ⍝ syntax coloured source code
-          r,←Hide'#Header'                                           ⍝ hide heading
-          r,←Show'#Sample'                                           ⍝ display file name and description
-          :If IsDemo nost                                            ⍝ if sample page:
-              r,←ReplaceRelMsg                                           ⍝ replace message about how many related
-              r,←'#rel'Replace∊ListItem¨1↓CURRFILES,¨'*'                 ⍝ add star to differ from tree entries
-              r,←RefreshHandler                                          ⍝ refresh handler because of new items
-              r,←Execute'$("#Control").',(⊃'hide' 'show'↓⍨'*'∊node),'()' ⍝ hide widget info if we got here from a list
-          :Else                                                      ⍝ if app or info page:
-              r,←Execute'$("#Control").hide()'                           ⍝ no widget info
+      r,←'#Title'Replace'MS3: ',name                   ⍝ browser tab
+      :If FILEEXT In nost                              ⍝ if an embedded page:
+          CURRFILES(⊢,~)←⊂url                              ⍝ move file to front of list
+          code←Dread url                                   ⍝ read the source
+          r,←'#SampleTitle'Replace name                    ⍝ filename
+          r,←'#SampleDesc'Replace'Description'Section code ⍝ page description
+          r,←'#PopLink'Replace NewWinA'Pop out'url         ⍝ link to open in new tab
+          r,←'#SampleFrame'Replace Frame nost              ⍝ embedded page
+          r,←'#SampleSource'Replace Format code            ⍝ syntax coloured source code
+          r,←Hide'#Header'                                 ⍝ hide heading
+          r,←Show'#Sample'                                 ⍝ display file name and description
+          :If IsDemo nost                                  ⍝ if sample page:
+              r,←ReplaceRelMsg                                 ⍝ replace page-count message
+              r,←'#rel'Replace∊ListItem¨1↓CURRFILES,¨'*'       ⍝ add * to differ from tree nodes
+              r,←RefreshHandler                                ⍝ refresh handler for new items
+              r,←(Show⊣⍣('*'∊node)Hide)'#Control'              ⍝ hide info if called from list
+          :Else                                            ⍝ if app or info page:
+              r,←Execute'$("#Control").hide()'                 ⍝ no widget info
           :EndIf
-      :Else                                                          ⍝ if other document (PDF):
-          r,←'#Header'Replace name                                       ⍝ filename
-          r,←'#SampleFrame'Replace NewObj nost                           ⍝ insert as object
-          r,←'#SampleSource'Replace''                                    ⍝ empty source code container
-          r,←Show'#Header'                                               ⍝ show the filename
-          r,←Hide'#Control'                                              ⍝ hide the widget info
-          r,←Hide'#Sample'                                               ⍝ and the file info
+      :Else                                                ⍝ if other document (PDF):
+          r,←'#Header'Replace name                             ⍝ filename
+          r,←'#SampleFrame'Replace NewObj nost                 ⍝ insert as object
+          r,←'#SampleSource'Replace''                          ⍝ empty source code container
+          r,←Show'#Header'                                     ⍝ show the filename
+          r,←Hide'#Control'                                    ⍝ hide the widget info
+          r,←Hide'#Sample'                                     ⍝ and the file info
       :EndIf
     ∇
 
     ∇ r←ShowNone node;name;ns;control;msg ⍝ Display generic message when there is no sample to show
       r←''
-      name←∊'_.',¨(ns control)←NsControl node                         ⍝ widget we wanted a sample for
+      name←∊'_.',¨(ns control)←NsControl node                         ⍝ what we wanted sample for
       r,←'#Title'Replace'MS3: ',name                                  ⍝ browser tab
       r,←'#SampleTitle'Replace name                                   ⍝ widget name
       r,←'#ControlDesc'Replace Info name                              ⍝ we may have some info on it
       r,←'#DocLink'Replace NewWinA'View documentation'Doc ns control  ⍝ and a link for more info
-      r,←'#rel'Replace''                                              ⍝ obviously there are no related
-      r,←Hide'#Header'                                                ⍝ hide the larger header
-      r,←Show'#Control'                                               ⍝ show the widget info
-      r,←Hide'#Sample'                                                ⍝ hide the nonexistant file info
-      msg←'<p>Sorry, no samples available for <em>',name,'</em></p>'  ⍝ message about the problem...
-      r,←'#SampleFrame'Replace msg                                    ⍝ ... goes where the sample would be
+      r,←'#rel'Replace''                                              ⍝ there are no related pages
+      r,←Hide'#Header'                                                ⍝ hide larger header
+      r,←Show'#Control'                                               ⍝ show widget info
+      r,←Hide'#Sample'                                                ⍝ hide nonexistant info
+      msg←'<p>Sorry, no samples available for <em>',name,'</em></p>'  ⍝ message about problem...
+      r,←'#SampleFrame'Replace msg                                    ⍝ ... goes instead of sample
       r,←'#SampleSource'Replace''                                     ⍝ no source either
     ∇
 
-    ∇ r←ShowSample node;code;title;url;control;doc;info;ns;name ⍝ Load a sample page and update info
+    ∇ r←ShowSample node;code;title;url;control;doc;info;ns;name ⍝ Load sample page and update info
       r←''
       name←∊'_.',¨(ns control)←NsControl node ⍝ full proper name
       info←Info name
@@ -224,18 +238,18 @@
       r,←'#PopLink'Replace NewWinA'Pop out'url                         ⍝ update new-tab link
       r,←'#SampleFrame'Replace Frame url                               ⍝ load sample page
       r,←'#SampleSource'Replace Format code                            ⍝ update source code
-      r,←Hide'#Header'                                                 ⍝ no need for the list header
+      r,←Hide'#Header'                                                 ⍝ not a list
       r,←Show'#Sample'                                                 ⍝ do show the sample's info
       :If IsDemo url                                                   ⍝ if sample page:
           r,←'#ControlTitle'Replace name                                   ⍝ filename
           r,←'#ControlDesc'Replace info                                    ⍝ widget info
-          r,←'#DocLink'Replace NewWinA'View documentation'Ⓒ Doc ns control ⍝ update link to WidgetDoc
-          r,←ReplaceRelMsg                                                 ⍝ replace message about how many related
+          r,←'#DocLink'Replace NewWinA'View documentation'Ⓒ Doc ns control ⍝ update WidgetDoc link
+          r,←ReplaceRelMsg                                                 ⍝ update count
           r,←'#rel'Replace∊ListItem¨1↓CURRFILES,¨'*'                       ⍝ update list
-          r,←'#rel'Append New _.Handler'.listitem' 'click' 'OnList'        ⍝ refresh handler because of new items
+          r,←'#rel'Append New _.Handler'.listitem' 'click' 'OnList'        ⍝ refresh handler
           r,←Show'#Control'                                                ⍝ show it all
       :Else                                                            ⍝ if app or info page:
-          r,←Hide'#Control'                                                ⍝ hide the widget info and related list
+          r,←Hide'#Control'                                                ⍝ hide info and related
       :EndIf
     ∇
 
@@ -244,7 +258,7 @@
       :If 900⌶⍬ ⋄ :OrIf 0=⍴ext ⋄ ext←1↓FILEEXT ⋄ :EndIf ⍝ default file extention
       list←ext Slist node                               ⍝ get list of all those files
       list←list[;2]/⍨list[;1]≢¨⊂'DIR'                   ⍝ remove folders
-      list←(¯1+≢#.Boot.AppRoot)↓¨list,¨⊂'.',ext         ⍝ remove site path, but append file extention
+      list←(¯1+≢#.Boot.AppRoot)↓¨list,¨⊂'.',ext         ⍝ remove site path, but add file extention
       r,←'#SampleFrame'Replace∊ListItem¨SortFiles list  ⍝ sorted list
       r,←RefreshHandler                                 ⍝ refresh handler because of new items
       r,←'#SampleSource'Replace''                       ⍝ no source code
@@ -257,9 +271,9 @@
 
     ∇ r←ShowCat node;tree;urls;name;core;cats ⍝ Show samples for all the widgets in a category
       r←''
-      core←'*'∊node              ⍝ is it a core widget
-      tree←NoSt'*'∘∊Of⍣core⊢TREE ⍝ filter
-      node~←'*'
+      core←'*'∊node                                       ⍝ is it a core widget
+      tree←NoSt'*'∘∊Of⍣core⊢TREE                          ⍝ filter for core-controls only
+      node~←'*'                                           ⍝ ignore stars
       urls←∪⊃,/(⊂''),Relevant¨LastSub¨tree/⍨⊃¨node∘⍷¨tree ⍝ unique samples relevant to one of ours
       cats←1↓¨¯1↓node⊂⍨SlOf node                          ⍝ find the top level ns
       (1↑cats)←(GROUPS,⊂'')[NSS⍳1↑cats]                   ⍝ replace by a proper name if abbr
@@ -274,6 +288,6 @@
       r,←Hide'#Sample'                                    ⍝ no file either
     ∇
 
-    :ENDSECTION
+    :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 
 :EndClass
