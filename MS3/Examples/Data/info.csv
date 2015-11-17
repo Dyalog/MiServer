@@ -4,7 +4,6 @@ address,Contact information,"The address element represents the contact informat
 area,Image map region,"The area element represents either a hyperlink with some text and a corresponding area on an image map, or a dead area on an image map."
 article,Independent section,"The article element represents an independent section of a document, page, or site. This could be a forum post, a magazine or newspaper article, a blog entry, a user-submitted comment, or any other independent item of content."
 aside,Auxiliary section,"The aside element represents a section of a page that consists of content that is tangentially related to the content around the aside element, and which could be considered separate from that content. Such sections are often represented as sidebars in printed typography."
-Audio,Embed audio files,
 audio,Audio stream,An audio element represents a sound or audio stream.
 b,Bold text,"The b element represents a span of text to be stylistically offset from the normal prose without conveying any extra importance, such as key words in a document abstract, product names in a review, or other spans of text whose typical typographic presentation is boldened."
 base,Document base URI,"The base element is for specifying a base URL against which relative links will be resolved, and the name of the default target for opening links and form submissions."
@@ -23,7 +22,6 @@ col,Table column,"If a col element has a parent and that is a colgroup element t
 colgroup,Table column group,"The colgroup element represents a group of one or more columns in the table that is its parent, if it has a parent and that is a table element."
 command,Command that a user can invoke,The command element represents a command that the user can invoke.
 datagrid,Interactive tree/list/table,"The datalist element represents a set of option elements that represent predefined options for other controls. The contents of the element represents fallback content for legacy user agents, intermixed with option elements that represent the predefined options. In the rendering, the datalist element represents nothing and it, along with its children, should be hidden."
-Datalist,Auto-completing drop-down ,
 datalist,Predefined control values,
 dd,Description description,"The dd element represents the description, definition, or value, part of a term-description group in a description list (dl element), and the discourse, or quote, part in a conversation (dialog element)."
 del,Deletion,The del element represents a removal from the document.
