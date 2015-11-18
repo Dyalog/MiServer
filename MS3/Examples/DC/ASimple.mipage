@@ -6,11 +6,10 @@
       :Access Public
       Add'Links allow the user to go to another page. Click '
       url←'../Data/pic',(⍕?4),'.png' ⍝ Random link address
-     ⍝  id            text
-     ⍝  ↓              ↓
-      'link'Add _.A,⊂'here'url
-     ⍝                      ↑
-     ⍝              internet address
+     ⍝  id    open in new tab          text  internet address
+     ⍝  ↓            ↓                   ↓    ↓
+      'link' 'target="_blank"'Add _.A,⊂'here'url
+     
       Add' to go to one of our nice banners.'
     ∇
 

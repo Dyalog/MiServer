@@ -14,7 +14,7 @@
       items,←⊂href
      
       img←'.imgframe'Add _.div  ⍝ add a picture placeholder (.imgframe)
-      (img.Add _.ejMenu items).Set⊂'width' 500
+      'width'(img.Add _.ejMenu items).Set 500
      
      ⍝ The following is used to specify the picture display properties, it has nothing to do with
      ⍝ the menu itself.
