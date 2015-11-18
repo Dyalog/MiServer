@@ -18,9 +18,9 @@
 ⍝ └─────────────────────────────────────────────────────────────────────────────────────────────┘ ⍝
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
-    :SECTION MAIN ⍝ ACTIONS BEFORE FIRST USER INTERACTION
+    :SECTION A_MAIN ⍝ ACTIONS BEFORE FIRST USER INTERACTION
 
-    :Include #.indexUtils ⍝∇: include =/indexUtils
+    :Include indexUtils ⍝∇:require =/indexUtils
 
     :Field shared GROUPS←'Dyalog' 'SyncFusion' 'JQueryUI' 'Base HTML' ⍝ groups of elements
     :Field shared NSS←   'DC'     'SF'         'JQ'       'html'      ⍝ corresponding nss
@@ -107,8 +107,9 @@
     ∇
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
+⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
-    :SECTION CALLBACKS ⍝ PROGRAMS THAT RUN AFTER THE USER TRIGGERS AN EVENT HANDLER
+    :SECTION B_CALLBACKS ⍝ PROGRAMS THAT RUN AFTER THE USER TRIGGERS AN EVENT HANDLER
 
     ∇ r←OnTree;node;list;control;nost;ns ⍝ Handle callbacks from the ejTreeViews
       :Access Public
@@ -149,8 +150,9 @@
     ∇
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
+⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
-    :SECTION SHOW ⍝ SUB-ROUTINES THAT GENERATE JAVASCRIPT TO SHOW NEW STUFF
+    :SECTION C_SHOW ⍝ SUB-ROUTINES THAT GENERATE JAVASCRIPT TO SHOW NEW STUFF
 
     ∇ r←ShowResult str;terms;urls
       r←''
@@ -289,5 +291,6 @@
     ∇
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
+⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
 :EndClass
