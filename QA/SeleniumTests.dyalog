@@ -32,7 +32,7 @@
       :EndIf
     ∇
 
-    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames
+    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames;maxlen
      
       (site filter)←2↑(eis site),'' ''
       :If 0=⍴AppRoot←#.Load site
@@ -67,18 +67,21 @@
       ⍎keynames,'←∊#.SeleniumTests.Selenium.Keys.(',keynames,')'
      
       START←⎕AI[3] ⋄ COUNT←0 ⋄ FAIL←0
+      maxlen←¯2+⌈/⊃∘⍴¨files
      
       :For i :In ⍳n
           COUNT+←1
-          :If 0=⍴t←Run1Test z←i⊃files
-              ⍞←'.'
+          :If 0=⍴t←Run1Test{⍵⊣⍞←(⎕UCS 13),maxlen↑3↓⍵}z←i⊃files
+              ⍞←'*** PASSED ***'
           :Else
               FAIL+←1
-              ⎕←'*** FAILED *** #',(⍕i),' of ',(⍕n),': ',z,': ',t
+              ⍞←'*** FAILED *** #',(⍕i),' of ',(⍕n),': ',z,': ',t
           :EndIf
       :EndFor
      
       ⎕←'Total of ',(⍕COUNT),' samples tested in ',(∊(⍕¨24 60⊤⌊0.5+(⎕AI[3]-START)÷1000),¨'ms'),': ',(⍕FAIL),' failed.'
+     
+      Selenium.BROWSER.Quit
     ∇
 
 :EndNamespace

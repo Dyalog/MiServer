@@ -1,5 +1,5 @@
 ﻿:class ejMenu : #._SF._ejWidget
-⍝ Description:: SyncFusion Menu widget
+⍝ Description:: Syncfusion Menu widget
 ⍝ Constructor:: Items [Levels [Hreferences]]
 ⍝ Items       vector of char vectors containing the menu item caption
 ⍝ Levels      the level of the corresponding item

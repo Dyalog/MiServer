@@ -27,6 +27,19 @@
       :Else
           ∆tally←{⍬⍴(⍴⍵),1}
       :EndTrap
+     
+    ⍝ rank
+      :Trap 2
+          ∆rank←⍤
+      :Else
+          ∆rank←{ ⍝ apply ⍺⍺ to/between rank ⍵⍵ cells of ⍺ and/or ⍵
+              mlr←⌽3⍴⌽⍵⍵,⍳(aa←⍺⍺)/m←0
+              ⍺←(aa←⊢∘aa)/m←1
+              l r←-1↓r⌊|{⍵+r×0>⍵}(mlr⌊r←3⍴(⍴⍴⍵),⍴⍴⍺)[⍒m×⍳3]
+              ↑aa⌿(⊂[l↑⍳⍴⍴⍺]⍺),[-0.1-⍳1]⊂[r↑⍳⍴⍴⍵]⍵
+          }
+      :EndTrap
+     
     ∇
 
 

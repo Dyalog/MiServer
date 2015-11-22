@@ -17,7 +17,7 @@
       :Access public
       :Implements constructor
       args←eis⍣(~0∊⍴args)⊢args
-      (Content name value attrs)←args defaultArgs''UNDEF UNDEF''
+      (Content name value attrs)←args defaultArgs'Submit'UNDEF UNDEF''
       type←'submit'
     ∇
 

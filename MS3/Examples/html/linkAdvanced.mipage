@@ -21,7 +21,7 @@
       duck,←'sAAAAAAAAAAAByBJwnZj8DAAAAAAAAAAAAAJhlGqRBAAAAAPgPAADgBwAAgAMAAIADAACAAwAAAAMAAAADAAAAAwAAAAcAAIAHAADAAQAA/AEAAPwBAAD8BwAA/AcAAP4PAAA='
      
       'href="../Data/apple.ico"' 'rel="icon"' 'type="image/x-icon"'Add _.link
-      ('href="data:image/x-icon;base64,',duck,'"')'rel="icon"' 'type="image/x-icon"'Add _.link
+      ('href' 'data:image/x-icon;base64,',duck)('rel' 'icon')('type' 'image/x-icon')Add _.link
      
       Add _.title'← LOOK HERE'
      

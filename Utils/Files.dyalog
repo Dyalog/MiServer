@@ -83,58 +83,6 @@
       :EndSelect
     ∇
 
-    ∇ rslt←{amsk}Dir path;handle;next;ok;⎕IO;attrs;FindFirstFileX;FindNextFileX;FindClose;FileTimeToLocalFileTime;FileTimeToSystemTime;GetLastError
-     ⍝ 'FIX ME'⎕SIGNAL 11
-     ⍝ Amsk is a 32 element bool attribute mask.
-     ⍝ Only files with attributes corresponding to 1-s in the mask will be returned.
-     ⍝ '*'s mark default attribute mask.
-     ⍝
-     ⍝        * [31] <=> READONLY
-     ⍝          [30] <=> HIDDEN
-     ⍝        * [29] <=> SYSTEM
-     ⍝          [28] <=> undocumented
-     ⍝        * [27] <=> DIRECTORY
-     ⍝        * [26] <=> ARCHIVE
-     ⍝          [25] <=> DEVICE
-     ⍝        * [24] <=> NORMAL - only set if no other bits are set
-     ⍝        * [23] <=> TEMPORARY
-     ⍝        * [22] <=> SPARSE FILE
-     ⍝        * [21] <=> REPARSE POINT
-     ⍝        * [20] <=> COMPRESSED
-     ⍝        * [19] <=> OFFLINE
-     ⍝        * [18] <=> NOT CONTENT INDEXED
-     ⍝        * [17] <=> ENCRYPTED
-     ⍝        * rest <=> undocumented (but in the default set so that
-     ⍝                   Microsoft can extend them)
-    ⍝ rslt is a vector of character vectors of filenames
-     
-      ⎕IO←0
-      :Select APLVersion
-      :CaseList '*nix' 'Mac'
-          ∘
-      :Case 'Win'
-          :If 0=⎕NC'amsk'
-              amsk←~(⍳32)∊30 28 25   ⍝ Default attribute mask.
-          :EndIf
-          _FindDefine
-          handle rslt←_FindFirstFile path
-          :If 0=handle
-              ('ntdir error:',⍕rslt)⎕SIGNAL 102      ⍝ file not found
-          :EndIf
-          rslt←,⊂rslt
-          :While 1=0⊃ok next←_FindNextFile handle
-              rslt,←⊂next
-          :EndWhile
-          :If 0 18∨.≠ok next
-              ('ntdir error:',⍕next)⎕SIGNAL 11       ⍝ DOMAIN
-          :EndIf
-          ok←FindClose handle
-          rslt←↓[0]↑rslt
-          attrs←(32⍴2)⊤0⊃rslt                        ⍝ Get attributes into bits
-          rslt←(amsk∧.≥attrs)⌿6⊃rslt                 ⍝ bin unwanted files and info
-      :EndSelect
-    ∇
-
     ∇ r←DirExists path
       r←0
       :Select APLVersion
@@ -144,67 +92,6 @@
           :EndTrap
       :Case 'Win'
           r←0<⍬⍴⍴'.'List path
-      :EndSelect
-    ∇
-
-    ∇ rslt←{amsk}DirX path;handle;next;ok;attrs;⎕IO;FindFirstFileX;FindNextFileX;FindClose;FileTimeToLocalFileTime;FileTimeToSystemTime;GetLastError
-     ⍝ 'FIX ME'⎕SIGNAL 11
-     ⍝ Amsk is a 32 element bool attribute mask.
-     ⍝ Only files with attributes corresponding to 1-s in the mask will be returned.
-     ⍝ Amsk defaults to all attributes.
-     ⍝ 0⊃rslt <=> 32 column boolean matrix of attribute bits
-     ⍝          [;31] <=> READONLY
-     ⍝          [;30] <=> HIDDEN
-     ⍝          [;29] <=> SYSTEM
-     ⍝          [;28] <=> undocumented
-     ⍝          [;27] <=> DIRECTORY
-     ⍝          [;26] <=> ARCHIVE
-     ⍝          [;25] <=> undocumented
-     ⍝          [;24] <=> NORMAL - only set if no other bits are set
-     ⍝          [;23] <=> TEMPORARY
-     ⍝          [;22] <=> SPARSE FILE
-     ⍝          [;21] <=> REPARSE POINT
-     ⍝          [;20] <=> COMPRESSED
-     ⍝          [;19] <=> OFFLINE
-     ⍝          [;18] <=> NOT CONTENT INDEXED
-     ⍝          [;17] <=> ENCRYPTED
-     ⍝          rest  <=> undocumented
-     ⍝ 1⊃rslt <=> 7 column numeric matrix expressing the file creation time in ⎕TS format
-     ⍝         if the file system does not support this then all columns are 0
-     ⍝ 2⊃rslt <=> 7 column numeric matrix expressing the file last access time in ⎕TS format
-     ⍝         if the file system does not support this then all columns are 0
-     ⍝ 3⊃rslt <=> 7 column numeric matrix expressing the file last write time in ⎕TS format
-     ⍝ 4⊃rslt <=> numeric vector giving the file size accurate up to 53 bits
-     ⍝ 5⊃rslt <=> vector of character vectors giving the file names
-     ⍝ 6⊃rslt <=> vector of character vectors giving the 8.3 file name for file systems
-     ⍝         where it is appropriate and different from the file name
-      ⎕IO←0
-      :Select APLVersion
-      :CaseList '*nix' 'Mac'
-          ∘
-      :Case 'Win'
-          :If 0=⎕NC'amsk'
-              amsk←32⍴1
-          :EndIf
-          _FindDefine
-          handle rslt←_FindFirstFile path
-          :If 0=handle
-              ('ntdir error:',⍕rslt)⎕SIGNAL 102      ⍝ file not found
-          :EndIf
-          rslt←,⊂rslt
-          :While 1=0⊃ok next←_FindNextFile handle
-              rslt,←⊂next
-          :EndWhile
-          :If 0 18∨.≠ok next
-              ('ntdir error:',⍕next)⎕SIGNAL 11   ⍝ DOMAIN
-          :EndIf
-          ok←FindClose handle
-          rslt←↓[0]↑rslt
-          (0⊃rslt)←⍉attrs←(32⍴2)⊤0⊃rslt                ⍝ Get attributes into bits
-          rslt←(amsk∧.≥attrs)∘⌿¨rslt                ⍝ bin unwanted files and info
-          rslt[1 2 3]←↑¨_Filetime_to_TS¨¨rslt[1 2 3]    ⍝ put times into ⎕ts format
-          (4⊃rslt)←0(2*32)⊥⍉↑4⊃rslt                    ⍝ combine size elements
-          rslt/⍨←5≠⍳8                               ⍝ bin the reserved elements
       :EndSelect
     ∇
 
@@ -495,7 +382,7 @@
       :Case 'Mac'
           r←'Mac'
       :Else
-          ... ⍝ unknown version
+          ∘∘∘ ⍝ unknown version
       :EndSelect
     ∇
     :endsection

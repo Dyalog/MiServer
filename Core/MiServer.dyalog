@@ -429,21 +429,26 @@
       res.Headers⍪←{0∊⍴⍵:'' '' ⋄ 'Server'⍵}Config.Server
       status←res.((⍕Status),' ',StatusText)
       hdr←enlist{⍺,': ',⍵,NL}/res.Headers
-      Answer←(toutf8((1+conns.Handler)⊃'HTTP/1.0 ' 'Status: '),status,NL,'Content-Length: ',(⍕length),NL,hdr,NL),res.HTML
+      Answer←(toutf8((1+conns.Handler)⊃'HTTP/1.0 ' 'Status: '),status,NL,'Content-Length: ',(⍕length),NL,hdr,NL)
       done←length≤offset←⍴res.HTML
       REQ.MSec-⍨←⎕AI[3]
       res.Bytes←startsize length
-      :Repeat
-          :If 0≠1⊃z←#.DRC.Send obj Answer done ⍝ Send response and
-              (1+(1⊃z)∊1008 1119)Log'"Handlerequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
-              done←1
-          :EndIf
-          closed←done
-          :If ~done
-              done←BlockSize>⍴Answer←⎕NREAD tn 83,BlockSize,offset
-              offset+←⍴Answer
-          :EndIf
-      :Until closed ⍝ Everything sent
+      :If 0≠1⊃z←#.DRC.Send obj Answer(0=offset) ⍝ Send headers
+          (1+(1⊃z)∊1008 1119)Log'"Handlerequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
+      :ElseIf 0≠offset
+          Answer←res.HTML
+          :Repeat
+              :If 0≠1⊃z←#.DRC.Send obj Answer done ⍝ Send response and
+                  (1+(1⊃z)∊1008 1119)Log'"Handlerequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
+                  done←1
+              :EndIf
+              closed←done
+              :If ~done
+                  done←BlockSize>⍴Answer←⎕NREAD tn 83,BlockSize,offset
+                  offset+←⍴Answer
+              :EndIf
+          :Until closed ⍝ Everything sent
+      :EndIf
      
       :If res.File ⋄ ⎕NUNTIE tn ⋄ :EndIf
       8 Log REQ.PeerAddr status
