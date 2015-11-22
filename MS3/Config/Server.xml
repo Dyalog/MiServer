@@ -1,5 +1,9 @@
 <Server>
     <Name>MiServer 3.0</Name>
-    <AllowedHttpCommands>get,put,delete,post</AllowedHttpCommands>
+    <AllowedHttpCommands>get,post</AllowedHttpCommands>
     <UserID>miserver</UserID>
+    <Port>80</Port>
+    <TrapErrors>1</TrapErrors>    <!-- Valid: 0=Crash, 1=Trap and Log errors -->
+    <Debug>0</Debug>              <!-- Valid: 0=No Debug Info, 1=Debug Info, 2=Allow Editing -->
+    <SessionTimeOut>2</SessionTimeOut>                 <!-- session timeout, in minutes -->
 </Server>
