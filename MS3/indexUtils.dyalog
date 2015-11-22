@@ -94,7 +94,7 @@
               demoes←{(Words'Control'Section Dread ⍵)~'_',¨NSS}¨C.files ⍝ controls demoed in each
               C.controls←∪↑,/demoes                                     ⍝ cache all controls
               scores←C.controls∘.Score↓⍉↑C.files demoes                 ⍝ controls vs files
-              C.rankings←(+/0<scores)↑¨↓⍒⍤1⊢scores                      ⍝ cache all rankings
+              C.rankings←(+/0<scores)↑¨↓⍒#.Utils.∆rank 1⊢scores         ⍝ cache all rankings
               C.controlsoi←C.controls∘⍳ ⋄ C.eocontrols←∊∘C.controls     ⍝ cache hash tables
               C.info←FromCSV Dread'Examples/Data/info.csv'              ⍝ cache lookup table
               nl←'.*[A-Z].*'⎕S'\0'#._.⎕NL ¯9                            ⍝ all widgets except html

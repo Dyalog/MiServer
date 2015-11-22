@@ -57,7 +57,6 @@
      
       Response←⎕NS''
       Response.(Status StatusText Headers File HTML HTMLHead PeerAddr NoWrap Bytes)←200 'OK'(0 2⍴⊂'')0 '' '' '' 0(0 0)
-      Response.Request←cmd,data
       PeerCert←0 0⍴⊂'' ⋄ Data←0 2⍴⊂''
       PeerAddr←''
       MSec←⎕AI[3]
@@ -195,29 +194,32 @@
     ∇ r←DecodeMultiPart data;d;t;filename;name;i;hdr;ind
       hdr←'UTF-8'⎕UCS data↑⍨ind←1+1⍳⍨13 10 13 10⍷data
       d←'Content-Disposition: 'GetParam hdr
+     
+      name←filename←''
       :If (⍴d)≥i←5+('name="'⍷d)⍳1
           name←(¯1+name⍳'"')↑name←i↓d
-      :Else ⋄ name←''
       :EndIf
      
-      t←'Content-Type: 'GetParam hdr
+      :If (⍴d)≥i←9+('filename="'⍷d)⍳1
+          filename←(¯1+filename⍳'"')↑filename←i↓d
+      :EndIf
      
       data←(2+ind)↓data ⍝ Drop up to 1st doubleCR
       data←(¯1+¯1↑(13 10⍷data)/⍳⍴data)↑data ⍝ Drop from last CR
      
-      :Select 5↑t ⍝ Content type
-      :CaseList 'text/' '     ' ⍝ text formats
-          :Trap 92 ⋄ data←'UTF-8'⎕UCS data ⋄ :EndTrap ⍝ From UTF-8
+      t←'Content-Type: 'GetParam hdr
+     
+      :If 0∊⍴filename
+          :Select 5↑t ⍝ Content type
+          :CaseList 'text/' '     ' ⍝ text formats
+              :Trap 92 ⋄ data←'UTF-8'⎕UCS data ⋄ :EndTrap ⍝ From UTF-8
+          :Else
+          :EndSelect
       :Else
           data←sint data
-          :If (⍴d)≥i←9+('filename="'⍷d)⍳1
-              filename←(¯1+filename⍳'"')↑filename←i↓d
-          :Else ⋄ filename←''
-          :EndIf
           data←filename data
-⍝    :Else
-⍝      ∘
-      :EndSelect
+      :EndIf
+     
       r←name data
     ∇
 

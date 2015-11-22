@@ -1,0 +1,9 @@
+﻿:Class plain : MiPage
+
+    ∇ Compose
+      :Access public
+     ⍝ a very plain page to test basic functionality
+     Add _.p 'Hello World'
+    ∇
+
+:endclass

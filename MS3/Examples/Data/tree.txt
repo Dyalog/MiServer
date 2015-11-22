@@ -7,9 +7,11 @@
 /DC/Datalist*
 /DC/EditField*
 /DC/Fieldset*
+/DC/FontIconsBase*
 /DC/Form*
 /DC/Input*
-/DC/InputGrid   
+/DC/InputFile
+/DC/InputGrid*   
 /DC/ListManager 
 /DC/RadioButtonGroup*
 /DC/ResetButton*

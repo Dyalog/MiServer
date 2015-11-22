@@ -29,6 +29,7 @@
     ∇ r←Render
       :Access public
       :If 0∊⍴Page
+      :AndIf 0∊⍴Page←⊃Attrs[⊂'action']
           :If {6::0 ⋄ ''≢c∘←##.context ⍵}'_Request'
               Page←c._Request.Page
           :EndIf
