@@ -27,6 +27,7 @@
     :Field shared FILEEXT←'.mipage'                                   ⍝ Server.xml:DefaultExtension
     :Field shared CACHE←'#.CACHE'                                     ⍝ location of cache
     :Field shared C                                                   ⍝ shortcut to cache
+    :Field shared TREE                                                ⍝ Controls tree
     :field CURRFILES←⊂'/About_MiServer'                               ⍝ currently relevant files
 
     ∇ Compose ⍝ This builds the page
