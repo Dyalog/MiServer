@@ -101,6 +101,8 @@
               C.info⍪←↑{⍵('Description'Section ⎕SRC⍎'#._.',⍵)''}¨nl     ⍝ get descriptions
               C.info←C.info[∪⍳⍨C.info[;1];]                             ⍝ filter duplicates out
               C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1])           ⍝ cache hash tables
+          :Else
+              C←⍎ns                                                 ⍝ establish shortcut
           :EndIf
       :EndHold
     ∇
