@@ -1,108 +1,336 @@
 ﻿:Class index3 : MiPageSample
-    :SECTION GLOBALS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 
-    :Field TYPES←'Simple' 'Advanced'⍝ Types of samples (if not App)
-    :Field shared GROUPS← 'Dyalog' 'SyncFusion' 'JQueryUI' 'Base HTML' ⍝ Names of groups of elements
-    :Field shared NSS← 'DC' 'SF' 'JQ' 'html' ⍝ NS names of groups of elements
-    :field CURRFILES
-    :Field REFS        ⍝ ... their refs
-    :Field APPS        ⍝ List of all apps
-    :Field SAMPLES     ⍝ List of all samples (well, groups and controls really)
-    :Field SEARCH←''   ⍝ Last-search cache
-    :Field CONTROLS←'' ⍝ All control names
-    :Field APPDESCS    ⍝ Sample Apps' Description::
-    :Field APPCTRLS    ⍝ Sample Apps' Control:: (i.e. the title)
-    :Field CORE        ⍝ Core subset of controls
-    :Field STR←''      ⍝ String to search for
-    :Field ALLFILES    ⍝ List of pathnames for all sample files
-    :Field SAMPLE←1    ⍝ The current view is a sample (i.e. has source-code and related samples)
-    :Field shared FILEEXT←'.mipage'⍝ FILEEXT←#.Boot.ms.Config.DefaultExtension ⍝ ore something like that
+    :SECTION MAIN ⍝ BUILDS THE PAGE INITIALLY
+    
+    :Field shared GROUPS←'Dyalog' 'SyncFusion' 'JQueryUI' 'Base HTML' ⍝ groups of elements
+    :Field shared NSS←'DC' 'SF' 'JQ' 'html'                           ⍝ xorresponding nss
+    :Field shared FILEEXT←'.mipage'                                   ⍝ Server.xml:DefaultExtension
+    :field CURRFILES                                                  ⍝ currently relevant files
+
+    ∇ Compose
+      :Access public
+      Cache'#.CACHE'                            ⍝ ensure cache exists
+      Add _.StyleSheet'/Styles/homepage.css'    ⍝ assign cascading style sheet
+      CURRFILES←⊂'/About_MiServer'              ⍝ initial page to load
+      TREE←(Dread'/Examples/Data/tree.txt')~⊂'' ⍝ load tree structure and remove blank lines
+      Add'mainSP'Horz MakeLeft MakeMid          ⍝ two panels
+    ∇
+
+    ∇ Cache ns;allscores;ctrlsinfiles;names;list ⍝ set up cache if it does not exist
+      C←⍎ns ⎕NS ⍬                                ⍝ ensure cache ns in ws and create shortcut
+      :Hold Token names←'files' 'controls' 'rankings' 'controlsoi' 'iocontrols'
+          :If Missing names
+              list←(≢#.Boot.AppRoot)↓¨⊃⍪/{Slist'Examples/',⍵}¨NSS                                ⍝ sample filenames
+              C.files←list[;2]/⍨list[;1]≢¨⊂'<DIR>'                                               ⍝ cache filenames - not dirs
+              ctrlsinfiles←{(Words'Control'Section Dread ⍵)~'_',¨NSS}¨C.files                    ⍝ controls of each sample
+              C.controls←∪↑,/ctrlsinfiles                                                        ⍝ cache all controls
+              allscores←C.controls∘.{(102-2×(50↑⊃⌽⍵)⍳⊂⍺)-'Advanced'In⊃⍵}↓⍉↑C.files ctrlsinfiles ⍝ controls vs files
+              C.rankings←(+/0<allscores)↑¨↓⍒⍤1⊢allscores                                         ⍝ cache all rankings
+              C.controlsoi←C.controls∘⍳ ⋄ C.eocontrols←∊∘C.controls                              ⍝ cache hash tables
+          :EndIf
+      :EndHold
+      :Hold Token names←'info' 'infooi' 'eoinfo'
+          :If Missing names
+              C.info←FromCSV Dread'Examples/Data/info.csv'    ⍝ cache lookup table
+              C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1]) ⍝ cache hash tables
+          :EndIf
+      :EndHold
+    ∇
+
+    ∇ tree←MakeTreeGS ⍝ make the "Getting Started" tree
+      :Access public shared
+      tree←⍉⍪1 'Start here',⊂∊CURRFILES FILEEXT ⍝ top level
+      tree⍪←'pdf'DirTree'Documentation'         ⍝ documentation is PDFs only
+      tree⍪←DirTree'Examples/Techniques'
+      tree⍪←DirTree'Examples/Applications'
+      tree[;2]←Clean¨tree[;2]  ⍝ sample apps have underscores for spaces
+    ∇
+
+    ∇ tree←MakeTreeC;nss ⍝ make the "Controls" tree
+      :Access public shared
+      tree←1 'Core' '/*'BuildTree CoreOnly TREE
+      tree,¨←1 'All' '/'BuildTree NoSt TREE
+      nss←(NSS∊⍨2⊃tree)/⍳⍴⊃tree               ⍝ which ones are roots
+      (2⊃tree)[nss]←GROUPS[NSS⍳(2⊃tree)[nss]] ⍝ replace them with proper names
+      tree←⍉↑tree
+    ∇
+
+    ∇ left←MakeLeft;sf;sb;tree
+      left←'#leftBar'New _.div
+     
+      sf←'autofocus='New _.EditField'searchfield'         ⍝ search field active on page load
+     ⍝ sf.On'change' 'OnSearch'('str' 'val')              ⍝ uncomment to enable pressing Enter to search!
+     
+      sb←'#searchbutton' '.menu'New _.button'Search'      ⍝ search button
+      sb.On'click' 'OnSearch'('str' '#searchfield' 'val') ⍝ button click sends search field string to callback
+     
+      left.Add¨Horz sf sb                        ⍝ add the search field and button next to each other
+      left.Add¨Tree¨'Getting Started' 'Controls' ⍝ NOTE: Must have MakeTreeXX where XX is initials of title!!!
+    ∇
+
+    ∇ div←Tree title;xx;tree                                    ⍝ make tree based on its heading
+      div←New _.div                                             ⍝ container
+      div.Add _.hr                                              ⍝ horizontal ruler
+      '.cat'div.Add _.p title                                   ⍝ heading
+      xx←⎕A∩title                                               ⍝ initials of heading; XX
+      tree←⍎'MakeTree',xx                                       ⍝ calls MakeTreeXX
+      tree←('#tree',xx)div.Add _.ejTreeView tree                ⍝ gives id="XX"
+      tree.On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id') ⍝ sends along selected node's id
+    ∇
+
+    ∇ mid←MakeMid;url;code;title;attrs;d;hidden ⍝ middle pane with info, framed content and source
+      mid←'#midBar'New _.div         ⍝ container
+      hidden←'style="display:none;"' ⍝ attribute to start hidden
+      code←Dread url←⊃CURRFILES      ⍝ read initial page
+     
+      title←Clean'Control'Section code   ⍝ create and fill placeholder for title
+      '#Title'Add _.title('MS3: ',title) ⍝ this goes on the browser tab
+     
+      hidden'#Header'mid.Add _.h2        ⍝ heading placeholder for category lists and search results
+      d←'#Sample'mid.Add _.div           ⍝ container for file info so its visibility can be toggled
+      '#SampleTitle'd.Add _.strong title ⍝ filename
+      d.Add'– '
+      '#SampleDesc'd.Add _.span('Description'Section code) ⍝ sample description
+      ('#PopLink'd.Add _.span).Add NewWinA'Pop out'url      ⍝ "Pop out" link
+      d.Add _.br                                           ⍝ line break
+     
+      d←hidden'#Control'mid.Add _.div ⍝ container for ewidget info for toggleable visibilty
+      '#ControlTitle'd.Add _.strong   ⍝ placeholder for widget name
+      d.Add'– '
+      '#ControlDesc'd.Add _.span ⍝ placeholder for widget description
+      '#DocLink'd.Add _.span     ⍝ placeholder for link to WidgetDoc page
+      d.Add _.br
+     
+      attrs←'#ShowRelated' 'onchange=$("#rel").toggle(400)' 'style="margin-left: 0px; margin-top: 10px; margin-bottom: 10px;"'
+      attrs d.Add _.Input'checkbox' '' 'Show 0 related samples ' 'right' ⍝ checkbox to toggle list of related samples
+      hidden'#rel'd.Add _.div                                            ⍝ related-samples list starts hidden
+     
+      mid.Add _.hr
+      ('#SampleFrame'mid.Add _.div).Add Frame url ⍝ embedded page
+      mid.Add _.hr
+     
+      attrs←'onchange=$("#SampleSource").toggle(400)' 'style="margin-left: 0px;"' ⍝ smooth transition
+      attrs mid.Add _.Input'checkbox' '' 'Show source code' 'right'               ⍝ checkbox to toggle source code visibility
+      hidden'#SampleSource' '.samplesource'mid.Add _.div Ⓒ Format code              ⍝ ... starts hidden
+     
+      '#Handler'mid.Add _.div ⍝ placeholder for list item event handler
+    ∇
 
     :ENDSECTION
 
-    ∇ boacon
-      :Access public
-      :Implements constructor
-      CC 1
-    ∇
+    :SECTION CALLBACKS ⍝ PROGRAMS THAT RUN AFTER THE USER TRIGGERS AN EVENT HANDLER
 
-    ∇ r←lissst aargh
-      :Access public
-      r←CC aargh
-    ∇
-
-    ∇ {r}←CC list;all;b;boolean ⍝ Code Coverage. list is the fns to set
-     ⍝ or 1 to initialize all or 0 (stop & clear) or -1 (stop)
-      :Access public
-      :Trap 6
-          {}CodeCov
-      :Else
-          ⎕SE.SALT.Load'tools\code\codecov'
-      :EndTrap
-      all←⎕NL-3.1 4.1
-      :If 1∊b←¯1 0∊list
-          r←CodeCov.CC CCdata,{(⎕MONITOR ⍵)[;2]}¨CCdata[;1]
-          →b[1]/0 ⍝ do not reset numbers if ¯1
-          →0,⍬∘⎕MONITOR¨all
-      :ElseIf list≡1
-          list←all~'CC' 'UCMD'
+    ∇ r←OnTree;node;list;control;nost;ns
+      :Access Public                                  ⍝ callback for the ejTreeViews
+      nost←'*'~⍨node←Get'node'                        ⍝ was sent along as "node" by the event handler
+      :If '/'=⊃⌽nost                                  ⍝ if selected a category:
+          :If 'GS'In _what                                ⍝ if selected node under "Getting Started":
+              r←('pdf'/⍨'Documentation'In nost)ShowFiles node ⍝ restrict to PDFs if documentation
+          :Else                                           ⍝ if selected node under "Controls":
+              r←ShowCat node                                  ⍝ show all files in that category
+          :EndIf
+      :ElseIf '.'∊nost                                ⍝ if filename with extention, e.g. "something.mipage" or "other.pdf":
+          r←ShowFile nost                                 ⍝ load it up
+      :Else                                           ⍝ if selected a widget:
+          CURRFILES←Relevant LastSub nost                 ⍝ find relevant samples
+          :If ×≢CURRFILES                                 ⍝ if there is at least one:
+              r←ShowSample nost                               ⍝ show it
+          :Else                                           ⍝ if no samples:
+              r←ShowNone nost                                 ⍝ display a message
+          :EndIf
       :EndIf
-      boolean←(¯1+⍳999)∘{0::0 ⋄ 1⊣⍺ ⎕MONITOR ⍵}¨list
-      list←boolean/list
-      r←CCdata←''CodeCov.CCinit⍨⎕CR¨⊂⍣(2>≡list)⊢list
-      ⍝(¯1+⍳999)∘⎕MONITOR¨list ⍝ we can't do this inside CCinit
-     
     ∇
 
+    ∇ r←OnList
+      :Access Public   ⍝ callback for the sample lists
+      r←ShowFile _what ⍝ just show it
+    ∇
 
-    :SECTION UTILS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+    ∇ r←OnSearch;terms;urls
+      :Access Public       ⍝ callback for search
+      terms←Words Get'str' ⍝ was sent along by .On
+      r←''
+      urls←'/',¨∪⊃,/(⊂''),Relevant¨terms                              ⍝ find relevant files
+      r,←'#Title'Replace'MS3: ',⍕terms                                ⍝ browser tab
+      r,←'#Header'Replace(⍕≢urls),' samples for <em>',(⍕terms),'<em>' ⍝ "3 samples for Button" heading
+      r,←'#SampleFrame'Replace∊ListItem¨SortFiles urls                ⍝ output the sorted  list
+      r,←RefreshHandler                                               ⍝ we must refresh the handler
+      r,←'#SampleSource'Replace''                                     ⍝ clear source code area
+      r,←Execute'$("#Header").show()'                                 ⍝ show search result title
+      r,←Execute'$("#Control").hide()'                                ⍝ no widget
+      r,←Execute'$("#Sample").hide()'                                 ⍝ no page either
+    ∇
+    :ENDSECTION
+
+    :SECTION SHOW ⍝ SUB-ROUTINES THAT GENERATE JAVASCRIPT TO SHOW NEW STUFF
+
+    ∇ r←ShowFile node;name;url;code;nost
+      r←''
+      nost←node~'*'
+      url←NoExt nost
+      name←Clean LastSub url
+      r,←'#Title'Replace'MS3: ',name ⍝ browser tab
+      :If FILEEXT In nost                                        ⍝ if an embedded page:
+          CURRFILES(⊢,~)←⊂url                                    ⍝ move selected file to the front of the list
+          code←Dread url                                         ⍝ read the source
+          r,←'#SampleTitle'Replace name                              ⍝ filename
+          r,←'#SampleDesc'Replace'Description'Section code           ⍝ page description
+          r,←'#PopLink'Replace NewWinA'Pop out'url                   ⍝ link to open in new tab
+          r,←'#SampleFrame'Replace Frame nost                        ⍝ embedded page
+          r,←'#SampleSource'Replace Format code                      ⍝ syntax coloured source code
+          r,←Execute'$("#Header").hide()'                            ⍝ hide heading
+          r,←Execute'$("#Sample").show()'                            ⍝ display file name and description
+          :If IsDemo nost                                            ⍝ if sample page:
+              r,←ReplaceRelMsg                                           ⍝ replace message about how many related
+              r,←'#rel'Replace∊ListItem¨1↓CURRFILES,¨'*'                 ⍝ add star to differ from tree entries
+              r,←RefreshHandler                                          ⍝ refresh handler because of new items
+              r,←Execute'$("#Control").',(⊃'hide' 'show'↓⍨'*'∊node),'()' ⍝ hide widget info if we got here from a list
+          :Else                                                      ⍝ if app or info page:
+              r,←Execute'$("#Control").hide()'                           ⍝ no widget info
+          :EndIf
+      :Else                                                          ⍝ if other document (PDF):
+          r,←'#Header'Replace name                                       ⍝ filename
+          r,←'#SampleFrame'Replace NewObj nost                           ⍝ insert as object
+          r,←'#SampleSource'Replace''                                    ⍝ empty source code container
+          r,←Execute'$("#Header").show()'                                ⍝ show the filename
+          r,←Execute'$("#Control").hide()'                               ⍝ hide the widget info
+          r,←Execute'$("#Sample").hide()'                                ⍝ and the file info
+      :EndIf
+    ∇
+
+    ∇ r←ShowNone node;name;ns;control;msg ⍝ genereic message when there is no sample to show
+      r←''
+      name←∊'_.',¨(ns control)←NsControl node                         ⍝ widget we wanted a sample for
+      r,←'#Title'Replace'MS3: ',name                                  ⍝ browser tab
+      r,←'#SampleTitle'Replace name                                   ⍝ widget name
+      r,←'#ControlDesc'Replace Info name                              ⍝ we may have some info on it
+      r,←'#DocLink'Replace NewWinA'View documentation'Doc ns control  ⍝ and a link for more info
+      r,←'#rel'Replace''                                              ⍝ obviously there are no related
+      r,←Execute'$("#Header").hide()'                                 ⍝ hide the larger header
+      r,←Execute'$("#Control").show()'                                ⍝ show the widget info
+      r,←Execute'$("#Sample").hide()'                                 ⍝ hide the nonexistant file info
+      msg←'<p>Sorry, no samples available for <em>',name,'</em></p>' ⍝ message about the problem...
+      r,←'#SampleFrame'Replace msg                                    ⍝ ... goes where the sample would be
+      r,←'#SampleSource'Replace''                                     ⍝ no source either
+    ∇
+
+    ∇ r←ShowSample node;code;title;url;control;doc;info;ns;name ⍝ load a sample page and update info
+      r←''
+      name←∊'_.',¨(ns control)←NsControl node ⍝ full proper name
+      info←Info name
+      code←Dread url←⊃CURRFILES ⍝ the first is what we display, the rest are related
+      title←LastSub url
+      r,←'#Title'Replace'MS3: ',title                                  ⍝ browser tab
+      r,←'#SampleTitle'Replace title                                   ⍝ filename
+      r,←'#SampleDesc'Replace'Description'Section code                 ⍝ sample description
+      r,←'#PopLink'Replace NewWinA'Pop out'url                         ⍝ update new-tab link
+      r,←'#SampleFrame'Replace Frame url                               ⍝ load sample page
+      r,←'#SampleSource'Replace Format code                            ⍝ update source code
+      r,←Execute'$("#Header").hide()'                                  ⍝ no need for the list header
+      r,←Execute'$("#Sample").show()'                                  ⍝ do show the sample's info
+      :If IsDemo url                                                   ⍝ if sample page:
+          r,←'#ControlTitle'Replace name                                   ⍝ filename
+          r,←'#ControlDesc'Replace info                                    ⍝ widget info
+          r,←'#DocLink'Replace NewWinA'View documentation'Ⓒ Doc ns control ⍝ update link to WidgetDoc
+          r,←ReplaceRelMsg                                                 ⍝ replace message about how many related
+          r,←'#rel'Replace∊ListItem¨1↓CURRFILES,¨'*'                       ⍝ update list
+          r,←'#rel'Append New _.Handler'.listitem' 'click' 'OnList'        ⍝ refresh handler because of new items
+          r,←Execute'$("#Control").show()'                                 ⍝ show it all
+      :Else                                                            ⍝ if app or info page:
+          r,←Execute'$("#Control").hide()'                                 ⍝ hide the widget info and related list
+      :EndIf
+    ∇
+
+    ∇ r←{ext}ShowFiles node;list;name ⍝ show list of files
+      r←''
+      :If 900⌶⍬ ⋄ :OrIf 0=⍴ext ⋄ ext←1↓FILEEXT ⋄ :EndIf ⍝ default file extention
+      list←ext Slist node                               ⍝ get list of all those files
+      list←list[;2]/⍨list[;1]≢¨⊂'DIR'                   ⍝ remove folders
+      list←(¯1+≢#.Boot.AppRoot)↓¨list,¨⊂'.',ext         ⍝ remove site path, but append file extention
+      r,←'#SampleFrame'Replace∊ListItem¨SortFiles list  ⍝ sorted list
+      r,←RefreshHandler                                 ⍝ refresh handler because of new items
+      r,←'#SampleSource'Replace''                       ⍝ no source code
+      r,←'#Title'Replace'MS3: ',name←LastSub ¯1↓node    ⍝ browser tab
+      r,←'#Header'Replace name                          ⍝ big heading
+      r,←Execute'$("#Header").show()'                   ⍝ show it too
+      r,←Execute'$("#Control").hide()'                  ⍝ no widget
+      r,←Execute'$("#Sample").hide()'                   ⍝ no file either
+    ∇
+
+    ∇ r←ShowCat node;tree;urls;name;core;cats ⍝ show samples for all the widgets in a category
+      r←''
+      core←'*'∊node              ⍝ is it a core widget
+      tree←NoSt'*'∘∊Of⍣core⊢TREE ⍝ filter
+      node~←'*'
+      urls←∪⊃,/(⊂''),Relevant¨LastSub¨tree/⍨⊃¨node∘⍷¨tree ⍝ unique samples relevant to one of ours
+      cats←1↓¨¯1↓node⊂⍨SlOf node                          ⍝ find the top level ns
+      (1↑cats)←(GROUPS,⊂'')[NSS⍳1↑cats]                   ⍝ replace by a proper name if abbr
+      name←⍕('All' 'Core'⊃⍨1+core)(2↑cats)                ⍝ appropriate prefix
+      r,←'#Title'Replace'MS3: ',name                      ⍝ browser tab
+      r,←'#SampleFrame'Replace∊ListItem¨SortFiles urls    ⍝ sorted list
+      r,←RefreshHandler                                   ⍝ refresh handler because of new items
+      r,←'#SampleSource'Replace''                         ⍝ no source
+      r,←'#Header'Replace name,' Controls'                ⍝ big heading
+      r,←Execute'$("#Header").show()'                     ⍝ show it too
+      r,←Execute'$("#Control").hide()'                    ⍝ no widget
+      r,←Execute'$("#Sample").hide()'                     ⍝ no file either
+    ∇
+
+    ∇ r←ReplaceRelMsg ⍝ generate JavaScript to replace message about related samples
+      r←'[for=''ShowRelated'']'Replace{'Show ',(⍕⍵),' related sample','.',⍨'s'/⍨⍵≠1}0⌈¯1+≢CURRFILES
+    ∇
+
+    ∇ r←RefreshHandler ⍝ ⍝ generate JavaScript to refresh even handler for newly inserted objects
+      r←'#Handler'Replace New _.Handler'.listitem' 'click' 'OnList'
+    ∇
+
+    :ENDSECTION
+
+    :SECTION UTILS ⍝ VARIOUS UTILITIES
 
     ∇ r←{a}Ⓒ w     ⍝ ⊆
       r←⊂⍣(1=≡w)⊢w ⍝ enclose if simple
       →0/⍨900⌶⍬    ⍝ but when dyadic...
       r,⍨←⊂a       ⍝ ... Iverson link
     ∇
-    FromCSV←↑{'"'~¨⍨1↓¨t⊂⍨(','=t)∧~≠\'"'=t←',',⍵}¨
 
-    Q←'"'∘,,∘'"'                         ⍝ Surround with quotes, a.k.a. APL dragon
-    D←{(×≢⍵)/' – ',⍵}                    ⍝ Prepend a dash if non-empty
-    P←{1⌽(×≢#.HTMLInput.dtlb ⍵)/') (',⍵} ⍝ Surround with parens if non-empty
+    FromCSV←↑{'"'~¨⍨1↓¨t⊂⍨(','=t)∧~≠\'"'=t←',',⍵}¨ ⍝ Convert CSV VTV to matrix
 
-    Of←{⍵/⍨⍺⍺¨⍵}
-    NoSt←~∘'*'¨
-    SlOf←'/'∘=
-    CoreOnly←((⊃,(⊃⌽))(SlOf⊂⊢))¨'*'∘∊Of                ⍝ those ending in * but without middle category
-    NameOnly←{1↓⊃⌽(SlOf⊂⊢)path↓⍨-SlOf⊃⌽path←⍵~'*'}     ⍝ between last / and final *
-    Levels←{(+/¨SlOf ⍵)+~SlOf(⊃⌽)¨⍵}                   ⍝ number of /s adjusted for categories' final /
-    BuildTree←{⍺((⊂⊣),⊢)¨(Levels NoSt ⍵)(NameOnly¨⍵)⍵} ⍝ prepend parent category
+    Of←{⍵/⍨⍺⍺¨⍵}                        ⍝ those elements of ⍵ that satisfy ⍺⍺ element
+    NoSt←~∘'*'¨                         ⍝ remove stars from all elements in a VTV
+    SlOf←'/'∘=                          ⍝ slashes of
+    In←∨/⍷                              ⍝ is found in
+    IsDemo←{∨/∊'Simple' 'Advanced'⍷¨⊂⍵} ⍝ is widget demo sample
 
-    Words←{(1↓¨(∊∘' .'⊂⊢)' ',⍵)~⊂''}                    ⍝ Split at spaces and dots
-    Split←{{⍵↑⍨+/∨\' '≠⌽⍵}¨('_'⎕R' ')⍵((⍳↑⊣)Ⓒ(⍳↓⊣))'_'} ⍝ Split at first _ and fix _s
+    FirstLast←(⊃Ⓒ(⊃⌽))(SlOf⊂⊢)                        ⍝ '/aaa/bbb/ccc/ddd'  →  '/aaa' '/ddd'
+    CoreOnly←∊∘FirstLast¨'*'∘∊Of                      ⍝ those ending in * but without middle category
+    Levels←{(+/¨SlOf⍵)+~SlOf(⊃⌽)¨⍵}                   ⍝ number of /s adjusted for categories' final /
+    LastSub←{⍵↑⍨1-'/'⍳⍨⌽⍵}                            ⍝ '/aaa/bbb/ccc/ddd'  →  'ddd'
+    Name←{1↓⊃⌽((SlOf⊂⊢)⍵)~⊂,'/'}                      ⍝ '/aaa/bbb/ccc/ddd/'  →  'ddd' only in BuildTree
+    BuildTree←{⍺((⊂⊣),⊢)¨(Levels NoSt⍵)(Name¨NoSt⍵)⍵} ⍝ prepend parent category
 
-    SpaceToDir←{'Examples/',1↓⍵} ⍝ Convert Space name to Folder name
-    NodeToCtrl←{'_',(⊢End 1↓⍵),'.',⌽End ⍵}
-    CtrlToNode←{'#',('\.' ⎕R '_')⍵}
-      ListItem←{
+    Words←{(1↓¨(∊∘' .'⊂⊢)' ',⍵)~⊂''} ⍝ split at spaces and dots and remove empty pieces
+    NsControl←{1↓¨FirstLast ⍵}       ⍝ '/aaa/bbb/ccc/ddd'  →  'aaa' 'ddd'
+
+    Token←{'Currently updating or creating #.CACHE.(',')',⍨1↓∊' ',¨⍵} ⍝ create specific token for :Hold
+    Missing←{0∊#.CACHE.⎕NC⍵}                                          ⍝ are any of the required cached things missing
+
+    NewObj←{('width=740 height=900 data=',Q⍵)New _.object}
+    Format←'small;border:none'∘#.HTMLInput.APLToHTMLColour                                       ⍝ make coloured HTML
+    Frame←{⍺←⊢ ⋄ ⍺'.iframed'('src=',Q ⍵,'?NoWrapper=1')New _.iframe}                             ⍝ _.iframe without wrapper
+    NewWinA←{'target="_blank"'('href=',Q⊃⌽⍵) 'title="Click to open in a new window"'New _.a Ⓒ⊃⍵} ⍝ new-tab link
+    Horz←{⍺←⊢ ⋄ r⊣(r←⍺ New _.StackPanel ⍵).Horizontal←1}                                         ⍝ horizontal StackPanel
+      ListItem←{ ⍝ generate pre-rendered entry for lists
           nost←⍵~'*'
           noext←~'.'∊nost
           r←'<p class="listitem" id="',nost,(noext/FILEEXT),('*'∩⍵),'"><strong>',Clean NoExt LastSub nost
-          ∨/noext,FILEEXT⍷nost:r,'</strong> – ',('Description'Section Dread nost),'</p>'
+          ∨/noext,FILEEXT⍷nost:r,'</strong> – ',('Description'Section Dread nost),'</p>' ⍝ add description if it is a mipage
           r,'</strong></p>'
       }
-    NsControl←{1↓¨(⊃Ⓒ(⊃⌽))('/'∘=⊂⊢)⍵}
+    SortFiles←{⍵[⍋↑LastSub¨⍵]} ⍝ sort by filename while ignoring path
 
-    Token←{'Currently updating or creating C.(',')',⍨1↓∊' ',¨⍵}
-    Missing←{0∊C.⎕NC ⍵}
-
-    Frame←{⍺←⊢ ⋄ ⍺'.iframed'('src=',Q ⍵,'?NoWrapper=1')New _.iframe}
-    NewWinA←{'target="_blank"'('href=',Q⊃⌽⍵) 'title="Click to open in a new window"'New _.a (⊃⍵)} ⍝ New link that opens in a new window/tab
-    NewDiv←{⍵ New _.div} ⍝ Make a div
-    Horz←{⍺←⊢ ⋄ r⊣(r←⍺ New _.StackPanel ⍵).Horizontal←1} ⍝ Horizontal StackPanel
-
-    Type←{P(1⍳⍨∨/¨TYPES⍷¨⊂⍺)⊃(TYPES,¨⊂' sample for ',⍵),⊂'Sample app'} ⍝ Simple/Advanced/App?
-
-    ∇ r←Dread page;i
-    ⍝ Read a page via the #.CACHE.DREAD
+    ∇ r←Dread page;i ⍝ Read a page via the #.CACHE.DREAD (C)
+      :Access public shared
       :Trap 0
           :If Missing'Dread' ⋄ C.DREAD←⎕NS'' ⋄ C.DREAD.(Keys←Data←⍬) ⋄ :EndIf
           :If (≢C.DREAD.Keys)≥i←C.DREAD.Keys⍳⊂page
@@ -115,38 +343,36 @@
           r←,⊂'[failed to read "',page,'"]'
       :EndTrap
     ∇
-    Dlist←{0::⍬ ⋄ (Slist #.Boot.AppRoot,⍵,' -raw -ext=',1↓FILEEXT)[;2]} ⍝ List dyalog files
-    Slist←{l←⎕SE.SALT.List ⍵ ⋄ l[;2]←('[\\/]+' ⎕R'/')l[;2] ⋄ l}
-    ScoreIn←{(100⊥⌽∨/¨TYPES⍷¨⊂⍵)×(⊂⍺)(∊×⍳⍨)Words'Control'Section Dread ⍵} ⍝ ⍺'s relevance in ⍵ (0=none 1=high 2=lower...)
-      DirTree←{
+      Slist←{ ⍝ files in site folder
+          ⍺←1↓FILEEXT ⍝ default .ext
+          list←⎕SE.SALT.List #.Boot.AppRoot,⍵,' -rec -raw -full=2 -ext=',⍺
+          list[;2]←('[\\/]+'⎕R'/')list[;2] ⍝ normalize slashes for www
+          list
+      }
+      DirTree←{ ⍝ make arg for ejTreeView based on files in folder and subfolders
           ⍺←1↓FILEEXT
-          parent←1(↑Tail ⍵)('/',⍵,'/')
-          list←Slist #.Boot.AppRoot,⍵,' -rec -raw -full=2 -ext=',⍺
+          parent←1(LastSub ⍵)('/',⍵,'/')
+          list←⍺ Slist ⍵
           0∊⍴list:0 3⍴0 '' ''
           nodir←~list[;1]∊⍨⊂'<DIR>'
           files←list[;2]↓¨⍨¯1+≢#.Boot.AppRoot
           levels←2+(+/¨'/'=files)-+/'/'=3⊃parent
           files,¨←('.',⍺)'/'[1+(list[;1]≡¨⊂'<DIR>')]
-          DelEmpty⍣≡parent⍪⍉↑levels(↑Tail¨list[;2])files
+          DelEmpty⍣≡parent⍪⍉↑levels(LastSub¨list[;2])files
+      }
+    DelEmpty←{⍵⌿⍨(0,⍨2</⍵[;1])∨'/'≠⊃¨⌽¨⍵[;3]} ⍝ Remove folders that do not have files
+      Info←{ ⍝ Get info on a control
+          control←(⍳∘'.'↓⊢)⍵
+          C.eoinfo⊂control:C.info[;2]⊃⍨C.infooi⊂control ⍝ if we have, use that
+          'Description'Section ⎕SRC #⍎⍵                 ⍝ else extract it
       }
 
-    In←{∨/¨⊃⍷¨/{⎕SE.Dyalog.Utils.lcase¨Ⓒ ⍵}¨⍺ ⍵} ⍝ Case-insensitive find
+    Relevant←{C.eocontrols⊂⍵:C.files[C.rankings⊃⍨C.controlsoi⊂⍵] ⋄ 0⍴⊂''}  ⍝ samples that demo ⍵
+    Doc←{∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨⍵} ⍝ address of WidgetDoc
+    Q←'"'∘,,∘'"'                                                           ⍝ surround with quotes
 
-      Info←{
-          (ns control)←NsControl ⍵
-          C.eoinfo⊂control:C.info[;2]⊃⍨C.infooi⊂control
-          'Description'Section ⎕SRC #⍎name}
-
-    Relevant←{C.eocontrols⊂⍵:C.files[C.rankings⊃⍨C.controlsoi⊂⍵] ⋄ 0⍴⊂''}
-    Doc←{∊'http://localhost:8080/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨⍵}
-
-    Tail←{⍵ ⍺⍺⍨1-(⌽⍵)⍳'/'} ⍝ ↑Tail or ↓Tail
-    End←{⍺⍺{⍵↑⍨¯1+⍵⍳'_'}⍺⍺ ⍵} ⍝ ⊢End: until first _   ⌽End: from last _
-    LastSub←{⍵↑⍨1-'/'⍳⍨⌽⍵}
-
-    Clean←'_'⎕R' '
-    NoExt←{'.'∊⍵:⍵↓⍨-'.'⍳⍨⌽⍵⋄⍵}
-    DelEmpty←{((0,⍨2</⍵[;1])∨'/'≠⊃¨⌽¨⍵[;3])⌿⍵}
+    Clean←'_'⎕R' '              ⍝ underscores  →  spaces
+    NoExt←{'.'∊⍵:⍵↓⍨-'.'⍳⍨⌽⍵⋄⍵} ⍝ 'aaa.bbb.ccc'  →  'aaa.bbb'
 
       Section←{ ⍝ extract section ⍺:: from code ⍵
           regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)'
@@ -154,290 +380,7 @@
           res←(regex ⎕S'\1\2'⍠opts)⍵
           (1↓⊃res)~'⍝'
       }
-    Names←{1↓¨⍵↑¨⍨¯1+⍵⍳¨':'} ⍝ Extract section names from set of several 'name:: description'
 
     :ENDSECTION
 
-    :SECTION MAIN ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-
-    ∇ Compose
-      :Access public
-      Init
-      Add _.StyleSheet'/Styles/homepage.css'
-      Add'mainSP'Horz MakeLeft MakeMid
-    ∇
-
-    ∇ Init;allscores;ctrlsinfiles;names;list
-      C←⍎'#.CACHE'⎕NS ⍬
-      CURRCTRL←''
-      SAMPLES←0 3⍴⍬
-      CURRFILES←⊂'/About_MiServer'
-      REFS←#⍎¨'_',¨NSS
-      :Hold Token names←'info' 'infooi' 'eoinfo'
-          :If Missing names
-              C.info←FromCSV Dread'Examples/Data/info.csv'
-              C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1]) ⍝ Save hash tables
-          :EndIf
-      :EndHold
-     
-      list←(⍴#.Boot.AppRoot)↓¨⊃⍪/{Slist #.Boot.AppRoot,'Examples/',⍵,' -rec -raw -full=2 -ext=',1↓FILEEXT}¨NSS
-      C.files←list[;2]/⍨list[;1]≢¨⊂'<DIR>'
-      CORE←⎕SE.SALT.Load #.Boot.AppRoot,'Examples/Data/core -noname'
-      :Hold Token names←'controls' 'rankings' 'controlsoi' 'iocontrols'
-          :If Missing names
-              ctrlsinfiles←{('_',¨NSS)~⍨Words'Control'Section Dread ⍵}¨C.files
-              C.controls←∪↑,/ctrlsinfiles
-              allscores←C.controls∘.{(102-2×(50↑⊃⌽⍵)⍳⊂⍺)-∨/'Advanced'⍷⊃⍵}↓⍉↑C.files ctrlsinfiles
-              C.rankings←(+/0<allscores)↑¨↓⍒⍤1⊢allscores
-              C.controlsoi←C.controls∘⍳ ⋄ C.eocontrols←∊∘C.controls ⍝ Save hash tables
-          :EndIf
-      :EndHold
-    ∇
-
-    ∇ tree←MakeTreeGS
-      :Access public shared
-      tree←⍉⍪1 'Start here'(∊CURRFILES,FILEEXT)
-      tree⍪←'pdf'DirTree'Documentation'
-      tree⍪←DirTree'Examples/Techniques'
-      tree⍪←DirTree'Examples/Applications'
-      tree[;2]←Clean¨tree[;2]
-    ∇
-
-    ∇ tree←MakeTreeC;nss
-      :Access public shared
-     
-      TREE←(Dread'Examples/Data/tree.txt')~⊂''
-      tree←1 'Core' '/*'BuildTree CoreOnly TREE
-      tree,¨←1 'All' '/'BuildTree NoSt TREE
-     
-      nss←(NSS∊⍨2⊃tree)/⍳⍴⊃tree                  ⍝ which ones are roots
-      (2⊃tree)[nss]←GROUPS[NSS⍳(2⊃tree)[nss]]    ⍝ replace them with proper names
-      tree←⍉↑tree
-    ∇
-
-    ∇ left←MakeLeft;sf;sb;tree
-      left←NewDiv'#leftBar'
-     
-      sf←'autofocus='New _.EditField'searchfield' ⍝ SEARCH FIELD ⍝⍝⍝
-     ⍝ sf.On'change' 'OnSearch'('str' 'val')   ⍝ Uncomment to enable pressing Enter to search
-      sb←'#searchbutton' '.menu'New _.button'Search'
-      sb.On'click' 'OnSearch'('str' '#searchfield' 'val')
-      left.Add Horz sf sb
-     
-      left.Add _.hr
-     
-      '.cat'left.Add _.p'Getting Started' ⍝ GETTING STARTED ⍝⍝⍝
-      tree←'#treeG'left.Add _.ejTreeView MakeTreeGS
-      tree.On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id')
-     
-      left.Add _.hr
-     
-      '.cat'left.Add _.p'Controls' ⍝ CONTROLS ⍝⍝⍝
-      tree←'#treeA'left.Add _.ejTreeView MakeTreeC
-      tree.On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id')
-    ∇
-
-    ∇ mid←MakeMid;url;code;frame;title;navbuts;t;sr;mid;control;sample;attrs;source
-      mid←NewDiv'#midBar'
-     
-      code←Dread url←⊃CURRFILES  ⍝ Read framed pages
-     
-      title←Clean'Control'Section code ⍝ Create and fill placeholders for title and header
-      '#Title'Add _.title('MS3: ',title) ⍝ after the : will be updated later on
-     
-      '#Header' 'style="display:none;"'mid.Add _.h2 ⍝ Placeholder for a header on category lists and search results
-      sample←'#Sample'mid.Add _.div      ⍝ All descriptions will go here
-      '#SampleTitle'sample.Add _.strong title ⍝ _html.code
-      sample.Add'– '
-      '#SampleDesc'sample.Add _.span('Description'Section code) ⍝ Sample: Embed a code fragment
-      ('#PopLink'sample.Add _.span).Add NewWinA'Pop out'url     ⍝ [Pop out]
-      sample.Add _.br
-     
-      control←'#Control' 'style="display:none;"'mid.Add _.div                        ⍝ All descriptions will go here
-      '#ControlTitle'control.Add _.strong ⍝ _html.code
-      control.Add'– '
-      '#ControlDesc'control.Add _.span                                              ⍝ Control: Code fragment
-      ('#DocLink'control.Add _.span).Add'target="_blank'New _.A'View documentation' ⍝ [View documentation]
-      control.Add _.br
-     
-      attrs←'#ShowRelated' 'onchange=$("#rel").toggle(400)' 'style="margin-left: 0px; margin-top: 10px; margin-bottom: 10px;"'
-      attrs control.Add _.Input'checkbox' '' 'Show 0 related samples ' 'right' ⍝ [ ] Show related samples
-      '#rel' 'style="display: none;"'control.Add _.div
-     
-      mid.Add _.hr
-      (mid.Add NewDiv'#SampleFrame').Add Frame url ⍝ Placeholder for embedded page and its source code
-      mid.Add _.hr
-     
-      attrs←'onchange=$("#SampleSource").toggle(400)' 'style="margin-left: 0px;"'
-      attrs mid.Add _.Input'checkbox' '' 'Show source code' 'right'
-      source←'small;border:none'#.HTMLInput.APLToHTMLColour code
-      '#SampleSource' '.samplesource' 'style="display: none;"'mid.Add _.div source
-    ∇
-
-    :ENDSECTION
-
-    :SECTION CALLBACKS ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-
-    ∇ r←OnTree;node;list;control;nost;ns
-      :Access Public ⍝ Callback for the ejTreeViews
-      nost←'*'~⍨node←Get'node'
-      :If '/'=⊃⌽nost ⍝ Category
-          :If 'G'∊_what
-              :If ∨/'Documentation'⍷nost
-                  r←'pdf'ShowFiles node
-              :Else
-                  r←ShowFiles node
-              :EndIf
-          :Else
-              r←ShowCat node
-          :EndIf
-      :ElseIf '.'∊nost ⍝ URL
-          r←ShowFile nost
-      :Else ⍝ Control
-          CURRFILES←Relevant⊃⌽NsControl nost
-          :If ×≢CURRFILES
-              r←ShowSample nost
-          :Else
-              r←ShowNone nost
-          :EndIf
-      :EndIf
-    ∇
-
-    ∇ r←OnList
-      :Access Public ⍝ Callback for the sample lists
-      r←ShowFile _what
-    ∇
-
-    ∇ r←OnSearch;terms;urls
-      :Access Public
-      terms←Words Get'str'
-      r←''
-      urls←'/',¨∪⊃,/(⊂''),Relevant¨terms
-      r,←'#Title'Replace'MS3: ',⍕terms
-      r,←'#Header'Replace(⍕≢urls),' samples for <em>',(⍕terms),'<em>'
-      r,←'#SampleFrame'Replace∊ListItem¨urls
-      r,←'#SampleFrame'Append New _.Handler'.listitem' 'click' 'OnList'
-      r,←'#SampleSource'Replace''
-      r,←Execute'$("#Header").show()'
-      r,←Execute'$("#Control").hide()'
-      r,←Execute'$("#Sample").hide()'
-    ∇
-    :ENDSECTION
-
-    :SECTION SHOW
-
-    ∇ r←ShowFile node;name;url;code;noext;nost
-      r←''
-      nost←node~'*'
-      noext←NoExt nost
-      name←Clean LastSub noext
-      r,←'#Title'Replace'MS3: ',name
-      :If ∨/nost⍷⍨FILEEXT ⍝ a MiPage
-          CURRFILES(⊢,~)←⊂noext
-          url←⊃CURRFILES
-          code←Dread url
-          r,←'#SampleTitle'Replace name
-          r,←'#SampleDesc'Replace'Description'Section code ⍝ Sample: Embed a code fragment
-          r,←'#PopLink'Replace NewWinA'Pop out'url
-          r,←'#SampleFrame'Replace Frame nost
-          r,←'#SampleSource'Replace'small;border:none'#.HTMLInput.APLToHTMLColour code
-          :If ∨/∊TYPES⍷¨⊂nost
-              r,←'[for=''ShowRelated'']'Replace{'Show ',(⍕⍵),' related sample','.',⍨'s'/⍨⍵≠1}0⌈¯1+≢CURRFILES
-              r,←'#rel'Replace∊ListItem¨1↓CURRFILES,¨'*'
-              r,←'#rel'Append New _.Handler'.listitem' 'click' 'OnList'
-              r,←Execute'$("#Control").',(⊃'hide' 'show'↓⍨'*'∊node),'()'
-          :Else
-              r,←Execute'$("#Control").hide()'
-          :EndIf
-          r,←Execute'$("#Header").hide()'
-          r,←Execute'$("#Sample").show()'
-      :Else
-          r,←'#Header'Replace name
-          r,←'#SampleFrame'Replace('width=740 height=900 data=',Q nost)New _.object
-          r,←'#SampleSource'Replace''
-          r,←Execute'$("#Header").show()'
-          r,←Execute'$("#Control").hide()'
-          r,←Execute'$("#Sample").hide()'
-      :EndIf
-    ∇
-
-    ∇ r←ShowNone node;name;ns;control
-      r←''
-      name←∊'_.',¨(ns control)←NsControl node
-      r,←'#Title'Replace'MS3: ',name
-      r,←'#SampleTitle'Replace name
-      r,←'#ControlDesc'Replace Info control ⍝ Control: Code fragment
-      r,←'#DocLink'Replace NewWinA'View documentation'Doc ns control ⍝ [View documentation]
-      r,←'#rel'Replace''
-      r,←Execute'$("#Header").hide()'
-      r,←Execute'$("#Control").show()'
-      r,←Execute'$("#Sample").hide()'
-      r,←'#SampleFrame'Replace'<p>No samples available for this control</p>'
-      r,←'#SampleSource'Replace''
-    ∇
-
-    ∇ r←ShowSample node;code;title;url;control;doc;info;ns;name
-      r←''
-      name←∊'_.',¨(ns control)←NsControl node
-      info←Info node
-      code←Dread url←⊃CURRFILES ⍝ was set in calling fn
-      title←LastSub url
-      r,←'#Title'Replace'MS3: ',title
-      r,←'#SampleTitle'Replace title
-      r,←'#SampleDesc'Replace'Description'Section code
-      r,←'#PopLink'Replace NewWinA'Pop out'url
-      r,←Execute'$("#Header").hide()'
-      :If ∨/'Applications'⍷url ⍝ App
-          r,←Execute'$("#Sample").show()'
-          r,←Execute'$("#Control").hide()'
-      :Else ⍝ Control
-          r,←Execute'$("#Control").show()'
-          r,←Execute'$("#Sample").show()'
-          r,←'#ControlTitle'Replace name
-          r,←'#ControlDesc'Replace info ⍝ Control: Code fragment
-          r,←'#DocLink'Replace NewWinA'View documentation'Ⓒ Doc ns control⍝ [View documentation]
-          r,←'[for=''ShowRelated'']'Replace{'Show ',(⍕⍵),' related sample','.',⍨'s'/⍨⍵≠1}0⌈¯1+≢CURRFILES
-          r,←'#rel'Replace∊ListItem¨1↓CURRFILES,¨'*'
-          r,←'#rel'Append New _.Handler'.listitem' 'click' 'OnList'
-      :EndIf
-      r,←'#SampleFrame'Replace Frame url
-      r,←'#SampleSource'Replace'small;border:none'#.HTMLInput.APLToHTMLColour code
-    ∇
-
-    ∇ r←{ext}ShowFiles node;list;name
-      r←''
-      :If 900⌶⍬ ⋄ ext←1↓FILEEXT ⋄ :EndIf
-      list←Slist #.Boot.AppRoot,node,' -rec -raw -full=2 -ext=',ext
-      list←list[;2]/⍨list[;1]≢¨⊂'DIR'
-      list←(¯1+≢#.Boot.AppRoot)↓¨list,¨⊂'.',ext
-      r,←'#Title'Replace'MS3: ',name←LastSub ¯1↓node
-      r,←'#Header'Replace name
-      r,←Execute'$("#Header").show()'
-      r,←Execute'$("#Control").hide()'
-      r,←Execute'$("#Sample").hide()'
-      r,←'#SampleFrame'Replace∊ListItem¨{⍵[⍋↑LastSub¨⍵]}list
-      r,←'#SampleFrame'Append New _.Handler'.listitem' 'click' 'OnList'
-      r,←'#SampleSource'Replace''
-    ∇
-
-    ∇ r←ShowCat node;tree;urls;name;core;cats
-      r←''
-      core←'*'∊node
-      tree←NoSt'*'∘∊Of⍣core⊢TREE
-      node~←'*'
-      urls←∪⊃,/(⊂''),Relevant¨LastSub¨tree/⍨⊃¨node∘⍷¨tree
-      cats←1↓¨¯1↓node⊂⍨SlOf node
-      (1↑cats)←(GROUPS,⊂'')[NSS⍳1↑cats]
-      name←⍕('All' 'Core'⊃⍨1+core)(2↑cats)
-      r,←'#Title'Replace'MS3: ',name
-      r,←'#Header'Replace name,' Controls'
-      r,←Execute'$("#Header").show()'
-      r,←Execute'$("#Control").hide()'
-      r,←Execute'$("#Sample").hide()'
-      r,←'#SampleFrame'Replace∊ListItem¨urls
-      r,←'#SampleFrame'Append New _.Handler'.listitem' 'click' 'OnList'
-      r,←'#SampleSource'Replace''
-    ∇
-
-    :ENDSECTION
 :EndClass
