@@ -10,16 +10,17 @@
     :field Public _Styles←''
     :field Public _CssReset←''    ⍝ location of CSS Reset file (if any)
     :field Public _CssOverride←'' ⍝ location of CSS Override file (if any)
-    :field public _Serialized←1   ⍝ serialized forms to return in _PageData
+    :field Public _Serialized←1   ⍝ serialized forms to return in _PageData
     :field Public _event          ⍝ set by APLJAX callback - event that was triggered
     :field Public _what           ⍝ set by APLJAX callback - name or id of the triggering element
     :field Public _value          ⍝ set by APLJAX callback - value of the triggering element
     :field Public _selector       ⍝ set by APLJAX callback - CSS/jQuery selector for the element that triggered the event
     :field Public _callback       ⍝ set by APLJAX callback - name of the callback function
-    :field public _PageData
-    :field public _AjaxResponse←''
-    :field public _DebugCallbacks←0
-    :field public OnLoad←''     ⍝ page equivalent to ⎕LX
+    :field Public _PageData       ⍝ namespace containing any data passed via forms or URL
+    :field Public _AjaxResponse←''
+    :field Public _DebugCallbacks←0    
+    :field Public _TimedOut←0
+    :field Public OnLoad←''     ⍝ page equivalent to ⎕LX
 
     _used←'' ⍝ keep track of what's been used
 

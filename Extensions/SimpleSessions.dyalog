@@ -19,7 +19,8 @@
         :Field Public Cookie←''
         :Field Public AuthCookieName←''
         :Field Public TimeOut←0
-        :Field Public State
+        :Field Public State 
+        :Field Public New←1
         :Field Public Pages←0⍴⎕NEW Page
     :EndClass
 
@@ -66,6 +67,7 @@
      
           :Else ⍝ Old session
               (r←i⊃Sessions).LastActive←now ⍝ Just register activity
+              r.New←0
               req.Session←r
           :EndIf
      
