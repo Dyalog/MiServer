@@ -79,7 +79,6 @@
 /SF/Notification/ejProgressBar
 /SF/Notification/ejWaitingPopup*
 /SF/Framework/
-/SF/Framework/ejDataManager
 /SF/Framework/ejUnobtrusive
 /SF/Miscellaneous/
 /SF/Miscellaneous/ejCalculate
