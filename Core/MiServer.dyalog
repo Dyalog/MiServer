@@ -232,7 +232,7 @@
      
       PageTemplates←#.Pages.⎕NL ¯9.4
      
-      'Unable to allocate TCP/IP port'⎕SIGNAL(0≠1⊃,AllocatePort)/11
+      ('Unable to allocate TCP/IP port ',⍕Config.Port)⎕SIGNAL(0≠1⊃,AllocatePort)/11
     ∇
 
     ∇ UnMake
@@ -478,7 +478,7 @@
       :AndIf (n←⍴REQ.Session.Pages)≥i←REQ.Session.Pages._PageName⍳⊂REQ.Page
           inst←i⊃REQ.Session.Pages ⍝ Get existing instance
           :If expired←inst._PageDate≢date  ⍝ Timestamp unchanged?
-          :AndIf expired←(⎕SRC⊃⊃⎕CLASS inst)≢#.UnicodeFile.ReadNestedText file
+⍝BPB      :AndIf expired←(⎕SRC⊃⊃⎕CLASS inst)≢#.UnicodeFile.ReadNestedText file  ⍝BPB commented out because it's wasteful
               oldinst←inst
               REQ.Session.Pages~←inst
               4 Log'Page: ',REQ.Page,' ... has been updated ...'
@@ -517,7 +517,7 @@
               ⍝ If sessioned but not expired, check if GET
           :If RESTful<sessioned>expired
           :AndIf ~REQ.isGet
-              REQ.Fail 408 ⋄ →0
+              inst._TimedOut←1
           :EndIf
      
           :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID :EndIf
@@ -600,6 +600,7 @@
           :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
               resp←flag Debugger'inst.',cb,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
               resp←(#.JSON.toAPLJAX⍣APLJax)resp
+              inst._TimedOut←0
               :If RESTful
               :AndIf ~∨/(⊂'content-type')(≡#.Strings.nocase)¨REQ.Response.Headers[;1]
                   resp←1 #.JSON.fromAPL resp

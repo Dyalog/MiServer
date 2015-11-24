@@ -83,7 +83,7 @@
           DelEmpty⍣≡parent⍪⍉↑levels(LastSub¨list[;2])files ⍝ recursively remove empty dirs
       }
 
-    ∇ Cache ns;scores;demoes;list;nl ⍝ Make cache if nonexistant
+    ∇ {C}←Cache ns;scores;demoes;list;nl ⍝ Make cache if nonexistant
       :Hold ns                                                      ⍝ prevent clashes
           :If 9≠⎕NC ns                                              ⍝ if cache is empty:
               C←⍎ns ⎕NS ⍬                                               ⍝ create with shortcut
