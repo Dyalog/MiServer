@@ -26,18 +26,23 @@
     :Field shared NSS←   'DC'     'SF'         'JQ'       'html'      ⍝ corresponding nss
     :Field shared FILEEXT←'.mipage'                                   ⍝ Server.xml:DefaultExtension
     :Field shared CACHE←'#.CACHE'                                     ⍝ location of cache
-    :Field shared C                                                   ⍝ shortcut to cache
+⍝   :Field shared C                                                   ⍝ shortcut to cache
     :Field shared TREE                                                ⍝ Controls tree
     :field CURRFILES←⊂'/About_MiServer'                               ⍝ currently relevant files
 
     ∇ Compose ⍝ This builds the page
-      :Access public
-      Cache CACHE                              ⍝ ensure cache exists
+      :Access public   
+      ⍝ Cache CACHE                            ⍝ ensure cache exists
       Add _.StyleSheet'/Styles/homepage.css'   ⍝ assign cascading style sheet
       TREE←(Dread'Examples/Data/tree.txt')~⊂'' ⍝ load tree structure and remove blank lines
       CURRFILES←⊂'/About_MiServer'             ⍝ the home page
       Add'mainSP'Horz MakeLeft MakeMid         ⍝ two panels
     ∇
+
+    ∇ {r}←C
+      r←Cache CACHE
+    ∇
+
 
     ∇ left←MakeLeft;sf;sb;tree;f ⍝ Make the left panel with search and two tree-views
       left←'#leftBar'New _.div
