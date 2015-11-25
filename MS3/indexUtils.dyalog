@@ -28,9 +28,11 @@
 
     NoSt←~∘'*'¨ ⍝ Remove stars from all elements in a VTV
 
-    SlOf←'/'∘= ⍝ Slashes of
+    Sl←'/'∘= ⍝ Slashes
 
     In←∨/⍷ ⍝ Is found in
+
+    Z←⊃⌽ ⍝ Last
 
     Q←'"'∘,,∘'"' ⍝ Surround with quotes
 
@@ -39,6 +41,8 @@
     Of←{⍵/⍨⍺⍺¨⍵} ⍝ Those elements of ⍵ that satisfy ⍺⍺ element
 
     Clean←'_'⎕R' ' ⍝ Underscores  →  spaces
+
+    FwSl←'[\\/]+'⎕R'/' ⍝ Make all slash-block into single forward-slashes
 
     CaseLess←{⊃⍺⍺/LowerCase¨⍺ ⍵} ⍝ Apply fn without regard to upper/lower case
 
@@ -51,7 +55,7 @@
       Section←{ ⍝ Extract section ⍺:: from code ⍵
           regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)' ⍝ find '  ⍝  LeftArg:: some text'
           opts←('Mode' 'M')('DotAll' 1)('ML' 1)                  ⍝ '^'≡linestart  EOL∊'.'  1st-only
-          res←(regex ⎕S'\1\2'⍠opts)⍵                             ⍝ return parts 1 and 2
+          res←regex ⎕S'\1\2'⍠opts⊢⍵                              ⍝ return parts 1 and 2
           '⍝'~⍨1↓⊃res                                            ⍝ strip spaces and lamp
       }
 
@@ -62,58 +66,58 @@
 
     Relevant←{C.eocontrols⊂⍵:C.files[C.rankings⊃⍨C.controlsoi⊂⍵] ⋄ 0⍴⊂''} ⍝ Samples that demo ⍵
 
-    Score←{(102-2×(50↑⊃⌽⍵)⍳⊂⍺)-'Advanced'In⊃⍵} ⍝ Relevance score on index of control in list
+    Score←{(102-2×(50↑Z⍵)⍳⊂⍺)-'Advanced'In⊃⍵} ⍝ Relevance score on index of control in list
 
-      Slist←{ ⍝ Files in site folder
-          ⍺←1↓FILEEXT                              ⍝ default .ext
-          mods←' -rec -raw -full=2 -ext=',⍺        ⍝ subfolders no-format rooted-names spec-ext
-          list←⎕SE.SALT.List #.Boot.AppRoot,⍵,mods ⍝ begin at application root (MS3/)
-          list[;2]←('[\\/]+'⎕R'/')list[;2]         ⍝ normalize slashes for WWW
-          list                                     ⍝ return result
+      List←{ ⍝ Files in site folder
+          ⍺←1↓FILEEXT                                      ⍝ default .ext
+          mods←' -rec -raw -full=2 -ext=',⍺                ⍝ subdirs no-format rooted spec-ext
+          list←(⎕SE.SALT.List #.Boot.AppRoot,⍵,mods)[;1 2] ⍝ begin at application root (MS3/)
+          f←~d←list[;1]≡¨⊂'<DIR>'                          ⍝ find dirs
+          list←FwSl list[;2]                               ⍝ normalize slashes for WWW
+          (d/list),←'/'                                    ⍝ mark dirs with final slashes
+          (f/list),←⊂'.',⍺                                 ⍝ add .ext to files
+          list↓¨⍨¯1+1⍳⍨(FwSl ⍵)⍷⊃list                      ⍝ trim
       }
 
       DirTree←{ ⍝ Make arg for ejTreeView based on files in folder and subfolders
           ⍺←1↓FILEEXT                                      ⍝ default file extention
-          list←⍺ Slist ⍵                                   ⍝ get list of files
+          list←⍺ List ⍵                                    ⍝ get list of files
           0∊⍴list:0 3⍴0 '' ''                              ⍝ skip parent if no children
-          files←list[;2]↓¨⍨¯1+≢#.Boot.AppRoot              ⍝ trim
           parent←1(LastSub ⍵)('/',⍵,'/')                   ⍝ top level entry
-          levels←2+(+/¨'/'=files)-+/'/'=3⊃parent           ⍝ level is / count, adjust for final /
-          files,¨←('.',⍺)'/'[1+list[;1]≡¨⊂'<DIR>']         ⍝ append .ext for files, / for dirs
-          DelEmpty⍣≡parent⍪⍉↑levels(LastSub¨list[;2])files ⍝ recursively remove empty dirs
+          levels←((+/-Z)¨Sl list)+3-+/Sl 3⊃parent          ⍝ level is / count, adjust for final /
+          DelEmpty⍣≡parent⍪⍉↑levels(NoExt∘Name¨list)list ⍝ recursively remove empty dirs
       }
 
     ∇ C←C;scores;demoes;list;nl ⍝ Return ref to cache (init one if nonexistant)
-      :Hold CACHE                                                   ⍝ prevent clashes
-          :If 9≠⎕NC CACHE                                           ⍝ if cache is empty:
-              C←⍎CACHE ⎕NS ⍬                                            ⍝ create with shortcut
-              C.dread←⎕NS ⍬                                             ⍝ init cache for files
-              C.dread.(keys←data←⍬)                                     ⍝ init keys and data
-              list←(≢#.Boot.AppRoot)↓¨⊃⍪/{Slist'Examples/',⍵}¨NSS       ⍝ sample filenames
-              C.files←list[;2]/⍨list[;1]≢¨⊂'<DIR>'                      ⍝ cache filenames, no dirs
-              demoes←{(Words'Control'Section Dread ⍵)~'_',¨NSS}¨C.files ⍝ controls demoed in each
-              C.controls←∪↑,/demoes                                     ⍝ cache all controls
-              scores←C.controls∘.Score↓⍉↑C.files demoes                 ⍝ controls vs files
-              C.rankings←(+/0<scores)↑¨↓⍒#.Utils.∆rank 1⊢scores         ⍝ cache all rankings
-              C.controlsoi←C.controls∘⍳ ⋄ C.eocontrols←∊∘C.controls     ⍝ cache hash tables
-              C.info←FromCSV Dread'Examples/Data/info.csv'              ⍝ cache lookup table
-              nl←'.*[A-Z].*'⎕S'\0'#._.⎕NL ¯9                            ⍝ all widgets except html
-              C.info⍪←↑{⍵('Description'Section ⎕SRC⍎'#._.',⍵)''}¨nl     ⍝ get descriptions
-              C.info←C.info[∪⍳⍨C.info[;1];]                             ⍝ filter duplicates out
-              C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1])           ⍝ cache hash tables
+      :Hold CACHE                                                  ⍝ prevent clashes
+          :If 9≠⎕NC CACHE                                          ⍝ if cache is empty:
+              C←⍎CACHE ⎕NS ⍬                                           ⍝ create with shortcut
+              C.read←⎕NS ⍬                                             ⍝ init cache for files
+              C.read.(keys←data←⍬)                                     ⍝ init keys and data
+              C.files←⊃⍪/{List'Examples/',⍵}¨NSS                       ⍝ sample filenames
+              demoes←{(Words'Control'Section Read ⍵)~'_',¨NSS}¨C.files ⍝ controls demoed in each
+              C.controls←∪↑,/demoes                                    ⍝ cache all controls
+              scores←C.controls∘.Score↓⍉↑C.files demoes                ⍝ controls vs files
+              C.rankings←(+/0<scores)↑¨↓⍒#.Utils.∆rank 1⊢scores        ⍝ cache all rankings
+              C.controlsoi←C.controls∘⍳ ⋄ C.eocontrols←∊∘C.controls    ⍝ cache hash tables
+              C.info←FromCSV Read'Examples/Data/info.csv'              ⍝ cache lookup table
+              nl←'.*[A-Z].*'⎕S'\0'#._.⎕NL ¯9                           ⍝ all widgets except html
+              C.info⍪←↑{⍵('Description'Section ⎕SRC⍎'#._.',⍵)''}¨nl    ⍝ get descriptions
+              C.info←C.info[∪⍳⍨C.info[;1];]                            ⍝ filter duplicates out
+              C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1])          ⍝ cache hash tables
           :Else
-              C←⍎CACHE                                              ⍝ establish shortcut
+              C←⍎CACHE                                             ⍝ establish shortcut
           :EndIf
       :EndHold
     ∇
 
-    ∇ r←Dread page;i ⍝ Read a page via the #.CACHE.dread (C)
+    ∇ r←Read page;i ⍝ Read a page via the #.CACHE.read (C)
       :Trap 0
-          :If (≢C.dread.keys)≥i←C.dread.keys⍳⊂page ⍝ is it cached, and if so, save position
-              r←i⊃C.dread.data                     ⍝ extract
+          :If (≢C.read.keys)≥i←C.read.keys⍳⊂page ⍝ is it cached, and if so, save position
+              r←i⊃C.read.data                     ⍝ extract
           :Else
-              C.dread.data,←⊂r←#.UnicodeFile.ReadNestedText #.Boot.AppRoot,page,(~'.'∊page)/FILEEXT
-              C.dread.keys,←⊂page
+              C.read.data,←⊂r←#.UnicodeFile.ReadNestedText #.Boot.AppRoot,page,(~'.'∊page)/FILEEXT
+              C.read.keys,←⊂page
           :EndIf
       :Else
           r←,⊂'[failed to read "',page,'"]'
@@ -125,20 +129,20 @@
 
     :SECTION C_STRINGS ⍝ MANIPULATION OF CHARACTER VECTORS AND VECTORS OF CHARACTER VECTORS
 
-    LastSub←{⍵↑⍨1-'/'⍳⍨⌽⍵}       ⍝ '/aaa/bbb/ccc/ddd'  →         'ddd'
+    LastSub←{⍵↑⍨1-'/'⍳⍨⌽⍵}     ⍝ '/aaa/bbb/ccc/ddd'  →         'ddd'
     ⍝LastSub←{1 Name ⍵}
 
-    Name←{1↓⊃⌽((SlOf⊂⊢)⍵)~⊂,'/'} ⍝ '/aaa/bbb/ccc/ddd/' →         'ddd' (only in BuildTree)
+    Name←{1↓Z((Sl⊂⊢)⍵)~⊂,'/'}  ⍝ '/aaa/bbb/ccc/ddd/' →         'ddd' (only in BuildTree)
     ⍝Name←{⍺←0 ⋄ {⍵↑⍨1-'/'⍳⍨⌽⍵}{(+/∨\'/'≠⌽⍵)↑⍵}⍣⍺⊢⍵} ⍝ prefix 1 to exclude trailing empty subs
 
-    NsControl←{1↓¨FirstLast ⍵}   ⍝ '/aaa/bbb/ccc/ddd'  →  'aaa'  'ddd'
+    NsControl←{1↓¨FirstLast ⍵} ⍝ '/aaa/bbb/ccc/ddd'  →  'aaa'  'ddd'
 
-    FirstLast←(⊃Ⓒ(⊃⌽))(SlOf⊂⊢)   ⍝ '/aaa/bbb/ccc/ddd'  → '/aaa' '/ddd'
-    ⍝NsControl←1∘{⍺←0 ⋄ 1↓¨⍣⍺⊢(⊃Ⓒ(⊃⌽))(SlOf⊂⊢)⍵} ⍝ prefix 1 to remove leading / from substrings
+    FirstLast←(⊃Ⓒ Z)(Sl⊂⊢) ⍝ '/aaa/bbb/ccc/ddd'  → '/aaa' '/ddd'
+    ⍝NsControl←1∘{⍺←0 ⋄ 1↓¨⍣⍺⊢(⊃Ⓒ Z)(Sl⊂⊢)⍵} ⍝ prefix 1 to remove leading / from substrings
 
     Core←∊∘FirstLast¨'*'∘∊Of ⍝ Those ending in * but without middle category
 
-    Levels←{(+/¨SlOf⍵)+~SlOf(⊃⌽)¨⍵} ⍝ Number of /s adjusted for categories' final /
+    Levels←{(+/¨Sl⍵)+~Sl Z¨⍵} ⍝ Number of /s adjusted for categories' final /
 
     Words←{(1↓¨(∊∘' .'⊂⊢)' ',⍵)~⊂''} ⍝ Split at spaces and dots and remove empty pieces
 
@@ -179,7 +183,7 @@
 ⍝          nost←⍵~'*'
 ⍝          noext←~'.'∊nost
 ⍝          r←'<p class="listitem" id="',nost,(noext/FILEEXT),('*'∩⍵),'"><strong>',Clean NoExt LastSub nost
-⍝          ∨/noext,FILEEXT⍷nost:r,'</strong> – ',('Description'Section Dread nost),'</p>' ⍝ add desc
+⍝          ∨/noext,FILEEXT⍷nost:r,'</strong> – ',('Description'Section Read nost),'</p>' ⍝ add desc
 ⍝          r,'</strong></p>'
 ⍝      }
 
@@ -192,7 +196,7 @@
       r,←Clean NoExt LastSub nost              ⍝ just the name without path or extention
       r,←'</strong>'                           ⍝ end of bold tag
       :If ∨/noext,FILEEXT⍷nost                 ⍝ if default or no extension:
-          r,←' – ','Description'Section Dread nost ⍝ add dash and description from source
+          r,←' – ','Description'Section Read nost  ⍝ add dash and description from source
       :EndIf
       r,←'</p>'                                ⍝ close the paragraph
     ∇
