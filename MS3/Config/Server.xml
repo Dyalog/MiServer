@@ -5,6 +5,6 @@
     <Port>80</Port>
     <TrapErrors>1</TrapErrors>    <!-- Valid: 0=Crash, 1=Trap and Log errors -->
     <Debug>0</Debug>              <!-- Valid: 0=No Debug Info, 1=Debug Info, 2=Allow Editing -->
-    <SessionTimeOut>2</SessionTimeOut>                 <!-- session timeout, in minutes -->
+    <SessionTimeOut>10</SessionTimeOut>                 <!-- session timeout, in minutes -->
     <Production>1</Production>
 </Server>
