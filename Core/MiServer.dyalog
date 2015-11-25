@@ -520,7 +520,7 @@
               inst._TimedOut←1
           :EndIf
      
-          :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID :EndIf
+          :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID ⋄ :EndIf
 ⍝          :Else  ⍝ empty file or file not found
 ⍝              REQ.Fail 404 ⋄ →0
 ⍝          :EndIf
