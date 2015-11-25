@@ -41,7 +41,7 @@
       ⍝ HtmlElement, so that id/class and other attributes could be set. BUT they could be set for each of the 2 layers of the stack
       ⍝ or for the span-container of the tag - there might be uses for each of these cases.
       ⍝ So I'm really not sure what to do - any comments/ideas, pls. get in touch with me (michael@mbaas.de)
-      :If 0=⎕NC'size' ⋄ size←1 :EndIf
+      :If 0=⎕NC'size' ⋄ size←1 ⋄ :EndIf
       size←⍕size
       (1⊃⎕RSI).Use'⍕https://fonts.googleapis.com/css?family=Fira+Mono'
       r←ScriptFollows
@@ -54,7 +54,7 @@
     ∇ r←{size_txtcol_bckcol}tla2 arg
       :Access public shared
       ⍝ One way to customize TLA: set icon & bck-Colour with tla2!
-      :If 0=⎕NC'size_txtcol_bckcol' ⋄ size_txtcol_bckcol←1 :EndIf
+      :If 0=⎕NC'size_txtcol_bckcol' ⋄ size_txtcol_bckcol←1 ⋄ :EndIf
       (size txtcol bckcol)←3↑size_txtcol_bckcol
       :If 80≠⎕DR txtcol ⋄ txtcol←'' ⋄ :Else ⋄ txtcol←' color: ',txtcol,';' ⋄ :EndIf
       :If 80≠⎕DR bckcol ⋄ bckcol←'' ⋄ :Else ⋄ bckcol←' style="color: ',bckcol,'";' ⋄ :EndIf

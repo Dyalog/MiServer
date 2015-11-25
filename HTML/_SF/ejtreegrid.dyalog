@@ -75,7 +75,7 @@
           :EndIf
           coldefs←#.JSON.fromAPL coldefs
      
-          :If ''≡GetOption'sizeSettings.width' ⋄ 'sizeSettings.width'Set⍕width :EndIf
+          :If ''≡GetOption'sizeSettings.width' ⋄ 'sizeSettings.width'Set⍕width ⋄ :EndIf
           :If ''≡GetOption'sizeSettings.height' ⋄ :AndIf ~0∊⍴height ⋄ 'sizeSettings.height'Set⍕height ⋄ :EndIf
      
           'columns'Set'⍎',coldefs

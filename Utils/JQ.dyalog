@@ -80,7 +80,7 @@
       pars←eis pars
       delegate←''
       selector event clientdata response script useajax jquerywrap scriptwrap hourglass←9↑pars,(⍴pars)↓'' '' '' '' '' 1 1 1 1
-      :If 1<|≡selector ⋄ selector delegate←selector ⋄ delegate←', ',quote delegate :EndIf
+      :If 1<|≡selector ⋄ selector delegate←selector ⋄ delegate←', ',quote delegate ⋄ :EndIf
       data←'_event: event.type, _what: '
       data,←'(("undefined" == typeof($(event.currentTarget).attr("name")) ? $(event.currentTarget).attr("id") : $(event.currentTarget).attr("name")))'
       data,←', _value: $(event.currentTarget).val()'
