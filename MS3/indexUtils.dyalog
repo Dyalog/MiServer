@@ -83,10 +83,10 @@
           DelEmpty⍣≡parent⍪⍉↑levels(LastSub¨list[;2])files ⍝ recursively remove empty dirs
       }
 
-    ∇ {C}←Cache ns;scores;demoes;list;nl ⍝ Make cache if nonexistant
-      :Hold ns                                                      ⍝ prevent clashes
-          :If 9≠⎕NC ns                                              ⍝ if cache is empty:
-              C←⍎ns ⎕NS ⍬                                               ⍝ create with shortcut
+    ∇ C←C;scores;demoes;list;nl ⍝ Return ref to cache (init one if nonexistant)
+      :Hold CACHE                                                   ⍝ prevent clashes
+          :If 9≠⎕NC CACHE                                           ⍝ if cache is empty:
+              C←⍎CACHE ⎕NS ⍬                                            ⍝ create with shortcut
               C.dread←⎕NS ⍬                                             ⍝ init cache for files
               C.dread.(keys←data←⍬)                                     ⍝ init keys and data
               list←(≢#.Boot.AppRoot)↓¨⊃⍪/{Slist'Examples/',⍵}¨NSS       ⍝ sample filenames
@@ -102,7 +102,7 @@
               C.info←C.info[∪⍳⍨C.info[;1];]                             ⍝ filter duplicates out
               C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1])           ⍝ cache hash tables
           :Else
-              C←⍎ns                                                 ⍝ establish shortcut
+              C←⍎CACHE                                              ⍝ establish shortcut
           :EndIf
       :EndHold
     ∇
