@@ -22,19 +22,23 @@
 
     :Include indexUtils ⍝∇:require =/indexUtils
 
-   ⍝ These are all the global variable being used: 
+   ⍝ These are all the global variable being used:
     :Field shared GROUPS←'Dyalog' 'SyncFusion' 'JQueryUI' 'Base HTML' ⍝ groups of elements
     :Field shared NSS←   'DC'     'SF'         'JQ'       'html'      ⍝ corresponding nss
     :Field shared FILEEXT←'.mipage'                                   ⍝ Server.xml:DefaultExtension
     :Field shared CACHE←'#.CACHE'                                     ⍝ location of cache
     :Field shared TREE                                                ⍝ Controls tree
-    :field CURRFILES←⊂'/About_MiServer'                               ⍝ currently relevant files
+    :Field CURRFILES←,⊂'/About_MiServer'                              ⍝ currently relevant files
+
+    ∇ Cache ⍝ Set up cache only once
+      :Access public
+      :Implements constructor
+      TREE←(Dread'Examples/Data/tree.txt')~⊂'' ⍝ load/cache tree and remove blank lines
+    ∇
 
     ∇ Compose ⍝ This builds the page
-      :Access public   
+      :Access public
       Add _.StyleSheet'/Styles/homepage.css'   ⍝ assign cascading style sheet
-      TREE←(Dread'Examples/Data/tree.txt')~⊂'' ⍝ load tree structure and remove blank lines
-      CURRFILES←⊂'/About_MiServer'             ⍝ the home page
       Add'mainSP'Horz MakeLeft MakeMid         ⍝ two panels
     ∇
 
