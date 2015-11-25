@@ -33,6 +33,11 @@
     :section Override
 ⍝ ↓↓↓--- Methods which are usually overridden ---
 
+    ∇ onServerLoad
+      :Access Public Overridable
+    ⍝ Handle any server initialization prior to starting
+    ∇
+
     ∇ onServerStart
       :Access Public Overridable
     ⍝ Handle any server startup processing
@@ -85,6 +90,7 @@
     ∇ Run
       :Access Public
       ('Already Running on Thread',⍕TID)⎕SIGNAL(TID∊⎕TNUMS)/11
+      onServerLoad
       TID←RunServer&⍬
     ∇
 
@@ -346,8 +352,8 @@
           REQ.Page←n↑REQ.Page
       :EndIf
      
-      REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page
-      REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension
+      REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page ⍝ no page specified? use the default
+      REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension ⍝ no extension specified? use the default
      
       SessionHandler.GetSession REQ
       Authentication.Authenticate REQ
@@ -457,18 +463,24 @@
  ⍝     :EndHold
     ∇
 
-    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax;flag;orig
+    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax;flag;orig;path;name;ext;list
     ⍝ Handle a "MiServer Page" request
      
+      path name ext←#.Files.SplitFilename file
+     
      RETRY:
-      :If 0≡date←3⊃(,''#.Files.List orig←file),0 0 0
-          :If Config.DefaultExtension≢'.dyalog'
-          :AndIf 0≡date←3⊃(,''#.Files.List file←'.dyalog',⍨(-'.'⍳⍨⌽file)↓file),0 0 0
+      :If 0=n←⊃⍴list←''#.Files.List orig←file ⍝ does the file exist?
+      :AndIf Config.DefaultExtension≢'.dyalog' ⍝ temporary measure to ease the transition to the .mipage extension
+          :If 1≠⊃⍴list←''#.Files.List∊path name'.dyalog'
               REQ.Fail 404 ⋄ →0
           :Else
               1 Log'File not found: "',orig,'" using "',file,'" instead.'
           :EndIf
+      :ElseIf 1≠n
+          REQ.Fail 404 ⋄ →0
       :EndIf
+     
+      date←∊list[1;3]
      
       MS3←RESTful←expired←0
       APLJax←REQ.isAPLJax
