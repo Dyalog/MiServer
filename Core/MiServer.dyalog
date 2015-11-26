@@ -9,9 +9,10 @@
     :Field Public Authentication←⎕NS ''
     :Field Public Logger←⎕NS ''
     :Field Public Application←⎕NS ''
-    :field Public PageTemplates←⍬
-    :field Public Encoders←⍬  ⍝ pointers to instances of content encoders
-    :field Public Datasources←⍬
+    :Field Public PageTemplates←⍬
+    :Field Public Encoders←⍬  ⍝ pointers to instances of content encoders
+    :Field Public Datasources←⍬
+    :Field Public StartTime←⍬
 
     ⎕TRAP←0/⎕TRAP ⋄ (⎕ML ⎕IO)←1 1
 
@@ -126,6 +127,7 @@
      
       Common←⎕NS'' ⋄ Stop←0 ⋄ WAITING←0
       CMTid←ConnectionMonitor&ServerName
+      StartTime←⎕TS
      
       :If Config.TrapErrors>0
           ⎕TRAP←#.DrA.TrapServer
