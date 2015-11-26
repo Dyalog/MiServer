@@ -1,4 +1,5 @@
 <Server>
     <Name>MiServer 3.0</Name>
+    <ClassName>MS3Server</ClassName>
     <AllowedHttpCommands>get,put,delete,post</AllowedHttpCommands>
 </Server>
