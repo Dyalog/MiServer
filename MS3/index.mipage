@@ -22,19 +22,7 @@
 
     :Include indexUtils ⍝∇:require =/indexUtils
 
-   ⍝ These are all the global variable being used:
-    :Field shared GROUPS←'Dyalog' 'SyncFusion' 'JQueryUI' 'Base HTML' ⍝ groups of elements
-    :Field shared NSS←   'DC'     'SF'         'JQ'       'html'      ⍝ corresponding nss
-    :Field shared FILEEXT←'.mipage'                                   ⍝ Server.xml:DefaultExtension
-    :Field shared CACHE←'#.CACHE'                                     ⍝ location of cache
-    :Field shared TREE                                                ⍝ Controls tree
-    :Field CURRFILES←,⊂'/About_MiServer'                              ⍝ currently relevant files
-
-    ∇ Cache ⍝ Set up cache only once
-      :Access public
-      :Implements constructor
-      TREE←(Read'Examples/Data/tree.txt')~⊂'' ⍝ load/cache tree and remove blank lines
-    ∇
+    :Field CURRFILES←,⊂'/About_MiServer' ⍝ Global list if currently relevant files
 
     ∇ Compose ⍝ This builds the page
       :Access public
@@ -55,7 +43,7 @@
     ∇
 
     ∇ tree←MakeTreeGS ⍝ Make the "Getting Started" tree
-      :Access public shared 
+      :Access public shared
       tree←⍉⍪1 'Start here',⊂∊CURRFILES FILEEXT ⍝ top level
       tree⍪←'pdf'DirTree'Documentation'         ⍝ documentation is PDFs only
       tree⍪←DirTree'Examples/Techniques'
