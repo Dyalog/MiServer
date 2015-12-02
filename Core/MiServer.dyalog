@@ -255,7 +255,7 @@
           :If ∧/(~0∊⍴)¨Config.(CertFile KeyFile)
           :AndIf ⊃∧/#.Files.Exists¨Config.(CertFile KeyFile)
               {}#.DRC.SetProp'.' 'RootCertDir'Config.RootCertDir
-              server←#.DRC.X509Cert.ReadCertFromFile Config.CertFile
+              server←1⊃#.DRC.X509Cert.ReadCertFromFile Config.CertFile
               server.KeyOrigin←'DER'Config.KeyFile
               →(0≠1⊃r←#.DRC.Srv'' ''Config.Port'Raw' 10000('X509'server)('SSLValidation'Config.SSLFlags)ipv)⍴0 ⍝ Must have Conga v2.1
               1 Log'Starting secure server using certificate ',Config.CertFile
