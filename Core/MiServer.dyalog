@@ -356,13 +356,12 @@
      
       REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page ⍝ no page specified? use the default
       REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension ⍝ no extension specified? use the default
+      ext←⊃¯1↑#.Files.SplitFilename filename←Config Virtual REQ.Page
      
       SessionHandler.GetSession REQ
       Authentication.Authenticate REQ
      
       :If REQ.Response.Status≠401 ⍝ Authentication did not fail
-     
-          ext←⊃¯1↑#.Files.SplitFilename filename←Config Virtual REQ.Page
           :If Config.AllowedHttpCommands∊⍨⊂REQ.Command
      
               :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
