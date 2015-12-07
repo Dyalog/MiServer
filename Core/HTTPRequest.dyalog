@@ -115,7 +115,29 @@
       :EndIf
     ∇
 
-    :section Argument and Data Handling
+    ∇ Wipe
+      :Access public
+    ⍝ clear out all request data
+      Input←''
+      Headers←''
+      Command←''
+      Page←''
+      Filename←''
+      RESTfulReq←0
+      Arguments←''
+      PeerAddr←''
+      PeerCert←⍬
+      Data←⍬
+      Cookies←''
+      MSec←⍬
+      Bytes←⍬
+      Session←''
+      Server←⎕NS''
+      Response←⎕NS''
+    ∇
+
+
+    :Section Argument and Data Handling
 
     ∇ r←ArgXLT r;rgx;rgxu;i;j;z;t;m;⎕IO;lens;fill
       :Access public shared

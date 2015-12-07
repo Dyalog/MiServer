@@ -255,7 +255,7 @@
           :If ∧/(~0∊⍴)¨Config.(CertFile KeyFile)
           :AndIf ⊃∧/#.Files.Exists¨Config.(CertFile KeyFile)
               {}#.DRC.SetProp'.' 'RootCertDir'Config.RootCertDir
-              server←#.DRC.X509Cert.ReadCertFromFile Config.CertFile
+              server←1⊃#.DRC.X509Cert.ReadCertFromFile Config.CertFile
               server.KeyOrigin←'DER'Config.KeyFile
               →(0≠1⊃r←#.DRC.Srv'' ''Config.Port'Raw' 10000('X509'server)('SSLValidation'Config.SSLFlags)ipv)⍴0 ⍝ Must have Conga v2.1
               1 Log'Starting secure server using certificate ',Config.CertFile
@@ -356,13 +356,12 @@
      
       REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page ⍝ no page specified? use the default
       REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension ⍝ no extension specified? use the default
+      ext←⊃¯1↑#.Files.SplitFilename filename←Config Virtual REQ.Page
      
       SessionHandler.GetSession REQ
       Authentication.Authenticate REQ
      
       :If REQ.Response.Status≠401 ⍝ Authentication did not fail
-     
-          ext←⊃¯1↑#.Files.SplitFilename filename←Config Virtual REQ.Page
           :If Config.AllowedHttpCommands∊⍨⊂REQ.Command
      
               :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?

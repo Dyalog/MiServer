@@ -1,29 +1,30 @@
 ﻿:Class ScriptSimple : MiPageSample
 ⍝ Control:: _DC.Script
-⍝ Description::
+⍝ Description:: Insert inline JavaScript and make a button to run it
 
-    ∇ Compose;JS
+    ∇ Compose
       :Access Public
      
-      Add _.h4'The Dyalog Control Script enhances the base HTML script element in a number of ways.'
-      'output' Add _.p ScriptFollows
-      ⍝ The first argument, if nonempty, is treated as inline content for the script.
-      ⍝ The second argument, specifies the type of input field.
-      ⍝ HTML5 specifies a wide variety of input types; however if nonempty, it is treated as filename to link to.
-      ⍝ Note that the first and second arguments are mutually exclusive.
-      ⍝ The below JavaScript is the best way to reverse this paragraph.
+      Add _.h4'The Dyalog Control Script facilitates use of the base HTML script element'
+      Add _.p ScriptFollows
+      ⍝ The argument is inline content for the script. Alternatively, the script can be fetched
+      ⍝ from a file by specifying <code>_DC.Script '' 'path/filename.js'</code>.
+      ⍝ Note that the first argument must be empty in order to fetch code from a file.
+     
+      'output'Add _.p ScriptFollows
+      ⍝ The below code is the best way to reverse a paragraph using JavaScript.
       ⍝ !noitcnuf esreveR ⌽ s'LPA rof ssendoog knahT
      
-      JS←ScriptFollows
+      Add¨_.pre _.Script,¨⊂ScriptFollows
       ⍝ function reverse() {
-      ⍝ var s = document.getElementById("output").textContent
+      ⍝ var s = document.getElementById("output").textContent;
       ⍝ var o = '';
       ⍝ for (var i = s.length - 1; i >= 0; i--)
       ⍝   o += s[i];
       ⍝ document.getElementById("output").textContent = o;
       ⍝ }
      
-      Add¨_.pre _.Script,¨⊂JS
+      ⍝ Now we add a button to call the JavaScript function:
       '#reverse' 'onclick="reverse();"'Add _.Button'Click here to run the script!'
     ∇
 

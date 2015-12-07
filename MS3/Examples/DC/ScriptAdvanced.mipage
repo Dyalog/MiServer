@@ -1,0 +1,19 @@
+﻿:Class ScriptAdvanced : MiPageSample
+⍝ Control:: _DC.Script
+⍝ Description:: Insert reference to JavaScript from a file
+
+    ∇ Compose
+      :Access Public
+     
+      Add _.h4'The Dyalog Control Script facilitates use of the base HTML script element'
+      'output'Add _.p ScriptFollows
+      ⍝ When a browser loads this page, it will fetch a script to reverse this paragraph.
+      ⍝ !noitcnuf esreveR ⌽ s'LPA rof ssendoog knahT
+     
+      Add _.Script'' '/Examples/Data/reverse.js'
+     
+      ⍝ Now we add a button to call the JavaScript function:
+      '#reverse' 'onclick="reverse();"'Add _.Button'Click here to run the script!'
+    ∇
+
+:EndClass
