@@ -20,6 +20,31 @@
 
     :SECTION A_GENERAL ⍝ UTILITY FUNCTIONS THAT ARE NOT SPECIFIC TO THE "MS3" SITE
 
+    ∇ r←C
+      r←#.Boot.ms.C
+    ∇
+
+    ∇ r←TREE
+      r←#.Boot.ms.TREE
+    ∇
+
+    ∇ r←NSS
+      r←#.Boot.ms.NSS
+    ∇
+
+    ∇ r←GROUPS
+      r←#.Boot.ms.GROUPS
+    ∇
+
+    ∇ r←CACHE
+      r←#.Boot.ms.CACHE
+    ∇
+
+    ∇ r←FILEEXT
+      r←#.Boot.ms.FILEEXT
+    ∇
+
+
     ∇ r←{a}Ⓒ w ⍝ Mnemonic for the ⊆ glyph
       r←⊂⍣(1=≡w)⊢w ⍝ enclose if simple
       →0/⍨900⌶⍬    ⍝ but when dyadic...
@@ -87,29 +112,6 @@
           levels←((+/-Z)¨Sl list)+3-+/Sl 3⊃parent          ⍝ level is / count, adjust for final /
           DelEmpty⍣≡parent⍪⍉↑levels(NoExt∘Name¨list)list ⍝ recursively remove empty dirs
       }
-
-    ∇ C←C;scores;demoes;list;nl ⍝ Return ref to cache (init one if nonexistant)
-      :Hold CACHE                                                  ⍝ prevent clashes
-          :If 9≠⎕NC CACHE                                          ⍝ if cache is empty:
-              C←⍎CACHE ⎕NS ⍬                                           ⍝ create with shortcut
-              C.read←⎕NS ⍬                                             ⍝ init cache for files
-              C.read.(keys←data←⍬)                                     ⍝ init keys and data
-              C.files←⊃⍪/{List'Examples/',⍵}¨NSS                       ⍝ sample filenames
-              demoes←{(Words'Control'Section Read ⍵)~'_',¨NSS}¨C.files ⍝ controls demoed in each
-              C.controls←∪↑,/demoes                                    ⍝ cache all controls
-              scores←C.controls∘.Score↓⍉↑C.files demoes                ⍝ controls vs files
-              C.rankings←(+/0<scores)↑¨↓⍒#.Utils.∆rank 1⊢scores        ⍝ cache all rankings
-              C.controlsoi←C.controls∘⍳ ⋄ C.eocontrols←∊∘C.controls    ⍝ cache hash tables
-              C.info←FromCSV Read'Examples/Data/info.csv'              ⍝ cache lookup table
-              nl←'.*[A-Z].*'⎕S'\0'#._.⎕NL ¯9                           ⍝ all widgets except html
-              C.info⍪←↑{⍵('Description'Section ⎕SRC⍎'#._.',⍵)''}¨nl    ⍝ get descriptions
-              C.info←C.info[∪⍳⍨C.info[;1];]                            ⍝ filter duplicates out
-              C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1])          ⍝ cache hash tables
-          :Else
-              C←⍎CACHE                                             ⍝ establish shortcut
-          :EndIf
-      :EndHold
-    ∇
 
     ∇ r←Read page;i ⍝ Read a page via the #.CACHE.read (C)
       :Trap 0

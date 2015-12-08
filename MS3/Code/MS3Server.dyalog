@@ -4,11 +4,11 @@
 ⍝ In this case we customize the onServerLoad method
 ⍝ The ClassName parameter in the Server.xml configuration file is used to specify the customized class
 
-    :Field shared GROUPS←'Dyalog' 'SyncFusion' 'JQueryUI' 'Base HTML' ⍝ groups of elements
-    :Field shared NSS←   'DC'     'SF'         'JQ'       'html'      ⍝ corresponding nss
-    :Field shared CACHE←'#.CACHE'                                     ⍝ location of cache
-    :Field shared FILEEXT←'.mipage'                                   ⍝ Server.xml:DefaultExtension
-    :Field shared TREE                                                ⍝ Controls tree
+    :Field public GROUPS  ⍝ groups of elements
+    :Field public NSS     ⍝ corresponding nss
+    :Field public CACHE   ⍝ location of cache
+    :Field public FILEEXT ⍝ Server.xml:DefaultExtension
+    :Field public TREE    ⍝ Controls tree
 
     :SECTION A_MAIN
 
@@ -28,9 +28,13 @@
           ⎕←'Please restart the MS3 MiSite using Dyalog APL version 14.0 or later...'
           →
       :EndIf
-     
+      
+      GROUPS←'Dyalog' 'SyncFusion' 'JQueryUI' 'Base HTML'
+      NSS←'DC' 'SF' 'JQ' 'html'
+      FILEEXT←Config.DefaultExtension
+      CACHE←'#.CACHE'
+      {}C ⍝ initialize CACHE
       TREE←(Read'Examples/Data/tree.txt')~⊂'' ⍝ load/cache tree and remove blank lines
-     
     ∇
 
     :ENDSECTION
@@ -38,6 +42,7 @@
     :SECTION B_UTILS
 
     ∇ C←C;scores;demoes;list;nl ⍝ Return ref to cache (init one if nonexistant)
+      :Access public
       :Hold CACHE                                                  ⍝ prevent clashes
           :If 9≠⎕NC CACHE                                          ⍝ if cache is empty:
               C←⍎CACHE ⎕NS ⍬                                           ⍝ create with shortcut
@@ -77,6 +82,31 @@
 
     Score←{(102-2×(50↑Z⍵)⍳⊂⍺)-∨/'Advanced'⍷⊃⍵} ⍝ Relevance score on index of control in list
 
+      List←{ ⍝ Files in site folder
+          ⍺←1↓FILEEXT                                      ⍝ default .ext
+          mods←' -rec -raw -full=2 -ext=',⍺                ⍝ subdirs no-format rooted spec-ext
+          list←(⎕SE.SALT.List #.Boot.AppRoot,⍵,mods)[;1 2] ⍝ begin at application root (MS3/)
+          f←~d←list[;1]≡¨⊂'<DIR>'                          ⍝ find dirs
+          list←FwSl list[;2]                               ⍝ normalize slashes for WWW
+          (d/list),←'/'                                    ⍝ mark dirs with final slashes
+          (f/list),←⊂'.',⍺                                 ⍝ add .ext to files
+          list↓¨⍨¯1+1⍳⍨(FwSl ⍵)⍷⊃list                      ⍝ trim
+      }
+
+    Words←{(1↓¨(∊∘' .'⊂⊢)' ',⍵)~⊂''} ⍝ Split at spaces and dots and remove empty pieces
+
+    FwSl←'[\\/]+'⎕R'/' ⍝ Make all slash-block into single forward-slashes
+
+    FromCSV←↑{'"'~¨⍨1↓¨t⊂⍨(','=t)∧~≠\'"'=t←',',⍵}¨ ⍝ Convert CSV VTV to matrix (no escaped chars)
+
+      Section←{ ⍝ Extract section ⍺:: from code ⍵
+          regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)' ⍝ find '  ⍝  LeftArg:: some text'
+          opts←('Mode' 'M')('DotAll' 1)('ML' 1)                  ⍝ '^'≡linestart  EOL∊'.'  1st-only
+          res←regex ⎕S'\1\2'⍠opts⊢⍵                              ⍝ return parts 1 and 2
+          '⍝'~⍨1↓⊃res                                            ⍝ strip spaces and lamp
+      }
+
+    Z←⊃⌽ ⍝ Last
 
     :ENDSECTION
 
