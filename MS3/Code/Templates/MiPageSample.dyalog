@@ -86,7 +86,7 @@
               cali←'">',control,'</a></li>'
               :Select ns
               :Case 1 ⋄ ul.Add lia,'/Documentation/DyalogAPIs/WidgetDoc?namespace=_DC&widget=',control,cali           ⍝ DC
-              :Case 2 ⋄ ul.Add lia,h,'js.syncfusion.com/demos/web/default.htm#!/azure/',(#.Strings.lc 2↓control),cali ⍝ SF
+              :Case 2 ⋄ ul.Add lia,h,'js.syncfusion.com/demos/web/default.htm#!/azure/',(#.Strings.lc 2↓control,'/'),cali ⍝ SF
               :Case 3 ⋄ ul.Add lia,h,'jqueryui.com/',(2↓control),cali                                                 ⍝ JQ
               :Case 4 ⋄ ul.Add lia,h,'www.w3schools.com/tags/tag_',(('\d'⎕R'n')control),'.asp',cali                   ⍝ html
               :EndSelect
@@ -125,7 +125,7 @@
                   :Case '_DC'
                       item←u.Add _.li(New _.a(c(('href=/Documentation/DyalogAPIs/WidgetDoc?namespace=',ns,'&widget=',c)'target=_blank')))
                   :Case '_SF'
-                      item←u.Add _.li(New _.a c(('href'('http://js.syncfusion.com/demos/web/default.htm#!/azure/',#.Strings.lc(2×'ej'≡2↑c)↓c))('target' '_blank')))
+                      item←u.Add _.li(New _.a c(('href'('http://js.syncfusion.com/demos/web/default.htm#!/azure/',#.Strings.lc(2×'ej'≡2↑c)↓c,'/'))('target' '_blank')))
                   :Case '_JQ'
                       item←u.Add _.li(New _.a c(('href'('http://jqueryui.com/',(2×'jq'≡2↑c)↓c))('target' '_blank')))
                   :Case '_html'
