@@ -2,17 +2,6 @@
 
     ⎕IO←1
 
-    IsWin←('.' ⎕WG 'APLVersion')[3]≡⊂,'W'
-    FSep←'/\'[1+IsWin]
-    MSRoot←{(1-⌊/'/\'⍳⍨⌽⍵)↓⍵}⎕WSID
-    IsRelPath←{{~'/\'∊⍨(⎕IO+2×IsWin∧':'∊⍵)⊃⍵}3↑⍵}
-    enlist←{⎕ML←1⋄∊⍵}
-    tonum←{w←⍵⋄((w='-')/w)←'¯'⋄2 1⊃⎕VFI w}
-    try←{0::'' ⋄⍎⍵}
-    empty←{0∊⍴⍵}
-    notEmpty←~∘empty
-    eis←{2>|≡⍵:,⊂⍵ ⋄ ⍵} ⍝ Enclose if simple
-
     ∇ End;classes;z;m
       ⍝ Clean up the workspace
      
@@ -76,8 +65,7 @@
       :EndIf
     ∇
 
-    ∇ Load yes;files;f;classes;class;utils
-      ⍝ Note: DRC, XML, SOAP namespaces are not SALTed
+    ∇ {AppRoot}Load yes;files;f;classes;class;utils
      
       classes←(⎕SE.SALT.List AppRoot,'Code -raw')[;1 2] ⍝ Classes in application folder
       classes←(empty¨classes[;1])/classes[;2] ⍝ remove directory entries (have <DIR> in [;1])
@@ -115,7 +103,7 @@
     ∇ Run root;Config
      
       AppRoot←root,(~(¯1↑root)∊'\/')/'/'
-      Load 1
+      AppRoot Load 1
       :If #.Files.Exists AppRoot,'Config/Server.xml'
           Config←(#.XML.ToNS #.Files.GetText AppRoot,'Config/Server.xml').Server
       :Else
@@ -128,8 +116,8 @@
       Config.SessionHandler←Config Setting'SessionHandler' 0 'SimpleSessions'
       Config.Authentication←Config Setting'Authentication' 0 ''
       Config.Debug←Config Setting'Debug' 1 0
-      Config.Root←MSRoot{((IsRelPath ⍵)/⍺),⍵}AppRoot
-      Config.TempFolder←Config.Root{0∊⍴⍵:⍵ ⋄ ((IsRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
+      Config.Root←MSRoot{((isRelPath ⍵)/⍺),⍵}AppRoot
+      Config.TempFolder←Config.Root{0∊⍴⍵:⍵ ⋄ ((isRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
       Config.UseContentEncoding←Config Setting'UseContentEncoding' 1 0 ⍝ aka HTTP Compression default off (0)
       Config.SupportedEncodings←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}',',Config Setting'SupportedEncodings' 0
       Config.LogMessageLevel←Config Setting'LogMessageLevel' 1 ¯1 ⍝ default to all message types
@@ -291,6 +279,20 @@
       :EndIf
     ∇
 
+    :section Utilities
+    isWin←('.' ⎕WG 'APLVersion')[3]≡⊂,'W'
+    fileSep←'/\'[1+isWin]
+    MSRoot←{(1-⌊/'/\'⍳⍨⌽⍵)↓⍵}⎕WSID
+    isRelPath←{{~'/\'∊⍨(⎕IO+2×isWin∧':'∊⍵)⊃⍵}3↑⍵}
+    enlist←{⎕ML←1⋄∊⍵}
+    tonum←{w←⍵⋄((w='-')/w)←'¯'⋄2 1⊃⎕VFI w}
+    try←{0::'' ⋄⍎⍵}
+    empty←{0∊⍴⍵}
+    notEmpty←~∘empty
+    eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
+    isRef←{(0∊⍴⍴⍵)∧326=⎕DR ⍵}
+    folderize←{¯1↑⍵∊'/\':⍵ ⋄ ⍵,fileSep}
+    makeSitePath←{⍺{((isRelPath ⍵)/⍺),⍵},folderize ⍵}
     ∇ r←SubstPath r
       r←(#.Strings.subst∘('%ServerRoot%'(¯1↓MSRoot)))r
       r←(#.Strings.subst∘('%SiteRoot%'(¯1↓AppRoot)))r
