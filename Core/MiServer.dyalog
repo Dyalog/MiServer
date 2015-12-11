@@ -397,6 +397,7 @@
                   res.HTML←⎕NREAD tn 83 length 0
                   cacheMe←0≠Config.HttpCacheTime ⍝ for now, cache all files if set to use caching
               :Else
+                  res.HTML←⍬
                   REQ.Fail 404
                   length←⍴res.HTML
                   res.File←0
