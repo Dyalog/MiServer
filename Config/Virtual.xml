@@ -5,7 +5,7 @@
 
   <directory>
     <alias>FontAwesome</alias>
-    <path>%ServerRoot%\PlugIns\font-awesome-4.4.0\</path>
+    <path>%ServerRoot%\PlugIns\font-awesome-4.5.0\</path>
   </directory>
 
   <directory>
