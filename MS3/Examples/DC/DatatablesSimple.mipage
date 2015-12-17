@@ -1,0 +1,47 @@
+﻿:Class DatatablesSimple : MiPageSample
+⍝ Control::     _DC.Datatables
+⍝ Description:: The simplest use case of a Datatable
+
+    :field private Datafile←'TeamDyalog.csv'
+
+
+    ∇ Compose;button;frm;dyalog;dPath;dat
+      :Access Public
+     
+      Add _.h2'Datatables'
+      Add _.p ScriptFollows
+⍝ The Datatable-Control uses the well-known JS-Library <a href="http://datatables.net/">Datatables</a>
+⍝ which provides tons of configuration-options and an enourmous flexibility - some of which will be explored
+⍝ in further samples. This sample is as minimal as possible and shows the default-functionality and layout
+⍝ of Datatables.
+
+      Add _.h2'Meet Team Dyalog'
+      Add _.p ScriptFollows
+⍝ <b>Meet the people that make it all possible!</b>
+⍝ Data on this page was taken from the <a href="http://www.dyalog.com/meet-team-dyalog.htm">corresponding page</a>
+⍝ on our website - with some creativity added to find jobtitles where none were given.
+     
+     Add _.h3 'About this example'
+     Add _.p ScriptFollows
+⍝ The standard setup of Datatables consists of a header, table-body and footer. Let's examine these elements in detail:
+⍝ <ul>
+⍝   <li>The header first has a paging-control enabling you to select the number of records to be shown on one page of data.</li>
+⍝   <li>It then features a Search-Box where you type a search-string. The table will be updated as you type to only show
+⍝       matching records.</li>
+⍝   <li>Finally the column-titles are emphasized and have little up/down-arrows in the fields which you can click on to sort the table</li>
+⍝   <li>The table itself shows the data</li>
+⍝   <li>The footer gives an indication on the position in the (possibly filtered) table and also provides paging-controls.</li>
+⍝</ul>
+     
+      dPath←_Request.Server.Config.AppRoot,'examples/data/'
+      :If 0=⎕NC'#.LoadData'
+          dyalog←2 ⎕NQ'.' 'GetEnvironment' 'dyalog'
+          #.⎕CY dyalog,'/ws/loaddata'                   ⍝ must be copied to root because of absolute reference #.fileUtilities
+      :EndIf
+     
+      dat←#.LoadTEXT(dPath,Datafile)';'                 ⍝ get Data from CSV
+      '#sample'Add _.Datatables dat '' 1 '' 0 0         ⍝ add table to the page with that data
+     
+    ∇
+
+:EndClass

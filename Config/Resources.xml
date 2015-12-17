@@ -547,4 +547,33 @@
 		<name>ejmToolbar</name>
 		<uses>SyncfusionMobile</uses>
 	</resource>
+<!-- 
+*********************************
+*  Datatables resources         *
+*********************************
+-->
+
+
+<resource>
+  	<name>DataTables</name>
+  	<uses>JQuery</uses>
+    <script>/DataTables/media/js/jquery.dataTables.js</script>
+    <style>/DataTables/media/css/jquery.dataTables.min.css</style>
+</resource>
+<resource>
+	<name>DataTables_responsive</name>
+	<style>/DataTables/extensions/Responsive/css/responsive.dataTables.min.css</style>
+	<script>/DataTables/extensions/Responsive/js/DataTables.responsive.min.js</script>
+</resource>
+
+<resource>
+	<name>DataTables_searchHighlight</name>
+	<uses>jqueryHighlight</uses>
+	<script>/DataTables/extras/searchHighlight/DataTables.searchHighlight.min.js</script>
+ 	 <style>/DataTables/extras/searchHighlight/DataTables.searchHighlight.css</style>
+</resource>
+<resource>
+	<name>jqueryHighlight</name>
+	<script>/JQuery/Highlight/jquery.highlight.js</script>
+</resource>
 </Resources>

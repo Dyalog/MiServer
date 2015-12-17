@@ -22,4 +22,8 @@
     <alias>PlugIns</alias>
     <path>%ServerRoot%/PlugIns/</path>
   </directory>
+  <directory>
+    <alias>DataTables</alias>  
+    <path>%ServerRoot%\PlugIns\JQuery\DataTables-1.10.10</path>
+  </directory>
 </Virtual>
