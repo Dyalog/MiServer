@@ -5,7 +5,7 @@
 
   <directory>
     <alias>FontAwesome</alias>
-    <path>%ServerRoot%\PlugIns\font-awesome-4.4.0\</path>
+    <path>%ServerRoot%\PlugIns\font-awesome-4.5.0\</path>
   </directory>
 
   <directory>
@@ -21,5 +21,9 @@
   <directory>
     <alias>PlugIns</alias>
     <path>%ServerRoot%/PlugIns/</path>
+  </directory>
+  <directory>
+    <alias>DataTables</alias>  
+    <path>%ServerRoot%\PlugIns\JQuery\DataTables-1.10.10</path>
   </directory>
 </Virtual>
