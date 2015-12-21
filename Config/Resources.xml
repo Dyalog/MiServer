@@ -94,7 +94,7 @@
 	</resource>
 	<resource>
 		<name>cultures</name>
-                <script>/Syncfusion/external/jquery.globalize.min.js</script>
+		<script>/Syncfusion/external/jquery.globalize.min.js</script>
 		<script>/Syncfusion/external/globalize.cultures.min.js</script>
 	</resource>
 	<resource>

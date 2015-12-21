@@ -15,7 +15,7 @@
      
       Add _.h3'Basic Icons'
       Add _.FontAwesome'camera'
-      Add _.FontAwesome'retro'
+      Add _.FontAwesome'camera-retro'
       Add _.FontAwesome'user'
       Add _.FontAwesome'home'
       Add _.FontAwesome'book'
@@ -120,7 +120,7 @@
       fa.stack New _.FontAwesome'file-o 2x'
       fa.stack'gear'
       par.Add'Note how you can also stack icons unto <code>file-o</code> to construct further file-type icons!'
-         
+     
       par←Add _.p
       par.SetAttr'style=display:inline-block;'
       fa←(par.Add _.FontAwesome'pull-left').Add _.FontAwesome
@@ -155,14 +155,14 @@
      ⍝ unfortunately I do not see a general solution, as there may well be cases where the user desires a different layout.
      ⍝ and also, it would be neccessary to have that styling radiate out from the embedded icon-stack to the outer
      ⍝ container - and I haveno idea how to achieve that.
-     ⌈
+      ⌈
       par←Add _.p
       fa←(par.Add _.FontAwesome'pull-left').Add _.FontAwesome
       fa.StackSize←'2x'
       fa.stack New _.FontAwesome'file-o 2x'
       fa.stack New _.FontAwesome'exclamation' 'style=color:red;'
       par.Add'The effect of not doing what we''re about to reveal is demonstrated here: line-wraps and overlapping regions around left-aligned icons.'
-      
+     
       par←Add _.p
       fa←(par.Add _.FontAwesome'pull-left').Add _.FontAwesome
       fa.StackSize←'2x'

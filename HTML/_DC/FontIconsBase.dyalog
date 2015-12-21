@@ -1,15 +1,14 @@
 ﻿:Class FontIconsBase :  #.HtmlElement
     :field public shared readonly DocBase←'http://fontawesome.io/icons/'
-    :field public shared Family←'fa'  ⍝ bt=Blacktie or other prefixes for FontIcons
+    :field public Family←'fa'  ⍝ bt=Blacktie or other prefixes for FontIcons
     :field public Resource←'placeholder'
     :field public Container←'i'
     :field public icon←''   
     :field public StackSize←'1x'    ⍝ only relevant for the outer tag in stacks!
     :field private Args←''  
-    :field private Stack←⍳0
-
-
-
+    :field private Stack←⍳0             
+    
+  ⍝⍝ Constructors ⍝⍝
 
     ∇ Make0
     ⍝ empty constructor mostly used for stacks, but possibly for "normal" icons as well (assign icon after construction!)
@@ -34,8 +33,47 @@
       Content←''
     ∇
     
+  ⍝⍝ Rendering ⍝⍝   
+
+    ∇ r←Render;icon3;i1;i2;Stack∆
+      :Access Public
+      ∘∘∘
+      :If 0<⍴Stack
+          Stack∆←Stack
+          Stack←⍳0
+          :If 0<⍴icon
+              icon←(RemoveSize icon),' stack-',GetSize'' ⋄ Container←'span'
+              r←Render  ⍝ first elem
+          :Else
+              r←''
+          :EndIf
+          :For obj :In Stack∆
+              :If (⊂' #._DC.FontIconsBase ')∊⍕¨⎕CLASS obj
+                  :If 0<⍴obj.icon
+                  :AndIf ~∨/'stack-'⍷obj.icon
+                      obj.icon←(RemoveSize obj.icon),' stack-',obj.GetSize''
+                  :EndIf
+                  r∆←obj.Render
+              :Else
+                  r∆←obj
+              :EndIf
+              r,←r∆
+          :EndFor
+          :If ~∨/'stack-'⍷icon
+              icon←'stack ',StackSize
+          :EndIf
+          Container←'span'
+          Content←r
+      :EndIf
+      Tag←Container
+      :If 0<⍴icon ⋄ icon←SetSize ⋄ class←setClass(0=⎕NC'Stack∆') ⋄ :EndIf
+      r←⎕BASE.Render
+    ∇
+
+  ⍝⍝ Utilities
+    
     ∇ r←{size}tla arg
-      :Access public shared
+      :Access public
       ⍝ create an icon for a TLA (three letter acronym aka "filename" ;-))
       ⍝ I'm a bit undetermined about tla - maybe it should be treated more like an
       ⍝ HtmlElement, so that id/class and other attributes could be set. BUT they could be set for each of the 2 layers of the stack
@@ -105,48 +143,6 @@
       class←'fa-ul'
       Container←'ul'
     ∇
-
-
-    ∇ r←Render;icon3;i1;i2;Stack∆
-      :Access Public
-     
-      :If 0<⍴Stack
-          Stack∆←Stack
-          ⎕SE.Dyalog.Utils.display Stack∆
-⍝          .
-          Stack←⍳0
-          :If 0<⍴icon
-     
-              icon←(RemoveSize icon),' stack-',GetSize'' ⋄ Container←'span'
-              r←Render  ⍝ first elem
-          :Else
-              r←''
-          :EndIf
-          :For obj :In Stack∆
-              :If (⊂' #._DC.FontIconsBase ')∊⍕¨⎕CLASS obj
-                  ⎕←'stacking: ',(RemoveSize obj.icon)
-                  :If 0<⍴obj.icon
-                  :AndIf ~∨/'stack-'⍷obj.icon
-⍝                      .
-                      ⎕←obj.icon←(RemoveSize obj.icon),' stack-',obj.GetSize''
-                  :EndIf
-                  r∆←obj.Render
-              :Else
-⍝                  .
-                  r∆←obj
-              :EndIf
-              r,←r∆
-          :EndFor
-          :If ~∨/'stack-'⍷icon
-              icon←'stack ',StackSize
-          :EndIf
-          Container←'span'
-          Content←r
-      :EndIf
-      Tag←Container
-      :If 0<⍴icon ⋄ icon←SetSize ⋄ class←setClass(0=⎕NC'Stack∆') ⋄ :EndIf
-      r←⎕BASE.Render
-    ∇
     
     ∇ r←{prefix}GetSize nul
     ⍝ searches icon for a size-specification
@@ -190,24 +186,25 @@
       :EndIf
       cls←ScriptFollows
       ⍝ :Class %Classname : #._DC.FontIconsBase
-      ⍝   :field public readonly shared Family←'%family'
-      ⍝   :field public readonly shared Resource←'%Resource'
       ⍝   ∇ make0
       ⍝     :access public
-      ⍝      Resource {6::⍺∇1↓⍵ ⋄ 0<⍴⍵:(1⊃⍵).Use ⍺}⎕rsi ⍝ find environment where we can execute "Use"
+      ⍝      Uses←'%Resource'
       ⍝     :implements constructor :base
+      ⍝      Family←'%family'
       ⍝   ∇
       ⍝
       ⍝   ∇ make1 arg
       ⍝     :access public
-      ⍝      Resource {6::⍺∇1↓⍵ ⋄ 0<⍴⍵:(1⊃⍵).Use ⍺}⎕rsi ⍝ find environment where we can execute "Use"
+      ⍝      Uses←'%Resource'
       ⍝     :implements constructor :base arg
+      ⍝      Family←'%family'
       ⍝   ∇
       ⍝
       ⍝   ∇ make2 (arg1 arg2)
       ⍝     :access public
-      ⍝      Resource {6::⍺∇1↓⍵ ⋄ 0<⍴⍵:(1⊃⍵).Use ⍺}⎕rsi ⍝ find environment where we can execute "Use"
+      ⍝      Uses←'%Resource'
       ⍝     :implements constructor :base (arg1 arg2)
+      ⍝      Family←'%family'
       ⍝   ∇
       ⍝ :EndClass
       cls←(('%Classname'Classname)('%family'fmly)('%Resource'rsc))Subst cls

@@ -21,7 +21,8 @@
     ∇ make1 args
       :Access public
       JQueryFn←Uses←'ejDroppable'
-      :Implements constructor :base args
+      :Implements constructor
+      Selector←args
       InternalEvents←IntEvt
     ∇
 :EndClass

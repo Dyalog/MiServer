@@ -1,4 +1,4 @@
-﻿:Class UploadBox : MiPageSample 
+﻿:Class Uploadbox : MiPageSample 
 ⍝ Demonstrate the SyncFusion ejUploadBox widget
     
     ∇ Render;control;options;ub;targetfolder

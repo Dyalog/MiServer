@@ -2,7 +2,7 @@
 ⍝ Control:: _DC.InputFile
 ⍝ Description:: input-control to handle file-uploads
 
-    ∇ Compose;output;fname;fdata;frm
+    ∇ Compose;out;fname;fdata;frm
       :Access Public
      
       Add ScriptFollows
@@ -14,7 +14,7 @@
       ⍝ The first vector is the file name.<br/>
       ⍝ The second vector is an integer vector (datatype 83) of the uploaded file's data</p>
      
-      output←'output'Add _.div
+      out←'output'Add _.div
       :If _Request.isPost  ⍝ anything uploaded
       :AndIf 0≠_PageData.⎕NC'ipfl'
      
@@ -25,8 +25,12 @@
       ⍝ we'll just calculate a simple checksum and display that.
      
           (fname fdata)←Get'ipfl'
-          output.Add _.strong'"',fname,'" received with ',(⍕⍴fdata),' bytes and a checksum of ',⍕255|+/fdata
-          {output.Add ⍵}¨2⍴_.br
+          ⍝ MBaas: "output" should only contain the filename..
+          out.Add _.strong fname,' received with ',(⍕⍴fdata),' bytes and a checksum of ',⍕255|+/fdata
+          {out.Add ⍵}¨2⍴_.br
+          :If 0=⍴fdata
+              ..
+          :EndIf
       :EndIf
      
       frm←Add _.Form  ⍝ dialog is always shown so that we can upload again after having sent a file!
@@ -38,7 +42,7 @@
      
       ⍝↓↓↓ this is only so that the page will render properly in the MS3 MiSite's index page
       ⍝    after the form is submitted.  It normally would not be needed in most applications.
-      'action'frm.Set _Request.Page,'?NoWrapper=1'
+      ⍝'action'frm.Set _Request.Page,'?NoWrapper=1'
      
     ∇
 

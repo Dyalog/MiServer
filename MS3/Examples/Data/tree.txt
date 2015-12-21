@@ -63,7 +63,7 @@
 /SF/Layout/ejSlider*
 /SF/Layout/ejTextBoxes
 /SF/Layout/ejTimePicker*
-/SF/Layout/ejUploadBox
+/SF/Layout/ejUploadbox
 /SF/Navigation/
 /SF/Navigation/ejAccordion*
 /SF/Navigation/ejFileExplorer

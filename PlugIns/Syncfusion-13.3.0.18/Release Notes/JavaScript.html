@@ -1,0 +1,1183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>JavaScript</title>
+    <style type="text/css">
+        body
+        {
+            font-family: 'Segoe UI',helvetica,arial,sans-serif;
+            font-size: 13px;
+            font-weight: normal; 
+            margin: 0;
+        }
+        a
+        {
+            outline:0;
+        }
+        .copyright
+        {
+            font-size: 11px;
+            color: #A4A7A9;
+            padding-top: 6px;
+        }
+        a.data:hover,a.data:active
+        {
+            color :#F29034 !important;
+        }      
+        div#tabs ul
+        {
+            list-style: none;
+        }
+        div#tabs ul li
+        {
+            float: left;            
+            height:40px;            
+            *height:44px;
+        }
+        div#tabs ul li a
+        {
+            text-decoration: none;
+            font-weight:bold;
+            color:#293674 !important;
+            *cursor:pointer;
+        }        
+        #tabs
+        {
+            margin-top:5px;
+            height:0px;
+            width:280px;
+            float:right;
+        }
+        div#tabs ul li a span
+        {
+             font-size: 12px;
+            line-height :30px; 
+        }
+        div#container-prodtable
+        {            
+            width: 600px;
+            margin-left: 0px;
+            margin-top: 5px;
+            margin-top: 0px;            
+            background-color: white;            
+        }
+        div#container-prodtable ul
+        {
+            margin-top:30px;
+        }
+        div#container-body
+        {
+            border: 0px solid #DDEEF8;
+            width: 580px;
+            margin-left: 25px;
+            border-top:0px solid white;
+            color:#777777;
+            font-size:14px;
+            font-family: 'Segoe UI',helvetica,arial,sans-serif;  
+            clear:both;          
+        }
+        .hovertab
+        {
+            border-bottom: 2px solid #F3F8FB;
+            border-left: 1px solid #DDEEF8;
+            border-top: 1px solid #DDEEF8;
+            border-right: 2px solid #DDEEF8;
+        }
+        .line
+        {
+            height:1px;
+           
+        }
+        #product-header
+        {
+            color:#90AC3D;
+            font-weight: bold;
+            font-size:14px;
+            margin-top:35px;
+            margin-bottom:10px;
+        }
+        .release
+        {
+            padding-left:10px;
+        }
+        div.release ul
+        {
+            padding-left:20px !important;
+            
+        }
+        #activetab
+        {
+            background-color:#7EB200;                        
+            background-repeat:no-repeat;            
+            line-height:30px;
+            color:#FFFFFF;
+            padding-left:4px;
+        }
+        
+        #reportingtab:hover
+        {
+           background-repeat:no-repeat;
+        }
+         #bitab:hover
+        {           
+           background-repeat:no-repeat;
+        }
+       #header
+       {
+           background-color:#282828; 
+       }
+       .header-text
+       {
+           font-size: 23px;
+           font-weight: lighter;  
+           float:right;
+           margin-right:18px; 
+           color:white;  
+           *margin-top:-35px;         
+       }
+       #container-prodtable ul li
+       {
+            background-image: url("bullet.png");
+            background-position: 0 9px;
+            background-repeat: no-repeat;
+            font-size: 15px;
+            list-style:none;
+            float: left;
+            height: 29px;
+            margin-bottom: 10px;
+            padding-left: 17px;
+            width: 165px;
+       }
+       #container-prodtable ul li a
+       {
+          color:#293674; 
+          text-decoration:none;
+       }
+    </style>
+    <script src="jquery.min.js"></script>
+    <script type="text/javascript">
+
+        function change_product(e) {      
+            
+            $("#container-body").css({ "padding-bottom": "0px" });            
+            $("td a").css({ "color": "#293674", "text-decoration": "none" });            
+            $(e).css({ "color": "#90AC3D" });                        
+            var prod = $(e).html();            
+            $("div.line").css({ "display": "block" });
+            $("#product-header").css({ "display": "block" });
+            $("#product-header").html("JavaScript &nbsp;>&nbsp;" + prod);
+            var link = $(e).attr('href');
+            link = link.substring(1, link.length);
+            var a = document.getElementById(link);
+            productlist = document.getElementsByTagName("div");
+            for (var i = 0; i < productlist.length; i++) {
+                if (productlist[i].className == 'release') {
+                    productlist[i].style.display = "none";
+                }
+            }
+            a.style.display = "block";
+        }
+        function goTop(){
+            window.location = '#top';
+        }
+       
+        $(document).ready(function() {       
+            
+            var url = window.location.toString();
+            var pos = url.indexOf("#");
+            var top = url.indexOf("#top");
+                        
+            if (pos != -1 && top == -1) {
+                $(".release").css('display', 'none');
+                url = url.substr(pos, url.length);
+                $("a[href='" + url + "']").css({ "color": "#90AC3D" });                
+                var prod = $("a[href='" + url + "']").html();                
+                $("div.line").css({ "display": "block" });
+                $("#product-header").css({ "display": "block" });
+                $("#product-header").html("JavaScript &nbsp;>&nbsp;" + prod);
+                $(url).attr('style', 'display:block');
+                window.location = location;
+            }
+            else {
+                change_product($("#first"));
+            }
+
+
+        });
+    </script>
+</head>
+<body bgcolor="#F5F5F6">
+    <div style="width:879px;border:1px solid #cccccc; margin:0 auto;">
+    <div>        
+        <table align="center" cellpadding="0" cellspacing="0" bgcolor="white" width="879">
+           <tr>
+              <td>     
+                   <div id="header">                       
+                    <div style="padding-bottom: 5px; background-color: #333333; padding-left: 20px; width: 858px;height:40px; padding-right: 0px; padding-top: 10px;">
+                        <img src="Sync-logo.png"/>
+                        <span class="header-text">Essential Studio 2015 Vol 3 Release Notes</span>
+                    </div>                      
+                   </div>                  
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+    
+                    <div id="tabs">
+			<ul style="font-size: 12px; padding-left:60px; *margin-left:0px">
+                            <li><a href="Common.html"><span style="text-align:left;width:210px;display:inline-block">Common</span></a></li>
+                            <li><a href="ASPMVC.html"><span style="text-align:left;width:210px;display:inline-block">ASP.NET MVC</span></a></li>
+							<li><a href="ASP.html"><span style="text-align:left;width:210px;display:inline-block">ASP.NET</span></a></li>                            
+                            <li><a href="JavaScript.html"><span id="activetab" style="text-align:left;width:210px;display:inline-block">JavaScript</span></a></li>
+                            <li><a href="LightSwitchHTML.html"><span style="text-align:left;width:210px;display:inline-block">LightSwitch HTML</span></a></li>	
+							<li><a href="WPF.html"><span style="text-align:left;width:210px;display:inline-block">WPF</span></a></li>
+							<li><a href="WindowsForms.html"><span style="text-align:left;width:210px;display:inline-block">Windows Forms</span></a></li>
+							<li><a href="WinRT.html"><span style="text-align:left;width:210px;display:inline-block">WinRT</span></a></li>                            
+							<li><a href="WindowsPhoneSL.html"><span style="text-align:left;width:210px;display:inline-block">Windows Phone Silverlight </span></a></li>
+							<li><a href="WindowsPhoneWinRT.html"><span style="text-align:left;width:210px;display:inline-block">Windows Phone WinRT </span></a></li>
+							<li><a href="Universal.html"><span style="text-align:left;width:210px;display:inline-block">Universal</span></a></li>							
+							<li><a href="Silverlight.html"><span style="text-align:left;width:210px;display:inline-block">Silverlight</span></a></li>	
+                             <li><a href="LightSwitchSL.html"><span  style="text-align:left;width:210px;display:inline-block">LightSwitch Silverlight</span></a></li>										
+							<li><a href="ASPMVCClassic.html"><span style="text-align:left;width:210px;display:inline-block">ASP.NET MVC (Classic)</span></a></li>
+							<li><a href="ASPClassic.html"><span style="text-align:left;width:210px;display:inline-block">ASP.NET (Classic)</span></a></li>                            
+                            <li><a href="FileFormat.html"><span style="text-align:left;width:210px;display:inline-block">File Format</span></a></li>       
+                     
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-right: 1px solid #bbbbbb;width: 628px;margin-top: 21px;float: left; min-height:590px">
+                    <div id="container-prodtable" style="float: left" > 
+                    <h3 style="font-weight: lighter;">
+                    <div class="platform" style="color:#7EB200; padding-left:30px">JavaScript</div></h3>
+                        <ul>
+						<li>
+							<a class="data" id="first" onclick="change_product(this);" href="#JS-Chart">Chart</a></li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-Grid">Grid</a> </li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-BulletGraph">Bullet Graph</a> </li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-Gauge">Gauge</a> </li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-Tools">Tools</a> </li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-Barcode">Barcode</a> </li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-Diagram">Diagram</a> </li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-OLAP Chart">OLAP Chart</a> </li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-OLAP Client">OLAP Client</a> </li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-OLAP Gauge">OLAP Gauge</a> </li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-RangeNavigator">Range Navigator</a></li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-MobileGrid">Mobile Grid</a> </li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-MobileTools">Mobile Tools</a> </li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-Gantt">Gantt</a></li>
+							<li> <a class="data" onclick="change_product(this);" href="#JS-Schedule">Schedule</a></li>
+                           <li> <a class="data" onclick="change_product(this);" href="#JS-PivotGrid">PivotGrid</a> </li>
+                           <li> <a class="data" onclick="change_product(this);" href="#JS-Maps">Maps</a> </li>
+                           <li> <a class="data" onclick="change_product(this);" href="#JS-TreeMap">TreeMap</a> </li>
+                           <li> <a class="data" onclick="change_product(this);" href="#JS-TreeGrid">TreeGrid</a> </li>
+						   <li> <a class="data" onclick="change_product(this);" href="#JS-Calculate">Calculate</a> </li>
+                           <li> <a class="data" onclick="change_product(this);" href="#JS-ReportViewer">ReportViewer</a> </li>
+						   <li> <a class="data" onclick="change_product(this);" href="#JS-Spreadsheet">Spreadsheet</a></li>                          
+						                           
+						   </ul>
+                     </div>					
+                    <div id="container-body">
+                        <div id="product-header" style="display: none; font-family: 'Segoe UI',helvetica,arial,sans-serif; font-size:18px; font-weight:lighter;">
+                            &nbsp;</div>
+                        <div class="line" style="display: none">
+                            &nbsp;</div>
+                            
+                            <div id="JS-BulletGraph" class="release" style="display:none">
+</ul>
+<h5> There is no change in this product.</h5>
+</div>
+<div id="JS-Chart" class="release" style="display:none">
+<h4> Features</h4>
+<ul>
+<li>
+Provided support to maintain the interval of axis on zooming.</pre>
+</li>
+</ul><h4> Fixes</h4>
+<ul>
+<li>
+#145569 - AxesLabelRendering event is now triggering for first label of axis.</pre>
+</li>
+<li>
+#140909 - Additional RangePadding is now working properly.</pre>
+</li>
+</ul><h4> Breaking-Changes</h4>
+<ul>
+<li>
+Tooltip decimal cant be rounded using rounding place in axis, instead we can round the value using tooltip format.</pre>
+</li>
+</ul>
+</div>
+<div id="JS-Grid" class="release" style="display:none">
+<h4> Fixes</h4>
+<ul>
+<li>
+#137254  - Grid Columns occupies remaining space if no scrollbar present </pre>
+</li>
+<li>
+#137254  - Option to set the mode for rendering grid based on column width or auto filling offsetParent </pre>
+</li>
+<li>
+#142861  - Filtered value not displayed in filterbar when filtering a column using filteredColumns api </pre>
+</li>
+<li>
+#145240  - Script error thrown when performing batch editing with complex objects </pre>
+</li>
+<li>
+#145484  - Filtered operators not maintain in menu filter </pre>
+</li>
+<li>
+#145556,#145838 - Summary value wrongly calculated while Exporting after filtering.</pre>
+</li>
+<li>
+#145572,#146187,#147029 - While using multiple Dropdowns incorrect value showed after saving.</pre>
+</li>
+<li>
+#145860  - Script error thrown when deleting last record in Grid - Knockout  </pre>
+</li>
+<li>
+#146276  - Throws script error while using auto generation for Complex data </pre>
+</li>
+<li>
+#146301,#146569  - Script error is thrown when enable the templateRefresh event  with edit mode as dialog </pre>
+</li>
+<li>
+#146362  - Performance improvement of grid rowhover in ie-browser </pre>
+</li>
+<li>
+#146482  - Improvement for sample browser typo issues </pre>
+</li>
+<li>
+#146516  - PagerMessage shows an incorrect count while giving pager template with default pager</pre>
+</li>
+<li>
+#146570  - Need API to set Cell Value based on index</pre>
+</li>
+<li>
+#146705  - Recorddoubleclick event parameters improvement</pre>
+</li>
+<li>
+#146964  - Need to change columnsWidthCollection as a public property</pre>
+</li>
+<li>
+#147086  - Checkboxes hided in excel filter when enable the RTL</pre>
+</li>
+<li>
+#146590,#147467  - Misalign issue while using toolbar searching feature in frozen column feature </pre>
+</li>
+</ul><h4> Features</h4>
+<ul>
+<li>
+Provided support to maintain static width in Grid columns.</pre>
+</li>
+<li>
+Provided contextMenu support to get sub-menu items.</pre>
+</li>
+<li>
+provided support to update particular cell value by using setCellText method.</pre>
+</li>
+<li>
+Provided support to Sets the template design for Tooltip in Grid Columns(both header and content)</pre>
+</li>
+</ul><h4> Changes</h4>
+<ul>
+<li>
+The private property _columnsWidthCollection changed to public property as columnsWidthCollection </pre>
+</li>
+</ul>
+</div>
+<div id="JS-Gauge" class="release" style="display:none">
+<font color=#00AFCC>Common </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>DigitalGauge </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>LinearGauge </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>RadialGauge </font>
+<h5> There is no change in this product.</h5>
+</ul>
+</div>
+<div id="JS-Tools" class="release" style="display:none">
+<font color=#00AFCC>AutoComplete </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>Accordion </font>
+<h4> Features</h4>
+<ul>
+<li>
+ #140303 - Accordion provides option to add new items dynamically by using the "addItem" method</pre>
+</li>
+</ul><h4> Fixes</h4>
+<ul>
+<li>
+#144588 - While disabling the accordion item, it collapses.</pre>
+</li>
+</ul>
+<font color=#00AFCC>Button </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>Common </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>ColorPicker </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#141535 - Colorpicker popup opens and does not hide automatically.</pre>
+</li>
+</ul>
+<font color=#00AFCC>DatePicker </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#140142 - DatePicker now works properly when Date is specified in JSON notation.</pre>
+</li>
+</ul>
+<font color=#00AFCC>Editors </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>DateTimePicker </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#142135 - Cursor now does not automatically move to the end in DateTimePicker Angular sample.</pre>
+</li>
+<li>
+#140886 - The scroll position now works properly in the DateTimePicker while specifying date and time using date object.</pre>
+</li>
+<li>
+#140886 - mindatetime property is now working properly in the datetime picker.</pre>
+</li>
+<li>
+#140696 - DatePicker and DateTimpicker Date value is now updated as the formatted value when you use both the ng-model and the e-value in element.</pre>
+</li>
+<li>
+#144590 - Text of the TimePicker button in EJ DateTimePicker is changed.</pre>
+</li>
+</ul>
+<font color=#00AFCC>Dialog </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#141095- Keyboard navigation is now maintained when the Dialog is displayed.</pre>
+</li>
+<li>
+#140436 - Issue while rendering Treegrid inside Dialog in button click has been fixed now.</pre>
+</li>
+</ul>
+<font color=#00AFCC>DropDownList </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#F120703,#145323 - AngularJS validation support is provided in DropDownList now. </pre>
+</li>
+<li>
+#144015,#144552 - Text displayed in dropdownlist textbox is matched with the items in dropdownlist. </pre>
+</li>
+<li>
+#144168- Document keydown event is now triggered after we close the dropdown popup on esc key press.</pre>
+</li>
+<li>
+#142960- Triggers client side event once data is bounded properly in dropdown list.</pre>
+</li>
+<li>
+#140255 - Now, we can dynamically set value to dropdown based on e-value after rebind.</pre>
+</li>
+<li>
+#141557 - html dropdown list selected value is now maintained in the ej-dropdownlist.</pre>
+</li>
+<li>
+#140801 - keypress event is provided for the ejDropdownList.</pre>
+</li>
+<li>
+#140982 - selecteditems now works properly in dropdown list when you load large amount of remote data.</pre>
+</li>
+<li>
+#142297 - Now, more than one character can be specified as delimiter character.</pre>
+</li>
+</ul><h4> Features</h4>
+<ul>
+<li>
+Provided Virtual Scrolling support to the Dropdownlist that helps load data dynamically based on the scroller position.</pre>
+</li>
+<li>
+Provided Searchbox support to the Dropdownlist that helps search the exact items needed from large sets of data.</pre>
+</li>
+<li>
+Provided Resizeable support to the DropDown popup.</pre>
+</li>
+<li>
+Provided support to add Multiple items in the Dropdownlist by using the addItem method.</pre>
+</li>
+</ul><h4> Breaking changes </h4>
+<ul>
+<li>
+Default value of all the Field attributes have been changed to null</pre>
+</li>
+<li>
+Previously, we have returned the index of selected list item from the getSelectedItem API; but now, it will return selected list items</pre>
+</li>
+<li>
+In addItem API, we have made changes to the behavior. Previously, we had to give different formats like image.URL, image.alt, etc. in the parameter, but now, it supports according to the fields attributes. </pre>
+</li>
+</ul>
+<font color=#00AFCC>TextBoxes </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>General </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#142797- Disabled attribute added for all form elements.</pre>
+</li>
+<li>
+#140275,#140142 - angular form validation support is now added to our tools components.</pre>
+</li>
+<li>
+#144272 - Issue in the control creation is resolved.</pre>
+</li>
+</ul><h4> Breaking changes </h4>
+<ul>
+<li>
+<a href="http://help.syncfusion.com/js/backward-compatibility">Click here,</a> to know about the list of API's removed or modified in the vol-3 release.</pre>
+</li>
+</ul>
+<font color=#00AFCC>NumericTextBox </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>Navigation Drawer </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>Menu </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#141767 - Now, it is possible to insert menu item if menu is empty.</pre>
+</li>
+</ul>
+<font color=#00AFCC>MaskEdit </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#141372 - Maskedit is now working in angular js while specifying the maskFormat without any special characters.</pre>
+</li>
+</ul>
+<font color=#00AFCC>RichTextEdior </font>
+<h4> Features</h4>
+<ul>
+<li>
+ Word count option is added in RTE footer that displays the number of words present in RTE content.</pre>
+</li>
+<li>
+ Default focus is provided in initial render.</pre>
+</li>
+<li>
+ An option is provided to retrieve the encoded content from RTE.</pre>
+</li>
+<li>
+ Automatic height adjust option is provided such that, when you type/paste large contents, it increases the height automatically based on the content instead of scrollers.</pre>
+</li>
+<li>
+ Paste/Replace the content option is provided that helps in pasting the content at current cursor position/selection.</pre>
+</li>
+<li>
+ Support provided to get current RTE's iframe document.</pre>
+</li>
+<li>
+ Support provided to get range object from RTE.</pre>
+</li>
+<li>
+ Support provided to select the particular range of contents and also all the contents in RTE.</pre>
+</li>
+<li>
+ Support provided to view the RTE in full screen.</pre>
+</li>
+</ul><h4> Breaking changes </h4>
+<ul>
+<li>
+ enableToolbarItem, disableToolbarItem, removeToolbarItem public method's arguments are changed. Instead of passing contolID+Tool as argument, you can directly pass the Tool itself.</pre>
+</li>
+<li>
+ Previously, showWordCont displays the number of characters in RTE. Now, it displays the number of words present in RTE.</pre>
+</li>
+<li>
+ Default value of the showHtmlSource property is changed to false.</pre>
+</li>
+<li>
+ Default value of the showClearAll property is changed to false.</pre>
+</li>
+<li>
+ iframeAttribute property is renamed to iframeAttributes. Now we can apply any kind of attributes to the iframe's body element using this .</pre>
+</li>
+</ul><h4> Fixes</h4>
+<ul>
+<li>
+#144976 - No error in RTE while adding control in DOM.</pre>
+</li>
+<li>
+#145877 - Issue with pasting the content after inserting a image is resolved in RTE .</pre>
+</li>
+<li>
+#142770 - Can get RTE Value in form post.</pre>
+</li>
+<li>
+#140874 - Disable is now working properly if disabled before rte gets refreshed.</pre>
+</li>
+<li>
+#143771 - While using the RichTextEditor as a directive, the contents of the dropdown menu is now styled.</pre>
+</li>
+<li>
+#143082 - While copy paste the content in RTE, src attribute is not generated twice in img tag.</pre>
+</li>
+</ul>
+<font color=#00AFCC>FileExplorer </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#142883- Fileexplorer resize works correctly.</pre>
+</li>
+<li>
+#142996- Resize works properly when treeview is disabled.</pre>
+</li>
+<li>
+#142883 - Issue with file explorer control having some initial misalignment, when you render file explorer inside the dialog with responsive support and hidden state has been now resolved.</pre>
+</li>
+<li>
+#141095 - Search option issue is resolved.</pre>
+</li>
+<li>
+#141095 - In fileexplorer, grid view-File size column is now right aligned.</pre>
+</li>
+<li>
+#141707,#142997 - Support is provided to access even the static physical path for file explorer control.</pre>
+</li>
+<li>
+#141095 - Deleting no longer throws exception in file explorer control.</pre>
+</li>
+<li>
+#141095 - some options is in disabled state for content menu, while right click on folder issue is resolved</pre>
+</li>
+<li>
+#141095 - Resizing of the Dialog in mouse hover is resolved.</pre>
+</li>
+<li>
+#141095 - Naming issue in file explorer control is resolved.</pre>
+</li>
+<li>
+#142883- When file explorer contains following API values (width: "100%", isResponsive: true ), if we resize the opened dialog, file explorer now aligns properly.</pre>
+</li>
+<li>
+#141095- default Search considers Starts with scenario? and also considers contains now.</pre>
+</li>
+<li>
+#141095- File explorer popup does not capture mouse when resizing.</pre>
+</li>
+</ul><h4> Features</h4>
+<ul>
+<li>
+#141095 - provided support to display the icons shown in thumbnail view of the FileExplorer like windows explorer.</pre>
+</li>
+<li>
+#140310 - FileExplorer supports auto upload option by using the "autoUpload" API.</pre>
+</li>
+</ul>
+<font color=#00AFCC>Split Button </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#140698 - select event now invokes properly when you use same targetID for multiple splitbutton.</pre>
+</li>
+</ul>
+<font color=#00AFCC>Splitter </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#144604 - Splitter icons are changed.</pre>
+</li>
+</ul>
+<font color=#00AFCC>Scrollbar </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>Scroller </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#140014 - Scroller's setting of incorrect width to its content when the width is specified in percentage has been resolved.</pre>
+</li>
+<li>
+#140328 - Scroller now takes 100% height.</pre>
+</li>
+<li>
+#140210,#142338 - ejScroller horizontal scrolling is now working properly with the trackpad.</pre>
+</li>
+<li>
+#139616- Scroller works fast in windows phone.</pre>
+</li>
+</ul>
+<font color=#00AFCC>Rotator </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>Tab </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>TimePicker </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#141184 - In Timepicker control, issue with angular support sample unable to type minutes value 33 initially is resolved.</pre>
+</li>
+<li>
+#140142 - TimePicker now works properly when you specify the date in JSON notation.</pre>
+</li>
+<li>
+#129953 - The value in the TimePicker is selected in the popup at the Initial rendering.</pre>
+</li>
+<li>
+#141184- Timepicker minutes is not updated properly in two binding support.</pre>
+</li>
+</ul>
+<font color=#00AFCC>TreeView </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#143463- expandNode method now works fine with loadondemand option.</pre>
+</li>
+<li>
+#142806- Able to form the TreeView from a single remote URL now.</pre>
+</li>
+<li>
+#139047 - Treeview code crash does not occur.</pre>
+</li>
+<li>
+#142190 - The parent node is now the target element issue while an element is dropped before its first sibling is resolved.</pre>
+</li>
+<li>
+#141390 - Keypress event is now triggered while pressing the delete key.</pre>
+</li>
+<li>
+#143463- expandNode method now works fine with loadondemand option.</pre>
+</li>
+<li>
+#142806- Able to form the TreeView from a single remote URL now.</pre>
+</li>
+</ul><h4> Features</h4>
+<ul>
+<li>
+ #143248, #143250 - TreeView parent node's checked/unchecked state is based on the state of the child nodes on control initialization.</pre>
+</li>
+<li>
+ #142081,#143134 - TreeView provides option to insert node in between by using the "insertBefore"," insertAfter" methods.</pre>
+</li>
+<li>
+ #124441 - Controls the expand of nodes whether it allows single or multiple expansion of nodes by using the "enableMultipleExpand" property.</pre>
+</li>
+<li>
+ #118757, #131194 - Provided support to ensure visibility of the tree nodes by using the "ensureVisible()" method.</pre>
+</li>
+</ul><h4> Breaking changes </h4>
+<ul>
+<li>
+# 142197 - Previously, the TreeView persisted the nodes collection based on the tree nodes index, now it is modified based on "id" of the nodes.</pre>
+</li>
+<li>
+ Previous node processing methods accepted arguments as a string with the hashtag ("#") symbol. Now it has been optimized where the string is passed only in the arguments. For example, the collapse node syntax was collapseNode("#node1") before; now the syntax has been modified as collapseNode("node1") (or) collapseNode($("#node1")).</pre>
+</li>
+</ul>
+<font color=#00AFCC>Toolbar </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#142883 - Issue with file explorer control having some initial misalignment, when you render file explorer inside the dialog with responsive support and hidden state has been now resolved.</pre>
+</li>
+<li>
+#144594 - In Toolbar, misalignment when double clicking any toolbar item is resolved.</pre>
+</li>
+</ul>
+<font color=#00AFCC>UploadBox </font>
+<h4> Breaking changes </h4>
+<ul>
+<li>
+'dragAreaText' property name is changed to 'dropAreaText'.</pre>
+</li>
+<li>
+'multipleFilesSelection' property default value - false is changed to true.</pre>
+</li>
+<li>
+In fileSelect event  selected files will be available in 'eventargument.files'.</pre>
+</li>
+</ul><h4> Fixes</h4>
+<ul>
+<li>
+#141095 - Issue with Error message for file type not allowed, is not formatted or presented properly is now resolved.</pre>
+</li>
+<li>
+#144798 - The restricted extension files is not displayed in the file upload window, when user restricts certain file extension.</pre>
+</li>
+<li>
+#145483 - Suceess event triggers properly now after uploading more than a file and cancelling the files.</pre>
+</li>
+</ul>
+<font color=#00AFCC>Input Controls </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>Ribbon </font>
+<h5> There is no change in this product.</h5>
+</ul>
+<font color=#00AFCC>Radial Menu </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#144601 - Selected text gets deselected while clicking on the Radial menu icon.</pre>
+</li>
+</ul>
+<font color=#00AFCC>WaitingPopUp </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#141798 - Alignment issue with waiting popup is resolved now.</pre>
+</li>
+</ul>
+<font color=#00AFCC>CheckBox </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#142047 - In checkbox, this.element in source does not return wrapper.</pre>
+</li>
+<li>
+#142433 - In Checkbox change event, isChecked now returns null for intermediate state.</pre>
+</li>
+</ul>
+<font color=#00AFCC>ListBox </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#143926- Able to focus on text box created using template option inside the listbox now.</pre>
+</li>
+<li>
+#143188- Refresh method in ListBox to refresh the height has been added.</pre>
+</li>
+<li>
+#143188- ListBox is responsive when more than one is open.</pre>
+</li>
+<li>
+#143002, #143215- getSelectedItems does not return wrong values now, when multiple values are selected using shift key.</pre>
+</li>
+<li>
+#141187 - additem,remove item are working properly in the ejListBox.</pre>
+</li>
+<li>
+#141045,#142166 - getseletect items now works properly when the selected items are changed programatically.</pre>
+</li>
+<li>
+#140337 - client side events dragstart and dradrop now triggers properly when you keep the listboxes inside the bootstrap side bar menu.</pre>
+</li>
+<li>
+#143062- remove node method now refreshes scroller height based on current items.</pre>
+</li>
+<li>
+#142712- CssClass property value is now applied in the listbox control by override the default style.</pre>
+</li>
+<li>
+#142009 - Selection maintainence is fixed now.</pre>
+</li>
+</ul><h4> Features</h4>
+<ul>
+<li>
+ #141696 - Provided incremental search option that allows navigating to the corresponding item based on the character typed.</pre>
+</li>
+</ul>
+<font color=#00AFCC>ListView </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#142370 - cssClass API is now working properly in the ListView control.</pre>
+</li>
+</ul>
+<font color=#00AFCC>DataManager </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#142470 - ODataV4Adaptor not included in typescript issue is now resolved.</pre>
+</li>
+</ul>
+</div>
+<div id="JS-PivotGrid" class="release" style="display:none">
+<h4> Features</h4>
+<ul>
+<li>
+#141759,#142897- Defer Update support has been provided.</pre>
+</li>
+<li>
+Relational datasource bound to PivotGrid can be exported to Word, PDF and Excel documents.</pre>
+</li>
+</ul><h4> Fixes</h4>
+<ul>
+<li>
+#142664- Exporting is now working with NoSummaries layout.</pre>
+</li>
+</ul>
+</div>
+<div id="JS-Barcode" class="release" style="display:none">
+</ul>
+<h5> There is no change in this product.</h5>
+</div>
+<div id="JS-Diagram" class="release" style="display:none">
+<h4> Fixes</h4>
+<ul>
+<li>
+#147576 - Selection is now cleared, if the drop event is cancelled. </pre>
+</li>
+<li>
+#147193 - While activating both SingleSelect and ZoomPan Tool, node does not get selected is fixed.</pre>
+</li>
+<li>
+#146879 - Changing node properties in node collection changed event is working properly.</pre>
+</li>
+<li>
+#146242 - Not able to cancel the text editor, while zooming the diagram is fixed.</pre>
+</li>
+<li>
+#146171 - Not able to change the radial gradient from linear gradient is fixed.</pre>
+</li>
+<li>
+#145263 - Port to Node connection is rendered properly.</pre>
+</li>
+<li>
+#145453 - Bridging created for connector unnecessarily is fixed.</pre>
+</li>
+<li>
+#145391 - After performing clipboard and serialization functionalities with group node, Exporting not working properly is fixed</pre>
+</li>
+</ul><h4> Features</h4>
+<ul>
+<li>
+#145728 - Support to provide scaling for the Text Editor has been implemented.</pre>
+</li>
+<li>
+#145263,#145437 - Support to edit the diagram through API methods, when diagram is readonly has been implemented.</pre>
+</li>
+<li>
+#143229 - Inbuilt support to update the diagram size on window resizing has been provided.</pre>
+</li>
+</ul>
+</div>
+<div id="JS-OLAP Chart" class="release" style="display:none">
+<h4> Features</h4>
+<ul>
+<li>
+#132818- 3D visualization of OlapChart is supported now.</pre>
+</li>
+</ul><h4> Fixes</h4>
+<ul>
+<li>
+#142937- Exporting OLAPChart with large number of legends does not hide the chart.</pre>
+</li>
+</ul>
+</div>
+<div id="JS-OLAP Client" class="release" style="display:none">
+<h4> Features</h4>
+<ul>
+<li>
+Support to view MDX query in dialog has been provided.</pre>
+</li>
+<li>
+Auto Execute support has been provided.</pre>
+</li>
+<li>
+Toggle Axis support has been provided.</pre>
+</li>
+</ul><h4> Fixes</h4>
+<ul>
+<li>
+#144026- Exporting works properly.</pre>
+</li>
+<li>
+#143227- CubeSelector selects currentcube value on initial loading.</pre>
+</li>
+</ul>
+</div>
+<div id="JS-OLAP Gauge" class="release" style="display:none">
+</ul>
+<h5> There is no change in this product.</h5>
+</div>
+<div id="JS-Maps" class="release" style="display:none">
+</ul>
+<h5> There is no change in this product.</h5>
+</div>
+<div id="JS-TreeMap" class="release" style="display:none">
+</ul>
+<h5> There is no change in this product.</h5>
+</div>
+<div id="JS-MobileGrid" class="release" style="display:none">
+<font color=#00AFCC>Grid </font>
+</ul>
+<h5> There is no change in this product.</h5>
+</div>
+<div id="JS-MobileTools" class="release" style="display:none">
+<font color=#00AFCC>DropDownList </font>
+<h4> Intros</h4>
+<ul>
+<li>
+
+     Essential Studio for JavaScript Mobile DropDownList is implemented as a graphical popup element, similar to a list box that allows you to choose one or multiple values from a list.
+   </pre>
+</li>
+</ul><h4> Features</h4>
+<ul>
+<li>
+Provides support for multiple item selection.</pre>
+</li>
+<li>
+Provides support for grouping.</pre>
+</li>
+<li>
+Provides Data Binding support.</pre>
+</li>
+<li>
+Provides template support to customize items.</pre>
+</li>
+<li>
+Provides Virtual Scrolling support to load data dynamically.</pre>
+</li>
+</ul>
+<font color=#00AFCC>RadialMenu </font>
+<h4> Features</h4>
+<ul>
+<li>
+Added methods to enable and disable menu items.</pre>
+</li>
+</ul>
+<font color=#00AFCC>ScrollPanel </font>
+<h4> Features</h4>
+<ul>
+<li>
+#145232- ScrollPanel height calculated from Parent height</pre>
+</li>
+</ul>
+<font color=#00AFCC>Application </font>
+<h4> Features</h4>
+<ul>
+<li>
+#145022- Additional Parameters for Transfer page function</pre>
+</li>
+</ul>
+<font color=#00AFCC>ListView </font>
+<h4> Fixes</h4>
+<ul>
+<li>
+#145232- ListView height not setting properly as per parent height</pre>
+</li>
+</ul>
+</div>
+<div id="JS-RangeNavigator" class="release" style="display:none">
+</ul>
+<h5> There is no change in this product.</h5>
+</div>
+<div id="JS-Gantt" class="release" style="display:none">
+<h4> Fixes</h4>
+<ul>
+<li>
+#146615 - Issue with triggering actionComplete client side event while adding new task has been fixed.</pre>
+</li>
+<li>
+#145837 - Issue with incorrect MileStone height while modifying the Gantt row height has been fixed.</pre>
+</li>
+</ul>
+</div>
+<div id="JS-Schedule" class="release" style="display:none">
+<h4> Fixes</h4>
+<ul>
+<li>
+#146903- Priority is displaying properly for allday appointments.</pre>
+</li>
+<li>
+#146651- Schedule navigation is working properly.</pre>
+</li>
+<li>
+#146458- Issue with schedule performance is now resolved.</pre>
+</li>
+<li>
+#146354, #146356, #146653- Issue with schedule summary is now resolved.</pre>
+</li>
+<li>
+#146020- Id is incrementing properly for edited recurrence appointment.</pre>
+</li>
+<li>
+#146176- Horizontal resource grouping is rendering properly.</pre>
+</li>
+<li>
+#146000- Quickwindow can be customized using cellClick event.</pre>
+</li>
+<li>
+#145650- Appointments are rendering properly in Daylight saving time.</pre>
+</li>
+</ul><h4> Breaking changes </h4>
+<ul>
+<li>
+<a href="http://help.syncfusion.com/js/backward-compatibility">Click here,</a> to know about the list of API’s removed or modified in the vol-3 release.
+      </pre>
+</li>
+</ul>
+</div>
+<div id="JS-TreeGrid" class="release" style="display:none">
+<h4> Features</h4>
+<ul>
+<li>
+#146380,#146718,#147022,#147249 - Events for toolbar items click and events for opening and closing the add/edit dialog box has been implemented.</pre>
+</li>
+</ul><h4> Fixes</h4>
+<ul>
+<li>
+#146076 - Issue in child rows indent levels while using Row template has been fixed.</pre>
+</li>
+<li>
+#146179 - Issue while rendering treegrid with special character has been fixed.</pre>
+</li>
+<li>
+#146097 - Issue while cancelling the ContextMenuOpen event has been fixed.</pre>
+</li>
+<li>
+#145280 - Issue with edit parameters for booleanedit type column has been fixed.</pre>
+</li>
+</ul>
+</div>
+<div id="JS-ReportViewer" class="release" style="display:none">
+<h4> Fixes</h4>
+<ul>
+<li>
+#143033- Dependent dataset now works fine.</pre>
+</li>
+<li>
+#142248- Drilldown expand/Collapse now works fine.</pre>
+</li>
+<li>
+#F120275 - Background color and images are rendered while printing in Chrome Browser.</pre>
+</li>
+<li>
+#144207 - Chart does not throw exception when placed inside group items.</pre>
+</li>
+</ul>
+</div>
+<div id="JS-Calculate" class="release" style="display:none">
+<h4> Fixes</h4>
+<ul>
+<li>
+ Calcengine formulas have been stabilized.</pre>
+</li>
+</ul>
+</div>
+<div id="JS-Spreadsheet" class="release" style="display:none">
+<h4> Features</h4>
+<ul>
+<li>
+The Spreadsheet control for JavaScript is a Microsoft Excel-like spreadsheet component for the web. It provides an editing experience that is very similar to that of Excel, and is able to import and export Excel workbook files.</pre>
+</li>
+</ul>
+</div>
+<div style='clear:both;height:10px;*height:50px;'><img onclick='goTop()'style=' cursor:pointer;float:right;padding-right: 24px' src="Arrow.png"></div><div style='clear:both;height:30px'><p style='clear:both' float=right><font size=2><a style='float:right;' href=#top>Back to Top</a></font></p></div>
+</div></td></tr><tr><td><img src="Footer.jpg" alt="Footer" /></td></tr></table></div></body></html>

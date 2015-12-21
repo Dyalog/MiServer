@@ -297,7 +297,7 @@
     :section Request/Response Content Handling
 
     ∇ Fail x;i;root;f;t
-      :Access Public Instance
+      :Access Public Instance  
       :If 3=10|⎕DR x ⍝ Just a status code
           Response.Status←x
           :If (1↑⍴SC[;1])≥i←SC[;1]⍳x
