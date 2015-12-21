@@ -13,7 +13,7 @@
      
      ⍝ This one has tristate, initial state, and label on the right
       Add _.span'cb2:'
-      ('cb2'Add _.CheckBox'true' 'indeterminate' '← this one is tri-state!' 'right').On'click' 'Report'
+      ('cb2'Add _.CheckBox '' '← this one is tri-state!' 'right' 1).On'click' 'Report'
      
       'output'Add _.p
     ∇
