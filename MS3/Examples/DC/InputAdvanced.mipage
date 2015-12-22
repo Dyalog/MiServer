@@ -1,5 +1,5 @@
 ﻿:Class InputAdvanced : MiPageSample
-⍝ Control:: _DC.Input
+⍝ Control:: _DC.Input _DC.InputSubmit
 ⍝ Description:: Some more unusual and advanced Input elements
     
     ∇ Compose;frm;tab
@@ -20,11 +20,11 @@
       tab.Data[1;]←'Description' 'Input'
       (1↓tab.Data[;1])←':',¨⍨(¯2+labels⍳¨'(')↑¨⍣_Request.isPost⊢labels
       :If _Request.isGet
-          tab.Data[2;2]←('inp1'New _.Input'datetime-local' '' 'Date of birth: ')
-          tab.Data[3;2]←('inp2'New _.Input'email' '' 'E-mail address:')
-          tab.Data[4;2]←('inp3'New _.Input'url' '' 'Homepage: ')
-          tab.Data[5;2]←('inp4'New _.Input'file' '' 'Photo: ')
-          tab.Data[6;2]←('inp5'New _.Input'submit' 'Done' 'Validate and Submit: ')
+          tab.Data[2;2]←'inp1'New _.Input'datetime-local' '' 'Date of birth: '
+          tab.Data[3;2]←'inp2'New _.Input'email' '' 'E-mail address:'
+          tab.Data[4;2]←'inp3'New _.Input'url' '' 'Homepage: '
+          tab.Data[5;2]←'inp4'New _.Input'file' '' 'Photo: '
+          tab.Data[6;2]←'inp5'New _.InputSubmit'Done'
       :Else
           tab.Data[1↓⍳6;2]←({⍵ New _.em,Get ⍵}¨'inp'∘,¨'1234'),'output'New _.strong'Input accepted'
           tab.Data[6;1]←⊂''
