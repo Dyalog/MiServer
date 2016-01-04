@@ -37,7 +37,8 @@
     ∇
 
     ∇ r←Render;fields;src;rows;cols;coldefs;colfields;i
-      :Access public
+      :Access public 
+      SetId
       r←''
       (rows cols)←⍴Values
       :If 0=cols
@@ -61,7 +62,7 @@
      
           'columns'Set'⍎',coldefs
      
-          src←GenId
+          src←id,'_data'
           'dataSource'Set'⍎',src
           r←(⎕NEW #._DC.Script('var ',src,' = ',#.JSON.fromAPL ColNames #.JSON.fromTable Values)).Render
       :EndIf

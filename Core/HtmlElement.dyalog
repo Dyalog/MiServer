@@ -15,8 +15,8 @@
     :field public Position    ⍝ has position information for this element (if position is set)
     :field public Uses←''     ⍝ resources that will be used by this object (can be overridden by derived classes)
 
-    :field public shared _true←#.JSON.true     ⍝ same definition as in #.JSON
-    :field public shared _false←#.JSON.false   ⍝ same definition as in #.JSON
+    :field public shared readonly _true←#.JSON.true     ⍝ same definition as in #.JSON
+    :field public shared readonly _false←#.JSON.false   ⍝ same definition as in #.JSON
 
 
 ⍝ define shortcuts to namespaces (initialized later)
@@ -363,7 +363,7 @@
       Position←⎕NS''
     ∇
 
-    ∇ Use;c
+    ∇ SetUse;c
       :Access public overridable
       :If ~0∊⍴Uses
           :Trap 0
@@ -378,6 +378,12 @@
               :EndIf
           :EndTrap
       :EndIf
+    ∇
+
+    ∇ Use resource
+      :Access public
+      :If ~0∊⍴Uses ⋄ Uses←eis Uses ⋄ :EndIf
+      Uses,←eis resource
     ∇
 
     :endsection

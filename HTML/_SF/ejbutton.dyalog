@@ -26,7 +26,7 @@
       args←eis args
       JQueryFn←Uses←'ejButton'
       ContainerTag←'button'
-      (text type)←args defaultArgs '' ''
+      (text type)←args defaultArgs'' ''
       Text←text
       :Implements constructor
       :If ~0∊⍴type
@@ -34,8 +34,10 @@
       :EndIf
       InternalEvents←IntEvt
     ∇
+
     ∇ r←Render;type;copy
-      :Access public
+      :Access public 
+      SetId
       :If ~0∊⍴type←GetOption'type'
           :Select ¯4↑type ⍝ probably match any of 'Button' 'button' 'reset' 'Reset' 'Submit' 'submit'
           :Case 'tton'

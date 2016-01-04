@@ -1,0 +1,13 @@
+﻿:Class ejBulletGraphSimple : MiPageSample
+⍝ Control:: _SF.ejBulletGraph
+⍝ Description:: Simple
+
+    ∇ Compose;bg
+      :Access Public
+      Add _.h4'ejBulletGraph Example'
+      bg←Add _.ejBulletGraph 8.9 7.6
+      'captionSettings.text'bg.Set'Actual vs Avg'
+      bg.Options.captionSettings.textPosition←'right'
+    ∇
+
+:EndClass

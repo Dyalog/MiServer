@@ -38,7 +38,7 @@
 
         ∇ r←Render
           :Access public
-          Use
+          SetUse
           r←ScriptOptions #.JQ.JQueryfn JQueryFn Selector JQPars JavaScript Var PreJavaScript
         ∇
 
@@ -107,7 +107,7 @@
           :Access public
          
           r←html←js←''
-          Use
+          SetUse
          
           _build∨←0∊⍴Selector ⍝ if the user explicitly specifies a selector, assume he's built the content himself
          
@@ -307,6 +307,13 @@
           name(Options SetOption)value
         ∇
 
+        ∇ name SetIfNotSet value
+          :Access public
+          :If 0∊⍴GetOption name
+              name Set value
+          :EndIf
+        ∇
+
         ∇ name(ref SetOption)value;set;parent;i;ind;newref;chunk;pos;n;now;new;chunkroot
           →(0∊⍴value)⍴0
           :If 1<|≡name ⍝ multiple names?
@@ -485,7 +492,7 @@
         ∇ Make0
           :Access public
           :Implements constructor
-          Use
+          SetUse
         ∇
 
         ∇ Make1 params
@@ -494,10 +501,10 @@
           params←#.HtmlElement.eis params
           (Selectors Events Callback ClientData Delegates JavaScript Page)←7↑params,(⍴params)↓7⍴⊂''
           :If #.HtmlElement.isClass Page ⋄ Page←Page.Page ⋄ :EndIf ⍝ if request object passed
-          Use
+          SetUse
         ∇
 
-        ∇ Use;c
+        ∇ SetUse;c
           :Access public
           :Trap 0
               c←#.HtmlElement.context'_PageRef'

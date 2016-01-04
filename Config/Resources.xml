@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Resources>
-	<!-- 
+<!-- 
 *******************************
 *      fontawesome resources  *
 *******************************
@@ -9,21 +9,21 @@
 		<name>FontAwesome</name>
 		<style>/FontAwesome/css/font-awesome.min.css</style>
 	</resource>
-	<!-- 
+<!-- 
 **************************
 *      d3 resources      *
 **************************
 -->
 	<resource>
 		<name>d3</name>
-		<script>/PlugIns/d3/d3.min.js</script>
+		<script>/PlugIns/Other/d3/d3.min.js</script>
 	</resource>
 	<resource>
 		<name>dimple</name>
 		<uses>d3</uses>
-		<script>/PlugIns/d3/dimple.latest.min.js</script>
+		<script>/PlugIns/Other/d3/dimple.latest.min.js</script>
 	</resource>
-	<!-- 
+<!-- 
 **************************
 *    jQuery resources    *
 **************************
@@ -44,20 +44,14 @@
 		<script>/JQuery/JQueryUI/jquery-ui.min.js</script>
 	</resource>
 	<resource>
-		<name>JQueryMobile</name>
-		<uses>JQuery</uses>
-		<script>/JQuery/Mobile/jquery.mobile.min.js</script>
-		<style>/JQuery/Mobile/Themes/jquery.mobile.min.css</style>
-	</resource>
-	<resource>
-		<name>jquery.dimensions</name>
-		<uses>JQuery</uses>
-		<script>/JQuery/PlugIns/jquery.dimensions.js</script>
-	</resource>
-	<resource>
 		<name>jquery.cookie</name>
 		<uses>JQuery</uses>
-		<script>/JQuery/PlugIns/jquery.cookie.js</script>
+		<script>/JQuery/PlugIns/jqueryCookie/jquery.cookie.js</script>
+	</resource>
+	<resource>
+		<name>jquery.Highlight</name>
+		<uses>JQuery</uses>
+		<script>/JQuery/PlugIns/jqueryHighlight/jquery.highlight.js</script>
 	</resource>
 	<!-- 
 **************************
@@ -547,33 +541,27 @@
 		<name>ejmToolbar</name>
 		<uses>SyncfusionMobile</uses>
 	</resource>
-<!-- 
+	<!-- 
 *********************************
 *  Datatables resources         *
 *********************************
 -->
+	<resource>
+		<name>DataTable</name>
+		<uses>JQuery</uses>
+		<script>/DataTables/media/js/jquery.dataTables.js</script>
+		<style>/DataTables/media/css/jquery.dataTables.min.css</style>
+	</resource>
+	<resource>
+		<name>DataTables_responsive</name>
+		<style>/DataTables/extensions/Responsive/css/responsive.dataTables.min.css</style>
+		<script>/DataTables/extensions/Responsive/js/DataTables.responsive.min.js</script>
+	</resource>
+	<resource>
+		<name>DataTables_searchHighlight</name>
+		<uses>jquery.Highlight</uses>
+		<script>/DataTables/extras/searchHighlight/DataTables.searchHighlight.min.js</script>
+		<style>/DataTables/extras/searchHighlight/DataTables.searchHighlight.css</style>
+	</resource>
 
-
-<resource>
-  	<name>DataTables</name>
-  	<uses>JQuery</uses>
-    <script>/DataTables/media/js/jquery.dataTables.js</script>
-    <style>/DataTables/media/css/jquery.dataTables.min.css</style>
-</resource>
-<resource>
-	<name>DataTables_responsive</name>
-	<style>/DataTables/extensions/Responsive/css/responsive.dataTables.min.css</style>
-	<script>/DataTables/extensions/Responsive/js/DataTables.responsive.min.js</script>
-</resource>
-
-<resource>
-	<name>DataTables_searchHighlight</name>
-	<uses>jqueryHighlight</uses>
-	<script>/DataTables/extras/searchHighlight/DataTables.searchHighlight.min.js</script>
- 	 <style>/DataTables/extras/searchHighlight/DataTables.searchHighlight.css</style>
-</resource>
-<resource>
-	<name>jqueryHighlight</name>
-	<script>/JQuery/Highlight/jquery.highlight.js</script>
-</resource>
 </Resources>

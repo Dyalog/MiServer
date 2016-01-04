@@ -123,9 +123,19 @@
       :EndSelect
     ∇
 
-    ∇ r←GetText name;tn
-     ⍝ Read a text file as single byte text
-      tn←(unixfix name)⎕NTIE 0 ⋄ r←⎕NREAD tn(⎕DR' ')(⎕NSIZE tn) ⋄ ⎕NUNTIE tn
+    ∇ Chars←GetText name;nid;signature;nums;sz
+     ⍝ Read ANSI or Unicode character file
+      sz←⎕NSIZE nid←(unixfix name)⎕NTIE 0
+      signature←⎕NREAD nid 83 3 0
+      :If signature≡¯17 ¯69 ¯65 ⍝ UTF-8?
+          nums←⎕NREAD nid 83 sz
+          Chars←'UTF-8'⎕UCS 256|nums ⍝ Signed ints
+      :ElseIf (2↑signature)≡¯1 ¯2 ⍝ Unicode (UTF-16)
+          Chars←'UTF-16'⎕UCS(2*16)|163 ⎕DR ⎕NREAD nid 83 sz 2
+      :Else ⍝ ANSI
+          Chars←⎕NREAD nid(⎕DR'')sz 0
+      :EndIf
+      ⎕NUNTIE nid
     ∇
 
     ∇ r←LikelyURL w

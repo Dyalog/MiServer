@@ -358,6 +358,13 @@
       :EndIf
     ∇
 
+    ∇ r←{a}TableToJSON w
+      :Access public shared
+      :If 0=⎕NC'a' ⋄ r←fromAPL fromTable w
+      :Else ⋄ r←fromAPL a fromTable w
+      :End
+    ∇
+
     ∇ r←aa Add(a w)
       :Access public shared
       r←a(aa{'{}'≡(1↑⍺⍺),¯1↑⍺⍺:(¯1↓⍺⍺),',',⍺,':',⍵,'}' ⋄ ⍺⍺,',',⍺,':',⍵})w

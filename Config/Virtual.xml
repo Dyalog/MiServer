@@ -4,11 +4,6 @@
      %SiteRoot%   - web site root -->
 
   <directory>
-    <alias>FontAwesome</alias>
-    <path>%ServerRoot%/PlugIns/font-awesome-4.5.0/</path>
-  </directory>
-
-  <directory>
     <alias>JQuery</alias>
     <path>%ServerRoot%/PlugIns/JQuery/</path>
   </directory>
@@ -24,7 +19,12 @@
   </directory>
 
   <directory>
+    <alias>FontAwesome</alias>
+    <path>%ServerRoot%/PlugIns/Other/font-awesome-4.5.0/</path>
+  </directory>
+
+  <directory>
     <alias>DataTables</alias>  
-    <path>%ServerRoot%/PlugIns/JQuery/DataTables-1.10.10/</path>
+    <path>%ServerRoot%/PlugIns/Other/DataTables-1.10.10/</path>
   </directory>
 </Virtual>
