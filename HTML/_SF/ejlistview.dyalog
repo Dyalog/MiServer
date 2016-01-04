@@ -1,5 +1,5 @@
 ﻿:class ejListView : #._SF._ejWidget
-    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejList.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejList.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejList.html' 
     :field public shared readonly IntEvt←'ajaxBeforeLoad' 'ajaxComplete' 'ajaxError' 'ajaxSuccess' 'load' 'loadComplete' 'mouseDown' 'mouseUP' 

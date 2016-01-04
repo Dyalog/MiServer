@@ -1,5 +1,5 @@
 ﻿:Class ejMaskEdit : #._SF._ejWidget
-    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejMaskEdit.html'
+    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/js/api/ejMaskEdit.html'
     :Field Public Shared Readonly ApiLevel←1
     :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejMaskEdit.html'
 

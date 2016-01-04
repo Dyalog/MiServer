@@ -6,7 +6,7 @@
 ⍝ Public Fields::
 ⍝ Selector - the jQuery/CSS selector to which to apply droppable interaction
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejDroppable.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejDroppable.html'
     :field public shared readonly ApiLevel←1
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejDroppable.html' 
     :field public shared readonly IntEvt←'drop' 'out' 'over'

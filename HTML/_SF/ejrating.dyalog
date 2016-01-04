@@ -1,5 +1,5 @@
 ﻿:class ejRating : #._SF._ejWidget
-    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejRating.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejRating.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejRating.html'
     :field public Input←'' 

@@ -11,7 +11,7 @@
 ⍝        matrix - [1;] pointer member names (see Syncfusion documentation)
 ⍝                 [2-;] values for the pointer members, one row per pointer
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/circulargauge/overview'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejCircularGauge.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejCircularGauge.html'
     :field public shared readonly IntEvt←'drawCustomLabel' 'drawIndicators' 'drawLabels' 'drawPointerCap' 'drawPointers' 'drawRange' 'drawTicks' 'load' 'mouseClick' 'mouseClickMove' 'mouseClickUp' 'renderComplete'

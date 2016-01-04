@@ -1,5 +1,5 @@
 ﻿:class ejDigitalGauge : #._SF._ejWidget
-    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejDigitalGauge.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejDigitalGauge.html'
     :field public shared readonly ApiLevel←1
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejDigitalGauge.html'
     ∇ make

@@ -10,7 +10,7 @@
 ⍝ ejToggleButton 'Click to Toggle'
 ⍝ ejToggleButton 'Click to Activate' 'Click to Disable'
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejToggleButton.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejToggleButton.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejToggleButton.html'
     :field public Text←''

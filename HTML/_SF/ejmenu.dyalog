@@ -5,7 +5,7 @@
 ⍝ Levels      the level of the corresponding item
 ⍝ Hreferences the HREF string to be used when the corresponding element is chosen (clicked)
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejMenu.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejMenu.html'
     :field public shared readonly ApiLevel←1
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejMenu.html'
     :field public Items←⍬

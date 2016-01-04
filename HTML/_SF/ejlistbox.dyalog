@@ -12,7 +12,7 @@
 ⍝ ejListBox
 ⍝ ejListBox ('Item1' 'Item3' 'Item3')
 
-    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejListBox.html'
+    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/js/api/ejListBox.html'
     :Field Public Shared Readonly ApiLevel←3
     :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejListBox.html'
 

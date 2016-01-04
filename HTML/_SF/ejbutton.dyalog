@@ -7,7 +7,7 @@
 ⍝ Text - the text/content to appear on the button
 
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejButton.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejButton.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejButtonHelp.html'
     :field public shared readonly IntEvt←'click' 'create' 'destroy'
