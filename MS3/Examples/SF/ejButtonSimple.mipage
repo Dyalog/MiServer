@@ -5,7 +5,7 @@
     ∇ Compose;bn
       :Access Public
      
-      bn←'btnPushMe'Add _SF.ejButton'Push me!'
+      bn←'btnPushMe'Add _.ejButton'Push me!'
       bn.On'click' 'onClick'
      
       'output'Add _.div
