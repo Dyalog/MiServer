@@ -1,6 +1,6 @@
 ﻿:Class ejCircularGaugeSimple : MiPageSample
 ⍝ Control:: _SF.ejCircularGauge
-⍝ Description:: Simple
+⍝ Description:: Circular indicator gauge
 
     ∇ Compose;bg
       :Access Public
