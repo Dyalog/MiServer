@@ -15,7 +15,7 @@
 ⍝                   [;2] comparativeMeasure (optional)
 ⍝                   [;3] category (optional)
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/BulletGraph.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejBulletGraph.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejBulletGraph.html'
     :field IntEvt←'drawCaption' 'drawCategory' 'drawComparativeMeasureSymbol' 'drawFeatureMeasureBar' 'drawIndicator' 'drawLabels' 'drawQualitativeRanges' 'load'
