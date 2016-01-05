@@ -557,11 +557,4 @@
 		<style>/DataTables/extensions/Responsive/css/responsive.dataTables.min.css</style>
 		<script>/DataTables/extensions/Responsive/js/DataTables.responsive.min.js</script>
 	</resource>
-	<resource>
-		<name>DataTables_searchHighlight</name>
-		<uses>jquery.Highlight</uses>
-		<script>/DataTables/extras/searchHighlight/DataTables.searchHighlight.min.js</script>
-		<style>/DataTables/extras/searchHighlight/DataTables.searchHighlight.css</style>
-	</resource>
-
 </Resources>

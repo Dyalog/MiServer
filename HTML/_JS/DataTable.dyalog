@@ -37,8 +37,9 @@
       SetId
       Selector←'#',id
       :If 'true'≡⍕GetOption'searchHighlight'
-          ∘∘∘
-          Use'DataTables_searchHighlight'
+          Use'jquery.Highlight'
+          Use'⍎/DataTables/extras/searchHighlight/DataTables.searchHighlight.min.js'
+          Use'⍕/DataTables/extras/searchHighlight/DataTables.searchHighlight.css'
       :EndIf
       (tab←⎕NEW #._DC.Table(Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)).id←id
       html←(tab.Render),⎕BASE.Render
