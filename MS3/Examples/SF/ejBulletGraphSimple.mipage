@@ -1,6 +1,6 @@
 ﻿:Class ejBulletGraphSimple : MiPageSample
 ⍝ Control:: _SF.ejBulletGraph
-⍝ Description:: Simple
+⍝ Description:: Ruler-style indicator of two related values
 
     ∇ Compose;bg
       :Access Public
