@@ -227,7 +227,7 @@
       :EndIf
      
       data←(2+ind)↓data ⍝ Drop up to 1st doubleCR
-      data←(¯1+¯1↑(13 10⍷data)/⍳⍴data)↑data ⍝ Drop from last CR
+      data←(¯1+¯1↑{⍵/⍳⍴⍵}13 10⍷data)↑data ⍝ Drop from last CR
      
       t←'Content-Type: 'GetParam hdr
      

@@ -1,17 +1,21 @@
 ﻿:class ejCheckBox : #._SF._ejWidget
 
 ⍝ Description:: Syncfusion Checkbox widget
-⍝ Constructor:: [checked [label [postion]]]
+⍝ Constructor:: [checked [label [labelpos [tristate]]]]
 ⍝ checked  - integer denoting if the box is checked or not (1=yes, 0=no, ¯1=indeterminate)
 ⍝ label    - string of text to appear next to the button
-⍝ position - position of label relative to the checkbox ('left' (default) or 'right')
+⍝ labelpos - position of label relative to the checkbox ('left' (default) or 'right')
+⍝ tristate - Boolean indicating whether the checkbox allows 3 states ('indeterminate' 'false' (default) or 'true')
 ⍝ Public Fields::
 ⍝ Label    - string of text to appear next to the checkbox
 ⍝ LabelPos - position of label relative to the checkbox ('left' (default) or 'right')
-⍝ Checked  - integer denoting if the box is checked or not (1=yes, 0=no (default), ¯1=indeterminate)
+⍝ TriState - Boolean indicating whether the checkbox allows 3 states ('indeterminate' 'false' (default) or 'true')
+⍝ Notes::
+⍝ If Checked is ¯1, TriState is automatically set to _true
+⍝
 ⍝ Examples::
 ⍝ ejCheckBox                              ⍝ plain checkbox
-⍝ ejCheckBox ¯1                           ⍝ a tri-state checkbox set to indeterminate 
+⍝ ejCheckBox ¯1                           ⍝ a tri-state checkbox set to indeterminate
 ⍝ ejCheckBox 0 'Married'                  ⍝ a checkbox with label 'Married' to the left
 ⍝ ejCheckBox 1 'with children' 'right'    ⍝ a checkbox with label 'with children' to the right
 
@@ -22,6 +26,7 @@
     :field public Label←''
     :field public LabelPos←'left'  ⍝ valid are 'left' 'right'
     :field public Checked←0        ⍝ 1=yes, 0=no, ¯1=indeterminate
+    :field public TriState←0
 
     ∇ setup
       JQueryFn←Uses←'ejCheckBox'
@@ -41,16 +46,19 @@
       :Implements constructor
       setup
       :If 0=≡args ⋄ args←,args ⋄ :EndIf
-      (Checked Label LabelPos)←args defaultArgs Checked Label LabelPos
+      (Checked Label LabelPos TriState)←args defaultArgs Checked Label LabelPos TriState
     ∇
 
     ∇ r←Render
       :Access public
       SetId
      
-      :If Checked=¯1
-          'checkState' 'enableTriState'Set'Indeterminate'_true
-      :ElseIf Checked∊0 1
+      :If TriState∨Checked=¯1
+          'enableTriState'Set _true
+          'checkState'Set(2+Checked)⊃'indeterminate' 'uncheck' 'check'
+      :EndIf
+     
+      :If Checked∊0 1
           'checked'Set(Checked+1)⊃_false _true
       :EndIf
      
