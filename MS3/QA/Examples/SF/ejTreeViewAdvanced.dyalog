@@ -13,7 +13,7 @@
      Click'Del' ⍝ delete the node server side
      'tv'SendKeys Delete ⍝ make the client model match
      Click'Mod' ⍝ ... and display the model
- :AndIf 0=⍴msg←'Display Model button did not work, or models do not agree.'/⍨~{38=('CssSelectors'Selenium.Find'#tvModel td').Count}Retry ⍬
+ :AndIf 0=⍴msg←'Display Model button did not work, or models do not agree.'/⍨~{38=('CssSelectors'Find'#tvModel td').Count}Retry ⍬
      msg←'tvModel'WaitFor'Server≡Browser' 'Server/Browser model mismatch.'
 
  :EndIf
