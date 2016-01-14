@@ -557,4 +557,11 @@
 		<style>/DataTables/extensions/Responsive/css/responsive.dataTables.min.css</style>
 		<script>/DataTables/extensions/Responsive/js/DataTables.responsive.min.js</script>
 	</resource>
+<resource>
+	<name>JBox</name>
+	<uses>JQuery</uses>
+	<script>/PlugIns/Other/jBox/jBox.min.js</script>
+	<style>/PlugIns/Other/jBox/jBox.css</style>
+ 
+</resource>
 </Resources>
