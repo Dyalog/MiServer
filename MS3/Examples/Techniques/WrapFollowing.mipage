@@ -1,0 +1,57 @@
+﻿:class Info : MiPageSample
+⍝ Control:: All Info
+⍝ Description:: Collate all info on each control
+
+       ∇ Compose
+      :Access public
+Add _.style '.bodytext {color: purple; font-weight: bold;};'   
+
+Add WrapFollowing 'p class="bodytext"'
+⍝ <code>WrapFollowing</code> allows you to insert plaintext
+⍝ right into your MiPage code in the form of comment blocks.
+⍝ You can keep
+⍝ lines at any desired length, as they will be
+⍝ seamlessly merged.
+⍝
+⍝ WrapFollowing has a few uses. This page demonstrates some
+⍝ to get you started:
+ 
+(Add _.ol).Add WrapFollowing 'li'
+⍝ The first example is the above two paragraphs (_.p's). 
+⍝
+⍝ The second example is this very list. I added 
+⍝ multiple _.li's to an _.ol, but you can use an _.ul too.
+⍝
+⍝ The third example is right below this list. You will find _.pre's that each contain 
+⍝ a line of code I used to generate the examples in this page.
+⍝
+⍝ The final example is at the end of the page. There you will find text
+⍝ boxes with the output of the first
+⍝ three calls to WrapFollowing.
+
+Add WrapFollowing 'pre'
+⍝ Add WrapFollowing 'p class="bodytext"'
+⍝
+⍝ (Add _.ol).Add WrapFollowing 'li'
+⍝
+⍝ Add WrapFollowing 'pre'
+⍝
+⍝ Add WrapFollowing 'textarea style="width: 100%; height: 60px;"'
+
+Add WrapFollowing 'textarea style="width: 100%; height: 60px;"'
+⍝<p class="bodytext"> <code>WrapFollowing</code> allows you to insert plaintext  right into your MiPage code in the form of comment blocks.  You can keep  lines at any desired length, as they will be  seamlessly merged. </p>
+⍝<p class="bodytext"> WrapFollowing has a few uses. This page demonstrates some  to get you started: </p>
+⍝
+⍝<li> The first example is the above two paragraphs (_.p's). </li>
+⍝<li> The second example is this very list. I added  multiple _.li's to an _.ol, but you can use an _.ul too. </li>
+⍝<li> The third example is right below this list. You will find _.pre's that each contain  a line of code I used to generate the examples in this page. </li>
+⍝<li> The final example is at the end of the page. There you will find text boxes with the output of the first  three calls to WrapFollowing. </li>
+⍝
+⍝<pre> Add WrapFollowing 'p class="bodytext"' </pre>
+⍝<pre> (Add _.ol).Add WrapFollowing 'li' </pre>
+⍝<pre> Add WrapFollowing 'pre' </pre>
+⍝<pre> Add WrapFollowing 'textarea style="width: 100%; height: 60px;"' </pre>
+  ∇
+
+
+:endclass

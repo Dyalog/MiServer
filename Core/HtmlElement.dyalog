@@ -681,6 +681,31 @@
       r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
     ∇
 
+    ∇ r←WrapFollowing tag;text;SplitOnSpaceLines;Trim;FirstCommentBlock
+      :Access public shared
+     
+     ⍝ USAGE:
+     ⍝
+     ⍝      Add WrapFollowing 'p class="bodytext"'
+     ⍝      ⍝ paragraph may span
+     ⍝      ⍝ several lines
+     ⍝      ⍝
+     ⍝      ⍝ they are separated by empty comment lines
+     ⍝
+     ⍝ RESULT:
+     ⍝
+     ⍝      <p class="bodytext">paragraph may span several lines</p>
+     ⍝      <p class="bodytext">they are separated by empty comment lines</p>
+     ⍝
+     
+      Trim←{(∨\' '≠⍵)/⍵}¨
+      FirstCommentBlock←{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}
+      SplitOnSpaceLines←{1↓¨⍵⊂⍨⍵∧.=¨' '}
+      text←(1+2⊃⎕LC)↓↓(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+     
+      r←tag∘#.HTMLUtils.Enclose¨∊¨SplitOnSpaceLines' ',¨⍨' ',⌽¨Trim⌽¨FirstCommentBlock Trim text
+    ∇
+
     ∇ r←what Subst text;names;gv;i;repl;fixL;fixR
       :Access public shared
       r←text
