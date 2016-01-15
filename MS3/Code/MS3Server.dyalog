@@ -5,8 +5,7 @@
 ⍝ The ClassName parameter in the Server.xml configuration file is used to specify the customized class
 
     :Include #.MS3SiteUtils ⍝∇:require =/MS3SiteUtils
-
-
+ 
     :Field public GROUPS  ⍝ groups of elements
     :Field public NSS     ⍝ corresponding nss
     :Field public CACHE   ⍝ location of cache

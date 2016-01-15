@@ -149,7 +149,7 @@
 
     Doc←{∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨⍵} ⍝ Address of WidgetDoc
 
-    BuildTree←{⍺{(⊂⍺),⍵}¨(Levels NoSt ⍵)(Name¨NoSt ⍵)⍵} ⍝ Build argument for ejTreeView
+    BuildTree←{⍺{(⊂⍺),⍵}¨(Levels NoSt ⍵)(NoExt¨Name¨NoSt ⍵)⍵} ⍝ Build argument for ejTreeView
 
       Info←{ ⍝ Get info on a control
           control←(⍳∘'.'↓⊢)⍵                            ⍝ remove ns
@@ -253,6 +253,10 @@
 
     ∇ r←TREE
       r←(Read'Examples/Data/tree.txt')~⊂'' ⍝ load/cache tree and remove blank lines
+    ∇
+    
+    ∇ r←DOCS
+      r←(Read'Examples/Data/docs.txt')~⊂'' ⍝ load/cache tree and remove blank lines
     ∇
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
