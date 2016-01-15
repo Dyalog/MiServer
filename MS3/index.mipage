@@ -20,7 +20,7 @@
 
     :SECTION A_MAIN ⍝ ACTIONS BEFORE FIRST USER INTERACTION
 
-    :Include indexUtils ⍝∇:require =/indexUtils
+    :Include #.MS3SiteUtils
 
     :Field CURRFILES←,⊂'/About_MiServer' ⍝ Global list if currently relevant files
 
