@@ -319,7 +319,7 @@
           pos←(¯1+⍴eoh)+eoh FindFirst conns.Buffer
           :If pos≤⍴conns.Buffer ⍝ found the end of header
               conns.Pos←pos
-              {⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}conns.Req←fromutf8 conns.(Pos↑Buffer)
+              conns.Req←fromutf8 conns.(Pos↑Buffer)
           :Else
               :Return ⍝ haven't found end of header yet, go back for more
           :EndIf

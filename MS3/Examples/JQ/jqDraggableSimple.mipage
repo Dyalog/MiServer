@@ -9,7 +9,7 @@
       drag.On'stop' 'myCallBack'('pos' 'ui' 'position') ⍝ 0 '' 'alert(JSON.stringify(this))' ⍝
     ∇
 
-    ∇ r←myCallBack;date
+    ∇ r←myCallBack
       :Access Public
       r←'#dragon'Replace'You stopped at: ',#.JSON.fromAPL Get'pos'
     ∇

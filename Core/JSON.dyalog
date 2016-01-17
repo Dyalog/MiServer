@@ -247,6 +247,7 @@
      
       :Access public shared
       :If isRef arr
+      :OrIf ∧/isRef¨arr
           r←0 0 1 fromAPL arr
       :Else
 ⍝          arr←,arr

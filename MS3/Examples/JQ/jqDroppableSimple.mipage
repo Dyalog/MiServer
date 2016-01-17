@@ -22,7 +22,7 @@
      
     ∇
 
-    ∇ r←myCallBack;date
+    ∇ r←myCallBack
       :Access Public
       r←'#dropin'Replace'Good Job!'  ⍝ congratulate the user
       r,←'#dragon'Replace' '         ⍝ blank out the dropped div
