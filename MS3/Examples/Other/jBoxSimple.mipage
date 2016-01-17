@@ -1,0 +1,33 @@
+:Class jBoxSimple : MiPageSample
+⍝ Control::     _JS.jBox
+⍝ Description:: Tooltips and more
+
+
+
+    ∇ Compose;tab;jTab;dt;columns;ocw
+      :Access public
+      Use'jBox'
+      Use'FontAwesome'
+     
+      Add _.Style'.demo {background-color: #EEB1AE; border: 1px solid gray ;}'
+     
+      Add _.h2'jBox - Simple sample'
+      Add _.p ScriptFollows
+    ⍝ jBox has various functions which might be of interest to the APL-Developer.
+    ⍝ First, we'd like to demonstrate tooltips. <span class="tooltip demo" title="Hi, I'm a tooltip!">Move mouse over this text!</span>
+    ⍝ The tooltip opens automatically when your moves over the element. To help you recognize these
+    ⍝ sensitive areas, the region of all "tooltipped" elements will be coloured - but that is a specific
+    ⍝ feature of this demo as you will see when <span title="Click on the topleft D-Icon!" class="tooltip demo"> examing the source-code</span>.
+     
+     
+      Add _.jBox  ⍝ just to make sure the default JS-Code for tooltips gets added...
+    ⍝ It would be nice if we did not need this line. So Use'jBox' alone would insert the default-call
+    ⍝    $(function(){ $('tooltip').jBox('Tooltip');
+    ⍝ into the <head>
+     
+     
+     
+    ∇
+    
+:EndClass    
+     

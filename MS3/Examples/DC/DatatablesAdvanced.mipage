@@ -1,0 +1,37 @@
+﻿:Class DatatablesAdvanced : MiPageSample
+⍝ Control::     _DC.Datatables
+⍝ Description:: Datatables.net
+
+    ∇ Compose;button;frm
+      :Access Public
+     Use'DataTables'
+     
+      sc←ScriptFollows
+⍝   $(document).ready(function() {
+⍝       $('#ddata').DataTable( {
+⍝           "processing": true,
+⍝           "serverSide": true,
+⍝           "ajax": "scripts/DatatablesSimple",
+⍝           "deferLoading": %Count
+⍝       } );
+⍝   } );
+      sc←'%Count'(⍕#.DonationData.cnt)Subst sc
+     
+      Add _.Script sc
+      Add '<table id="ddata"></table>'
+     
+     
+    ∇
+
+    ∇ R←APLJax
+      .
+    ∇
+
+    ∇ r←CallbackFn;data
+      :Access Public
+     
+      data←Get'opts'
+      r←'#output'Replace _.p'You selected "',data,'"!'
+    ∇
+
+:EndClass
