@@ -1,6 +1,6 @@
 ﻿:class Info : MiPageSample
-⍝ Control:: All Info
-⍝ Description:: Collate all info on each control
+⍝ Control:: WrapFollowing
+⍝ Description:: Four examples on how to use WrapFollowing
 
        ∇ Compose
       :Access public
