@@ -130,14 +130,20 @@
       :If signature≡¯17 ¯69 ¯65 ⍝ UTF-8?
           nums←⎕NREAD nid 83 sz
           Chars←'UTF-8'⎕UCS 256|nums ⍝ Signed ints
-      :ElseIf (2↑signature)≡¯1 ¯2 ⍝ Unicode (UTF-16)
-          Chars←'UTF-16'⎕UCS(2*16)|163 ⎕DR ⎕NREAD nid 83 sz 2
-      :Else ⍝ ANSI
-          Chars←⎕NREAD nid(⎕DR'')sz 0
+      :ElseIf ∨/b←(2↑signature)∧.=2 2⍴¯1 ¯2 ¯2 ⍝ Unicode (UTF-16)
+          Chars←{,⌽(2,⍨2÷⍨⍴⍵)⍴⍵}⍣(⊣/b)⎕NREAD nid 83 sz 2
+          Chars←'UTF-16'⎕UCS(2*16)|163 ⎕DR Chars
+      :Else ⍝ ANSI or UTF-8
+          Chars←{11::⎕UCS ⍵ ⋄ 'UTF-8'⎕UCS ⍵}256|⎕NREAD nid 83 sz 0
       :EndIf
       ⎕NUNTIE nid
     ∇
-
+    
+    ∇ vtv←GetVTV name
+     ⍝ Read ANSI or Unicode character file as vector of text vectors
+      vtv←{1↓¨(v=n)⊂v←(n←⎕UCS 10),⍵}GetText name
+    ∇
+  
     ∇ r←LikelyURL w
       →0↓⍨r←(⎕DR w)∊80 82
       r←{(0∊⍴⍵)<∧/⍵∊'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%-._~:/?#[]@!$&''()*+,;='}w ⍝ identify likely URIs

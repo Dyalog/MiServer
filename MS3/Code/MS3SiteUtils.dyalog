@@ -47,8 +47,8 @@
     CaseLess←{⊃⍺⍺/LowerCase¨⍺ ⍵} ⍝ Apply fn without regard to upper/lower case
 
       LowerCase←{ ⍝ Fold character array to lowercase
-          b←(∊w←⍵)∊(u←⎕SE.Dyalog.Utils).uc ⍝ location of uppercase chars
-          (b/∊w)←u.lcase b/∊w              ⍝ change just those to lowercase
+          b←(∊w←⍵)∊#.Strings.upperAlphabet ⍝ location of uppercase chars
+          (b/∊w)←#.Strings.lc b/∊w         ⍝ change just those to lowercase
           w                                ⍝ return the entire array
       }
 
@@ -93,11 +93,10 @@
           :If (≢C.read.keys)≥i←C.read.keys⍳⊂page ⍝ is it cached, and if so, save position
               r←i⊃C.read.data                     ⍝ extract
           :Else
-              C.read.data,←⊂r←#.UnicodeFile.ReadNestedText #.Boot.AppRoot,page,(~'.'∊page)/FILEEXT
+              C.read.data,←⊂r←#.Files.GetVTV #.Boot.AppRoot,page,(~'.'∊page)/FILEEXT
               C.read.keys,←⊂page
           :EndIf
       :Else
-          ∘∘∘
           r←,⊂'[failed to read "',page,'"]'
       :EndTrap
     ∇

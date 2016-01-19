@@ -10,16 +10,11 @@
       r←'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÂÃÇÈÊËÌÍÎÏÐÒÓÔÕÙÚÛÝÀÄÅÆÉÑÖØÜ'
     ∇
 
-
-    ∇ r←lc r;m
-      m←r∊upperAlphabet
-      (m/r)←lowerAlphabet[upperAlphabet⍳m/r]
-    ∇
-
-    ∇ r←uc r;m
-      m←r∊lowerAlphabet
-      (m/r)←upperAlphabet[lowerAlphabet⍳m/r]
-    ∇
+    ⍝ Pasted from ⎕SE.Dyalog.Utils: >>
+    fromto←{n←⍴1⊃(t f)←⍺ ⋄ ~∨/b←n≥i←f⍳s←,⍵:s ⋄ (b/s)←t[b/i] ⋄ (⍴⍵)⍴s} ⍝ from-to casing fn
+    lc←lowerAlphabet upperAlphabet∘fromto ⍝ :Includable Lower-casification of simple array
+    uc←upperAlphabet lowerAlphabet∘fromto ⍝ Ditto Upper-casification
+    ⍝ <<
 
     cis←{~0∊⍴(⍺ ⎕S 0 ⎕OPT'IC' 1)⍵} ⍝ Case Insensitive Search
 
