@@ -141,7 +141,7 @@
     
     ∇ vtv←GetVTV name
      ⍝ Read ANSI or Unicode character file as vector of text vectors
-      vtv←{1↓¨(v=n)⊂v←(n←⎕UCS 10),⍵}GetText name
+      vtv←{1↓¨(v=n)⊂v←(n←⎕UCS 10),⍵}(GetText name)~⎕UCS 13
     ∇
   
     ∇ r←LikelyURL w
