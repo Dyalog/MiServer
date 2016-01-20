@@ -1,5 +1,5 @@
 ﻿:class ejCircularGauge : #._SF._ejWidget
-⍝ Description:: Syncfusion Bullet Graph widget
+⍝ Description:: Syncfusion Circular Gauge widget
 ⍝ Constructor:: [pointers]
 ⍝ data - interpretation depends on the shape of data
 ⍝        0 1∨.=⍴⍴data  - the value(s) to be rendered on the gauge - each has its own pointer

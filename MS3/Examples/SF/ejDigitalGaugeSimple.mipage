@@ -1,0 +1,11 @@
+﻿:Class ejDigitalGaugeSimple : MiPageSample
+⍝ Control:: _SF.ejDigitalGauge
+⍝ Description:: Digital (LED-style) gauge
+
+    ∇ Compose;bg
+      :Access Public
+      Add _.h4'ejDigitalGauge Example'
+      Add _.ejDigitalGauge 'Hello World'
+    ∇
+
+:EndClass
