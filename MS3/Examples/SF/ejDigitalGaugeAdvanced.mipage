@@ -1,0 +1,17 @@
+﻿:Class ejDigitalGaugeAdvanced : MiPageSample
+⍝ Control:: _SF.ejDigitalGauge
+⍝ Description:: Various digital segment (LCD style) displays
+
+    Sample←{⍺←⍬ ⋄ ('output',⍵)Add _.ejDigitalGauge,⊂(⍵,': ',⎕D,' ',⎕A/⍨1≠≢⍵)⍵,⍺}
+
+    ∇ Compose;bg
+      :Access Public
+      Add _.h4'ejDigitalGauge Examples'
+      10 12 4 Sample'7'
+      Sample'14'
+      Sample'16'
+      .1 .2 Sample'88dot'
+      0 3 1.5 Sample'88square'
+    ∇
+
+:EndClass 
