@@ -43,7 +43,7 @@
           files,←'Extensions/'∘,¨extensions
      
           :For f :In files
-              disperror ⎕SE.SALT.Load MSRoot,f,' -target=#'
+              disperror 1 ⎕SE.SALT.Load MSRoot,f,' -target=#' ⍝ do not reload already loaded spaces
           :EndFor
      
           #.SupportedHtml5Elements.Build_html_namespace
