@@ -10,7 +10,8 @@
     <IdleTimeOut>0</IdleTimeOut>         <!-- seconds between calls to onIdle server event - 0 means don't call onIdle -->
    
 <!-- Communications Settings -->
-    <Port>8080</Port>                                <!-- Port that MiServer listens on -->
+    <Ports>8080-8090</Ports>                         <!-- List of ports that MiServer can listen on -->
+    <Port>8080</Port>                                <!-- Preferred port that MiServer listens on -->
     <IPVersion>IPv4</IPVersion>                      <!-- TCP/IP version, IPv4, IPv6, or IP to let Conga decide -->
     <UseContentEncoding>1</UseContentEncoding>       <!-- for HTTP compression -->
     <SupportedEncodings>gzip,deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->

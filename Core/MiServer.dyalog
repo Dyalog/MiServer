@@ -212,7 +212,7 @@
 
     :section Constructor/Destructor
 
-    ∇ Make config;CongaVersion;rc
+    ∇ Make config;CongaVersion;rc;allocated;port
       :Access Public
       :Implements Constructor
      
@@ -240,7 +240,14 @@
      
       PageTemplates←#.Pages.⎕NL ¯9.4
      
-      ('Unable to allocate TCP/IP port ',⍕Config.Port)⎕SIGNAL(0≠1⊃,AllocatePort)/11
+      allocated←0
+      :For port :In ports←∪Config.(Port,Ports)
+          :If allocated←0=1⊃,AllocatePort port
+              Config.Port←port
+              :Leave
+          :EndIf
+      :EndFor
+      ('Unable to allocate any TCP/IP port in ',1↓∊⍕¨',',¨ports)⎕SIGNAL(~allocated)/11
     ∇
 
     ∇ UnMake
@@ -248,7 +255,7 @@
       :Trap 0 ⋄ End ⋄ :EndTrap
     ∇
 
-    ∇ r←AllocatePort;ipv;server
+    ∇ r←AllocatePort port;ipv;server
     ⍝ Starts Conga, allocates TCP/IP port
       ipv←'Protocol'Config.IPVersion
       :If Config.Secure
@@ -257,7 +264,7 @@
               {}#.DRC.SetProp'.' 'RootCertDir'Config.RootCertDir
               server←1⊃#.DRC.X509Cert.ReadCertFromFile Config.CertFile
               server.KeyOrigin←'DER'Config.KeyFile
-              →(0≠1⊃r←#.DRC.Srv'' ''Config.Port'Raw' 10000('X509'server)('SSLValidation'Config.SSLFlags)ipv)⍴0 ⍝ Must have Conga v2.1
+              →(0≠1⊃r←#.DRC.Srv'' ''port'Raw' 10000('X509'server)('SSLValidation'Config.SSLFlags)ipv)⍴0 ⍝ Must have Conga v2.1
               1 Log'Starting secure server using certificate ',Config.CertFile
           :Else
               1 Log'Invalid certificate parameters'
@@ -265,7 +272,7 @@
               →0
           :EndIf
       :Else
-          →(0≠1⊃r←#.DRC.Srv'' ''Config.Port'Raw' 10000 ipv)⍴0
+          →(0≠1⊃r←#.DRC.Srv'' ''port'Raw' 10000 ipv)⍴0
       :EndIf
      
       ServerName←2⊃r
