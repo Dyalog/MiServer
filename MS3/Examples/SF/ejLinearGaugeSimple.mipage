@@ -1,0 +1,11 @@
+﻿:Class ejLinearGaugeSimple : MiPageSample
+⍝ Control:: _SF.ejLinearGauge
+⍝ Description:: Linear gauge
+
+    ∇ Compose;bg
+      :Access Public
+      Add _.h4'ejLinearGauge Example'
+      Add _.ejLinearGauge 67 0 100
+    ∇
+
+:EndClass
