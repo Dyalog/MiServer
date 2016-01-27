@@ -2,25 +2,25 @@
 ⍝ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ ⍝
 ⍝ │ This is the home page of the MiServer Sample Site, MS3, accessible at miserver.dyalog.com   │ ⍝
 ⍝ ├─────────────────────────────────────────────────────────────────────────────────────────────┤ ⍝
-⍝ │ The code is split up in three sections called MAIN, CALLBACKS, and SHOW:                    │ ⍝
+⍝ │ The code is split up in three sections called A_MAIN, B_CALLBACKS, and C_SHOW:              │ ⍝
 ⍝ │                                                                                             │ ⍝
-⍝ │     ∘ MAIN is doing all the initial set-up , building the various parts of the page, set-   │ ⍝
+⍝ │     ∘ A_MAIN is doing all the initial set-up , building the various parts of the page, set- │ ⍝
 ⍝ │       ting the inital values of globals, and binding event-handlers to clicks, etc.         │ ⍝
 ⍝ │                                                                                             │ ⍝
-⍝ │     ∘ CALLBACKS resumes control after the user triggers one of the handlers and redirects   │ ⍝
+⍝ │     ∘ B_CALLBACKS resumes control after the user triggers one of the handlers and redirects │ ⍝
 ⍝ │       to appropriate feedback.                                                              │ ⍝
 ⍝ │                                                                                             │ ⍝
-⍝ │     ∘ SHOW generates the necessary code to make the browser displaying appropriate data     │ ⍝
+⍝ │     ∘ C_SHOW generates the necessary code to make the browser displaying appropriate data   │ ⍝
 ⍝ │       in their respective interface areas.                                                  │ ⍝
 ⍝ │                                                                                             │ ⍝
-⍝ │ There is also a dependancy, the scripted namespace indexUtils, which contains all general   │ ⍝
-⍝ │ and special sub-routines used by function in the above sections.                            │ ⍝
+⍝ │ There is also a dependancy, the scripted namespace MS3SiteUtils, which contains all general │ ⍝
+⍝ │ and special sub-routines used by functions in the above sections.                           │ ⍝
 ⍝ └─────────────────────────────────────────────────────────────────────────────────────────────┘ ⍝
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :SECTION A_MAIN ⍝ ACTIONS BEFORE FIRST USER INTERACTION
 
-    :Include #.MS3SiteUtils
+    :Include #.MS3SiteUtils ⍝ The aforementioned dependancy
 
     :Field CURRFILES←,⊂'/About_MiServer' ⍝ Global list if currently relevant files
 

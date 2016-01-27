@@ -1,19 +1,21 @@
-﻿:Namespace MS3SiteUtils ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
+﻿:Namespace MS3SiteUtils ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 ⍝ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ ⍝
-⍝ │ This is the collection of utility functions used by the index page of the MiServer Sample   │ ⍝
+⍝ │ This is the collection of utility functions used by MS3Server and the index page of the     │ ⍝
 ⍝ │ MiServer Sample Site, MS3, accessible at miserver.dyalog.com                                │ ⍝
 ⍝ ├─────────────────────────────────────────────────────────────────────────────────────────────┤ ⍝
-⍝ │ The code is split up in five sections called MAIN, CALLBACKS, and SHOW:                     │ ⍝
+⍝ │ The code is split up in six sections:                                                       │ ⍝
 ⍝ │                                                                                             │ ⍝
-⍝ │     ∘ GENERAL has utilities that appropriate to APL or MiServer in general                  │ ⍝
+⍝ │     ∘ A_GENERAL has utilities that appropriate to APL or MiServer in general                │ ⍝
 ⍝ │                                                                                             │ ⍝
-⍝ │     ∘ FILES has various tools to list, read, and cache files and their content              │ ⍝
+⍝ │     ∘ B_FILES has various tools to list, read, and cache files and their content            │ ⍝
 ⍝ │                                                                                             │ ⍝
-⍝ │     ∘ STRINGS string and multi-string manipulation and extraction of information            │ ⍝
+⍝ │     ∘ C_STRINGS string and multi-string manipulation and extraction of information          │ ⍝
 ⍝ │                                                                                             │ ⍝
-⍝ │     ∘ ELEMENTS aids to create elements for the HTML Document Object Model                   │ ⍝
+⍝ │     ∘ D_ELEMENTS aids to create elements for the HTML Document Object Model                 │ ⍝
 ⍝ │                                                                                             │ ⍝
-⍝ │     ∘ JAVASCRIPT shortcuts to MiServer's built-in functions for generating JavaScript       │ ⍝
+⍝ │     ∘ E_JAVASCRIPT shortcuts to MiServer's built-in functions for generating JavaScript     │ ⍝
+⍝ │                                                                                             │ ⍝
+⍝ │     ∘ F_CONSTANTS niladic functions that return unchanging values and cache                 │ ⍝
 ⍝ │                                                                                             │ ⍝
 ⍝ └─────────────────────────────────────────────────────────────────────────────────────────────┘ ⍝
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
@@ -253,7 +255,7 @@
     ∇ r←TREE
       r←(Read'Examples/Data/tree.txt')~⊂'' ⍝ load/cache tree and remove blank lines
     ∇
-    
+
     ∇ r←DOCS
       r←(Read'Examples/Data/docs.txt')~⊂'' ⍝ load/cache tree and remove blank lines
     ∇
