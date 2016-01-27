@@ -1,6 +1,6 @@
 ﻿:Class ejDialogAdvanced : MiPageSample
 ⍝ Control:: _SF.ejDialogPicker
-⍝ Description:: Simple dialog box
+⍝ Description:: Two interacting dialogs
 
     ∇ Compose;dlg;content;ig
       :Access Public
