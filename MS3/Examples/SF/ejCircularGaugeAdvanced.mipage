@@ -32,7 +32,7 @@
       values←#.JSON.true'yellow'border 10 150
       (scales←⎕NS ⍬).(showScaleBar backgroundColor border width radius)←values
      
-      ⍝ Why do we need a 1 element vector?
+      ⍝ vector because there could be more than one scale
       cg.Options.scales←,scales
     ∇
         
