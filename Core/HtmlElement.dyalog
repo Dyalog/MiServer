@@ -531,7 +531,7 @@
 
     ∇ da←args defaultArgs defaultvalues
       :Access public shared
-      da←da,(⍴da←eis args)↓defaultvalues
+      da←da,(⍴,da←eis args)↓defaultvalues
     ∇
 
     ∇ r←Quote a;b
