@@ -37,9 +37,9 @@
       :Access public
       SetId
       r←''
-      :For member value :In ('value'Value)('minimum'Min)('maximum'Max)
+      :For member value :In ('markerPointers[1].value'Value)('minimum'Min)('maximum'Max)
           :If ~0∊⍴value
-              ('scales[1].markerPointers[1].',member)Set value
+              ('scales[1].',member)Set value
           :EndIf
       :EndFor
       r,←⎕BASE.Render

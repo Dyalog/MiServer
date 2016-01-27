@@ -1,0 +1,15 @@
+﻿:Class ejLinearGaugeAdvanced : MiPageSample
+⍝ Control:: _SF.ejLinearGauge
+⍝ Description:: Linear gauge with custom scale (Fahrenheit thermometre)
+
+    ∇ Compose
+      :Access Public
+      Add _.h4'ejLinearGauge Example'
+      ⍝                     value
+      ⍝                     |    bottom of the scale
+      ⍝                     |    |  top of the scale
+      ⍝                     ↓    ↓  ↓
+      Add _.ejLinearGauge 152.6 32 212
+    ∇
+
+:EndClass
