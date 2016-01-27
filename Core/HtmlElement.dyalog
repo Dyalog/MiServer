@@ -91,6 +91,20 @@
       r←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}w
     ∇
 
+    ∇ r←isTrue a
+      :Access public shared
+      →0⍴⍨r←(,1)≡,a
+      →0⍴⍨r←#.JSON.true≡a
+      →0⍴⍨r←'true'≡a
+    ∇
+
+    ∇ r←isFalse a
+      :Access public shared
+      →0⍴⍨r←(,0)≡,a
+      →0⍴⍨r←#.JSON.false≡a
+      →0⍴⍨r←'false'≡a
+    ∇
+
     ∇ r←a ine w
       :Access public shared
       r←a{0∊⍴⍺:'' ⋄ ⍵}w ⍝ if not empty

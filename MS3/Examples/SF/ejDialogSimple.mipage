@@ -1,0 +1,16 @@
+﻿:Class ejDialogSimple : MiPageSample
+⍝ Control:: _SF.ejDialogPicker
+⍝ Description:: Simple dialog box
+
+    ∇ Compose;dlg
+      :Access Public
+      'onclick="$(''#dialog'').ejDialog(''open'')"'Add _.Button'Click me to display the dialog'
+      'dialog'Add _.div ScriptFollows
+    ⍝ This is the text for the dialog.<br/>
+    ⍝ Text text text text text text text text
+      dlg←Add _.ejDialog'#dialog' 'This is the dialog title'
+      'showOnInit' 'position.Y' 'width'dlg.Set _false 150 300
+      'position.X'dlg.Set'⍎(screen.width-300)/2'  ⍝ center the dialog
+    ∇
+
+:EndClass
