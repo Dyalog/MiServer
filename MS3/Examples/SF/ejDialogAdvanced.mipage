@@ -1,10 +1,10 @@
 ﻿:Class ejDialogAdvanced : MiPageSample
 ⍝ Control:: _SF.ejDialogPicker
-⍝ Description:: Two interacting dialogs
+⍝ Description:: Simple dialog box
 
     ∇ Compose;dlg;content;ig
       :Access Public
-      'onclick="$(''#dialog'').ejDialog(''open'')"'Add _.Button'Click here to re-open the dialog.'
+      '#show' 'onclick="$(''#dialog'').ejDialog(''open'')"'Add _.Button'Click here to re-open the dialog.'
      
       ⍝ Here is some content (see InputGridSimple for explanation):
       content←'dialog'Add _.div,New _.h2'Please tell us about yourself'
@@ -13,8 +13,11 @@
       ig.Inputs←'fname' 'lname' 'bdate'New¨_.EditField _.EditField _.jqDatePicker
       ig.Inputs[3].Set'dateFormat' 'dd/mm/yy'
       content.Add'<big>WHACK ME AGAIN AND AGAIN →&nbsp;&nbsp;&nbsp;</big>'
-      'onclick="togglePopup()"'content.Add _.Button,New _.img,⊂⊂'src' '/Examples/Data/smiley.gif'
-     
+      
+      ⍝ We conclude with a button to toggle another dialog:
+      '#whack' 'onclick="togglePopup()"'content.Add _.Button,New _.img,⊂⊂'src' '/Examples/Data/smiley.gif'
+      
+      ⍝ Here is the script that does the toggling:
       Add _.script ScriptFollows
       ⍝ function togglePopup() {
       ⍝     if ($("#popup").ejDialog("isOpen")) {
@@ -23,12 +26,13 @@
       ⍝         $("#popup").ejDialog("open");
       ⍝     };
       ⍝ };
-     
+      
+      ⍝ Adding the actual dialog
       dlg←Add _.ejDialog'#dialog' 'ejDialog Advanced example' 1
       'showOnInit' 'position.Y' 'position.X'dlg.Set _true 20 40
       dlg.(Resize Buttons)←0,⊂'close' 'maximise' 'minimise' 'collapsible' 'pin'
      
-      'popup'Add _.div,New _.p'Ouch!!!'
+      '#popup'Add _.div,New _.p'Ouch!!!'
       'showOnInit'(Add _.ejDialog'#popup' 'Smiley says:').Set _false
      
     ∇

@@ -1,16 +1,22 @@
-﻿:Class ejDialogSimple : MiPageSample
-⍝ Control:: _SF.ejDialogPicker
+﻿:Class ejDialogSimple : MiPageSample    
+⍝ Control:: _SF.ejDialog
 ⍝ Description:: Simple dialog box
 
     ∇ Compose;dlg
       :Access Public
-      'onclick="$(''#dialog'').ejDialog(''open'')"'Add _.Button'Click me to display the dialog'
-      'dialog'Add _.div ScriptFollows
-    ⍝ This is the text for the dialog.<br/>
+      '#show' 'onclick="$(''#dialog'').ejDialog(''open'')"'Add _.Button'Click me to display the dialog'
+     
+      ('dialog'Add _.div).Add WrapFollowing'p'
+    ⍝ This is the text for the dialog.
+    ⍝
     ⍝ Text text text text text text text text
-      dlg←Add _.ejDialog'#dialog' 'This is the dialog title'
-      'showOnInit' 'position.Y' 'width'dlg.Set _false 150 300
-      'position.X'dlg.Set'⍎(screen.width-300)/2'  ⍝ center the dialog
+     
+      dlg←Add _.ejDialog'#dialog' 'Title of the dialog'
+     
+      'showOnInit' 'position.Y' 'width'dlg.Set _false 100 300
+     
+      ⍝ to center the dialog, we must use JavaScript's arithmetics, so / means ÷
+      'position.X'dlg.Set'⍎screen.width/2-150'
     ∇
 
 :EndClass
