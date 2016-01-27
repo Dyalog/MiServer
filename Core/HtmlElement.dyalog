@@ -93,16 +93,18 @@
 
     ∇ r←isTrue a
       :Access public shared
-      →0⍴⍨r←(,1)≡,a
-      →0⍴⍨r←#.JSON.true≡a
-      →0⍴⍨r←'true'≡a
+      →0⍴⍨r←(,1)≡,a       ⍝ boolean
+      →0⍴⍨r←#.JSON.true≡a ⍝ namespace
+      →0⍴⍨r←'true'≡a      ⍝ string
+      →0⍴⍨r←a≡⊂'true'     ⍝ 7161⌶1
     ∇
 
     ∇ r←isFalse a
       :Access public shared
-      →0⍴⍨r←(,0)≡,a
-      →0⍴⍨r←#.JSON.false≡a
-      →0⍴⍨r←'false'≡a
+      →0⍴⍨r←(,0)≡,a        ⍝ boolean
+      →0⍴⍨r←#.JSON.false≡a ⍝ namespace
+      →0⍴⍨r←'false'≡a      ⍝ string
+      →0⍴⍨r←a≡⊂'false'     ⍝ 7161⌶0
     ∇
 
     ∇ r←a ine w
