@@ -1,6 +1,6 @@
 <div id="banner">
 	<div id="bannerimg">
-		<img id="bannerimage" src="/Styles/Images/Dyalog-D.png" title="Click to toggle web page/source code" /> </div>
+		<img id="bannerimage" src="/Styles/Images/Dyalog-D.png" title="Click to toggle web page/source code" onMouseOver="this.style.cursor='pointer'"/> </div>
 	<div id="bannertext">
 		<a id="ms30" href="/">MiServer 3.0</a> <br />
 		<span id="tagline">Anyone who can write an APL function should be able to host it on the web.&trade;</span> </div>
