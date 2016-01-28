@@ -19,12 +19,10 @@
       ms.Run
     ∇
 
-    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;disperror;core;HTML;extensions;HTMLsubdirs
+    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;core;HTML;extensions;HTMLsubdirs
       ⍝ Load required objects for MiServer
       ⍝ Note: DRC namespace is not SALTed
       ⍝ yes - 1 to perform load, 0 to clean up
-     
-      disperror←{}∘{326=⎕DR ⍵:'' ⋄ '***'≡3↑⍵:⎕←⍵ ⋄ ''}
      
       classes←''
       :If 0≠⎕NC'AppRoot'
@@ -78,6 +76,12 @@
           #.⎕EX'Pages'
           #.⎕EX¨'MiServer' 'HTTPRequest'
       :EndIf
+    ∇
+
+    ∇ LoadHTML f
+    ⍝ Utility to reload an HTML content-generating namespace
+      disperror ⎕SE.SALT.Load MSRoot,'HTML/',f,' -target=#'
+      disperror¨⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
     ∇
 
     ∇ ms←Init Config;path;class;classes;e;res;mask
@@ -398,6 +402,7 @@
     :endsection
 
     :section Utilities
+    disperror←{}∘{326=⎕DR ⍵:'' ⋄ '***'≡3↑⍵:⎕←⍵ ⋄ ''}
     isWin←('.' ⎕WG 'APLVersion')[3]≡⊂,'W'
     fileSep←'/\'[1+isWin]
     MSRoot←{(1-⌊/'/\'⍳⍨⌽⍵)↓⍵}⎕WSID
