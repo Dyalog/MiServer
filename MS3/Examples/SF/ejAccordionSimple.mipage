@@ -4,7 +4,7 @@
 
     ∇ Compose;ac;path
       :Access public
-      ac←'ac' Add _SF.ejAccordion         ⍝ add the accordion widget
+      ac←'ac' Add _.ejAccordion         ⍝ add the accordion widget
       ac.Titles←'First' 'Second'          ⍝ headings for each of two sections
       p1←'p1' New _.p (999⍴'Ut sed viverra velit. ')
       p2←'p2' New _.p (999⍴'Ac malesuada ante. ')

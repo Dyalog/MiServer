@@ -9,11 +9,11 @@
       Count←0
      
      ⍝ The first button (b1)
-      b1←'btn1'Add _SF.ejButton'Toggle its state →'
+      b1←'btn1'Add _.ejButton'Toggle its state →'
       b1.On'click' 'myCallback'
      
      ⍝ The second button (b2)
-      b2←Add _SF.ejButton'Show message'
+      b2←Add _.ejButton'Show message'
       b2.id←'btn2'
       'type' 'enabled'b2.Set'ej.ButtonType.Button'_false
       b2.On'click' 'myCallback'

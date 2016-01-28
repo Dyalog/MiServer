@@ -4,7 +4,7 @@
 
     ∇ Compose;ac;path;menu;style
       :Access public
-      ac←Add _SF.ejAccordion      ⍝ add the accordion widget
+      ac←Add _.ejAccordion      ⍝ add the accordion widget
       ac.Titles←'First' 'Second'  ⍝ headings for each of two sections
       style←''
       style,←'.submenu {max-height:75px;overflow-y:scroll;background-color:white;border:2px groove threedface;}'

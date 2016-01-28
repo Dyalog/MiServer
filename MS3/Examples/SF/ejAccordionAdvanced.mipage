@@ -7,7 +7,7 @@
       '#output'Add _.div _.p'Click on the headers to open or close sections.'
       Add _.br
      
-      ac←Add _SF.ejAccordion      ⍝ add the accordion widget
+      ac←Add _.ejAccordion      ⍝ add the accordion widget
       ac.Titles←'First' 'Second'  ⍝ headings for each of two sections
       path←_Request.Server.Config.AppRoot,'Examples/Data/SampleText'
       ac.Sections←'p1' 'p2'{⍺ New _.p(#.Files.GetText ⍵)}¨path∘,¨'1.txt' '2.txt'  ⍝ content for each of 2 sections
