@@ -71,6 +71,8 @@ a.nav:hover {
 }
 #ms30 {
 	font-weight: 700;
+	color: white;
+	text-decoration: none;
 }
 #tagline {
 	font-size: .5em;

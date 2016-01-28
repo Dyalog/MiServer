@@ -2,7 +2,7 @@
 	<div id="bannerimg">
 		<img id="bannerimage" src="/Styles/Images/Dyalog-D.png" title="Click to toggle web page/source code" /> </div>
 	<div id="bannertext">
-		<span id="ms30" onclick="window.location.href='/';">MiServer 3.0</span> <br />
+		<a id="ms30" href="/">MiServer 3.0</a> <br />
 		<span id="tagline">Anyone who can write an APL function should be able to host it on the web.&trade;</span> </div>
 	<div id="bannernav">
 		<a class="nav" href="/">Home</a><br />
