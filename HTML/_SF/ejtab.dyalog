@@ -54,7 +54,7 @@
       :If 0=⎕NC'title' ⋄ title←'Tab ',⍕1+⍴Titles ⋄ :EndIf
       Titles,←⊂title
       Sections,←⊂content
-      IsURL,←0
+      IsURL←(⊃⍴Titles)↑IsURL
     ∇
 
     ∇ r←Render;sections;n;ids;i;section
