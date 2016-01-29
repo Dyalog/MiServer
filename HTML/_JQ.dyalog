@@ -443,10 +443,11 @@
 
         ∇ r←Render;opts
           :Access public
-          'Accordion title and content lengths do not match'⎕SIGNAL((⍴Titles)≠⍴Tabs)/5
+          'Title and Contents lengths do not match'⎕SIGNAL((⍴Titles)≠⍴Tabs)/5
           opts←Options
           :If 2≤|≡Options ⋄ opts←#.JSON.toJQueryParameters Options ⋄ :EndIf
           r←Widget._function Id Titles(RenderTab¨Tabs)opts JavaScript Var
+          r,←⎕BASE.Render
         ∇
 
         ∇ r←RenderTab tab;e;t
