@@ -1,8 +1,8 @@
 ﻿:Class ejDialogAdvanced : MiPageSample
-⍝ Control:: _SF.ejDialogPicker
-⍝ Description:: Simple dialog box
+⍝ Control:: _SF.ejDialog
+⍝ Description:: Interdependant multi-modal dialog boxes
 
-    ∇ Compose;dlg;content;ig
+    ∇ Compose;dlg;content;ig;popup
       :Access Public
       '#show' 'onclick="$(''#dialog'').ejDialog(''open'')"'Add _.Button'Click here to re-open the dialog.'
      
@@ -12,10 +12,10 @@
       ig.(Border Labels)←0,⊂'First name' 'Last name' 'Birthdate'
       ig.Inputs←'fname' 'lname' 'bdate'New¨_.EditField _.EditField _.jqDatePicker
       ig.Inputs[3].Set'dateFormat' 'dd/mm/yy'
-      content.Add'<big>WHACK ME AGAIN AND AGAIN →&nbsp;&nbsp;&nbsp;</big>'
+      content.Add _.hr
+      ⍝ A button to toggle another dialog:
+      '#terms' 'onclick="togglePopup()"'content.Add _.Button 'Terms and conditions'
       
-      ⍝ We conclude with a button to toggle another dialog:
-      '#whack' 'onclick="togglePopup()"'content.Add _.Button,New _.img,⊂⊂'src' '/Examples/Data/smiley.gif'
       
       ⍝ Here is the script that does the toggling:
       Add _.script ScriptFollows
@@ -32,8 +32,13 @@
       'showOnInit' 'position.Y' 'position.X'dlg.Set _true 20 40
       dlg.(Resize Buttons)←0,⊂'close' 'maximise' 'minimise' 'collapsible' 'pin'
      
-      '#popup'Add _.div,New _.p'Ouch!!!'
-      'showOnInit'(Add _.ejDialog'#popup' 'Smiley says:').Set _false
+      popup←'#popup'Add _.div 
+      popup.Add '<p>This example only shows off dialog boxes.</p>'
+      popup.Add '<p>For form submission techniques, go to the main '
+      popup.Add _.A 'MS3' '/'
+      popup.Add'page and search for "input".</p>'
+      
+      'showOnInit'(Add _.ejDialog'#popup' 'Terms and Conditions').Set _false
      
     ∇
 
