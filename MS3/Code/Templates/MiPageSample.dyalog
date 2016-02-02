@@ -9,8 +9,8 @@
       :If 0∊⍴Get'nowrapper'
           server←_Request.Server
      
-        ⍝ we use Syncfusion (which uses jQuery) to set up the controls to do cool stuff
-         ⍝ Use'Syncfusion' ⍝ this is a resource defined in Config/Resources.xml ⍝ Will be loaded anyway if needed - speedup if not
+        ⍝ we need jQuery to toggle content/source, other resources will be loaded if needed
+          Use'JQuery' ⍝ this is a resource defined in Config/Resources.xml
      
         ⍝ set the title display in the browser to the name of the application defined in Config/Server.xml
           Add _.title server.Config.Name
@@ -62,7 +62,7 @@
       r←⎕BASE.Wrap
     ∇
 
-    ∇ r←CtrlsDiv source;control;controls;lia;ns;ul;cali;h
+    ∇ r←CtrlsDiv source;control;controls;lia;ns;ul;cali;h;li
      ⍝ Creates a div with info on the controls used in source
      
      ⍝ First we extract proper lists of controls
@@ -77,19 +77,21 @@
      
      ⍝ Now we create and populate the info div
       r←'.widgethelp'New _.div'This Page Contains<hr/>'
-      lia←'<li><a target="_blank" href="'
+      ⍝lia←'<li><a target="_blank" href="'
       h←'http://'
       :For ns :In (×≢¨controls)/⍳4 ⍝ do not process if empty
           '.widgetNs'r.Add _.span,⊂ns⊃'Dyalog Controls' 'Syncfusion Widgets' 'jQuery Widgets' 'Native HTML5 Elements'
           ul←r.Add _.ul
           :For control :In ns⊃controls
-              cali←'">',control,'</a></li>'
-              :Select ns
-              :Case 1 ⋄ ul.Add lia,'/Documentation/DyalogAPIs/WidgetDoc?namespace=_DC&widget=',control,cali           ⍝ DC
-              :Case 2 ⋄ ul.Add lia,h,'help.syncfusion.com/js/',(#.Strings.lc(2×'ej'≡2↑control)↓control,'/overview'),cali ⍝ SF
-              :Case 3 ⋄ ul.Add lia,h,'jqueryui.com/',(2↓control),cali                                                 ⍝ JQ
-              :Case 4 ⋄ ul.Add lia,h,'www.w3schools.com/tags/tag_',(('\d'⎕R'n')control),'.asp',cali                   ⍝ html
-              :EndSelect
+              ⍝cali←'">',control,'</a></li>'
+              li←'<li><a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns⊃#.MS3SiteUtils.NSS
+              ul.Add li,'&widget=',control,'">',control,'</a></li>'
+⍝              :Select ns
+⍝              :Case 1 ⋄ ul.Add lia,'/Documentation/DyalogAPIs/WidgetDoc?namespace=_DC&widget=',control,cali           ⍝ DC
+⍝              :Case 2 ⋄ ul.Add lia,h,'help.syncfusion.com/js/',(#.Strings.lc(2×'ej'≡2↑control)↓control,'/overview'),cali ⍝ SF
+⍝              :Case 3 ⋄ ul.Add lia,h,'jqueryui.com/',(2↓control),cali                                                 ⍝ JQ
+⍝              :Case 4 ⋄ ul.Add lia,h,'www.w3schools.com/tags/tag_',(('\d'⎕R'n')control),'.asp',cali                   ⍝ html
+⍝              :EndSelect
           :EndFor
       :EndFor
     ∇
