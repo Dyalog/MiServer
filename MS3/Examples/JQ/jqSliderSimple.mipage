@@ -12,8 +12,8 @@
       Add _.h6'Ranged Slider'
       ('Ranged' '.slide'Add _.jqSlider 0 100 20 40).On 'slidechange' 'myCallBack' ('newval' '#Ranged' 'slider' 'values')
      
-      Add¨_.br(_.Button'Update')_.br
-     
+      Add _.br
+      
       '#output'Add _.div
     ∇
 

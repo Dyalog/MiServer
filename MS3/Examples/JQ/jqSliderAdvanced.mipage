@@ -1,0 +1,36 @@
+﻿:Class jqSliderAdvanced : MiPageSample
+⍝ Control:: _JQ.jqSlider
+⍝ Description:: Using one slider to set the bounds of another
+
+    ∇ Compose;min;max;avg
+      :Access Public
+      (min max)←20 40
+      avg←0.5×min+max
+     
+      Add _.h2'jQuery Slider Widget'
+     
+      Add _.p'The master slider sets the allowed range for the slave slider.'
+     
+      '#output'(Add _.h3'Slave Slider: ').Add _.span avg
+     
+      ('#Slave' 'style="width: 50%;"'Add _.jqSlider min max avg).On'slidechange' 'OnSlave'('newval' '#Slave' 'slider' 'value')
+     
+      '#min' '' '#max'(Add _.h3'Master Slider: ').Add¨(_.span min)'&ndash; '(_.span max)
+     
+      ('#Master'Add _.jqSlider 0 100,min,max).On'slidechange' 'OnMaster'('newval' '#Master' 'slider' 'values')
+    ∇
+
+    ∇ r←OnSlave
+      :Access Public
+      r←'#output'Replace⍕Get'newval'
+    ∇
+
+    ∇ r←OnMaster;min;max
+      :Access Public
+      (min max)←⍕¨Get'newval'
+      r←Execute'$( "#Slave" ).slider( "option", "min", ',min,' );$( "#Slave" ).slider( "option", "max", ',max,' );'
+      r,←('#min'Replace min),('#max'Replace max)
+    ∇
+
+
+:EndClass
