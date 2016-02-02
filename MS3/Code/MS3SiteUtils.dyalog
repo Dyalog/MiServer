@@ -152,9 +152,10 @@
 
     BuildTree←{⍺{(⊂⍺),⍵}¨(Levels NoSt ⍵)(NoExt¨Name¨NoSt ⍵)⍵} ⍝ Build argument for ejTreeView
 
-      Info←{ ⍝ Get info on a control
+      Info←{ ⍝ Get info (default: description) on a control
+          ⍺←2                                           ⍝ 1=Name, 2=Description, 3=Notes
           control←(⍳∘'.'↓⊢)⍵                            ⍝ remove ns
-          C.eoinfo⊂control:C.info[;2]⊃⍨C.infooi⊂control ⍝ if we have, use that
+          C.eoinfo⊂control:C.info[;⍺]⊃⍨C.infooi⊂control ⍝ if we have, use that
           'Description'Section ⎕SRC #⍎⍵                 ⍝ else extract it
       }
 
