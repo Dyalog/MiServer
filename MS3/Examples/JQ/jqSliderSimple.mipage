@@ -4,17 +4,22 @@
 
     ∇ Compose;drag
       :Access Public
-      Add _.h4 'jQuery Slider Widget'
-      Add _.h6 'Single Slider'
-      's1' Add _.jqSlider
-      Add _.h6 'Ranged Slider'
-      's2' Add _.jqSlider 0 100 20 40 
-      Add _.br
-      (Add _.Button 'Submit').On 'click' 'myCallBack'
+      Add _.h4'jQuery Slider Widget'
+     
+      Add _.h6'Default Slider'
+      ('Default' '.slide'Add _.jqSlider).On 'slidechange' 'myCallBack' ('newval' '#Default' 'slider' 'value')
+     
+      Add _.h6'Ranged Slider'
+      ('Ranged' '.slide'Add _.jqSlider 0 100 20 40).On 'slidechange' 'myCallBack' ('newval' '#Ranged' 'slider' 'values')
+     
+      Add¨_.br(_.Button'Update')_.br
+     
+      '#output'Add _.div
     ∇
 
     ∇ r←myCallBack
       :Access Public
+      r←'#output'Replace _what,' Slider changed to ',⍕Get'newval'
     ∇
 
 
