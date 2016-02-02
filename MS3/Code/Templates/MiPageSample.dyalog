@@ -10,7 +10,7 @@
           server←_Request.Server
      
         ⍝ we use Syncfusion (which uses jQuery) to set up the controls to do cool stuff
-          Use'Syncfusion' ⍝ this is a resource defined in Config/Resources.xml
+         ⍝ Use'Syncfusion' ⍝ this is a resource defined in Config/Resources.xml ⍝ Will be loaded anyway if needed - speedup if not
      
         ⍝ set the title display in the browser to the name of the application defined in Config/Server.xml
           Add _.title server.Config.Name
