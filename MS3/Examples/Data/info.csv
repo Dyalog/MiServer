@@ -64,7 +64,7 @@ meta,Metadata,"The meta element is for providing various types of metadata, such
 meter,Scalar measurement,"The meter element represents a scalar measurement within a known range, or a fractional value."
 nav,Navigation,The nav element represents a section of a page containing primary navigation links to other pages or to parts within the page.
 noscript,No-script support,The noscript element is used to provide alternative content for users using browsers that do not support scripting or have it disabled.
-object,Generic embedded resource,"he object element can represent an external resource, which, depending on the type of the resource, will either be treated as an image, as a nested browsing context, or as an external resource to be processed by a plugin."
+object,Generic embedded resource,"The object element can represent an external resource, which, depending on the type of the resource, will either be treated as an image, as a nested browsing context, or as an external resource to be processed by a plugin."
 ol,Ordered list,The ol element represents an ordered list.
 optgroup,Option group,The optgroup element represents a group of option elements with a common label.
 option,Selection choice,The option element represents an option in a select element or as part of a list of suggestions in a datalist element.
@@ -78,7 +78,7 @@ rp,Ruby parenthesis,"The rp element can be used to provide parentheses around a 
 rt,Ruby text,The rt element marks the ruby text component of a ruby annotation.
 ruby,Ruby annotation,"The ruby element allows one or more spans of phrasing content to be marked with ruby annotations. Ruby annotations are short runs of text presented alongside base text, primarily used in East Asian typography as a guide for pronounciation or to include other annotations. In Japanese, this form of typography is also known as furigana."
 samp,Sample output,The samp element represents (sample) output from a program or computing system.
-script,Linked or embedded script,"The script element allows authors to include scripts, typically javaScript, and data blocks in their documents."
+script,Linked or embedded script,"The script element allows authors to include scripts, typically JavaScript, and data blocks in their documents."
 section,Document section,"The section element represents a generic document or application section. A section, in this context, is a thematic grouping of content, typically with a header and possibly a footer."
 select,Selection control,The select element represents a control for selecting amongst a set of options.
 small,Small print,"The small element represents small print (part of a document often describing legal restrictions, such as copyrights or other disadvantages), or other side comments."
