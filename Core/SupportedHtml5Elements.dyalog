@@ -28,6 +28,7 @@
      
       :For e :In {⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}Elements
           e↓⍨←-noend←'*'=¯1↑e
+          doc[1]←'∆'⎕R'hn'⍣(⎕D∊⍨⊃⌽e)⊢doc[1]
           #._html.⎕FIX⊃,/(⍕¨e noend)∘{((,¨'∆⍺')⎕R ⍺),¨⍵}¨(1 1 1,(noend⌽1 0),1 1)/class doc make make1 make1a make2 endclass
       :EndFor
     ∇
