@@ -39,8 +39,12 @@
       :Access public
       :If ⍬≢Min ⋄ 'min'SetIfNotSet Min ⋄ :EndIf
       :If ⍬≢Max ⋄ 'max'SetIfNotSet Max ⋄ :EndIf
+      :If UNDEF≢value
+          JavaScript,←'.("value",',(⍕value),')'
+      :ElseIf ⍬≢Value
+          JavaScript,←'.("value",',(⍕Value),')'
+      :EndIf
       r←⎕BASE.Render
-      :If ⍬≢Value ⋄ r,←'<script>$(function(){$( "#',id,'" ).spinner( "value", ',(⍕Value),' );});</script>' ⋄ :EndIf
     ∇
 
 :EndClass
