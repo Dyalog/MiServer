@@ -37,8 +37,8 @@
 
     ∇ r←Render
       :Access public
-      :If ⍬≢Min ⋄ 'min'Set Min ⋄ :EndIf
-      :If ⍬≢Max ⋄ 'max'Set Max ⋄ :EndIf
+      :If ⍬≢Min ⋄ 'min'SetIfNotSet Min ⋄ :EndIf
+      :If ⍬≢Max ⋄ 'max'SetIfNotSet Max ⋄ :EndIf
       r←⎕BASE.Render
       :If ⍬≢Value ⋄ r,←'<script>$(function(){$( "#',id,'" ).spinner( "value", ',(⍕Value),' );});</script>' ⋄ :EndIf
     ∇

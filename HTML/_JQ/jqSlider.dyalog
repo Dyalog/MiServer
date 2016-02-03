@@ -36,8 +36,8 @@
 
     ∇ r←Render
       :Access public
-      :If ⍬≢Min ⋄ 'min'Set Min ⋄ :EndIf
-      :If ⍬≢Max ⋄ 'max'Set Max ⋄ :EndIf
+      :If ⍬≢Min ⋄ 'min'SetIfNotSet Min ⋄ :EndIf
+      :If ⍬≢Max ⋄ 'max'SetIfNotSet Max ⋄ :EndIf
       :Select ⊃⍴,Values
       :Case 0
       :Case 1
