@@ -11,7 +11,7 @@
      
       Add _.p'The master slider sets the allowed range for the slave slider.'
      
-      '#output'(Add _.h3'Slave Slider: ').Add _.span avg
+      '#slave'(Add _.h3'Slave Slider: ').Add _.span avg
      
       ('#Slave' 'style="width: 50%;"'Add _.jqSlider min max avg).On'slidechange' 'OnSlave'('newval' '#Slave' 'slider' 'value')
      
@@ -22,7 +22,7 @@
 
     ∇ r←OnSlave
       :Access Public
-      r←'#output'Replace⍕Get'newval'
+      r←'#slave'Replace⍕Get'newval'
     ∇
 
     ∇ r←OnMaster;min;max
