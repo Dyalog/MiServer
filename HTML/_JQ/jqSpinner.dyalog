@@ -4,9 +4,9 @@
 ⍝ Constructor:: [min [max [value]]]
 ⍝ min - the minimum value for the spinner (default ⍬)
 ⍝ max - the maximum value for the spinner (default ⍬)
-⍝ value(s) - the initial value for the spinner (default ⍬)
+⍝ value - the initial value for the spinner (default ⍬)
 ⍝ Public Fields::
-⍝ Values - the initial value for the spinner
+⍝ Value - the initial value for the spinner (default ⍬)
 ⍝ Min - the minimum value for the spinner (default ⍬)
 ⍝ Max - the maximum value for the spinner (default ⍬)
 
