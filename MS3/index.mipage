@@ -20,7 +20,7 @@
 
     :SECTION A_MAIN ⍝ ACTIONS BEFORE FIRST USER INTERACTION
 
-    :Include indexUtils ⍝∇:require =/indexUtils
+    :Include #.MS3SiteUtils
 
     :Field CURRFILES←,⊂'/About_MiServer' ⍝ Global list if currently relevant files
 
@@ -42,10 +42,19 @@
       left.Add¨Tree¨'Getting Started' 'Controls' ⍝ NB: Needs MakeTreeXX (XX is initials of title)!
     ∇
 
-    ∇ tree←MakeTreeGS ⍝ Make the "Getting Started" tree
+    ∇ tree←MakeTreeGS0 ⍝ Make the "Getting Started" tree
       :Access public shared
       tree←⍉⍪1 'Start here',⊂∊CURRFILES FILEEXT ⍝ top level
       tree⍪←'pdf'DirTree'Documentation'         ⍝ documentation is PDFs only
+      tree⍪←DirTree'Examples/Techniques'
+      tree⍪←DirTree'Examples/Applications'
+      tree[;2]←Clean¨tree[;2]  ⍝ sample apps have underscores for spaces
+    ∇
+    
+    ∇ tree←MakeTreeGS ⍝ Make the "Getting Started" tree
+      :Access public shared
+      tree←⍉⍪1 'Start here',⊂∊CURRFILES FILEEXT ⍝ top level
+      tree⍪←⍉↑1 'Documentation' '/'BuildTree DOCS
       tree⍪←DirTree'Examples/Techniques'
       tree⍪←DirTree'Examples/Applications'
       tree[;2]←Clean¨tree[;2]  ⍝ sample apps have underscores for spaces

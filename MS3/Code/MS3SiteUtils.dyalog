@@ -1,4 +1,4 @@
-﻿:Namespace indexUtils ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
+﻿:Namespace MS3SiteUtils ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 ⍝ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ ⍝
 ⍝ │ This is the collection of utility functions used by the index page of the MiServer Sample   │ ⍝
 ⍝ │ MiServer Sample Site, MS3, accessible at miserver.dyalog.com                                │ ⍝
@@ -19,31 +19,6 @@
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :SECTION A_GENERAL ⍝ UTILITY FUNCTIONS THAT ARE NOT SPECIFIC TO THE "MS3" SITE
-
-    ∇ r←C
-      r←#.Boot.ms.C
-    ∇
-
-    ∇ r←TREE
-      r←#.Boot.ms.TREE
-    ∇
-
-    ∇ r←NSS
-      r←#.Boot.ms.NSS
-    ∇
-
-    ∇ r←GROUPS
-      r←#.Boot.ms.GROUPS
-    ∇
-
-    ∇ r←CACHE
-      r←#.Boot.ms.CACHE
-    ∇
-
-    ∇ r←FILEEXT
-      r←#.Boot.ms.FILEEXT
-    ∇
-
 
     ∇ r←{a}Ⓒ w ⍝ Mnemonic for the ⊆ glyph
       r←⊂⍣(1=≡w)⊢w ⍝ enclose if simple
@@ -122,6 +97,7 @@
               C.read.keys,←⊂page
           :EndIf
       :Else
+          ∘∘∘
           r←,⊂'[failed to read "',page,'"]'
       :EndTrap
     ∇
@@ -173,7 +149,7 @@
 
     Doc←{∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨⍵} ⍝ Address of WidgetDoc
 
-    BuildTree←{⍺{(⊂⍺),⍵}¨(Levels NoSt ⍵)(Name¨NoSt ⍵)⍵} ⍝ Build argument for ejTreeView
+    BuildTree←{⍺{(⊂⍺),⍵}¨(Levels NoSt ⍵)(NoExt¨Name¨NoSt ⍵)⍵} ⍝ Build argument for ejTreeView
 
       Info←{ ⍝ Get info on a control
           control←(⍳∘'.'↓⊢)⍵                            ⍝ remove ns
@@ -232,5 +208,59 @@
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
+
+    :SECTION F_CONSTANTS ⍝ NILADIC FUNCTIONS THAT ACT LIKE ;include'ABLE CONSTANTS
+
+    ∇ r←NSS
+      r←'DC' 'SF' 'JQ' 'html'
+    ∇
+
+    ∇ r←GROUPS
+      r←'Dyalog' 'SyncFusion' 'JQueryUI' 'Base HTML'
+    ∇
+
+    ∇ r←CACHE
+      r←'#.CACHE'
+    ∇
+
+    ∇ r←FILEEXT
+      r←#.Boot.ms.Config.DefaultExtension
+    ∇
+
+    ∇ C←C;scores;demoes;list;nl ⍝ Return ref to cache (init one if nonexistant)
+      :Access public
+      :Hold CACHE                                                  ⍝ prevent clashes
+          :If 9≠⎕NC CACHE                                          ⍝ if cache is empty:
+              C←⍎CACHE ⎕NS ⍬                                           ⍝ create with shortcut
+              C.read←⎕NS ⍬                                             ⍝ init cache for files
+              C.read.(keys←data←⍬)                                     ⍝ init keys and data
+              C.files←⊃⍪/{List'Examples/',⍵}¨NSS                       ⍝ sample filenames
+              demoes←{(Words'Control'Section Read ⍵)~'_',¨NSS}¨C.files ⍝ controls demoed in each
+              C.controls←∪↑,/demoes                                    ⍝ cache all controls
+              scores←C.controls∘.Score↓⍉↑C.files demoes                ⍝ controls vs files
+              C.rankings←(+/0<scores)↑¨↓⍒#.Utils.∆rank 1⊢scores        ⍝ cache all rankings
+              C.controlsoi←C.controls∘⍳ ⋄ C.eocontrols←∊∘C.controls    ⍝ cache hash tables
+              C.info←FromCSV Read'Examples/Data/info.csv'              ⍝ cache lookup table
+              nl←'.*[A-Z].*'⎕S'\0'#._.⎕NL ¯9                           ⍝ all widgets except html
+              C.info⍪←↑{⍵('Description'Section ⎕SRC⍎'#._.',⍵)''}¨nl    ⍝ get descriptions
+              C.info←C.info[∪⍳⍨C.info[;1];]                            ⍝ filter duplicates out
+              C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1])          ⍝ cache hash tables
+          :Else
+              C←⍎CACHE                                             ⍝ establish shortcut
+          :EndIf
+      :EndHold
+    ∇
+
+    ∇ r←TREE
+      r←(Read'Examples/Data/tree.txt')~⊂'' ⍝ load/cache tree and remove blank lines
+    ∇
+    
+    ∇ r←DOCS
+      r←(Read'Examples/Data/docs.txt')~⊂'' ⍝ load/cache tree and remove blank lines
+    ∇
+
+    :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
+⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
+
 
 :EndNamespace
