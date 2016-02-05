@@ -15,7 +15,9 @@
      
       Add _.Handler'.spin' 'spinchange' 'myCallBack'('newval' 'val')
      
-      Add¨_.br(_.Button'Update')_.br
+      Add _.br
+      '#Update'Add _.Button'Update'
+      Add _.br
      
       '#output'Add _.div
     ∇

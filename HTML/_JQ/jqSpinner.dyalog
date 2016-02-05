@@ -40,9 +40,9 @@
       :If ⍬≢Min ⋄ 'min'SetIfNotSet Min ⋄ :EndIf
       :If ⍬≢Max ⋄ 'max'SetIfNotSet Max ⋄ :EndIf
       :If UNDEF≢value
-          JavaScript,←'.("value",',(⍕value),')'
+          JavaScript,←'.spinner("value",',(⍕value),')'
       :ElseIf ⍬≢Value
-          JavaScript,←'.("value",',(⍕Value),')'
+          JavaScript,←'.spinner("value",',(⍕Value),')'
       :EndIf
       r←⎕BASE.Render
     ∇
