@@ -1,0 +1,23 @@
+﻿:Class jqSortableSimple : MiPageSample
+⍝ Control:: _JQ.jqSortable
+⍝ Description:: Allow list items to be reordered
+
+    ∇ Compose;sort
+      :Access Public
+     
+      Add _.h3'jqSortable'
+      Add _.p'The following points can be reordered:'
+      '#sort'Add _.Ul,⊂{'Item ',⍕⍵}¨⍳9
+      sort←Add _.jqSortable'#sort'
+      sort.On'stop' 'myCallBack'('pos' 'ui' 'position')
+     
+      '#output'Add _.div
+    ∇
+
+    ∇ r←myCallBack
+      :Access Public
+      r←'#output'Replace _what,' is now at ',#.JSON.fromAPL Get'pos'
+    ∇
+
+
+:EndClass

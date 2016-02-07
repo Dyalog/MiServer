@@ -11,7 +11,7 @@
 
     ∇ r←myCallBack
       :Access Public
-      r←'#dragon'Replace'You stopped at: ',#.JSON.fromAPL Get'pos'
+      r←'#dragon'Replace'You stopped at: (',')',⍨(#.JSON.fromAPL Get'pos')∩⎕D,','
     ∇
 
 

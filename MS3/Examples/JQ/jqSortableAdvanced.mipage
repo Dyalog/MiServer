@@ -1,0 +1,51 @@
+﻿:Class jqSortableAdvanced : MiPageSample
+⍝ Control:: _JQ.jqSortable
+⍝ Description:: Grid of reorderable boxes
+
+    ∇ Compose;output;image
+      :Access Public
+     
+      ⎕RL←0 ⋄ MOVES←0
+     
+      Add _.h3'Sequence Puzzle'
+      Add _.p'Drag the pieces into their correct positions using as few moves as possible.'
+     
+     ⍝ Updatable counter
+      output←Add _.p'Moves: '
+      '#output'output.Add _.span MOVES
+     
+     ⍝ Container for the composite image
+      image←'#image'Add _.div MakeImage
+     
+      ⍝ Stop floating stuff
+      'style="clear:both;"'Add _.div
+     ⍝ Reshuffle button
+      'onclick="location.reload();"'Add _.Button'Shuffle'
+     
+     ⍝ Float list items
+      Add _.Style ScriptFollows
+      ⍝ #sort { list-style-type: none; width: 468px; }
+      ⍝ #sort li { float: left; width: 115px; height: 104px; border: 1px solid transparent}
+    ∇
+
+    ∇ ul←MakeImage;list
+     
+     ⍝ Random list of images Duck⎕.jpg where ⎕ is A-L
+      list←{'src="../Data/Puzzle/Duck',⍵,'.jpg"'}¨⎕A[?⍨12]
+      ul←'#sort'New _.Ul(⊂list New¨_.img)
+     
+     ⍝ Make the images reorderable
+      (ul.Add _.jqSortable'#sort').On'stop' 'Count'
+    ∇
+
+    ∇ r←Count
+      :Access Public
+      MOVES+←1
+      r←'#output'Replace MOVES
+    ∇
+
+    ∇ r←Shuffle
+      :Access Public
+      r←'#image'Replace MakeImage
+    ∇
+:EndClass
