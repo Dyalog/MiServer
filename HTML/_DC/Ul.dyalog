@@ -39,7 +39,7 @@
       :Access public
       SetId
       :If ~0∊⍴Items
-          opts←HtmlSafeText¨eis Items
+          opts←{isRef ⍵:⍵ ⋄ HtmlSafeText ⍵}¨eis Items
           :If ~0∊⍴Links
               links←(⍴Items)↑Links,(⍴Items)⍴⊂''
               text←opts
