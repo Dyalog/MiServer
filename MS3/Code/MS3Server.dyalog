@@ -5,7 +5,7 @@
 ⍝ The ClassName parameter in the Server.xml configuration file is used to specify the customized class
 
     :Include #.MS3SiteUtils ⍝∇:require =/MS3SiteUtils
- 
+
     :Field public GROUPS  ⍝ groups of elements
     :Field public NSS     ⍝ corresponding nss
     :Field public CACHE   ⍝ location of cache
@@ -15,11 +15,7 @@
     ∇ Make config
       :Access Public
       :Implements Constructor :Base config
-    ∇
-
-    ∇ onServerLoad
-      :Access Public Override
-    ⍝ Handle any server startup processing
+     ⍝ Version warning
       :If 14>{⊃(//)⎕VFI ⍵/⍨2>+\'.'=⍵}2⊃'.'⎕WG'APLVersion'
           ⎕←''
           ⎕←'MiServer 3.0 itself will run under Dyalog APL versions 13.2 and later'
@@ -28,6 +24,11 @@
           ⎕←'Please restart the MS3 MiSite using Dyalog APL version 14.0 or later...'
           →
       :EndIf
+    ∇
+
+    ∇ onServerLoad
+      :Access Public Override
+    ⍝ Handle any server startup processing
       {}C ⍝ initialize CACHE
     ∇
 
