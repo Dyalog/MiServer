@@ -35,10 +35,10 @@
       (Items Links)←2↑args,(⍴args)↓Items Links
     ∇
 
-    ∇ r←Render;i;link;links;opt;opts;text
+    ∇ r←Render;i;link;links;opt;opts;text;n
       :Access public
       SetId
-      :If ~0∊⍴Items
+      :If ~0∊n←⍴Items
           opts←{isRef ⍵:⍵ ⋄ HtmlSafeText ⍵}¨eis Items
           :If ~0∊⍴Links
               links←(⍴Items)↑Links,(⍴Items)⍴⊂''
@@ -53,7 +53,7 @@
                   opts,←opt
               :EndFor
           :EndIf
-          Add¨↓_.li,⍪opts
+          ({id,'_',⍕⍵}¨⍳n)Add¨↓_.li,⍪opts
       :EndIf
       r←⎕BASE.Render
     ∇
