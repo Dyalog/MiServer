@@ -47,9 +47,9 @@
           #.SupportedHtml5Elements.Build_html_namespace
      
           :For f :In HTML
-              disperror ⎕SE.SALT.Load MSRoot,'HTML/',f,' -target=#'
+              disperror 1 ⎕SE.SALT.Load MSRoot,'HTML/',f,' -target=#'
               :If (⊂f)∊HTMLsubdirs
-                  disperror¨⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
+                  disperror¨1 ⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
               :EndIf
           :EndFor
      
@@ -59,7 +59,7 @@
      
           :If 0≠⍴classes
               :For class :In classes
-                  disperror ⎕SE.SALT.Load AppRoot,'Code/',class,' -target=#'
+                  disperror 1 ⎕SE.SALT.Load AppRoot,'Code/',class,' -target=#'
               :EndFor
           :EndIf
      
@@ -67,7 +67,7 @@
           #.Pages.(MiPage MildPage RESTful)←#.(MiPage MildPage RESTful)
           BuildEAWC ⍝ build the Easy As ⎕WC namespace
           :If #.Files.DirExists AppRoot,'/Code/Templates/'
-              disperror ⎕SE.SALT.Load AppRoot,'/Code/Templates/* -target=#.Pages'
+              disperror 1 ⎕SE.SALT.Load AppRoot,'/Code/Templates/* -target=#.Pages'
           :EndIf
      
       :Else ⍝ Cleanup
@@ -80,8 +80,8 @@
 
     ∇ LoadHTML f
     ⍝ Utility to reload an HTML content-generating namespace
-      disperror ⎕SE.SALT.Load MSRoot,'HTML/',f,' -target=#'
-      disperror¨⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
+      disperror 1 ⎕SE.SALT.Load MSRoot,'HTML/',f,' -target=#'
+      disperror¨1 ⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
     ∇
 
     ∇ ms←Init Config;path;class;classes;e;res;mask
@@ -91,19 +91,19 @@
       path←MSRoot,'Extensions/'
      
       :If 0≠⍴Config.SessionHandler
-          class←⎕SE.SALT.Load path,Config.SessionHandler
+          class←1 ⎕SE.SALT.Load path,Config.SessionHandler
           ms.SessionHandler←⎕NEW class ms
       :EndIf
      
       :If 0≠⍴Config.Authentication
-          class←⎕SE.SALT.Load path,Config.Authentication
+          class←1 ⎕SE.SALT.Load path,Config.Authentication
           ms.Authentication←⎕NEW class ms
       :EndIf
      
       :If 0≠⍴Config.SupportedEncodings
-          {}⎕SE.SALT.Load path,'ContentEncoder'
+          {}1 ⎕SE.SALT.Load path,'ContentEncoder'
           :For e :In Config.SupportedEncodings
-              class←⎕SE.SALT.Load path,e
+              class←1 ⎕SE.SALT.Load path,e
               ms.Encoders,←⎕NEW class
           :EndFor
           :If ∨/mask←0≠1⊃¨res←ms.Encoders.Init
@@ -114,7 +114,7 @@
       Config.UseContentEncoding∧←0≠⍴ms.Encoders
      
       :If 0≠⍴Config.Logger
-          class←⎕SE.SALT.Load path,Config.Logger
+          class←1 ⎕SE.SALT.Load path,Config.Logger
           ms.Logger←⎕NEW class ms
       :EndIf
     ∇
