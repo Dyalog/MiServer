@@ -4,19 +4,29 @@
 
     ∇ Compose;sort
       :Access Public
-     
+      Add _.Style'#sort li' 'border: 1px solid orange; background-color: white'
       Add _.h3'jqSortable'
-      Add _.p'The following points can be reordered:'
-      '#sort'Add _.Ul,⊂{'Item ',⍕⍵}¨⍳9
-      sort←Add _.jqSortable'#sort'
-      sort.On'stop' 'myCallBack'('pos' 'ui' 'position')
-     
+      Add _.p'Drag and drop the below items to reorder them:'
+      
+      sort←'sort'Add _.jqSortable,⊂'Item1' 'Item2' 'Item3' 'Item4' 'Item5'
+      sort.On'stop' 'myCallBack',⊂'order' '#sort' 'sortable("toArray")'
+      sort.Options.tolerance←'pointer'
+
       '#output'Add _.div
     ∇
 
-    ∇ r←myCallBack
+    ∇ r←myCallBack;order
       :Access Public
-      r←'#output'Replace _what,' is now at ',#.JSON.fromAPL Get'pos'
+      order←⍎(⍕Get'order')∩11↑⎕D
+      :Select order
+      :Case ⍳5
+          order←'restored'
+      :Case ⌽⍳5
+          order←'reversed'
+      :Else
+          order←⍕order
+      :EndSelect
+      r←'#output'Replace'The order is now ',order,'.'
     ∇
 
 
