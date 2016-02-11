@@ -1,0 +1,10 @@
+﻿:class wbrSimple: MiPageSample
+⍝ Control:: _html.wbr
+⍝ Description:: Indicate where to break a work if it must be broken
+
+    ∇ Compose
+      :Access public
+      Add¨81⍴'Super'_.wbr'cala'_.wbr'fragilistic'_.wbr'expiali'_.wbr'docious. '
+    ∇
+
+:endclass
