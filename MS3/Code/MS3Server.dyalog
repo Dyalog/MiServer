@@ -6,12 +6,6 @@
 
     :Include #.MS3SiteUtils ⍝∇:require =/MS3SiteUtils
 
-    :Field public GROUPS  ⍝ groups of elements
-    :Field public NSS     ⍝ corresponding nss
-    :Field public CACHE   ⍝ location of cache
-    :Field public FILEEXT ⍝ Server.xml:DefaultExtension
-    :Field public TREE    ⍝ Controls tree
-
     ∇ Make config
       :Access Public
       :Implements Constructor :Base config

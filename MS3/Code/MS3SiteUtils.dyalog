@@ -214,18 +214,22 @@
     :SECTION F_CONSTANTS ⍝ NILADIC FUNCTIONS THAT ACT LIKE ;include'ABLE CONSTANTS
 
     ∇ r←NSS
+      :Access public
       r←'DC' 'SF' 'JQ' 'html'
     ∇
 
     ∇ r←GROUPS
+      :Access public
       r←'Dyalog' 'SyncFusion' 'JQueryUI' 'Base HTML'
     ∇
 
     ∇ r←CACHE
+      :Access public
       r←'#.CACHE'
     ∇
 
     ∇ r←FILEEXT
+      :Access public
       r←#.Boot.ms.Config.DefaultExtension
     ∇
 
@@ -254,10 +258,12 @@
     ∇
 
     ∇ r←TREE
+      :Access public
       r←(Read'Examples/Data/tree.txt')~⊂'' ⍝ load/cache tree and remove blank lines
     ∇
 
     ∇ r←DOCS
+      :Access public
       r←(Read'Examples/Data/docs.txt')~⊂'' ⍝ load/cache tree and remove blank lines
     ∇
 
