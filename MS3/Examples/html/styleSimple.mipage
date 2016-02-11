@@ -1,5 +1,5 @@
 ﻿:class styleSimple: MiPageSample
-⍝ Control:: _html.span 
+⍝ Control:: _html.style
 ⍝ Description:: Embed a style sheet
 
     ∇ Compose

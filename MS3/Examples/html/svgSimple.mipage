@@ -1,5 +1,5 @@
 ﻿:class svgSimple: MiPageSample 
-⍝ Control:: _html.svg _html.circle 
+⍝ Control:: _html.svg _html.circle _html.ellipse _html.polyline _html.polygon _html.rect _html.line _html.path
 ⍝ Description:: Use SVG to draw
 
     ∇ Compose

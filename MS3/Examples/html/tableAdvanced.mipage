@@ -1,5 +1,5 @@
 ﻿:class tableAdvanced: MiPageSample
-⍝ Control:: _html.table _html.tbody _html.thead _html.tfoot _html.colgroup _html.col _html.tr _html.td _html.th
+⍝ Control:: _html.table _html.tbody _html.thead _html.tfoot _html.colgroup _html.col _html.tr _html.td _html.th _html.caption
 ⍝ Description:: Insert an interactive table with column-wise formatting
 
     ∇ Compose;mytable;mycolgroup;mycols;myhead;mybody;myfoot

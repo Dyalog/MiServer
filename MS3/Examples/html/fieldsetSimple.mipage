@@ -1,5 +1,5 @@
 ﻿:Class fieldsetSimple: MiPageSample
-⍝ Control:: _html.fieldset
+⍝ Control:: _html.fieldset _html.legend
 ⍝ Description:: Group form controls
 
     ∇ Compose

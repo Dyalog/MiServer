@@ -1,5 +1,5 @@
 ﻿:class formSimple: MiPageSample
-⍝ Control:: _html.form _html.input _html.textarea _html.select _html.option _html.optgroup _html.fieldset _html.label _html.keygen
+⍝ Control:: _html.form _html.input _html.textarea _html.select _html.option _html.optgroup _html.fieldset _html.label _html.keygen _html.legend
 ⍝ Description:: Arrange many interactive elements together
 
     ∇ Compose
