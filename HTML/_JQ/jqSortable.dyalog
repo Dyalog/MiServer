@@ -1,6 +1,6 @@
 ﻿:Class jqSortable : #._JQ._jqUIWidget
 
-⍝ Description:: jQueryUI Sortable widget
+⍝ Description:: jQueryUI Sortable widget/interaction
 ⍝ Constructor:: [items|selector]
 ⍝ items     - vector of items to make sortable
 ⍝ selector - the jQuery/CSS selector to which to apply sortable interaction

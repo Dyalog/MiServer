@@ -1,6 +1,6 @@
 ﻿:Class jqResizable : #._JQ._jqUIWidget
 
-⍝ Description:: jQueryUI Resizable widget
+⍝ Description:: jQueryUI Resizable interaction
 ⍝ Constructor:: [Selector]
 ⍝ Selector - the jQuery/CSS selector to which to apply resizable interaction
 ⍝ Public Fields::

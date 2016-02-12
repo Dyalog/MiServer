@@ -1,6 +1,6 @@
 ﻿:class jqDraggable : #._JQ._jqUIWidget
 
-⍝ Description:: jQueryUI Draggable widget
+⍝ Description:: jQueryUI Draggable interaction
 ⍝ Constructor:: [Selector]
 ⍝ Selector - the jQuery/CSS selector to which to apply draggable interaction
 ⍝ Public Fields::

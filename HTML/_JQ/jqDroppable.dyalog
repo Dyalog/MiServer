@@ -1,6 +1,6 @@
 ﻿:class jqDroppable : #._JQ._jqUIWidget
 
-⍝ Description:: jQueryUI Droppable widget
+⍝ Description:: jQueryUI Droppable interaction
 ⍝ Constructor:: [Selector [Accept]]
 ⍝ Selector - the jQuery/CSS selector to which to apply droppable interaction
 ⍝ Accept   - the jQuery/CSS selector for items which can be dropped here
@@ -30,7 +30,7 @@
 
     ∇ r←Render
       :Access public
-      'accept'Set Accept
+      'accept'SetIfNotSet Accept
       r←⎕BASE.Render
     ∇
 
