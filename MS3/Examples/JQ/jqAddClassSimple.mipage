@@ -1,0 +1,21 @@
+﻿:Class jqAddClassSimple: MiPageSample
+⍝ Control:: _JQ.jqAddClass _html.head
+⍝ Description:: Add a class during callback
+
+    ∇ Compose
+      :Access public
+      Add _.Style'.redclass',⊂('background-color' 'red')('font-size' 'large')
+      '#output'Add _.p ScriptFollows
+      ⍝ We've already set up a style for the class "redclass".<br>
+      ⍝ Click the button to make this paragraph have that class.<br>
+      ⍝ The paragraph should big and red upon clicking the button.
+      ('button'Add _.Button'Paint!').On'click' 'Paint'
+    ∇
+
+    ∇ r←Paint
+      :Access public
+      ⍝ Scripts belong in the <head> element:
+      r←'head'Append New _.jqAddClass,⊂'#output' 'redclass' 800 'easeInBounce'
+    ∇
+
+:EndClass

@@ -1,0 +1,21 @@
+﻿:Class jqRemoveClassSimple: MiPageSample
+⍝ Control:: _JQ.jqRemoveClass _html.head
+⍝ Description:: Remove a class during callback
+
+    ∇ Compose
+      :Access public
+      Add _.Style'.redclass',⊂('background-color' 'red')('font-size' 'large')
+      '#output' '.redclass'Add _.p ScriptFollows
+      ⍝ This paragraph is big and red because it has the class "redclass".<br>
+      ⍝ Click the button to remove that style.<br>
+      ⍝ The paragraph should shrink and loose the red upon clicking the button.
+      ('button'Add _.Button'Wash!').On'click' 'Wash'
+    ∇
+
+    ∇ r←Wash
+      :Access public
+      ⍝ Scripts belong in the <head> element:
+      r←'head'Append New _.jqRemoveClass,⊂'#output' 'redclass' 800 'easeOutElastic'
+    ∇
+
+:EndClass
