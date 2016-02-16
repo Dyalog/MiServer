@@ -1,5 +1,5 @@
 ﻿:Class jqToggleClassSimple: MiPageSample
-⍝ Control:: _JQ.jqAddClass _html.head
+⍝ Control:: _JQ.jqToggleClass _html.head
 ⍝ Description:: Add a class during callback
 
     ∇ Compose
