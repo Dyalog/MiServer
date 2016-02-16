@@ -20,11 +20,11 @@
 
     :field public shared readonly DocBase←'https://jqueryui.com/switchclass/'
     :field public shared readonly ApiLevel←3
-    :Field public RemoveClassName←UNDEF
-    :Field public AddClassName←UNDEF
-    :field public Duration←UNDEF
-    :field public Easing←UNDEF
-    :field public Complete←UNDEF
+    :Field public RemoveClassName←''
+    :Field public AddClassName←''
+    :field public Duration←''
+    :field public Easing←''
+    :field public Complete←''
 
     ∇ Make
       :Access public
@@ -36,7 +36,8 @@
       :Access public
       :Implements constructor
       JQueryFn←'switchClass'
-      :If 2=≢arg
+      arg←⊂⍣(1=≡,arg),arg
+      :If 2∊⍴arg
       :AndIf isRef 2⊃arg
           (Selector Options)←arg
       :Else
@@ -46,14 +47,14 @@
 
     ∇ r←Render
       :Access Public
-      :If ''UNDEF∊⍨⊂Selector
-      :OrIf ''≡RemoveClassName~' '
-      :OrIf ''≡AddClassName~' '
+      'removeClassName' 'addClassName' 'duration' 'easing' 'complete'SetIfNotSet¨RemoveClassName AddClassName Duration Easing Complete
+      :If ''≡Selector
+      :OrIf ''≡(GetOption'removeClassName')~' '
+      :OrIf ''≡(GetOption'addClassName')~' '
           r←''
       :Else
-          'removeClassName' 'addClassName' 'selector' 'duration' 'easing' 'complete'SetIfNotSet¨RemoveClassName AddClassName Selector Duration Easing Complete
           r←⎕BASE.Render
-          r[(1+≢JQueryFn)+(('.',JQueryFn,'({')⍷r)/⍳⍴r]←⊂Options.('("',removeClassName,'","',addClassName,'",')
+          r[(1+≢JQueryFn)+(('.',JQueryFn,'({')⍷r)/⍳⍴r]←⊂'("',(GetOption'removeClassName'),'","',(GetOption'addClassName'),'",'
           r←'(complete:)"(.*?)"'⎕R'\1\2'∊r
       :EndIf
     ∇

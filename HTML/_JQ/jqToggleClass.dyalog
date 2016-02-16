@@ -20,11 +20,11 @@
 
     :field public shared readonly DocBase←'https://jqueryui.com/toggleclass/'
     :field public shared readonly ApiLevel←3
-    :Field public ClassName←UNDEF
-    :Field public Switch←UNDEF
-    :field public Duration←UNDEF
-    :field public Easing←UNDEF
-    :field public Complete←UNDEF
+    :Field public ClassName←''
+    :Field public Switch←''
+    :field public Duration←''
+    :field public Easing←''
+    :field public Complete←''
 
     ∇ Make
       :Access public
@@ -36,7 +36,8 @@
       :Access public
       :Implements constructor
       JQueryFn←'toggleClass'
-      :If 2=≢arg
+      arg←⊂⍣(1=≡,arg),arg
+      :If 2∊⍴arg
       :AndIf isRef 2⊃arg
           (Selector Options)←arg
       :Else
@@ -46,14 +47,14 @@
 
     ∇ r←Render;args
       :Access Public
-      :If ''UNDEF∊⍨⊂Selector
-      :OrIf ''≡ClassName~' '
+      'className' 'switch' 'duration' 'easing' 'complete'SetIfNotSet¨ClassName Switch Duration Easing Complete
+      :If ''≡Selector
+      :OrIf ''≡(GetOption'className')~' '
           r←''
       :Else
-          'className' 'switch' 'selector' 'duration' 'easing' 'complete'SetIfNotSet¨ClassName Switch Selector Duration Easing Complete
-          args←'("',Options.className,'",'
-          :If ~¯1 UNDEF''⍬∊⍨⊂Switch
-              args,←'true,'⊣⍣(isTrue Options.switch)⊢'false,'
+          args←'("',(GetOption'className'),'",'
+          :If ~¯1 ''⍬∊⍨⊂GetOption'switch'
+              args,←'true,'⊣⍣(isTrue GetOption'switch')⊢'false,'
           :EndIf
           r←⎕BASE.Render
           r[(1+≢JQueryFn)+(('.',JQueryFn,'({')⍷r)/⍳⍴r]←⊂args

@@ -18,10 +18,10 @@
 
     :field public shared readonly DocBase←'https://jqueryui.com/removeclass/'
     :field public shared readonly ApiLevel←3
-    :Field public ClassName←UNDEF
-    :field public Duration←UNDEF
-    :field public Easing←UNDEF
-    :field public Complete←UNDEF
+    :Field public ClassName←''
+    :field public Duration←''
+    :field public Easing←''
+    :field public Complete←''
 
     ∇ Make
       :Access public
@@ -33,7 +33,8 @@
       :Access public
       :Implements constructor
       JQueryFn←'removeClass'
-      :If 2=≢arg
+      arg←⊂⍣(1=≡,arg),arg
+      :If 2∊⍴arg
       :AndIf isRef 2⊃arg
           (Selector Options)←arg
       :Else
@@ -43,13 +44,13 @@
 
     ∇ r←Render
       :Access Public
-      :If ''UNDEF∊⍨⊂Selector
-      :OrIf ''≡ClassName~' '
+      'className' 'duration' 'easing' 'complete'SetIfNotSet¨ClassName Duration Easing Complete
+      :If ''≡Selector
+      :OrIf ''≡(GetOption'className')~' '
           r←''
       :Else
-          'className' 'selector' 'duration' 'easing' 'complete'SetIfNotSet¨ClassName Selector Duration Easing Complete
           r←⎕BASE.Render
-          r[(1+≢JQueryFn)+(('.',JQueryFn,'({')⍷r)/⍳⍴r]←⊂'("',Options.className,'",'
+          r[(1+≢JQueryFn)+(('.',JQueryFn,'({')⍷r)/⍳⍴r]←⊂'("',(GetOption'className'),'",'
           r←'(complete:)"(.*?)"'⎕R'\1\2'∊r
       :EndIf
     ∇
