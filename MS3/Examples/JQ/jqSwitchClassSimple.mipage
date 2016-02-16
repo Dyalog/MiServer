@@ -4,6 +4,7 @@
 
     ∇ Compose
       :Access public
+      Use'JQueryUI' ⍝ because we will add a jQuery UI effect later
       Add _.Style'.redclass',⊂('background-color' 'red')('outline' '0px solid black')
       Add _.Style'.yelclass',⊂('background-color' 'yellow')('outline' '15px solid black')
       '#output' '.redclass'Add _.p ScriptFollows

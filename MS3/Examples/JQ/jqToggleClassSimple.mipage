@@ -4,10 +4,11 @@
 
     ∇ Compose
       :Access public
+      Use'JQueryUI' ⍝ because we will add jQuery UI effects later
       Add _.Style'.redclass',⊂('background-color' 'red')('font-size' 'large')
       '#output'Add _.p ScriptFollows
       ⍝ We've already set up a style for the class "redclass".<br>
-      ⍝ Click the button totoggle whether this paragraph has that class or not.<br>
+      ⍝ Click the button to toggle whether this paragraph has that class or not.<br>
       ⍝ Having the clase should make the paragraph big and red.
       ('button'Add _.Button'Toggle!').On'click' 'Toggle'
     ∇

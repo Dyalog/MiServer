@@ -4,6 +4,7 @@
 
     ∇ Compose
       :Access public
+      Use'JQueryUI' ⍝ because we will add a jQuery UI effect later
       Add _.Style'.redclass',⊂('background-color' 'red')('font-size' 'large')
       '#output' '.redclass'Add _.p ScriptFollows
       ⍝ This paragraph is big and red because it has the class "redclass".<br>
