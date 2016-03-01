@@ -36,7 +36,7 @@
     ∇
 
     ∇ r←Render;type;copy
-      :Access public 
+      :Access public
       SetId
       :If ~0∊⍴type←GetOption'type'
           :Select ¯4↑type ⍝ probably match any of 'Button' 'button' 'reset' 'Reset' 'Submit' 'submit'

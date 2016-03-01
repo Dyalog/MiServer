@@ -8,7 +8,7 @@
       label←'for="input"'Add _.label'Please enter your name'
       input←'input'Add _.EditField
       done←'done'Add _.Button'Done'
-      done.On'click' 'CallbackFn'('input' '#input' 'val')
+      done.On'click' 'CallbackFn'('input' 'val' '#input')
      
       'output'Add _.div ⍝ a div to contain output, updated by CallbackFn
     ∇

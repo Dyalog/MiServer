@@ -113,7 +113,7 @@
     ∇ {r}←On args
       :Access public
       r←Body.On args
-      r.Selectors←'body'
+      r.Selectors←'⍎document'
     ∇
 
     ∇ {r}←{attr}New what
@@ -121,11 +121,6 @@
       :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
       r←attr ⎕BASE.New what
       r._PageRef←⎕THIS
-    ∇
-
-    ∇ r←isClass ao
-      :Access public
-      r←9.4∊⎕NC⊂'ao'
     ∇
 
     dtlb←{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}

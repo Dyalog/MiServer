@@ -291,7 +291,7 @@
           :Trap 0
               :If 0=#.⎕NC'SQA'
                   dyalog←2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
-                  'SQA'#.⎕CY dyalog,'\ws\sqapl' ⍝ copy in SQA
+                  'SQA'#.⎕CY dyalog,'ws/sqapl' ⍝ copy in SQA
               :EndIf
               :If 0≠1⊃#.SQA.Init'' ⍝ and initialize
                   1 ms.Log'SQA failed to initialize'
@@ -419,6 +419,7 @@
     isRef←{(0∊⍴⍴⍵)∧326=⎕DR ⍵}
     folderize←{¯1↑⍵∊'/\':⍵ ⋄ ⍵,fileSep}
     makeSitePath←{⍺{((isRelPath ⍵)/⍺),⍵},folderize ⍵}
+    Log←{⎕←⍵}
 
     ∇ r←tonumvec v;to;minus;digits;c;mask
     ⍝ tonum vector version

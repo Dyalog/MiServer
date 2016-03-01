@@ -1,4 +1,6 @@
-﻿:Class MiServer
+﻿:Class MiServer  
+⍝ This is the core web server class - do not modify it!
+⍝ Customized web servers should be based on this class - e.g.  :Class MyServer : MiServer
 
     :Field Public Config
 
