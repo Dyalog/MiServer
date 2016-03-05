@@ -1,4 +1,4 @@
-﻿:Class MiServer  
+﻿:Class MiServer
 ⍝ This is the core web server class - do not modify it!
 ⍝ Customized web servers should be based on this class - e.g.  :Class MyServer : MiServer
 
@@ -482,7 +482,7 @@
      RETRY:
       :If 0=n←⊃⍴list←''#.Files.List orig←file ⍝ does the file exist?
       :AndIf Config.DefaultExtension≢'.dyalog' ⍝ temporary measure to ease the transition to the .mipage extension
-          :If 1≠⊃⍴list←''#.Files.List∊path name'.dyalog'
+          :If 1≠⊃⍴list←''#.Files.List file←∊path name'.dyalog'
               REQ.Fail 404 ⋄ →0
           :Else
               1 Log'File not found: "',orig,'" using "',file,'" instead.'

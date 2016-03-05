@@ -5,7 +5,7 @@
     :field public Head
     :field public Body
     :field public Scripts
-    :field public StylesLinks
+    :field public StylesLinks 
 
     ∇ make
       :Access public
@@ -24,21 +24,22 @@
       r←Body.Render
     ∇
 
-    ∇ r←RenderPage b;scr;mask
-      :Access public
-      :If ~0∊⍴scr←∪Scripts
-      :AndIf ∨/mask←{0∊⍴⍵}¨scr.Content
-          Head.Add¨mask/scr
-      :EndIf
-      :If ~0∊⍴StylesLinks
-          Head.Add¨StylesLinks
-      :EndIf
-      Content←(Head.Render),b
-      r←'<!DOCTYPE html>',∊⎕BASE.Render
-    ∇
+⍝    ∇ r←RenderPage b;scr;mask
+⍝      :Access public
+⍝      :If ~0∊⍴scr←∪Scripts
+⍝      :AndIf ∨/mask←{0∊⍴⍵}¨scr.Content
+⍝          Head.Add¨mask/scr
+⍝      :EndIf
+⍝      :If ~0∊⍴StylesLinks
+⍝          Head.Add¨StylesLinks
+⍝      :EndIf
+⍝      Content←(Head.Render),b
+⍝      r←'<!DOCTYPE html>',∊⎕BASE.Render
+⍝    ∇
 
-    ∇ r←Render;s;b;mask;scr;sty
-      :Access public
+    ∇ r←Render;s;b;mask;scr;sty;content
+      :Access public  
+      content←Content
       :If ~0∊⍴scr←∪Scripts
       :AndIf ∨/mask←{~0∊⍴⍵}¨scr.Content
           Body.Add¨mask/scr
@@ -48,11 +49,12 @@
       :AndIf ∨/mask←{0∊⍴⍵}¨scr.Content
           Head.Add¨mask/scr
       :EndIf
-      :If ~0∊⍴sty←∪⌽Styles
+      :If ~0∊⍴sty←∪⌽StylesLinks
           Head.Add¨StylesLinks
       :EndIf
       Content←(Head.Render),b
       r←'<!DOCTYPE html>',∊⎕BASE.Render
+      Content←content
     ∇
 
     ∇ _init
@@ -74,7 +76,7 @@
               r←Scripts,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
           :ElseIf #._JQ.Handler∊c
               r←Body.Handlers,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
-              :If 0∊⍴r.Selectors ⋄ r.Selectors←'html' ⋄ :EndIf ⍝ if no selector specified, use page level
+              :If 0∊⍴r.Selector ⋄ r.Selector←'html' ⋄ :EndIf ⍝ if no selector specified, use page level
           :ElseIf ⊃∨/c∊¨⊂#._html.(style link)
               r←StylesLinks,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
           :ElseIf ⊃∨/c∊¨⊂#._html.(title meta noscript base) ⍝ elements that belong exclusively or primarily in the <head> element
@@ -96,7 +98,7 @@
               r←Scripts,⍨←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
           :ElseIf #._JQ.Handler∊c
               r←Body.Handlers,⍨←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
-              :If 0∊⍴r.Selectors ⋄ r.Selectors←'html' ⋄ :EndIf ⍝ if no selector specified, use page level
+              :If 0∊⍴r.Selector ⋄ r.Selector←'html' ⋄ :EndIf ⍝ if no selector specified, use page level
           :ElseIf ⊃∨/c∊¨⊂#._html.(style link)
               r←StylesLinks,⍨←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
           :ElseIf ⊃∨/c∊¨⊂#._html.(title meta noscript base) ⍝ elements that belong exclusively or primarily in the <head> element
@@ -113,7 +115,7 @@
     ∇ {r}←On args
       :Access public
       r←Body.On args
-      r.Selectors←'⍎document'
+      r.Selector←'⍎document'
     ∇
 
     ∇ {r}←{attr}New what
