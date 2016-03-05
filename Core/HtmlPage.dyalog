@@ -24,18 +24,20 @@
       r←Body.Render
     ∇
 
-⍝    ∇ r←RenderPage b;scr;mask
-⍝      :Access public
-⍝      :If ~0∊⍴scr←∪Scripts
-⍝      :AndIf ∨/mask←{0∊⍴⍵}¨scr.Content
-⍝          Head.Add¨mask/scr
-⍝      :EndIf
-⍝      :If ~0∊⍴StylesLinks
-⍝          Head.Add¨StylesLinks
-⍝      :EndIf
-⍝      Content←(Head.Render),b
-⍝      r←'<!DOCTYPE html>',∊⎕BASE.Render
-⍝    ∇
+    ∇ r←RenderPage b;scr;mask;content
+      :Access public                 
+      content←Content
+      :If ~0∊⍴scr←∪Scripts
+      :AndIf ∨/mask←{0∊⍴⍵}¨scr.Content
+          Head.Add¨mask/scr
+      :EndIf
+      :If ~0∊⍴StylesLinks
+          Head.Add¨StylesLinks
+      :EndIf
+      Content←(Head.Render),b
+      r←'<!DOCTYPE html>',∊⎕BASE.Render
+      Content←content
+    ∇
 
     ∇ r←Render;s;b;mask;scr;sty;content
       :Access public  
