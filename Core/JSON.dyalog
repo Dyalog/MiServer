@@ -43,11 +43,6 @@
           :ElseIf typ=326 ⍝ ref (ns)
               'Cannot work on JSON itself'⎕SIGNAL 611 if ⎕THIS≡array
               r←qp APLObject array
-          :ElseIf jqopt
-              t←array~' '
-              :If 'function'≡8↑t ⋄ r←array
-              :ElseIf '⍎'=1↑t ⋄ r←(∨\~array∊' ⍎')/array ⋄
-              :ElseIf '⍕'=1↑t ⋄ r←1⌽'""',(~<\' '=array)/array ⋄ :EndIf
           :Else
               r←1⌽'""',JAchars array
           :EndIf
