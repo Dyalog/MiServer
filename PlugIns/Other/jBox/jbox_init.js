@@ -1,0 +1,2 @@
+    $(function(){ $('.tooltip').jBox('Tooltip');
+    

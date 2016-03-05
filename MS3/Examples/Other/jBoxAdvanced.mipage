@@ -1,0 +1,68 @@
+:Class jBoxSimple : MiPageSample
+⍝ Control::     _JS.jBox
+⍝ Description:: Tooltips and more
+
+
+
+    ∇ Compose;tab;jTab;dt;columns;ocw
+      :Access public
+      Use'FontAwesome'
+     
+      Add _.Style'.demo {background-color: #EEB1AE; border: 1px solid gray ;}'
+     
+      Add _.h2'jBox - Advanced sample'
+      Add _.p ScriptFollows
+    ⍝ jBox has various functions which might be of interest to the APL-Developer.
+    ⍝ First, we'd like to demonstrate tooltips. <span class="tooltip demo" title="Hi, I'm a tooltip!">Move mouse over this text!</span>
+    ⍝ The tooltip opens automatically when your moves over the element. To help you recognize these
+    ⍝ sensitive areas, the region of all "tooltipped" elements will be coloured - but that is a specific
+    ⍝ feature of this demo as you will see when <span title="Click on the topleft D-Icon!" class="tooltip demo"> examing the source-code</span>.
+     
+      dd←Add _.jBox'.tooltipclicked'
+      'trigger'dd.Set'click'
+      daSpan←(Add _.p).Add _.span'This tooltip will appear (and disappear) when you click on it!'
+      daSpan.SetAttr'title="Not that I''d have to say anything...!" class="demo tooltipclicked"'
+     
+      dd←Add _.jBox'.tooltip2'             ⍝ the following applies to all items with class="tooltip2", all set up with one JS-Call!
+      'getTitle'dd.Set'data-jbox-title'      ⍝ Attribute containing title
+      'getContent'dd.Set'data-jbox-content'  ⍝ Attribute containing content
+      Add _.p ScriptFollows
+    ⍝ Hover <span class="tooltip2 demo" data-jbox-title="Did you notice?" data-jbox-content="A tooltip with a title!">
+    ⍝ here</span> for a demo of Tooltips with titles!
+    ⍝ We will be <span class="tooltip2 demo"  data-jbox-title="How to do that" data-jbox-content="By applying it to all items with a class='tooltip2', as you can see in the source...">
+    ⍝ re-using</span> the configuration of the dd-Element (in the APL-Source) to reduce the # of JS-Calls.
+     
+     
+     
+    ⍝ (NiceDiv←'#NiceDiv'Add _.div).Add _.FontIcon'thumbs-up'
+      '.fa fa-thumbs-up fa-3x'(NiceDiv←'#NiceDiv'Add _.div).Add _.i 
+      NiceDiv.Add'Wow! This larger, model tooltip features <b>exciting</b> HTML-Layout and lots of text. Everything is possible!...<br /><br />'
+      NiceDiv.Add'This tooltip will disappear on any click or also when you press the Esc-Key!'
+      NiceDiv.Add'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore<br /> et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.<br />Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,<br />consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,<br />sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea<br />takimata sanctus est Lorem ipsum dolor sit amet.'
+      NiceDiv.SetAttr'style=display:none'  ⍝ must be hidden in normal display...!
+     
+      Add'This text has a larger, model tooltip that appears '
+      t3←'.tooltip3 demo'Add _.span'when you click here!'
+     
+      dd←Add _.jBox'.tooltip3' 'Model'
+      'title'dd.Set'Taken from a div in the HTML-Code...'
+      'content'dd.Set'$("#NiceDiv")'
+      'closeOnEsc'dd.Set _true
+      'closeOnClick'dd.Set _true
+     
+     
+     
+     
+     
+     
+      Add _.jBox  ⍝ just to make sure the default JS-Code for tooltips gets added...
+    ⍝ It would be nice if we did not need this line. So Use'jBox' alone would insert the default-call
+    ⍝    $(function(){ $('tooltip').jBox('Tooltip');
+    ⍝ into the <head>
+     
+     
+     
+    ∇
+    
+:EndClass    
+     
