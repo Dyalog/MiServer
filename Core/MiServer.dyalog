@@ -595,7 +595,7 @@
               cb←cb inst.{3=⌊|⎕NC⊂⍵:⍵ ⋄ ⍺}fn←'Compose' ⍝ default function to call
           :EndIf
      
-          :If 3≠⌊|inst.⎕NC⊂cb            ⍝ and is it a public method?
+          :If 3≠⌊|inst.⎕NC⊂fn            ⍝ and is it a public method?
               1 Log'Method "',fn,'" not found (or not public) in page "',REQ.Page,'"'
               REQ.Fail 500
               →0
