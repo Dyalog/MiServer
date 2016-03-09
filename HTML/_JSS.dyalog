@@ -15,7 +15,7 @@
     ∇
 
     ∇ r←{val}(sel JQuery fn)args;opt
-    ⍝ construct JavaScript to call a jQuery function - eg val(), html(), css(), or attr()
+    ⍝ construct JavaScript to call a jQuery function - eg val(), html(), css(), prop(), or attr()
     ⍝ optionally setting a value for
     ⍝ Get a jQuery parameter:
     ⍝    ('"#id"' JQuery 'attr') '"data-role"'
@@ -49,6 +49,10 @@
 
     ∇ r←sel Val args ⍝ JQuery val cover
       r←(sel JQuery'val')args
+    ∇
+   
+    ∇ r←sel Prop args ⍝ JQuery prop cover
+      r←(sel JQuery'prop')args
     ∇
 
     ∇ r←sel Attr args ⍝ JQuery attr cover

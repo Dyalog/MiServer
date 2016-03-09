@@ -77,7 +77,7 @@
           id←name,'_container'
           name←UNDEF
           :If ~0∊⍴⎕THIS.Handlers
-              ⎕THIS.Handlers.Selectors←⊂1↓∊',#'∘,¨inps.id
+              ⎕THIS.Handlers.Selector←⊂1↓∊',#'∘,¨inps.id
           :EndIf
           r←⎕BASE.Render
           (name id)←tmpname tmpid

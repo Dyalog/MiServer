@@ -77,21 +77,13 @@
      
      ⍝ Now we create and populate the info div
       r←'.widgethelp'New _.div'This Page Contains<hr/>'
-      ⍝lia←'<li><a target="_blank" href="'
       h←'http://'
       :For ns :In (×≢¨controls)/⍳4 ⍝ do not process if empty
           '.widgetNs'r.Add _.span,⊂ns⊃'Dyalog Controls' 'Syncfusion Widgets' 'jQuery Widgets' 'Native HTML5 Elements'
           ul←r.Add _.ul
           :For control :In ns⊃controls
-              ⍝cali←'">',control,'</a></li>'
               li←'<li><a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns⊃#.MS3SiteUtils.NSS
               ul.Add li,'&widget=',control,'">',control,'</a></li>'
-⍝              :Select ns
-⍝              :Case 1 ⋄ ul.Add lia,'/Documentation/DyalogAPIs/WidgetDoc?namespace=_DC&widget=',control,cali           ⍝ DC
-⍝              :Case 2 ⋄ ul.Add lia,h,'help.syncfusion.com/js/',(#.Strings.lc(2×'ej'≡2↑control)↓control,'/overview'),cali ⍝ SF
-⍝              :Case 3 ⋄ ul.Add lia,h,'jqueryui.com/',(2↓control),cali                                                 ⍝ JQ
-⍝              :Case 4 ⋄ ul.Add lia,h,'www.w3schools.com/tags/tag_',(('\d'⎕R'n')control),'.asp',cali                   ⍝ html
-⍝              :EndSelect
           :EndFor
       :EndFor
     ∇
@@ -99,7 +91,7 @@
     ∇ r←Walk content;e
       r←⍬
       :For e :In content
-          :If (#.HtmlElement.isClass e)∨#.HtmlElement.isInstance e
+          :If (isClass e)∨isInstance e
               r←r,⊃⎕CLASS e
               :Trap 6
                   r,←Walk e.Content
@@ -107,42 +99,5 @@
           :EndIf
       :EndFor
     ∇
-
-⍝    ∇ r←FormatControls controls;ctrls;ns;desc;field;n;ctrl;i;c;ref;l;u;nss;item;cn
-⍝      ctrls←⊃{⍺ ⍵}#.Utils.∆key/↓[1]0 1↓↑{⎕ML←3 ⋄ {⍵⊂⍨⍵≠'.'}⍕⍵}¨controls
-⍝      field←{0::'' ⋄ ⍺⍎⍵}
-⍝      nss←'_DC' '_SF' '_JQ' '_html'
-⍝      desc←'Dyalog Controls' 'Syncfusion Widgets' 'jQuery Widgets' 'Native HTML5 Elements'
-⍝      (r←⎕NEW _.div).class←'widgethelp'
-⍝      r.Add'This Page Contains<hr/>'
-⍝      :Trap 0
-⍝          :For (ns ctrl i) :In ctrls{↓(⍺,⍵)[⍋⍵;]}nss⍳{(⊃⍣(¯1+≡⍵))⍵}¨ctrls[;1]
-⍝              (r.Add _.span(i⊃desc)).class←'widgetNs'
-⍝              u←r.Add _.ul
-⍝              n←#.⍎ns←⊃ns
-⍝              :For c :In ctrl
-⍝                  ref←n.⍎c
-⍝                  item←⍬
-⍝                  :Select ns
-⍝                  :Case '_DC'
-⍝                      item←u.Add _.li(New _.a(c(('href=/Documentation/DyalogAPIs/WidgetDoc?namespace=',ns,'&widget=',c)'target=_blank')))
-⍝                  :Case '_SF'
-⍝                      item←u.Add _.li(New _.a c(('href'('http://js.syncfusion.com/demos/web/default.htm#!/azure/',#.Strings.lc(2×'ej'≡2↑c)↓c,'/'))('target' '_blank')))
-⍝                  :Case '_JQ'
-⍝                      item←u.Add _.li(New _.a c(('href'('http://jqueryui.com/',(2×'jq'≡2↑c)↓c))('target' '_blank')))
-⍝                  :Case '_html'
-⍝                      cn←c
-⍝                      :If ~0∊⍴('^h[1-6]$'⎕S{⍵.Match})c
-⍝                          cn←'hn'
-⍝                      :EndIf
-⍝                      item←u.Add _.li(New _.a c(('href'('http://www.w3schools.com/tags/tag_',cn,'.asp'))('target' '_blank')))
-⍝                  :EndSelect
-⍝                  :If 0∊⍴item
-⍝                      u.Add _.li c
-⍝                  :EndIf
-⍝              :EndFor
-⍝          :EndFor
-⍝      :EndTrap
-⍝    ∇
 
 :EndClass

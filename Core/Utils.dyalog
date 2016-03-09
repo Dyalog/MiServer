@@ -3,6 +3,7 @@
     (⎕ML ⎕IO)←1
 
     penclose←{⎕ML←3 ⋄ ⍺←↑,⍵ ⋄ (~⍵∊⍺)⊂,⍵ } ⍝ APL2 style partitioned enclose (optional ⍺ is character(s) to break on)
+    eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
 
     ∇ SetupCompatibility;z
     ⍝ create covers for primitives that may not exist in earlier versions of Dyalog

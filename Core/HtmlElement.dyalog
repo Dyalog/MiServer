@@ -406,24 +406,33 @@
 
     :section Event Handling
 
-    ∇ {r}←On handler
+    ∇ {handler}←On args;n;i
       :Access public
-      handler←eis handler
-      Handlers,←r←⎕NEW #._JQ.Handler
-      r.(Events Callback ClientData JavaScript Delegates jQueryWrap ScriptWrap Hourglass)←8↑handler,(⍴handler)↓'' 1 '' '' '' 1 1 ¯1
-      :If ¯1=r.Hourglass ⋄ r.Hourglass←(,0)≢,r.Callback ⋄ :EndIf
+      args←eis args
+      handler←⎕NEW #._JQ.Handler
+      handler.(Events Callback ClientData JavaScript Delegates jQueryWrap ScriptWrap Hourglass)←args defaultArgs'' 1 '' '' '' 1 1 ¯1
+      handler.WidgetRef←⎕THIS
+      handler.Page←_PageRef
+      :If ¯1=handler.Hourglass ⋄ handler.Hourglass←(,0)≢,handler.Callback ⋄ :EndIf
+      :If 0∊n←⍴Handlers
+          Handlers,←handler
+      :ElseIf n<i←Handlers.Event⍳⊂handler.Event
+          Handlers,←handler
+      :Else
+          Handlers[i]←handler
+      :EndIf
     ∇
 
     ∇ r←RenderHandlers;myid;h
       :Access public ⍝!!! remove this after testing
       r←''
       :If ~0∊⍴Handlers
-          :If ∨/0∘∊∘⍴¨Handlers.Selectors
+          :If ∨/0∘∊∘⍴¨Handlers.Selector
               myid←SetId
           :EndIf
           :For h :In Handlers
-              :If 0∊⍴h.Selectors
-                  h.Selectors←'#',myid
+              :If 0∊⍴h.Selector
+                  h.Selector←'#',myid
               :EndIf
               r,←h.Render
           :EndFor
@@ -528,7 +537,8 @@
 
     ∇ r←{a}eis w
       :Access public shared
-      r←((,∘⊂)⍣((isString w)∧2>|≡w))w ⍝ enclose if simple character
+      ⍝!!!BPB!!! 9mar16 ⍝ r←((,∘⊂)⍣((isString w)∧2>|≡w))w ⍝ enclose if simple character
+      r←(,∘⊂)⍣((326∊⎕DR w)<2>|≡w),w ⍝ Enclose if simple
     ∇
 
     ∇ da←args defaultArgs defaultvalues
@@ -628,19 +638,31 @@
       r←⊃⌽Content
     ∇
 
-    ∇ r←isClass ao
+    ∇ r←{ref}isClass ao
       :Access public shared
-      r←9.4∊⎕NC⊂'ao'
+      →0↓⍨r←9.4∊⎕NC⊂'ao'
+      :If 0≠⎕NC'ref'
+          r←ref∊∊⎕CLASS ao
+      :EndIf
     ∇
 
-    ∇ r←isInstance ao
+    ∇ r←{ref}isInstance ao
       :Access public shared
-      r←9.2∊⎕NC⊂'ao'
+      →0↓⍨r←9.2∊⎕NC⊂'ao'
+      :If 0≠⎕NC'ref'
+          r←ref∊∊⎕CLASS ao
+      :EndIf
     ∇
 
     ∇ r←isRef obj
       :Access public shared
       r←9∊⎕NC'obj'
+    ∇
+
+    ∇ r←isWidget obj
+      :Access public shared
+      →0↓⍨r←9.2∊⎕NC⊂'obj'
+      r←#._JQ._jqWidget∊∊⎕CLASS obj
     ∇
 
     isattr←{isString ⍵:1 ⋄ isRef ⍵:0 ⋄ ∧/∇¨⍵}

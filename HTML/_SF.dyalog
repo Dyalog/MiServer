@@ -17,13 +17,14 @@
 
         :Field public Data←''
 
-        handlerSyntax←'argument' 'argument'  'argument.model' 'this.element'  ⍝ Syncfusion's event model (see _JQ.RenderHandlerCore for details)
+        :Field public shared readonly WidgetDef←'argument' 'argument'  'argument.model' 'this.element'  ⍝ Syncfusion's event model (see _JQ.RenderHandlerCore for details)
 
         ∇ make
           :Access public
           :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
           :If 0∊⍴Uses ⋄ Uses←'Syncfusion' ⋄ :EndIf
           :Implements constructor
+          WidgetSyntax←WidgetDef
         ∇
 
         ∇ r←Render
@@ -32,10 +33,10 @@
           r←⎕BASE.Render
         ∇
 
-        ∇ {r}←opts RenderHandler handler
-          :Access public override
-          r←opts RenderHandlerCore(handler handlerSyntax Force)
-        ∇
+⍝        ∇ {r}←opts RenderHandler handler
+⍝          :Access public override
+⍝          r←opts RenderHandlerCore(handler WidgetSyntax Force)
+⍝        ∇
 
     :EndClass
     :endsection
