@@ -427,12 +427,12 @@
       :Access public ⍝!!! remove this after testing
       r←''
       :If ~0∊⍴Handlers
-          :If ∨/0∘∊∘⍴¨Handlers.Selectors
+          :If ∨/0∘∊∘⍴¨Handlers.Selector
               myid←SetId
           :EndIf
           :For h :In Handlers
-              :If 0∊⍴h.Selectors
-                  h.Selectors←'#',myid
+              :If 0∊⍴h.Selector
+                  h.Selector←'#',myid
               :EndIf
               r,←h.Render
           :EndFor
@@ -537,7 +537,8 @@
 
     ∇ r←{a}eis w
       :Access public shared
-      r←((,∘⊂)⍣((isString w)∧2>|≡w))w ⍝ enclose if simple character
+      ⍝!!!BPB!!! 9mar16 ⍝ r←((,∘⊂)⍣((isString w)∧2>|≡w))w ⍝ enclose if simple character
+      r←(,∘⊂)⍣((326∊⎕DR w)<2>|≡w),w ⍝ Enclose if simple
     ∇
 
     ∇ da←args defaultArgs defaultvalues

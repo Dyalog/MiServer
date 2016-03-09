@@ -341,13 +341,12 @@
     :Section Events
 
     :Class Handler
-        :Field public Selectors←''       ⍝ CSS/jQuery selectors to bind handler to
+        :Field public Selector←''        ⍝ CSS/jQuery selector to bind handler to
         :Field public Delegates←''       ⍝ See jQuery.On for information about delegates
         :Field public Events←''          ⍝ events to bind
         :Field public ClientData←''      ⍝ any additional client data to send to server
         :Field public Callback←1         ⍝ execute AJAX callback to server?  or the name of the server-side callback function
         :Field public JavaScript←''      ⍝ JavaScript to execute prior to server callback
-        :Field public PostJavaScript←''  ⍝ JavaScript to execute after the server callback
         :Field public Page←''            ⍝ server URL to request for an AJAX callback
         :Field public jQueryWrap←1       ⍝ wrap handler in $(function(){...});
         :Field public ScriptWrap←1       ⍝ wrap handler in <script>...</script>
@@ -378,7 +377,7 @@
           :Access public
           :Implements constructor
           params←#.HtmlElement.eis params
-          (Selectors Events Callback ClientData Delegates JavaScript Page)←7↑params,(⍴params)↓7⍴⊂''
+          (Selector Events Callback ClientData Delegates JavaScript Page)←7↑params,(⍴params)↓7⍴⊂''
           :If #.HtmlPage #.HtmlElement.isInstance Page ⋄ Page←Page.Page ⋄ :EndIf ⍝ if request object passed
           CommonSetup
         ∇
@@ -394,7 +393,7 @@
           WidgetDef←'event,ui' 'event' 'ui' '$(event.target)'
         ∇
 
-        ∇ r←Render;sel;syn_handler;syn_event;syn_model;syn_this;data;useajax;force;cd;selector;arg;verb;name;phrase;datasel;JQfn;jqfn;hg;removehg;dtype;success;status;ajax;widget;syn_value;delegates
+        ∇ r←Render;sel;syn_handler;syn_event;syn_model;syn_this;data;useajax;force;cd;selector;arg;verb;name;phrase;datasel;JQfn;jqfn;hg;removehg;dtype;success;status;ajax;widget;syn_value;delegates;v
           :Access public
           r←''
           :If ~0∊⍴Events ⍝ skip if no events specified
@@ -403,7 +402,7 @@
                   Page←Page._PageName
               :EndIf
          
-              (selector delegates)←2↑(eis Selectors),'' ''
+              (selector delegates)←2↑(eis Selector),'' ''
          
               :If ~0∊⍴Delegates
                   delegates←Delegates
@@ -441,6 +440,7 @@
               data,←'_value: ',syn_this,'.val(), '
               data,←'_selector: ',(quote selector~'⍎'),', '
               :If #.HtmlElement.isString Callback
+              :AndIf ~0∊⍴Callback
                   data,←'_callback: ',(quote Callback),', '
               :EndIf
               data←¯2↓data
@@ -517,35 +517,50 @@
                               phrase←datasel,'("option",',(quote arg),')'
                           :EndIf
          
-                      :Case 'event' ⍝ jQueryUI
+                      :CaseList 'event' 'this'
+                          v←('event' 'this'⍳⊂verb)⊃syn_event syn_this
                           :If 0∊⍴arg
-                              phrase←'JSON.stringify(',syn_event,')'
+                              phrase←'JSON.stringify(',v,')'
                           :Else
-                              phrase←syn_event,'.',arg
+                              phrase←v,'.',arg
+                          :EndIf
+         
+                      :Case 'model' ⍝ widgets only
+                          :If ~0∊⍴jqfn
+                              datasel,←'().'
+                              :If 0∊⍴arg
+                                  phrase←'JSON.stringify(',syn_model,')'
+                              :Else
+                                  phrase←syn_model,'.',arg
+                              :EndIf
                           :EndIf
          
                       :Case 'eval'
                           sel←'' ⍝ ignore selector on eval
                           phrase←'eval(',(quote arg),')'
          
-                      :CaseList syn_event syn_model syn_this
-                          :If ~0∊⍴jqfn ⍝ these verbs only apply to widgets
-                              :If 0∊⍴arg
-                                  phrase←'JSON.stringify(',verb,')'
-                              :Else
-                                  phrase←verb,'.',arg
-                              :EndIf
-                          :EndIf
+⍝                      :CaseList syn_event syn_model syn_this
+⍝                          :If ~0∊⍴jqfn ⍝ these verbs only apply to widgets
+⍝                              :If 0∊⍴arg
+⍝                                  phrase←'JSON.stringify(',verb,')'
+⍝                              :Else
+⍝                                  phrase←verb,'.',arg
+⍝                              :EndIf
+⍝                          :EndIf
          
                       :Case 'string'
                           phrase←quote arg
          
                       :Case 'serialize'
                           :If 0∊⍴sel
-                              datasel←'$("form").'
+                              :If 0∊⍴arg
+                                  sel←'form'
+                              :Else
+                                  sel←arg
+                              :EndIf
                           :EndIf
+                          phrase←'$(',(quote sel),').serialize()'
                           name,←'_serialized'
-                          phrase←datasel,'serialize()'
                       :Else
                           #.Boot.Log'Unknown event handler verb: "',verb,'"'
                           phrase←quote phrase
