@@ -8,9 +8,9 @@
 ⍝ Items     - vector of items to make sortable
 ⍝ Selector - the jQuery/CSS selector to which to apply sortable interaction
 ⍝ Examples:: 
-⍝ Add _.jqSortable '#myul'             ⍝ jqSortable will use the already existing element #myul
-⍝ Add _.jqSortable 'One' 'Two' 'Three' ⍝ jqSortable will build a <ul> / <li> structure
-⍝ Add _.jqSortable ''                  ⍝ jqSortable will insert an empty <ul> structure where items can be dropped
+⍝ Add _.jqSortable '#myul'               ⍝ jqSortable will use the already existing element #myul
+⍝ Add _.jqSortable ('One' 'Two' 'Three') ⍝ jqSortable will build a <ul> / <li> structure
+⍝ Add _.jqSortable ''                    ⍝ jqSortable will insert an empty <ul> structure where items can be dropped
 
     :field public shared readonly DocBase←'https://jqueryui.com/sortable/'
     :field public shared readonly ApiLevel←3
