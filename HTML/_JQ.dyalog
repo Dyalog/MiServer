@@ -395,7 +395,7 @@
           WidgetDef←'event,ui' 'event' 'ui' '$(event.target)'
         ∇
 
-        ∇ r←Render;sel;syn_handler;syn_event;syn_model;syn_this;data;useajax;force;cd;selector;arg;verb;name;phrase;datasel;JQfn;jqfn;hg;removehg;dtype;success;status;ajax;widget;syn_value;delegates;v
+        ∇ r←Render;sel;syn_handler;syn_event;syn_model;syn_this;data;useajax;force;cd;selector;arg;verb;name;phrase;datasel;JQfn;jqfn;hg;removehg;dtype;success;status;ajax;widget;syn_value;delegates;v;events
           :Access public
           r←''
           :If ~0∊⍴Events ⍝ skip if no events specified
@@ -416,9 +416,15 @@
               :EndIf
          
               force←0
+              events←Events
               :If widget←#.HtmlElement.isWidget WidgetRef ⍝ is this a widget handler?
                   :If ForceInternal=¯1
-                      force←(⊂Events)∊WidgetRef.InternalEvents
+                      :If ','∊Events ⍝ multiple events?
+                          events←','#.Utils.penclose Events~' '
+                      :Else
+                          events←,⊂Events
+                      :EndIf
+                      force←∧/events∊WidgetRef.InternalEvents
                   :Else
                       force←ForceInternal
                   :EndIf
@@ -456,11 +462,10 @@
          
               data←¯2↓data
          
-              :Select |≡ClientData
-         
+              :Select ≡ClientData
               :CaseList 0 1  ⍝ simple vector
-                  ClientData←,⊂2⍴⊂ClientData ⍝ name/id are set to the same
-              :Else
+                  ClientData←,⊂2⍴⊂,ClientData ⍝ name/id are set to the same
+              :CaseList 2 ¯3
                   ClientData←,⊂ClientData
               :EndSelect
          
@@ -535,8 +540,8 @@
                               phrase←datasel,'(',arg,')'
                           :EndIf
          
-                      :CaseList 'event' 'this'
-                          v←('event' 'this'⍳⊂verb)⊃syn_event syn_this
+                      :CaseList 'event' 'this' 'argument'
+                          v←('event' 'argument' 'this'⍳⊂verb)⊃syn_event syn_event syn_this
                           :If 0∊⍴arg
                               phrase←'JSON.stringify(',v,')'
                           :Else
@@ -598,7 +603,7 @@
          
               :If widget
                   :If force
-                      Events(WidgetRef.Options{⍺⍺⍎⍺,'←⍵'})'function(',syn_handler,'){',ajax,'}'
+                      (eis events)(WidgetRef.Options{⍺⍺⍎⍺,'←⍵'})¨⊂'function(',syn_handler,'){',ajax,'}'
                   :Else
                       r←'.on(',(quote Events),', function(event,ui){',ajax,'});'
                   :EndIf

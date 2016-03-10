@@ -7,11 +7,11 @@
       Add _.Style'#sort li' 'border: 1px solid orange; background-color: white'
       Add _.h3'jqSortable'
       Add _.p'Drag and drop the below items to reorder them:'
-      
-      sort←'sort'Add _.jqSortable,⊂'Item1' 'Item2' 'Item3' 'Item4' 'Item5'
-      sort.On'stop' 'myCallBack',⊂'order' '#sort' 'sortable("toArray")'
+     
+      sort←'sort'Add _.jqSortable('Item1' 'Item2' 'Item3' 'Item4' 'Item5')
+      sort.On'stop' 'myCallBack'('order' 'method' '"toArray"')
       sort.Options.tolerance←'pointer'
-
+     
       '#output'Add _.div
     ∇
 
