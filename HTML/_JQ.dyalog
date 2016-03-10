@@ -550,14 +550,9 @@
                           sel←'' ⍝ ignore selector on eval
                           phrase←'eval(',(quote arg),')'
          
-⍝                      :CaseList syn_event syn_model syn_this
-⍝                          :If ~0∊⍴jqfn ⍝ these verbs only apply to widgets
-⍝                              :If 0∊⍴arg
-⍝                                  phrase←'JSON.stringify(',verb,')'
-⍝                              :Else
-⍝                                  phrase←verb,'.',arg
-⍝                              :EndIf
-⍝                          :EndIf
+                      :Case 'js'
+                          sel←''
+                          phrase←arg
          
                       :Case 'string'
                           phrase←quote arg
@@ -573,8 +568,14 @@
                           phrase←'$(',(quote sel),').serialize()'
                           name,←'_serialized'
                       :Else
-                          #.Boot.Log'Unknown event handler verb: "',verb,'"',{0::'' ⋄ ' on page ',##._PageRef._PageName}⍬
-                          phrase←quote phrase
+                          :If '⍎'=⊃verb
+                              sel←''
+                              phrase←1↓verb
+         
+                          :Else
+                              #.Boot.Log'Unknown event handler verb: "',verb,'"',{0::'' ⋄ ' on page ',##._PageRef._PageName}⍬
+                              phrase←quote phrase
+                          :EndIf
                       :EndSelect
          
                       data,←',',name,': ',phrase

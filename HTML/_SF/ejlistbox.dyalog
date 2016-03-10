@@ -126,8 +126,8 @@
       ⍝ get the current items in the list
       ⍝ x is one of '' (return text), 'text', or 'id'
       SetId
-      js←id{'function(){var tmp={items:[]};$.each($("#',⍺,'").ejListBox("getSelectedItems"),function(i,obj){tmp.items.push($(obj[0]).',⍵,')}; return tmp.items;}'}(1+x≡'id')⊃'text()' 'attr("id")'
-      r←name'eval'js
+      js←id{'⍎(function(){var tmp={items:[]};$.each($("#',⍺,'").ejListBox("getSelectedItems"),function(i,obj){tmp.items.push($(obj[0]).',⍵,')}; return tmp.items;})()'}(1+x≡'id')⊃'text()' 'attr("id")'
+      r←name js
     ∇
 
     ∇ r←name getItems x;js
@@ -139,8 +139,8 @@
       :Else
           id←⎕THIS.##.id,Side⊃'_left' '_right'
       :EndIf
-      js←id{'function(){var tmp=[]; $("#',⍺,' li").each(function(){tmp.push($(this).',⍵,')}); return JSON.stringify(tmp);}'}(1+x≡'id')⊃'text()' 'attr("id")'
-      r←name'eval'js
+      js←id{'⍎(function(){var tmp=[]; $("#',⍺,' li").each(function(){tmp.push($(this).',⍵,')}); return JSON.stringify(tmp);})()'}(1+x≡'id')⊃'text()' 'attr("id")'
+      r←name js
     ∇
 
     :endsection
