@@ -362,6 +362,7 @@
                                          ⍝ 1 - yes, 0 - no, ¯1 - only if calling back to APL
 
         :Field public Uses←'JQuery'
+        :Field public _PageRef_←''
 
         quote←{0∊⍴⍵: '' ⋄ '⍎"'∊⍨⍬⍴⍵:⍵~'⍎' ⋄ '"',(('"' ⎕R '\\\0')⍵),'"'} ⍝ quote unless already quoted or begins with ⍎
         ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
@@ -388,6 +389,7 @@
               c←#.HtmlElement.context'_PageRef'
               :If ~0∊⍴c
                   (c⍎'_PageRef').Use Uses
+                  _PageRef_←c._PageRef
               :EndIf
           :EndTrap
           WidgetDef←'event,ui' 'event' 'ui' '$(event.target)'
@@ -408,7 +410,10 @@
                   delegates←Delegates
               :EndIf
          
-              useajax←(,0)≢,Callback ⍝ callback=0 → don't make callback to server; =1 → use APLJax, =charvec → call ⍎charvec
+              :If useajax←(,0)≢,Callback ⍝ callback=0 → don't make callback to server; =1 → use APLJax, =charvec → call ⍎charvec
+              :AndIf 0∊⍴Page
+                  Page←_PageRef_._PageName
+              :EndIf
          
               force←0
               :If widget←#.HtmlElement.isWidget WidgetRef ⍝ is this a widget handler?
