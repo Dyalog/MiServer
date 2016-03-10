@@ -149,7 +149,7 @@
           r←html,js
         ∇
 
-        ∇ {handler}←On args;event;callback;clientData;javaScript;n;i
+        ∇ {handler}←On args
           :Access public
           ⍝ args - event callback clientData javascript
           handler←⎕BASE.On args
@@ -439,10 +439,16 @@
               data,←'_what: ',syn_this,'.attr("id"), '
               data,←'_value: ',syn_this,'.val(), '
               data,←'_selector: ',(quote selector~'⍎'),', '
-              :If #.HtmlElement.isString Callback
+         
+              :If #.HtmlElement.isString Callback ⍝ numeric Callback 1-call APLJax, 0-no callback to server
               :AndIf ~0∊⍴Callback
                   data,←'_callback: ',(quote Callback),', '
               :EndIf
+         
+              :If 0∊⍴ClientData ⍝ if you don't specify any clientdata, we serialize any forms on the page
+                  data,←'_serialized: $("form").serialize(), '
+              :EndIf
+         
               data←¯2↓data
          
               :Select |≡ClientData
@@ -562,7 +568,7 @@
                           phrase←'$(',(quote sel),').serialize()'
                           name,←'_serialized'
                       :Else
-                          #.Boot.Log'Unknown event handler verb: "',verb,'"'
+                          #.Boot.Log'Unknown event handler verb: "',verb,'"',{0::'' ⋄ ' on page ',##._PageRef._PageName}⍬
                           phrase←quote phrase
                       :EndSelect
          

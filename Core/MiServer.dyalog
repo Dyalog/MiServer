@@ -474,7 +474,7 @@
  ⍝     :EndHold
     ∇
 
-    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax;flag;orig;path;name;ext;list
+    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;MS3;token;cb;mask;resp;t;RESTful;APLJax;flag;orig;path;name;ext;list;fn
     ⍝ Handle a "MiServer Page" request
      
       path name ext←#.Files.SplitFilename file
@@ -587,18 +587,18 @@
                   inst._value←REQ.GetData'_value'
                   inst._selector←REQ.GetData'_selector'
                   inst._callback←REQ.GetData'_callback'
-                  :If ~0∊⍴inst._callback ⍝ does the request specify a callback function
+                  :If ~0∊⍴inst._callback ⍝ does the request specify a callback function?
                       fn←cb←inst._callback
                   :EndIf
               :EndIf
           :ElseIf RESTful
               fn←cb←'Respond'
           :ElseIf MS3
-              cb←cb inst.{3=⌊|⎕NC⊂⍵:⍵ ⋄ ⍺}fn←'Compose' ⍝ default function to call
+              fn←'Render'inst.{3=⌊|⎕NC⊂⍵:⍵ ⋄ ⍺}cb←'Compose' ⍝ default function to call (fall back to
           :EndIf
      
           :If 3≠⌊|inst.⎕NC⊂fn            ⍝ and is it a public method?
-              1 Log'Method "',fn,'" not found (or not public) in page "',REQ.Page,'"'
+              1 Log'Method "',cb,'" not found (or not public) in page "',REQ.Page,'"'
               REQ.Fail 500
               →0
           :EndIf
@@ -620,7 +620,7 @@
           :EndIf
      
           :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
-              resp←flag Debugger'inst.',cb,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
+              resp←flag Debugger'inst.',fn,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
               resp←(#.JSON.toAPLJAX⍣APLJax)resp
               inst._TimedOut←0
               :If RESTful
@@ -631,7 +631,7 @@
               REQ.Return resp
           :Else
               :If APLJax
-                  1 Log'No result returned by callback method "',cb,'" in page "',REQ.Page,'"'
+                  1 Log'No result returned by callback method "',fn,'" in page "',REQ.Page,'"'
                   REQ.Return''
               :EndIf
           :EndTrap

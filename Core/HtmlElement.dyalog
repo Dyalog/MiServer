@@ -416,7 +416,7 @@
       :If ¯1=handler.Hourglass ⋄ handler.Hourglass←(,0)≢,handler.Callback ⋄ :EndIf
       :If 0∊n←⍴Handlers
           Handlers,←handler
-      :ElseIf n<i←Handlers.Event⍳⊂handler.Event
+      :ElseIf n<i←Handlers.Events⍳⊂handler.Events
           Handlers,←handler
       :Else
           Handlers[i]←handler

@@ -10,7 +10,7 @@
      
       cb2←'cb2'Add _.CheckBox 'unchecked' '← Select to make the first one tri-state!' 'right' 0
      
-      cb2.On'click' 'Switch'('cb1value' '#cb1' 'val')
+      cb2.On'click' 'Switch'('cb1value' 'val' '#cb1')
      
     ∇
     
