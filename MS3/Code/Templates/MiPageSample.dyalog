@@ -1,4 +1,4 @@
-﻿:Class MiPageSample : #.MiPage
+:Class MiPageSample : #.MiPage
    ⍝ This is a template that "wraps" the page content by
    ⍝ - adding a header and footer
    ⍝ - adding a handler that will toggle the display of the web page and its APL source code
@@ -26,7 +26,7 @@
           Body.Push _.div'id="contentblock"'
      
         ⍝ add a hidden division to the body containing the APL source code
-          (Add _.div(#.HTMLInput.APLToHTMLColour src←⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
+          (Add _.div(#.HTMLInput.APLToHTMLColour src←⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock" style="display: none;"'
      
         ⍝ create a division with info about the controls used
           ctrlsdiv←CtrlsDiv src
