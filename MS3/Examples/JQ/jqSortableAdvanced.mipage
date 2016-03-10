@@ -35,7 +35,7 @@
      ⍝ Callback when the usere picks up an image, send along
       img←'#sort'New _.jqSortable imgs
       img.On'start' 'Count'
-      img.On'stop' 'Check',⊂'order' '#sort' 'sortable("toArray")'
+      img.On'stop' 'Check' ('order' 'method' '"toArray"')
       img.Options.tolerance←'pointer'
     ∇
 

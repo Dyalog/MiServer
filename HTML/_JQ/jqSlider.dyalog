@@ -29,8 +29,14 @@
       :Access public
       :Implements constructor
       JQueryFn←'slider'
-      Min Max←2↑arg,(⍴arg)↓⍬ ⍬
-      Values←2↓arg
+      arg←,arg
+      :If ~0∊⍴arg
+          :If 2=|≡arg
+              arg←,⊃arg
+          :EndIf
+          Min Max←2↑arg,(⍴arg)↓⍬ ⍬
+          Values←2↓arg
+      :EndIf
       InternalEvents←IntEvt
     ∇
 

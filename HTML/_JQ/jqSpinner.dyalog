@@ -32,7 +32,13 @@
       ContainerTag←'input'
       JQueryFn←'spinner'
       InternalEvents←IntEvt
-      Min Max Value←3↑arg,(⍴arg)↓⍬ ⍬ ⍬
+      arg←,arg
+      :If ~0∊⍴arg
+          :If 2=|≡arg
+              arg←,⊃arg
+          :EndIf
+          Min Max Value←3↑arg,(⍴arg)↓⍬ ⍬ ⍬
+      :EndIf
     ∇
 
     ∇ r←Render

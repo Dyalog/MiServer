@@ -13,11 +13,11 @@
      
       '#slave'(Add _.h3'Slave Slider: ').Add _.span avg
      
-      ('#Slave' 'style="width: 50%;"'Add _.jqSlider min max avg).On'slidechange' 'OnSlave'('newval' '#Slave' 'slider' 'value')
+      ('#Slave' 'style="width: 50%;"'Add _.jqSlider min max avg).On'slidechange' 'OnSlave' ('newval' 'option' 'value')
      
       '#min' '' '#max'(Add _.h3'Master Slider: ').Add¨(_.span min)'&ndash; '(_.span max)
      
-      ('#Master'Add _.jqSlider 0 100,min,max).On'slidechange' 'OnMaster'('newval' '#Master' 'slider' 'values')
+      ('#Master'Add _.jqSlider 0 100,min,max).On'slidechange' 'OnMaster' ('newval' 'option' 'values')
     ∇
 
     ∇ r←OnSlave

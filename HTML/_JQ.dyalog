@@ -411,7 +411,7 @@
               :EndIf
          
               :If useajax←(,0)≢,Callback ⍝ callback=0 → don't make callback to server; =1 → use APLJax, =charvec → call ⍎charvec
-              :AndIf 0∊⍴Page
+              :AndIf (0∊⍴Page)>0∊⍴_PageRef_
                   Page←_PageRef_._PageName
               :EndIf
          
@@ -460,7 +460,7 @@
          
               :CaseList 0 1  ⍝ simple vector
                   ClientData←,⊂2⍴⊂ClientData ⍝ name/id are set to the same
-              :Case 2
+              :Else
                   ClientData←,⊂ClientData
               :EndSelect
          
@@ -528,6 +528,13 @@
                               phrase←datasel,'("option",',(quote arg),')'
                           :EndIf
          
+                      :Case 'method' ⍝ jQueryUI and Syncfusion widgets
+                          :If 0∊⍴arg
+                              phrase←'"no method information specified!"'
+                          :Else
+                              phrase←datasel,'(',arg,')'
+                          :EndIf
+         
                       :CaseList 'event' 'this'
                           v←('event' 'this'⍳⊂verb)⊃syn_event syn_this
                           :If 0∊⍴arg
@@ -536,7 +543,7 @@
                               phrase←v,'.',arg
                           :EndIf
          
-                      :Case 'model' ⍝ widgets only
+                      :CaseList 'model' 'ui' ⍝ widgets only
                           :If ~0∊⍴jqfn
                               datasel,←'().'
                               :If 0∊⍴arg
