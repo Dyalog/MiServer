@@ -3,12 +3,14 @@
 
     :section Common Code
 
-    quote←{0∊⍴⍵: '' ⋄ '⍎"'∊⍨⍬⍴⍵:⍵ ⋄ '"',(('"' ⎕R '\\\0')⍵),'"'}
-    fmtSelector←{{'this'≡⍵:⍵ ⋄quote ⍵}¯2↓enlist{⍵,', '}¨eis ⍵}
+    eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
+    quote←{0∊⍴⍵: '' ⋄ '⍎"'∊⍨⍬⍴⍵:⍵ ⋄ '"',(('"' ⎕R '\\\0')⍕⍵),'"'}
+    fmtSelector←{{'this'≡⍵:⍵ ⋄quote ⍵}¯2↓∊{⍵,', '}¨eis ⍵}
+    fmtValue←{'⍎'=⊃,⍵:⍵ ⋄ #.JSON.fromAPL ⍵}
 
     ∇ r←opt(sel Update jqfn)val
     ⍝ update an option for a widget
-      r←#.JQ.Execute'$(',(fmtSelector sel),').',jqfn,'("option","',(quote opt),'",',(quote val),');'
+      r←#.JQ.Execute'$(',(fmtSelector sel),').',jqfn,'("option","',opt,'",',(fmtValue val),');'
     ∇
     :endsection
 
