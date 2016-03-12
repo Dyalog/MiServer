@@ -39,9 +39,10 @@
       Content←content
     ∇
 
-    ∇ r←Render;s;b;mask;scr;sty;content
+    ∇ r←Render;s;b;mask;scr;sty;content;headContent
       :Access public  
       content←Content
+      headContent←Head.Content
       :If ~0∊⍴scr←∪Scripts
       :AndIf ∨/mask←{~0∊⍴⍵}¨scr.Content
           Body.Add¨mask/scr
@@ -57,6 +58,7 @@
       Content←(Head.Render),b
       r←'<!DOCTYPE html>',∊⎕BASE.Render
       Content←content
+      Head.Content←headContent
     ∇
 
     ∇ _init
