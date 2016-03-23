@@ -474,9 +474,11 @@
     ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn
     ⍝ Handle a "Mildserver Page" request
      
-      :If 0≡date←3⊃(,''#.Files.List file),0 0 0
+      :If 1≠⍬⍴⍴date←''#.Files.List file
           REQ.Fail 404 ⋄ →0
       :EndIf
+     
+      date←3⊃,date
      
       :If sessioned←326=⎕DR REQ.Session ⍝ do we think we have a session handler active?
       :AndIf 0≠⍴REQ.Session.Pages     ⍝ Look for existing Page in Session
