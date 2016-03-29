@@ -72,12 +72,12 @@
      
       :If (1↑⍴hdrs)≥i←hdrs[;1]⍳⊂'content-type'
       :AndIf 'multipart/form-data'begins z←{(+/∧\⍵=' ')↓⍵}⊃hdrs[i;2]
-          z←'--',(8+('boundary='⍷z)⍳1)↓z ⍝ boundary string
+          z←'UTF-8'⎕UCS'--',(8+('boundary='⍷z)⍳1)↓z ⍝ boundary string
           Data←↑DecodeMultiPart¨¯1↓z{(⍴⍺)↓¨(⍺⍷⍵)⊂⍵}data ⍝ ¯1↓ because last boundary has '--' appended
       :ElseIf 'application/x-www-form-urlencoded'begins z
-          Data←1 URLDecodeArgs data
+          Data←1 URLDecodeArgs'UTF-8'⎕UCS data
       :ElseIf 'text/plain'begins z
-          Data←1 2⍴'Data'data ⍝ if text, create artificial "Data" entry
+          Data←1 2⍴'Data'('UTF-8'⎕UCS data) ⍝ if text, create artificial "Data" entry
       :Else
           Data←0 2⍴⊂''
       :EndIf
@@ -173,7 +173,7 @@
     ∇
 
     ∇ r←DecodeMultiPart data;d;t;filename;name;i;hdr;ind
-      hdr←data↑⍨ind←1+1↑1⍳⍨(NL,NL)⍷data
+      hdr←'UTF-8'⎕UCS data↑⍨ind←1+1⍳⍨13 10 13 10⍷data
       d←'Content-Disposition: 'GetParam hdr
      
       name←filename←''
@@ -186,18 +186,18 @@
       :EndIf
      
       data←(2+ind)↓data ⍝ Drop up to 1st doubleCR
-      data←(¯1+¯1↑(NL⍷data)/⍳⍴data)↑data ⍝ Drop from last CR
+      data←(¯1+¯1↑{⍵/⍳⍴⍵}13 10⍷data)↑data ⍝ Drop from last CR
      
-      t←'Content-Type: 'GetParam data
+      t←'Content-Type: 'GetParam hdr
      
       :If 0∊⍴filename
           :Select 5↑t ⍝ Content type
           :CaseList 'text/' '     ' ⍝ text formats
-              :Trap 92 ⋄ data←'UTF-8'⎕UCS ⎕UCS data ⋄ :EndTrap ⍝ To UTF-8
+              :Trap 92 ⋄ data←'UTF-8'⎕UCS data ⋄ :EndTrap ⍝ From UTF-8
           :Else
           :EndSelect
       :Else
-          data←sint'UTF-8'⎕UCS data
+          data←sint data
           data←filename data
       :EndIf
      

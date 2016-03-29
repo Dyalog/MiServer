@@ -50,6 +50,10 @@
     :section Override
 ⍝ ↓↓↓--- Methods which are usually overridden ---
 
+    ∇ req
+     
+    ∇
+
     ∇ onServerStart
       :Access Public Overridable
     ⍝ Handle any server startup processing
@@ -175,6 +179,7 @@
               :CaseList 'Block' 'BlockLast'
                   :If 0=⎕NC nspc←SpaceName 2⊃wres
                       nspc ⎕NS''
+                      (⍎nspc).(Pos Buffer ContentLength Req)←0 '' 0 ''
                       :If 0=1⊃z←#.DRC.GetProp(2⊃wres)'PeerAddr' ⋄ (⍎nspc).PeerAddr←2⊃z
                       :Else ⋄ (⍎nspc).PeerAddr←'Unknown'
                       :EndIf
@@ -308,28 +313,35 @@
       ⍝ Handle a Web Server Request
      
       obj buf←arg
-      :If 0=conns.⎕NC'Buffer'
-          conns.Buffer←''
-      :EndIf
       conns.Buffer,←buf
       conns.Handler←{6::conns.Handler←(⎕UCS'<env>')≡5↑conns.Buffer ⋄ conns.Handler}⍬ ⍝ are we serving as a mapping handler?
-      eoh←⎕UCS(1+conns.Handler)⊃(NL,NL)('</env>') ⍝ end of header marker
-      pos←(¯1+⍴eoh)+eoh FindFirst conns.Buffer
-      req←fromutf8 pos↑conns.Buffer
      
-      :If pos>⍴conns.Buffer ⍝ Have we got everything ?
-          :Return
-      :ElseIf pos>I←(z←LF,'content-length:')FindFirst hdr←#.Strings.lc req
-      :AndIf (⍴conns.Buffer)<pos+↑2⊃⎕VFI(¯1+z⍳CR)↑z←(¯1+I+⍴z)↓hdr
-          :Return ⍝ a content-length was specified but we haven't yet gotten what it says to ==> go back for more
+      :If 0=conns.Pos ⍝ is we haven't found the end of the header yet...
+          eoh←⎕UCS(1+conns.Handler)⊃(NL,NL)('</env>') ⍝ end of header marker
+          pos←(¯1+⍴eoh)+eoh FindFirst conns.Buffer
+          :If pos≤⍴conns.Buffer ⍝ found the end of header
+              conns.Pos←pos
+              conns.Req←fromutf8 conns.(Pos↑Buffer)
+          :Else
+              :Return ⍝ haven't found end of header yet, go back for more
+          :EndIf
       :EndIf
-      conns.Buffer←fromutf8 pos↓conns.Buffer
+     
+      :If 0<⍴conns.Req
+          :If conns.Pos>i←(z←LF,'content-length:')FindFirst hdr←#.Strings.lc conns.Req
+          :AndIf (⍴conns.Buffer)<conns.Pos+conns.ContentLength←⊃2⊃⎕VFI(¯1+z⍳CR)↑z←(¯1+i+⍴z)↓hdr
+              :Return  ⍝ a content-length was specified but we haven't yet gotten what it says to ==> go back for more
+          :EndIf
+      :EndIf
+     
+      conns.Buffer←conns.(Pos↓Buffer)
+     
       :If conns.Handler  ⍝ if we're running as a mapping handler
           req←MakeHTTPRequest req ⍝ fake MiServer out by building an HTTP request from what we've got
       :EndIf
      
       :Hold 'Request'
-          REQ←⎕NEW #.HTTPRequest(req conns.Buffer)
+          REQ←⎕NEW #.HTTPRequest conns.(Req Buffer)
           REQ.Server←⎕THIS ⍝ Request will also contain reference to the Server
      
           :If 2=conns.⎕NC'PeerAddr' ⋄ REQ.PeerAddr←conns.PeerAddr ⋄ :EndIf       ⍝ Add Client Address Information
