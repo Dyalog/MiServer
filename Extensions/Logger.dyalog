@@ -18,7 +18,7 @@
       :Implements Constructor
       ⍝ load logger information
       Active←0
-      EOL←⎕UCS 13 10↓⍨~#.Boot.IsWin
+      EOL←⎕UCS 13 10↓⍨~#.Boot.isWin
       :If #.Files.Exists file←ms.Root,'Config/Logger.xml'
       :AndIf ~0∊⍴log←(#.XML.ToNS #.Files.GetText file).Logger
           Active←log #.Boot.Setting'active' 1 0
