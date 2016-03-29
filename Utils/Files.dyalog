@@ -138,12 +138,12 @@
       :EndIf
       ⎕NUNTIE nid
     ∇
-    
+
     ∇ vtv←GetVTV name
      ⍝ Read ANSI or Unicode character file as vector of text vectors
       vtv←{1↓¨(v=n)⊂v←(n←⎕UCS 10),⍵}(GetText name)~⎕UCS 13
     ∇
-  
+
     ∇ r←LikelyURL w
       →0↓⍨r←(⎕DR w)∊80 82
       r←{(0∊⍴⍵)<∧/⍵∊'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%-._~:/?#[]@!$&''()*+,;='}w ⍝ identify likely URIs
@@ -253,6 +253,11 @@
       :Else
           tn←name ⎕NTIE 0
       :EndTrap
+    ∇
+
+    ∇ r←data Put name
+     ⍝ Write data to file
+      r←{(⎕NUNTIE ⍵)⊢data ⎕NAPPEND(0 ⎕NRESIZE ⍵)(⎕DR data)}Nopen name
     ∇
 
     ∇ r←text PutText name;tn
