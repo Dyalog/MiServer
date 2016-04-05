@@ -180,7 +180,7 @@
           :EndIf
         ∇
 
-        ∇ name(ref SetOption)value;set;parent;i;ind;newref;chunk;pos;n;now;new;chunkroot
+        ∇ name(ref SetOption)value;set;parent;ind;newref;chunk;n;now;new;chunkroot;array;val;pos
           →(0∊⍴value)⍴0
           :If 1<|≡name ⍝ multiple names?
               value←(⊂⍣((⎕DR value)∊80 82))value
@@ -189,29 +189,46 @@
          
               set←{⍺⍺⍎'(',⍺,')←⍵'}
          
-              :If 0∊⍴parent←(i←-'.'⍳⍨⌽name)↓name
+              :If 0∊⍴parent←(-'.'⍳⍨⌽name)↓name
                   name(ref set)value ⍝ single name: assign directly (may be more than 1 name)
               :Else
                   ind←name⍳'.'
                   chunk←¯1↓ind↑name
-                  (chunkroot pos)←'[]'#.Utils.penclose chunk
-                  pos←2⊃⎕VFI pos
-                  :Trap 3 6
-                      newref←ref⍎chunk
-                  :Case 3 ⍝ index error
-                      n←⍴now←ref⍎chunkroot
-                      new←⎕NS¨(pos-n)⍴⊂⍬
-                      chunkroot(ref set)now,new
-                      newref←ref⍎chunk
-                  :Case 6 ⍝ value error
-                      chunkroot ref.⎕NS''
-                      :If ~0∊pos
+                  (chunkroot pos)←2↑'[]'#.Utils.penclose chunk
+         
+                  :If array←'[]'≡¯2↑chunk ⍝ is it an array assignment?
+                      pos←⍴val←eis value
+                      :Select ⊃ref.⎕NC chunkroot
+                      :Case 0
                           new←⎕NS¨pos⍴⊂⍬
                           chunkroot(ref set)new
-                      :EndIf
-                      newref←ref⍎chunk
-                  :EndTrap
-                  (ind↓name)(newref SetOption)value
+                      :Case 2 ⍝ already exists
+                          ('Invalid option specification - length error on "',chunkroot,'".')⎕SIGNAL 5/⍨~(⍴new←ref⍎chunkroot)∊1,pos
+                      :Else
+                          ('Invalid option specification - "',chunkroot,'" is not an array.')⎕SIGNAL 11
+                      :EndSelect
+                      new{(ind↓name)(⍺ SetOption)⍵}¨val
+         
+                  :Else
+                      (chunkroot pos)←2↑'[]'#.Utils.penclose chunk
+                      pos←2⊃⎕VFI pos
+                      :Trap 3 6
+                          newref←ref⍎chunk
+                      :Case 3 ⍝ index error
+                          n←⍴now←ref⍎chunkroot
+                          new←⎕NS¨(pos-n)⍴⊂⍬
+                          chunkroot(ref set)now,new
+                          newref←ref⍎chunk
+                      :Case 6 ⍝ value error
+                          chunkroot ref.⎕NS''
+                          :If ~0∊pos
+                              new←⎕NS¨pos⍴⊂⍬
+                              chunkroot(ref set)new
+                          :EndIf
+                          newref←ref⍎chunk
+                      :EndTrap
+                      (ind↓name)(newref SetOption)value
+                  :EndIf
               :EndIf
           :EndIf
         ∇

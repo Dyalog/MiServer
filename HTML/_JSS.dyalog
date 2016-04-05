@@ -50,7 +50,7 @@
     ∇ r←sel Val args ⍝ JQuery val cover
       r←(sel JQuery'val')args
     ∇
-   
+
     ∇ r←sel Prop args ⍝ JQuery prop cover
       r←(sel JQuery'prop')args
     ∇
@@ -74,5 +74,86 @@
     ∇ r←sel Toggle args
       r←(sel JQuery'toggle')args
     ∇
+
+    :class StorageObject
+
+        ∇ r←{what}Set(type value);name;w;v
+          :Access public shared
+        ⍝ value may be
+          :Access public shared
+          r←''
+          :If 9.1=⎕NC⊂'value' ⍝ namespace?
+              :For name :In value.⎕NL-2
+                  r,←formatSet(type name(value⍎name))
+              :EndFor
+          :Else
+              value←eis value
+              :If 2=⎕NC'what' ⍝ value is list of name value pairs
+                  what←eis what
+              :Else
+                  (what value)←↓[1]((⌊0.5×⍴value),2)⍴value
+              :EndIf
+              :For (w v) :InEach (what value)
+                  r,←formatSet(type w v)
+              :EndFor
+          :EndIf
+        ∇
+
+        ∇ r←formatSet(type what value)
+          :Access public shared
+          r←type,'.setItem("',what,'",JSON.stringify(',(#.JSON.fromAPL value),');'
+        ∇
+
+        ∇ r←type Remove what;w;ww
+          :Access public shared
+          what←eis what
+          r←''
+          :For w :In what
+              :If ' '∊w←#.Strings.deb w
+                  :For ww :In ' '#.Utils.penclose w
+                      r,←type,'.removeItem("',w,'");'
+                  :EndFor
+              :Else
+                  r,←type,'.removeItem("',w,'");'
+              :EndIf
+          :EndFor
+        ∇
+
+        ∇ r←type Get what
+          :Access public shared
+          r←''
+          r,←'<input type="hidden" name="',w,'" value="',JSON
+        ∇
+    :endclass
+
+    :class localStorage : StorageObject
+
+        ∇ r←{what}Set value
+          :If 0=⎕NC'what'
+              r←⎕BASE.Set('localStorage'value)
+          :Else
+              r←what ⎕BASE.Set('localStorage'value)
+          :EndIf
+        ∇
+
+        ∇ r←Remove what
+          :Access public shared
+          r←
+        ∇
+
+        ∇ r←{name}Get what
+          :Access public shared
+        ∇
+
+    :EndClass
+
+    :Class sessionStorage
+        ∇ r←{what}Set value
+          :Access public shared
+        ∇
+    :endclass
+
+    :class sessionStorage
+    :endclass
 
 :EndNamespace

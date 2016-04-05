@@ -111,7 +111,7 @@
       :Access public shared
       r←a{0∊⍴⍺:'' ⋄ ⍵}w ⍝ if not empty
     ∇
-    errorIf←{⍺←⊢ ⋄ 0≠⍵:⍺ ⎕SIGNAL ⍵ ⋄ ''}
+    errorIf←{⍺←⊢ ⋄ 0≠⍵:⍺ ⎕SIGNAL ⍵}
 
     :section Attribute Handling
 
