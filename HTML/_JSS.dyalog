@@ -7,7 +7,7 @@
     quote←{0∊⍴⍵: '' ⋄ '"',(('"' ⎕R '\\\0')⍵),'"'}
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     fmtSelector←{{'this'≡⍵:⍵ ⋄quote ⍵}¯2↓enlist{⍵,', '}¨eis ⍵}
-    fmtData←{0=2|⎕DR ⍵:quote ⍵ ⋄ ⍕⍵}
+    fmtData←{{(326=⍵)<0=2|⍵}⎕DR ⍵:quote ⍵ ⋄ ⍕⍵}
     JAchars←#.JSON.JAchars
 
     ∇ r←Alert txt
@@ -57,6 +57,10 @@
 
     ∇ r←sel Attr args ⍝ JQuery attr cover
       r←(sel JQuery'attr')args
+    ∇
+
+    ∇ r←sel RemoveAttr args
+      r←(sel JQuery'removeAttr')args
     ∇
 
     ∇ r←sel Html args ⍝ JQuery html cover

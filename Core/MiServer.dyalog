@@ -56,6 +56,16 @@
     ⍝ Handle the end of a session
     ∇
 
+    ∇ onHandleRequest req
+      :Access Public Overridable
+    ⍝ Called whenever a new request comes in
+    ∇
+
+    ∇ onHandleMSP req
+      :Access Public Overridable
+    ⍝ Called when MiPage invoked
+    ∇
+
     ∇ onIdle
       :Access Public Overridable
     ⍝ Idle time handler - called when the server has gone idle for a period of time
@@ -372,7 +382,7 @@
      
       :If REQ.Response.Status≠401 ⍝ Authentication did not fail
           :If Config.AllowedHttpCommands∊⍨⊂REQ.Command
-     
+              onHandleRequest REQ ⍝ overridable
               :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
                   filename HandleMSP REQ
               :Else
@@ -554,7 +564,7 @@
       :EndIf
      
       :Hold token
-     
+          onHandleMSP REQ ⍝ overridable
      ⍝ Move arguments / parameters into Public Properties
           inst._PageData←⎕NS''
           :If 0≠1↑⍴data←{⍵[⍋↑⍵[;1];]}REQ.Arguments⍪REQ.Data

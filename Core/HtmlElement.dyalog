@@ -564,7 +564,12 @@
               :If ~0∊⍴attr
                   r.SetAttr attr
               :EndIf
-          :Else ⍝If isInstance⊃args
+          :ElseIf isInstance⊃args
+              :If ~0∊⍴attr
+                  (⊃args).SetAttr attr
+              :EndIf
+              r←args
+          :Else
               r←args
           :EndIf
       :EndIf
