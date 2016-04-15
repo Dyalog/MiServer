@@ -54,16 +54,19 @@
 
         ∇ r←selector Replace content
           :Access public
+          :If isInstance content ⋄ content←content.Render ⋄ :EndIf
           :If isClass content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
           r←⊂('replace'selector)('data'content)
         ∇
         ∇ r←selector Append content
           :Access public
+          :If isInstance content ⋄ content←content.Render ⋄ :EndIf
           :If isClass content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
           r←⊂('append'selector)('data'content)
         ∇
         ∇ r←selector Prepend content
           :Access public
+          :If isInstance content ⋄ content←content.Render ⋄ :EndIf
           :If isClass content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
           r←⊂('prepend'selector)('data'content)
         ∇

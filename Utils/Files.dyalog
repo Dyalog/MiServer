@@ -123,7 +123,7 @@
       :EndSelect
     ∇
 
-    ∇ Chars←GetText name;nid;signature;nums;sz
+    ∇ Chars←GetText name;nid;signature;nums;sz;b
      ⍝ Read ANSI or Unicode character file
       sz←⎕NSIZE nid←(unixfix name)⎕NTIE 0
       signature←⎕NREAD nid 83 3 0
@@ -412,5 +412,15 @@
       t←w ⎕FSTIE 0
       r←⎕FREAD t a
       ⎕FUNTIE t
+    ∇
+
+    ∇ r←filename Fopen tieno
+    ⍝ tieno is tie number and optionally 1 to tie exclusively
+      tieno←2↑tieno ⍝ default to shares tie
+      :Trap 22
+          r←filename{⍵[2]:⍺ ⎕FTIE ⍵[1] ⋄ ⍺ ⎕FSTIE ⍵}tieno
+      :Else
+          r←filename{⍵[2]:⍵[3] ⋄ ⍺ ⎕FSTIE ⍵[2]⊣⎕FUNTIE ⍵[3]}tieno,filename ⎕FCREATE tieno[1]
+      :EndTrap
     ∇
 :EndNamespace

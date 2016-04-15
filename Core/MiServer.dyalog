@@ -565,11 +565,13 @@
      
       :Hold token
           onHandleMSP REQ ⍝ overridable
+     
      ⍝ Move arguments / parameters into Public Properties
           inst._PageData←⎕NS''
           :If 0≠1↑⍴data←{⍵[⍋↑⍵[;1];]}REQ.Arguments⍪REQ.Data
-              m←1,2≢/data[;1]
-              data←(m/data[;1]),[1.5]m⊂data[;2]
+              :If 0∊m←1,2≢/data[;1]
+                  data←(m/data[;1]),[1.5]m⊂data[;2]
+              :EndIf
               i←{⍵/⍳⍴⍵}1=⊃∘⍴¨data[;2]
               data[i;2]←⊃¨data[i;2]
               :If 0≠⍴lcp←props←('_'≠1⊃¨props)/props←(inst.⎕NL-2) ⍝ Get list of public properties (those beginning with '_' are excluded)
@@ -582,7 +584,7 @@
                   args←mask⌿data
                   :Trap 0
                       args[;1]←inst._PageData PrepareJSONTargets args[;1]
-                      ⍎'inst._PageData.(',(⍕args[;1]),')←args[;2]'
+                      ⍎'inst._PageData.(',(⍕args[;1]),')←(⊃⍣(1=⍬⍴⍴args))args[;2]'
                   :EndTrap
               :EndIf
           :EndIf

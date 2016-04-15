@@ -266,6 +266,15 @@
       :EndIf
     ∇
 
+    ∇ r←AddClass c
+      :Access public
+      :If class≡UNDEF
+          class←c
+      :Else
+          class,←' ',c
+      :EndIf
+    ∇
+
     :EndSection
 
     :Section Styles

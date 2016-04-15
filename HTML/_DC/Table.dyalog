@@ -35,7 +35,7 @@
       data tda tha hdrrows cellids rowids←Data CellAttr HeaderAttr HeaderRows MakeCellIds MakeRowIds
       hdrrows←⍬⍴hdrrows
       data←((rows←×/¯1↓⍴data),¯1↑⍴data)⍴data
-      head←body←(0 1×⍴data)⍴⊂''
+      head←body←(0 1×⍴data)⍴⊂table←''
       :If 0≠hdrrows
           head←{z⊣(z←⎕NEW #._html.th).Add ⍵}¨hdrrows↑data
           :If cellids
@@ -64,9 +64,9 @@
       :If 0≠hdrrows
           (thead←⎕NEW #._html.thead).Add hdrrows↑table
       :EndIf
-      :If 0<(⊃⍴data)-hdrrows
-          (tbody←⎕NEW #._html.tbody).Add hdrrows↓table
-      :EndIf
+ ⍝     :If 0<(⊃⍴data)-hdrrows
+      (tbody←⎕NEW #._html.tbody).Add hdrrows↓table
+ ⍝     :EndIf
       Content←thead,tbody
       html←⎕BASE.Render
     ∇
