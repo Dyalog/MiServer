@@ -5,7 +5,7 @@
  CR←⎕UCS 13
 
  ⍝↓↓↓ remove directories, select one of each file type based on extension
- files←∊¨↓{⍵⌷[1]⍨⊂⍵[;3]⍳∪⍵[;3]}↑#.Files.SplitFilename¨{⍵[;1]/⍨~⍵[;4]}#.Files.List path←AppRoot,'examples\data\'
+ files←{⍵[(3⌊⍴⍵)?⍴⍵]}∊¨↓{⍵⌷[1]⍨⊂⍵[;3]⍳∪⍵[;3]}↑#.Files.SplitFilename¨{⍵[;1]/⍨~⍵[;4]}#.Files.List path←AppRoot,'examples\data\'
  ⍞←' testing ',(⍕⍴files),' files '
  c←0
  :For f :In files  ⍝ all files, no directories
