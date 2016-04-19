@@ -21,7 +21,7 @@
       chain,←(';'=¯1↑chain)↓';'
       sel←quote ¯2↓enlist{⍵,', '}¨eis sel
       :If 9=|⎕NC'jqpars' ⋄ jqpars←#.JSON.toJQueryParameters jqpars
-      :ElseIf '{'≠1↑jqpars ⋄ jqpars←'{',jqpars,'}' ⋄ :EndIf
+      :ElseIf '{'≠1↑(+/∧\jqpars∊' ',CRLF)↓jqpars ⋄ jqpars←'{',jqpars,'}' ⋄ :EndIf
       r←script[2]{⍺:'$(function(){',⍵,'});' ⋄ ⍵}(prejs ine prejs,';'),(oname ine oname,'='),'$(',sel,').',jqfn,'(',jqpars,')',chain
       r←script[1]{⍺:#.HTMLInput.JS ⍵ ⋄ ⍵}(oname ine'var ',oname,';'),r
     ∇

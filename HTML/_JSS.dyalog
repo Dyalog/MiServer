@@ -79,7 +79,20 @@
       r←(sel JQuery'toggle')args
     ∇
 
-    :class StorageObject
+    ∇ r←{fieldnames}(varname JSData)data
+      :If 0=⎕NC'fieldnames'
+          fieldnames←'column'∘,¨⍕⍳2⊃⍪data
+      :EndIf
+      r←('var ',varname,' = ',fieldnames #.JSON.TableToJSON data),';'
+    ∇
+
+    ∇ r←JSDate date
+    ⍝ snippet to create a JS date (JavaScript months are 0-11!!!)
+    ⍝ date is in 3↑⎕TS form
+      r←{'new Date(',(⍕⍵[1]),', ',(⍕⍵[2]-1),', ',(⍕⍵[3]),')'}date
+    ∇
+
+    :Class StorageObject
 
         ∇ r←{what}Set(type value);name;w;v
           :Access public shared

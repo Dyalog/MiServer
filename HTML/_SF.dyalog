@@ -33,11 +33,6 @@
           r←⎕BASE.Render
         ∇
 
-⍝        ∇ {r}←opts RenderHandler handler
-⍝          :Access public override
-⍝          r←opts RenderHandlerCore(handler WidgetSyntax Force)
-⍝        ∇
-
     :EndClass
     :endsection
 :EndNamespace

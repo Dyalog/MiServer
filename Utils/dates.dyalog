@@ -87,6 +87,20 @@
       r←1+7|(DateToIDN 3↑Date)-1
     ∇
 
+    ∇ r←{opt}DateFormat ymd
+    ⍝ opt - 0 dd MMM yyyy
+    ⍝       1 dd Month yyyy
+      :If 0=⎕NC'opt' ⋄ opt←0 :EndIf
+      :Select ⊃opt
+      :Case 0
+          r←(⍕ymd[3]),(1⌽'  ',3↑(3×¯1+ymd[2])↓'JANFEBMARAPRMAYJUNJULAUGSEPOCTNOVDEC'),⍕ymd[1]
+      :Case 1
+          r←(⍕ymd[3]),(1⌽'  ',ymd[2]⊃'January' 'February' 'March' 'April' 'May' 'June' 'July' 'August' 'September' 'October' 'November' 'December'),⍕ymd[1]
+      :Else
+          r←⍕ymd
+      :EndSelect
+    ∇
+
     ∇ r←LogFmtNow;ver
     ⍝ returns now UTC adjusted, and formatted for log files (Common Log Format)
       :If 'Win'≡ver←3↑1⊃'.'⎕WG'APLVersion'
