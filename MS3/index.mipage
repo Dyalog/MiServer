@@ -1,4 +1,4 @@
-﻿:Class index : MiPageSample ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
+:Class index : MiPageSample ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 ⍝ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ ⍝
 ⍝ │ This is the home page of the MiServer Sample Site, MS3, accessible at miserver.dyalog.com   │ ⍝
 ⍝ ├─────────────────────────────────────────────────────────────────────────────────────────────┤ ⍝
@@ -36,7 +36,7 @@
       sf←'autofocus='New _.EditField'searchfield'         ⍝ search field active on page load
       sb←'#searchbutton' '.menu'New _.button'Search'      ⍝ search button (note: type="submit")
       f←'onsubmit="return false;"'left.Add _.form         ⍝ prevent submit-button from POSTing
-      f.On'submit' 'OnSearch'('str' '#searchfield' 'val') ⍝ callback upon Enter or button-click
+      f.On'submit' 'OnSearch'('str' 'val' '#searchfield') ⍝ callback upon Enter or button-click
       f.Add Horz sf sb                                    ⍝ textfield and button next to each other
      
       left.Add¨Tree¨'Getting Started' 'Controls' ⍝ NB: Needs MakeTreeXX (XX is initials of title)!
