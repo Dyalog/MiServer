@@ -1,8 +1,8 @@
-﻿:class Kids_Keyboard : MiPageSample
+:class Kids_Keyboard : MiPageSample
 ⍝ Control:: Kids_Keyboard
 ⍝ Description:: Children's educative application for Yiddish alphabet and keyboard
 
-    Sound←{'#sound' Replace 'autoplay' '' New _.Audio ('/Examples/Data/KidsKbd/',⍵,'.mp3')}
+    Sound←{'#sound' Replace (⊂'autoplay' '') New _.Audio ('/Examples/Data/KidsKbd/',⍵,'.mp3')}
     LetBut←{('.letter',⍕⍵∊'שבגדכפת') ('#letter',⍕⎕UCS ⍵) (RandCol 0) New _.Button ⍵}
     Indent←{('style="margin-left:',(⍕⍵÷2-BIG),'pt;margin-bottom:2pt;"') New _.span}
     Print←{'#output' Prepend ('.serif',⍕⍵∊⎕UCS 1487+⍳27) (RandCol ⍺) New _.span ⍵}
