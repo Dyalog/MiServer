@@ -1,72 +1,67 @@
-﻿:class Tic_Tac_Toe :MiPageSample
+:class Tic_Tac_Toe :MiPageSample
 ⍝ Control:: Tic_Tac_Toe
-⍝ Description:: Text-based Tic Tac Toe game storing data on the server
+⍝ Description:: Text-based Tic Tac Toe
 
-    ∇ Compose;board;row;bcap;rows;cell;cells;xo;reset;size;width
+    ∇ Compose;board;size;width;data
       :Access public
      
-      Add _.style'pre {width:20pt; height:20pt; font-size: 12pt; padding: 6pt 4pt 0pt 4pt; margin:0; border: 1px inset}'
+      Add _.style'[id^="board"] pre {width:20pt; height:20pt; font-size: 12pt; padding: 6pt 4pt 0pt 4pt; margin:0; border: 1px inset}'
      
       size←3                   ⍝ Board size
-      wins←{(1 1⍉⌽⍵)⍪(1 1⍉⍵)⍪(⍉⍵)⍪⍵}size size⍴⍳size*2
-      xos←' X ' ' O '          ⍝ Symbol for each player
-      width←⊃⌈/⍴¨,¨xos         ⍝ Cell size
-      xos←width↑¨xos           ⍝ Equalize lengths
-      next←⊃xos                ⍝ Next player to place mark
-      blank←⊂width↑''          ⍝ Empty cells of matching width
-      sss←blank/⍨size*2        ⍝ Server Side State
-      all←,(size↑⎕A)∘.,⍕¨⍳size ⍝ All cell names
+      WINS←{(1 1⍉⌽⍵)⍪(1 1⍉⍵)⍪(⍉⍵)⍪⍵}size size⍴⍳size*2 ⍝ All possible winning lines
+      XOS←' X ' ' O '          ⍝ Symbol for each player
+      width←⊃⌈/⍴¨,¨XOS         ⍝ Cell size
+      XOS←width↑¨XOS           ⍝ Equalize lengths
+      NEXT←⊃XOS                ⍝ Next player to place mark
+      BLANK←⊂width↑''          ⍝ Empty cells of matching width
+      STATE←BLANK/⍨size*2      ⍝ Current board state
      
-      board←Add _.table                   ⍝ Framework for board
-      bcap←board.Add _.caption            ⍝ Caption
-      bcap.Add¨(_.strong'Board')_.br _.hr ⍝ ... and its content
-      rows←board.Add¨size/_.tr            ⍝ Board
+      ALL←,⊃∘.,/↓'rc'∘.,⍕¨⍳size ⍝ All cell names 'r1c1' 'c1c2' etc.
      
-      :For row :In ⍳size
-          cell←(row⌷rows).Add¨size/_.td ⍝ Add single row of cells
-          cells←cell.Add⊂_.pre,blank    ⍝ Keep constant width
-          cells.id←(size↑⎕A),¨⍕row      ⍝ Spreadsheet cell naming style
-          cells.On⊂'click' ''
-      :EndFor
+      Add _.h2(⍕'- 'XOS' board -')
+      board←'#board'Add _.Table
+      board.Data←size size⍴⊂_.pre BLANK  ⍝ empty cells
+      board.MakeCellIds←1                ⍝ 'tableId_r1c1' 'tableId_c1c2' etc.
+      Add _.Handler'#board' 'click' 'OnClick'('cell' 'event' 'currentTarget.id')'td'
      
       Add _.br
-      player←Add _.p'Next: '
-      xo←player.Add _.span(⊃xos) ⍝ Placeholder for symbol
-      xo.id←'xo'
-      reset←Add _.button'Clear board'
-      reset.id←'reset'
-      reset.On'click'
+      '#output'Add _.p'Next: ',⊃XOS
+      ('reset'Add _.button'Clear board').On'click' 'OnClick'
     ∇
 
-    ∇ js←APLJax;curr;reset ⍝ Universal callback function
+    ∇ js←OnClick;curr;reset;cell ⍝ Universal callback function
       :Access public
       js←''
       reset←'reset'≡_what                ⍝ Did user click Reset?
-      :If reset∨(Won sss)∨~blank∊sss     ⍝ Reset the board?
-          js,←⊃,/('#',¨all)Replace¨blank ⍝ Client
-          sss⊢¨←blank                    ⍝ Server
+      :If reset∨(Won STATE)∨~BLANK∊STATE ⍝ Reset the board?
+          js,←'[id^=''board_'']'Replace _.pre BLANK ⍝ Client - must use single quotes!
+          STATE⊢¨←BLANK                             ⍝ Server
           →reset/0
       :EndIf
-      curr←all⍳⊂_what                 ⍝ Index of chosen cell
-      :If blank≡curr⌷sss              ⍝ Is selection available?
-          js,←('#',_what)Replace next ⍝ Client update
-          sss[curr]←⊂next             ⍝ Server update
-          :If Won sss
-              js,←Msg next,' wins'
-              next←⊃xos               ⍝ Reset server next player
-              js,←'#xo'Replace next   ⍝ Reset client next player
-          :ElseIf ~blank∊sss
-              js,←Msg'Tie game'
+      cell←'#',Get'cell'
+      curr←ALL⍳⊂7↓cell                ⍝ Index of chosen cell
+      :If BLANK≡curr⌷STATE            ⍝ Is selection available?
+          js,←cell Replace _.pre NEXT   ⍝ Client update
+          STATE[curr]←⊂NEXT             ⍝ Server update
+          :If Won STATE
+              js,←0 Msg NEXT,' wins'
+              NEXT←⊃XOS               ⍝ Reset server next player
+          :ElseIf ~BLANK∊STATE
+              js,←0 Msg'Tie game'
           :Else
-              next←⊃xos⌽⍨xos⍳⊂next  ⍝ Next player
-              js,←'#xo'Replace next ⍝ Update footer
+              NEXT←⊃XOS⌽⍨XOS⍳⊂NEXT  ⍝ Next player
+              js,←2 Msg NEXT ⍝ Update footer
           :EndIf
       :Else
-          js←Msg'That spot is occupied'
+          js←1 Msg'That spot is occupied'
       :EndIf
     ∇
 
-    Won←{1∊∧/xos∘.≡⍵[wins]}          ⍝ Scalar boolean if any player won
-    Msg←{Execute'alert("',⍵,'!")'}   ⍝ Generate JavaScript for alert popup
+    Won←{1∊∧/XOS∘.≡⍵[WINS]}          ⍝ Scalar boolean if any player won
 
+      Msg←{2=⍺:'#output'Replace'Next: ',⍵      ⍝ 2:Next player
+          ⍺:'#output'Append' ─ ',⍵,'!'         ⍝ 1:Append
+          '#output'Replace ⍵,'! ─ Next: ',⊃XOS ⍝ 0:Replace
+      }
+    
 :endclass
