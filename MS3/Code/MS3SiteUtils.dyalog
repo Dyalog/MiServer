@@ -1,4 +1,4 @@
-﻿:Namespace MS3SiteUtils ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
+:Namespace MS3SiteUtils ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 ⍝ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ ⍝
 ⍝ │ This is the collection of utility functions used by MS3Server and the index page of the     │ ⍝
 ⍝ │ MiServer Sample Site, MS3, accessible at miserver.dyalog.com                                │ ⍝
@@ -257,9 +257,17 @@
       :EndHold
     ∇
 
-    ∇ r←TREE
+    ∇ r←TREE;all;tree
       :Access public
-      r←(Read'Examples/Data/tree.txt')~⊂'' ⍝ load/cache tree and remove blank lines
+      r←{⍵/⍨⍵∨.≠¨' '}Read'Examples/Data/tree.txt'⍝ load/cache tree and remove blank lines
+      tree←'/([^/*]+)(\*|$)'⎕S'\1'⊢r~¨' '
+      all←'^.(?![A-Z])'⎕S'%'⊢#._DC.⎕NL ¯9
+      all,←'^[a-z]'⎕S'%'⊢#._html.⎕NL ¯9
+      all,←'^ej[A-Z]'⎕S'%'⊢#._SF.⎕NL ¯9
+      all,←'^jq[A-Z]'⎕S'%'⊢#._JQ.⎕NL ¯9
+      ⎕←{×≢⍵:'** Widgets found in the namespaces, but missing from the tree: ',⍕⍵ ⋄ 0 0⍴0}all~tree
+      ⎕←{×≢⍵:'** Widgets found in the tree, but missing from the namespaces: ',⍕⍵ ⋄ 0 0⍴0}tree~all
+     
     ∇
 
     ∇ r←DOCS
