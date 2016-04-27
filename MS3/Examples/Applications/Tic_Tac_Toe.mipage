@@ -2,66 +2,98 @@
 ⍝ Control:: Tic_Tac_Toe
 ⍝ Description:: Text-based Tic Tac Toe
 
-    ∇ Compose;board;size;width;data
-      :Access public
+    ∇ Compose;board;size;width;cells;data
+      :Access Public
      
-      Add _.style'[id^="board"] pre {width:20pt; height:20pt; font-size: 12pt; padding: 6pt 4pt 0pt 4pt; margin:0; border: 1px inset}'
+     ⍝ Add a style sheet for the special <pre>formatted text boxes used to hold marks
+      Add _.style ScriptFollows
+      ⍝ /* CSS selector: any <pre> inside a <td> element with ID beginning in "board_": */
+      ⍝ td[id^="board_"] pre {
+      ⍝   width:     20pt;
+      ⍝   height:    20pt;
+      ⍝   font-size: 12pt;
+      ⍝   padding:   6pt 4pt 0pt 4pt;
+      ⍝   margin:    0;
+      ⍝   border:    1px inset
+      ⍝ }
      
-      size←3                   ⍝ Board size
-      WINS←{(1 1⍉⌽⍵)⍪(1 1⍉⍵)⍪(⍉⍵)⍪⍵}size size⍴⍳size*2 ⍝ All possible winning lines
-      XOS←' X ' ' O '          ⍝ Symbol for each player
-      width←⊃⌈/⍴¨,¨XOS         ⍝ Cell size
-      XOS←width↑¨XOS           ⍝ Equalize lengths
-      NEXT←⊃XOS                ⍝ Next player to place mark
-      BLANK←⊂width↑''          ⍝ Empty cells of matching width
-      STATE←BLANK/⍨size*2      ⍝ Current board state
+     ⍝ Prepare player marks
+      XOS←' X ' ' O ' ⍝ player marks (may be names, symbols, numbers, etc.)
+      width←⊃⌈/≢¨XOS  ⍝ widest player mark determines cell width
+      XOS←width↑¨XOS  ⍝ pad short player marks
+      BLANK←⊂width↑'' ⍝ empty cells of matching width
+      NEXT←⊃XOS       ⍝ first player goes next
      
-      ALL←,⊃∘.,/↓'rc'∘.,⍕¨⍳size ⍝ All cell names 'r1c1' 'c1c2' etc.
+     ⍝ Prepare the board
+      size←3                        ⍝ board size
+      ALL←,⊃∘.,/↓'rc'∘.,⍕¨⍳size     ⍝ all cell refs; e.g. r1c1, r1c2, r1c3, r2c1, etc.
+      cells←(,⍴(⍳×))⍨size           ⍝ indices of cells
+      STATE←BLANK⊣¨,cells           ⍝ initial board state
+      WINS←((1 1⍉⌽)⍪1 1∘⍉⍪⍉⍪⊢)cells ⍝ all winning index-combos; anti-diag, diag, cols, rows
      
-      Add _.h2(⍕'- 'XOS' board -')
-      board←'#board'Add _.Table
-      board.Data←size size⍴⊂_.pre BLANK  ⍝ empty cells
-      board.MakeCellIds←1                ⍝ 'tableId_r1c1' 'tableId_c1c2' etc.
-      Add _.Handler'#board' 'click' 'OnClick'('cell' 'event' 'currentTarget.id')'td'
+     ⍝ Create container elements
+      Add _.h2(⍕'- 'XOS' board -')                   ⍝ heading showing player marks
+      board←'#board'Add _.Table({_.pre BLANK}¨cells) ⍝ table of blank <pre>s
+      board.MakeCellIds←1                            ⍝ tableId_r1c1, tableId_c1c2, etc.
      
-      Add _.br
-      '#output'Add _.p'Next: ',⊃XOS
-      ('reset'Add _.button'Clear board').On'click' 'OnClick'
+     ⍝ We want a single handler on the board, which is distributed to all its child <td> (cells)
+      data←'cell' 'event' 'currentTarget.id'          ⍝ 'cell' will be the id of the event target
+      Add _.Handler'#board' 'click' 'OnClick'data'td' ⍝ event targets are all <td>s in #board
+     
+     ⍝ An area for output
+      Add _.br                      ⍝ blank line for spacing
+      '#output'Add _.p'Next: ',⊃XOS ⍝ content of this paragraph is updated during the game
+     
+     ⍝ A button to start over at any point during a game
+      ('reset'Add _.button'Clear board').On'click' 'OnClick' ⍝ no data is needed to clear the board
     ∇
 
-    ∇ js←OnClick;curr;reset;cell ⍝ Universal callback function
+    ∇ js←OnClick;reset;cell;clicked ⍝ Universal callback function
       :Access public
-      js←''
-      reset←'reset'≡_what                ⍝ Did user click Reset?
-      :If reset∨(Won STATE)∨~BLANK∊STATE ⍝ Reset the board?
-          js,←'[id^=''board_'']'Replace _.pre BLANK ⍝ Client - must use single quotes!
-          STATE⊢¨←BLANK                             ⍝ Server
-          →reset/0
+      js←'' ⍝ initiate JavaScript response
+     
+      reset←'reset'≡_what                           ⍝ did user click Clear?
+      :If reset∨Won∨Tie                               ⍝ clear the board?
+          js,←'td[id^=''board_'']'Replace _.pre BLANK ⍝ clear client cells (must use single quotes)
+          STATE[]←BLANK                               ⍝ clear server state
+          NEXT←⊃XOS                                   ⍝ revert to first player
+          js,←0 Msg NEXT                              ⍝ update footer
+          js,←1 Msg'Board cleared'
       :EndIf
-      cell←'#',Get'cell'
-      curr←ALL⍳⊂7↓cell                ⍝ Index of chosen cell
-      :If BLANK≡curr⌷STATE            ⍝ Is selection available?
-          js,←cell Replace _.pre NEXT   ⍝ Client update
-          STATE[curr]←⊂NEXT             ⍝ Server update
-          :If Won STATE
-              js,←0 Msg NEXT,' wins'
-              NEXT←⊃XOS               ⍝ Reset server next player
-          :ElseIf ~BLANK∊STATE
-              js,←0 Msg'Tie game'
-          :Else
-              NEXT←⊃XOS⌽⍨XOS⍳⊂NEXT  ⍝ Next player
-              js,←2 Msg NEXT ⍝ Update footer
+     
+      :If ~reset            ⍝ did player either win or click cell?
+          cell←'#',Get'cell'  ⍝ retrieve sent-along data
+          clicked←ALL⍳⊂7↓cell ⍝ index of chosen cell
+     
+          :If BLANK≡clicked⌷STATE       ⍝ is clicked cell available?
+              js,←cell Replace _.pre NEXT ⍝ update the client cell
+              STATE[clicked]←⊂NEXT        ⍝ update the server state
+              :If Won                  ⍝ do we have a win?
+                  js,←1 Msg NEXT,' wins' ⍝ update client status
+              :ElseIf Tie              ⍝ no blanks left?
+                  js,←1 Msg'Tie game'    ⍝ inform
+              :Else                    ⍝ regular move
+                  NEXT←⊃XOS⌽⍨XOS⍳⊂NEXT   ⍝ rotate player stack to find next player
+                  js,←0 Msg NEXT         ⍝ update footer
+              :EndIf
+     
+          :Else                             ⍝ clicked unavailable cell
+              js←1 Msg'That spot is occupied' ⍝ complain
           :EndIf
-      :Else
-          js←1 Msg'That spot is occupied'
       :EndIf
     ∇
 
-    Won←{1∊∧/XOS∘.≡⍵[WINS]}          ⍝ Scalar boolean if any player won
+    ∇ won←Won ⍝ Did any player win?
+      won←1∊∧/XOS∘.≡STATE[WINS] ⍝ scalar boolean if any player won
+    ∇
 
-      Msg←{2=⍺:'#output'Replace'Next: ',⍵      ⍝ 2:Next player
-          ⍺:'#output'Append' ─ ',⍵,'!'         ⍝ 1:Append
-          '#output'Replace ⍵,'! ─ Next: ',⊃XOS ⍝ 0:Replace
+    ∇ tie←Tie ⍝ Is the board full?
+      tie←~BLANK∊STATE ⍝ no blanks in it
+    ∇
+
+      Msg←{ ⍝ Various formats for displaying text in the output area
+          ⍺:'#output'Prepend ⍵,'! ─ ' ⍝ insert message
+          '#output'Replace'Next: ',⍵  ⍝ show mark of next player
       }
-    
+
 :endclass
