@@ -7,11 +7,14 @@
 /DC/Datalist*
 /DC/EditField*
 /DC/Fieldset*
-/DC/FontIconsBase*
+/DC/Figure*
+⍝/DC/FontIconsBase*
 /DC/Form*
+/DC/Gyro*
 /DC/Input*
 /DC/InputFile
-/DC/InputGrid*   
+/DC/InputGrid* 
+/DC/InputSubmit*  
 /DC/ListManager 
 /DC/RadioButtonGroup*
 /DC/ResetButton*
@@ -45,11 +48,11 @@
 /SF/Data Visualization/ejSchedule
 /SF/Data Visualization/ejTagCloud
 /SF/Data Visualization/ejTreeMap*
-/SF/BI/
-/SF/BI/ejOlapChart
-/SF/BI/ejOlapClient
-/SF/BI/ejOlapGauge
-/SF/BI/ejPivotGrid
+/SF/Business Intelligence/
+/SF/Business Intelligence/ejOlapChart
+/SF/Business Intelligence/ejOlapClient
+/SF/Business Intelligence/ejOlapGauge
+/SF/Business Intelligence/ejPivotGrid
 /SF/Layout/
 /SF/Layout/ejAutocomplete
 /SF/Layout/ejButton*
@@ -85,23 +88,31 @@
 
 
 /JQ/*
-/JQ/jqAccordion
-/JQ/jqAutocomplete
-/JQ/jqButton
-/JQ/jqButtonset
-/JQ/jqDatePicker
-/JQ/jqDialog
-/JQ/jqDraggable*
-/JQ/jqDroppable*
-/JQ/jqMenu
-/JQ/jqProgressbar
-/JQ/jqResizable
-/JQ/jqSelectable
-/JQ/jqSlider
-/JQ/jqSortable
-/JQ/jqSpinner
-/JQ/jqTabs
-/JQ/jqTooltip
+/JQ/jqAccordion        
+/JQ/jqAddClass         
+/JQ/jqAddClass         
+/JQ/jqAutocomplete     
+/JQ/jqButton           
+/JQ/jqButtonset        
+/JQ/jqDatePicker       
+/JQ/jqDialog           
+/JQ/jqDraggable*       
+/JQ/jqDroppable*       
+/JQ/jqHide             
+/JQ/jqMenu             
+/JQ/jqProgressbar      
+/JQ/jqRemoveClass      
+/JQ/jqResizable        
+/JQ/jqSelectable       
+/JQ/jqShow             
+/JQ/jqSlider           
+/JQ/jqSortable         
+/JQ/jqSpinner          
+/JQ/jqSwitchClass      
+/JQ/jqTabs             
+/JQ/jqToggle           
+/JQ/jqToggleClass      
+/JQ/jqTooltip          
 
 
 /html/*
@@ -174,6 +185,7 @@
 /html/Images/figure
 /html/Images/img
 /html/Images/map
+/html/Images/svg
 /html/Audio & Video/
 /html/Audio & Video/audio
 /html/Audio & Video/source
