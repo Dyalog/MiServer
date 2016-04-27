@@ -19,7 +19,7 @@
      
      ⍝ Prepare player marks
       XOS←' X ' ' O ' ⍝ player marks (may be names, symbols, numbers, etc.)
-      width←⊃⌈/≢¨XOS  ⍝ widest player mark determines cell width
+      width←⌈/≢¨XOS   ⍝ widest player mark determines cell width
       XOS←width↑¨XOS  ⍝ pad short player marks
       BLANK←⊂width↑'' ⍝ empty cells of matching width
       NEXT←⊃XOS       ⍝ first player goes next
@@ -27,7 +27,7 @@
      ⍝ Prepare the board
       size←3                        ⍝ board size
       ALL←,⊃∘.,/↓'rc'∘.,⍕¨⍳size     ⍝ all cell refs; e.g. r1c1, r1c2, r1c3, r2c1, etc.
-      cells←(,⍴(⍳×))⍨size           ⍝ indices of cells
+      cells←size size⍴⍳size*2       ⍝ cardinal number of ravelled cells
       STATE←BLANK⊣¨,cells           ⍝ initial board state
       WINS←((1 1⍉⌽)⍪1 1∘⍉⍪⍉⍪⊢)cells ⍝ all winning index-combos; anti-diag, diag, cols, rows
      
@@ -36,7 +36,7 @@
       board←'#board'Add _.Table({_.pre BLANK}¨cells) ⍝ table of blank <pre>s
       board.MakeCellIds←1                            ⍝ tableId_r1c1, tableId_c1c2, etc.
      
-     ⍝ We want a single handler on the board, which is distributed to all its child <td> (cells)
+     ⍝ We want a single handler on the board, which is distributed to deeper <td>s (cells)
       data←'cell' 'event' 'currentTarget.id'          ⍝ 'cell' will be the id of the event target
       Add _.Handler'#board' 'click' 'OnClick'data'td' ⍝ event targets are all <td>s in #board
      
@@ -61,23 +61,25 @@
           js,←1 Msg'Board cleared'
       :EndIf
      
-      :If ~reset            ⍝ did player either win or click cell?
+      :If ~reset              ⍝ did player either win or click cell?
           cell←'#',Get'cell'  ⍝ retrieve sent-along data
-          clicked←ALL⍳⊂7↓cell ⍝ index of chosen cell
+          clicked←ALL⍳⊂7↓cell ⍝ cardinal number of chosen cell
      
-          :If BLANK≡clicked⌷STATE       ⍝ is clicked cell available?
+          :If BLANK≡clicked⌷STATE         ⍝ is clicked cell available?
               js,←cell Replace _.pre NEXT ⍝ update the client cell
               STATE[clicked]←⊂NEXT        ⍝ update the server state
-              :If Won                  ⍝ do we have a win?
-                  js,←1 Msg NEXT,' wins' ⍝ update client status
-              :ElseIf Tie              ⍝ no blanks left?
-                  js,←1 Msg'Tie game'    ⍝ inform
-              :Else                    ⍝ regular move
-                  NEXT←⊃XOS⌽⍨XOS⍳⊂NEXT   ⍝ rotate player stack to find next player
-                  js,←0 Msg NEXT         ⍝ update footer
+              :If Won                     ⍝ do we have a win?
+                  js,←0 Msg⊃XOS           ⍝ update footer
+                  js,←1 Msg NEXT,' wins'  ⍝ update client status
+              :ElseIf Tie                 ⍝ no blanks left?
+                  js,←0 Msg⊃XOS           ⍝ update footer
+                  js,←1 Msg'Tie game'     ⍝ inform
+              :Else                       ⍝ regular move
+                  NEXT←⊃(XOS⍳⊂NEXT)⌽XOS   ⍝ rotate player stack to find next player
+                  js,←0 Msg NEXT          ⍝ update footer
               :EndIf
      
-          :Else                             ⍝ clicked unavailable cell
+          :Else                               ⍝ clicked unavailable cell
               js←1 Msg'That spot is occupied' ⍝ complain
           :EndIf
       :EndIf
