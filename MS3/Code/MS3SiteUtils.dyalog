@@ -259,7 +259,9 @@
 
     ∇ r←TREE;all;tree
       :Access public
-      r←{⍵/⍨⍵∨.≠¨' '}Read'Examples/Data/tree.txt'⍝ load/cache tree and remove blank lines
+      r←{⍵/⍨⍵∨.≠¨' '}Read'Examples/Data/tree.txt' ⍝ load/cache tree and remove blank lines
+      r/⍨←'⍝'≠⊃¨r                                 ⍝ remove comment lines
+     
       tree←'/([^/*]+)(\*|$)'⎕S'\1'⊢r~¨' '
       all←'^.(?![A-Z])'⎕S'%'⊢#._DC.⎕NL ¯9
       all,←'^[a-z]'⎕S'%'⊢#._html.⎕NL ¯9
