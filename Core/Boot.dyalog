@@ -59,7 +59,7 @@
      
           :If 0≠⍴classes
               :For class :In classes
-                  disperror 1 ⎕SE.SALT.Load AppRoot,'Code/',class,' -target=#'
+                  disperror ⎕SE.SALT.Load AppRoot,'Code/',class,' -target=#'
               :EndFor
           :EndIf
      
