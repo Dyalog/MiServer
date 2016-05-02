@@ -1,0 +1,45 @@
+:Class jqButtonsetSimple : MiPageSample
+⍝ Control:: _JQ.jqButtonset
+⍝ Description:: Grouped sets of buttons
+
+    ∇ Compose;output;fw;menu;form
+      :Access Public
+      Add _.Script 'var CT;'
+      Add _.h3'jqButtonset'
+      form←'shoestore'Add _.Form
+      TEXTS←'Shoes' 'Boots' 'Sandals' 'Flip-Flops'
+      fw←'footwear'form.Add _.jqButtonset(TEXTS'radio')
+      fw.Legend←'Footwear'
+     
+      menu←'menu'form.Add _.jqButtonset(('?' 'GO')'button')
+      menu.Legend←'Menu'
+     
+      Add _.Handler'#menu_1' 'click' 'Help'
+⍝ LET'S TRY TO SEND ALONG THE VALUE OF THE FIRST BUTTONSET:
+      Add _.Handler'#menu_2' 'click' 'Go'('fw' 'val' '#footwear')
+      
+      output←'#output'Add _.p
+    ∇
+    
+    ∇ r←Go
+      :Access public
+⍝ *** CURRENTLY Get'fw' gives empty string, so ⍎ fails
+      r←'#output'Replace'You selected: ',⍕TEXTS←[⍎⍕¯1↓Get'fw']
+     
+    ∇
+
+    ∇ r←Help
+      :Access Public
+      r←'#output'Replace'Please specify requirements, then click <b>Go</b>.'
+     
+    ∇
+
+
+:EndClass
+
+
+
+
+
+
+
