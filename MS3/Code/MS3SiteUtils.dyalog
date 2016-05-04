@@ -1,4 +1,4 @@
-:Namespace MS3SiteUtils ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
+﻿:Namespace MS3SiteUtils ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 ⍝ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ ⍝
 ⍝ │ This is the collection of utility functions used by MS3Server and the index page of the     │ ⍝
 ⍝ │ MiServer Sample Site, MS3, accessible at miserver.dyalog.com                                │ ⍝
@@ -261,7 +261,7 @@
       :Access public
       r←{⍵/⍨⍵∨.≠¨' '}Read'Examples/Data/tree.txt' ⍝ load/cache tree and remove blank lines
       r/⍨←'⍝'≠⊃¨r                                 ⍝ remove comment lines
-     
+      →0 ⍝ BPB
       tree←'/([^/*]+)(\*|$)'⎕S'\1'⊢r~¨' '
       all←'^.(?![A-Z])'⎕S'%'⊢#._DC.⎕NL ¯9
       all,←'^[a-z]'⎕S'%'⊢#._html.⎕NL ¯9
