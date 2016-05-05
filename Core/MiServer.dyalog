@@ -598,6 +598,8 @@
                   inst._event←REQ.GetData'_event'
                   inst._value←REQ.GetData'_value'
                   inst._selector←REQ.GetData'_selector'
+                  inst._target←REQ.GetData'_target'
+                  inst._currentTarget←REQ.GetData'_currentTarget'
                   inst._callback←REQ.GetData'_callback'
                   :If ~0∊⍴inst._callback ⍝ does the request specify a callback function?
                       fn←cb←inst._callback

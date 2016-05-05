@@ -403,10 +403,10 @@
 
     :section Utilities
     disperror←{}∘{326=⎕DR ⍵:'' ⋄ '***'≡3↑⍵:⎕←⍵ ⋄ ''}
-    isWin←('.' ⎕WG 'APLVersion')[3]≡⊂,'W'
+    isWin←'Win'≡3↑1⊃#.⎕WG'APLVersion'
     fileSep←'/\'[1+isWin]
-    MSRoot←{(1-⌊/'/\'⍳⍨⌽⍵)↓⍵}⎕WSID
     isRelPath←{{~'/\'∊⍨(⎕IO+2×isWin∧':'∊⍵)⊃⍵}3↑⍵}
+    MSRoot←{('.'=⊃⍵)∨isRelPath ⍵:'.',fileSep,⍵ ⋄ ⍵}{(1-⌊/'/\'⍳⍨⌽⍵)↓⍵}⎕WSID
     enlist←{⎕ML←1⋄∊⍵}
       tonum←{⍺←0
           1∊⍺:tonumvec ⍵

@@ -417,7 +417,7 @@
           WidgetDef←'event,ui' 'event' 'ui' '$(event.target)'
         ∇
 
-        ∇ r←Render;sel;syn_handler;syn_event;syn_model;syn_this;data;useajax;force;cd;selector;arg;verb;name;phrase;datasel;JQfn;jqfn;hg;removehg;dtype;success;status;ajax;widget;syn_value;delegates;v;events
+        ∇ r←Render;sel;syn_handler;syn_event;syn_model;syn_this;data;useajax;force;cd;selector;arg;verb;name;phrase;datasel;JQfn;jqfn;hg;removehg;dtype;success;status;ajax;widget;syn_value;delegates;v;events;try
           :Access public
           r←''
           :If ~0∊⍴Events ⍝ skip if no events specified
@@ -467,11 +467,13 @@
               :EndIf
          
               (syn_handler syn_event syn_model syn_this)←WidgetDef
-         
+              try←{'(function(){try{return ',⍵,';}catch(e){return "";}})()'}
               data←'_event: ',syn_event,'.type, '
               data,←'_what: ',syn_this,'.attr("id"), '
               data,←'_value: ',syn_this,'.val(), '
               data,←'_selector: ',(quote selector~'⍎'),', '
+              data,←'_target: ',(try syn_event,'.target.id'),', '
+              data,←'_currentTarget: ',(try syn_event,'.currentTarget.id'),', '
          
               :If #.HtmlElement.isString Callback ⍝ numeric Callback 1-call APLJax, 0-no callback to server
               :AndIf ~0∊⍴Callback
