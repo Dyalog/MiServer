@@ -660,7 +660,7 @@
      
     ∇
 
-    ⎕RL←(2*30)|×/{⍵+0=2|⍵}⎕AI
+    ⎕RL←0
 
     ∇ ns←makeDict arg;depth;Nentries;i;name;value;⎕IO;VC;nvc
      ⍝ Create a dictionary. This is a list of name/value pairs encapsulated in a namespace.

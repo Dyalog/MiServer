@@ -26,8 +26,8 @@
       :Access public
       :Implements constructor
       :If 1<⍴⍴data ⋄ data←,⊂data ⋄ :EndIf
-      :If 1≥≡data ⋄ data←,⊂1 1⍴⊂data ⋄ :EndIf
-      (Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)←6↑data,(⍴data)↓Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds
+      :If 1≥|≡data ⋄ data←,⊂1 1⍴⊂data ⋄ :EndIf
+      (Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)←data defaultArgs Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds
     ∇
 
     ∇ html←Render;data;atts;tda;tha;hdrrows;cellids;rowids;rows;x;head;body;table;thead;tbody

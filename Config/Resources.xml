@@ -10,6 +10,16 @@
 		<style>/FontAwesome/css/font-awesome.min.css</style>
 	</resource>
 <!-- 
+****************************
+*      jBox resources      *
+****************************
+-->
+	<resource>
+		<name>jBox</name>
+		<script>/jBox/jBox.min.js</script>
+		<style>/jBox/jBox.css</style>
+	</resource>
+<!-- 
 **************************
 *      d3 resources      *
 **************************

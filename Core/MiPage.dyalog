@@ -16,9 +16,11 @@
     :field Public _value          ⍝ set by APLJAX callback - value of the triggering element
     :field Public _selector       ⍝ set by APLJAX callback - CSS/jQuery selector for the element that triggered the event
     :field Public _callback       ⍝ set by APLJAX callback - name of the callback function
+    :field Public _target         ⍝ set by APLJAX callback - id of the target element
+    :field Public _currentTarget  ⍝ set by APLJAX callback - id of the currentTarget element
     :field Public _PageData       ⍝ namespace containing any data passed via forms or URL
     :field Public _AjaxResponse←''
-    :field Public _DebugCallbacks←0    
+    :field Public _DebugCallbacks←0
     :field Public _TimedOut←0
     :field Public OnLoad←''     ⍝ page equivalent to ⎕LX
 
@@ -208,6 +210,7 @@
     ∇
 
     ∇ r←renderContent content;c
+      :Access public shared
       r←''
       content←eis content
       :While ~0∊⍴content

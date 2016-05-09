@@ -23,6 +23,7 @@
         :field public Var←''           ⍝ JavaScript variable name for created object
         :field public JQueryFn←''      ⍝ JQuery function to apply
         :field public JQPars←''        ⍝ JQuery function parameters
+        :field public Type←''          ⍝ Type specification that may precede JQPars
         :field public shared readonly _true←#.JSON.true     ⍝ same definition as in #.JSON
         :field public shared readonly _false←#.JSON.false   ⍝ same definition as in #.JSON
         :field public ScriptOptions←1 1 ⍝ determines how script will be rendered [1] wrap with <script>...</script>, [2] wrap with $(function(){...})
@@ -36,13 +37,13 @@
           :Access public
           :Implements constructor
           pars←eis pars
-          JQueryFn Selector JQPars JavaScript Var PreJavaScript←6↑pars,(⍴pars)↓'' '' '' '' '' ''
+          JQueryFn Selector JQPars JavaScript Var PreJavaScript Type←7↑pars,(⍴pars)↓'' '' '' '' '' '' ''
         ∇
 
         ∇ r←Render
           :Access public
           SetUse
-          r←ScriptOptions #.JQ.JQueryfn JQueryFn Selector JQPars JavaScript Var PreJavaScript
+          r←ScriptOptions #.JQ.JQueryfn JQueryFn Selector JQPars JavaScript Var PreJavaScript Type
         ∇
 
         ∇ r←isSelector str ⍝ checks if str is probably a jQuery selector
@@ -93,11 +94,11 @@
         :field public WidgetSyntax←''
         :field public shared readonly WidgetDef←'event,ui' 'event'  'ui' '$(event.currentTarget)'  ⍝ see _JQ.RenderHandlerCore for details
 
-        ∇ r←{a}rand w;rnd
+        ∇ r←{a}rand w;⎕RL
           :Access public
-          rnd←{⍺←⊢ ⋄ t←16807⌶2 ⋄ r←⍺?⍵ ⋄ t←16807⌶t ⋄ r}
-          :If 0=⎕NC'a' ⋄ r←rnd w
-          :Else ⋄ r←a rnd w ⋄ :EndIf
+          ⎕RL←0
+          :If 0=⎕NC'a' ⋄ r←?w
+          :Else ⋄ r←a?w ⋄ :EndIf
         ∇
 
         ∇ Make
@@ -134,7 +135,7 @@
           :EndIf
          
           opts←{0::⍬ ⋄ 1 0≥_PageRef._Request.isAPLJax}⍬
-          js←opts #.JQ.JQueryfn JQueryFn Selector Options(JavaScript,handlers)Var PreJavaScript
+          js←opts #.JQ.JQueryfn JQueryFn Selector Options(JavaScript,handlers)Var PreJavaScript Type
          
          
           :If _build≥0∊⍴Container.Content

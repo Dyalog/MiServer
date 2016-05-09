@@ -24,6 +24,11 @@
   </directory>
 
   <directory>
+    <alias>jBox</alias>
+    <path>%ServerRoot%/PlugIns/Other/jBox/</path>
+  </directory>
+
+  <directory>
     <alias>DataTables</alias>  
     <path>%ServerRoot%/PlugIns/Other/DataTables-1.10.10/</path>
   </directory>

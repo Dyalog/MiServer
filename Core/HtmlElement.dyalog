@@ -43,7 +43,7 @@
 
     :field public _styles←''
 
-    rand←{t←16807⌶2 ⋄r←?⍵ ⋄ t←16807⌶t ⋄ r }
+    rand←{?⍵⊣⎕RL←0}
 
     ∇ r←Version
       :Access public
@@ -348,13 +348,13 @@
       :Else
         ⍝ If we have a couple of items, the second of which is
         ⍝ a string or VTV, then we are dealing with attributes:
-          :If (,2)≡⍴arg
+          :If (1<|≡arg)∧(,2)≡⍴arg
           :AndIf isAttr 2⊃arg
               (content attr)←arg ⋄ SetAttr attr
           :Else
               content←arg
           :EndIf
-          Content,←arg
+          Add content
           Tag←t
       :EndIf
       Init
@@ -730,7 +730,12 @@
 
     ∇ r←ScriptFollows
       :Access public shared
-      r←2↓∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+      r←2↓∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI ⍝(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+    ∇
+
+    ∇ r←MarkdownFollows
+      :Access public shared
+      r←#.MarkAPL.Markdown2HTML{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI ⍝(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
     ∇
 
     ∇ r←WrapFollowing tag;text;SplitOnSpaceLines;Trim;FirstCommentBlock

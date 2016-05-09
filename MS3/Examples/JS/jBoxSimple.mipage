@@ -1,0 +1,23 @@
+﻿:Class jBoxSimple : MiPageSample
+⍝ Control::     _JS.jBox
+⍝ Description:: jBox provides several style of popups
+
+    ∇ Compose
+      :Access public
+     
+⍝ add some styling to make the spans stand out more
+      Add _.Style'span'(('margin-left' '20px')('margin-right' '20px')('background-color' 'lightblue'))
+     
+      Add _.h2'jBox Widget'
+      Add _.br
+     
+⍝ you can have jBox build the HTML element by not specifying a selector and assigning the Content of Container
+      jb1←Add _.jBox(New _.h3'This is a tooltip the popup message')
+      jb1.Container.Content←'Hover Here!'
+     
+⍝ or you can built the HTML content and set Selector
+      'mySpan'Add _.span'Or Click Here!'
+      (jb2←Add _.jBox'This is a modal popup message' 'Modal').Selector←'#mySpan'
+      'title'jb2.Set(New _.h3'Popup Title')
+    ∇
+:EndClass
