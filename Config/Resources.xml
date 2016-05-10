@@ -16,8 +16,8 @@
 -->
 	<resource>
 		<name>jBox</name>
-		<script>/jBox/jBox.min.js</script>
-		<style>/jBox/jBox.css</style>
+		<script>/PlugIns/Other/jBox/jBox.min.js</script>
+		<style>/PlugIns/Other/jBox/jBox.css</style>
 	</resource>
 <!-- 
 **************************
