@@ -212,6 +212,7 @@
      
           :If 2=⍴,attr  ⍝ 'attr' 'value' is never shorthanded (e.g. given special treatment for id/class)
           :AndIf 1∧.≥≡¨attr
+          :AndIf ~∧/'='∊¨attr
               attr←,⊂attr
           :EndIf
      
