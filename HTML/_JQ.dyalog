@@ -26,7 +26,7 @@
         :field public Type←''          ⍝ Type specification that may precede JQPars
         :field public shared readonly _true←#.JSON.true     ⍝ same definition as in #.JSON
         :field public shared readonly _false←#.JSON.false   ⍝ same definition as in #.JSON
-        :field public ScriptOptions←1 1 ⍝ determines how script will be rendered [1] wrap with <script>...</script>, [2] wrap with $(function(){...})
+        :field public ScriptOptions←⍬  ⍝ determines how script will be rendered [1] wrap with <script>...</script>, [2] wrap with $(function(){...})
 
         ∇ Make0
           :Access public
@@ -90,7 +90,7 @@
         :field public ContainerTag←'div' ⍝ default container type
         :field public Container
         :field public InternalEvents←'' ⍝ list of events the widget "knows" about
-        :field _build←0                 ⍝ if 0, we build any HTML infrastructure for the widget, otherwise, assume the user built it
+        :field public BuildHTML←1       ⍝ if 0, we build any HTML infrastructure for the widget, otherwise, assume the user built it
         :field public WidgetSyntax←''
         :field public shared readonly WidgetDef←'event,ui' 'event'  'ui' '$(event.currentTarget)'  ⍝ see _JQ.RenderHandlerCore for details
 
@@ -109,15 +109,15 @@
           WidgetSyntax←WidgetDef
         ∇
 
-        ∇ r←Render;build;html;handlers;js;opts
+        ∇ r←Render;build;html;handlers;js;oldJavaScript
           :Access public
          
           r←html←js←''
           SetUse
          
-          _build∨←0∊⍴Selector ⍝ if the user explicitly specifies a selector, assume he's built the content himself
+          BuildHTML∧←0∊⍴Selector ⍝ if the user explicitly specifies a selector, assume he's built the content himself
          
-          :If _build
+          :If BuildHTML
               Container.(id name type style class title)←Container.(id name type style class title){UNDEF≡⍵:⍺ ⋄ UNDEF≢⍺:⍺ ⋄ ⍵}¨⎕THIS.(id name type style class title)
               :If Container.id≡UNDEF
                   :If Container.name≢UNDEF
@@ -134,11 +134,13 @@
               handlers←';',⍨∊¯1↓¨Handlers.Render
           :EndIf
          
-          opts←{0::⍬ ⋄ 1 0≥_PageRef._Request.isAPLJax}⍬
-          js←opts #.JQ.JQueryfn JQueryFn Selector Options(JavaScript,handlers)Var PreJavaScript Type
+          oldJavaScript←JavaScript
+          JavaScript,←handlers
+          JQPars←Options
+          js←⎕BASE.Render
+          JavaScript←oldJavaScript
          
-         
-          :If _build≥0∊⍴Container.Content
+          :If BuildHTML≥0∊⍴Container.Content
               :Select ⊃Selector
               :Case '#' ⍝ id?
                   Container.id←1↓Selector
@@ -163,7 +165,7 @@
           handler.(WidgetDef←WidgetRef.WidgetDef)
         ∇
 
-        ∇ {name}Set value
+        ∇ {r}←{name}Set value
           :Access public
           →(0∊⍴value)⍴0
           :If 326≠⎕DR Options ⋄ Options←⎕NS'' ⋄ :EndIf
@@ -175,13 +177,15 @@
               :EndTrap
           :EndIf
           name(Options SetOption)value
+          r←⎕THIS
         ∇
 
-        ∇ name SetIfNotSet value
+        ∇ {r}←name SetIfNotSet value
           :Access public
           :If 0∊⍴GetOption name
               name Set value
           :EndIf
+          r←⎕THIS
         ∇
 
         ∇ name(ref SetOption)value;set;parent;ind;newref;chunk;n;now;new;chunkroot;array;val;pos

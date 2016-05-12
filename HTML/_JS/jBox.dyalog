@@ -5,10 +5,15 @@
 ⍝ type - one of 'Tooltip', 'Mouse', 'Modal', 'Confirm', 'Notice', 'Image'
 ⍝ Public Fields::
 ⍝ Content - the text that will appear in the popup
-⍝ Type - one of 'Tooltip', 'Mouse', 'Modal', 'Confirm', 'Notice', 'Image'
-⍝ Notes:: for more information see https://github.com/StephanWagner/jBox
+⍝ Type - one of 'Tooltip', 'Mouse', 'Modal', 'Confirm', 'Notice', 'Image' 
+⍝ Notes:: 
+⍝ For more information see https://github.com/StephanWagner/jBox  
+⍝ Type is a public field in the base class     
 
-    :field public Content←UNDEF
+    :field public shared readonly DocBase←'http://stephanwagner.me/jBox/documentation'
+    :field public shared readonly ApiLevel←3
+
+    :field public Content←''
 
     ∇ make
       :Access public
@@ -28,8 +33,8 @@
     ∇
 
     ∇ r←Render
-      :Access public
-      :If Content≢UNDEF
+      :Access public   
+      :If BuildHTML←~0∊⍴Content
           'content'Set renderIt Content
       :EndIf
       r←⎕BASE.Render

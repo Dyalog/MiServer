@@ -10,11 +10,10 @@
       r←'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÂÃÇÈÊËÌÍÎÏÐÒÓÔÕÙÚÛÝÀÄÅÆÉÑÖØÜ'
     ∇
 
-    ⍝ Pasted from ⎕SE.Dyalog.Utils: >>
     fromto←{n←⍴1⊃(t f)←⍺ ⋄ ~∨/b←n≥i←f⍳s←,⍵:s ⋄ (b/s)←t[b/i] ⋄ (⍴⍵)⍴s} ⍝ from-to casing fn
+⍝!!! N.B.: in MiServer #.Utils.SetupCompatibility will overwrite these with (819⌶) if the interpreter supports it
     lc←lowerAlphabet upperAlphabet∘fromto ⍝ :Includable Lower-casification of simple array
     uc←upperAlphabet lowerAlphabet∘fromto ⍝ Ditto Upper-casification
-    ⍝ <<
 
     cis←{~0∊⍴(⍺ ⎕S 0 ⎕OPT'IC' 1)⍵} ⍝ Case Insensitive Search
 
@@ -24,28 +23,12 @@
     endsWith←{(,⍺){⍵≡(-⍴⍵)↑⍺},⍵}
     stringify←{¯2↓∊(↓⍕↑⍵),¨⊂⎕UCS 13 10}
 
-    vtom←{⎕ML←3 ⋄ ⍺←' ' ⋄ ⊃⍵⊂⍨~⍵∊⍺} ⍝ vector to matrix
+    split←{⎕ML←3 ⋄ ⍺←' ' ⋄ ⍵⊂⍨~⍵∊⍺}
+    vtom←↑split  ⍝ vector to matrix
 
-
-    ∇ r←dlb x
-    ⍝ Delete Leading Blanks
-      r←(+/∧\' '=x)↓x
-    ∇
-
-    ∇ r←dtb x
-    ⍝ Delete Trailing Blanks
-      r←(-+/∧\' '=⌽x)↓x
-    ∇
-
-    ∇ r←deb x
-    ⍝ Delete extraneous blanks
-      r←{1↓¯1↓(~'  '⍷⍵)/⍵}' ',x,' '
-    ∇
-
-    ∇ r←dmb x;m
-    ⍝ Delete multiple blanks
-      r←(m⍲1⌽m←' '=x)/x
-    ∇
+    dlb←{(+/∧\' '=⍵)↓⍵}               ⍝ Delete Leading Blanks
+    dtb←{(-+/∧\' '=⌽⍵)↓⍵}             ⍝ Delete Trailing Blanks
+    deb←{{1↓¯1↓(~'  '⍷⍵)/⍵}' ',⍵,' '} ⍝ Delete extraneous blanks
 
     ∇ str←str subst(from to);m;⎕IO;i
     ⍝ simple string substitution
@@ -64,7 +47,7 @@
     scaledFmt←{0=⍵:' 0' ⋄ ⍵{((1+⍵)⊃(⊂''),'KMGTQP'),⍨(1⌊⍵)⍕⍺÷10*3×⍵}⌊3÷⍨10⍟⍵}
 
     tonum←{0∊⍴⍵:⍬ ⋄ w←⍕⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}
-    
+
     fmtNum←{⍺←⊢ ⋄ w←⍺⍕⍵ ⋄ (('¯'=,w)/,w)←'-' ⋄ w}
 
     ∇ r←{d}commaFmt n

@@ -41,6 +41,12 @@
           }
       :EndTrap
      
+    ⍝ upper/lowercase - !!! modifies #.String !!!
+      :Trap 11
+          {}(819⌶)'ABC' ⍝ are we in a version where the IBeam is implemented?
+          #.Strings.lc←(819⌶)
+          #.Strings.uc←1∘(819⌶)
+      :EndTrap
     ∇
 
 

@@ -20,7 +20,7 @@
 
   <directory>
     <alias>FontAwesome</alias>
-    <path>%ServerRoot%/PlugIns/Other/font-awesome-4.5.0/</path>
+    <path>%ServerRoot%/PlugIns/Other/font-awesome-4.6.2/</path>
   </directory>
 
   <directory>

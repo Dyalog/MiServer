@@ -21,8 +21,8 @@
     ⍝   [6] JavaScript to execute prior to function call
     ⍝   [7] option
     ⍝ for usage examples, see other functions in this namespace
-      script←{6::1 1 ⋄ script}⍬  ⍝[1] wrap with <script>? [2]add jQuery onload $(function(){});?
-      script←2↑script,(⍴,script)↓1 1
+      script←{6::⍵ ⋄ script}⍬  ⍝[1] wrap with <script>? [2]add jQuery onload $(function(){});? [3] 1=use jQuery selector, 0=use JavaScript New
+      script←3↑script,(⍴,script)↓1 1 1
       pars←eis pars
       jqfn sel jqpars chain oname prejs option←pars,(⍴pars)↓'' '' '' '' '' '' ''
       chain,←(';'=¯1↑chain)↓';'
@@ -35,7 +35,8 @@
       :If ~0∊⍴option
           jqpars,⍨←(quote option),', '
       :EndIf
-      r←script[2]{⍺:'$(function(){',⍵,'});' ⋄ ⍵}(prejs ine prejs,';'),(oname ine oname,'='),'$(',sel,').',jqfn,'(',jqpars,')',chain
+      r←script[3]{⍺:'$(',sel,').',⍵ ⋄ 'new ',⍵}jqfn,'(',jqpars,')',chain
+      r←script[2]{⍺:'$(function(){',⍵,'});' ⋄ ⍵}(prejs ine prejs,';'),(oname ine oname,' = '),r
       r←script[1]{⍺:#.HTMLInput.JS ⍵ ⋄ ⍵}(oname ine'var ',oname,';'),r
     ∇
 
