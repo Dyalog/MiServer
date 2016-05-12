@@ -19,7 +19,7 @@
 		<optgroup label="External">
 		<option value="http://www.w3schools.com/">w3schools</option>
 		<option value="http://js.syncfusion.com/demos/web/">Syncfusion Demos</option>
-		<option value="http://helpjs.syncfusion.com/js/overview">Syncfusion References</a></option>
+		<option value="http://helpjs.syncfusion.com/js/overview">Syncfusion References</option>
 		<option value="http://www.jquery.com/">jQuery Home Page</option>
 		<option value="http://www.jqueryui.com/">jQueryUI Home Page</option>
 		</optgroup>
