@@ -1,0 +1,62 @@
+﻿:Class DataTableSimple : MiPageSample
+⍝ Control::     _JS.DataTable
+⍝ Description:: The simplest use case of a DataTable
+
+    ∇ Compose;data;dt;yadcfColumns
+      :Access Public
+     
+      Add _.h2'DataTable'
+      Add _.p ScriptFollows
+⍝ The DataTable widget uses the JS-Library <a href="http://datatables.net/">DataTables</a>
+⍝ which provides a very powerful and comprehensive rendering tool for tabular data.
+⍝ Compared to the Simple casee, this sample features the following improvements:
+⍝ <ul>
+⍝  <li> Filtering with Column-Filters and external filters (using <a href="http://yadcf-showcase.appspot.com/">yadcf</a>-Widget).
+⍝  <li> Data is passed as JSON-Object which improves performance
+⍝  <li> Numeric colums right-aligned and propely formatted
+⍝ </ul>
+     
+      Add _.h2'Health Care Spending by Country'
+      Add _.p ScriptFollows
+⍝ Data on this page was taken from the <a href="https://www.cia.gov/library/publications/the-world-factbook/rankorder/2225rank.html">CIA World Factbook</a>.
+     
+⍝  [;1] country [;2] % GDP [;3] population [;4] GDP [;5] $/capita
+      data←1 #.Files.FREAD #.Boot.AppRoot,'Examples/Data/stats.DCF'
+      data[;3 4 5]←0.01×⌊0.5+100×data[;3 4 5]÷[2]1000 1000000 1  ⍝ scale the data a bit
+     
+      '#extfilters'Add _.div ScriptFollows
+      ⍝ <b>External filters</b><br />Usually they are placed in the header, but that would be too wide for these. Also this provides a nice showcase for the various options you have ;-)</br>
+      ⍝ <ul>
+      ⍝  <li>GDP: <span id="gdppct_filter"></span></li>
+      ⍝  <li>Population (thousands): <span id="pop_filter"></span></li>
+      ⍝  <li>GDP ($Millions): <span id="gdp_filter"></span></li>
+      ⍝  <li>$/Capita: <span id="cap_filter"></span></li>
+      ⍝ </ul>
+
+      dt←'#sample'Add _.DataTable(0 #.JSON.fromAPL data)
+
+      'searchHighlight'dt.Set _true
+      columns←⎕NS¨5⍴⊂''
+      columns.title←'Country' '% GDP' 'Population (thousands)' 'GDP ($Millions)' '$/Capita' ⍝ take titles out so that we can handle numeric data properly in the following:
+      columns[2 3 4 5].type←⊂'num'
+      columns[4].render←'function(data,type,row,meta){var ret=data; if (type == "display") {var num= Number(data); ret= num.toFixed(0);} return ret;}'
+      columns[2].render←'function(data,type,row,meta){var ret=data; if (type == "display") {var num= Number(data); ret= num.toFixed(1);} return ret;}'
+      columns[3 5].render←⊂'function(data,type,row,meta){var ret=data; if (type == "display") {var num= Number(data); ret= num.toFixed(2);} return ret;}'
+      columns[2 3 4 5].className←⊂'right_aligned'
+      Add _.Style'.right_aligned{text-align: right;}'
+     
+      'columns'dt.Set columns
+     
+      yadcfColumns←⎕NS¨5⍴⊂''
+      yadcfColumns.column_number←¯1+⍳⍴yadcfColumns     ⍝ JS counts with IO=0
+      yadcfColumns[1].filter_reset_button_text←_false
+      yadcfColumns[2 3 4 5].filter_container_id←'gdppct' 'pop' 'gdp' 'cap',¨⊂'_filter'
+      yadcfColumns[2 4].filter_type←⊂'range_number_slider'
+      Use'JQueryUI'   ⍝ required for the slider!
+      yadcfColumns[3 5].filter_type←⊂'range_number'
+      dt.yadcfSet yadcfColumns
+     
+     
+    ∇
+
+:EndClass
