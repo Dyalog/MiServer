@@ -1,18 +1,17 @@
-﻿:Class faIcon : #.HtmlElement  
+﻿:Class faIcon : #.HtmlElement
 ⍝ Description:: FontAwesome Icon widget
 ⍝ Constructor:: [classes]
 ⍝ classes - a vector (or vector of vectors) of classes for the icon
 ⍝ Public Fields::
-⍝ Prefix  – the FontAwesome prefix (default 'fa-')
 ⍝ Classes - a vector (or vector of vectors) of classes for the icon.
 ⍝ AccessibilityText – a character vector of text to display
-⍝ Size – one of '1x' 'lg' '2x' '3x' '4x' '5x' 
+⍝ Size – one of '1x' 'lg' '2x' '3x' '4x' '5x'
 ⍝
 ⍝ Notes::
 ⍝ A class will be prefixed by Prefix unless the class begins with a '.' or Prefix
 ⍝ Examples::
 ⍝       (⎕NEW _.faIcon 'spinner spin fa-3x fw .margin-bottom').Render
-⍝ <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i> 
+⍝ <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i>
 ⍝
 ⍝ If you want a stacked icon, you can specify multiple classes.
 ⍝ The following examples will all render the same result.
@@ -26,64 +25,54 @@
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←''
 
-    :field public Prefix←'fa'
     :field public Classes←''
     :field public AccessibilityText←''
+    :field public Icons←''
     :field public Size←'' ⍝ can be any of lg 2x 3x 4x 5x
+
+    Prefix←'fa-'
+    stacked←0
+    sizes←'lg' '1x' '2x' '3x' '4x' '5x'
 
     ∇ make
       :Access public
       :Implements constructor
-      Uses←'FontAwesome'
+      Use'FontAwesome'
       Tag←'i'
+      SetUse
     ∇
 
     ∇ make1 arg
       :Access public
       :Implements constructor
-      Uses←'FontAwesome'
+      Use'FontAwesome'
       Tag←'i'
       Classes←arg
+      SetUse
     ∇
 
-    ∇ r←Render;oldClass;stacked;classes;c
+    ∇ r←Render;oldClass;c;oldContent
       :Access public
       r←''
-      stacked←0
-      Prefix,←'-'↓⍨'-'=¯1↑Prefix
       :If ~0∊⍴Classes
           oldClass←class
           oldContent←Content
           :If class≡UNDEF
               class←''
           :EndIf
-          :Select |≡Classes
-          :CaseList 0 1 ⍝ scalar shouldn't happen, but just in case...
-              class←class,makeClasses Classes
-          :Case 2
-              :If ∨/' '∊¨Classes
-                  stacked←1
-                  classes←makeClasses¨Classes
-              :Else
-                  class←class,makeClasses⍕Classes
-              :EndIf
-          :Case 3
-              stacked←1
-              classes←makeClasses∘⍕¨Classes
-          :Else
-              ∘∘∘
-          :EndSelect
      
           :If ~0∊⍴Size
               class←class,' ',Prefix,Size
           :EndIf
      
           :If stacked
+              Icons.Tag←⊂Tag
+              Icons.AddClass{∨/∊'-stack-1x' '-stack-2x'⍷¨⊂⍵:⍵ ⋄ ⍵,' ',Prefix,'stack-1x'}¨((Prefix,'(lg|[12345]x)')⎕R{{(¯2↓⍵),'stack-',¯2↑⍵}⍵.Match})classes
               Tag←'span'
-              class←class,' ',Prefix,'stack'
-              :For c :In classes
-                  (Add _.i).class←c
-              :EndFor
+              class←Prefix,'lg ',class,' ',Prefix,'stack'
+              Add¨Icons
+          :Else
+              class←⊃classes
           :EndIf
      
           class←#.Strings.deb class
@@ -102,6 +91,28 @@
     ∇ r←makeClasses classes
       :Access public
       r←(¯1↓Prefix),∊#.Strings.deb' '∘,∘(Prefix∘{0∊⍴⍵:⍵ ⋄ '.'=⍬⍴⍵:1↓⍵ ⋄ ⍵ #.Strings.beginsWith ⍺:⍵ ⋄ ⍺,⍵})¨#.Strings.split classes
+    ∇
+
+    ∇ UpdateClasses arg;n
+      :Implements trigger Classes
+      stacked←0
+      :Select |≡arg.NewValue
+      :CaseList 0 1 ⍝ scalar shouldn't happen, but just in case...
+          classes←eis makeClasses Classes
+      :Case 2
+          :If ∨/' '∊¨Classes
+              stacked←1
+              classes←makeClasses¨Classes
+          :Else
+              classes←eis makeClasses⍕Classes
+          :EndIf
+      :Case 3
+          stacked←1
+          classes←makeClasses∘⍕¨Classes
+      :Else
+          'Invalid faIcon argument'⎕SIGNAL 11
+      :EndSelect
+      Icons←⎕NEW¨(⍴classes)⍴#.HtmlElement
     ∇
 
 :EndClass

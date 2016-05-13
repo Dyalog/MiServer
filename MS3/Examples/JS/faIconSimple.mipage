@@ -1,95 +1,65 @@
-﻿:Class FontIconsSimple : MiPageSample
+﻿:Class faIconSimple : MiPageSample
 ⍝ Control:: _DC.FontIcons
 ⍝ Description:: provides an easy cover for the wonderful icons from FontAwesome, Blacktie and FontIcons
 
     ∇ Compose;frm;single;multi;btn
       :Access public
-      'FontAwesome'_.FontIconsBase.DeriveClass'FontAwesome' 'fa' ⍝ set it up (should be done "elsewhere" after loading FI-Class...)
-      ⍝ notice how there is no Use-Statement required to load the resources! :-)
      
-      Add _.title'_.FontIcons'
-      Add _.h2'Some Examples'
-      Add _.p ScriptFollows
-            ⍝ This widget simplifies access to the icons provided in FontAwesome which are used all over the web.
-            ⍝ Also "difficult" combinations should be simplified by this class - please study the source-code of this example-page for more details...
+      Add _.title'_.faIcon'
+      Add _.h2'FontAwesome Icons - _.faIcon Examples'
+      Add _.Style'.fa' 'margin-right:10px'  ⍝ add some spacing to the right of all the icons
      
-      Add _.h3'Basic Icons'
-      Add _.FontAwesome'camera'
-      Add _.FontAwesome'camera-retro'
-      Add _.FontAwesome'user'
-      Add _.FontAwesome'home'
-      Add _.FontAwesome'book'
-      Add _.FontAwesome'pencil'
-      Add _.FontAwesome'terminal'
-      Add _.FontAwesome'flag'
-      Add _.FontAwesome'trash'
-      Add _.FontAwesome'pied-piper-alt'
-      Add _.FontAwesome'hand-spock-o'
-      Add _.FontAwesome'thumbs-o-up'
+      :With Add _.h3
+          Add'FontAwesome 4.6.2 has '
+          Add _.A'632 icons!' 'http://fontawesome.io/icons/'
+      :EndWith
      
-      Add _.br
-      Add'Actually there are > 400 icons in the entire collection - see link below!'
+      Add _.h3'A Few Basic Icons...'
+      {Add _.faIcon ⍵}¨'camera' 'camera-retro' 'user' 'home' 'book' 'pencil' 'terminal' 'flag' 'trash' 'pied-piper-alt' 'hand-spock-o' 'thumbs-o-up'
      
-      Add _.h3'Larger Icons'
-      Add _.FontAwesome'camera'
-      Add _.FontAwesome'camera 2x'
-      Add _.FontAwesome'camera 3x'
-      Add _.FontAwesome'camera 4x'
-      Add _.FontAwesome'camera 5x'
-      Add _.FontAwesome'camera-retro 5x'
-      Add _.FontAwesome'camera-retro 4x'
-      Add _.FontAwesome'camera-retro 3x'
-      Add _.FontAwesome'camera-retro 2x'
-      Add _.FontAwesome'camera-retro'
-     
-      Add _.h3'List Icons'
-      fa←Add _.FontAwesome
-      ⍝ examples also illustrate
-      fa.ul(('check-square' 'List icons' '#foo1')('check-square'('can be used' 'style="color: green;"'))('spinner spin'('as bullets' '#bulletsInner')'#bulletsOuter')('square' 'in lists'))
-     
+      Add _.h3'Icon Size Control'
+      Add _.faIcon'camera'
+      Add _.faIcon'camera 2x'
+      Add _.faIcon'camera 3x'
+      Add _.faIcon'camera 4x'
+      Add _.faIcon'camera 5x'
+      Add _.faIcon'camera-retro 5x'
+      Add _.faIcon'camera-retro 4x'
+      Add _.faIcon'camera-retro 3x'
+      Add _.faIcon'camera-retro 2x'
+      Add _.faIcon'camera-retro'
      
       Add _.h3'Bordered & Pulled Icons'
-      d←Add _.div
-      d.Add _.FontAwesome'quote-left 2x pull-left border'
-      d.Add _.div'<i>...even quotations should look nice in APL!</i>" said the anonymous Danish CTO of an orange-coloured APL-Vendor...' 'style="font-style:italics;width: 300px;"'
-     
+      Add _.faIcon'quote-left 2x pull-left border'
+      (Add _.p'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in nisl congue, sollicitudin leo vitae, lacinia mi.').style←'width:350px;'
      
       Add _.h3'Animated Icons'
-      Add _.FontAwesome'circle-o-notch spin'
+      Add _.faIcon'circle-o-notch spin'
       Add'And this dynamic stuff just rolls...'
      
-     
       Add _.br
-      Add _.FontAwesome'refresh spin'
+      Add _.faIcon'refresh spin'
       Add'...and spins...'
      
-     
       Add _.br
-      Add _.FontAwesome'spinner pulse'
+      Add _.faIcon'spinner pulse'
       Add'...forever and ever!'
      
-     
       Add _.h3'Rotated & Flipped'
-      Add _.FontAwesome'shield' ⋄ Add'normal' ⋄ Add _.br
-      Add _.FontAwesome'shield rotate-90' ⋄ Add'rotate-90' ⋄ Add _.br
-      Add _.FontAwesome'shield rotate-180' ⋄ Add'rotate-180' ⋄ Add _.br
-      Add _.FontAwesome'shield rotate-270' ⋄ Add'rotate-270' ⋄ Add _.br
-      Add _.FontAwesome'shield flip-horizontal' ⋄ Add'flip-horizontal' ⋄ Add _.br
-      Add _.FontAwesome'shield flip-vertical' ⋄ Add'flip-vertical' ⋄ Add _.br
-     
-     
+      Add _.faIcon'shield' ⋄ Add'normal' ⋄ Add _.br
+      Add _.faIcon'shield rotate-90' ⋄ Add'rotate-90' ⋄ Add _.br
+      Add _.faIcon'shield rotate-180' ⋄ Add'rotate-180' ⋄ Add _.br
+      Add _.faIcon'shield rotate-270' ⋄ Add'rotate-270' ⋄ Add _.br
+      Add _.faIcon'shield flip-horizontal' ⋄ Add'flip-horizontal' ⋄ Add _.br
+      Add _.faIcon'shield flip-vertical' ⋄ Add'flip-vertical' ⋄ Add _.br
      
       Add _.h3'Stacked Icons'
-      fa←Add _.FontAwesome
-      fa.StackSize←'lg'
-      fa.stack'square-o stack-2x'
-      fa.stack'twitter'
+      Add _.faIcon('square-o 2x' 'twitter')
+      (Add _.faIcon('square-o 2x' 'twitter')).Size←'4x'
      
-      nocam←Add _.FontAwesome
-      nocam.StackSize←'lg'
-      nocam.stack'camera'
-      nocam.stack'ban 2x'(⊂'style' 'color:red;')
-     
+      (Add _.faIcon'ban 2x' 'camera').Icons[1].style←'color:red;'
+      (Add _.faIcon'ban 2x' 'camera').(Size(Icons[1]).style)←'4x' 'color:red;'
+      →0
      
       Add _.h3'Filenames and more stacking'
       ⍝ actually, with all the stuff I got from the stacking-experiments, I may redo .tla - it would be "nice"
