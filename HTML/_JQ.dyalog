@@ -628,7 +628,7 @@
               dtype←'"json"'
               success←'success: function(obj){APLJaxReturn(obj);document.body.style.cursor="default";}'
               status←'statusCode:{ 408: function(){alert("Session timed out");',removehg,'}}'
-              ajax←(JavaScript ine JavaScript,';'),useajax/hg,'$.ajax({url: ',(quote Page),', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,', ',status,'});'
+              ajax←(JavaScript ine JavaScript,(';'=¯1↑JavaScript)↓';'),useajax/hg,'$.ajax({url: ',(quote Page),', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,', ',status,'});'
          
               :If widget
                   :If force

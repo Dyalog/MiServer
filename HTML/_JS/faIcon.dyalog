@@ -2,24 +2,25 @@
 ⍝ Description:: FontAwesome Icon widget
 ⍝ Constructor:: [classes]
 ⍝ classes - a vector (or vector of vectors) of classes for the icon
+⍝
 ⍝ Public Fields::
 ⍝ Classes - a vector (or vector of vectors) of classes for the icon.
 ⍝ AccessibilityText – a character vector of text to display
 ⍝ Size – one of '1x' 'lg' '2x' '3x' '4x' '5x'
+⍝ Icons - this is a vector of HtmlElements that is used to provide access to the individual icons in a stacked icon
 ⍝
 ⍝ Notes::
 ⍝ A class will be prefixed by Prefix unless the class begins with a '.' or Prefix
+⍝
 ⍝ Examples::
 ⍝       (⎕NEW _.faIcon 'spinner spin fa-3x fw .margin-bottom').Render
 ⍝ <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i>
 ⍝
 ⍝ If you want a stacked icon, you can specify multiple classes.
 ⍝ The following examples will all render the same result.
-⍝       _.faIcon('square-o stack-2x' 'flag stack-1x inverse')
-⍝       _.faIcon(('square-o' 'stack-2x') 'flag stack-1x inverse')
-⍝       _.faIcon(('square-o' 'stack-2x') ('flag stack-1x' 'inverse'))
-
-
+⍝       _.faIcon('square-o 2x' 'flag inverse')
+⍝       _.faIcon(('square-o' '2x') 'flag inverse')
+⍝       _.faIcon(('square-o' '2x') ('flag' 'inverse'))
 
     :field public shared readonly DocBase←'http://fontawesome.io/examples/'
     :field public shared readonly ApiLevel←3
@@ -32,7 +33,6 @@
 
     Prefix←'fa-'
     stacked←0
-    sizes←'lg' '1x' '2x' '3x' '4x' '5x'
 
     ∇ make
       :Access public

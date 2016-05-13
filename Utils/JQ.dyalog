@@ -36,7 +36,7 @@
           jqpars,⍨←(quote option),', '
       :EndIf
       r←script[3]{⍺:'$(',sel,').',⍵ ⋄ 'new ',⍵}jqfn,'(',jqpars,')',chain
-      r←script[2]{⍺:'$(function(){',⍵,'});' ⋄ ⍵}(prejs ine prejs,';'),(oname ine oname,' = '),r
+      r←script[2]{⍺:'$(function(){',⍵,'});' ⋄ ⍵}(prejs ine prejs,(';'=¯1↑prejs)↓';'),(oname ine oname,' = '),r
       r←script[1]{⍺:#.HTMLInput.JS ⍵ ⋄ ⍵}(oname ine'var ',oname,';'),r
     ∇
 

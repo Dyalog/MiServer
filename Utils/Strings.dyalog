@@ -17,7 +17,9 @@
 
     cis←{~0∊⍴(⍺ ⎕S 0 ⎕OPT'IC' 1)⍵} ⍝ Case Insensitive Search
 
-    nocase←{(lc ⍺)⍺⍺ lc ⍵} ⍝ case insensitive operator
+    nocase←{(lc ⍺)⍺⍺ lc ⍵} ⍝ case insensitive operator  
+    
+    firstCap←('(?<first>\w)(?<remainder>\w*)'⎕R'\u<first>\l<remainder>')
 
     beginsWith←{(,⍺){⍵≡(⍴⍵)↑⍺},⍵}
     endsWith←{(,⍺){⍵≡(-⍴⍵)↑⍺},⍵}

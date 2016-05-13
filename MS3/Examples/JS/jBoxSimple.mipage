@@ -6,21 +6,18 @@
       :Access public
      
 ⍝ add some styling to make the spans stand out more
-      Add _.Style'span'(('margin-left' '20px')('margin-right' '20px')('background-color' 'lightblue'))
+      Add _.Style'#demo span'(('margin-left' '20px')('margin-right' '20px')('background-color' 'lightblue'))
      
-      Add _.h2'jBox Widget'
-      Add _.br
-      'myspan'('title' 'tooltip 1')Add _.span'Hover here'
-      (Add _.jBox).Selector←'#myspan'
+      :With 'demo'Add _.div
+          Add _.h2'jBox Widget'
+          Add _.br
      
-      (Add _.jBox'tooltip 1').Container.Add'Hover here'
-⍝ you can have jBox build the HTML element by not specifying a selector and assigning the Content of Container
-      jb1←Add _.jBox(New _.h3'This is a tooltip the popup message')
-      jb1.Container.Content←'Hover Here!'
+          Add _.jBox('Tooltip' 'Tooltip Text' 'Hover here')
      
 ⍝ or you can built the HTML content and set Selector
-      'mySpan'Add _.span'Or Click Here!'
-      (jb2←Add _.jBox'This is a modal popup message' 'Modal').Selector←'#mySpan'
-      'title'jb2.Set(New _.h3'Popup Title').Render
+          'mySpan'Add _.span'Or Click Here!'
+          (jb←Add _.jBox'Modal' 'This is a modal popup message').Selector←'#mySpan'
+          'title'jb.Set(New _.h3'Popup Title').Render
+      :EndWith
     ∇
 :EndClass

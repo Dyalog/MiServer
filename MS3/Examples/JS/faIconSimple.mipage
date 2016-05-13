@@ -58,7 +58,7 @@
       (Add _.faIcon('square-o 2x' 'twitter')).Size←'4x'
      
       (Add _.faIcon'ban 2x' 'camera').Icons[1].style←'color:red;'
-      (Add _.faIcon'ban 2x' 'camera').(Size(Icons[1]).style)←'4x' 'color:red;'
+     
       →0
      
       Add _.h3'Filenames and more stacking'
