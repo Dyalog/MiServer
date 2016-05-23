@@ -7,7 +7,7 @@
     <LogMessageLevel>1</LogMessageLevel> <!-- 0-none -1-all 1-error/important 2-warning 4-informational 8-Transactional -->
     <Rest>0</Rest>                       <!-- running RESTful web service? -->
     <Production>0</Production>           <!-- 1-running in production mode, 0-development mode (enable debugging framework) --> 
-    <IdleTimeOut>0</IdleTimeOut>         <!-- seconds between calls to onIdle server event - 0 means don't call onIdle -->
+    <IdleTimeout>0</IdleTimeout>         <!-- seconds between calls to onIdle server event - 0 means don't call onIdle -->
    
 <!-- Communications Settings -->
     <Ports>8080-8090</Ports>                         <!-- List of ports that MiServer can listen on -->
@@ -20,6 +20,7 @@
     <KeyFile></KeyFile>                              <!-- Public Key file -->
     <RootCertDir></RootCertDir>                      <!-- Root certificate directory (Conga) -->
     <SSLFlags>96</SSLFlags>                          <!-- SSL flags (Conga) 96 = 32 Accept without validating + 64 Request Client Cert -->
+    <WaitTimeout>5000</WaitTimeout>                  <!-- Milliseconds to wait for request from client before Conga times out -->
 
 <!-- Page/Request Settings -->
     <Lang>en</Lang>                                     <!-- language setting --> 
@@ -30,7 +31,7 @@
 
 <!-- Extensions -->
     <SessionHandler>SimpleSessions</SessionHandler>     <!-- name of class to perform session management -->
-    <SessionTimeOut>30</SessionTimeOut>                 <!-- session timeout, in minutes -->
+    <SessionTimeout>30</SessionTimeout>                 <!-- session timeout, in minutes -->
     <Authentication>SimpleAuth</Authentication>         <!-- name of class to perform Basic HTTP authentication -->
     <Logger>Logger</Logger>                             <!-- name of class to perform HTTP request loggin -->
 

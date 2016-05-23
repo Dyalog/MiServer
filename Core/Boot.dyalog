@@ -239,7 +239,7 @@
       Config.Host←Config Setting'Host' 0 'localhost'
       Config.HttpCacheTime←Config Setting'HttpCacheTime' 1 0 ⍝ default to off (0)
       Config.IPVersion←Config Setting'IPVersion' 0 'IPV4'
-      Config.IdleTimeOut←Config Setting'IdleTimeOut' 1 0 ⍝ default to none (0)
+      Config.IdleTimeout←Config Setting'IdleTimeout' 1 0 ⍝ default to none (0)
       Config.KeyFile←Config Setting'KeyFile' 0 ''
       Config.Lang←Config Setting'Lang' 0 'en'
       Config.LogMessageLevel←Config Setting'LogMessageLevel' 1 1 ⍝ default to error messages only
@@ -256,10 +256,11 @@
       Config.Secure←Config Setting'Secure' 1 0
       Config.Server←Config Setting'Server' 0 ''
       Config.SessionHandler←Config Setting'SessionHandler' 0 'SimpleSessions'
-      Config.SessionTimeOut←Config Setting'SessionTimeOut' 1 30 ⍝ 30 minute timeout
+      Config.SessionTimeout←Config Setting'SessionTimeout' 1 30 ⍝ 30 minute timeout
       Config.SupportedEncodings←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}',',Config Setting'SupportedEncodings' 0
       Config.TempFolder←folderize Config.Root{0∊⍴⍵:⍵ ⋄ ((isRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
       Config.TrapErrors←Config Setting'TrapErrors' 1 0
+      Config.WaitTimeout←Config Setting'WaitTimeout' 1 5000 ⍝ 5000 msec (5 second timeout)
       Config.UseContentEncoding←Config Setting'UseContentEncoding' 1 0 ⍝ aka HTTP Compression default off (0)
      
       :If 0≠⎕NC'#.DrA' ⍝ Transfer DrA config options

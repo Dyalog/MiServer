@@ -150,7 +150,7 @@
      
       idletime←#.Dates.DateToIDN ⎕TS
       :While ~Stop
-          wres←#.DRC.Wait ServerName 20000 ⍝ Tick every 20 secs
+          wres←#.DRC.Wait ServerName Config.WaitTimeout ⍝ Wait for WaitTimeout before timing out
           ⍝ wres: (return code) (object name) (command) (data)
      
           :Select 1⊃wres
@@ -196,8 +196,8 @@
      
           :Case 100 ⍝ Time out - put "housekeeping" code here
               SessionHandler.HouseKeeping ⎕THIS
-              :If 0<Config.IdleTimeOut ⍝ if an idle timeout (in seconds) has been specified
-              :AndIf Config.IdleTimeOut<86400×-/(ts←#.Dates.DateToIDN ⎕TS)idletime ⍝ has it passed?
+              :If 0<Config.IdleTimeout ⍝ if an idle timeout (in seconds) has been specified
+              :AndIf Config.IdleTimeout<86400×-/(ts←#.Dates.DateToIDN ⎕TS)idletime ⍝ has it passed?
                   onIdle
                   idletime←ts
               :EndIf

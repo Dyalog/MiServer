@@ -18,7 +18,7 @@
         :Field Public LastActive←0
         :Field Public Cookie←''
         :Field Public AuthCookieName←''
-        :Field Public TimeOut←0
+        :Field Public Timeout←0
         :Field Public State 
         :Field Public New←1
         :Field Public Pages←0⍴⎕NEW Page
@@ -31,8 +31,8 @@
      
       Sessions←0⍴⎕NEW Session
       root←Server.Config.Root
-      TimeOut←Server.Config.SessionTimeOut
-      timeout←TimeOut÷24×60 ⍝ Convert minutes to fractions of a day
+      Timeout←Server.Config.SessionTimeout
+      timeout←Timeout÷24×60 ⍝ Convert minutes to fractions of a day
      
       :Trap 22
           tn←(root,'sessions.dcf')⎕FCREATE 0
