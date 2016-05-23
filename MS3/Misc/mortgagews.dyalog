@@ -9,20 +9,20 @@
     ∇ r←Respond;mask
       :Access Public
      
-      r←⎕NS ''
+      r←⎕NS''
       r.msg←'Please provide either (prin rate term) or (rate term pmt)'
-
-      :if 1=+/mask←⍬∘≡¨r.(prin rate term pmt)←⍬ Get 'prin rate term pmt'
-
-          :if mask[1] ⍝ principle missing
-              r.(msg prin)←'' (calcprin r.(rate term pmt))
-
-          :elseif mask[4] ⍝ payment missing
-              r.(msg pmt)←'' (calcpmt r.(prin rate term))
-
-          :endif
-      :endif 
-
+     
+      :If 1=+/mask←⍬∘≡¨r.(prin rate term pmt)←⍬ Get'prin rate term pmt'
+     
+          :If mask[1] ⍝ principle missing
+              r.(msg prin)←''(calcprin r.(rate term pmt))
+     
+          :ElseIf mask[4] ⍝ payment missing
+              r.(msg pmt)←''(calcpmt r.(prin rate term))
+     
+          :EndIf
+      :EndIf
+     
     ∇
 
 :EndClass
