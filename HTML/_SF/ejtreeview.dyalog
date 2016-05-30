@@ -1,4 +1,4 @@
-:class ejTreeView : #._SF._ejWidget
+﻿:class ejTreeView : #._SF._ejWidget
 ⍝ Description:: Syncfusion TreeView widget
 ⍝ Constructor::  [items [levels [links]]]
 ⍝ items  - vector of character vectors containing the tree node texts
@@ -67,8 +67,8 @@
       mat←((≢mat),4)↑mat,⊂''
       mat←mat[;2 1 4 3]
      
-      mat[;2]←'\&#x(\d{4});'⎕R'\\u\1'⊢mat[;2]
-      mat[;2]←'\&#(\d{4});'⎕R{'\u',∊#.Utils.tohex⍎4↑2⌽⍵.Match}⊢mat[;2]
+      mat[;2]←'\&#x([[:xdigit:]]+);'⎕R'\\u\1'⊢mat[;2]
+      mat[;2]←'\&#(\d+);'⎕R{'\u',∊#.Utils.tohex⍎⍵.Match∩⎕D}mat[;2]
      
       SetId
       mat[;3]←id #.Utils.levels2ids mat[;1] ⍝ auto-generate node ids
