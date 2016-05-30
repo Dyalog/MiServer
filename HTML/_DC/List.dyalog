@@ -1,4 +1,4 @@
-:Class List : #._html.ul
+﻿:Class List : #._html.ul
     ⍝ Description:: Enhanced HTML ul
     ⍝ Constructor:: [items [levels [links]]]
     ⍝ items     - vector of texts for the list
@@ -43,7 +43,7 @@
       (Items Levels Links)←args defaultArgs Items Levels Links
     ∇
 
-    ∇ r←Render;i;link;links;opt;opts;text;n;ids
+    ∇ r←Render;i;link;links;opt;opts;text;n;ids;mat;diff;ul;xp
       :Access public
       Tag←'ol'⊣⍣Ordered⊢'ul'
       SetId
