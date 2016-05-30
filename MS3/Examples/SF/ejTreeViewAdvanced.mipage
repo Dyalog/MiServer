@@ -1,20 +1,23 @@
-﻿:Class ejTreeViewAdvanced : MiPageSample
+:Class ejTreeViewAdvanced : MiPageSample
 ⍝ Control:: _SF.ejTreeView
 ⍝ Description:: A TreeView with checkable nodes and the ability to add & delete nodes
 
     ∇ Compose;add;chk;del;exp;mod
       :Access Public
+      Add _.style ScriptFollows ⍝ formatting for model output
+⍝ .model {border-collapse: collapse;}
+⍝ .mcell {border: 1px solid black;}
      
-      tvid←'tv'      ⍝ id of the treeview we will create
-      count←⊃⍴items←8 3⍴⊂'' ⍝ NB global, used by onAddBranch
-      items[;1]←1 2 2 3 3 1 2 1                ⍝ Depth of nesting
-      items[;2]←'Item '∘,∘⍕¨⍳8                 ⍝ Node texts
-      items[;3]←(⊂tvid),∘⍕¨⍳count              ⍝ Original node ids are tvNNN
+      tvid←'tv'              ⍝ id of the treeview we will create
+      levels←1 2 2 3 3 1 2 1 ⍝ Depth of nesting
+      count←≢levels          ⍝ NB global, used by onAddBranch
+      allids←tvid #.Utils.levels2ids levels
+      items←'Item '∘,∘⍕¨⍳count   ⍝ Node texts
       checked←count⍴0
-      added←0                                  ⍝ Count added nodes
-      current←⍬                                ⍝ No current node
+      added←0                ⍝ Count added nodes
+      current←⍬              ⍝ No current node
      
-      tv←tvid New _.ejTreeView items
+      tv←tvid New _.ejTreeView(items levels)
       ⍝ Enable checkboxes, but without auto-check of parents & children
       tv.Set('showCheckbox'_true)('autoCheck'_false)
       ⍝ Set up callbacks which all return the selected node as information
@@ -36,12 +39,14 @@
       :Access Public
      
       current←Get'node'
-      :If (index←items[;3]⍳⊂current)>⊃⍴items
+      index←allids⍳⊂current
+      :If index>⍴items
           r←'#output'Replace _.p(_event,' on unknown node "',current,'"')
-          →0⊣current←''
+          current←''
+          →0
       :EndIf
      
-      item←⊃items[index←items[;3]⍳⊂current;2]
+      item←index⊃items
      
       :Select _event
       :Case 'nodeSelect'
@@ -55,29 +60,31 @@
     ∇ r←onBranch;exec;id;index;insert;m;name
       ⍝ Add to, or delete current branch
       :Access Public
-     
       :If 0=⍴current ⋄ index←depth←0
-      :Else ⋄ index←items[;3]⍳⊂current ⋄ depth←items[index;1]
+      :Else ⋄ depth←levels[index←allids⍳⊂current]
       :EndIf
       r←⍬
-     
+      
       :Select _what
      
       :Case 'Add'
           added+←1
-          name←id←'Added Item ',⍕added
+          name←id←'Added_',⍕added
           r←tv.addNode name
-          insert←index+(index↓items[;1])⍳depth ⍝ Insertion point will be just before next node at same level
+          insert←index+(index↓levels)⍳depth ⍝ Insertion point will be just before next node at same level
           m←insert≠⍳1+1↑⍴items ⍝ Expansion mask
-          items←m⍀items ⋄ checked←m\checked
-          items[insert;]←(1+depth)name id
+          (items levels allids checked)←m∘⍀¨items levels allids checked
+     
+          (insert⊃items)←name
+          (insert⊃levels)←1+depth
+          (insert⊃allids)←id
      
       :Case 'Del'
           :If index≠0
               r←tv.removeNode current
               m←index≠⍳1↑⍴items
-              m[index+⍳+/∧\index↓items[;1]>items[index;1]]←0 ⍝ Child nodes will go too
-              items←m⌿items ⋄ checked←m/checked
+              m[index+⍳+/∧\index↓levels>levels[index]]←0 ⍝ Child nodes will go too
+              (items levels allids checked)←m∘⌿¨items levels allids checked⍝⋄ checked←m/checked
               current←⍬ ⍝ No current node
           :EndIf
      
@@ -97,8 +104,9 @@
       :EndSelect
      
       r,←'#tvModel'Replace''
-    ∇
     
+     ∇
+
     ∇ r←onModel;ckd;depth;depths;ids;names;ns;parent;t;t1;t2
       :Access Public
       ⍝ Display the model
@@ -114,14 +122,28 @@
           depth←depth+1
       :EndWhile
      
-      t1←'Depth' 'Name' 'ID' 'Checked'⍪items,checked         ⍝ Server-side model
+      t1←'Depth' 'Name' 'ID' 'Checked'⍪levels,items,allids,⍪checked         ⍝ Server-side model
       t2←'Depth' 'Name' 'ID' 'Checked'⍪depths,names,ids,⍪ckd ⍝ Model returned by JavaScript call
      
-      :If t1≡t2 ⋄ t←2 1⍴'Server≡Browser'(New _.Table t1)     ⍝ They should be identical
-      :Else ⋄ t←2 2⍴'Server' 'Browser',{New _.Table ⍵}¨t1 t2 ⍝ But addNode doesn't maintain the JS model
+      :If t1≡t2
+          t1←'.model'New _.Table t1
+          t1.(CellAttr HeaderRows)←'.mcell' 1
+          t←2 1⍴'Server≡Browser't1     ⍝ They should be identical
+      :Else
+          (t1 t2)←{'.model'New _.Table ⍵}¨t1 t2
+          (t1 t2).(CellAttr HeaderRows)←⊂'.mcell' 1
+          t←2 2⍴'Server' 'Browser't1 t2 ⍝ But addNode doesn't maintain the JS model
       :EndIf
+      t←New _.Table t
+      t.HeaderRows←1
      
-      r←'#tvModel'Replace(New _.Table t)
+     
+      r←'#tvModel'Replace t
     ∇
 
 :EndClass
+
+
+
+
+
