@@ -6,7 +6,7 @@
 *******************************
 -->
 	<resource>
-		<name>FontAwesome</name>
+		<name>FontAwesomeIcons</name>
 		<style>/FontAwesome/css/font-awesome.min.css</style>
 	</resource>
 <!-- 
@@ -84,43 +84,28 @@
 	<resource>
 		<name>jquery.easing</name>
 		<uses>JQuery</uses>
-		<script>/Syncfusion/external/jquery.easing.1.3.min.js</script>
-	</resource>
-	<resource>
-		<name>jquery.globalize</name>
-		<uses>JQuery</uses>
-		<script>/Syncfusion/external/jquery.globalize.min.js</script>
+		<script>/Syncfusion/assets/external/jquery.easing.1.3.min.js</script>
 	</resource>
 	<resource>
 		<name>jquery.validate</name>
 		<uses>JQuery</uses>
-		<script>/Syncfusion/external/jquery.validate.min.js</script>
-	</resource>
-	<resource>
-		<name>cultures</name>
-		<script>/Syncfusion/external/jquery.globalize.min.js</script>
-		<script>/Syncfusion/external/globalize.cultures.min.js</script>
+		<script>/Syncfusion/assets/external/jquery.validate.min.js</script>
 	</resource>
 	<resource>
 		<name>jsrender</name>
-		<script>/Syncfusion/external/jsrender.min.js</script>
+		<script>/Syncfusion/assets/external/jsrender.min.js</script>
 	</resource>
 	<resource>
 		<name>ej.unobtrusive</name>
-		<script>/Syncfusion/assets/js/common/ej.unobtrusive.min.js</script>
-	</resource>
-	<resource>
-		<name>properties</name>
-		<uses>SyncfusionJS</uses>
-		<script>/Syncfusion/external/properties.js</script>
+		<script>/Syncfusion/assets/scripts/common/ej.unobtrusive.min.js</script>
 	</resource>
 	<resource>
 		<name>excanvas</name>
-		<script>/Syncfusion/external/excanvas.min.js</script>
+		<script>/Syncfusion/assets/external/excanvas.min.js</script>
 	</resource>
 	<resource>
 		<name>SyncfusionJS</name>
-		<script>/Syncfusion/assets/js/web/ej.web.all.min.js</script>
+		<script>/Syncfusion/assets/scripts/web/ej.web.all.min.js</script>
 	</resource>
 	<resource>
 		<name>Syncfusion</name>
@@ -132,9 +117,9 @@
 		<name>SyncfusionMobile</name>
 		<uses>JQuery</uses>
 		<uses>sfThemeMobile</uses>
-		<script>/Syncfusion/assets/js/mobile/ej.mobile.all.min.js</script>
+		<script>/Syncfusion/assets/scripts/mobile/ej.mobile.all.min.js</script>
 	</resource>
-	<!-- 
+<!-- 
 *********************************
 *  Widget Syncfusion resources  *
 *********************************
@@ -164,7 +149,6 @@
 	<resource>
 		<name>ejChart</name>
 		<uses>Syncfusion</uses>
-		<uses>jquery.globalize</uses>
 	</resource>
 	<resource>
 		<name>ejCheckBox</name>
@@ -183,22 +167,16 @@
 	<resource>
 		<name>ejCurrencyTextbox</name>
 		<uses>Syncfusion</uses>
-		<uses>jquery.globalize</uses>
-		<uses>cultures</uses>
 	</resource>
 	<resource>
 		<name>ejDatePicker</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
-		<uses>jquery.globalize</uses>
-		<uses>cultures</uses>
 	</resource>
 	<resource>
 		<name>ejDateTimePicker</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
-		<uses>jquery.globalize</uses>
-		<uses>cultures</uses>
 	</resource>
 	<resource>
 		<name>ejDiagram</name>
@@ -235,14 +213,12 @@
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
 		<uses>jsrender</uses>
-		<uses>jquery.globalize</uses>
 	</resource>
 	<resource>
 		<name>ejGrid</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
 		<uses>jsrender</uses>
-		<uses>jquery.globalize</uses>
 	</resource>
 	<resource>
 		<name>ejLinearGauge</name>
@@ -253,7 +229,6 @@
 		<name>ejListBox</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
-		<uses>properties</uses>
 	</resource>
 	<resource>
 		<name>ejListView</name>
@@ -263,13 +238,10 @@
 		<name>ejMap</name>
 		<uses>Syncfusion</uses>
 		<uses>jsrender</uses>
-		<uses>properties</uses>
 	</resource>
 	<resource>
 		<name>ejMaskEdit</name>
 		<uses>Syncfusion</uses>
-		<uses>jquery.globalize</uses>
-		<uses>cultures</uses>
 	</resource>
 	<resource>
 		<name>ejMenu</name>
@@ -279,26 +251,21 @@
 	<resource>
 		<name>ejNumericTextbox</name>
 		<uses>Syncfusion</uses>
-		<uses>jquery.globalize</uses>
-		<uses>cultures</uses>
 	</resource>
 	<resource>
 		<name>ejOlapChart</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
-		<uses>jquery.globalize</uses>
 	</resource>
 	<resource>
 		<name>ejOlapClient</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
-		<uses>jquery.globalize</uses>
 	</resource>
 	<resource>
 		<name>ejOlapGauge</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
-		<uses>jquery.globalize</uses>
 	</resource>
 	<resource>
 		<name>ejOlapGrid</name>
@@ -313,8 +280,6 @@
 	<resource>
 		<name>ejPercentageTextbox</name>
 		<uses>Syncfusion</uses>
-		<uses>jquery.globalize</uses>
-		<uses>cultures</uses>
 	</resource>
 	<resource>
 		<name>ejProgressBar</name>
@@ -328,7 +293,6 @@
 	<resource>
 		<name>ejRangeNavigator</name>
 		<uses>Syncfusion</uses>
-		<uses>jquery.globalize</uses>
 	</resource>
 	<resource>
 		<name>ejRating</name>
@@ -348,14 +312,11 @@
 		<name>ejRTE</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
-		<uses>jquery.globalize</uses>
-		<uses>cultures</uses>
 	</resource>
 	<resource>
 		<name>ejSchedule</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
-		<uses>jquery.globalize</uses>
 		<uses>jsrender</uses>
 	</resource>
 	<resource>
@@ -381,7 +342,6 @@
 		<name>ejSymbolPalette</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
-		<uses>jquery.globalize</uses>
 		<uses>jsrender</uses>
 		<uses>jquery.validate</uses>
 		<uses>ej.unobtrusive</uses>
@@ -398,16 +358,12 @@
 	<resource>
 		<name>ejTextBoxes</name>
 		<uses>Syncfusion</uses>
-		<uses>jquery.globalize</uses>
 		<uses>jquery.validate</uses>
-		<uses>cultures</uses>
 	</resource>
 	<resource>
 		<name>ejTimePicker</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
-		<uses>jquery.globalize</uses>
-		<uses>cultures</uses>
 	</resource>
 	<resource>
 		<name>ejToggleButton</name>
@@ -422,13 +378,11 @@
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
 		<uses>jsrender</uses>
-		<uses>jquery.globalize</uses>
 	</resource>
 	<resource>
 		<name>ejTreeMap</name>
 		<uses>Syncfusion</uses>
 		<uses>jsrender</uses>
-		<uses>properties</uses>
 	</resource>
 	<resource>
 		<name>ejTreeView</name>
@@ -477,7 +431,6 @@
 		<name>ejmGrid</name>
 		<uses>SyncfusionMobile</uses>
 		<uses>jsrender</uses>
-		<uses>jquery.globalize</uses>
 	</resource>
 	<resource>
 		<name>ejmGroupButton</name>
@@ -551,7 +504,7 @@
 		<name>ejmToolbar</name>
 		<uses>SyncfusionMobile</uses>
 	</resource>
-	<!-- 
+<!-- 
 *********************************
 *  Datatables resources         *
 *********************************

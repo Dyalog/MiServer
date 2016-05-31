@@ -290,8 +290,8 @@
           :EndFor
      
           :Trap 0
-              :If 0=#.⎕NC'SQA'
-                  dyalog←2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
+              :If 0=#.⎕NC'SQA'     
+                  dyalog←('/\'[1+'Win'≡3↑1⊃#.⎕WG'APLVersion']){⍵,(-⍺=¯1↑⍵)↓⍺}2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
                   'SQA'#.⎕CY dyalog,'ws/sqapl' ⍝ copy in SQA
               :EndIf
               :If 0≠1⊃#.SQA.Init'' ⍝ and initialize
