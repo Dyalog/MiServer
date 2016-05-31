@@ -8,8 +8,8 @@
 ⍝
 ⍝ Public Fields::
 ⍝ Options   - vector of options or 2 column matrix of displayed[;1] and returned[;2] values
-⍝ Selected  - Boolean or integer array indicating pre-selected options(s)
-⍝ Disabled  - Boolean or integer array indicating disabled options(s)
+⍝ Selected  - Integer vector indicating pre-selected options(s)
+⍝ Disabled  - Integer vector indicating disabled options(s)
 ⍝ Prompt      - first item to display (has no value) (default '[Select]')
 ⍝
 ⍝ Examples::
