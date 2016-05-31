@@ -16,6 +16,7 @@
 -->
 	<resource>
 		<name>jBox</name>
+		<uses>JQuery</uses>
 		<script>/jBox/jBox.min.js</script>
 		<style>/jBox/jBox.css</style>
 	</resource>
