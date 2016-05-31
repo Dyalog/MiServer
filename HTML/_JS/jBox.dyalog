@@ -1,5 +1,5 @@
-﻿:Class jBox : #._JQ._jqWidget
-⍝ Description:: jBox widget 
+:Class jBox : #._JQ._jqWidget
+⍝ Description:: jBox widget
 ⍝
 ⍝ Constructor:: [type [message [content]]]
 ⍝ type - one of 'Tooltip', 'Mouse', 'Modal', 'Confirm', 'Notice', 'Image'
@@ -10,6 +10,7 @@
 ⍝ Type - one of 'Tooltip', 'Mouse', 'Modal', 'Confirm', 'Notice', 'Image'
 ⍝ Message - the text that will appear in the popup
 ⍝ Content - the content for the target element
+⍝ Theme - name of a jBox-Theme (one of 'ModalBorder','NoticeBorder','TooltipBorder' or 'TooltipDark')
 ⍝
 ⍝ Notes::
 ⍝ For more information see https://github.com/StephanWagner/jBox
@@ -21,6 +22,7 @@
     :field public shared readonly Types←'Tooltip' 'Mouse' 'Modal' 'Confirm' 'Notice' 'Image'
     :field public Content←''
     :field public Message←''
+    :field public Theme←''
 
     ∇ make
       :Access public
@@ -47,6 +49,10 @@
       Container.Content←Content
       'content'Set renderIt Message
       BuildHTML←~0∊⍴Content
+      :If 0<⍴Theme
+          'theme'Set Theme
+          Use'⍕/jBox/themes/',Theme,'.css'
+      :EndIf
       r←⎕BASE.Render
     ∇
 :EndClass
