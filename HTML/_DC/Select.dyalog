@@ -59,9 +59,9 @@
               opts←opts,⍪opts
           :EndIf
       :EndIf
-     
+          
       v←⍳⍬⍴⍴opts
-      (sel dis)←v∘∊¨sel dis
+      (sel dis)←v∘∊∘{∧/⍵∊0 1:⍵/⍳⍴⍵ ⋄ ⍵}∘,¨sel dis
      
       :If 1<+/sel                         ⍝ if we have multiple items selected
       :AndIf 0∊⍴⊃Attrs[⊂'multiple']       ⍝ and the multiple attribute is not set
