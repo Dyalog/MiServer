@@ -1,3 +1,6 @@
 *.log
 ServerData/
 sessions.dcf
+LocalTest
+LocalTest/
+
