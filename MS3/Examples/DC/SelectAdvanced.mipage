@@ -5,7 +5,7 @@
     FRUITS←'Apples' 'Bananas' 'Grapes' 'Oranges' 'Pears' 'Pineapples' 'Plums'
     VEGGIES←'Beans' 'Carrots' 'Eggplant' 'Peppers' 'Spinach'
 
-    ∇ Compose;frm;mult;btn
+    ∇ Compose;frm;btn
       :Access public
      
       Add _.h2'Please pick some fruits'
