@@ -1,0 +1,21 @@
+﻿:Class ejTreeGridSimple : MiPageSample
+⍝ Control:: _SF.ejTreeGrid
+⍝ Description:: Build a simple tree with a node selection callback
+
+    ∇ Compose;levels;items
+      :Access Public
+     
+      items←#.MS3SiteUtils.FromCSV #.Files.GetVTV #.Boot.AppRoot,'Examples/Data/iqs.csv'
+      levels←(≢items){⍺=≢⍵:⍵ ⋄ ⍺ ∇ ⍵,(2+⊃⌽⍵)-?1+⊃⌽⍵}0  ⍝ generate levels
+     
+      Add _.h2'Here is a TreeGrid'
+      Add _.ejTreeGrid(items levels)
+    ∇
+:EndClass
+
+
+
+
+
+
+

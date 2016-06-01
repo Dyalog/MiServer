@@ -1,0 +1,22 @@
+﻿:Class jqMenuSimple : MiPageSample
+⍝ Control:: _JQ.jqMenu
+⍝ Description:: Insert a menu bar
+
+    ∇ r←Compose;items;href;levels
+      :Access Public
+     
+    ⍝ Define the items.
+      items←'DB' 'PA' 'JM' 'BS' 'NMe' 'GC' 'HB' 'BC'
+      levels←1 2 2 3 3 1 2 2
+      href←'http://aplsmith.com' 'http://dyalog.com' ''
+      href,←'https://sites.google.com/site/baavector/home' 'http://dyalog.com/resource-map.htm'
+      href,←'' 'http://dyalog.com/meet-team-dyalog.htm' 'http://hellobc.com'
+      
+     
+     Add _.jqMenu (items levels href)
+     ∇
+
+:EndClass
+
+
+
