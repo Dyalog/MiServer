@@ -10,37 +10,13 @@
 ⍝ Links   - the HREF string to be used when the corresponding element is chosen (clicked)
 ⍝ MakeIds - 1 makes ids in the format myid_1_2
 
-⍝ OLD INFO
-⍝ Constructor:: Items [Levels [Hreferences]]
-⍝ Items       vector of char vectors containing the menu item caption
-⍝ Levels      the level of the corresponding item
-⍝ Hreferences the HREF string to be used when the corresponding element is chosen (clicked)
-
     :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejMenu.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejMenu.html'
     :field public Levels←1
     :field public Items←⍬
     :field public Links←⍬
-    :field public MakeIds←0   ⍝ IMPLEMENT
-
-⍝ A menu consists of a series of elements that are Strings or other menu Items
-⍝ Each element has an anchor which may or may not have an href.
-⍝
-⍝ Example: given the following menu structure (level, description, action):
-⍝ 1 MK       ↓
-⍝ 2  BB     #loc
-⍝ 2  DB      ↓
-⍝ 3   AB    apl.dk
-⍝ 3   RH    apl.ca
-⍝ 1 GC       ↓
-⍝ 2  HB     #accounts
-⍝ 2  BC     s.r.us
-⍝
-⍝ If the menu item starts with a star (*) then the ID of the menu items is the same as the caption
-⍝
-⍝   M←⎕NEW ejMenu (('*MK' 'BB' 'DB' 'AB' 'RH' '*GC' 'HB' 'BC') (1 2 2 3 3 1 2 2) (⍬ '#loc' ⍬ 'apl.dk' 'apl.ca' ⍬ '#accounts' 's.r.us'))
-⍝
+    :field public MakeIds←0  
 
     ∇ make
       :Access public
