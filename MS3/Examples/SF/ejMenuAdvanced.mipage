@@ -4,7 +4,7 @@
 
 ⍝ This example is a bit more elaborate than the simple example but it is in fact very simple.
 ⍝ The number of menu items is larger but the idea is the same. And all the links go to the
-⍝ same few places. 
+⍝ same few places.
 
     ∇ r←Compose
       :Access Public
@@ -12,7 +12,6 @@
     ∇
 
     ∇ (items levels links)←fixExample;mat;sink
-      :Access public shared
       mat←⎕XML ScriptFollows
 ⍝<li id="Products">
 ⍝  <a href="#">Products</a>

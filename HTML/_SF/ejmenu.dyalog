@@ -1,6 +1,6 @@
 ﻿:class ejMenu : #._SF._ejWidget
 ⍝ Description:: Syncfusion Menu widget
-⍝ Constructor:: items [levels [links]]
+⍝ Constructor:: [items [levels [links]]]
 ⍝ items   - vector of char vectors containing the menu item caption
 ⍝ levels  - the level of the corresponding item
 ⍝ links   - the HREF string to be used when the corresponding element is chosen (clicked)
