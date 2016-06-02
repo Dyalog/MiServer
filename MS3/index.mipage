@@ -55,7 +55,7 @@
     ∇ tree←MakeTreeGS ⍝ Make the "Getting Started" tree
       :Access public shared
       tree←⍉⍪1 'Start here',⊂∊CURRFILES FILEEXT ⍝ top level
-      tree⍪←⍉↑1 'Documentation' '/'BuildTree DOCS
+      tree⍪←⍉↑1 'Documentation' '/Documentation/'BuildTree DOCS
       tree⍪←DirTree'Examples/Techniques'
       tree⍪←DirTree'Examples/Applications'
       tree[;2]←Clean¨tree[;2]  ⍝ sample apps have underscores for spaces
@@ -137,7 +137,7 @@
 
     ∇ r←OnList ⍝ Handle callbacks from lists of samples
       :Access Public
-      r←ShowFile _what ⍝ just show it
+      r←ShowFile _currentTarget ⍝ just show it
     ∇
 
     ∇ r←OnSearch;str ⍝ Callback for search
