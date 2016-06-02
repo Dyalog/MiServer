@@ -15,25 +15,6 @@
 ⍝ width           - overall width for the TreeGrid
 ⍝ height          - overall height for the TreeGrid
 
-⍝ OLD INFO!!!
-⍝ Constructor:: [values [titles [levels [widths]]]]
-⍝ values          - matrix of data
-⍝ titles          - vector of character vectors containing the title for each column in values
-⍝ levels          - integer vector indicating level for each row in values
-⍝ widths          - column widths
-⍝ Public Fields::
-⍝ Values          - vector of char vectors
-⍝ Columns         - if non-empty, a vector of namespaces, one per column, containing the definition for each columns
-⍝                   see the Symcfusion documentation for more information
-⍝ ColNames        - vector of character vectors containing the title for each column in values
-⍝ ColTitles       - vector of character vectors containing the displayed column heading for each column in values
-⍝ CellWidths      - integer vector of column widths (in pixels)
-⍝ Levels          - integer vector indicating the level for each row in the table
-⍝ width           - overall width for the TreeGrid
-⍝ height          - overall height for the TreeGrid
-⍝ END OF OLD INFO
-
-
     :Field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejTreeGrid.html'
     :Field public shared readonly ApiLevel←3
     :Field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejTreeGrid.html'
@@ -41,7 +22,7 @@
 
     :Field Public Items←,⊂''
     :Field Public Columns←⍬      ⍝ Vector of namespaces using JSON names
-    :Field Public Levels←⍬       ⍝ Level of nesting
+    :Field Public Levels←1       ⍝ Level of nesting
 
     :Field Public ColNames←⍬     ⍝ JSON: field
     :Field Public ColTitles←⍬    ⍝       headerText
@@ -59,7 +40,7 @@
       InternalEvents←IntEvt
     ∇
 
-    ∇ makec args
+    ∇ makec args;sink
       :Access public
       args←eis args
       JQueryFn←Uses←'ejTreeGrid'
@@ -67,7 +48,13 @@
       InternalEvents←IntEvt
       args←↑¨∘↓∘⍉⍣(2=≢⍴args)⊢args ⍝ translate matrix arg to vector arg
      
-      (Items Levels)←args defaultArgs(0 0⍴⍬)⍬
+      (Items Levels sink)←args defaultArgs(0 0⍴⍬)1 ⍬
+     
+    ∇
+
+    ∇ r←Render;fields;src;rows;cols;coldefs;colfields;i;lev
+      :Access public
+      SetId
      
       :If 0∊Levels ⍝ separate titles
           ColTitles←Items[1;]
@@ -79,11 +66,11 @@
           :Else ⋄ ColNames←{'c',⍕⍵}¨⍳≢ColTitles
           :EndIf
       :EndIf
-    ∇
-
-    ∇ r←Render;fields;src;rows;cols;coldefs;colfields;i;lev
-      :Access public
-      SetId
+     
+      :If 0∊⍴ColNames
+          ColNames←{'c',⍕⍵}¨⍳⊃⌽⍴Items
+      :EndIf
+     
       r←''
       (rows cols)←⍴Items
       :If 0=cols
