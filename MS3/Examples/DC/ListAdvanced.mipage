@@ -1,37 +1,28 @@
 ﻿:Class ListAdvanced : MiPageSample
 ⍝ Control:: _DC.List
-⍝ Description:: Insert an unordered list of links based on an array of texts and links, and add callbacks on mouse movements
-    
-    ∇ Compose;text;ul;urls;intro;list
+⍝ Description:: Insert list of nested links based on arrays of texts and links
+
+    ∇ Compose;text;urls;intro;list;levels
       :Access Public
      
      
-      Add _.title'_DC.Ul - Advanced Example '
-      Add _.h2'_DC.Ul - Unordered List'
-      Add _.p'This page illustrates advanced uses of the _DC.Ul widget.'
-      list←⊂'The specification of attributes for anchor elements in the list.'
-      list,←⊂'Setting up mouse movement callbacks on the list elements.'
-      Add _.List list
+      Add _.title'_DC.List - Advanced Example '
+      Add _.p'This page illustrates advanced uses of the _DC.List widget:'
+      list←⊂'The specification of attributes for links'
+      list,←'Nested lists' 'Numbered lists'
+      (Add _.List list).Ordered←1
      
       Add _.h3'Useful Links'
-      text←'Dyalog Home (opens in this tab)' 'Dyalog Forums (opens new tab)'
+      text←'Dyalog' 'Dyalog Home (opens in this tab)' 'Dyalog Forums (opens new tab)' '3rd party' 'APL Wiki' 'Wikipedia'
      
      ⍝ Below, the second link includes a target attribute for the <a> element
-      urls←'http://www.dyalog.com'('http://forums.dyalog.com' 'target=_blank')
-     
-      ul←'links' Add _.List(text 0 urls) ⍝ Construct Ul with texts and urls
-      ('style="margin-top:24pt;height:12pt"'Add _.div).id←'output' ⍝ A place to write messages
-     
-     ⍝ Set up a handler which returns the html content of <a> elements within <li>
-      Add _.Handler'li a' 'mouseover mouseout' 'onMouse'('item' 'html')
-    ∇
+      urls←'' 'http://www.dyalog.com'('http://forums.dyalog.com' 'target=_blank')
+      urls,←'' 'http://aplwiki.com' 'https://en.wikipedia.org/wiki/APL_(programming_language)'
+      
+      levels←1 2 2 1 2 2
 
-    ∇ r←onMouse;li
-     ⍝ Callback on mouseover and mouseout
-      :Access Public ⍝ Callback functions must be declared as public
-     ⍝ Overwrite the output div with identification of the current mouse location
-      r←'#output'Replace _.p((_event≡'mouseover')/(_event,' : ',_PageData.item))
-    ∇
+      'links'Add _.List(text levels urls) ⍝ Construct List with texts, levels, and urls
+      
+     ∇
 
 :EndClass
-
