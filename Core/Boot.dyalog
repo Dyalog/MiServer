@@ -66,9 +66,12 @@
     ∇
 
     ∇ {AppRoot}Load yes;files;f;classes;class;utils
-     
-      classes←(⎕SE.SALT.List AppRoot,'Code -raw')[;1 2] ⍝ Classes in application folder
-      classes←(empty¨classes[;1])/classes[;2] ⍝ remove directory entries (have <DIR> in [;1])
+    ⍝ DanB 20160607: added :if construct
+      classes←''
+      :If 0≠⎕NC'AppRoot'
+          classes←(⎕SE.SALT.List AppRoot,'Code -raw')[;1 2] ⍝ Classes in application folder
+          classes←(empty¨classes[;1])/classes[;2] ⍝ remove directory entries (have <DIR> in [;1])
+      :EndIf
       utils←(⎕SE.SALT.List MSRoot,'Utils -raw')[;2]   ⍝ find utility libraries
      
       :If yes
