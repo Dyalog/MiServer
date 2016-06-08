@@ -4,8 +4,8 @@
 
     :section Startup/Shutdown
 
-    ∇ Run root
-     
+    ∇ {msroot}Run root
+      :If 0≠⎕NC'msroot' ⋄ MSRoot←msroot ⋄ :EndIf
       AppRoot←folderize root  ⍝ application (website) root
       AppRoot Load 1 ⍝ load essential objects
       #.Utils.SetupCompatibility
@@ -290,7 +290,7 @@
           :EndFor
      
           :Trap 0
-              :If 0=#.⎕NC'SQA'     
+              :If 0=#.⎕NC'SQA'
                   dyalog←('/\'[1+'Win'≡3↑1⊃#.⎕WG'APLVersion']){⍵,(-⍺=¯1↑⍵)↓⍺}2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
                   'SQA'#.⎕CY dyalog,'ws/sqapl' ⍝ copy in SQA
               :EndIf
