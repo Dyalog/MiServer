@@ -1,4 +1,4 @@
-:Class index : MiPageSample ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
+﻿:Class index : MiPageSample ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 ⍝ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ ⍝
 ⍝ │ This is the home page of the MiServer Sample Site, MS3, accessible at miserver.dyalog.com   │ ⍝
 ⍝ ├─────────────────────────────────────────────────────────────────────────────────────────────┤ ⍝
@@ -39,6 +39,7 @@
       f.On'submit' 'OnSearch'('str' 'val' '#searchfield') ⍝ callback upon Enter or button-click
       f.Add Horz sf sb                                    ⍝ textfield and button next to each other
      
+      C.nodeIds←0 2⍴''
       left.Add¨Tree¨'Getting Started' 'Controls' ⍝ NB: Needs MakeTreeXX (XX is initials of title)!
     ∇
 
@@ -50,11 +51,11 @@
       tree⍪←DirTree'Examples/Applications'
       tree[;2]←Clean¨tree[;2]  ⍝ sample apps have underscores for spaces
     ∇
-    
+
     ∇ tree←MakeTreeGS ⍝ Make the "Getting Started" tree
       :Access public shared
       tree←⍉⍪1 'Start here',⊂∊CURRFILES FILEEXT ⍝ top level
-      tree⍪←⍉↑1 'Documentation' '/'BuildTree DOCS
+      tree⍪←⍉↑1 'Documentation' '/Documentation/'BuildTree DOCS
       tree⍪←DirTree'Examples/Techniques'
       tree⍪←DirTree'Examples/Applications'
       tree[;2]←Clean¨tree[;2]  ⍝ sample apps have underscores for spaces
@@ -80,14 +81,14 @@
       hidden'#Header'mid.Add _.h2        ⍝ placeholder for category lists and search results
       d←'#Sample'mid.Add _.div           ⍝ container for file info so visibility can be toggled
       '#SampleTitle'd.Add _.strong title ⍝ filename
-      d.Add'– '
+      d.Add' – '
       '#SampleDesc'd.Add _.span('Description'Section code) ⍝ sample description
-      ('#PopLink'd.Add _.span).Add NewWinA'Pop out'url     ⍝ "Pop out" link
+      ('#PopLink'd.Add _.span).Add NewWinA' Pop out'url     ⍝ "Pop out" link
       d.Add _.br
      
       d←hidden'#Control'mid.Add _.div ⍝ container for widget info for toggleable visibilty
       '#ControlTitle'd.Add _.strong   ⍝ placeholder for widget name
-      d.Add'– '
+      d.Add' – '
       '#ControlDesc'd.Add _.span ⍝ placeholder for widget description
       '#DocLink'd.Add _.span     ⍝ placeholder for link to WidgetDoc page
       d.Add _.br
@@ -114,7 +115,8 @@
 
     ∇ r←OnTree;node;list;control;nost;ns ⍝ Handle callbacks from the ejTreeViews
       :Access Public
-      nost←'*'~⍨node←Get'node'                        ⍝ was sent along by the event handler
+      node←⊃C.nodeIds[C.nodeIds[;2]⍳⊂Get'node';1] ⍝ convert from old system
+      nost←node~'*'                               ⍝ was sent along by the event handler
       :If Sl Z nost                                   ⍝ if selected a category:
           :If 'GS'In _what                                ⍝ if selected node of "Getting Started":
               r←('pdf'/⍨'Documentation'In nost)ShowFiles node ⍝ restrict to PDFs if documentation
@@ -135,7 +137,7 @@
 
     ∇ r←OnList ⍝ Handle callbacks from lists of samples
       :Access Public
-      r←ShowFile _what ⍝ just show it
+      r←ShowFile _currentTarget ⍝ just show it
     ∇
 
     ∇ r←OnSearch;str ⍝ Callback for search
@@ -189,7 +191,7 @@
           code←Read url                                    ⍝ read the source
           r,←'#SampleTitle'Replace name                    ⍝ filename
           r,←'#SampleDesc'Replace'Description'Section code ⍝ page description
-          r,←'#PopLink'Replace NewWinA'Pop out'url         ⍝ link to open in new tab
+          r,←'#PopLink'Replace NewWinA' Pop out'url         ⍝ link to open in new tab
           r,←'#SampleFrame'Replace Frame nost              ⍝ embedded page
           r,←'#SampleSource'Replace Format code            ⍝ syntax coloured source code
           r,←Hide'#Header'                                 ⍝ hide heading
@@ -218,7 +220,7 @@
       r,←'#Title'Replace'MS3: ',name                                  ⍝ browser tab
       r,←'#SampleTitle'Replace name                                   ⍝ widget name
       r,←'#ControlDesc'Replace Info name                              ⍝ we may have some info on it
-      r,←'#DocLink'Replace NewWinA'View documentation'Doc ns control  ⍝ and a link for more info
+      r,←'#DocLink'Replace NewWinA' View documentation'Doc ns control  ⍝ and a link for more info
       r,←'#rel'Replace''                                              ⍝ there are no related pages
       r,←Hide'#Header'                                                ⍝ hide larger header
       r,←Show'#Control'                                               ⍝ show widget info
@@ -237,7 +239,7 @@
       r,←'#Title'Replace'MS3: ',title                                  ⍝ browser tab
       r,←'#SampleTitle'Replace title                                   ⍝ filename
       r,←'#SampleDesc'Replace'Description'Section code                 ⍝ sample description
-      r,←'#PopLink'Replace NewWinA'Pop out'url                         ⍝ update new-tab link
+      r,←'#PopLink'Replace NewWinA' Pop out'url                         ⍝ update new-tab link
       r,←'#SampleFrame'Replace Frame url                               ⍝ load sample page
       r,←'#SampleSource'Replace Format code                            ⍝ update source code
       r,←Hide'#Header'                                                 ⍝ not a list
@@ -245,7 +247,7 @@
       :If IsDemo url                                                   ⍝ if sample page:
           r,←'#ControlTitle'Replace name                                   ⍝ filename
           r,←'#ControlDesc'Replace info                                    ⍝ widget info
-          r,←'#DocLink'Replace NewWinA'View documentation'Ⓒ Doc ns control ⍝ update WidgetDoc link
+          r,←'#DocLink'Replace NewWinA' View documentation'Ⓒ Doc ns control ⍝ update WidgetDoc link
           r,←ReplaceRelMsg                                                 ⍝ update count
           r,←'#rel'Replace∊ListItem¨1↓CURRFILES,¨'*'                       ⍝ update list
           r,←'#rel'Append New _.Handler'.listitem' 'click' 'OnList'        ⍝ refresh handler

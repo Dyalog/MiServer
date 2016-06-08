@@ -181,14 +181,17 @@
       r,←'</p>'                                ⍝ close the paragraph
     ∇
 
-    ∇ div←Tree title;xx;tree ⍝ Make tree based on its heading
+    ∇ div←Tree title;xx;tree;levels;items;ids;id ⍝ Make tree based on its heading
       div←New _.div                                             ⍝ container
       div.Add _.hr                                              ⍝ horizontal ruler
       '.cat'div.Add _.p title                                   ⍝ heading
       xx←⎕A∩title                                               ⍝ initials of heading; XX
       tree←⍎'MakeTree',xx                                       ⍝ calls MakeTreeXX
-      tree←('#tree',xx)div.Add _.ejTreeView tree                ⍝ gives id="XX"
+      (levels items ids)←↓⍉tree                                 ⍝ new syntax
+      id←'tree',xx
+      tree←('#',id)div.Add _.ejTreeView(items levels)           ⍝ gives id="XX"
       tree.On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id') ⍝ sends along selected node's id
+      C.nodeIds⍪←ids,⍪id #.Utils.levels2ids levels
     ∇
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
@@ -212,7 +215,7 @@
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :SECTION F_CONSTANTS ⍝ NILADIC FUNCTIONS THAT ACT LIKE ;include'ABLE CONSTANTS
-
+                                                               
     ∇ r←NSS
       :Access public
       r←'DC' 'SF' 'JQ' 'html'
