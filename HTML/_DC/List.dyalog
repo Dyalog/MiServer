@@ -1,36 +1,36 @@
-﻿:Class jqMenu : #._JQ._jqUIWidget
-⍝ Description:: jQueryUI Menu widget
-⍝ Constructor:: [items [levels [links]]]
-⍝ items   - vector of char vectors containing the menu item caption
-⍝ levels  - the level of the corresponding item
-⍝ links   - the HREF string to be used when the corresponding element is chosen (clicked)
-⍝ Public Fields:
-⍝ Items   - vector of char vectors containing the menu item caption
-⍝ Levels  - the level of the corresponding item
-⍝ Links   - the HREF string to be used when the corresponding element is chosen (clicked)
-⍝ MakeIds - 1 makes ids in the format myid_1_2
+﻿:Class List : #._html.ul
+    ⍝ Description:: Enhanced HTML ul
+    ⍝ Constructor:: [items [levels [links]]]
+    ⍝ items     - vector of texts for the list
+    ⍝ levels    - optional vector of levels
+    ⍝ links     - optional anchor links
+    ⍝      OR     matrix [;1] items [;2] levels [;3] links
+    ⍝ Public Fields::
+    ⍝ Items     - vector of texts for the list
+    ⍝ Levels    - optional vector of levels
+    ⍝ Links     - optional anchor links
+    ⍝ MakeIds   - 1 to assign ids to list items
+    ⍝ Ordered   - 1 to make ordered (numbered) list
+    ⍝ Examples::
+    ⍝ Ul (⊂'Item 1' 'Item 2' 'Item 3')                       ⍝ needs to be enclosed if vector
+    ⍝ Ul (('One' 'Two')('http:/one.com' 'http://two.com'))
+    ⍝ Ul (('One' 'Two')(('http:/one.com' 'target=_blank') 'http://two.com')) ⍝ Link can have attributes
 
-    :field public shared readonly DocBase←'https://jqueryui.com/menu/'
-    :field public shared readonly IntEvt←'blur' 'create' 'focus' 'select'
-    :field public shared readonly ApiLevel←3
-    :field public Levels←1
-    :field public Items←⍬
-    :field public Links←⍬
-    :field public MakeIds←0
 
-    ∇ Make
-      :Access public
+    :Field Public Items←⍬         ⍝ vector or
+    :Field Public Levels←1        ⍝
+    :Field Public Links←⍬         ⍝ hyperlinks
+    :Field Public MakeIds←0
+    :Field Public Ordered←0
+
+    ∇ make
+      :Access Public
       :Implements constructor
-      JQueryFn←'menu'
-      InternalEvents←IntEvt
     ∇
-  
-    ∇ Make1 args;i;link;links;opt;opts;text;n;ids;mat;diff;ul;xp
+
+    ∇ make1 args;attr
       :Access public
       :Implements constructor
-      JQueryFn←'menu'
-      InternalEvents←IntEvt
-     
       :Select ⊃⍴⍴args ⍝ Select on Rank
       :Case 1         ⍝ Vector
           :If 0 2∊⍨10|⎕DR⊃args ⍝ 1st element is simple char
@@ -45,7 +45,7 @@
 
     ∇ r←Render;i;link;links;opt;opts;text;n;ids;mat;diff;ul;xp
       :Access public
-      Tag←'ul'
+      Tag←'ol'⊣⍣Ordered⊢'ul'
       SetId
      
       n←≢Items
@@ -87,18 +87,9 @@
      
      ⍝ Finally we adjust the level number so it starts a 0
       mat[;1]-←1⍴mat
+      Add ⎕XML mat                        ⍝ and use ⎕XML to format nicely
      
-      r←(id New _.ul(⎕XML mat)).Render  ⍝ and use ⎕XML to format nicely
-      r,←⎕BASE.Render
-    ∇
-      
-      
-    ∇ {r}←AddItem args
-      :Access public ⍝ Obs: max 1
-      (Items Levels Links),←args defaultArgs'' 1 ''
+      r←⎕BASE.Render
     ∇
 
-
-   
-:EndClass
-
+:endclass

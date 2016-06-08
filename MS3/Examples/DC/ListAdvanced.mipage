@@ -1,0 +1,28 @@
+﻿:Class ListAdvanced : MiPageSample
+⍝ Control:: _DC.List
+⍝ Description:: Insert list of nested links based on arrays of texts and links
+
+    ∇ Compose;text;urls;intro;list;levels
+      :Access Public
+     
+     
+      Add _.title'_DC.List - Advanced Example '
+      Add _.p'This page illustrates advanced uses of the _DC.List widget:'
+      list←⊂'The specification of attributes for links'
+      list,←'Nested lists' 'Numbered lists'
+      (Add _.List list).Ordered←1
+     
+      Add _.h3'Useful Links'
+      text←'Dyalog' 'Dyalog Home (opens in this tab)' 'Dyalog Forums (opens new tab)' '3rd party' 'APL Wiki' 'Wikipedia'
+     
+     ⍝ Below, the second link includes a target attribute for the <a> element
+      urls←'' 'http://www.dyalog.com'('http://forums.dyalog.com' 'target=_blank')
+      urls,←'' 'http://aplwiki.com' 'https://en.wikipedia.org/wiki/APL_(programming_language)'
+      
+      levels←1 2 2 1 2 2
+
+      'links'Add _.List(text levels urls) ⍝ Construct List with texts, levels, and urls
+      
+     ∇
+
+:EndClass

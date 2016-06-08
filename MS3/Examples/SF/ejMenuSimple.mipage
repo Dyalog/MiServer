@@ -2,19 +2,19 @@
 ⍝ Control:: _SF.ejMenu
 ⍝ Description:: Insert a menu bar with a background image
 
-    ∇ r←Compose;items;t;href;img
+    ∇ r←Compose;items;t;href;img;levels
       :Access Public
      
-    ⍝ Define the items. The ones starting with a star will have the same ID as their caption.
-      items←⊂'*DB' 'PA' 'JM' '*BS' 'NMe' '*GC' 'HB' 'BC'
-      items,←⊂1 2 2 3 3 1 2 2
+    ⍝ Define the items.
+      items←'DB' 'PA' 'JM' 'BS' 'NMe' 'GC' 'HB' 'BC'
+      levels←1 2 2 3 3 1 2 2
       href←'http://aplsmith.com' 'http://dyalog.com' ''
       href,←'https://sites.google.com/site/baavector/home' 'http://dyalog.com/resource-map.htm'
       href,←'' 'http://dyalog.com/meet-team-dyalog.htm' 'http://hellobc.com'
-      items,←⊂href
+      
      
       img←'.imgframe'Add _.div  ⍝ add a picture placeholder (.imgframe)
-      'width'(img.Add _.ejMenu items).Set 500
+      'width'(img.Add _.ejMenu (items levels href)).Set 500
      
      ⍝ The following is used to specify the picture display properties, it has nothing to do with
      ⍝ the menu itself.
@@ -24,3 +24,4 @@
     ∇
 
 :EndClass
+

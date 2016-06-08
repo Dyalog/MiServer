@@ -24,7 +24,7 @@
       D←'Dyalog-D' 'src=/Examples/Data/Dyalog-D.png' 'alt="Dyalog-D"'
       D,←'height="20px"' 'style="vertical-align:bottom;"'
       D New←_.img
-      (Add _.p ScriptFollows).Add¨D'in the top left corner.'
+      (Add _.p ScriptFollows).Add¨D' in the top left corner.'
     ⍝  <strong>Tip:</strong> Some of the samples will be a little cramped when displayed in line
     ⍝  on this page. Look for the "pop out" link to view a sample
     ⍝  in a tab of its own.
