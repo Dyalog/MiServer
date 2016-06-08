@@ -484,9 +484,9 @@
  ⍝     :EndHold
     ∇
 
-    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;MS3;token;cb;mask;resp;t;RESTful;APLJax;flag;orig;path;name;ext;list;fn
+    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;MS3;token;mask;resp;t;RESTful;APLJax;flag;orig;path;name;ext;list;fn
     ⍝ Handle a "MiServer Page" request
-     
+      
       path name ext←#.Files.SplitFilename file
      
      RETRY:
@@ -589,10 +589,10 @@
               :EndIf
           :EndIf
      
-          fn←cb←'Render'
+          fn←'Render'
           :If APLJax>RESTful ⍝ if it's an APLJax (XmlHttpRequest) request (but not web service)
               REQ.Response.NoWrap←1
-              fn←cb←'APLJax' ⍝ default callback function name
+              fn←'APLJax' ⍝ default callback function name
               :If MS3
                   inst._what←REQ.GetData'_what'
                   inst._event←REQ.GetData'_event'
@@ -602,17 +602,17 @@
                   inst._currentTarget←REQ.GetData'_currentTarget'
                   inst._callback←REQ.GetData'_callback'
                   :If ~0∊⍴inst._callback ⍝ does the request specify a callback function?
-                      fn←cb←inst._callback
+                      fn←inst._callback
                   :EndIf
               :EndIf
           :ElseIf RESTful
-              fn←cb←'Respond'
+              fn←'Respond'
           :ElseIf MS3
-              fn←'Render'inst.{3=⌊|⎕NC⊂⍵:⍵ ⋄ ⍺}cb←'Compose' ⍝ default function to call (fall back to
+              fn←'Compose'
           :EndIf
      
           :If 3≠⌊|inst.⎕NC⊂fn            ⍝ and is it a public method?
-              1 Log'Method "',cb,'" not found (or not public) in page "',REQ.Page,'"'
+              1 Log'Method "',fn,'" not found (or not public) in page "',REQ.Page,'"'
               REQ.Fail 500
               →0
           :EndIf
