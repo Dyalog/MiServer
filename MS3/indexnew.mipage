@@ -6,103 +6,98 @@
 
     :Include #.MS3SiteUtils
 
-    ∇ Compose;data;ctrl;eg;demolists;descrs;levels;main;ctrls;rels;docs;cats;gs;about;list;tabs
+    ∇ Compose;data;eg;main;ctrls;cats;list;titles;sections;cols
       :Access Public
-      Add _.style ScriptFollows
-    ⍝ .title {
-    ⍝ display: inline-block;
-    ⍝ vertical-align: middle;
-    ⍝ }
      
-      about←'about'New _.div(WrapFollowing'p')
-    ⍝ MiServer is a free, open-source web server implemented in Dyalog APL.
-    ⍝ It enables the APL user to build sophisticated websites with little to no
-    ⍝ knowledge of the underlying web technologies (HTML, JavaScript, CSS, etc).
-    ⍝
-    ⍝ This website serves as guide to MiServer 3.0 – providing documentation, samples,
-    ⍝ and advice. At the same time, it showcases many of MiServer's capabilities,
-    ⍝ as it is built almost entirely in APL using components available in MiServer.
-    ⍝
-    ⍝ Expand the below tabs to explore documentation, the broad selection of available controls,
-    ⍝ and the vast collection of sample pages and mini-apps. See the source of any page by
-    ⍝ clicking the large Dyalog
-    ⍝ <img id="Dyalog-D" src="/Examples/Data/Dyalog-D.png"
-    ⍝ alt="Dyalog-D" height="20px" style="vertical-align:bottom;">
-    ⍝ in the top left corner.
-    ⍝
-    ⍝ We hope that you will enjoy MiServer; join us on the forums (see the
-    ⍝ <strong>Resources</strong> drop-down at the top right), and contribute samples or extensions
-    ⍝ via <a id="GitHub" href="https://github.com/dyalog/miserver/">GitHub</a>.
+      (titles sections)←⊂⍬
      
-     ⍝⍝⍝ DOCUMENTATION ETC. ⍝⍝⍝
-      list←'pdf'FormatList'Documentation'     ⍝ documentation is PDFs only
+      titles,←⊂'Getting started with MiServer 3.0' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      sections,←'about'New _.div(WrapFollowing'p')
+      ⍝ MiServer is a free, open-source web server implemented in Dyalog APL.
+      ⍝ It enables the APL user to build sophisticated websites with little to no
+      ⍝ knowledge of the underlying web technologies (HTML, JavaScript, CSS, etc).
+      ⍝
+      ⍝ This website serves as guide to MiServer 3.0 – providing documentation, samples,
+      ⍝ and advice. At the same time, it showcases many of MiServer's capabilities,
+      ⍝ as it is built almost entirely in APL using components available in MiServer.
+      ⍝
+      ⍝ Expand the below tabs to explore documentation, the broad selection of available controls,
+      ⍝ and the vast collection of sample pages and mini-apps. See the source of any page by
+      ⍝ clicking the large Dyalog <img id="Dyalog-D" src="/Examples/Data/Dyalog-D.png"
+      ⍝ alt="Dyalog-D" height="20px" style="vertical-align:bottom;"> in the top left corner.
+      ⍝
+      ⍝ We hope that you will enjoy MiServer; join us on the forums (see the
+      ⍝ <strong>Resources</strong> drop-down at the top right), and contribute samples or
+      ⍝ extensions via <a id="GitHub" href="https://github.com/dyalog/miserver/">GitHub</a>.
+     
+      titles,←⊂'Documentation, techniques, and mini apps' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      list←⍬
+      list,←'pdf'FormatList'Documentation'
       list,←FormatList'Examples/Techniques'
       list,←FormatList'Examples/Applications'
-      gs←'doc'New _.DataTable('Category' 'Subject'⍪↑list)
+      sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑list)
      
+      titles,←⊂'Controls, widgets, and elements' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      cols←⍬
+      cols,←⊂(⊂'Documentation'),DocLink¨C.info[;1]
+      cols,←⊂(⊂'Relevant samples'),RelDocs¨C.info[;1]
+      cols,←⊂(⊂'Description'),C.info[;2]
+      sections,←'ctrl'New _.DataTable(⍉↑cols)
      
-     ⍝⍝⍝ CONTROLS ⍝⍝⍝
+      titles,←⊂'Small samples pages focusing on one or a few controls' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      cols←⍬
+      cols,←⊂(⊂'Level'),'Advanced' 'Simple'[1+(∨/'Simple'∘⍷)¨C.files]
+      cols,←⊂(⊂'Main controls used'),{2↓∊', '∘,¨⍵}¨C.demoes
+      cols,←⊂(⊂'Task demonstrated'),{Link('Description'Section Read ⍵)⍵}¨C.files
+      sections,←'eg'New _.DataTable(⍉↑cols)
      
-      docs←(⊂'Documentation'),DocLink¨C.info[;1]
-      rels←(⊂'Relevant samples'),RelDocs¨C.info[;1]
-      descrs←(⊂'Description'),C.info[;2]
-      ctrl←'ctrl'New _.DataTable(⍉↑docs rels descrs)
-     
-     ⍝⍝⍝ SAMPLES ⍝⍝⍝
-      levels←(⊂'Level'),'Advanced' 'Simple'[1+(∨/'Simple'∘⍷)¨C.files]
-      demolists←(⊂'Main controls used'),{2↓∊', '∘,¨⍵}¨C.demoes
-      descrs←(⊂'Task demonstrated'),{Link('Description'Section Read ⍵)⍵}¨C.files
-      eg←'eg'New _.DataTable(⍉↑demolists descrs levels)
-     
-      tabs←'Getting started with MiServer 3.0' 'Documentation, techniques, and mini apps'
-      tabs,←'Controls, widgets, and elements' 'Small samples pages focusing on one or a few controls'
-      main←'content'Add _.jqAccordion(tabs(about gs ctrl eg))
+     ⍝⍝⍝ THE ACTUAL ACCORDION ⍝⍝⍝
+      main←'content'Add _.jqAccordion(titles sections)
       'heightStyle'main.Set'content'
     ∇
 
-    :Section Utils
+      FormatList←{ ⍝ List of category-title pairs
+          ⍺←1↓FILEEXT
+          (⍺≡1↓FILEEXT)CatAndItem¨{'/'≠⊃⌽⍵}Of ⍺ List ⍵
+      }
 
-      CatAndItem←{
+      CatAndItem←{ ⍝ (category) (filename/description)
           cat←2 LastSeg ⍵
           cat←'General' 'Mini App'cat['Documentation' 'Applications'⍳⊂cat]
           cat(Link((NoExt LastSeg)⍣(~⍺)('Description'Section Read)⍣⍺⊢⍵)⍵)
       }
 
-      LastSeg←{
+      LastSeg←{ ⍝ ⍺th (default 1st) /-separated segment from the end
           ⍺←⊢
           1↓⍺⊃⌽('/'∘=⊂⊢)'/',⍵
       }
 
-      FormatList←{
-          ⍺←1↓FILEEXT
-          (⍺≡1↓FILEEXT)CatAndItem¨{'/'≠⊃⌽⍵}Of ⍺ List ⍵
-      }
-
-      Link←{
+      Link←{ ⍝ New-tab link with optional (⍺) "tooltip"
           ⍺←0
           (('title=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
       }
 
-      DocLink←{
+      DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
           6::New¨(_.del ⍵)(_.small' deprecated')
           ns←#.MS3SiteUtils.NSS(⊃⊣(/⍨)(∨/⍷)¨)⊂⍕⍎'_.',⍵
           link←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns,'&widget=',⍵
           Link ⍵ link
       }
 
-      LinkWithTip←{
+      LinkWithTip←{ ⍝ Link with "tooltip" that has description and level
           tip←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵
           tip Link ⍺ ⍵
       }
 
-      RelDocs←{
+      Circle←{ ⍝ Circle a number using Unicode
+          '&#',(9311+⍵),';'
+      }
+
+      RelDocs←{ ⍝ Links to related samples
           list←Relevant ⍵
           0=≢list:'(none)'
           nums←Circle¨⍳≢list
           nums LinkWithTip¨list
       }
 
-    Circle←{'&#',(9311+⍵),';'}
-
-    :EndSection
 :EndClass
