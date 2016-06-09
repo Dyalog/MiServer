@@ -70,8 +70,12 @@
       source←(⍳∘'⍝'↑⊢)¨source      ⍝ remove comments
       source←{⍵/⍨~≠\''''=⍵}¨source ⍝ remove strings but leaves one ' as separator
       :For control :In 'Handler' 'Position'~⍨∪('_(DC|SF|JQ|JS|html|)\.(\w+)'⎕S'\2')source ⍝ find controls
-         ⍝ add to right list: /¯¯¯¯¯SF¯¯¯¯¯\  /¯¯¯¯¯JQ¯¯¯¯¯\  /¯¯¯¯DC¯¯¯¯\ /¯html
-          controls[(⊃#.MS3SiteUtils.NSS(∨/⍷)¨⊂control)/⍳⍴#.MS3SiteUtils.NSS],←⊂⊂control
+          :Trap 6 ⍝ unknown
+              ns←(#.MS3SiteUtils.NSS(∨/⍷)¨⊂⍕⍎'#._.',control)/⍳⍴#.MS3SiteUtils.NSS ⍝ add to right list
+          :Else
+              ns←⍬
+          :EndTrap
+          controls[ns],←⊂⊂control
       :EndFor
       controls←{⍵[⍋↑⍵]}¨controls   ⍝ sort the lists
      
