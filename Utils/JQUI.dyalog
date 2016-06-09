@@ -74,13 +74,7 @@
     ⍝ updates req.Response.head and returns html
       pars←eis pars
       id hdrs content jqpars chain oname←6↑pars,(⍴pars)↓'' '' '' '' '' ''
-      :If ⎕NULL≡myid←id ⍝ AB: from #.HtmlElement.SetId
-          :If ''≡myid←⊃Attrs[⊂'id']
-              id←myid←GenId
-          :Else
-              id←myid
-          :EndIf
-      :EndIf
+      :If 0∊⍴id ⋄ id←#.HtmlElement.GenId ⋄ :EndIf
       :If 9=⎕NC'req' ⋄ req.Use'JQueryUI' ⋄ :EndIf
       hdrs←#.OldHTML.h3¨('href' '#')∘#.OldHTML.a¨hdrs
       content←#.OldHTML.div¨content
