@@ -1,6 +1,6 @@
 ﻿:class Callbacks: MiPageSample
 ⍝ Control:: Callbacks 
-⍝ Description:: Demonstrate various forms of callbacks
+⍝ Description:: Various forms of callbacks
 
     ∇ Compose;p
       :Access Public 

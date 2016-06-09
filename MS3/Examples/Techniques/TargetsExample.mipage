@@ -1,6 +1,6 @@
 ﻿:class TargetsExample: MiPageSample
 ⍝ Control:: Handler Targets
-⍝ Description:: Demonstrate various forms of callbacks
+⍝ Description:: The two Handler targets
 
     ∇ Compose;p
       :Access Public

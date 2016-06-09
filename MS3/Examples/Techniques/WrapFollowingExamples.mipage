@@ -1,6 +1,6 @@
 ﻿:class WrapFollowingExamples : MiPageSample
 ⍝ Control:: WrapFollowing
-⍝ Description:: Examples on how to use WrapFollowing
+⍝ Description:: How to use WrapFollowing
 
     ∇ Compose
       :Access public
