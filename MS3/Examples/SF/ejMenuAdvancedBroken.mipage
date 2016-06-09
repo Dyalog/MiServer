@@ -1,5 +1,6 @@
 ﻿:Class ejMenuAdvancedBroken : MiPageSample
-⍝ Demonstrate the SyncFusion ejMenu widget
+⍝ Control:: _SF.ejMenu
+⍝ Description:: Demonstrate the SyncFusion ejMenu widget with databinding
 
     ⎕ml←⎕io←1
 

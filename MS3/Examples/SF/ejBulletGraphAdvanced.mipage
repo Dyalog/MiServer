@@ -1,6 +1,6 @@
 ﻿:Class ejBulletGraphAdvanced : MiPageSample
 ⍝ Control:: _SF.ejBulletGraph
-⍝ Description:: Simple
+⍝ Description:: Customized ruler-style indicator
 
     ∇ Compose;bg;vals;avg;cats;table
       :Access Public

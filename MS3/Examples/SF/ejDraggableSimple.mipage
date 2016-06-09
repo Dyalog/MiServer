@@ -1,4 +1,6 @@
 ﻿:Class ejDraggableSimple : MiPageSample
+⍝ Control:: _SF.ejDraggable
+⍝ Description:: Make an element draggable
 
     ∇ Compose;sp
       :Access Public
