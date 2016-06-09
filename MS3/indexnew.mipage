@@ -1,6 +1,8 @@
-﻿:Class indexnew : MiPageSample
-⍝ Control::     _JS.DataTable
-⍝ Description:: The simplest use case of a DataTable
+﻿:Class indexnew : MiPageSample  ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
+⍝ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ ⍝
+⍝ │ This is the home page of the MiServer Sample Site, MS3, accessible at miserver.dyalog.com   │ ⍝
+⍝ └─────────────────────────────────────────────────────────────────────────────────────────────┘ ⍝
+⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :Include #.MS3SiteUtils
 
@@ -57,7 +59,7 @@
       main←'content'Add _.jqAccordion(tabs(about gs ctrl eg))
       'heightStyle'main.Set'content'
     ∇
-                    
+
     :Section Utils
 
       CatAndItem←{
