@@ -14,7 +14,11 @@
 
     ∇ Compose;style
       :Access public
-      {}16807⌶2
+      :Trap 11
+          {}16807⌶2 ⍝ ≤15.0
+      :Else
+          ⎕RL←⍬ 2   ⍝ ≥15.0
+      :EndTrap
       TASK←''
       BIG←0∊⍴Get'nowrapper'
       Add _.Style'button'('border-radius' '10px')
