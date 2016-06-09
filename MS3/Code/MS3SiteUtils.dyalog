@@ -58,7 +58,7 @@
           regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)' ⍝ find '  ⍝  LeftArg:: some text'
           opts←('Mode' 'M')('DotAll' 1)('ML' 1)                  ⍝ '^'≡linestart  EOL∊'.'  1st-only
           res←regex ⎕S'\1\2'⍠opts⊢⍵                              ⍝ return parts 1 and 2
-          '⍝'~⍨1↓⊃res                                            ⍝ strip spaces and lamp
+          #.Strings.deb'⍝'~⍨1↓⊃res                               ⍝ strip spaces and lamp
       }
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
@@ -132,6 +132,8 @@
     NoExt←{'.'∊⍵:⍵↓⍨-'.'⍳⍨⌽⍵⋄⍵} ⍝ 'aaa.bbb.ccc'  →  'aaa.bbb'
 
     IsDemo←{∨/∊'Simple' 'Advanced'⍷¨⊂⍵}⍝ Is this sample a one-widget-demo
+
+    NoNL←'\n' '\r'⎕R' ' ''⍠'Mode' 'D'
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
@@ -215,15 +217,15 @@
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :SECTION F_CONSTANTS ⍝ NILADIC FUNCTIONS THAT ACT LIKE ;include'ABLE CONSTANTS
-                                                               
+
     ∇ r←NSS
       :Access public
-      r←'DC' 'SF' 'JQ' 'html'
+      r←'DC' 'SF' 'JQ' 'JS' 'html'
     ∇
 
     ∇ r←GROUPS
       :Access public
-      r←'Dyalog' 'SyncFusion' 'JQueryUI' 'Base HTML'
+      r←'Dyalog' 'SyncFusion' 'jQueryUI' 'JavaScript' 'Base HTML'
     ∇
 
     ∇ r←CACHE
@@ -236,24 +238,24 @@
       r←#.Boot.ms.Config.DefaultExtension
     ∇
 
-    ∇ C←C;scores;demoes;list;nl ⍝ Return ref to cache (init one if nonexistant)
+    ∇ C←C;scores;list;nl ⍝ Return ref to cache (init one if nonexistant)
       :Access public
-      :Hold CACHE                                                  ⍝ prevent clashes
-          :If 9≠⎕NC CACHE                                          ⍝ if cache is empty:
-              C←⍎CACHE ⎕NS ⍬                                           ⍝ create with shortcut
-              C.read←⎕NS ⍬                                             ⍝ init cache for files
-              C.read.(keys←data←⍬)                                     ⍝ init keys and data
-              C.files←⊃⍪/{List'Examples/',⍵}¨NSS                       ⍝ sample filenames
-              demoes←{(Words'Control'Section Read ⍵)~'_',¨NSS}¨C.files ⍝ controls demoed in each
-              C.controls←∪↑,/demoes                                    ⍝ cache all controls
-              scores←C.controls∘.Score↓⍉↑C.files demoes                ⍝ controls vs files
-              C.rankings←(+/0<scores)↑¨↓⍒#.Utils.∆rank 1⊢scores        ⍝ cache all rankings
-              C.controlsoi←C.controls∘⍳ ⋄ C.eocontrols←∊∘C.controls    ⍝ cache hash tables
-              C.info←FromCSV Read'Examples/Data/info.csv'              ⍝ cache lookup table
-              nl←'.*[A-Z].*'⎕S'\0'#._.⎕NL ¯9                           ⍝ all widgets except html
-              C.info⍪←↑{⍵('Description'Section ⎕SRC⍎'#._.',⍵)''}¨nl    ⍝ get descriptions
-              C.info←C.info[∪⍳⍨C.info[;1];]                            ⍝ filter duplicates out
-              C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1])          ⍝ cache hash tables
+      :Hold CACHE                                                    ⍝ prevent clashes
+          :If 9≠⎕NC CACHE                                            ⍝ if cache is empty:
+              C←⍎CACHE ⎕NS ⍬                                             ⍝ create with shortcut
+              C.read←⎕NS ⍬                                               ⍝ init cache for files
+              C.read.(keys←data←⍬)                                       ⍝ init keys and data
+              C.files←⊃⍪/{List'Examples/',⍵}¨NSS                         ⍝ sample filenames
+              C.demoes←{(Words'Control'Section Read ⍵)~'_',¨NSS}¨C.files ⍝ controls demoed in each
+              C.controls←∪↑,/C.demoes                                    ⍝ cache all controls
+              scores←C.controls∘.Score↓⍉↑C.files C.demoes                ⍝ controls vs files
+              C.rankings←(+/0<scores)↑¨↓⍒#.Utils.∆rank 1⊢scores          ⍝ cache all rankings
+              C.controlsoi←C.controls∘⍳ ⋄ C.eocontrols←∊∘C.controls      ⍝ cache hash tables
+              C.info←FromCSV Read'Examples/Data/info.csv'                ⍝ cache lookup table
+              nl←'.*[A-Z].*'⎕S'\0'#._.⎕NL ¯9                             ⍝ all widgets except html
+              C.info⍪←↑{⍵(NoNL'Description'Section ⎕SRC⍎'#._.',⍵)''}¨nl  ⍝ get descriptions
+              C.info←C.info[∪⍳⍨C.info[;1];]                              ⍝ filter duplicates out
+              C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1])            ⍝ cache hash tables
           :Else
               C←⍎CACHE                                             ⍝ establish shortcut
           :EndIf

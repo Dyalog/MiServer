@@ -66,20 +66,20 @@
      ⍝ Creates a div with info on the controls used in source
      
      ⍝ First we extract proper lists of controls
-      controls←4/⊂''
+      controls←5/⊂''
       source←(⍳∘'⍝'↑⊢)¨source      ⍝ remove comments
       source←{⍵/⍨~≠\''''=⍵}¨source ⍝ remove strings but leaves one ' as separator
-      :For control :In 'Handler' 'Position'~⍨∪('_(DC|SF|JQ|html|)\.(\w+)'⎕S'\2')source ⍝ find controls
+      :For control :In 'Handler' 'Position'~⍨∪('_(DC|SF|JQ|JS|html|)\.(\w+)'⎕S'\2')source ⍝ find controls
          ⍝ add to right list: /¯¯¯¯¯SF¯¯¯¯¯\  /¯¯¯¯¯JQ¯¯¯¯¯\  /¯¯¯¯DC¯¯¯¯\ /¯html
-          controls[⊃2 3 1 4/⍨('ej'≡2↑control)('jq'≡2↑control)(⎕A∊⍨⊃control)1],←⊂⊂control
+          controls[(⊃#.MS3SiteUtils.NSS(∨/⍷)¨⊂control)/⍳⍴#.MS3SiteUtils.NSS],←⊂⊂control
       :EndFor
       controls←{⍵[⍋↑⍵]}¨controls   ⍝ sort the lists
      
      ⍝ Now we create and populate the info div
       r←'.widgethelp'New _.div'This Page Contains<hr/>'
       h←'http://'
-      :For ns :In (×≢¨controls)/⍳4 ⍝ do not process if empty
-          '.widgetNs'r.Add _.span,⊂ns⊃'Dyalog Controls' 'Syncfusion Widgets' 'jQuery Widgets' 'Native HTML5 Elements'
+      :For ns :In (×≢¨controls)/⍳⍴#.MS3SiteUtils.NSS ⍝ do not process if empty
+          '.widgetNs'r.Add _.span,⊂ns⊃#.MS3SiteUtils.GROUPS
           ul←r.Add _.ul
           :For control :In ns⊃controls
               li←'<li><a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns⊃#.MS3SiteUtils.NSS
