@@ -46,8 +46,8 @@
      
       titles,←⊂'Small samples pages focusing on one or a few controls' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       cols←⍬
-      cols,←⊂(⊂'Level'),'Advanced' 'Simple'[1+(∨/'Simple'∘⍷)¨C.files]
       cols,←⊂(⊂'Main controls used'),{2↓∊', '∘,¨⍵}¨C.demoes
+      cols,←⊂(⊂'Level'),'Advanced' 'Simple'[1+(∨/'Simple'∘⍷)¨C.files]
       cols,←⊂(⊂'Task demonstrated'),{Link('Description'Section Read ⍵)⍵}¨C.files
       sections,←'eg'New _.DataTable(⍉↑cols)
      
