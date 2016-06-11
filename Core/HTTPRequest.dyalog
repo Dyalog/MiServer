@@ -54,7 +54,7 @@
 ⍝ Headers: HTTP Headers as 2 column matrix or name/value pairs
 ⍝ Page:    Requested page
 ⍝ Arguments: Arguments to the command (cmd?arg1=value1&arg2=value2) as 2 column matrix of name/value pairs
-     
+      
       Response←⎕NS''
       Response.(Status StatusText Headers File HTML HTMLHead PeerAddr NoWrap Bytes)←200 'OK'(0 2⍴⊂'')0 '' '' '' 0(0 0)
       PeerCert←0 0⍴⊂'' ⋄ Data←0 2⍴⊂''
@@ -82,7 +82,7 @@
           z←'UTF-8'⎕UCS'--',(8+('boundary='⍷z)⍳1)↓z ⍝ boundary string
           Data←↑DecodeMultiPart¨¯1↓z{(⍴⍺)↓¨(⍺⍷⍵)⊂⍵}data ⍝ ¯1↓ because last boundary has '--' appended
       :ElseIf 'application/x-www-form-urlencoded'begins z
-          Data←1 URLDecodeArgs'UTF-8'⎕UCS data
+          Data←URLDecodeArgs'UTF-8'⎕UCS data
       :ElseIf 'text/plain'begins z
           Data←1 2⍴'Data'('UTF-8'⎕UCS data) ⍝ if text, create artificial "Data" entry
       :Else
@@ -101,7 +101,7 @@
       :If ∨/mask←Data[;1]{⍵≡(-⍴⍵)↑⍺}¨⊂'_serialized' ⍝ do we have any serialized form data from AJAX?
           new←0 2⍴⊂''
           :For s :In mask/Data[;2]
-              new⍪←1 URLDecodeArgs s
+              new⍪←URLDecodeArgs s
           :EndFor
           Data←((~(⊃⍴Data)↑mask)⌿Data)⍪new
           Data←{0 1∊⍨⊃⍴⍵:⊃⍵ ⋄ ⍵}¨⊃{⍺ ⍵}#.Utils.∆key/↓[1]Data
@@ -178,7 +178,7 @@
 
     ∇ r←{cs}URLDecodeArgs args
       :Access Public Shared
-      cs←{6::0 ⋄ cs}''
+      cs←{6::⍵ ⋄ cs}1 ⍝ default to case sensitive
       r←(args∨.≠' ')⌿↑'='∘split¨{1↓¨(⍵='&')⊂⍵}'&',args ⍝ Cut on '&'
       r[;2]←ArgXLT¨r[;2]
       :If ~cs ⋄ r[;1]←#.Strings.lc¨r[;1] ⋄ :EndIf

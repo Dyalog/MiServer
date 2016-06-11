@@ -5,12 +5,14 @@
 ⍝   URL      - the URL to direct the command at
 ⍝              format is:  [HTTP[S]://][user:pass@]url[:port][/page[?params]]
 ⍝   Params   - the parameters to pass with the command
+⍝              this can either be a URLEncoded character vector, or a namespace containing the named parameters
 ⍝              for 'GET' you can pass parameters either in the URL or in Params (they will be appended to the URL)
 ⍝   Headers  - any additional HTTP headers to send with the request (all the obvious headers like 'content-length' are precomputed)
-⍝              a vector of 2-element (header-name value) vectors or a matrix of [;1] header-name [;2] values                       
+⍝              a vector of 2-element (header-name value) vectors or a matrix of [;1] header-name [;2] values
 ⍝   Cert     - if using a SSL, this is an instance of the X509Cert class
 ⍝   SSLFlags - if using SSL, these are the SSL flags as described in the Conga documentation
-⍝   Priority - if using SSL, this is the 
+⍝   Priority - if using SSL, this is the GNU TLS priority string (generally you won't change this from the default)
+⍝   LocalDRC - if set, this is a reference to the DRC namespace from Conga - otherwise, we look for DRC in the workspace root
 
 
     ⎕ML←⎕IO←1
@@ -18,12 +20,12 @@
     :field public Command←'GET'
     :field public Cert←⍬
     :field public SSLFlags←32
-    :field public LocalDRC
+    :field public LocalDRC←''
     :field public URL←''
     :field public Params←''
     :field public Headers←''
     :field public Priority←'NORMAL:!CTYPE-OPENPGP'
-    :field public LDRC←''
+
 
     ∇ make
       :Access public
@@ -38,18 +40,16 @@
       Command URL Params Headers Cert SSLFlags Priority←7↑args,(⍴args)↓Command URL Params Headers Cert SSLFlags Priority
     ∇
 
-    ∇ r←Run;resp
+    ∇ r←Run
       :Access public
-      r←⎕NS''
       :If 0∊⍴Cert
-          resp←(Command HTTPCmd)URL Params Headers
+          r←(Command HTTPCmd)URL Params Headers
       :Else
-          resp←(Cert SSLFlags Priority)(Command HTTPCmd)URL Params Headers
+          r←(Cert SSLFlags Priority)(Command HTTPCmd)URL Params Headers
       :EndIf
-      r.(rc headers data peercert)←resp
     ∇
 
-    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;wr;headerlen
+    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc
 ⍝ issue an HTTP command
 ⍝ certs - optional [X509Cert [SSLValidation [Priority]]]
 ⍝ args  - [1] URL in format [HTTP[S]://][user:pass@]url[:port][/page]
@@ -57,15 +57,21 @@
 ⍝         {3} HTTP headers in form {↑}(('hdr1' 'val1')('hdr2' 'val2'))
 ⍝ Makes secure connection if left arg provided or URL begins with https:
      
-⍝ Result: (return code) (HTTP headers) (HTTP body) [PeerCert if secure]
-      r←¯1(0 2⍴⊂'')''⍬
+⍝ Result: (conga return code) (HTTP Status) (HTTP headers) (HTTP body) [PeerCert if secure]
+      r←⎕NS''
+      (rc httpver httpstatus httpstatusmsg header data peercert)←¯1 '' 400(⊂'bad request')(0 2⍴⊂'')''⍬
      
-      :If 9≠⎕NC'LDRC'
-      :AndIf 9=#.⎕NC'DRC'
-          LDRC←#.DRC
+      :If 0∊⍴LocalDRC
+          :If 9=#.⎕NC'DRC'
+              LDRC←#.DRC
+          :Else
+              ⎕←'Conga namespace DRC not found or defined'
+              →0
+          :EndIf
+      :ElseIf 9=⎕NC'LocalDRC'
+          LDRC←LocalDRC
       :Else
-          ⎕←'Conga namespace DRC not found or defined'
-          →0
+          LDRC←⍎⍕LocalDRC
       :EndIf
      
       {}LDRC.Init''
@@ -82,6 +88,9 @@
               urlparms←{0∊⍴⍵:'' ⋄ '?',⍵}{0∊⍴t←⍵.⎕NL ¯2:'' ⋄ 1↓⊃,/⍵{'&',⍵,'=',(⍕⍺⍎⍵)}¨t}parms
               parms←''
           :EndIf
+      :ElseIf 'GET'≡cmd ⍝ parms is assumed to be a character vector
+          urlparms←{('?'=1⊃⍵)↓'?',⍵}parms
+          parms←''
       :EndIf
      
      GET:
@@ -124,17 +133,17 @@
       req,←fmtHeaders hdrs
       req,←auth
      
-      :If 0=⊃(err cmd)←2↑r←LDRC.Clt''host port'Text' 100000,pars ⍝ 100,000 is max receive buffer size
-      :AndIf 0=⊃r←LDRC.Send cmd(req,NL,parms)
+      :If 0=⊃(err cmd)←2↑rc←LDRC.Clt''host port'Text' 100000,pars ⍝ 100,000 is max receive buffer size
+      :AndIf 0=⊃rc←LDRC.Send cmd(req,NL,parms)
      
           chunked chunk buffer chunklength←0 '' '' 0
           done data datalen headerlen header←0 ⍬ 0 0 ⍬
           :Repeat
-              :If ~done←0≠1⊃wr←LDRC.Wait cmd 5000            ⍝ Wait up to 5 secs
-                  :If wr[3]∊'Block' 'BlockLast'             ⍝ If we got some data
+              :If ~done←0≠1⊃rc←LDRC.Wait cmd 5000            ⍝ Wait up to 5 secs
+                  :If rc[3]∊'Block' 'BlockLast'             ⍝ If we got some data
                       :If chunked
-                          chunk←4⊃wr
-                      :ElseIf 0<⍴data,←4⊃wr
+                          chunk←4⊃rc
+                      :ElseIf 0<⍴data,←4⊃rc
                       :AndIf 0=headerlen
                           (headerlen header)←DecodeHeader data
                           :If 0<headerlen
@@ -148,7 +157,7 @@
                           :EndIf
                       :EndIf
                   :Else
-                      ⎕←wr ⍝ Error?
+                      ⎕←rc ⍝ Error?
                       ∘∘∘
                   :EndIf
                   :If chunked
@@ -163,7 +172,7 @@
                           :EndIf
                       :EndWhile
                   :Else
-                      done←done∨'BlockLast'≡3⊃wr                        ⍝ Done if socket was closed
+                      done←done∨'BlockLast'≡3⊃rc                        ⍝ Done if socket was closed
                       :If datalen>0
                           done←done∨datalen≤⍴data ⍝ ... or if declared amount of data rcvd
                       :Else
@@ -173,29 +182,35 @@
               :EndIf
           :Until done
      
-          :Trap 0 ⍝ If any errors occur, abandon conversion
-              :Select header getHeader'content-encoding' ⍝ was the response compressed?
-              :Case 'deflate'
-                  data←fromutf8 LDRC.flate.Inflate 120 156{(2×⍺≡2↑⍵)↓⍺,⍵}256|83 ⎕DR data ⍝ append 120 156 signature because web servers strip it out due to IE
-              :Case 'gzip'
-                  data←fromutf8 256|¯3(219⌶)83 ⎕DR data
-              :Else
-                  :If ∨/'charset=utf-8'⍷header getHeader'content-type'
-                      data←'UTF-8'⎕UCS ⎕UCS data ⍝ Convert from UTF-8
-                  :EndIf
-              :EndSelect
-          :EndTrap
+          :If 0=1⊃rc
+              :Trap 0 ⍝ If any errors occur, abandon conversion
+                  :Select header getHeader'content-encoding' ⍝ was the response compressed?
+                  :Case 'deflate'
+                      data←fromutf8 LDRC.flate.Inflate 120 156{(2×⍺≡2↑⍵)↓⍺,⍵}256|83 ⎕DR data ⍝ append 120 156 signature because web servers strip it out due to IE
+                  :Case 'gzip'
+                      data←fromutf8 256|¯3(219⌶)83 ⎕DR data
+                  :Else
+                      :If ∨/'charset=utf-8'⍷header getHeader'content-type'
+                          data←'UTF-8'⎕UCS ⎕UCS data ⍝ Convert from UTF-8
+                      :EndIf
+                  :EndSelect
      
-          :If {(⍵[3]∊'12357')∧'30 '≡⍵[1 2 4]}4↑{⍵↓⍨⍵⍳' '}(⊂1 1)⊃header ⍝ redirected? (HTTP status codes 301, 302, 303, 305, 307)
-              →GET⍴⍨0<⍴url←'location'{(⍵[;1]⍳⊂⍺)⊃⍵[;2],⊂''}header ⍝ use the "location" header field for the URL
+                  :If {(⍵[3]∊'12357')∧'30 '≡⍵[1 2 4]}4↑{⍵↓⍨⍵⍳' '}(⊂1 1)⊃header ⍝ redirected? (HTTP status codes 301, 302, 303, 305, 307)
+                      →GET⍴⍨0<⍴url←'location'{(⍵[;1]⍳⊂⍺)⊃⍵[;2],⊂''}header ⍝ use the "location" header field for the URL
+                  :EndIf
+     
+                  httpver httpstatus httpstatusmsg←{⎕ML←3 ⋄ ⍵⊂⍨{⍵∨2<+\~⍵}⍵≠' '}(⊂1 1)⊃header
+                  header↓⍨←1
+              :EndTrap
+     
+              :If secure ⋄ peercert←⊂LDRC.GetProp cmd'PeerCert' ⋄ :EndIf
           :EndIf
      
-          r←(1⊃wr)header data ⍬
+          r.(rc httpver httpstatus httpstatusmsg headers data peercert)←(1⊃rc)httpver(toNum httpstatus)httpstatusmsg header data peercert
      
-          :If secure ⋄ r[4]←⊂LDRC.GetProp cmd'PeerCert' ⋄ :EndIf
       :Else
-          ⎕←'Connection failed ',,⍕r
-          r←(⊂r)'' '' ''
+          ⎕←'Connection failed ',,⍕rc
+          r.rc←1⊃rc
       :EndIf
      
       {}LDRC.Close cmd
@@ -212,7 +227,7 @@
     h2d←{⎕IO←0 ⋄ 16⊥'0123456789abcdef'⍳lc ⍵} ⍝ hex to decimal
     getchunklen←{¯1=len←¯1+⊃(NL⍷⍵)/⍳⍴⍵:¯1 ¯1 ⋄ chunklen←h2d len↑⍵ ⋄ (⍴⍵)<len+chunklen+4:¯1 ¯1 ⋄ len chunklen}
     eis←{⍺←1 ⋄ ,(⊂⍣(⍺=|≡⍵))⍵} ⍝ enclose if simple
-    toNum←{0∊⍴⍵:⍬ ⋄ 1⊃2⊃⎕VFI ⍵}
+    toNum←{0∊⍴⍵:⍬ ⋄ 1⊃2⊃⎕VFI ⍕⍵}
     getHeader←{(⍺[;2],⊂'')⊃⍨⍺[;1]⍳eis lc ⍵}
     addHeader←{0∊⍴⍺⍺ getHeader ⍺:⍺⍺⍪⍺ ⍵ ⋄ ⍺⍺}
     makeHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:0 2⍴⊂'' ⋄ 2=⍴⍴⍵:⍵ ⋄ ↑2 eis ⍵}

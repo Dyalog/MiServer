@@ -2,7 +2,7 @@
 ⍝ Control:: _DC.Fieldset _html.label _DC.EditField
 ⍝ Description:: Enter first and last name in a FieldSet (reacts to each keystroke)
 
-    ∇ Render;fieldset;field;prompt;edit;frm;label
+    ∇ Compose;fieldset;field;prompt;edit;frm;label
       :Access Public
      
      ⍝ We need a form, so that data will be serialized on each callback
