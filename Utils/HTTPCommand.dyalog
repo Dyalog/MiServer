@@ -81,17 +81,13 @@
       urlparms←''
       cmd←uc,cmd
      
-      :If 326=⎕DR parms ⍝ if parms are a namespace, format them
-          :If 'POST'≡cmd
-              parms←{0∊⍴t←⍵.⎕NL ¯2:'' ⋄ 1↓⊃,/⍵{'&',⍵,'=',(⍕⍺⍎⍵)}¨t}parms
-          :Else
-              urlparms←{0∊⍴⍵:'' ⋄ '?',⍵}{0∊⍴t←⍵.⎕NL ¯2:'' ⋄ 1↓⊃,/⍵{'&',⍵,'=',(⍕⍺⍎⍵)}¨t}parms
-              parms←''
-          :EndIf
-      :ElseIf 'GET'≡cmd ⍝ parms is assumed to be a character vector
-          urlparms←{('?'=1⊃⍵)↓'?',⍵}parms
+      :If 'GET'≡cmd
+          urlparms←parms
           parms←''
       :EndIf
+
+      parms←URLEncode parms
+      urlparms←{('?'=1⊃⍵)↓'?',⍵}URLEncode urlparms
      
      GET:
       p←(∨/b)×1+(b←'//'⍷url)⍳1
@@ -251,4 +247,29 @@
           r←len d
       :EndIf
     ∇
+
+    ∇ r←{name}URLEncode data;⎕IO;z;ok;nul;m;enlist;noname
+      :Access Public Shared
+      noname←0
+      :If 9.1=⎕NC⊂'data'
+          data←{0∊⍴t←⍵.⎕NL ¯2:'' ⋄ ↑⍵{⍵(⍕,⍺⍎⍵)}¨t}data
+      :Else
+          :If 1≥|≡data
+              :If noname←0=⎕NC'name' ⋄ name←'' ⋄ :EndIf
+              data←name data
+          :EndIf
+      :EndIf
+      nul←⎕UCS ⎕IO←0
+      enlist←{⎕ML←1 ⋄ ∊⍵}
+      ok←nul,enlist ⎕UCS¨(⎕UCS'aA0')+⍳¨26 26 10
+     
+      z←⎕UCS'UTF-8'⎕UCS enlist nul,¨,data
+      :If ∨/m←~z∊ok
+          (m/z)←↓'%',(⎕D,⎕A)[⍉16 16⊤⎕UCS m/z]
+          data←(⍴data)⍴1↓¨{(⍵=nul)⊂⍵}enlist z
+      :EndIf
+     
+      r←noname↓¯1↓enlist data,¨(⍴data)⍴'=&'
+    ∇
+
 :EndClass

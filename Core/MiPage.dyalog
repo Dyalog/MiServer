@@ -75,7 +75,7 @@
       r←Render
     ∇
 
-    ∇ Use resources;n;ind;t;x
+    ∇ Use resources;n;ind;t;x;server
       :Access public
       resources←eis resources
       :For x :In resources
@@ -86,17 +86,22 @@
               :Case '⍕' ⍝ style sheet
                   _Styles,←⊂1↓x
               :Else
-                  :If 0≠⎕NC⊂'_Request.Server.Config.Resources'
-                  :AndIf ~0∊n←1↑⍴_Request.Server.Config.Resources
-                      :If n≥ind←_Request.Server.Config.Resources[;1]⍳⊂x
-                          :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 2)⊃_Request.Server.Config.Resources
+                  :If 0≠⎕NC'_Request.Server'
+                      server←_Request.Server
+                  :ElseIf 0≠⎕NC'#.Boot.ms'
+                      server←#.Boot.ms
+                  :EndIf
+                  :If 0≠server.⎕NC⊂'Config.Resources'
+                  :AndIf ~0∊n←1↑⍴server.Config.Resources
+                      :If n≥ind←server.Config.Resources[;1]⍳⊂x
+                          :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 2)⊃server.Config.Resources
                               _Scripts,←t
                           :EndIf
-                          :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 3)⊃_Request.Server.Config.Resources
+                          :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 3)⊃server.Config.Resources
                               _Styles,←t
                           :EndIf
                       :Else
-                          1 _Request.Server.Log _PageName,' references unknown resource: ',x
+                          1 server.Log _PageName,' references unknown resource: ',x
                       :EndIf
                   :EndIf
               :EndSelect
