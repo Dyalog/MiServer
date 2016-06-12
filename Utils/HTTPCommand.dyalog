@@ -49,7 +49,7 @@
       :EndIf
     ∇
 
-    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc
+    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep
 ⍝ issue an HTTP command
 ⍝ certs - optional [X509Cert [SSLValidation [Priority]]]
 ⍝ args  - [1] URL in format [HTTP[S]://][user:pass@]url[:port][/page]
@@ -62,12 +62,21 @@
       (rc httpver httpstatus httpstatusmsg header data peercert)←¯1 '' 400(⊂'bad request')(0 2⍴⊂'')''⍬
      
       :If 0∊⍴LocalDRC
-          :If 9=#.⎕NC'DRC'
+          :Select ⊃#.⎕NC'DRC'
+          :Case 9
               LDRC←#.DRC
+          :Case 0
+              FileSep←'/\'[1+'Win'≡3↑1⊃#.⎕WG'APLVersion']
+              dyalog←{⍵,(-FileSep=¯1↑⍵)↓FileSep}2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
+              'DRC'#.⎕CY dyalog,'ws/conga' ⍝ runtime needs full workspace path
+              :If 9≠#.⎕NC'DRC'
+                  ⎕←'Conga namespace DRC not found or defined'
+                  →0
+              :EndIf
           :Else
               ⎕←'Conga namespace DRC not found or defined'
               →0
-          :EndIf
+          :EndSelect
       :ElseIf 9=⎕NC'LocalDRC'
           LDRC←LocalDRC
       :Else
@@ -85,7 +94,7 @@
           urlparms←parms
           parms←''
       :EndIf
-
+     
       parms←URLEncode parms
       urlparms←{('?'=1⊃⍵)↓'?',⍵}URLEncode urlparms
      
