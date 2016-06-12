@@ -73,6 +73,7 @@
                   ⎕←'Conga namespace DRC not found or defined'
                   →0
               :EndIf
+              LDRC←#.DRC
           :Else
               ⎕←'Conga namespace DRC not found or defined'
               →0
@@ -96,7 +97,7 @@
       :EndIf
      
       parms←URLEncode parms
-      urlparms←{('?'=1⊃⍵)↓'?',⍵}URLEncode urlparms
+      urlparms←{('?'=1↑⍵)↓'?',⍵}URLEncode urlparms
      
      GET:
       p←(∨/b)×1+(b←'//'⍷url)⍳1
