@@ -79,13 +79,17 @@
 
       DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
           6::New¨(_.del ⍵)(_.small' deprecated')
-          ns←#.MS3SiteUtils.NSS(⊃⊣(/⍨)(∨/⍷)¨)⊂⍕⍎'_.',⍵
-          link←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns,'&widget=',⍵
-          Link ⍵ link
+          ref←⍎'_.',⍵
+          ns←#.MS3SiteUtils.NSS(⊃⊣(/⍨)(∨/⍷)¨)⊂⍕ref
+          link←'/Documentation/DyalogAPIs/WidgetDocNew?namespace=_',ns,'&widget=',⍵
+          tip←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section ⎕SRC ref
+          tip,←(''≡tip)/'[content]'
+          tip Link ⍵ link
       }
 
       LinkWithTip←{ ⍝ Link with "tooltip" that has description and level
           tip←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵
+          ⍺≡0:Link tip ⍵
           tip Link ⍺ ⍵
       }
 
