@@ -13,6 +13,10 @@
 	transform: rotate(-45deg);
 }
 
+.external::after{
+	content:"\1f517"
+}
+
 .external:hover{
 	animation: rot linear 1s infinite;
 	text-decoration: none;

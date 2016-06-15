@@ -158,6 +158,8 @@
 
     BuildTree←{⍺{(⊂⍺),⍵}¨(Levels NoSt ⍵)(NoExt¨Name¨NoSt ⍵)⍵} ⍝ Build argument for ejTreeView
 
+    External←{'.external' 'target=_blank' 'title="External link"'New _.A(''⍵)}
+
       Info←{ ⍝ Get info (default: description) on a control
           ⍺←2                                           ⍝ 1=Name, 2=Description, 3=Notes
           control←(⍳∘'.'↓⊢)⍵                            ⍝ remove ns
@@ -188,6 +190,7 @@
           link←'/Documentation/DyalogAPIs/WidgetDocNew?namespace=_',ns,'&widget=',⍵
           tip←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section ⎕SRC ref
           tip,←(''≡tip)/'[content]'
+          tip,⍨←'Constructor: '
           tip Link ⍵ link
       }
 
@@ -203,7 +206,7 @@
           nums←Circle¨⍳≢list
           nums LinkWithTip¨list
       }
-
+      
     ∇ r←ListItem item;nost;noext ⍝ Generate pre-rendered lists item for performance (OO is slow)
       nost←item~'*'
       noext←~'.'∊nost

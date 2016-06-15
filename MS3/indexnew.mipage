@@ -52,8 +52,11 @@
       sections,←'eg'New _.DataTable(⍉↑cols)
      
      ⍝⍝⍝ THE ACTUAL ACCORDION ⍝⍝⍝
-      main←'content'Add _.jqAccordion(titles sections)
+      main←('style="width: 960px;"'Add _.div).Add _.jqAccordion(titles sections)
       'heightStyle'main.Set'content'
+      'collapsible'main.Set'true'
+      
+      (Add _.jBox).Selector←'[title]' ⍝ make all tooltips fancy
     ∇
 
 :EndClass

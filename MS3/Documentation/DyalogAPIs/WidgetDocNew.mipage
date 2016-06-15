@@ -6,7 +6,8 @@
       :Access public
       (ns widget)←Get'namespace widget'
       ns Document widget
-      Add _.StyleSheet'/Styles/widgetDoc.css'
+      Add _.StyleSheet '/Styles/widgetDoc.css'
+      (Add _.jBox).Selector←'[title]'
     ∇
 
     ∇ ns Document widget;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files;desc;h
@@ -54,7 +55,7 @@
           h←Add _.h2(ns,'.',widget)
           :If 0≠wref.⎕NC⊂'DocBase'
           :AndIf ~0∊⍴wref.DocBase ⍝ Link symbol
-              '.external' 'target=_blank' 'title="External link"'h.Add _.A('&#x1f517;'wref.DocBase)
+              h.Add External wref.DocBase
           :EndIf
           h.Add' ',⊃⌽⊃↓r
           :If 0∊⍴r
