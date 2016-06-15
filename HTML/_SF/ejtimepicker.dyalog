@@ -21,4 +21,11 @@
       (n↑'value' 'timeFormat')Option 1↓args
       Container.type←'text'
     ∇
+	
+	∇ r←Render
+	:Access Public
+	Container.NoEndTag←1
+    r←⎕BASE.Render
+	∇
+	
 :EndClass

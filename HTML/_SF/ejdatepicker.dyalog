@@ -24,7 +24,6 @@
       JQueryFn←Uses←'ejDatePicker'
       ContainerTag←'input'
       :Implements Constructor
-      Container.NoEndTag←1
       Container.type←'text'
       InternalEvents←IntEvt
     ∇
@@ -35,7 +34,6 @@
       JQueryFn←Uses←'ejDatePicker'
       ContainerTag←'input'
       :Implements Constructor
-      Container.NoEndTag←1
       args←(⊂⍣(3=10|⎕DR args))args
       (val fmt)←args defaultArgs(3↑⎕TS)'yyyy/MM/dd'
       ('value' 'dateFormat')Set(('⍎new Date("',(⍕val),'")')fmt)
@@ -45,6 +43,7 @@
 
     ∇ r←Render
       :Access public
+      Container.NoEndTag←1
       SetId
       r←⎕BASE.Render
       :If Label≢''

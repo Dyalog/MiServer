@@ -40,6 +40,7 @@
 
     ∇ r←Render
       :Access public
+      Container.NoEndTag←1
       r←''
       'minValue' 'maxValue' 'precision' 'value'SetIfNotSet¨Min Max Precision Value
       r,←⎕BASE.Render

@@ -41,6 +41,7 @@
 
     ∇ r←Render;dt
       :Access public
+      Container.NoEndTag←1
       SetId
       :If 0∊⍴DateTime ⋄ DateTime←6↑⎕TS ⋄ :EndIf
       :If (0 2∊⍨10|⎕DR DateTime) ⋄ dt←'"',DateTime,'"'

@@ -36,6 +36,7 @@
       :Access Public
       :If 'true'≢⍕⎕THIS.GetOption'displayInline'
           ContainerTag←'input'
+          Container.NoEndTag←1
           Container.type←'text'
       :EndIf
       ('value' 'palette')Set Color Palette
