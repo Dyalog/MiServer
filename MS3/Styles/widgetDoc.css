@@ -1,7 +1,25 @@
 .widgetDocContent pre {
     font-family: APL385 Unicode;
-    font-size:small;
+    font-size: small;
 }
+
 .widgetDoc {
-    font-weight:600;
+    font-weight: 600;
 }
+
+.external{
+	font-weight: normal !important;
+	display: inline-block;
+	transform: rotate(-45deg);
+}
+
+.external:hover{
+	animation: rot linear 1s infinite;
+	text-decoration: none;
+}
+
+@keyframes rot {
+    0%   {transform: rotate(-45deg);}
+	100% {transform: rotate(315deg);}
+}
+

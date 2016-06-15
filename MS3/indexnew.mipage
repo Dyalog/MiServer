@@ -39,7 +39,7 @@
      
       titles,←⊂'Controls, widgets, and elements' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       cols←⍬
-      cols,←⊂(⊂'Documentation'),DocLink¨C.info[;1]
+      cols,←⊂(⊂'Control<br><small>(documentation link)<small>'),DocLink¨C.info[;1]
       cols,←⊂(⊂'Relevant samples'),RelDocs¨C.info[;1]
       cols,←⊂(⊂'Description'),C.info[;2]
       sections,←'ctrl'New _.DataTable(⍉↑cols)
@@ -55,53 +55,5 @@
       main←'content'Add _.jqAccordion(titles sections)
       'heightStyle'main.Set'content'
     ∇
-
-      FormatList←{ ⍝ List of category-title pairs
-          ⍺←1↓FILEEXT
-          (⍺≡1↓FILEEXT)CatAndItem¨{'/'≠⊃⌽⍵}Of ⍺ List ⍵
-      }
-
-      CatAndItem←{ ⍝ (category) (filename/description)
-          cat←2 LastSeg ⍵
-          cat←'General' 'Mini App'cat['Documentation' 'Applications'⍳⊂cat]
-          cat(Link((NoExt LastSeg)⍣(~⍺)('Description'Section Read)⍣⍺⊢⍵)⍵)
-      }
-
-      LastSeg←{ ⍝ ⍺th (default 1st) /-separated segment from the end
-          ⍺←⊢
-          1↓⍺⊃⌽('/'∘=⊂⊢)'/',⍵
-      }
-
-      Link←{ ⍝ New-tab link with optional (⍺) "tooltip"
-          ⍺←0
-          (('title=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
-      }
-
-      DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
-          6::New¨(_.del ⍵)(_.small' deprecated')
-          ref←⍎'_.',⍵
-          ns←#.MS3SiteUtils.NSS(⊃⊣(/⍨)(∨/⍷)¨)⊂⍕ref
-          link←'/Documentation/DyalogAPIs/WidgetDocNew?namespace=_',ns,'&widget=',⍵
-          tip←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section ⎕SRC ref
-          tip,←(''≡tip)/'[content]'
-          tip Link ⍵ link
-      }
-
-      LinkWithTip←{ ⍝ Link with "tooltip" that has description and level
-          tip←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵
-          ⍺≡0:Link tip ⍵
-          tip Link ⍺ ⍵
-      }
-
-      Circle←{ ⍝ Circle a number using Unicode
-          '&#',(9311+⍵),';'
-      }
-
-      RelDocs←{ ⍝ Links to related samples
-          list←Relevant ⍵
-          0=≢list:'(none)'
-          nums←Circle¨⍳≢list
-          nums LinkWithTip¨list
-      }
 
 :EndClass

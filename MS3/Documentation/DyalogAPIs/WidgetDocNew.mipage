@@ -6,6 +6,7 @@
       :Access public
       (ns widget)←Get'namespace widget'
       ns Document widget
+      Add _.StyleSheet'/Styles/widgetDoc.css'
     ∇
 
     ∇ ns Document widget;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files;desc;h
@@ -52,10 +53,10 @@
       :Else
           h←Add _.h2(ns,'.',widget)
           :If 0≠wref.⎕NC⊂'DocBase'
-          :AndIf ~0∊⍴wref.DocBase
-              h.Add _.sup('target=_blank'New _.A('[ext doc]'wref.DocBase))
+          :AndIf ~0∊⍴wref.DocBase ⍝ Link symbol
+              '.external' 'target=_blank' 'title="External link"'h.Add _.A('&#x1f517;'wref.DocBase)
           :EndIf
-          h.Add ' ',⊃⌽⊃↓r
+          h.Add' ',⊃⌽⊃↓r
           :If 0∊⍴r
               Add _.h3'No documentation found.'
           :Else

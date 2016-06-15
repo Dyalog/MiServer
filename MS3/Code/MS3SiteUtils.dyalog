@@ -133,7 +133,11 @@
 
     IsDemo←{∨/∊'Simple' 'Advanced'⍷¨⊂⍵}⍝ Is this sample a one-widget-demo
 
-    NoNL←'\n' '\r'⎕R' ' ''⍠'Mode' 'D'
+    NoNL←'\n' '\r'⎕R' ' ''⍠'Mode' 'D' ⍝ Replace newlines with spaces
+
+    LastSeg←{⍺←⊢ ⋄ 1↓⍺⊃⌽('/'∘=⊂⊢)'/',⍵} ⍝ ⍺th (default 1st) /-separated segment from the end
+
+    Circle←{'&#',(9311+⍵),';'} ⍝ Circle a number using Unicode
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
@@ -161,13 +165,44 @@
           'Description'Section ⎕SRC #⍎⍵                 ⍝ else extract it
       }
 
-⍝     ListItem←{ ⍝ Generate pre-rendered entry for lists
-⍝          nost←⍵~'*'
-⍝          noext←~'.'∊nost
-⍝          r←'<p class="listitem" id="',nost,(noext/FILEEXT),('*'∩⍵),'"><strong>',Clean NoExt LastSub nost
-⍝          ∨/noext,FILEEXT⍷nost:r,'</strong> – ',('Description'Section Read nost),'</p>' ⍝ add desc
-⍝          r,'</strong></p>'
-⍝      }
+      FormatList←{ ⍝ List of category-title pairs
+          ⍺←1↓FILEEXT
+          (⍺≡1↓FILEEXT)CatAndItem¨{'/'≠⊃⌽⍵}Of ⍺ List ⍵
+      }
+
+      CatAndItem←{ ⍝ (category) (filename/description)
+          cat←2 LastSeg ⍵
+          cat←'General' 'Mini App'cat['Documentation' 'Applications'⍳⊂cat]
+          cat(Link((NoExt LastSeg)⍣(~⍺)('Description'Section Read)⍣⍺⊢⍵)⍵)
+      }
+
+      Link←{ ⍝ New-tab link with optional (⍺) "tooltip"
+          ⍺←0
+          (('title=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
+      }
+
+      DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
+          6::New¨(_.del ⍵)(_.small' deprecated')
+          ref←⍎'_.',⍵
+          ns←#.MS3SiteUtils.NSS(⊃⊣(/⍨)(∨/⍷)¨)⊂⍕ref
+          link←'/Documentation/DyalogAPIs/WidgetDocNew?namespace=_',ns,'&widget=',⍵
+          tip←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section ⎕SRC ref
+          tip,←(''≡tip)/'[content]'
+          tip Link ⍵ link
+      }
+
+      LinkWithTip←{ ⍝ Link with "tooltip" that has description and level
+          tip←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵
+          ⍺≡0:Link tip ⍵
+          tip Link ⍺ ⍵
+      }
+
+      RelDocs←{ ⍝ Links to related samples
+          list←Relevant ⍵
+          0=≢list:'(none)'
+          nums←Circle¨⍳≢list
+          nums LinkWithTip¨list
+      }
 
     ∇ r←ListItem item;nost;noext ⍝ Generate pre-rendered lists item for performance (OO is slow)
       nost←item~'*'
