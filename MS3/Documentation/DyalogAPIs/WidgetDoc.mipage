@@ -1,4 +1,4 @@
-﻿:Class WidgetDocNew : MiPageSample
+﻿:Class WidgetDoc : MiPageSample
 
     :include #.MS3SiteUtils
 
