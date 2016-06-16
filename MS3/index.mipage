@@ -58,7 +58,7 @@
      ⍝⍝⍝ THE ACTUAL TABS CONTROL ⍝⍝⍝
       Add BigTabs titles sections
      
-      (Add _.jBox).Selector←'[title]' ⍝ make all tooltips fancy
+      ⍝ (Add _.jBox).Selector←'[title]' ⍝ make all tooltips fancy
     ∇
 
 :EndClass
