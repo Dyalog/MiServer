@@ -22,8 +22,8 @@
       ⍝ and advice. At the same time, it showcases many of MiServer's capabilities,
       ⍝ as it is built almost entirely in APL using components available in MiServer.
       ⍝
-      ⍝ Explore the tabs for documentation, the broad selection of available controls,
-      ⍝ and the vast collection of sample pages and mini-apps. See the source of any page by
+      ⍝ Explore the tabs for documentation and mini-apps, the broad selection of available controls,
+      ⍝ and the vast collection of sample pages. See the source of any page by
       ⍝ clicking the large Dyalog <img id="Dyalog-D" src="/Examples/Data/Dyalog-D.png"
       ⍝ alt="Dyalog-D" height="20px" style="vertical-align:bottom;"> in the top left corner.
       ⍝

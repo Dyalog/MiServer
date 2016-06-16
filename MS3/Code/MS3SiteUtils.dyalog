@@ -200,11 +200,11 @@
 
       DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
           6::New¨(_.del ⍵)(_.small' deprecated')
-          ref←⍎'_.',⍵
+          ref←_⍎⍵
           ns←#.MS3SiteUtils.NSS(⊃⊣(/⍨)(∨/⍷)¨)⊂⍕ref
           link←'/Documentation/DyalogAPIs/WidgetDocNew?namespace=_',ns,'&widget=',⍵
           tip←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section ⎕SRC ref
-          tip,←(''≡tip)/'[content]'
+          tip,←(''≡tip)/(1+(New ref).NoEndTag)⊃'[content]' '[id]'
           tip,⍨←'Constructor: '
           tip Link ⍵ link
       }

@@ -10,7 +10,7 @@
       (Add _.jBox).Selector←'[title]'
     ∇
 
-    ∇ ns Document widget;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files;desc;h
+    ∇ ns Document widget;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files;desc;h;ctor
       :Access public shared
       r←¯1
       :If 9.1=#.⎕NC⊂ns
@@ -35,7 +35,8 @@
               :EndFor
               :If ns≡'_html'
                   r⍪←'Description'Ⓒ'Native HTML ',' element',⍨desc←#.Strings.lc Info'_html.',widget
-                  r⍪←'Constructor'Ⓒ'[content]<br />content - the content of the ',desc
+                  ctor←(1+(New _⍎widget).NoEndTag)⊃'content' 'id'
+                  r⍪←'Constructor'Ⓒ '[',ctor,']<br />',ctor,' - the ',ctor,' of the ', desc
                   r⍪←'Public Fields'Ⓒ'(none)'
                   r⍪←'Notes'Ⓒ 3 Info'_html.',widget
               :EndIf
