@@ -5,7 +5,7 @@
     ∇ Compose
       :Access public 
     ⍝ This is the introduction text
-      Add'The following has never been published:'
+      Add'Dyalog Ltd. is proud to present the below article, written by our expert developers:'
      
     ⍝ Then we put in an article section
       art←Add _.article
@@ -16,7 +16,7 @@
       p←art.Add _.p'While they may in principle contain contain any number of text paragraphs, '
       p.Add'they should ideally strive to be clear and concise.'
     ⍝ Finally we add text after the article
-      Add'We hope to soon publish this useful information.'
+      Add'Please contact us for further details.'
     ∇
 
 :endclass
