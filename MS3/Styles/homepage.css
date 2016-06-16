@@ -108,23 +108,3 @@
 	text-decoration: none;
 	border: solid 1px transparent;
 }
-
-.external{
-	font-weight: normal !important;
-	display: inline-block;
-	transform: rotate(-45deg);
-}
-
-.external::after{
-	content:"\1f517"
-}
-
-.external:hover{
-	animation: rot linear 1s infinite;
-	text-decoration: none;
-}
-
-@keyframes rot {
-    0%   {transform: rotate(-45deg);}
-	100% {transform: rotate(315deg);}
-}

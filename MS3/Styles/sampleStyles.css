@@ -302,7 +302,25 @@ heading1 {
 .cjust {
 	text-align: center;
 }
+
 .centered {
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.external{
+	font-weight: normal !important;
+	display: inline-block;
+	transform: rotate(-45deg);
+}
+.external::after{
+	content:"\1f517"
+}
+.external:hover{
+	text-decoration: none;
+	/*animation: rot linear 1s infinite;
+}
+@keyframes rot {
+    0%   {transform: rotate(-45deg);}
+	100% {transform: rotate(315deg);}*/
 }

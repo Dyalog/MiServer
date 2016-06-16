@@ -158,7 +158,22 @@
 
     BuildTree←{⍺{(⊂⍺),⍵}¨(Levels NoSt ⍵)(NoExt¨Name¨NoSt ⍵)⍵} ⍝ Build argument for ejTreeView
 
-    External←{'.external' 'target=_blank' 'title="External link"'New _.A(''⍵)}
+    External←{'.external' 'target=_blank' 'title="External link"'New _.A(''⍵)} ⍝ Icon off-site link
+
+      BigTabs←{ ⍝ Tabs with full width, adjustable height, and allows closing all tabs
+          d←'style="width: 960px;"'New _.div
+          a←d.Add _.ejTab ⍵
+          sink←'heightStyle'a.Set'content'
+          ⍝sink←'collapsible'a.Set #.JSON.true⊣'true'
+          d
+      }
+
+      DescrEmbed←{ ⍝ Link to and iframed page
+          d←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵
+          l←('target="_blank"'New _.A d ('/',⍵))
+          e←'style="width: 100%;"'('src="/',⍵,'?nowrapper=1"')New _.iframe
+          l e
+      }
 
       Info←{ ⍝ Get info (default: description) on a control
           ⍺←2                                           ⍝ 1=Name, 2=Description, 3=Notes
@@ -206,7 +221,7 @@
           nums←Circle¨⍳≢list
           nums LinkWithTip¨list
       }
-      
+
     ∇ r←ListItem item;nost;noext ⍝ Generate pre-rendered lists item for performance (OO is slow)
       nost←item~'*'
       noext←~'.'∊nost
@@ -293,6 +308,7 @@
               nl←'.*[A-Z].*'⎕S'\0'#._.⎕NL ¯9                             ⍝ all widgets except html
               C.info⍪←↑{⍵(NoNL'Description'Section ⎕SRC⍎'#._.',⍵)''}¨nl  ⍝ get descriptions
               C.info←C.info[∪⍳⍨C.info[;1];]                              ⍝ filter duplicates out
+              C.info⌿⍨←×≢¨C.info[;1]                                     ⍝ remove empties
               C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1])            ⍝ cache hash tables
           :Else
               C←⍎CACHE                                             ⍝ establish shortcut

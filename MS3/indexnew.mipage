@@ -6,13 +6,14 @@
 
     :Include #.MS3SiteUtils
 
-    ∇ Compose;data;eg;main;ctrls;cats;list;titles;sections;cols
+    ∇ Compose;data;eg;main;ctrls;cats;list;titles;sections;cols;gh
       :Access Public
      
       (titles sections)←⊂⍬
      
-      titles,←⊂'Getting started with MiServer 3.0' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-      sections,←'about'New _.div(WrapFollowing'p')
+      titles,←⊂'Getting started' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      gh←(External'https://github.com/dyalog/miserver/').Render
+      sections,←'about'New _.div('%gh%'gh Subst WrapFollowing'p')
       ⍝ MiServer is a free, open-source web server implemented in Dyalog APL.
       ⍝ It enables the APL user to build sophisticated websites with little to no
       ⍝ knowledge of the underlying web technologies (HTML, JavaScript, CSS, etc).
@@ -21,41 +22,42 @@
       ⍝ and advice. At the same time, it showcases many of MiServer's capabilities,
       ⍝ as it is built almost entirely in APL using components available in MiServer.
       ⍝
-      ⍝ Expand the below tabs to explore documentation, the broad selection of available controls,
+      ⍝ Explore the tabs for documentation, the broad selection of available controls,
       ⍝ and the vast collection of sample pages and mini-apps. See the source of any page by
       ⍝ clicking the large Dyalog <img id="Dyalog-D" src="/Examples/Data/Dyalog-D.png"
       ⍝ alt="Dyalog-D" height="20px" style="vertical-align:bottom;"> in the top left corner.
       ⍝
-      ⍝ We hope that you will enjoy MiServer; join us on the forums (see the
-      ⍝ <strong>Resources</strong> drop-down at the top right), and contribute samples or
-      ⍝ extensions via <a id="GitHub" href="https://github.com/dyalog/miserver/">GitHub</a>.
+      ⍝ We hope that you will enjoy MiServer; join us on the forums (see the <strong>Resources
+      ⍝ </strong> drop-down at the top right), and contribute samples or extensions via
+      ⍝ GitHub%gh%.
+      
+      ⍝<a id="GitHub" target="_blank" class="external"
+      ⍝ href="https://github.com/dyalog/miserver/"></a>.
      
-      titles,←⊂'Documentation, techniques, and mini apps' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      titles,←⊂'Documentation & mini apps' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       list←⍬
       list,←'pdf'FormatList'Documentation'
       list,←FormatList'Examples/Techniques'
       list,←FormatList'Examples/Applications'
       sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑list)
      
-      titles,←⊂'Controls, widgets, and elements' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      titles,←⊂'Controls & widgets' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       cols←⍬
       cols,←⊂(⊂'Control<br><small>(documentation link)<small>'),DocLink¨C.info[;1]
       cols,←⊂(⊂'Relevant samples'),RelDocs¨C.info[;1]
       cols,←⊂(⊂'Description'),C.info[;2]
       sections,←'ctrl'New _.DataTable(⍉↑cols)
      
-      titles,←⊂'Small samples pages focusing on one or a few controls' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      titles,←⊂'Sample pages' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       cols←⍬
       cols,←⊂(⊂'Main controls used'),{2↓∊', '∘,¨⍵}¨C.demoes
       cols,←⊂(⊂'Level'),'Advanced' 'Simple'[1+(∨/'Simple'∘⍷)¨C.files]
       cols,←⊂(⊂'Task demonstrated'),{Link('Description'Section Read ⍵)⍵}¨C.files
       sections,←'eg'New _.DataTable(⍉↑cols)
      
-     ⍝⍝⍝ THE ACTUAL ACCORDION ⍝⍝⍝
-      main←('style="width: 960px;"'Add _.div).Add _.jqAccordion(titles sections)
-      'heightStyle'main.Set'content'
-      'collapsible'main.Set'true'
-      
+     ⍝⍝⍝ THE ACTUAL TABS CONTROL ⍝⍝⍝
+      Add BigTabs titles sections
+     
       (Add _.jBox).Selector←'[title]' ⍝ make all tooltips fancy
     ∇
 

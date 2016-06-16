@@ -6,7 +6,7 @@
       :Access public
       (ns widget)←Get'namespace widget'
       ns Document widget
-      Add _.StyleSheet '/Styles/widgetDoc.css'
+      Add _.StyleSheet'/Styles/widgetDoc.css'
       (Add _.jBox).Selector←'[title]'
     ∇
 
@@ -40,9 +40,6 @@
                   r⍪←'Notes'Ⓒ 3 Info'_html.',widget
               :EndIf
               files←Relevant,widget
-              :If ~0∊⍴files
-                  r⍪←'Sample Pages'(Link¨'/',¨files)
-              :EndIf
           :EndIf
       :EndIf
      
@@ -65,12 +62,10 @@
               r[;1]←{New _.h3 ⍵}¨r[;1]
               Add¨1 0↓r
           :EndIf
+          :If ~0∊⍴files
+              Add _.h3'Samples'
+              {Add DescrEmbed ⍵}¨files
+           :EndIf
       :EndSelect
     ∇
-
-      Link←{ ⍝ Link with "tooltip" that has description and level
-          text←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵
-          ('target="_blank"' 'style="display: block;"'New _.A text ⍵)
-      }
-
 :EndClass

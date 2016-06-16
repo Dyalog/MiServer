@@ -28,7 +28,7 @@ del,Deletion,The del element represents a removal from the document.
 details,Additional information,The details element represents additional information or controls which the user can obtain on demand.
 dfn,Defining instance of a term,"The dfn element represents the defining instance of a term, where its definition is provided nearby."
 dialog,Conversation,The dialog element represents a conversation.
-div,Generic division,"The div element identifies a ""division""of the document. A div can be used with the class, lang/xml"
+div,Generic division,"The div element identifies a “division” of the document. A div can be used with the class, lang/xml"
 dl,Description list,The dl element introduces an association list containing groups of terms and associated descriptions. (a description list).
 dt,Description term,"The dt element represents the term, or name, part of a term-description group in a description list (dl element), and the talker, or speaker, part of a talker-discourse pair in a conversation (dialog element)."
 em,Stress emphasis,The em element represents stress emphasis of its contents.
