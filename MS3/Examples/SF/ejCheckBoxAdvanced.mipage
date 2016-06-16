@@ -1,7 +1,7 @@
 ﻿:Class ejCheckBoxAdvanced: MiPageSample
 ⍝ Control:: _SF.ejCheckBox
 
-⍝ Description:: 2 checkboxes with callbacks
+⍝ Description:: Callback interconnect two checkboxes
 
     ∇ Compose;n
       :Access Public
