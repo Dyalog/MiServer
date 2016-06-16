@@ -331,6 +331,7 @@ heading1 {
 [tip]:hover:after {
 	content: attr(tip);
 	font-weight: normal;
+	font-size: small;
 	text-decoration: none;
 	padding: 4px;
 	color: black;
