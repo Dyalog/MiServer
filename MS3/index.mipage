@@ -30,7 +30,7 @@
       ⍝ We hope that you will enjoy MiServer; join us on the forums (see the <strong>Resources
       ⍝ </strong> drop-down at the top right), and contribute samples or extensions via
       ⍝ GitHub%gh%.
-      
+     
       ⍝<a id="GitHub" target="_blank" class="external"
       ⍝ href="https://github.com/dyalog/miserver/"></a>.
      
@@ -57,8 +57,6 @@
      
      ⍝⍝⍝ THE ACTUAL TABS CONTROL ⍝⍝⍝
       Add BigTabs titles sections
-     
-      ⍝ (Add _.jBox).Selector←'[title]' ⍝ make all tooltips fancy
     ∇
 
 :EndClass

@@ -7,7 +7,6 @@
       (ns widget)←Get'namespace widget'
       ns Document widget
       Add _.StyleSheet'/Styles/widgetDoc.css'
-      (Add _.jBox).Selector←'[title]'
     ∇
 
     ∇ ns Document widget;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files;desc;h;ctor

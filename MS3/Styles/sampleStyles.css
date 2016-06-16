@@ -311,16 +311,33 @@ heading1 {
 .external{
 	font-weight: normal !important;
 	display: inline-block;
-	transform: rotate(-45deg);
+	/*transform: rotate(-45deg);*/
 }
-.external::after{
+/*.external::after{
 	content:"\1f517"
 }
 .external:hover{
 	text-decoration: none;
-	/*animation: rot linear 1s infinite;
+	animation: rot linear 1s infinite;
 }
 @keyframes rot {
     0%   {transform: rotate(-45deg);}
-	100% {transform: rotate(315deg);}*/
+	100% {transform: rotate(315deg);}
+}*/
+[tip]:hover {
+	position: relative;
+}
+
+[tip]:hover:after {
+	content: attr(tip);
+	font-weight: normal;
+	text-decoration: none;
+	padding: 4px;
+	color: black;
+	position: absolute;
+	left: 0;
+	bottom: 150%;
+	white-space: nowrap;
+	box-shadow: 0px 0px 4px black;
+	background-color: white;
 }

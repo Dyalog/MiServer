@@ -150,7 +150,7 @@
 
     Frame←{⍺←⊢ ⋄ ⍺'.iframed'('src=',Q ⍵,'?NoWrapper=1')New _.iframe} ⍝ _.iframe without wrapper
 
-    NewWinA←{'target="_blank"' 'title="Click to open in a new window"'New _.A,⍵} ⍝ New-tab link
+    NewWinA←{'target="_blank"' 'tip="Click to open in a new window"'New _.A,⍵} ⍝ New-tab link
 
     Horz←{⍺←⊢ ⋄ r⊣(r←⍺ New _.StackPanel ⍵).Horizontal←1}  ⍝ Horizontal StackPanel
 
@@ -158,7 +158,7 @@
 
     BuildTree←{⍺{(⊂⍺),⍵}¨(Levels NoSt ⍵)(NoExt¨Name¨NoSt ⍵)⍵} ⍝ Build argument for ejTreeView
 
-    External←{'.external' 'target=_blank' 'title="External link"'New _.A(''⍵)} ⍝ Icon off-site link
+    External←{'.external' 'target=_blank' 'tip="External link"'New _.A('&#x1f517;'⍵)} ⍝ Icon off-site link
 
       BigTabs←{ ⍝ Tabs with full width, adjustable height, and allows closing all tabs
           d←'style="width: 960px;"'New _.div
@@ -195,7 +195,7 @@
 
       Link←{ ⍝ New-tab link with optional (⍺) "tooltip"
           ⍺←0
-          (('title=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
+          (('tip=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
       }
 
       DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
