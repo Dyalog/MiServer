@@ -1,0 +1,74 @@
+﻿:Class WidgetDoc : MiPageSample
+
+    :include #.MS3SiteUtils
+
+    ∇ Compose;ns;widget;doc
+      :Access public
+      (ns widget)←Get'namespace widget'
+      Add _.StyleSheet'/Styles/widgetDoc.css'
+      doc←ns Document widget
+      :Select doc
+      :Case ¯1
+          (Add _.h3('Namespace "',ns,'" not found.')).Style'color' 'red'
+      :Case ¯2
+          (Add _.h3('Widget "',widget,'" not found in namespace ',ns)).Style'color' 'red'
+      :Else
+          Add _.h3 ns,'.',widget
+          :If 0∊⍴doc
+              Add _.h4'No documentation found.'
+          :Else
+              doc[;2]←{New _.pre ⍵}¨doc[;2]
+              (Add _.Table doc).CellAttr←'class="widgetDoc"' 'class="widgetDocContent"'
+          :EndIf
+      :EndSelect
+    ∇
+
+    ∇ r←ns Document widget;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files;desc
+      :Access public shared
+      r←¯1
+      :If 9.1=#.⎕NC⊂ns
+          ref←#.⍎ns
+          r←¯2
+          :If 9=ref.⎕NC widget
+              wref←ref⍎widget
+              src←1↓⎕SRC wref
+              src↓⍨←+/∧\''∘≡¨src
+              src←#.Strings.dlb¨src
+              src←src/⍨∧\'⍝'=⊃¨src
+              src←HtmlSafeText¨#.Strings.dlb¨1↓¨src
+              pv←∨/¨'::'∘⍷¨src
+              r←0 2⍴⊂''
+              :For chunk :In pv⊂src
+                  c←⊃chunk
+                  (c1 c2)←{⍵{(1,1↓<\⍵)⊂⍺}'::'⍷⍵}c
+                  c2←#.Strings.deb 2↓c2
+                  c2←c2{0∊⍴⍺:⍵ ⋄ 0∊⍴⍵:⊂⍺ ⋄ (⊂⍺),⍵}1↓chunk
+                  c2←¯2↓∊c2,¨⊂⎕UCS 13 10
+                  r⍪←c1 c2
+              :EndFor
+              :If ns≡'_html'
+                  r⍪←'Description'Ⓒ'Native HTML ',' element',⍨desc←#.Strings.lc Info'_html.',widget
+                  r⍪←'Constructor'Ⓒ'[content]<br />content - the content of the ',desc
+                  r⍪←'Public Fields'Ⓒ'None'
+                  r⍪←'Notes'Ⓒ 3 Info'_html.',widget
+              :EndIf
+              :If 0≠wref.⎕NC⊂'DocBase'
+              :AndIf ~0∊⍴wref.DocBase
+                  r⍪←'Documentation'('target=_blank'New _.A(2⍴⊂wref.DocBase))
+              :EndIf
+              files←Relevant widget
+              :If ~0∊⍴files
+                  r⍪←'Sample Pages'({'target=_blank'New _.A(2⍴⊂⍵)}¨'/',¨files)
+              :EndIf
+⍝              samples←'/Examples/',(ns~'_'),'/'
+⍝              :If ~0∊⍴files←1⌷[2]#.Files.List #.Boot.ms.Config.AppRoot,samples
+⍝                  files/⍨←∨/files∘.#.Strings.(beginsWith nocase)widget∘,¨'Simp' 'Adv'
+⍝              :AndIf ~0∊⍴files
+⍝                  r⍪←'Sample Pages'({'target=_blank'New _.A(2⍴⊂⍵)}¨samples∘,¨files)
+⍝              :EndIf
+          :EndIf
+      :EndIf
+    ∇
+
+
+:EndClass
