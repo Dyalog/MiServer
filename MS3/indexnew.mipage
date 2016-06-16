@@ -50,9 +50,9 @@
      
       titles,←⊂'Sample pages' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       cols←⍬
-      cols,←⊂(⊂'Main controls used'),{2↓∊', '∘,¨⍵}¨C.demoes
-      cols,←⊂(⊂'Level'),'Advanced' 'Simple'[1+(∨/'Simple'∘⍷)¨C.files]
       cols,←⊂(⊂'Task demonstrated'),{Link('Description'Section Read ⍵)⍵}¨C.files
+      cols,←⊂(⊂'Level'),'Advanced' 'Simple'[1+(∨/'Simple'∘⍷)¨C.files]
+      cols,←⊂(⊂'Main controls used'),{2↓∊(', ',DocLink)¨⍵}¨C.demoes
       sections,←'eg'New _.DataTable(⍉↑cols)
      
      ⍝⍝⍝ THE ACTUAL TABS CONTROL ⍝⍝⍝
