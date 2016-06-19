@@ -4,7 +4,7 @@
 ⍝ items   - vector of char vectors containing the menu item caption
 ⍝ levels  - the level of the corresponding item
 ⍝ links   - the HREF string to be used when the corresponding element is chosen (clicked)
-⍝ Public Fields:
+⍝ Public Fields::
 ⍝ Items   - vector of char vectors containing the menu item caption
 ⍝ Levels  - the level of the corresponding item
 ⍝ Links   - the HREF string to be used when the corresponding element is chosen (clicked)

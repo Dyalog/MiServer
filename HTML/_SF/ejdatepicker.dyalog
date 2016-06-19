@@ -43,6 +43,7 @@
 
     ∇ r←Render
       :Access public
+      Container.NoEndTag←1
       SetId
       r←⎕BASE.Render
       :If Label≢''

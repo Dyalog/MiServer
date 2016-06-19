@@ -32,6 +32,7 @@
     ∇ r←Render
       :Access Public
      
+      Container.NoEndTag←1
       'Invalid Type set for ejTextBox'⎕SIGNAL((⊂Type)∊'Numeric' 'Currency' 'Percentage')↓11
       JQueryFn←'ej',Type,'Textbox'
       :If value≢'' ⋄ 'value'Set value ⋄ :EndIf

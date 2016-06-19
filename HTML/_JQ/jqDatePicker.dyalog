@@ -24,6 +24,7 @@
     ∇ r←Render;type
       :Access public
       Container.type←'text'
+      Container.NoEndTag←1
       r←⎕BASE.Render
       :If ~0∊⍴Text
           r,⍨←(⎕NEW #._html.label(Text('for'Container.id))).Render

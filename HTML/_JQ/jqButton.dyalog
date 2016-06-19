@@ -36,6 +36,7 @@
       :Select #.Strings.lc Type
       :CaseList 'button' 'submit' 'reset' 'checkbox' 'radio'
           ContainerTag←'input'
+          Container.NoEndTag←1
           Container.type←Type
       :Case 'anchor'
           ContainerTag←,'a'

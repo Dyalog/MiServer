@@ -36,6 +36,7 @@
 
     ∇ r←Render
       :Access public
+      Container.NoEndTag←1
       'defaultText' 'activeText'Set 2⍴eis Text
       r←⎕BASE.Render
     ∇

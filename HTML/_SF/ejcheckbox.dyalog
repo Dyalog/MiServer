@@ -52,7 +52,8 @@
     ∇ r←Render
       :Access public
       SetId
-     
+      Container.NoEndTag←1
+      
       :If TriState∨Checked=¯1
           'enableTriState'Set _true
           'checkState'Set(2+Checked)⊃'indeterminate' 'uncheck' 'check'

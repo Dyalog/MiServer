@@ -1,5 +1,5 @@
 ﻿:Class ejCheckBoxAdvanced : MiPageSample
-⍝ Control:: _SF.ejCheckbox
+⍝ Control:: _SF.ejCheckBox
 ⍝ Description:: Use callback to toggle checkboxes and whether they allow the indeterminate value
 
 ⍝ This example shows how to use the SyncFusion CheckBox widget

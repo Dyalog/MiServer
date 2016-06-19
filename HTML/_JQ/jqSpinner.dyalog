@@ -43,6 +43,7 @@
 
     ∇ r←Render
       :Access public
+      Container.NoEndTag←1
       :If ⍬≢Min ⋄ 'min'SetIfNotSet Min ⋄ :EndIf
       :If ⍬≢Max ⋄ 'max'SetIfNotSet Max ⋄ :EndIf
       :If UNDEF≢value
