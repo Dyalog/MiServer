@@ -367,11 +367,7 @@
      
       :If 2=conns.⎕NC'PeerCert' ⋄ REQ.PeerCert←conns.PeerCert ⋄ :EndIf       ⍝ Add Client Cert Information
      
-      :If Config.RESTful  ⍝ if running RESTful web service...
-          n←+/∧\2>+\REQ.Page∊'/\'
-          REQ.RESTfulReq←n↓REQ.Page
-          REQ.Page←n↑REQ.Page
-      :EndIf
+      REQ.OrigPage←REQ.Page ⍝ capture the original page
      
       REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page ⍝ no page specified? use the default
       REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension ⍝ no extension specified? use the default
@@ -484,21 +480,25 @@
  ⍝     :EndHold
     ∇
 
-    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;MS3;token;mask;resp;t;RESTful;APLJax;flag;orig;path;name;ext;list;fn
+    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;MS3;token;mask;resp;t;RESTful;APLJax;flag;path;name;ext;list;fn
     ⍝ Handle a "MiServer Page" request
-      
+     
       path name ext←#.Files.SplitFilename file
      
      RETRY:
-      :If 0=n←⊃⍴list←''#.Files.List orig←file ⍝ does the file exist?
-      :AndIf Config.DefaultExtension≢'.dyalog' ⍝ temporary measure to ease the transition to the .mipage extension
-          :If 1≠⊃⍴list←''#.Files.List file←∊path name'.dyalog'
-              REQ.Fail 404 ⋄ →0
-          :Else
-              1 Log'File not found: "',orig,'" using "',file,'" instead.'
+     
+      :If 1≠n←⊃⍴list←''#.Files.List file ⍝ does the file exist?
+          :If 0=n ⍝ no match
+              :If Config.RESTful ⍝ check for RESTful URI
+                  (list file)←Config FindRESTfulURI REQ
+                  n←⊃⍴list
+              :EndIf
+          :Else ⍝ multiple matches??
+              1 Log'Multiple matching files found for "',file,'"?'
           :EndIf
-      :ElseIf 1≠n
-          REQ.Fail 404 ⋄ →0
+          :If 1≠n
+              REQ.Fail 404 ⋄ →0
+          :EndIf
       :EndIf
      
       date←∊list[1;3]
@@ -521,7 +521,9 @@
               :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage ⋄ inst._Request←REQ ⋄ :EndIf
           :EndIf
           :If 9=⎕NC'#.RESTful'
-              :If RESTful←∨/(∊⎕CLASS inst)∊#.RESTful ⋄ inst._Request←REQ ⋄ :EndIf
+              :If ∨/(∊⎕CLASS inst)∊#.RESTful
+                  inst._Request←REQ
+              :EndIf
           :EndIf
       :Else                        ⍝ First use of Page in this Session, or page expired
 ⍝          :If 0≠⍴z←#.Files.GetText file
@@ -540,10 +542,13 @@
               :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage
               :OrIf RESTful←∨/(∊⎕CLASS inst)∊#.RESTful
                   inst.(_Request _PageRef)←REQ inst
+                  :If 0≡REQ.RESTfulReq
+                      REQ.RESTfulReq←''
+                  :EndIf
               :EndIf
           :EndIf
      
-              ⍝ ======= TIMEOUT Logic =======
+              ⍝ ======= Expiration (newer version of page is available) Logic =======
               ⍝ If RESTful or not sessioned, let anything through
               ⍝ If sessioned and expired, let it though
               ⍝ If sessioned but not expired, check if GET
@@ -637,12 +642,14 @@
               resp←flag Debugger'inst.',fn,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
               resp←(#.JSON.toAPLJAX⍣APLJax)resp
               inst._TimedOut←0
+     
               :If RESTful
-              :AndIf ~∨/(⊂'content-type')(≡#.Strings.nocase)¨REQ.Response.Headers[;1]
-                  resp←1 #.JSON.fromAPL resp
-                  'Content-Type'REQ.SetHeader'application/json'
+                  :If ~∨/(⊂'content-type')(≡#.Strings.nocase)¨REQ.Response.Headers[;1]
+                      'Content-Type'REQ.SetHeader'application/json'
+                      resp←1 #.JSON.fromAPL resp
+                  :EndIf
+                  REQ.Return resp
               :EndIf
-              REQ.Return resp
           :Else
               :If APLJax
                   1 Log'No result returned by callback method "',fn,'" in page "',REQ.Page,'"'
@@ -809,6 +816,27 @@
       r←'Win'≡3↑1⊃'.'⎕WG'APLVersion'
     ∇
 
+    ∇ (list filename)←Config FindRESTfulURI REQ;page;n;inds;i
+    ⍝ RESTful URIs can be ambiguous
+    ⍝ For example:  is /Misc/ws/ws
+    ⍝    a call to /Misc/ws/ws.mipage
+    ⍝    a call to /Misc/ws.mipage    with /ws as a parameter?
+    ⍝ or a call to /Misc.mipage       with /ws/ws as a parameter?
+    ⍝ This utility attempts to look up the folder structure to find the matching file
+     
+      inds←⌽{⍵/⍳⍴⍵}'/'=REQ.OrigPage
+      :For i :In inds
+          page←(i-1)↑REQ.OrigPage
+          page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}page ⍝ no page specified? use the default
+          page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}page)/Config.DefaultExtension ⍝ no extension specified? use the default
+          filename←Config Virtual page
+          :If 1=⊃⍴list←''#.Files.List filename
+              REQ.RESTfulReq←i↓REQ.OrigPage
+              REQ.Page←page
+              →0
+          :EndIf
+      :EndFor
+    ∇
     :endsection
 
 :EndClass

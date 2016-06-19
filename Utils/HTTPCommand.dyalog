@@ -13,6 +13,7 @@
 ⍝   SSLFlags - if using SSL, these are the SSL flags as described in the Conga documentation
 ⍝   Priority - if using SSL, this is the GNU TLS priority string (generally you won't change this from the default)
 ⍝   LocalDRC - if set, this is a reference to the DRC namespace from Conga - otherwise, we look for DRC in the workspace root
+⍝   WaitTime - time (in seconds) to wait for the response (default 30)
 
 
     ⎕ML←⎕IO←1
@@ -25,6 +26,7 @@
     :field public Params←''
     :field public Headers←''
     :field public Priority←'NORMAL:!CTYPE-OPENPGP'
+    :field public WaitTime←30
 
 
     ∇ make
@@ -49,7 +51,7 @@
       :EndIf
     ∇
 
-    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep
+    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime
 ⍝ issue an HTTP command
 ⍝ certs - optional [X509Cert [SSLValidation [Priority]]]
 ⍝ args  - [1] URL in format [HTTP[S]://][user:pass@]url[:port][/page]
@@ -139,6 +141,8 @@
       req,←fmtHeaders hdrs
       req,←auth
      
+      donetime←⌊⎕AI[3]+1000×WaitTime ⍝ time after which we'll time out
+     
       :If 0=⊃(err cmd)←2↑rc←LDRC.Clt''host port'Text' 100000,pars ⍝ 100,000 is max receive buffer size
       :AndIf 0=⊃rc←LDRC.Send cmd(req,NL,parms)
      
@@ -185,6 +189,9 @@
                           done←done∨(∨/'</html>'⍷data)∨(∨/'</HTML>'⍷data)
                       :EndIf
                   :EndIf
+              :Elseif 100=1⊃rc ⍝ timeout?
+              done←⎕AI[3]>donetime
+                 ⎕←'tick'
               :EndIf
           :Until done
      
