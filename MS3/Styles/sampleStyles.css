@@ -342,3 +342,13 @@ heading1 {
 	box-shadow: 0px 0px 4px black;
 	background-color: white;
 }
+
+#reading, #reading ul {
+	list-style: none;
+	width: 200px;
+}
+
+#Dyalog-D {
+	height: 16px;
+	vertical-align: top;
+}

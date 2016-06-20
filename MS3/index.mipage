@@ -6,33 +6,35 @@
 
     :Include #.MS3SiteUtils
 
-    ∇ Compose;data;eg;main;ctrls;cats;list;titles;sections;cols;gh
+    ∇ Compose;data;eg;main;ctrls;cats;list;titles;sections;cols;gh;text;tree;reading
       :Access Public
      
       (titles sections)←⊂⍬
      
       titles,←⊂'Getting started' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       gh←(External'https://github.com/dyalog/miserver/').Render
-      sections,←'about'New _.div('%gh%'gh Subst WrapFollowing'p')
+      text←'about'New _.div('%gh%'gh Subst WrapFollowing'p')
       ⍝ MiServer is a free, open-source web server implemented in Dyalog APL.
       ⍝ It enables the APL user to build sophisticated websites with little to no
       ⍝ knowledge of the underlying web technologies (HTML, JavaScript, CSS, etc).
       ⍝
       ⍝ This website serves as guide to MiServer 3.0 – providing documentation, samples,
-      ⍝ and advice. At the same time, it showcases many of MiServer's capabilities,
-      ⍝ as it is built almost entirely in APL using components available in MiServer.
+      ⍝ and advice. At the same time, it showcases many of MiServer's capabilities. If you are just
+      ⍝ getting started with MiServer 3.0, we recommend going through the foundational
+      ⍝ documentation in the reading order of the tree to the right.
       ⍝
       ⍝ Explore the tabs for documentation and mini-apps, the broad selection of available controls,
       ⍝ and the vast collection of sample pages. See the source of any page by
       ⍝ clicking the large Dyalog <img id="Dyalog-D" src="/Examples/Data/Dyalog-D.png"
-      ⍝ alt="Dyalog-D" height="20px" style="vertical-align:bottom;"> in the top left corner.
+      ⍝ alt="Dyalog-D"> in the top left corner.
       ⍝
       ⍝ We hope that you will enjoy MiServer; join us on the forums (see the <strong>Resources
       ⍝ </strong> drop-down at the top right), and contribute samples or extensions via
       ⍝ GitHub%gh%.
-     
-      ⍝<a id="GitHub" target="_blank" class="external"
-      ⍝ href="https://github.com/dyalog/miserver/"></a>.
+      reading←'/',¨(Read'Examples/Data/reading.txt')~⊂''
+      reading←{(Name∘NoExt¨⍵)(Levels ⍵)({'/'=⊃⌽⍵:'' ⋄ '/Documentation/',⍵}¨⍵)}reading
+      tree←'#reading'New _.List reading
+      sections,←New _.Table(1 2⍴text tree)
      
       titles,←⊂'Documentation & mini apps' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       list←⍬

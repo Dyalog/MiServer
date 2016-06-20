@@ -170,7 +170,7 @@
 
       DescrEmbed←{ ⍝ Link to and iframed page
           d←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵
-          l←('target="_blank"'New _.A d ('/',⍵))
+          l←('target="_blank"'New _.A d('/',⍵))
           e←'style="width: 100%;"'('src="/',⍵,'?nowrapper=1"')New _.iframe
           l e
       }
@@ -219,7 +219,7 @@
           list←Relevant ⍵
           0=≢list:'(none)'
           nums←Circle¨⍳≢list
-          nums LinkWithTip¨list
+          ¯6↓∊nums{'&ensp;',⍨⍺ LinkWithTip ⍵}¨list
       }
 
     ∇ r←ListItem item;nost;noext ⍝ Generate pre-rendered lists item for performance (OO is slow)
