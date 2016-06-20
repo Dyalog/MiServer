@@ -208,6 +208,11 @@
           tip,⍨←'Constructor: '
           tip Link ⍵ link
       }
+      
+      DocTreeLink←{
+      '/'=⊃⌽⍵:''
+       ('/Documentation/',⍵)'target="_blank"'
+       }
 
       LinkWithTip←{ ⍝ Link with "tooltip" that has description and level
           tip←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵

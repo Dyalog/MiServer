@@ -32,7 +32,7 @@
       ⍝ </strong> drop-down at the top right), and contribute samples or extensions via
       ⍝ GitHub%gh%.
       reading←'/',¨(Read'Examples/Data/reading.txt')~⊂''
-      reading←{(Name∘NoExt¨⍵)(Levels ⍵)({'/'=⊃⌽⍵:'' ⋄ '/Documentation/',⍵}¨⍵)}reading
+      reading←{(Name∘NoExt¨⍵)(Levels ⍵)(DocTreeLink¨⍵)}reading
       tree←'#reading'New _.List reading
       sections,←New _.Table(1 2⍴text tree)
      
