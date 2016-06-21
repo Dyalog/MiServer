@@ -54,7 +54,7 @@
 ⍝ Headers: HTTP Headers as 2 column matrix or name/value pairs
 ⍝ Page:    Requested page
 ⍝ Arguments: Arguments to the command (cmd?arg1=value1&arg2=value2) as 2 column matrix of name/value pairs
-      
+     
       Response←⎕NS''
       Response.(Status StatusText Headers File HTML HTMLHead PeerAddr NoWrap Bytes)←200 'OK'(0 2⍴⊂'')0 '' '' '' 0(0 0)
       PeerCert←0 0⍴⊂'' ⋄ Data←0 2⍴⊂''
@@ -485,7 +485,7 @@
           {{db←{⍵/⍨∨\⍵≠' '} ⋄ ⌽db⌽db ⍵}¨⍵⊂⍨~<\'='=⍵}¨⍵⊂⍨⍵≠';'}
 
 
-      DeCode←{(⎕IO ⎕ML)←0 3            ⍝ Decode Special chars in HTML string.
+      DeCode←{(⎕IO ⎕ML)←0 3          ⍝ Decode Special chars in HTML string.
           hex←'0123456789ABCDEF'     ⍝ Hex chars.
           {                          ⍝ Convert numbers.
               v f←⎕VFI ⍵             ⍝ Check for numbers.
@@ -498,5 +498,9 @@
       }
 
 
+    ∇ Show
+      :Access public
+      ↑{⍵(⍎⍵)}¨'Input' 'Command' 'Page' 'Headers' 'Arguments' 'Data' 'Cookies'
+    ∇
 
 :EndClass

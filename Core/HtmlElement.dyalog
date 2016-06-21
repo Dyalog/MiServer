@@ -585,22 +585,21 @@
       :EndIf
     ∇
 
-    ∇ {r}←Push args;c;cl;attr;elm
+    ∇ {r}←{attr}Push args;c;cl;attr;elm
       :Access public
       :If ~0∊⍴r←args
-          (cl attr)←{2↑⍵,(⍴⍵)↓'' ''}eis args
           c←Content
-          :If isClass cl
-              elm←⎕NEW cl
-              elm.Content←c
-              :If ~0∊⍴attr
-                  elm.SetAttr attr
-              :EndIf
-              r←Content←elm
-          :ElseIf 0∊⍴attr
-              r←Content,⍨←⊂cl
+          :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
+          r←attr ParseArgs args
+          :If isInstance r
+              :Trap 4 5 ⍝ rank and length error
+                  r.Content,←c
+              :Else
+                  r.Content,←⊂c
+              :EndTrap
+              Content←r
           :Else
-              'Invalid Push arguments'⎕SIGNAL 11
+              Content,⍨←r
           :EndIf
       :EndIf
     ∇
