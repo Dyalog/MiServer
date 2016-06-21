@@ -90,7 +90,7 @@
     ∇ r←{opt}DateFormat ymd
     ⍝ opt - 0 dd MMM yyyy
     ⍝       1 dd Month yyyy
-      :If 0=⎕NC'opt' ⋄ opt←0 :EndIf
+      :If 0=⎕NC'opt' ⋄ opt←0 ⋄ :EndIf
       :Select ⊃opt
       :Case 0
           r←(⍕ymd[3]),(1⌽'  ',3↑(3×¯1+ymd[2])↓'JANFEBMARAPRMAYJUNJULAUGSEPOCTNOVDEC'),⍕ymd[1]
