@@ -648,8 +648,8 @@
                       'Content-Type'REQ.SetHeader'application/json'
                       resp←1 #.JSON.fromAPL resp
                   :EndIf
-                  REQ.Return resp
               :EndIf
+              REQ.Return resp
           :Else
               :If APLJax
                   1 Log'No result returned by callback method "',fn,'" in page "',REQ.Page,'"'

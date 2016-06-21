@@ -559,7 +559,7 @@
                           :If 0∊⍴arg
                               phrase←'JSON.stringify(',datasel,'("option"))'
                           :Else
-                              phrase←datasel,'("option",',(quote arg),')'
+                              phrase←'JSON.stringify(',datasel,'("option",',(quote arg),'))'
                           :EndIf
          
                       :Case 'method' ⍝ jQueryUI and Syncfusion widgets

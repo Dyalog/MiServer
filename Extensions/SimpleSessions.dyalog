@@ -19,7 +19,7 @@
         :Field Public Cookie←''
         :Field Public AuthCookieName←''
         :Field Public Timeout←0
-        :Field Public State 
+        :Field Public State
         :Field Public New←1
         :Field Public Pages←0⍴⎕NEW Page
     :EndClass
@@ -71,6 +71,18 @@
               req.Session←r
           :EndIf
      
+      :EndHold
+    ∇
+
+    ∇ KillSessions ids;mask;i
+      :Access Public
+      :Hold 'Sessions'
+          :If ∨/mask←Sessions.ID∊id
+              :For i :In mask/⍳⍴mask
+                  Server.onSessionEnd i⊃Sessions
+              :EndFor
+              Sessions/⍨←~mask
+          :EndIf
       :EndHold
     ∇
 
