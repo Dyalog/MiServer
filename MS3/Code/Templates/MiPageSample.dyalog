@@ -23,7 +23,7 @@
           (Add _.meta).Set'http-equiv="content-type" content="text/html;charset=UTF-8"'
      
         ⍝ wrap the content of the <body> element in a div
-          Body.Push _.div'id="contentblock"'
+          'contentblock'Body.Push _.div
      
         ⍝ add a hidden division to the body containing the APL source code
           (Add _.div(#.HTMLInput.APLToHTMLColour src←⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
@@ -37,7 +37,7 @@
           (Body.Add _.StackPanel ctrlsdiv c).Horizontal←1
      
         ⍝ wrap the content of the <body> element in a div
-          Body.Push _.div'class="bodyblock"'
+          '.bodyblock'Body.Push _.div
      
         ⍝ add the footer to the bottom of the page
           Add #.Files.GetText server.Config.Root,'Styles\footer.txt'
@@ -45,7 +45,7 @@
         ⍝ add the header to the top of the page and wrap the body in a div with id="wrapper"
           Body.Push #.Files.GetText server.Config.Root,'Styles\banner.txt'
      
-          Body.Push _.div'id="wrapper"'
+          'wrapper'Body.Push _.div
      
         ⍝ add a JQuery event handler to toggle the web page/APL source code
           Add _.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock,.widgethelp").toggle(400,"swing");});});'
