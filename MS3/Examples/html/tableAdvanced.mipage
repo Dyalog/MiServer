@@ -44,7 +44,7 @@
     ∇ js←callbackPgm;i;subtotals
       :Access public
       js←''
-      :Select _what
+      :Select _currentTarget
       :Case 'data'
           :For i :In ⍳15
               js,←('#',i⊃⎕A)Replace(i⊃∊mydata)←?99
