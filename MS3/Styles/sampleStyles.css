@@ -6,349 +6,402 @@
 
 /* Body and Wrapper */
 body {
-	color: #000000;
-	background-color: black;
-	font-family: Verdana;
-	margin-top: 0px;
+    font-family: Verdana;
+    margin: 0px;
 }
-#wrapper {
-	width: 990px;
-	margin: 10px auto;
-}
+
 .bodyblock {
-	background-color: #F6F6D9;
-	font-family: Verdana;
-	min-height: 150px;
-	font-size: 1em;
-	height:100%;
+    font-family: Verdana;
+    min-height: 150px;
+    font-size: 1em;
+    height: 100%;
+    padding-top: 120px;
+    margin-bottom: 3em;
 }
+
 /* Banner */
 #banner {
-	background: #92598C;
-	padding: 10px;
-	color: white;
-	border-radius: 15px 15px 0px 0px;
+    background: #92598C;
+    padding: 20px;
+    color: white;
+    position: fixed;
+    width: 100%;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    box-shadow: 0px 5px 10px grey;
+    text-shadow: 1px 1px 5px black;
+    padding-top: 0px;
 }
+
 #bannerimg {
-	float: left;
-	vertical-align: middle;
+    float: left;
+    top : 11px;
+    position: relative;
 }
+
 #bannertext {
-	margin-left: 20px;
-	font-size: 1.4em;
-	display: inline-block;
+    margin-left: 20px;
+    font-size: 1.4em;
+    display: inline-block;
 }
+
 #bannernav {
-	float: right;
-	margin-top: 10px;
-	margin-right: 10px;
-	text-align:right;
+    float: right;
+    margin-top: 10px;
+    margin-right: 40px;
+    text-align: right;
+    font-size: medium;
+    font-family: Verdana;
 }
+
 .nav {
-	padding: 5px 15px;
-	background: linear-gradient(rgb(230, 198, 125) 0%, rgb(230, 122, 0) 100%);
-	border-radius: 10px;
+    text-decoration: none;
+    padding: 10px;
+    color: black;
+    background: white;
+    border-radius: 0 1em 1em 0;
+    transition: 0.5s;
+    text-shadow: none;
+    box-shadow: 1px 1px 5px DarkSlateGray;
+    position: relative;
+    left: -5px;
 }
-a.nav:link {
-	color: black;
-	font-weight: bold;
-	text-decoration: none;
+
+a.nav:hover, #bannernav select:hover {
+    color: white;
+    background-color: rgb(235,113,23);
 }
-a.nav:visited {
-	color: black;
-	font-weight: bold;
-	text-decoration: none;
+
+#bannernav select {
+    padding: 8px;
+    border-radius: 1em 0 0 0em;
+    margin-top: 20px;
+    font-size: medium;
+    box-shadow: 1px 1px 5px DarkSlateGray;
+    border: none;
+    height: 2.45em;
+    font-family: Verdana;
+    font-weight: bold;
 }
-a.nav:active {
-	color: white;
-	font-weight: bold;
-	text-decoration: none;
-}
-a.nav:hover {
-	color: white;
-	font-weight: bold;
-	text-decoration: underline;
-}
+
 #ms30 {
-	font-weight: 700;
-	color: white;
-	text-decoration: none;
+    color: white;
+    text-decoration: none;
+    font-size: x-large;
+    position: relative;
+    top: 22px;
 }
+
+#MS3 {
+    color: rgb(235,113,23);
+    font-size: xx-large;
+}
+
 #tagline {
-	font-size: .5em;
-	font-style: italic;
+    font-size: medium;
+    font-style: italic;
+    position: relative;
+    top: 13px;
 }
+
 #bannerimage img {
-	padding-top: 4px;
-	vertical-align: middle;
-	float: left;
-	height: 45px;
+    padding-top: 4px;
+    vertical-align: middle;
+    float: left;
+    height: 45px;
 }
+
 /*Template Footer*/
 #footer {
-	background: #92598C;
-	padding: 10px;
-	color: white;
-	border-radius: 0px 0px 15px 15px;
-	width: 970px;
-	font-size: .6em;
+    background: #92598C;
+    padding: 10px 10px 5px 10px;
+    color: white;
+    width: 100%;
+    font-size: medium;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    box-shadow: 0px -5px 10px gray;
+    font-weight: bold;
+    text-shadow: 1px 1px 5px black;
 }
+
 #footertext {
-	font-size: .6em;
+    font-size: .6em;
 }
 
 /*Template Content Area Styles*/
-
 #contentblock {
-	margin: 10px;
-	padding-bottom: 2em;
+    padding-bottom: 2em;
 }
+
 #codeblock {
-	font-size: .70em;
-	padding-bottom: 2em;
-	display: none;
-	overflow-x: scroll;
-	float: right;
-	width: 830px;
+    font-size: .70em;
+    padding-bottom: 2em;
+    display: none;
+    overflow-x: scroll;
+    float: right;
+    /* width: 830px; */
 }
+
 /* Widget Help */
 .widgethelp {
-	margin: 10px 0px 10px 10px;
-	background-color: rgba(255,217,0,0.19);
-        border-radius: 5px;
-	overflow: auto;
-	padding: 5px;
-	font-size: .8em;
-	display: none;
-	border-style:solid;
-	border-width:1px;
-	border-color:black;
+    margin: 10px 0px 10px 0px;
+    background-color: #E2BEDF;
+    border-radius: 0 5px 5px 0;
+    overflow: auto;
+    padding: 10px;
+    font-size: .8em;
+    display: none;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    box-shadow: 5px 5px 10px grey;
+    position: fixed;
+    left: 0;
+    border: none;
+    font-weight: bold;
 }
+
 .widgetNs {
-	font-size:80%;
-	font-weight:bolder;
+    font-size: 80%;
+    font-weight: bolder;
 }
+
 .widgethelp ul {
-	padding: 0px;
-	margin-top: 0px;
+    padding: 0px;
+    margin-top: 0px;
 }
+
 .widgethelp li {
-	margin: 0px;
-	padding: 1px;
-	font-size: 70%;
-	list-style: square;
+    margin: 0px;
+    padding: 1px;
+    font-size: 70%;
+    list-style: square;
 }
+
 .widgetNs a {
-	font-weight: normal;
-	color: red;
-	text-decoration: none;
-	font-size: 70%;
+    font-weight: normal;
+    color: red;
+    text-decoration: none;
+    font-size: 70%;
 }
+
 /* Utility Styles */
 .clear {
-	/*An empty "clear: both" style div at the end of a section */
-/*with floating columns is is useful for at the*/
-/*end of a section with floating columns. */
-clear: both;
+    /*An empty "clear: both" style div at the end of a section */
+    /*with floating columns is is useful for at the*/
+    /*end of a section with floating columns. */
+    clear: both;
 }
+
 /*General Styles*/
 #content {
-	margin-left: 30px;
-	font-size: .70em;
-	padding-bottom: 2em;
-} 
+    margin-left: 30px;
+    font-size: .70em;
+    padding-bottom: 2em;
+}
+
 a:link {
-	color: #FF9933;
-	font-weight: bold;
-	text-decoration: none;
+    color: #FF9933;
+    font-weight: bold;
+    text-decoration: none;
 }
+
 a:visited {
-	color: #6699cc;
-	font-weight: bold;
-	text-decoration: none;
+    /* color: white; */
+    /* font-weight: bold; */
+    text-decoration: none;
 }
+
 a:active {
-	color: #336699;
-	font-weight: bold;
-	text-decoration: none;
+    color: #336699;
+    font-weight: bold;
+    text-decoration: none;
 }
-a:hover {
-	color: #cc3300;
-	font-weight: bold;
-	text-decoration: underline;
-}
-/*
-p {
-	color: #000000;
-	margin-top: 0px;
-	margin-bottom: 12px;
-	margin-left: 5px;
-	font-family: Verdana;
-}
-*/
+
 pre {
-	/* background-color: #e5e5cc; */
-	padding: 5px;
-	font-family: APL385 Unicode;
-	font-size: small;
-	/*border: 1px #f0f0e0 solid;*/
-	white-space: pre-wrap;
-	word-wrap: break-word;
+    padding: 5px;
+    font-family: APL385 Unicode;
+    font-size: medium;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding-left: 155px;
+    width: 100%;
 }
+
 code {
-	font-family: APL385 Unicode;
+    font-family: APL385 Unicode;
 }
+
 .apl {
-	font-family: APL385 Unicode;
+    font-family: APL385 Unicode;
 }
+
 td {
-	color: #000000;
-	font-family: Verdana;
-	vertical-align: top;
+    color: #000000;
+    font-family: Verdana;
+    vertical-align: top;
+    padding: 0;
 }
+
 h2 {
-	font-size: 1.2em;
-	font-weight: bold;
-	margin-top: 25px;
-	margin-bottom: 10px;
-	border-top: 0px solid #003366;
-	margin-left: 0px;
-	color: #003366;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    border-top: 0px solid #003366;
+    margin-left: 0px;
+    color: #003366;
 }
+
 h3 {
-	font-size: 1.1em;
-	color: #000000;
-	margin-left: 0px;
-	margin-top: 10px;
-	margin-bottom: 10px;
+    font-size: 1.1em;
+    color: #000000;
+    margin-left: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
+
 font.value {
-	color: darkblue;
-	font-weight: bold;
+    color: darkblue;
+    font-weight: bold;
 }
+
 font.key {
-	color: darkgreen;
-	font-weight: bold;
+    color: darkgreen;
+    font-weight: bold;
 }
+
 font.error {
-	color: darkred;
-	font-weight: bold;
+    color: darkred;
+    font-weight: bold;
 }
+
 heading1 {
-	color: #ffffff;
-	font-family: Tahoma;
-	font-size: 26px;
-	font-weight: normal;
-	background-color: #003366;
-	margin-top: 0px;
-	margin-bottom: 0px;
-	margin-left: -30px;
-	padding-top: 10px;
-	padding-bottom: 3px;
-	padding-left: 15px;
-	width: 105%;
+    color: #ffffff;
+    font-family: Tahoma;
+    font-size: 26px;
+    font-weight: normal;
+    background-color: #003366;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: -30px;
+    padding-top: 10px;
+    padding-bottom: 3px;
+    padding-left: 15px;
+    width: 105%;
 }
+
 .button {
-	background-color: #dcdcdc;
-	font-family: Verdana;
-	font-size: 1em;
-	border-top: #cccccc 1px solid;
-	border-bottom: #666666 1px solid;
-	border-left: #cccccc 1px solid;
-	border-right: #666666 1px solid;
+    background-color: #dcdcdc;
+    font-family: Verdana;
+    font-size: 1em;
+    border-top: #cccccc 1px solid;
+    border-bottom: #666666 1px solid;
+    border-left: #cccccc 1px solid;
+    border-right: #666666 1px solid;
 }
+
 .frmheader {
-	color: #000000;
-	background: #dcdcdc;
-	font-family: Verdana;
-	font-size: .7em;
-	font-weight: normal;
-	border-bottom: 1px solid #dcdcdc;
-	padding-top: 2px;
-	padding-bottom: 2px;
+    color: #000000;
+    background: #dcdcdc;
+    font-family: Verdana;
+    font-size: .7em;
+    font-weight: normal;
+    border-bottom: 1px solid #dcdcdc;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
+
 .frmtext {
-	font-family: Verdana;
-	font-size: .7em;
-	margin-top: 8px;
-	margin-bottom: 0px;
-	margin-left: 32px;
+    font-family: Verdana;
+    font-size: .7em;
+    margin-top: 8px;
+    margin-bottom: 0px;
+    margin-left: 32px;
 }
+
 .frmInput {
-	font-family: Verdana;
-	font-size: 1em;
+    font-family: Verdana;
+    font-size: 1em;
 }
+
 .intro {
-	margin-left: -15px;
+    margin-left: -15px;
 }
+
 .leftalign {
-	float: left;
+    float: left;
 }
+
 .rightalign {
-	float: right;
+    float: right;
+    margin-right: 20px;
 }
+
+.rightalign img {
+    width: 120px;
+    height: auto;
+}
+
 .exampletable td {
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 3px;
-	padding-bottom: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
+
 .rjust {
-	text-align: right;
+    text-align: right;
 }
+
 .ljust {
-	text-align: left;
+    text-align: left;
 }
+
 .cjust {
-	text-align: center;
+    text-align: center;
 }
 
 .centered {
-	margin-left: auto;
-	margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.external{
-	font-weight: normal !important;
-	display: inline-block;
-	/*transform: rotate(-45deg);*/
+.external {
+    font-weight: normal !important;
+    display: inline-block;
 }
-/*.external::after{
-	content:"\1f517"
-}
-.external:hover{
-	text-decoration: none;
-	animation: rot linear 1s infinite;
-}
-@keyframes rot {
-    0%   {transform: rotate(-45deg);}
-	100% {transform: rotate(315deg);}
-}*/
+
 [tip]:hover {
-	position: relative;
+    position: relative;
 }
 
 [tip]:hover:after {
-	content: attr(tip);
-	font-weight: normal;
-	font-size: small;
-	text-decoration: none;
-	padding: 4px;
-	color: black;
-	position: absolute;
-	left: 0;
-	bottom: 150%;
-	white-space: nowrap;
-	box-shadow: 0px 0px 4px black;
-	background-color: white;
+    content: attr(tip);
+    font-weight: normal;
+    font-size: small;
+    text-decoration: none;
+    padding: 4px;
+    color: black;
+    position: absolute;
+    left: 0;
+    bottom: 150%;
+    white-space: nowrap;
+    box-shadow: 0px 0px 4px black;
+    background-color: white;
 }
 
 #reading, #reading ul {
-	list-style: none;
-	width: 200px;
+    list-style: none;
+    width: 200px;
 }
 
 #Dyalog-D {
-	height: 16px;
-	vertical-align: top;
+    height: 16px;
+    vertical-align: top;
 }

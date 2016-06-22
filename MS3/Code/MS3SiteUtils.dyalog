@@ -161,7 +161,7 @@
     External←{'.external' 'target=_blank' 'tip="External link"'New _.A('&#x1f517;'⍵)} ⍝ Icon off-site link
 
       BigTabs←{ ⍝ Tabs with full width, adjustable height, and allows closing all tabs
-          d←'style="width: 960px;"'New _.div
+          d←'.bigtabs'New _.div
           a←d.Add _.ejTab ⍵
           sink←'heightStyle'a.Set'content'
           ⍝sink←'collapsible'a.Set #.JSON.true⊣'true'

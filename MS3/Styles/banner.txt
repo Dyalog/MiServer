@@ -2,11 +2,9 @@
 	<div id="bannerimg">
 		<img id="bannerimage" src="/Styles/Images/Dyalog-D.png" title="Click to toggle web page/source code" onMouseOver="this.style.cursor='pointer'"/> </div>
 	<div id="bannertext">
-		<a id="ms30" href="/">MiServer 3.0</a> <br />
-		<span id="tagline">Anyone who can write an APL function should be able to host it on the web.&trade;</span> </div>
+		<a id="ms30" href="/"><span id="MS3">MS3</span>&emsp;the MiServer 3.0 sample site</a> <br />
+		<span id="tagline">Anyone who can write an APL function should be able to host it on the web<sup>TM</sup></span> </div>
 	<div id="bannernav">
-		<a class="nav" href="/">Home</a><br />
-		<br />		
 		<select onchange="window.open(this.value,'_blank');this.selectedIndex=0">
 		<option disabled="disabled" selected="selected" value="">Resources</option>
 		<optgroup label="Dyalog">
@@ -23,7 +21,9 @@
 		<option value="http://www.jquery.com/">jQuery Home Page</option>
 		<option value="http://www.jqueryui.com/">jQueryUI Home Page</option>
 		</optgroup>
-		</select> </div>
+		</select>
+		<a class="nav" href="/">Home</a>
+		</div>
 	<div class="clear">
 	</div>
 </div>
