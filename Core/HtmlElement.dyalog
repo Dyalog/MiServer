@@ -469,7 +469,7 @@
               av,←∊fmtAttr/¨vs
           :EndIf
           av,←RenderStyles
-          r←(av Enclose r),h,p
+          r←av Enclose r,h,p
       :EndIf
     ∇
 

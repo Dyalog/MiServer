@@ -154,7 +154,7 @@
 
     Horz←{⍺←⊢ ⋄ r⊣(r←⍺ New _.StackPanel ⍵).Horizontal←1}  ⍝ Horizontal StackPanel
 
-    Doc←{∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨⍵} ⍝ Address of WidgetDoc
+    Doc←{∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&amp;widget=',¨⍵} ⍝ Address of WidgetDoc
 
     BuildTree←{⍺{(⊂⍺),⍵}¨(Levels NoSt ⍵)(NoExt¨Name¨NoSt ⍵)⍵} ⍝ Build argument for ejTreeView
 
@@ -202,7 +202,7 @@
           6::New¨(_.del ⍵)(_.small' deprecated')
           ref←_⍎⍵
           ns←#.MS3SiteUtils.NSS(⊃⊣(/⍨)(∨/⍷)¨)⊂⍕ref
-          link←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns,'&widget=',⍵
+          link←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns,'&amp;widget=',⍵
           tip←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section ⎕SRC ref
           tip,←(''≡tip)/(1+(New ref).NoEndTag)⊃'[content]' '[id]'
           tip,⍨←'Constructor: '

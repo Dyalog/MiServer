@@ -87,7 +87,7 @@
           ul←r.Add _.ul
           :For control :In ns⊃controls
               li←'<li><a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns⊃#.MS3SiteUtils.NSS
-              ul.Add li,'&widget=',control,'">',control,'</a></li>'
+              ul.Add li,'&amp;widget=',control,'">',control,'</a></li>'
           :EndFor
       :EndFor
     ∇
