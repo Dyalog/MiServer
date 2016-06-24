@@ -2,56 +2,15 @@
 ⍝ Control:: Idiom_Search
 ⍝ Description:: Search the Dyalog and FinnAPL idiom lists
 
-    ∇ Compose;fm;bn
+    ∇ Compose
       :Access Public
      
-      :If 0=⎕NC'idioms'
-          idioms←⎕SE.SALT.Load'[ws]\MS3\Examples\Data\idioms -noname -nolink'
+      :If 0=⎕NC'IDIOMS'
+          IDIOMS←⎕SE.SALT.Load'[ws]\MS3\Examples\Data\idioms -noname -nolink'
+          IDIOMS[;1]←'FinnAPL' 'Dyalog'[IDIOMS[;1]+1]
+          IDIOMS⍪⍨←'Library' 'Description' 'Requirements' 'Expression'
       :EndIf
-     
-      Add _.style ScriptFollows
-       ⍝ .IdiomTable {
-       ⍝     border: 1px solid black;
-       ⍝     border-collapse: collapse;
-       ⍝     font-size: 13px;
-       ⍝ }
-       ⍝ #str,
-       ⍝ .IdiomTable td:nth-child(1n+2) {font-family:APL385 Unicode;}
-       ⍝ .IdiomTable td,
-       ⍝ .IdiomTable {
-       ⍝     border: 1px solid black;
-       ⍝     padding: 3px;
-       ⍝ }
-       ⍝ .IdiomTable tr:nth-child(odd) {background-color: orange;}
-     
-      ef←Add _.EditField'input'
-      ef.On'change' 'Search'('input' 'val')
-      Add' Press '
-      Add _.Button'Enter'
-      Add'to search'
-      Add _.br
-      (Add _.div).id←'output'  ⍝ This is a container that will be filled with result
-    ∇
-
-    ∇ r←Search;found;finn;dyal
-      :Access public
-      found←idioms⌿⍨∨/∨/¨idioms[;2 3 4]⍷¨⍨⊂''Get'input'
-      finn←found[;2 3 4]⌿⍨~found[;1]
-      dyal←found[;2 4]⌿⍨found[;1]
-      :If ×≢found
-          r←'#output'Replace''
-          :If ~0∊⍴dyal
-              r,←'#output'Append _.h3'Dyalog Optimised Idioms'
-              r,←'#output'Append'#dyal' '.IdiomTable'New _.Table dyal
-          :EndIf
-          :If ~0∊⍴finn
-              r,←'#output'Append _.h3'FinnAPL Idiom Library'
-              r,←'#output'Append'#finn' '.IdiomTable'New _.Table finn
-          :EndIf
-     
-      :Else
-          r←'#output'Replace _.h3'No matching idioms found'
-      :EndIf
+      Add _.DataTable(IDIOMS(2/'.a333' '.apl'))
     ∇
 
 :EndClass

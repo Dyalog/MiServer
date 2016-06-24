@@ -3,6 +3,10 @@
     font-family: APL385 Unicode;
     src: url(/Styles/apl385.ttf);
 }
+@font-face {
+    font-family: APL333;
+    src: url(/Styles/APL333.ttf);
+}
 
 /* Body and Wrapper */
 body {
@@ -14,9 +18,11 @@ body {
     font-family: Verdana;
     min-height: 150px;
     font-size: 1em;
-    height: 100%;
+}
+
+#banner+.bodyblock {
     padding-top: 120px;
-    margin-bottom: 3em;
+    padding-bottom: 40px;
 }
 
 /* Banner */
@@ -233,12 +239,12 @@ pre {
     width: 100%;
 }
 
-code {
+code, .a385 {
     font-family: APL385 Unicode;
 }
 
-.apl {
-    font-family: APL385 Unicode;
+.a333 {
+    font-family: APL333;
 }
 
 td {
@@ -377,20 +383,21 @@ heading1 {
     display: inline-block;
 }
 
-[tip]:hover {
+[data-Dyalog-tip]:hover {
     position: relative;
 }
 
-[tip]:hover:after {
-    content: attr(tip);
+[data-Dyalog-tip]:hover:after {
+    content: attr(data-Dyalog-tip);
     font-weight: normal;
     font-size: small;
     text-decoration: none;
     padding: 4px;
     color: black;
-    position: absolute;
+    position: fixed;
     left: 0;
-    bottom: 150%;
+    right: 0;
+    bottom: 0;
     white-space: nowrap;
     box-shadow: 0px 0px 4px black;
     background-color: white;

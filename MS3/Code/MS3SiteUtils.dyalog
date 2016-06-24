@@ -150,15 +150,15 @@
 
     Frame←{⍺←⊢ ⋄ ⍺'.iframed'('src=',Q ⍵,'?NoWrapper=1')New _.iframe} ⍝ _.iframe without wrapper
 
-    NewWinA←{'target="_blank"' 'tip="Click to open in a new window"'New _.A,⍵} ⍝ New-tab link
+    NewWinA←{'target="_blank"' 'data-Dyalog-tip="Click to open in a new window"'New _.A,⍵} ⍝ New-tab link
 
     Horz←{⍺←⊢ ⋄ r⊣(r←⍺ New _.StackPanel ⍵).Horizontal←1}  ⍝ Horizontal StackPanel
 
-    Doc←{∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&amp;widget=',¨⍵} ⍝ Address of WidgetDoc
+    Doc←{∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨⍵} ⍝ Address of WidgetDoc
 
     BuildTree←{⍺{(⊂⍺),⍵}¨(Levels NoSt ⍵)(NoExt¨Name¨NoSt ⍵)⍵} ⍝ Build argument for ejTreeView
 
-    External←{'.external' 'target=_blank' 'tip="External link"'New _.A('&#x1f517;'⍵)} ⍝ Icon off-site link
+    External←{'.external' 'target=_blank' 'data-Dyalog-tip="External link"'New _.A('&#x1f517;'⍵)} ⍝ Icon off-site link
 
       BigTabs←{ ⍝ Tabs with full width, adjustable height, and allows closing all tabs
           d←'.bigtabs'New _.div
@@ -195,14 +195,14 @@
 
       Link←{ ⍝ New-tab link with optional (⍺) "tooltip"
           ⍺←0
-          (('tip=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
+          (('data-Dyalog-tip=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
       }
 
       DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
           6::New¨(_.del ⍵)(_.small' deprecated')
           ref←_⍎⍵
           ns←#.MS3SiteUtils.NSS(⊃⊣(/⍨)(∨/⍷)¨)⊂⍕ref
-          link←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns,'&amp;widget=',⍵
+          link←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns,'&widget=',⍵
           tip←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section ⎕SRC ref
           tip,←(''≡tip)/(1+(New ref).NoEndTag)⊃'[content]' '[id]'
           tip,⍨←'Constructor: '
