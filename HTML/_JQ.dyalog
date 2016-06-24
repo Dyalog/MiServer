@@ -501,7 +501,7 @@
               :For cd :In ClientData
                   cd←#.HtmlElement.eis cd
                   (name verb arg sel)←4↑cd,(⍴cd)↓4⍴⊂''
-                  :If ~0∊⍴name
+                  :If (~0∊⍴name)∨verb≡'serialize'
                   :AndIf ~0∊⍴verb
                       jqfn←'' ⍝ jQuery function to call if this client data element refers to a widget
          
