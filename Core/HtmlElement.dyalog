@@ -547,8 +547,8 @@
 
     ∇ r←{a}eis w
       :Access public shared
-      ⍝r←((,∘⊂)⍣((isString w)∧2>|≡w))w ⍝ enclose if simple character
-      r←(,∘⊂)⍣((326∊⎕DR w)<2>|≡w),w ⍝ Enclose if simple
+      r←((,∘⊂)⍣((isString w)∧2>|≡w))w ⍝ enclose if simple character  
+      ⍝r← (,∘⊂)⍣((326∊⎕DR w)<2>|≡w)⊢w ⍝ Enclose if simple
     ∇
 
     ∇ da←args defaultArgs defaultvalues
