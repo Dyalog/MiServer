@@ -17,7 +17,7 @@
 
         :Field public Data←''
 
-        :Field public shared readonly WidgetDef←'argument' 'argument'  'argument.model' 'this.element'  ⍝ Syncfusion's event model (see _JQ.RenderHandlerCore for details)
+        :Field public WidgetDef←'argument' 'argument'  'argument.model' 'this.element' '.val()'  ⍝ Syncfusion's event model (see _JQ.RenderHandlerCore for details)
 
         ∇ make
           :Access public

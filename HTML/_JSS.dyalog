@@ -79,21 +79,28 @@
       r←(sel JQuery'toggle')args
     ∇
 
-    ∇ r←JSDate date
+    ∇ r←{eval}JSDate date
     ⍝ snippet to create a JS date (JavaScript months are 0-11!!!)
     ⍝ date is in 3↑⎕TS form
-      r←{'new Date(',(⍕⍵[1]),', ',(⍕⍵[2]-1),', ',(⍕⍵[3]),')'}date
+      :If 0=⎕NC'eval' ⋄ eval←0 ⋄ :EndIf
+      :If 0 2∊⍨10|⎕DR date  ⍝ char?
+          date←'"',date,'"'
+      :Else
+          date←1↓∊','∘,∘⍕¨0 ¯1 0 0 0 0+6↑date
+      :EndIf
+      r←(~eval)↓'⍎new Date(',date,')'
     ∇
 
-    ∇ r←varname JSData data
+    ∇ r←{varname}JSData data
     ⍝ return var definition to build a JavaScript object based on data
     ⍝ varname is the name of the variable
     ⍝ data is either a matrix of [1;] column names, (1↓) data
     ⍝      or a vector of namespaces
+      :If 0=⎕NC'varname' ⋄ varname←'' ⋄ :EndIf
       :If 2=⍴⍴data
           data←#.JSON.fromTable data
       :EndIf
-      r←('var ',varname,' = ',#.JSON.fromAPL data),';'
+      r←(((~0∊⍴varname)/'var ',varname,' = '),0 0 1 #.JSON.fromAPL data),';'
     ∇
 
 

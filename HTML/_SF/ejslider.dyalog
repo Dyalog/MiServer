@@ -22,6 +22,7 @@
       JQueryFn←Uses←'ejSlider'
       :Implements constructor
       InternalEvents←IntEvt
+      WidgetDef[5]←⊂'.ejSlider("option","value")'  ⍝ NB!! because ejSlider's input element is different from the container holding the slider, we use an alternate syntax to retrieve the value
     ∇
 
     ∇ make1 arg
@@ -36,6 +37,7 @@
           Values←2↓arg
       :EndIf
       InternalEvents←IntEvt
+      WidgetDef[5]←⊂'.ejSlider("option","value")'  ⍝ NB!! because ejSlider's input element is different from the container holding the slider, we use an alternate syntax to retrieve the value
     ∇
 
     ∇ r←Render
@@ -48,7 +50,7 @@
           'value'Set⊃Values
       :Else
           'values'Set,Values
-          'sliderType' SetIfNotSet '⍎ej.SliderType.Range'
+          'sliderType'SetIfNotSet'⍎ej.SliderType.Range'
       :EndSelect
       r←⎕BASE.Render
     ∇
