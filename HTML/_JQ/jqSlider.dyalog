@@ -52,6 +52,7 @@
           'value'Set⊃Values
       :Else
           'values'Set,Values
+           WidgetDef[5]←⊂'.slider("option","values")'
       :EndSelect
       r←⎕BASE.Render
     ∇

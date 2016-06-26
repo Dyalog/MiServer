@@ -177,9 +177,10 @@
     ∇
 
     ∇ r←{cs}URLDecodeArgs args
-      :Access Public Shared
+      :Access Public Shared    
       cs←{6::⍵ ⋄ cs}1 ⍝ default to case sensitive
       r←(args∨.≠' ')⌿↑'='∘split¨{1↓¨(⍵='&')⊂⍵}'&',args ⍝ Cut on '&'
+      r[;1]←{⍵↓⍨¯6×'%5B%5D'≡¯6↑⍵}¨r[;1] ⍝ remove [] from array args
       r[;2]←ArgXLT¨r[;2]
       :If ~cs ⋄ r[;1]←#.Strings.lc¨r[;1] ⋄ :EndIf
     ∇

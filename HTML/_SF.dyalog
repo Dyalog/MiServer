@@ -24,7 +24,7 @@
           :If 0=⎕NC⊂'Uses' ⋄ Uses←'' ⋄ :EndIf
           :If 0∊⍴Uses ⋄ Uses←'Syncfusion' ⋄ :EndIf
           :Implements constructor
-          WidgetSyntax←WidgetDef
+⍝          WidgetSyntax←WidgetDef
         ∇
 
         ∇ r←Render

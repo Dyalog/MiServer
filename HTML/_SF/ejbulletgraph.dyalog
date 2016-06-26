@@ -32,8 +32,8 @@
       :Access public
       JQueryFn←Uses←'ejBulletGraph'
       :Implements constructor
-      InternalEvents←IntEvt
-      Data←args
+      InternalEvents←IntEvt   
+      Data←(⊃⍣((1<|≡args)>2=⊃⍴⍴args))args
     ∇
 
     ∇ r←Render;src;flds

@@ -51,6 +51,7 @@
       :Else
           'values'Set,Values
           'sliderType'SetIfNotSet'⍎ej.SliderType.Range'
+          WidgetDef[5]←⊂'.ejSlider("option","values")'
       :EndSelect
       r←⎕BASE.Render
     ∇
