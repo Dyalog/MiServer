@@ -10,7 +10,7 @@
           IDIOMS[;1]←'FinnAPL' 'Dyalog'[IDIOMS[;1]+1]
           IDIOMS⍪⍨←'Library' 'Description' 'Requirements' 'Expression'
       :EndIf
-      Add _.DataTable(IDIOMS(2/'.a333' '.apl'))
+      'output'Add _.DataTable(IDIOMS(2/'.a333' '.a385'))
     ∇
 
 :EndClass

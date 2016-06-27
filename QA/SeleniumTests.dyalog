@@ -32,7 +32,7 @@
       :EndIf
     ∇
 
-    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames;maxlen
+    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames;maxlen;⎕USING
      
       (site filter)←2↑(eis site),'' ''
       :If 0=⍴AppRoot←#.Load site
@@ -60,7 +60,12 @@
       n←⍴files
       SITE←'http://127.0.0.1:',⍕Config.Port
      
+      :If site filter≡'MS3' ''
+          ⎕CMD('"\Program Files (x86)\Windows Media Player\wmplayer.exe" "',AppRoot,'\Examples\Data\tellintro.mp3"')''
+      :EndIf
+     
       Selenium.InitBrowser''
+      Selenium.BROWSER.Manage.Window.Maximize
      
      ⍝ Localize non-alphanumeric key names for easy access
       keynames←⍕#.SeleniumTests.Selenium.Keys.⎕NL ¯2

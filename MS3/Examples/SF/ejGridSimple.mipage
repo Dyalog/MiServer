@@ -18,7 +18,7 @@
      
       InitData
       Add _.h2'Health Care Spending'
-      mygrid←Add _.ejGrid(VALUES COLTITLES CELLWIDTHS)
+      mygrid←'output'Add _.ejGrid(VALUES COLTITLES CELLWIDTHS)
       mygrid.CellFormats←FORMATS
       mygrid.ColNames←COLNAMES
       mygrid.CellAlign←CELLALIGN

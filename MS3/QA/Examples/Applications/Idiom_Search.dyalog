@@ -1,8 +1,11 @@
 ﻿ msg←Test dummy
 
- 'input'SendKeys'rank off',Enter
- :If 0=⍴msg←'output'WaitFor'No matching idioms found'
+ input←'TagName'Find'input'
+ output←Find'output'
 
-     'input'SendKeys Backspace Enter
-     msg←⊃∪'dyal' 'finn'WaitFor¨⊂'⍴⍴XA'
+ input SendKeys'rank off'
+ :If 0=⍴msg←output WaitFor'No matching records found'
+
+     input SendKeys Backspace
+     0=⍴msg←∊∪output WaitFor¨'⍴⍴XA' 'Dyalog' 'FinnAPL' '((((⍴⍴XA1)-⍴⍴XA2)⍴1),⍴XA2)⍴XA2'
  :EndIf
