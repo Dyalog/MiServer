@@ -2,6 +2,11 @@
     :field public Location←''
     :field public Delay←0
 
+    ∇ make
+      :Implements constructor
+      :Access public
+    ∇
+
     ∇ make1 args
       :Implements constructor
       :Access public

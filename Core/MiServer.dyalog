@@ -741,7 +741,7 @@
       :Trap 11
           x←⎕XML req
       :Else
-          ∘∘∘
+          ∘∘∘ ⍝ !! Intentional !!
       :EndTrap
       v←'var'∘≡¨x[;2]
       v←{⎕ML←3 ⋄ (~<\'='=⍵)⊂⍵}¨v/x[;3]

@@ -111,7 +111,6 @@
 
         ∇ r←Render;build;html;handlers;js;oldJavaScript
           :Access public
-         
           r←html←js←''
           SetUse
          
@@ -425,7 +424,7 @@
           WidgetDef←'event,ui' 'event' 'ui' '$(event.target)' '.val()'
         ∇
 
-        ∇ r←Render;sel;syn_handler;syn_event;syn_model;syn_this;data;useajax;force;cd;selector;arg;verb;name;phrase;datasel;JQfn;jqfn;hg;removehg;dtype;success;status;ajax;widget;syn_value;delegates;v;events;try
+        ∇ r←Render;sel;syn_handler;syn_event;syn_model;syn_this;data;useajax;force;cd;selector;arg;verb;name;phrase;datasel;JQfn;jqfn;hg;removehg;dtype;success;status;ajax;widget;syn_value;delegates;v;events;try;selSelector
           :Access public
           r←''
           :If ~0∊⍴Events ⍝ skip if no events specified
@@ -498,7 +497,7 @@
               :Select ≡ClientData
               :CaseList 0 1  ⍝ simple vector
                   ClientData←,⊂2⍴⊂,ClientData ⍝ name/id are set to the same
-              :CaseList 2 ¯3
+              :CaseList 2 ¯2
                   ClientData←,⊂ClientData
               :EndSelect
          
@@ -526,11 +525,11 @@
                           :EndIf
                       :ElseIf #.HtmlElement #.HtmlElement.isInstance sel ⍝ selector is reference to other element
                           :If #._JQ._jqObject #.HtmlElement.isInstance sel ⍝ is it a jQuery-based object?
-                              :If 0∊⍴sel.Selector ⍝ no Selector?
+                              :If 0∊⍴selSelector←sel.Selector ⍝ no Selector?
                                   sel.SetId
-                                  sel.Selector←'#',sel.id
+                                  selSelector←'#',sel.id
                               :EndIf
-                              datasel←'$(',(quote sel.Selector),').'
+                              datasel←'$(',(quote selSelector),').'
                               :If ~0∊⍴jqfn←sel.JQueryFn
                                   datasel,←sel.JQueryFn
                               :EndIf

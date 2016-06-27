@@ -7,17 +7,18 @@
       fromidn←dateToIDN 3↑today←⎕TS
      
       Add _.h2'R.U. Inn'_.br'Motel reservation system'
-     
+
     ⍝ The in date
       from←'in'New _.ejDateTimePicker today'yyyy/MM/dd HH:mm'
     ⍝ The callback should return the date (value) of the argument for the IN date/time
     ⍝ and the model's value for the OUT date/time
-      from.On'change' 'setNewDate',⊂('in' 'argument' 'value')('out' 'eval' '$("#out").ejDateTimePicker("model.value")')
      
     ⍝ The out date
       todate←IDNToDate fromidn+7
       to←'out'New _.ejDateTimePicker todate'yyyy/MM/dd HH:mm'
-      to.On'change' 'setNewDate',⊂('out' 'argument' 'value')('in' 'eval' '$("#in").ejDateTimePicker("model.value")')
+
+      from.On'change' 'setNewDate' (('in' 'option' 'value')('out' 'option' 'value' to))
+      to.On'change' 'setNewDate'(('in' 'option' 'value' from)('out' 'option' 'value'))
      
       Add _.InputGrid('Check In' 'Check Out',⍪from to)
      
@@ -30,7 +31,7 @@
 
     ∇ r←setNewDate;in;out
       :Access public
-     
+        ∘∘∘
     ⍝ Find the difference between the dates
       in←stringToDate Get'in'
       out←stringToDate Get'out'
