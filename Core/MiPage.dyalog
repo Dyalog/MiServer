@@ -22,7 +22,8 @@
     :field Public _AjaxResponse←''
     :field Public _DebugCallbacks←0
     :field Public _TimedOut←0
-    :field Public OnLoad←''     ⍝ page equivalent to ⎕LX
+    :field Public OnLoad←''       ⍝ page equivalent to ⎕LX
+    :field Public Charset←'UTF-8' ⍝ default charset
 
     _used←'' ⍝ keep track of what's been used
 
@@ -45,6 +46,7 @@
 
     ∇ {r}←Render;b;styles
       :Access public
+      Head.Insert #._html.meta''('charset=',⍕Charset)
       :If ''≢OnLoad
           Use'JQuery'
       :EndIf

@@ -23,6 +23,7 @@
       :Implements constructor
       JQueryFn←'slider'
       InternalEvents←IntEvt
+      WidgetDef[5]←⊂'.slider("option","value")'  ⍝ NB!! because jQuery Slider does not use an input element (from which we can retrieve a value), we use an alternate syntax to retrieve the value
     ∇
 
     ∇ Make1 arg
@@ -38,6 +39,7 @@
           Values←2↓arg
       :EndIf
       InternalEvents←IntEvt
+      WidgetDef[5]←⊂'.slider("option","value")'  ⍝ NB!! because jQuery Slider does not use an input element (from which we can retrieve a value), we use an alternate syntax to retrieve the value
     ∇
 
     ∇ r←Render
@@ -50,6 +52,7 @@
           'value'Set⊃Values
       :Else
           'values'Set,Values
+           WidgetDef[5]←⊂'.slider("option","values")'
       :EndSelect
       r←⎕BASE.Render
     ∇

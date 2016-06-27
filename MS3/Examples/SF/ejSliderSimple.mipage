@@ -1,4 +1,4 @@
-﻿:Class jqSliderSimple : MiPageSample
+﻿:Class ejSliderSimple : MiPageSample
 ⍝ Control:: _SF.ejSlider
 ⍝ Description:: Single and Ranged Sliders
 
@@ -7,10 +7,10 @@
       Add _.h4'Syncfusion Slider Widget'
      
       Add _.h6'Default Slider'
-      ('Default' '.slide'Add _.ejSlider).On 'change' 'myCallBack' ('newval' 'option' 'value')
+      ('Default' '.slide'Add _.ejSlider).On 'change' 'myCallBack' 
      
       Add _.h6'Ranged Slider'
-      ('Ranged' '.slide'Add _.ejSlider 0 100 20 40).On 'change' 'myCallBack' ('newval' 'option' 'values')
+      ('Ranged' '.slide'Add _.ejSlider 0 100 20 40).On 'change' 'myCallBack'
      
       Add _.br
       
@@ -19,7 +19,7 @@
 
     ∇ r←myCallBack
       :Access Public
-      r←'#output'Replace _what,' Slider changed to ',⍕Get'newval'
+      r←'#output'Replace _what,' Slider changed to ',⍕_value
     ∇
 
 

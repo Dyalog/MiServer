@@ -42,13 +42,15 @@
       :Access public
       :If ⍬≢Min ⋄ 'minValue'SetIfNotSet Min ⋄ :EndIf
       :If ⍬≢Max ⋄ 'maxValue'SetIfNotSet Max ⋄ :EndIf
+      WidgetDef[5]←⊂'.ejSlider("option","value")'  ⍝ NB!! because ejSlider's input element is different from the container holding the slider, we use an alternate syntax to retrieve the value
       :Select ⊃⍴,Values
       :Case 0
       :Case 1
           'value'Set⊃Values
       :Else
           'values'Set,Values
-          'sliderType' SetIfNotSet '⍎ej.SliderType.Range'
+          'sliderType'SetIfNotSet'⍎ej.SliderType.Range'
+          WidgetDef[5]←⊂'.ejSlider("option","values")'
       :EndSelect
       r←⎕BASE.Render
     ∇

@@ -1,4 +1,4 @@
-/* APL font on devices without it */
+﻿/* APL font on devices without it */
 @font-face {
     font-family: APL385 Unicode;
     src: url(/Styles/apl385.ttf);
@@ -21,7 +21,7 @@ body {
 }
 
 #banner+.bodyblock {
-    padding-top: 120px;
+    padding-top: 160px;
     padding-bottom: 40px;
 }
 
@@ -34,10 +34,11 @@ body {
     width: 100%;
     right: 0;
     left: 0;
-    z-index: 1;
+    z-index: 99;
     box-shadow: 0px 5px 10px grey;
     text-shadow: 1px 1px 5px black;
     padding-top: 0px;
+    max-height: 86px;
 }
 
 #bannerimg {
@@ -145,7 +146,7 @@ a.nav:hover, #bannernav select:hover {
     bottom: 0;
     right: 0;
     left: 0;
-    z-index: 1;
+    z-index: 99;
     box-shadow: 0px -5px 10px gray;
     font-weight: bold;
     text-shadow: 1px 1px 5px black;

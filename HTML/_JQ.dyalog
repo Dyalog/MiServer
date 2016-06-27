@@ -91,8 +91,8 @@
         :field public Container
         :field public InternalEvents←'' ⍝ list of events the widget "knows" about
         :field public BuildHTML←1       ⍝ if 0, we build any HTML infrastructure for the widget, otherwise, assume the user built it
-        :field public WidgetSyntax←''
-        :field public shared readonly WidgetDef←'event,ui' 'event'  'ui' '$(event.currentTarget)'  ⍝ see _JQ.RenderHandlerCore for details
+⍝        :field public WidgetSyntax←''
+        :field public WidgetDef←'event,ui' 'event'  'ui' '$(event.currentTarget)' '.val()'  ⍝ see _JQ.RenderHandlerCore for details
 
         ∇ r←{a}rand w;⎕RL
           :Access public
@@ -106,7 +106,7 @@
           Options←⎕NS''
           Container←⎕NEW #.HtmlElement
           :Implements constructor
-          WidgetSyntax←WidgetDef
+⍝          WidgetSyntax←WidgetDef
         ∇
 
         ∇ r←Render;build;html;handlers;js;oldJavaScript
@@ -273,7 +273,7 @@
 
         :field public Force←0
 
-        :field public WidgetSyntax ←⊂'event,ui' 'event'  'ui' '$(event.target)' ⍝ see Handler class below
+⍝        :field public WidgetSyntax ←⊂'event,ui' 'event'  'ui' '$(event.target)' '.val()' ⍝ see Handler class below
 
         ∇ make
           :Access public
@@ -383,6 +383,9 @@
                                          ⍝ [2] syntax to access the event object:   'event'           'argument'
                                          ⍝ [3] syntax to access the object's model: 'ui'              'argument.model'
                                          ⍝ [4] syntax to access the widget itself:  '$(event.target)' 'this.element'
+                                         ⍝ [5] syntax to access the value of an input widget - this default to '' but may overridden by individual widget
+                                         ⍝     see ejSlider as an example
+                                         ⍝
         :Field public ForceInternal←¯1   ⍝ indicates whether to "force" the event to be treated as a widget internal event
         :Field public WidgetRef←''       ⍝ ref to widget instance if this handler is on
         :Field public Hourglass←¯1       ⍝ indicates whether to display hourglass during callback execution
@@ -419,7 +422,7 @@
                   _PageRef_←c._PageRef
               :EndIf
           :EndTrap
-          WidgetDef←'event,ui' 'event' 'ui' '$(event.target)'
+          WidgetDef←'event,ui' 'event' 'ui' '$(event.target)' '.val()'
         ∇
 
         ∇ r←Render;sel;syn_handler;syn_event;syn_model;syn_this;data;useajax;force;cd;selector;arg;verb;name;phrase;datasel;JQfn;jqfn;hg;removehg;dtype;success;status;ajax;widget;syn_value;delegates;v;events;try
@@ -445,6 +448,7 @@
               force←0
               events←Events
               :If widget←#.HtmlElement.isWidget WidgetRef ⍝ is this a widget handler?
+                  WidgetDef←WidgetRef.WidgetDef
                   :If ForceInternal=¯1
                       :If ','∊Events ⍝ multiple events?
                           events←','#.Utils.penclose Events~' '
@@ -471,11 +475,11 @@
                   :EndIf
               :EndIf
          
-              (syn_handler syn_event syn_model syn_this)←WidgetDef
+              (syn_handler syn_event syn_model syn_this syn_value)←5↑WidgetDef
               try←{'(function(){try{return ',⍵,';}catch(e){return "";}})()'}
               data←'_event: ',syn_event,'.type, '
               data,←'_what: ',syn_this,'.attr("id"), '
-              data,←'_value: ',syn_this,'.val(), '
+              data,←'_value: ',syn_this,syn_value,', '
               data,←'_selector: ',(quote selector~'⍎'),', '
               data,←'_target: ',(try syn_event,'.target.id'),', '
               data,←'_currentTarget: ',(try syn_event,'.currentTarget.id'),', '
@@ -501,7 +505,7 @@
               :For cd :In ClientData
                   cd←#.HtmlElement.eis cd
                   (name verb arg sel)←4↑cd,(⍴cd)↓4⍴⊂''
-                  :If ~0∊⍴name
+                  :If (~0∊⍴name)∨verb≡'serialize'
                   :AndIf ~0∊⍴verb
                       jqfn←'' ⍝ jQuery function to call if this client data element refers to a widget
          

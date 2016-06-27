@@ -4,8 +4,10 @@
     (CR LF)←NL←⎕UCS 13 10
 
 ⍝ Common Status Codes
-    SC←(200 'OK')(201 'Created')(204 'No Content')(301 'Moved Permanently')(304 'Not Modified')(400 'Bad Request')(401 'Unauthorized')
-    SC,←(403 'Forbidden')(404 'Not Found')(405 'Method Not Allowed')(408 'Request Timeout')(500 'Internal Server Error')(503 'Service Unavailable')
+    SC←(200 'OK')(201 'Created')(204 'No Content')(301 'Moved Permanently')(302 'Found')(303 'See Other')(304 'Not Modified')(305 'Use Proxy')(307 'Temporary Redirect')
+    SC,←(400 'Bad Request')(401 'Unauthorized')(403 'Forbidden')(404 'Not Found')(405 'Method Not Allowed')(406 'Not Acceptable')(408 'Request Timeout')(409 'Conflict')
+    SC,←(410 'Gone')(411 'Length Required')(412 'Precondition Failed')(413 'Request Entity Too Large')(414 'Request-URI Too Long')(415 'Unsupported Media Type')
+    SC,←(500 'Internal Server Error')(501 'Not Implemented')(503 'Service Unavailable')
     SC←↑SC
 
 ⍝ Fields related to the Request
@@ -180,6 +182,7 @@
       :Access Public Shared
       cs←{6::⍵ ⋄ cs}1 ⍝ default to case sensitive
       r←(args∨.≠' ')⌿↑'='∘split¨{1↓¨(⍵='&')⊂⍵}'&',args ⍝ Cut on '&'
+      r[;1]←{⍵↓⍨¯6×'%5B%5D'≡¯6↑⍵}¨r[;1] ⍝ remove [] from array args
       r[;2]←ArgXLT¨r[;2]
       :If ~cs ⋄ r[;1]←#.Strings.lc¨r[;1] ⋄ :EndIf
     ∇
@@ -318,6 +321,14 @@
           :EndFor
       :EndIf
     ∇
+
+    ∇ {code}Redirect location
+      :Access public
+      :If 0=⎕NC'code' ⋄ code←301 ⋄ :EndIf ⍝ default to permanent redirection 
+      Response.(Status StatusText)←code ((SC[;1]⍳code)⊃SC[;2],⊂'')
+      'Location' SetHeader location
+    ∇
+
 
     ∇ r←isDesktop;cis;desktop;mobile;bot;user_agent ⍝ Detect if we think this is a desktop platform
 ⍝ Rationale: mobile device detection is a messy subject, therefore it's easier and perhaps safer to detect

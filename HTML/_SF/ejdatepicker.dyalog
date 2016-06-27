@@ -45,6 +45,7 @@
       :Access public
       Container.NoEndTag←1
       SetId
+      WidgetDef[5]←⊂'.ejDatePicker("option","value")'  ⍝ NB!! because ejDatePicker's input element is different from the container holding the slider, we use an alternate syntax to retrieve the value
       r←⎕BASE.Render
       :If Label≢''
           r←r((LabelPos≡'right'){⍺⍺:⍺,⍵ ⋄ ⍵,⍺})(⎕NEW #._html.label(Label('for=',id))).Render
@@ -52,4 +53,3 @@
     ∇
 
 :EndClass
-

@@ -1,4 +1,4 @@
-/* Body and Wrapper */
+﻿/* Body and Wrapper */
 body {
 	color: #000000;
 	background-color: black;
@@ -20,6 +20,7 @@ body {
 	padding: 10px;
 	color: white;
 	border-radius: 15px 15px 0px 0px;
+	max-height: 86px;
 }
 #bannerimg {
 	float: left;
