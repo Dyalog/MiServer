@@ -2,7 +2,7 @@
 	<div id="bannerimg">
 		<img id="bannerimage" src="/Styles/Images/Dyalog-D.png" title="Click to toggle web page/source code" onMouseOver="this.style.cursor='pointer'"/> </div>
 	<div id="bannertext">
-		<a id="ms30" href="/"><span id="MS3">MS3</span>&emsp;the MiServer 3.0 sample site</a> <br />
+		<a id="ms30" href="/"><span id="MS3">MS3</span><span id="samplesite">&emsp;the MiServer 3.0 sample site</span></a> <br />
 		<span id="tagline">Anyone who can write an APL function should be able to host it on the web<sup>TM</sup></span> </div>
 	<div id="bannernav">
 		<select onchange="window.open(this.value,'_blank');this.selectedIndex=0">

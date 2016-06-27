@@ -20,7 +20,7 @@
           _CssOverride←'/Styles/sampleStyles.css'
      
         ⍝ set a meta tag to make it explicitly UTF-8
-          (Add _.meta).Set'http-equiv="content-type" content="text/html;charset=UTF-8"'
+        ⍝  (Add _.meta).Set'http-equiv="content-type" content="text/html;charset=UTF-8"'
      
         ⍝ wrap the content of the <body> element in a div
           'contentblock'Body.Push _.div
