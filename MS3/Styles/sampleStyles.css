@@ -1,4 +1,4 @@
-﻿/* APL font on devices without it */
+/* APL font on devices without it */
 @font-face {
     font-family: APL385 Unicode;
     src: url(/Styles/apl385.ttf);
@@ -400,12 +400,12 @@ heading1 {
     display: inline-block;
 }
 
-[data-Dyalog-tip]:hover {
+[data-dyalog-tip]:hover {
     position: relative;
 }
 
-[data-Dyalog-tip]:hover:after {
-    content: attr(data-Dyalog-tip);
+[data-dyalog-tip]:hover:after {
+    content: attr(data-dyalog-tip);
     font-weight: normal;
     font-size: small;
     text-decoration: none;
