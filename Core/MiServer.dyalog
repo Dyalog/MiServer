@@ -375,7 +375,6 @@
      
       SessionHandler.GetSession REQ
       Authentication.Authenticate REQ
-     
       :If REQ.Response.Status≠401 ⍝ Authentication did not fail
           :If Config.AllowedHttpCommands∊⍨⊂REQ.Command
               onHandleRequest REQ ⍝ overridable
@@ -827,7 +826,7 @@
       inds←⌽{⍵/⍳⍴⍵}'/'=REQ.OrigPage
       :For i :In inds
           page←(i-1)↑REQ.OrigPage
-          page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}page ⍝ no page specified? use the default
+          ⍝page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}page ⍝ no page specified? use the default
           page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}page)/Config.DefaultExtension ⍝ no extension specified? use the default
           filename←Config Virtual page
           :If 1=⊃⍴list←''#.Files.List filename
