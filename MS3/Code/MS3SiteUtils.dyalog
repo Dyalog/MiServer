@@ -205,7 +205,7 @@
           link←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns,'&widget=',⍵
           0::Link ⍵ link ⍝ upon fail to retrieve info
           tip←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section ⎕SRC ref
-          tip,←(''≡tip)/(1+(New ref).NoEndTag)⊃'[content]' '[id]'
+          tip,←(''≡tip)/(1+(New ref).NoEndTag)⊃'[content [attributes]]' '[attributes]'
           tip,⍨←'Constructor: '
           tip Link ⍵ link
       }

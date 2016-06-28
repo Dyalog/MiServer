@@ -1,7 +1,7 @@
 ﻿:class Style : #._html.style
 ⍝ Description:: Dyalog Style widget - makes for easier programatic setting of CSS styles
-⍝ Constructor:: [Styles]
-⍝ Styles - pairs of Selector [Style] pairs, where
+⍝ Constructor:: [styles]
+⍝ styles - pairs of Selector [Style] pairs, where
 ⍝     Selector is the CSS selector to which to apply styling, and
 ⍝     Styles is one or more pairs of CSS attributes and values in one of the following formats:
 ⍝       - single pair ('font' 'APL')
