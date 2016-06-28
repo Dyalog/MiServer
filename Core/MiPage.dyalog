@@ -1,4 +1,4 @@
-﻿:Class MiPage : #.HtmlPage
+﻿:Class MiPage : #.HtmlPage           
 
     ⍝∇:require =\HtmlPage.dyalog
     ⍝∇:require =\JSON.dyalog
@@ -97,10 +97,10 @@
                   :AndIf ~0∊n←1↑⍴server.Config.Resources
                       :If n≥ind←server.Config.Resources[;1]⍳⊂x
                           :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 2)⊃server.Config.Resources
-                              _Scripts,←t
+                              _Scripts,⍨←t
                           :EndIf
                           :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 3)⊃server.Config.Resources
-                              _Styles,←t
+                              _Styles,⍨←t
                           :EndIf
                       :Else
                           1 server.Log _PageName,' references unknown resource: ',x
