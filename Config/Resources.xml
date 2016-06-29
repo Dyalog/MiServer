@@ -93,6 +93,11 @@
 		<script>/Syncfusion/assets/external/jquery.validate.min.js</script>
 	</resource>
 	<resource>
+		<name>jquery.globalize</name>
+		<uses>JQuery</uses>
+		<script>/Syncfusion/assets/external/jquery.globalize.min.js</script>
+	</resource>
+	<resource>
 		<name>jsrender</name>
 		<script>/Syncfusion/assets/external/jsrender.min.js</script>
 	</resource>
@@ -337,6 +342,14 @@
 	<resource>
 		<name>ejSplitter</name>
 		<uses>Syncfusion</uses>
+		<uses>jquery.easing</uses>
+	</resource>
+	<resource>
+		<name>ejSpreadsheet</name>
+		<uses>Syncfusion</uses>
+		<uses>jquery.globalize</uses>
+		<uses>jsrender</uses>
+		<uses>jquery.validate</uses>
 		<uses>jquery.easing</uses>
 	</resource>
 	<resource>
