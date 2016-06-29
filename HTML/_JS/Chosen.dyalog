@@ -1,4 +1,4 @@
-﻿:class Chosen : #._DC.Select
+﻿:class Chosen : #._JQ._jqWidget
 ⍝ Description:: Enhanced HTML selects with search-box and improved multi-select
 ⍝ Constructor:: [options [[selected] [prompt]]]
 ⍝ options   - vector of options or 2 column matrix of displayed[;1] and returned[;2] values
@@ -19,48 +19,47 @@
 ⍝ Chosen ((3 2⍴'One' 'c1' 'Two' 'c2' 'Three' 'c3') (0 1 0)) ⍝ second item is selected
 ⍝ Chosen ((3 2⍴'One' 'c1' 'Two' 'c2' 'Three' 'c3') 2 3 'Pick One') ⍝ second item is selected, third item is disabled
 ⍝ Chosen ((3 2⍴'One' 'c1' 'Two' 'c2' 'Three' 'c3') (2 3) 1) ⍝ second and third items are selected, first item is disabled
- 
+
     :field public shared readonly DocBase←'https://harvesthq.github.io/chosen/options.html'
 
  ⍝   :field public Options←0 2⍴⊂''     ⍝ vector or matrix [;1] display, [;2] value
  ⍝   :field public Selected←⍬          ⍝ either Boolean integer vector indicating
  ⍝   :field public Prompt←'[Select]'   ⍝ character vector "Prompt" choice - the first choice on the list and does not have a value
-    :field public options←⎕ns''
+ ⍝   :field public options←⎕ns''
 
     ∇ make
       :Access public
       :Implements constructor :Base
+      ContainerTag←'select'
+      Container←⎕NEW #._DC.Select
+      JQueryFn←Uses←'chosen'
     ∇
 
     ∇ make1 args
       :Access public
-      :Implements constructor :Base args
+      :Implements constructor
+      ContainerTag←'select'
+      Container←⎕NEW #._DC.Select args
+      JQueryFn←Uses←'chosen'
     ∇
 
     ∇ make2(arg1 arg2)
       :Access public
-      :Implements constructor :Base (arg1 arg2)
+      :Implements constructor
+      ContainerTag←'select'
+      Container←⎕NEW #._DC.Select(arg1 arg2)
+      JQueryFn←Uses←'chosen'
     ∇
 
-    ∇ r←Render;opts
+    ∇ r←Render
       :Access public
-      Use'Chosen'
-     
-      SetUse
       r←⎕BASE.Render
-      opts←''
-      :If 0<⍴options.⎕NL-2
-          opts←#.JSON.fromAPL options
-      :EndIf
-      r,←'<script type="text/javascript">$(function() {'
-      r,←'$("#',SetId,'").chosen(',opts,');'
-      r,←'});</script>'
     ∇
 
     ∇ r←{selector}ReplaceOptions args;sel;opts;dis
       :Access public
-      :If 2=⎕NC'selector' ⋄ r←selector ⎕BASE.ReplaceOptions args
-      :Else ⋄ r←⎕BASE.ReplaceOptions args
+      :If 2=⎕NC'selector' ⋄ r←selector Container.ReplaceOptions args
+      :Else ⋄ r←Container.ReplaceOptions args
           selector←'#',id
       :EndIf
       r,←⊂'execute'('$("',selector,'").trigger("chosen:updated")')

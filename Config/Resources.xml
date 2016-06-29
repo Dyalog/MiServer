@@ -522,10 +522,11 @@
 		<script>/DataTables/extensions/Responsive/js/DataTables.responsive.min.js</script>
 	</resource>
 <resource>
-	<name>Chosen</name>
+
+	<name>chosen</name>
 	<uses>JQuery</uses>
-	<script>/PlugIns/Other/Chosen-1.5.1/chosen.jquery.min.js</script>
-	<script>/PlugIns/Other/Chosen-1.5.1/chosen-tools.js</script>
-	<style>/PlugIns/Other/Chosen-1.5.1/chosen.min.css</style>
+	<script>/chosen/chosen.jquery.min.js</script>
+	<script>/chosen/chosen-tools.js</script>
+	<style>/chosen/chosen.min.css</style>
 </resource>
 </Resources>

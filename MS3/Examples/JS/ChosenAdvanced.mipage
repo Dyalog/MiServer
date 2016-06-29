@@ -14,9 +14,8 @@
       (frm←Add _.Form).id←'myform'
      
       mult←'multi'frm.Add _.Chosen(FRUITS(2 5)(3 4)) ⍝ preselect 2nd and 5th fruit
-      mult.Set'multiple' 1               ⍝ Allow multiple selections
-      mult.options.width←'200px'         ⍝ Make room for all the items
-      mult.Set'autofocus' 'true'         ⍝ Put the focus here
+      mult.Container.Set'multiple' 1               ⍝ Allow multiple selections
+      'width'mult.Set'200px'         ⍝ Make room for all the items
       mult.On'change' 'onPick'
       frm.Add _.br
      
