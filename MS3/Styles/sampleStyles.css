@@ -420,10 +420,44 @@ heading1 {
     z-index:1;
 }
 
-#reading, #reading ul {
+
+#reading, #reading ul, #reading ul li {
     list-style: none;
+    padding-left:10px;
     width: 200px;
+    position:relative;
+    font-weight:bold;
 }
+
+#reading{
+    border-left: 1px solid lightgray;
+    margin-left:20px;
+    padding-left:20px;
+}
+
+#reading li li::before, #reading li li::after {
+    content: "";
+    position: absolute;
+    left: 0;
+}
+
+#reading li li::before {
+    border-top: 2px solid #000;
+    top: 9px;
+    width: 8px;
+    height: 0;
+}
+
+#reading li li::after {
+    border-left: 2px solid #000;
+    height: 100%;
+    width: 0px;
+    top: 2px;
+}
+
+#reading li li:last-child::after {
+    height: 8px;
+    }
 
 #Dyalog-D {
     height: 16px;
