@@ -60,9 +60,10 @@
       n←⍴files
       SITE←'http://127.0.0.1:',⍕Config.Port
      
-      :If site filter≡'MS3' ''
-          ⎕CMD('"\Program Files (x86)\Windows Media Player\wmplayer.exe" "',AppRoot,'\Examples\Data\tellintro.mp3"')''
-      :EndIf
+⍝⍝ Un-comment to play music while testing:
+⍝      :If site filter≡'MS3' ''
+⍝          ⎕CMD('"\Program Files (x86)\Windows Media Player\wmplayer.exe" "',AppRoot,'\Examples\Data\tellintro.mp3"')''
+⍝      :EndIf
      
       Selenium.InitBrowser''
       Selenium.BROWSER.Manage.Window.Maximize
