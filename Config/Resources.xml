@@ -93,6 +93,11 @@
 		<script>/Syncfusion/assets/external/jquery.validate.min.js</script>
 	</resource>
 	<resource>
+		<name>jquery.globalize</name>
+		<uses>JQuery</uses>
+		<script>/Syncfusion/assets/external/jquery.globalize.min.js</script>
+	</resource>
+	<resource>
 		<name>jsrender</name>
 		<script>/Syncfusion/assets/external/jsrender.min.js</script>
 	</resource>
@@ -340,6 +345,14 @@
 		<uses>jquery.easing</uses>
 	</resource>
 	<resource>
+		<name>ejSpreadsheet</name>
+		<uses>Syncfusion</uses>
+		<uses>jquery.globalize</uses>
+		<uses>jsrender</uses>
+		<uses>jquery.validate</uses>
+		<uses>jquery.easing</uses>
+	</resource>
+	<resource>
 		<name>ejSymbolPalette</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
@@ -521,4 +534,12 @@
 		<style>/DataTables/extensions/Responsive/css/responsive.dataTables.min.css</style>
 		<script>/DataTables/extensions/Responsive/js/DataTables.responsive.min.js</script>
 	</resource>
+<resource>
+
+	<name>chosen</name>
+	<uses>JQuery</uses>
+	<script>/chosen/chosen.jquery.min.js</script>
+	<script>/chosen/chosen-tools.js</script>
+	<style>/chosen/chosen.min.css</style>
+</resource>
 </Resources>

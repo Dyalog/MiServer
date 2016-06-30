@@ -1,0 +1,47 @@
+﻿:Class ChosenAdvanced : MiPageSample
+⍝ Control::     _JS.Chosen
+⍝ Description:: Select one or more fruits or vegetables from a list which might be updated with a button-click
+
+    FRUITS←'Apples' 'Bananas' 'Grapes' 'Oranges' 'Pears' 'Pineapples' 'Plums'
+    VEGGIES←'Beans' 'Carrots' 'Eggplant' 'Peppers' 'Spinach'
+    SwitchTitle←'veggies' 'fruits'
+    SwitchIdx←1
+
+    ∇ Compose;frm;btn
+      :Access public
+     
+      Add _.h2'Please pick some <span id="title">fruits</span>'
+      (frm←Add _.Form).id←'myform'
+     
+      mult←'multi'frm.Add _.Chosen(FRUITS(2 5)(3 4)) ⍝ preselect 2nd and 5th fruit
+      mult.Container.Set'multiple' 1               ⍝ Allow multiple selections
+      'width'mult.Set'200px'         ⍝ Make room for all the items
+      mult.On'change' 'onPick'
+      frm.Add _.br
+     
+      btn2←frm.Add _.Button('Switch to <span id="switch">',(SwitchIdx⊃SwitchTitle),'</span>')
+      btn2.On'click' 'onSwitch'
+      btn2.style←⊂'margin-top: 10px; margin-bottom: 10px;'
+     
+      'output'Add _.div
+    ∇
+
+    ∇ r←onPick;selected;selection
+     ⍝ Called when the Pick button is pressed
+      :Access Public
+      selection←eis Get'multi'
+      selected←1↓∊' ',¨selection
+      r←'#output'Replace _.p('You picked: ',selected,(0=⍴selected)/'the diet! ;-)')
+    ∇
+
+    ∇ r←onSwitch;selected;selection
+     ⍝ Called when the Switch button is pressed
+      :Access Public
+      r←mult.ReplaceOptions (SwitchIdx⊃VEGGIES FRUITS)
+      r,←'#title'Replace(SwitchIdx⊃SwitchTitle)
+      SwitchIdx←3-SwitchIdx
+      r,←'#switch'Replace(SwitchIdx⊃SwitchTitle)
+    ∇
+
+
+:EndClass

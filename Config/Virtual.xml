@@ -32,4 +32,8 @@
     <alias>DataTables</alias>  
     <path>%ServerRoot%/PlugIns/Other/DataTables-1.10.10/</path>
   </directory>
+  <directory>
+  	<alias>chosen</alias>
+  	<path>%ServerRoot%/PlugIns/Other/chosen-1.6.1/</path>
+  </directory>
 </Virtual>
