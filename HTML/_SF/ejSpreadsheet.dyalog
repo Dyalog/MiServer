@@ -38,5 +38,5 @@
       r,←⎕BASE.Render
     ∇
 
-    formatSheet←{z←⎕NS'' ⋄ z.rows←{z←⎕NS'' ⋄ z.cells←{z←⎕NS'' ⋄ z.value←⍕⍵ ⋄ z}¨⍵ ⋄ z}¨↓⍵ ⋄ z}
+    formatSheet←{z←⎕NS'' ⋄ z.rows←{z←⎕NS'' ⋄ z.cells←{z←⎕NS'' ⋄ z.value←⍵ ⋄ z}¨⍵ ⋄ z}¨↓⍵ ⋄ z}
 :EndClass

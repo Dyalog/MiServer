@@ -494,137 +494,139 @@
          
               data←¯2↓data
          
-              :Select ≡ClientData
-              :CaseList 0 1  ⍝ simple vector
-                  ClientData←,⊂2⍴⊂,ClientData ⍝ name/id are set to the same
-              :CaseList 2 ¯2
-                  ClientData←,⊂ClientData
-              :EndSelect
+              :If ~0∊⍴ClientData
+                  :Select ≡⊃ClientData
+                  :CaseList 0 ⍝ ClientData is a simple vector
+                      ClientData←,⊂2⍴⊂,ClientData ⍝ so name and verb are set to the same
+                  :CaseList 1 ⍝ first element is a vector
+                      ClientData←,⊂ClientData ⍝ enclose it
+                  :EndSelect
          
-              :For cd :In ClientData
-                  cd←#.HtmlElement.eis cd
-                  (name verb arg sel)←4↑cd,(⍴cd)↓4⍴⊂''
-                  :If (~0∊⍴name)∨verb≡'serialize'
-                  :AndIf ~0∊⍴verb
-                      jqfn←'' ⍝ jQuery function to call if this client data element refers to a widget
+                  :For cd :In ClientData
+                      cd←#.HtmlElement.eis cd
+                      (name verb arg sel)←4↑cd,(⍴cd)↓4⍴⊂''
+                      :If (~0∊⍴name)∨verb≡'serialize'
+                      :AndIf ~0∊⍴verb
+                          jqfn←'' ⍝ jQuery function to call if this client data element refers to a widget
          
-                      :If (⊂verb)∊'html' 'val'  ⍝ neither html or val take an argument
-                      :AndIf 0∊⍴sel
-                          sel←arg
-                      :EndIf
+                          :If (⊂verb)∊'html' 'val'  ⍝ neither html or val take an argument
+                          :AndIf 0∊⍴sel
+                              sel←arg
+                          :EndIf
          
 ⍝ build the selector for the data element
-                      :If sel≡'' ⍝ it's for the current element/widget
-                          :If #.HtmlElement.isWidget WidgetRef
-                              datasel←'$(',(quote WidgetRef.Selector),').'
-                              :If ~0∊⍴jqfn←WidgetRef.JQueryFn
-                                  datasel,←WidgetRef.JQueryFn
+                          :If sel≡'' ⍝ it's for the current element/widget
+                              :If #.HtmlElement.isWidget WidgetRef
+                                  datasel←'$(',(quote WidgetRef.Selector),').'
+                                  :If ~0∊⍴jqfn←WidgetRef.JQueryFn
+                                      datasel,←WidgetRef.JQueryFn
+                                  :EndIf
+                              :Else
+                                  datasel←syn_this,'.'
                               :EndIf
-                          :Else
-                              datasel←syn_this,'.'
-                          :EndIf
-                      :ElseIf #.HtmlElement #.HtmlElement.isInstance sel ⍝ selector is reference to other element
-                          :If #._JQ._jqObject #.HtmlElement.isInstance sel ⍝ is it a jQuery-based object?
-                              :If 0∊⍴selSelector←sel.Selector ⍝ no Selector?
+                          :ElseIf #.HtmlElement #.HtmlElement.isInstance sel ⍝ selector is reference to other element
+                              :If #._JQ._jqObject #.HtmlElement.isInstance sel ⍝ is it a jQuery-based object?
+                                  :If 0∊⍴selSelector←sel.Selector ⍝ no Selector?
+                                      sel.SetId
+                                      selSelector←'#',sel.id
+                                  :EndIf
+                                  datasel←'$(',(quote selSelector),').'
+                                  :If ~0∊⍴jqfn←sel.JQueryFn
+                                      datasel,←sel.JQueryFn
+                                  :EndIf
+                              :Else ⍝ not a jQuery-based object
                                   sel.SetId
-                                  selSelector←'#',sel.id
+                                  datasel←'$(',(quote'#',sel.id),').'
                               :EndIf
-                              datasel←'$(',(quote selSelector),').'
-                              :If ~0∊⍴jqfn←sel.JQueryFn
-                                  datasel,←sel.JQueryFn
-                              :EndIf
-                          :Else ⍝ not a jQuery-based object
-                              sel.SetId
-                              datasel←'$(',(quote'#',sel.id),').'
+                          :Else ⍝ sel is not an HtmlElement
+                              :Select |≡sel
+                              :CaseList 0 1
+                                  datasel←'$(',(quote sel),').'
+                              :Case 2
+                                  datasel←'$(',(quote(1⊃sel)),').',jqfn←2⊃sel
+                              :EndSelect
                           :EndIf
-                      :Else ⍝ sel is not an HtmlElement
-                          :Select |≡sel
-                          :CaseList 0 1
-                              datasel←'$(',(quote sel),').'
-                          :Case 2
-                              datasel←'$(',(quote(1⊃sel)),').',jqfn←2⊃sel
-                          :EndSelect
-                      :EndIf
          
 ⍝ now figure out what data to generate
-                      phrase←''
-                      :Select verb
+                          phrase←''
+                          :Select verb
          
-                      :CaseList 'attr' 'css' 'is' 'prop'
-                          datasel,←'().'/⍨~0∊⍴jqfn
-                          phrase←datasel,verb,'(',(quote arg),')'
+                          :CaseList 'attr' 'css' 'is' 'prop'
+                              datasel,←'().'/⍨~0∊⍴jqfn
+                              phrase←datasel,verb,'(',(quote arg),')'
          
-                      :CaseList 'html' 'val'
-                          datasel,←'().'/⍨~0∊⍴jqfn
-                          phrase←datasel,verb,'()'
+                          :CaseList 'html' 'val'
+                              datasel,←'().'/⍨~0∊⍴jqfn
+                              phrase←datasel,verb,'()'
          
-                      :Case 'option' ⍝ jQueryUI and Syncfusion widgets
-                          :If 0∊⍴arg
-                              phrase←'JSON.stringify(',datasel,'("option"))'
-                          :Else
-                              phrase←'JSON.stringify(',datasel,'("option",',(quote arg),'))'
-                          :EndIf
-         
-                      :Case 'method' ⍝ jQueryUI and Syncfusion widgets
-                          :If 0∊⍴arg
-                              phrase←'"no method information specified!"'
-                          :Else
-                              phrase←datasel,'(',arg,')'
-                          :EndIf
-         
-                      :CaseList 'event' 'this' 'argument'
-                          v←('event' 'argument' 'this'⍳⊂verb)⊃syn_event syn_event syn_this
-                          :If 0∊⍴arg
-                              phrase←'JSON.stringify(',v,')'
-                          :Else
-                              phrase←v,'.',arg
-                          :EndIf
-         
-                      :CaseList 'model' 'ui' ⍝ widgets only
-                          :If ~0∊⍴jqfn
-                              datasel,←'().'
+                          :Case 'option' ⍝ jQueryUI and Syncfusion widgets
                               :If 0∊⍴arg
-                                  phrase←'JSON.stringify(',syn_model,')'
+                                  phrase←'JSON.stringify(',datasel,'("option"))'
                               :Else
-                                  phrase←syn_model,'.',arg
+                                  phrase←'JSON.stringify(',datasel,'("option",',(quote arg),'))'
                               :EndIf
-                          :EndIf
          
-                      :Case 'eval'
-                          sel←'' ⍝ ignore selector on eval
-                          phrase←'eval(',(quote arg),')'
-         
-                      :Case 'js'
-                          sel←''
-                          phrase←arg
-         
-                      :Case 'string'
-                          phrase←quote arg
-         
-                      :Case 'serialize'
-                          :If 0∊⍴sel
+                          :Case 'method' ⍝ jQueryUI and Syncfusion widgets
                               :If 0∊⍴arg
-                                  sel←'form'
+                                  phrase←'"no method information specified!"'
                               :Else
-                                  sel←arg
+                                  phrase←datasel,'(',(quote arg),')'
                               :EndIf
-                          :EndIf
-                          phrase←'$(',(quote sel),').serialize()'
-                          name,←'_serialized'
-                      :Else
-                          :If '⍎'=⊃verb
+         
+                          :CaseList 'event' 'this' 'argument'
+                              v←('event' 'argument' 'this'⍳⊂verb)⊃syn_event syn_event syn_this
+                              :If 0∊⍴arg
+                                  phrase←'JSON.stringify(',v,')'
+                              :Else
+                                  phrase←v,'.',arg
+                              :EndIf
+         
+                          :CaseList 'model' 'ui' ⍝ widgets only
+                              :If ~0∊⍴jqfn
+                                  datasel,←'().'
+                                  :If 0∊⍴arg
+                                      phrase←'JSON.stringify(',syn_model,')'
+                                  :Else
+                                      phrase←syn_model,'.',arg
+                                  :EndIf
+                              :EndIf
+         
+                          :Case 'eval'
+                              sel←'' ⍝ ignore selector on eval
+                              phrase←'eval(',(quote arg),')'
+         
+                          :Case 'js'
                               sel←''
-                              phrase←1↓verb
+                              phrase←arg
          
+                          :Case 'string'
+                              phrase←quote arg
+         
+                          :Case 'serialize'
+                              :If 0∊⍴sel
+                                  :If 0∊⍴arg
+                                      sel←'form'
+                                  :Else
+                                      sel←arg
+                                  :EndIf
+                              :EndIf
+                              phrase←'$(',(quote sel),').serialize()'
+                              name,←'_serialized'
                           :Else
-                              #.Boot.Log'Unknown event handler verb: "',verb,'"',{0::'' ⋄ ' on page ',##._PageRef._PageName}⍬
-                              phrase←quote phrase
-                          :EndIf
-                      :EndSelect
+                              :If '⍎'=⊃verb
+                                  sel←''
+                                  phrase←1↓verb
          
-                      data,←',',name,': ',phrase
-                  :EndIf
-              :EndFor
+                              :Else
+                                  #.Boot.Log'Unknown event handler verb: "',verb,'"',{0::'' ⋄ ' on page ',##._PageRef._PageName}⍬
+                                  phrase←quote phrase
+                              :EndIf
+                          :EndSelect
+         
+                          data,←',',name,': ',phrase
+                      :EndIf
+                  :EndFor
+              :EndIf
          
               (hg removehg)←((1+Hourglass=¯1)⊃Hourglass useajax)∘{⍺:'document.body.style.cursor="',⍵,'";' ⋄ ''}¨'wait' 'default'
          

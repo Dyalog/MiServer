@@ -469,7 +469,11 @@
               av,←∊fmtAttr/¨vs
           :EndIf
           av,←RenderStyles
-          r←av Enclose r,h,p
+          :If (⊂Tag)∊'html' 'body' 'head'
+              r←av Enclose r,h,p
+          :Else
+              r←(av Enclose r),h,p
+          :EndIf
       :EndIf
     ∇
 
@@ -547,7 +551,7 @@
 
     ∇ r←{a}eis w
       :Access public shared
-      r←((,∘⊂)⍣((isString w)∧2>|≡w))w ⍝ enclose if simple character  
+      r←((,∘⊂)⍣((isString w)∧2>|≡w))w ⍝ enclose if simple character
       ⍝r← (,∘⊂)⍣((326∊⎕DR w)<2>|≡w)⊢w ⍝ Enclose if simple
     ∇
 

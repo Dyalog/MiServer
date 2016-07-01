@@ -30,13 +30,38 @@
       Styles←params
     ∇
 
-    ∇ html←Render
+    ∇ html←Render;i;sel;t;buffer
       :Access public
-      Content←∊Css∘Pad¨⍣(0<≢∊Styles)eis Styles
+      Content←parseStyles Styles
       html←⎕BASE.Render
     ∇
 
-    Pad←{{⍵''}⍣(1=≡,⍵)⊢⍵} ⍝ Pad lone selectors with empty style
-    Css←⊃,#.HTMLUtils.Styles∘(⊃⌽) ⍝ Make a selector-style pair into a CSS snippet
-
+    ∇ html←parseStyles styles;s;i;n;t;d
+      :Access public shared
+      styles←eis,styles
+      html←''
+      i←0
+      :While i<n←⍴styles
+          s←''
+          i+←1
+          t←i⊃styles
+          :If 0 1∊⍨≡t
+              :If n=i
+                  html,←t #.HTMLUtils.Styles s
+                  t←s←''
+              :Else
+                  :If 0 1∊⍨≡d←(i+1)⊃styles
+                      html,←t #.HTMLUtils.Styles s
+                  :ElseIf 0 1∊⍨≡⊃d
+                      html,←t #.HTMLUtils.Styles''
+                      html,←parseStyles d
+                      i+←1
+                  :Else
+                      html,←t #.HTMLUtils.Styles d
+                      i+←1
+                  :EndIf
+              :EndIf
+          :EndIf
+      :EndWhile
+    ∇
 :endclass

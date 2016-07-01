@@ -1,4 +1,4 @@
-:Namespace Utils
+﻿:Namespace Utils
 ⍝ This namespace contains general utility functions
     (⎕ML ⎕IO)←1
 
@@ -52,7 +52,7 @@
           #.Strings.uc←1∘(819⌶)
       :EndTrap
     ∇
-    
+
     ∇ r←tox hex num;HEX;⎕IO;⎕ML;b
      ⍝ Turn a 32 bit integer into HEX format or the other way around if la is 0
       →(num∨.≠' ')↓⍴r←⍬
@@ -69,8 +69,9 @@
           r←16⊥¨{⍵-6×⍵>15}¨HEX∘⍳¨num
       :EndIf
     ∇
-    
+
     tohex←1∘hex
     fromhex←0∘hex
+    vectorize←{1≥|≡⍵:,⍵ ⋄ ∇¨⍵} ⍝ turn scalars into vectors
 
 :EndNamespace
