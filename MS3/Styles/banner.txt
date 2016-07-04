@@ -19,6 +19,7 @@
 			<img class="dyaloglogo" alt="Dyalog" src="/Styles/Images/Dyalog_60.png" />
 			<img class="dyaloglogo hov" alt="Dyalog" src="/Styles/Images/Dyalog_60-w.png" />
 		</a>
+		<h3>Resources</h3>
 		<ul>
 			<li>Dyalog
 				<ul>

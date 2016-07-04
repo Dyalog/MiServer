@@ -22,7 +22,7 @@ body {
 }
 
 #banner+.bodyblock {
-    padding-top: 60px;
+    padding-top: 80px;
 }
 
 /* Banner */
@@ -35,9 +35,10 @@ body {
     right: 0;
     left: 0;
     z-index: 99;
-    padding-top: 0px;
+    padding-top: 10px;
     max-height: 52px;
     float: left;
+    padding-bottom: 10px;
 }
 
 #banner-logo img {
@@ -297,6 +298,13 @@ a.nav:hover, #bannernav select:hover {
 
 .widgethelp h3 {
     color: white;
+    margin-top: 0;
+}
+
+#banner-resources h3 {
+    color: white;
+    padding-left: 20px;
+    padding-top: 60px;
 }
 
 .widgetNs {
@@ -349,12 +357,12 @@ a:visited {
     text-decoration: none;
 }
 
-#banner a:hover,.widgethelp a:hover{
-    color:wheat;
+#banner a:hover,.widgethelp a:hover {
+    color: wheat;
 }
 
 a:hover {
-    color:rgb(146,89,140);
+    color: rgb(146,89,140);
 }
 
 a:active {
@@ -579,3 +587,4 @@ heading1 {
     padding: 10px;
     width: 33.3%
 }
+
