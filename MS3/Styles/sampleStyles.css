@@ -3,6 +3,7 @@
     font-family: APL385 Unicode;
     src: url(/Styles/apl385.ttf);
 }
+
 @font-face {
     font-family: APL333;
     src: url(/Styles/APL333.ttf);
@@ -21,27 +22,146 @@ body {
 }
 
 #banner+.bodyblock {
-    padding-top: 160px;
-    padding-bottom: 40px;
+    padding-top: 60px;
 }
 
 /* Banner */
 #banner {
-    background: #92598C;
-    padding: 20px;
+    background: rgb(146,89,140);
+    box-shadow: 0px 0px 4px 4px rgb(146,89,140);
     color: white;
     position: fixed;
     width: 100%;
     right: 0;
     left: 0;
     z-index: 99;
-    box-shadow: 0px 5px 10px grey;
-    text-shadow: 1px 1px 5px black;
     padding-top: 0px;
-    max-height: 86px;
+    max-height: 52px;
+    float: left;
 }
 
-#bannerimg {
+#banner-logo img {
+    float: left;
+    width: 53px;
+    padding: 2px;
+    left: 0;
+    cursor: pointer;
+}
+
+#banner-logo.hov {
+    left: 0;
+}
+
+.hov {
+    opacity: 0;
+    position: fixed;
+    transition: 0.25s;
+}
+
+.hov:hover {
+    opacity: 1;
+}
+
+#banner-heading {
+    float: left;
+}
+
+#banner-heading h1 {
+    margin: 1px;
+    font-size: x-large;
+}
+
+#banner-heading p {
+    margin: 0;
+    font-size: small;
+}
+
+@media (max-width: 720px) {
+    #banner-heading {
+        display: none;
+    }
+}
+
+@media (max-width: 830px) {
+    #banner-heading p {
+        display: none;
+    }
+}
+
+#banner-toggle {
+    float: right;
+    margin-right: 25px;
+}
+
+#toggle {
+    font-family: Verdana;
+    font-weight: bold;
+    color: darkorange;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+#toggle:hover {
+    color: wheat;
+}
+
+#banner-resources {
+    float: right;
+    overflow: hidden;
+    width 50px; height: 50px;
+    position: absolute;
+    right: 0;
+    opacity: 0;
+    border-radius: 0 0 0 50px;
+}
+
+#banner-resources, .widgethelp {
+    background-color: rgb(146,89,140);
+    transition: 0.25s;
+    box-shadow: 0px 0px 4px 4px rgb(146,89,140);
+}
+
+#banner-resources:hover {
+    height: auto;
+    opacity: 1;
+}
+
+#banner-resources ul {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.resource-cat {
+    font-weight: bold;
+}
+
+#banner-resources li {
+    font-weight: bold;
+}
+
+#banner-resources li li {
+    cursor: pointer;
+    font-weight: normal;
+    color: darkorange;
+}
+
+#banner-resources li li:hover {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: wheat;
+}
+
+.dyaloglogo {
+    height: 40px;
+    padding: 5px;
+    float: right;
+}
+
+/*
+#bannerimage {
     float: left;
     top : 11px;
     position: relative;
@@ -52,8 +172,6 @@ body {
     font-size: 1.4em;
     display: inline-block;
     transition: 1s;
-    /* width: 0; */
-    /* max-height: 67px; */
 }
 
 @media (max-width: 1111px) {
@@ -69,8 +187,6 @@ body {
     text-align: right;
     font-size: medium;
     font-family: Verdana;
-    /* z-index: 1; */
-    /* background-color: black; */
 }
 
 .nav {
@@ -84,7 +200,6 @@ body {
     box-shadow: 1px 1px 5px DarkSlateGray;
     position: relative;
     left: -5px;
-    /* z-index: 99; */
 }
 
 a.nav:hover, #bannernav select:hover {
@@ -102,7 +217,6 @@ a.nav:hover, #bannernav select:hover {
     height: 2.45em;
     font-family: Verdana;
     font-weight: bold;
-    /* z-index: 1; */
 }
 
 #ms30 {
@@ -111,8 +225,6 @@ a.nav:hover, #bannernav select:hover {
     font-size: x-large;
     position: relative;
     top: 22px;
-    /* left: 120px; */
-    /* z-index: -0; */
 }
 
 #MS3 {
@@ -124,17 +236,16 @@ a.nav:hover, #bannernav select:hover {
     font-size: medium;
     font-style: italic;
     position: relative;
-    /* top: 60px; */
     top: 13px;
 }
 
-#bannerimage img {
+#logo {
     padding-top: 4px;
     vertical-align: middle;
     float: left;
-    height: 45px;
+    width: 53px;
 }
-
+*/
 /*Template Footer*/
 #footer {
     background: #92598C;
@@ -172,25 +283,23 @@ a.nav:hover, #bannernav select:hover {
 
 /* Widget Help */
 .widgethelp {
-    margin: 10px 0px 10px 0px;
-    background-color: #E2BEDF;
-    border-radius: 0 5px 5px 0;
-    overflow: auto;
+    color: white;
+    border-radius: 0 0 50px 0;
     padding: 10px;
-    font-size: .8em;
+    padding-bottom: 0;
     display: none;
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
-    box-shadow: 5px 5px 10px grey;
     position: fixed;
     left: 0;
     border: none;
     font-weight: bold;
+    margin-top: -10px;
+}
+
+.widgethelp h3 {
+    color: white;
 }
 
 .widgetNs {
-    font-size: 80%;
     font-weight: bolder;
 }
 
@@ -201,9 +310,10 @@ a.nav:hover, #bannernav select:hover {
 
 .widgethelp li {
     margin: 0px;
+    font-weight: normal;
     padding: 1px;
-    font-size: 70%;
     list-style: square;
+    padding-left: 20px;
 }
 
 .widgetNs a {
@@ -229,20 +339,27 @@ a.nav:hover, #bannernav select:hover {
 }
 
 a:link {
-    color: #FF9933;
-    font-weight: bold;
+    color: darkorange;
     text-decoration: none;
 }
 
 a:visited {
-    /* color: white; */
+    color: darkorange;
     /* font-weight: bold; */
     text-decoration: none;
 }
 
+#banner a:hover,.widgethelp a:hover{
+    color:wheat;
+}
+
+a:hover {
+    color:rgb(146,89,140);
+}
+
 a:active {
-    color: #336699;
-    font-weight: bold;
+    /* color: #336699; */
+    /* font-weight: bold; */
     text-decoration: none;
 }
 
@@ -417,22 +534,21 @@ heading1 {
     white-space: nowrap;
     box-shadow: 0px 0px 4px black;
     background-color: white;
-    z-index:1;
+    z-index: 1;
 }
-
 
 #reading, #reading ul, #reading ul li {
     list-style: none;
-    padding-left:10px;
+    padding-left: 10px;
     width: 200px;
-    position:relative;
-    font-weight:bold;
+    position: relative;
+    font-weight: bold;
 }
 
-#reading{
+#reading {
     border-left: 1px solid lightgray;
-    margin-left:20px;
-    padding-left:20px;
+    margin-left: 20px;
+    padding-left: 20px;
 }
 
 #reading li li::before, #reading li li::after {
@@ -457,9 +573,9 @@ heading1 {
 
 #reading li li:last-child::after {
     height: 8px;
-    }
+}
 
-#Dyalog-D {
-    height: 16px;
-    vertical-align: top;
+#about td {
+    padding: 10px;
+    width: 33.3%
 }

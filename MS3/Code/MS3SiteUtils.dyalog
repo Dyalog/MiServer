@@ -158,7 +158,10 @@
 
     BuildTree←{⍺{(⊂⍺),⍵}¨(Levels NoSt ⍵)(NoExt¨Name¨NoSt ⍵)⍵} ⍝ Build argument for ejTreeView
 
-    External←{'.external' 'target=_blank' 'data-Dyalog-tip="External link"'New _.A('&#x1f517;'⍵)} ⍝ Icon off-site link
+      External←{ ⍝ Icon off-site link
+          ⍺←''
+          '.external' 'target=_blank' 'data-Dyalog-tip="External link"'New _.A((⍺,'&#x1f517;')⍵)
+      }
 
       BigTabs←{ ⍝ Tabs with full width, adjustable height, and allows closing all tabs
           d←'.bigtabs'New _.div
@@ -209,11 +212,11 @@
           tip,⍨←'Constructor: '
           tip Link ⍵ link
       }
-      
+
       DocTreeLink←{
-      '/'=⊃⌽⍵:''
-       ('/Documentation/',⍵)'target="_blank"'
-       }
+          '/'=⊃⌽⍵:''
+          ('/Documentation/',⍵)'target="_blank"'
+      }
 
       LinkWithTip←{ ⍝ Link with "tooltip" that has description and level
           tip←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵

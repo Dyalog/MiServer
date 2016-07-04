@@ -40,7 +40,7 @@
           '.bodyblock'Body.Push _.div
      
         ⍝ add the footer to the bottom of the page
-          Add #.Files.GetText server.Config.Root,'Styles\footer.txt'
+          ⍝Add #.Files.GetText server.Config.Root,'Styles\footer.txt'
      
         ⍝ add the header to the top of the page and wrap the body in a div with id="wrapper"
           Body.Push #.Files.GetText server.Config.Root,'Styles\banner.txt'
@@ -48,7 +48,7 @@
           'wrapper'Body.Push _.div
      
         ⍝ add a JQuery event handler to toggle the web page/APL source code
-          Add _.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock,.widgethelp").toggle(400,"swing");});});'
+          Add _.Script'$(function(){$("#banner-logo").on("click", function(evt){$("#contentblock,#codeblock,.widgethelp").toggle(250,"swing");});});'
      
         ⍝ set the language for the page
           lang←server.Config.Lang ⍝ use the language specified in Server.xml
@@ -80,7 +80,7 @@
       controls←{⍵[⍋↑⍵]}¨controls   ⍝ sort the lists
      
      ⍝ Now we create and populate the info div
-      r←'.widgethelp'New _.div'This Page Contains<hr/>'
+      r←'.widgethelp'New _.div(New _.h3'Used controls')
       h←'http://'
       :For ns :In (×≢¨controls)/⍳⍴#.MS3SiteUtils.NSS ⍝ do not process if empty
           '.widgetNs'r.Add _.span,⊂ns⊃#.MS3SiteUtils.GROUPS

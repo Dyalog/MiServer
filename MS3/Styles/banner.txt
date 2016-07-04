@@ -1,29 +1,64 @@
 <div id="banner">
-	<div id="bannerimg">
-		<img id="bannerimage" src="/Styles/Images/Dyalog-D.png" title="Click to toggle web page/source code" onMouseOver="this.style.cursor='pointer'"/> </div>
-	<div id="bannertext">
-		<a id="ms30" href="/"><span id="MS3">MS3</span><span id="samplesite">&emsp;the MiServer 3.0 sample site</span></a> <br />
-		<span id="tagline">Anyone who can write an APL function should be able to host it on the web<sup>TM</sup></span> </div>
-	<div id="bannernav">
-		<select onchange="window.open(this.value,'_blank');this.selectedIndex=0">
-		<option disabled="disabled" selected="selected" value="">Resources</option>
-		<optgroup label="Dyalog">
-		<option value="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip" onclick="openWin()">Download MiServer</option>
-		<option value="https://github.com/Dyalog/MiServer/tree/miserver.dyalog.com">MiServer on GitHub</option>
-		<option value="http://www.dyalog.com/forum/viewforum.php?f=34">MiServer Forum</option>
-		<option value="http://www.dyalog.com/blog/category/miserver/">MiServer Blog Entries</option>
-		<option value="http://www.dyalog.com/">Dyalog Website</option>
-		</optgroup>
-		<optgroup label="External">
-		<option value="http://www.w3schools.com/">w3schools</option>
-		<option value="http://js.syncfusion.com/demos/web/">Syncfusion Demos</option>
-		<option value="http://helpjs.syncfusion.com/js/overview">Syncfusion References</option>
-		<option value="http://www.jquery.com/">jQuery Home Page</option>
-		<option value="http://www.jqueryui.com/">jQueryUI Home Page</option>
-		</optgroup>
-		</select>
-		<a class="nav" href="/">Home</a>
-		</div>
-	<div class="clear">
+
+	<div id="banner-logo">
+		<img alt="MS3" src="/Styles/Images/D-MS3.png" />
+		<img alt="MS3" src="/Styles/Images/D-MS3-w.png" class="hov"/>
 	</div>
+
+	<div id="banner-heading">
+		<h1>The MiServer 3.0 Sample Site</h1>
+		<p>Anyone who can write an APL function should be able to host it on the web.™</p>
+	</div>
+
+	<div id="banner-dyalog">
+		<img class="dyaloglogo" alt="Dyalog" src="/Styles/Images/Dyalog_60.png" />
+	</div>
+
+	<div id="banner-resources">
+		<a href="http://www.dyalog.com" target="_blank">
+			<img class="dyaloglogo" alt="Dyalog" src="/Styles/Images/Dyalog_60.png" />
+			<img class="dyaloglogo hov" alt="Dyalog" src="/Styles/Images/Dyalog_60-w.png" />
+		</a>
+		<ul>
+			<li>Dyalog
+				<ul>
+					<li><a target="_blank" href="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip">Download MiServer</a></li>
+					<li><a target="_blank" href="https://github.com/Dyalog/MiServer/tree/miserver.dyalog.com">MiServer on GitHub</a></li>
+					<li><a target="_blank" href="http://www.dyalog.com/forum/viewforum.php?f=34">MiServer Forum</a></li>
+					<li><a target="_blank" href="http://www.dyalog.com/blog/category/miserver/">MiServer Blog Entries</a></li>
+					<li><a target="_blank" href="http://www.dyalog.com/">Dyalog Website</a></li>
+				</ul>
+			</li>
+			<li>External
+				<ul>
+					<li><a target="_blank" href="http://www.w3schools.com/">w3schools</a></li>
+					<li><a target="_blank" href="http://js.syncfusion.com/demos/web/">Syncfusion Demos</a></li>
+					<li><a target="_blank" href="http://helpjs.syncfusion.com/js/overview">Syncfusion References</a></li>
+					<li><a target="_blank" href="http://www.jquery.com/">jQuery Home Page</a></li>
+					<li><a target="_blank" href="http://www.jqueryui.com/">jQuery UI Home Page</a></li>
+				</ul>
+			</li>
+		</ul>
+		<!--<select onchange="window.open(this.value;_blank);this.selectedIndex=0">
+			<option disabled="disabled" selected="selected" value="">Resources</option>
+			<optgroup label="Dyalog">
+				<option value="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip" onclick="openWin()">Download MiServer</option>
+				<option value="https://github.com/Dyalog/MiServer/tree/miserver.dyalog.com">MiServer on GitHub</option>
+				<option value="http://www.dyalog.com/forum/viewforum.php?f=34">MiServer Forum</option>
+				<option value="http://www.dyalog.com/blog/category/miserver/">MiServer Blog Entries</option>
+				<option value="http://www.dyalog.com/">Dyalog Website</option>
+			</optgroup>
+			<optgroup label="External">
+				<option value="http://www.w3schools.com/">w3schools</option>
+				<option value="http://js.syncfusion.com/demos/web/">Syncfusion Demos</option>
+				<option value="http://helpjs.syncfusion.com/js/overview">Syncfusion References</option>
+				<option value="http://www.jquery.com/">jQuery Home Page</option>
+				<option value="http://www.jqueryui.com/">jQuery UI Home Page</option>
+			</optgroup>
+		</select>-->
+	</div>
+	<!--<div id="banner-toggle">
+		<button id="toggle">Toggle<br/>APL<br/>code</button>
+	</div>-->
+
 </div>
