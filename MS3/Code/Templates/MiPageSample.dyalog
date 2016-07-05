@@ -48,7 +48,8 @@
           'wrapper'Body.Push _.div
      
         ⍝ add a JQuery event handler to toggle the web page/APL source code
-          Add _.Script'$(function(){$("#banner-logo").on("click", function(evt){$("#contentblock,#codeblock,.widgethelp").toggle(250,"swing");});});'
+          Add _.Script'$(function(){$("#banner-logo").on("click", function(evt){$("#contentblock,#codeblock,.widgethelp").toggle(1);});});'
+          ⍝Add _.Script'$(function(){$("#banner-logo").on("click", function(evt){$("#contentblock,#codeblock,.widgethelp").toggle(250,"swing");});});'
      
         ⍝ set the language for the page
           lang←server.Config.Lang ⍝ use the language specified in Server.xml

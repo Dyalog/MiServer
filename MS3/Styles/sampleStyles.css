@@ -19,6 +19,7 @@ body {
     font-family: Verdana;
     min-height: 150px;
     font-size: 1em;
+    position: relative;
 }
 
 #banner+.bodyblock {
@@ -81,16 +82,19 @@ body {
     #banner-heading {
         display: none;
     }
+
 }
 
 @media (max-width: 830px) {
     #banner-heading p {
         display: none;
     }
+
     #about td {
         width: 100% !important;
         display: block;
     }
+
 }
 
 #banner-toggle {
@@ -114,11 +118,8 @@ body {
 
 #banner-resources {
     float: right;
-    overflow: hidden;
-    width 50px; height: 50px;
-    position: absolute;
-    right: 0;
-    opacity: 0;
+    display: none;
+    width: 250px;
     border-radius: 0 0 0 50px;
 }
 
@@ -128,9 +129,12 @@ body {
     box-shadow: 0px 0px 4px 4px rgb(146,89,140);
 }
 
-#banner-resources:hover {
-    height: auto;
-    opacity: 1;
+#banner-dyalog input{
+    display:none;
+}
+
+#banner-dyalog input:checked ~ #banner-resources{
+    display: block;
 }
 
 #banner-resources ul {
@@ -162,95 +166,10 @@ body {
 .dyaloglogo {
     height: 40px;
     padding: 5px;
-    float: right;
+    position: fixed;
+    right: 0;
 }
 
-/*
-#bannerimage {
-    float: left;
-    top : 11px;
-    position: relative;
-}
-
-#bannertext {
-    margin-left: 20px;
-    font-size: 1.4em;
-    display: inline-block;
-    transition: 1s;
-}
-
-@media (max-width: 1111px) {
-    #samplesite,#tagline {
-        display: none;
-    }
-}
-
-#bannernav {
-    float: right;
-    margin-top: 10px;
-    margin-right: 40px;
-    text-align: right;
-    font-size: medium;
-    font-family: Verdana;
-}
-
-.nav {
-    text-decoration: none;
-    padding: 10px;
-    color: black;
-    background: white;
-    border-radius: 0 1em 1em 0;
-    transition: 0.5s;
-    text-shadow: none;
-    box-shadow: 1px 1px 5px DarkSlateGray;
-    position: relative;
-    left: -5px;
-}
-
-a.nav:hover, #bannernav select:hover {
-    color: white;
-    background-color: rgb(235,113,23);
-}
-
-#bannernav select {
-    padding: 8px;
-    border-radius: 1em 0 0 0em;
-    margin-top: 20px;
-    font-size: medium;
-    box-shadow: 1px 1px 5px DarkSlateGray;
-    border: none;
-    height: 2.45em;
-    font-family: Verdana;
-    font-weight: bold;
-}
-
-#ms30 {
-    color: white;
-    text-decoration: none;
-    font-size: x-large;
-    position: relative;
-    top: 22px;
-}
-
-#MS3 {
-    color: rgb(235,113,23);
-    font-size: xx-large;
-}
-
-#tagline {
-    font-size: medium;
-    font-style: italic;
-    position: relative;
-    top: 13px;
-}
-
-#logo {
-    padding-top: 4px;
-    vertical-align: middle;
-    float: left;
-    width: 53px;
-}
-*/
 /*Template Footer*/
 #footer {
     background: #92598C;
@@ -283,7 +202,8 @@ a.nav:hover, #bannernav select:hover {
     display: none;
     overflow-x: scroll;
     float: right;
-    /* width: 830px; */
+    /* width: 830px;
+ */
 }
 
 /* Widget Help */
@@ -357,7 +277,8 @@ a:link {
 
 a:visited {
     color: darkorange;
-    /* font-weight: bold; */
+    /* font-weight: bold;
+ */
     text-decoration: none;
 }
 
@@ -370,8 +291,10 @@ a:hover {
 }
 
 a:active {
-    /* color: #336699; */
-    /* font-weight: bold; */
+    /* color: #336699;
+ */
+    /* font-weight: bold;
+ */
     text-decoration: none;
 }
 
@@ -591,3 +514,4 @@ heading1 {
     padding: 10px;
     width: 33.3%;
 }
+

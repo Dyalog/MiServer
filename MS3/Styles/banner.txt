@@ -10,56 +10,52 @@
 		<p>Anyone who can write an APL function should be able to host it on the web.™</p>
 	</div>
 
-	<div id="banner-dyalog">
+	<label id="banner-dyalog">
+		<input type="checkbox"/> 
 		<img class="dyaloglogo" alt="Dyalog" src="/Styles/Images/Dyalog_60.png" />
-	</div>
-
-	<div id="banner-resources">
-		<a href="http://www.dyalog.com" target="_blank">
-			<img class="dyaloglogo" alt="Dyalog" src="/Styles/Images/Dyalog_60.png" />
-			<img class="dyaloglogo hov" alt="Dyalog" src="/Styles/Images/Dyalog_60-w.png" />
-		</a>
-		<h3>Resources</h3>
-		<ul>
-			<li>Dyalog
-				<ul>
-					<li><a target="_blank" href="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip">Download MiServer</a></li>
-					<li><a target="_blank" href="https://github.com/Dyalog/MiServer/tree/miserver.dyalog.com">MiServer on GitHub</a></li>
-					<li><a target="_blank" href="http://www.dyalog.com/forum/viewforum.php?f=34">MiServer Forum</a></li>
-					<li><a target="_blank" href="http://www.dyalog.com/blog/category/miserver/">MiServer Blog Entries</a></li>
-					<li><a target="_blank" href="http://www.dyalog.com/">Dyalog Website</a></li>
-				</ul>
-			</li>
-			<li>External
-				<ul>
-					<li><a target="_blank" href="http://www.w3schools.com/">w3schools</a></li>
-					<li><a target="_blank" href="http://js.syncfusion.com/demos/web/">Syncfusion Demos</a></li>
-					<li><a target="_blank" href="http://helpjs.syncfusion.com/js/overview">Syncfusion References</a></li>
-					<li><a target="_blank" href="http://www.jquery.com/">jQuery Home Page</a></li>
-					<li><a target="_blank" href="http://www.jqueryui.com/">jQuery UI Home Page</a></li>
-				</ul>
-			</li>
-		</ul>
-		<!--<select onchange="window.open(this.value;_blank);this.selectedIndex=0">
-			<option disabled="disabled" selected="selected" value="">Resources</option>
-			<optgroup label="Dyalog">
-				<option value="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip" onclick="openWin()">Download MiServer</option>
-				<option value="https://github.com/Dyalog/MiServer/tree/miserver.dyalog.com">MiServer on GitHub</option>
-				<option value="http://www.dyalog.com/forum/viewforum.php?f=34">MiServer Forum</option>
-				<option value="http://www.dyalog.com/blog/category/miserver/">MiServer Blog Entries</option>
-				<option value="http://www.dyalog.com/">Dyalog Website</option>
-			</optgroup>
-			<optgroup label="External">
-				<option value="http://www.w3schools.com/">w3schools</option>
-				<option value="http://js.syncfusion.com/demos/web/">Syncfusion Demos</option>
-				<option value="http://helpjs.syncfusion.com/js/overview">Syncfusion References</option>
-				<option value="http://www.jquery.com/">jQuery Home Page</option>
-				<option value="http://www.jqueryui.com/">jQuery UI Home Page</option>
-			</optgroup>
-		</select>-->
-	</div>
-	<!--<div id="banner-toggle">
-		<button id="toggle">Toggle<br/>APL<br/>code</button>
-	</div>-->
-
+		<img class="dyaloglogo hov" alt="Dyalog" src="/Styles/Images/Dyalog_60-w.png" />
+		<div id="banner-resources">
+			<h3>Resources</h3>
+			<ul>
+				<li>Dyalog
+					<ul>
+						<li>
+							<a target="_blank" href="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip">Download MiServer</a>
+						</li>
+						<li>
+							<a target="_blank" href="https://github.com/Dyalog/MiServer/tree/miserver.dyalog.com">MiServer on GitHub</a>
+						</li>
+						<li>
+							<a target="_blank" href="http://www.dyalog.com/forum/viewforum.php?f=34">MiServer Forum</a>
+						</li>
+						<li>
+							<a target="_blank" href="http://www.dyalog.com/blog/category/miserver/">MiServer Blog Entries</a>
+						</li>
+						<li>
+							<a target="_blank" href="http://www.dyalog.com/">Dyalog Website</a>
+						</li>
+					</ul>
+				</li>
+				<li>External
+					<ul>
+						<li>
+							<a target="_blank" href="http://www.w3schools.com/">w3schools</a>
+						</li>
+						<li>
+							<a target="_blank" href="http://js.syncfusion.com/demos/web/">Syncfusion Demos</a>
+						</li>
+						<li>
+							<a target="_blank" href="http://helpjs.syncfusion.com/js/overview">Syncfusion References</a>
+						</li>
+						<li>
+							<a target="_blank" href="http://www.jquery.com/">jQuery Home Page</a>
+						</li>
+						<li>
+							<a target="_blank" href="http://www.jqueryui.com/">jQuery UI Home Page</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</label>
 </div>
