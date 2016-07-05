@@ -6,7 +6,7 @@
 
     :Include #.MS3SiteUtils
 
-    ∇ Compose;data;eg;main;ctrls;cats;list;titles;sections;cols;text;tree;reading;substs
+    ∇ Compose;list;titles;sections;cols;text;tree;reading;substs
       :Access Public
      
       (titles sections)←⊂⍬
