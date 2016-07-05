@@ -143,6 +143,8 @@
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :SECTION D_ELEMENTS ⍝ FUNCTIONS THAT AUTOMATE THE CREATION OF DOM ELEMENTS AND HTML CODE
+    
+    Over←{⊂'<strong>',⍺,'</strong><br><small>',('/'⎕r'<br />'⊢⍵),'</small>'}
 
     Format←'small;border:none'∘#.HTMLInput.APLToHTMLColour ⍝ Make coloured HTML
 
@@ -219,8 +221,8 @@
       }
 
       LinkWithTip←{ ⍝ Link with "tooltip" that has description and level
-          tip←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵
-          ⍺≡0:Link tip ⍵
+          tip←'Description'Section Read ⍵
+          tip,←' (',((⊢⊃⍨(⍳∘1((∨/⍷∘⍵)¨¯1↓⊣)))'Simple' 'Advanced' 'Mini-App'),')'
           tip Link ⍺ ⍵
       }
 
@@ -228,7 +230,7 @@
           list←Relevant ⍵
           0=≢list:'(none)'
           nums←Circle¨⍳≢list
-          ¯6↓∊nums{'&ensp;',⍨⍺ LinkWithTip ⍵}¨list
+          ∊nums{'&ensp;',⍺ LinkWithTip ⍵}¨list
       }
 
     ∇ r←ListItem item;nost;noext ⍝ Generate pre-rendered lists item for performance (OO is slow)

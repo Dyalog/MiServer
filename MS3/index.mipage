@@ -11,7 +11,8 @@
      
       (titles sections)←⊂⍬
      
-      titles,←⊂'Getting started' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      titles,←'Getting started'Over'introduction/recommendations'
       substs←⊂'~' '&shy;'
       substs,←'%forums%'('fo&shy;rums'External'http://www.dyalog.com/forum/viewforum.php?f=34').Render
       substs,←'%GitHub%'('Git&shy;Hub'External'https://github.com/dyalog/miserver/').Render
@@ -20,22 +21,24 @@
       tree←'#reading'New _.List reading
       sections,←New _.Table(1 2⍴text tree)
      
-      titles,←⊂'Documentation & mini apps' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      titles,←'Documentation'Over'general information/technique descriptions'
       list←⍬
       list,←'pdf'FormatList'Documentation'
       list,←FormatList'Examples/Techniques'
-      list,←FormatList'Examples/Applications'
       sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑list)
      
-      titles,←⊂'Controls & widgets' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      titles,←'Controls'Over'list of all supported controls/links to samples using them'
       cols←⍬
-      cols,←⊂(⊂'Control<br><small>(documentation link)<small>'),DocLink¨C.info[;1]
-      cols,←⊂(⊂'Relevant samples'),RelDocs¨C.info[;1]
-      cols,←⊂(⊂'Description'),C.info[;2]
+      cols,←⊂('Control'Over'documentation link'),DocLink¨C.info[;1]
+      ⍝cols,←⊂(⊂'Relevant samples'),RelDocs¨C.info[;1]
+      cols,←⊂(⊂'Description'Over'sample links'),(2∘⊃,RelDocs∘⊃)¨↓C.info
       sections,←'ctrl'New _.DataTable(⍉↑cols)
      
-      titles,←⊂'Sample pages' ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-      cols←⍬
+     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      titles,←'Samples'Over'pages and mini-apps/each uses just a few controls'
+      cols←⍬                                                          
       cols,←⊂(⊂'Task demonstrated'),{Link('Description'Section Read ⍵)⍵}¨C.files
       cols,←⊂(⊂'Level'),'Advanced' 'Simple'[1+(∨/'Simple'∘⍷)¨C.files]
       cols,←⊂(⊂'Main controls used'),{2↓∊(', ',DocLink)¨⍵}¨C.demoes
