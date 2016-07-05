@@ -87,6 +87,10 @@ body {
     #banner-heading p {
         display: none;
     }
+    #about td {
+        width: 100% !important;
+        display: block;
+    }
 }
 
 #banner-toggle {
@@ -585,6 +589,5 @@ heading1 {
 
 #about td {
     padding: 10px;
-    width: 33.3%
+    width: 33.3%;
 }
-

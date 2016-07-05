@@ -1,0 +1,9 @@
+﻿:Class ClearCache : MiPage
+
+    ∇ Compose
+      :Access Public
+      ⎕EX #.MS3SiteUtils.CACHE
+      ('http-equiv' 'refresh')('content' '0; url=/')Add _.meta
+    ∇
+
+:EndClass
