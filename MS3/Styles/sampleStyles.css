@@ -28,8 +28,8 @@ body {
 
 /* Banner */
 #banner {
-    background: rgb(146,89,140);
-    box-shadow: 0px 0px 4px 4px rgb(146,89,140);
+    background: black /*rgb(146,89,140)*/;
+    box-shadow: 0px 0px 4px 4px black /*rgb(146,89,140)*/;
     color: white;
     position: fixed;
     width: 100%;
@@ -130,9 +130,9 @@ body {
 }
 
 #banner-resources, .widgethelp {
-    background-color: rgb(146,89,140);
+    background-color: black /*rgb(146,89,140)*/;
     transition: 0.25s;
-    box-shadow: 0px 0px 4px 4px rgb(146,89,140);
+    box-shadow: 0px 0px 4px 4px black /*rgb(146,89,140)*/;
 }
 
 #banner-dyalog input {
@@ -293,7 +293,7 @@ a:visited {
 }
 
 a:hover {
-    color: rgb(146,89,140);
+    color: black /*rgb(146,89,140)*/;
 }
 
 a:active {
