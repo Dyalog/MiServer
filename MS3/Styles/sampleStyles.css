@@ -1,3 +1,6 @@
+/* Global: all transitions equally long*/
+*{transition:0.25s;}
+
 /* APL font on devices without it */
 @font-face {
     font-family: APL385 Unicode;
@@ -37,17 +40,16 @@ body {
     left: 0;
     z-index: 99;
     padding-top: 10px;
-    max-height: 52px;
+    height: 47px;
     float: left;
     padding-bottom: 10px;
 }
 
 #banner-logo img {
-    float: left;
     width: 53px;
-    padding: 2px;
-    left: 0;
+    left: 10px;
     cursor: pointer;
+    position: fixed;
 }
 
 #banner-logo.hov {
@@ -56,8 +58,6 @@ body {
 
 .hov {
     opacity: 0;
-    position: fixed;
-    transition: 0.25s;
 }
 
 .hov:hover {
@@ -66,6 +66,7 @@ body {
 
 #banner-heading {
     float: left;
+    padding-left: 70px;
 }
 
 #banner-heading h1 {
@@ -78,19 +79,19 @@ body {
     font-size: small;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 740px) {
     #banner-heading {
-        display: none;
-    }
+        transform: scale(0,1)
+     }
 
     #about td:nth-child(2) {
         width: calc(100% + 200px) !important;
     }
 }
 
-@media (max-width: 830px) {
+@media (max-width: 840px) {
     #banner-heading p {
-        display: none;
+        transform: scale(0,1)
     }
 
     #about td {
@@ -115,7 +116,6 @@ body {
     background: transparent;
     border: none;
     cursor: pointer;
-    transition: 0.25s;
 }
 
 #toggle:hover {
@@ -131,7 +131,6 @@ body {
 
 #banner-resources, .widgethelp {
     background-color: black /*rgb(146,89,140)*/;
-    transition: 0.25s;
     box-shadow: 0px 0px 4px 4px black /*rgb(146,89,140)*/;
 }
 
@@ -171,9 +170,9 @@ body {
 
 .dyaloglogo {
     height: 40px;
-    padding: 5px;
     position: fixed;
-    right: 0;
+    right: 15px;
+    top: 15px;
 }
 
 /*Template Footer*/
