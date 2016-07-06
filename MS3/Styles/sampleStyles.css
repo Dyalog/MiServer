@@ -1,5 +1,11 @@
 /* Global: all transitions equally long*/
-*{transition:0.25s;}
+#banner,.widgethelp {
+    transition: 0.25s;
+}
+
+* {
+    transition: inherit;
+}
 
 /* APL font on devices without it */
 @font-face {
@@ -82,7 +88,7 @@ body {
 @media (max-width: 740px) {
     #banner-heading {
         transform: scale(0,1)
-     }
+    }
 
     #about td:nth-child(2) {
         width: calc(100% + 200px) !important;
