@@ -1,5 +1,5 @@
 /* Global: all transitions equally long*/
-#banner,.widgethelp {
+#banner, #about {
     transition: 0.25s;
 }
 
@@ -22,6 +22,7 @@
 body {
     font-family: Verdana;
     margin: 0px;
+    min-width: 480px;
 }
 
 .bodyblock {
@@ -87,7 +88,7 @@ body {
 
 @media (max-width: 740px) {
     #banner-heading {
-        transform: scale(0,1)
+        transform: translateX(-220px) scale(0,1)
     }
 
     #about td:nth-child(2) {
@@ -97,7 +98,7 @@ body {
 
 @media (max-width: 840px) {
     #banner-heading p {
-        transform: scale(0,1)
+        transform: translateX(-250px) scale(0,1)
     }
 
     #about td {
@@ -138,6 +139,7 @@ body {
 #banner-resources, .widgethelp {
     background-color: black /*rgb(146,89,140)*/;
     box-shadow: 0px 0px 4px 4px black /*rgb(146,89,140)*/;
+    transition: none;
 }
 
 #banner-dyalog input {
@@ -339,9 +341,7 @@ h2 {
     font-weight: bold;
     margin-top: 25px;
     margin-bottom: 10px;
-    border-top: 0px solid #003366;
     margin-left: 0px;
-    color: #003366;
 }
 
 h3 {
