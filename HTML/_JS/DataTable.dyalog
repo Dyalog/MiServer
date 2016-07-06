@@ -1,8 +1,7 @@
 ﻿:Class DataTable : #._JQ._jqWidget
-⍝ Description:: Enhanced HTML table using DataTables from https://www.datatables.net/
+⍝ Description:: Enhanced searchable and reorderable HTML table
 ⍝ Constructor:: [Data [CellAttr [HeaderRows [HeaderAttr [MakeCellIds [MakeRowIds]]]]]
-⍝               Constructor arguments are identical to those for #._DC.Table
-⍝
+⍝ Notes:: Constructor arguments are identical to those for _.Table
 ⍝ Public Fields::
 ⍝ Data        - matrix of data to display in the table
 ⍝ CellAttr    - Cell Attributes
@@ -11,6 +10,7 @@
 ⍝ MakeCellIds - 1 to generate IDs      <td id="tableId_r2c3">
 ⍝ MakeRowIds  - 1 to generate Row IDs  <tr id="tableId_row2">
 
+    :Field public shared readonly DocBase←'https://www.datatables.net/'
     :field public Data←0 0⍴⊂''
     :field public CellAttr←''
     :field public HeaderRows←1
