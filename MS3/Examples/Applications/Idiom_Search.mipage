@@ -1,5 +1,5 @@
 ﻿:Class Idiom_Search :MiPageSample
-⍝ Control:: Idiom_Search
+⍝ Control:: _JS.DataTable
 ⍝ Description:: Search the Dyalog and FinnAPL idiom lists
 
     ∇ Compose

@@ -1,5 +1,5 @@
 ﻿:Class DatatablesAdvanced_CFW1 : MiPageSample
-⍝ Control::     _DC.Datatables
+⍝ Control::     _JS.DataTable
 ⍝ Description:: A slightly mode advanced Datatable with plugins, mainly the "ColumnFilterWidget", to illustrate more features.
 
     :field private Datafile←'TeamDyalog.csv'
@@ -28,7 +28,7 @@
       :EndIf
      
       dat←#.LoadTEXT(dPath,Datafile)';'                 ⍝ get Data from CSV
-      dt←'#sample'Add _.Datatables dat '' 1 '' 0 0      ⍝ add table to the page with that data
+      dt←'#sample'Add _.DataTable dat '' 1 '' 0 0      ⍝ add table to the page with that data
       dt.Options.dom←'Wfrtip'                           ⍝ with "W"-Option for the CFW-Widget
       dt.Options.searchHighlight←7161⌶1                 ⍝ Brian: should't #.JSON.true be useable in such cases? It is not. Is there another tool for that?
      

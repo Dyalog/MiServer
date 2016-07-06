@@ -202,7 +202,7 @@
           ⍺←0
           (('data-Dyalog-tip=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
       }
-
+      
       DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
           6::New¨(_.del ⍵)(_.small' deprecated')
           ref←_⍎⍵
@@ -228,9 +228,11 @@
 
       RelDocs←{ ⍝ Links to related samples
           list←Relevant ⍵
-          0=≢list:'(none)'
-          nums←Circle¨⍳≢list
-          ∊nums{'&ensp;',⍺ LinkWithTip ⍵}¨list
+          1↓∊(New _.br),¨{Link('Description'Section Read ⍵)⍵}¨list
+
+⍝          0=≢list:'(none)'
+⍝          nums←Circle¨⍳≢list
+⍝          ∊nums{'&ensp;',⍺ LinkWithTip ⍵}¨list
       }
 
     ∇ r←ListItem item;nost;noext ⍝ Generate pre-rendered lists item for performance (OO is slow)
@@ -309,7 +311,7 @@
               C←⍎CACHE ⎕NS ⍬                                             ⍝ create with shortcut
               C.read←⎕NS ⍬                                               ⍝ init cache for files
               C.read.(keys←data←⍬)                                       ⍝ init keys and data
-              C.files←⊃⍪/{List'Examples/',⍵}¨NSS                         ⍝ sample filenames
+              C.files←⊃⍪/{List'Examples/',⍵}¨NSS,⊂'Applications'         ⍝ sample filenames
               C.demoes←{(Words'Control'Section Read ⍵)~'_',¨NSS}¨C.files ⍝ controls demoed in each
               C.controls←∪↑,/C.demoes                                    ⍝ cache all controls
               scores←C.controls∘.Score↓⍉↑C.files C.demoes                ⍝ controls vs files

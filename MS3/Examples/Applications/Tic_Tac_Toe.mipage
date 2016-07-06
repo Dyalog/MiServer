@@ -1,5 +1,5 @@
 :class Tic_Tac_Toe :MiPageSample
-⍝ Control:: Tic_Tac_Toe
+⍝ Control:: _DC.Table _html.pre
 ⍝ Description:: Text-based Tic Tac Toe
 
     ∇ Compose;board;size;width;cells;data

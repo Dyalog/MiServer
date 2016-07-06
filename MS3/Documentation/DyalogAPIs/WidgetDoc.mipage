@@ -35,7 +35,7 @@
               :If ns≡'_html'
                   r⍪←'Description'Ⓒ'Native HTML ',' element',⍨desc←#.Strings.lc Info'_html.',widget
                   ctor←(1+(New _⍎widget).NoEndTag)⊃'content' 'id'
-                  r⍪←'Constructor'Ⓒ '[',ctor,']<br />',ctor,' - the ',ctor,' of the ', desc
+                  r⍪←'Constructor'Ⓒ'[',ctor,']<br />',ctor,' - the ',ctor,' of the ',desc
                   r⍪←'Public Fields'Ⓒ'(none)'
                   r⍪←'Notes'Ⓒ 3 Info'_html.',widget
               :EndIf
@@ -49,10 +49,12 @@
       :Case ¯2
           (Add _.h2('Widget "',widget,'" not found in namespace ',ns)).Style'color' 'red'
       :Else
-          h←Add _.h2(ns,'.',widget)
+          h←Add _.h2
           :If 0≠wref.⎕NC⊂'DocBase'
-          :AndIf ~0∊⍴wref.DocBase ⍝ Link symbol
-              h.Add External wref.DocBase
+          :AndIf ~0∊⍴wref.DocBase ⍝ with link
+              h.Add (ns,'.',widget)External wref.DocBase
+          :Else                   ⍝ without link
+              h.Add ns,'.',widget
           :EndIf
           h.Add' ',⊃⌽⊃↓r
           :If 0∊⍴r
@@ -65,7 +67,7 @@
           :If ~0∊⍴files
               Add _.h3'Samples'
               {Add DescrEmbed ⍵}¨files
-           :EndIf
+          :EndIf
       :EndSelect
     ∇
 :EndClass

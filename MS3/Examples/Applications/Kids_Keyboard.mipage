@@ -1,5 +1,5 @@
 ﻿:class Kids_Keyboard : MiPageSample
-⍝ Control:: Kids_Keyboard
+⍝ Control:: _DC.Button _html.span
 ⍝ Description:: Children's educative application for Yiddish alphabet and keyboard
 
     Sound←{'#sound' Replace ('autoplay' 'autoplay') New _.Audio ('/Examples/Data/KidsKbd/',⍵,'.mp3')}
