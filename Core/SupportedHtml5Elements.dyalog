@@ -13,10 +13,10 @@
     Elements,←' textarea tfoot th thead time title tr track u ul var video wbr*'
 
 
-    ∇ Build_html_namespace;e;def;noend;class;make;make1;make2;endclass;make1a;doc
-     
+    ∇ Build_html_namespace;e;def;noend;class;make;make1;make2;endclass;make1a;doc;l;n
+      
       class←,⊂':Class ∆ : #.HtmlElement'
-      doc←':field public shared readonly DocBase←''http://www.w3schools.com/tags/tag_∆.asp''' ':field public shared readonly DocDyalog←''/Documentation/DyalogAPIs/html5.html''' ':field public shared readonly APILevel←2'
+      doc←':field public shared readonly DocBase←''http://www.w3schools.com/tags/tag_⍙.asp''' ':field public shared readonly DocDyalog←''/Documentation/DyalogAPIs/html5.html''' ':field public shared readonly APILevel←2'
      
       make←'∇make' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base (,''∆'')' '∇'
       make1←'∇make1 arg' ':Access Public' 'NoEndTag←⍺' ':Implements Constructor :Base (,''∆'') arg' '∇'
@@ -26,10 +26,11 @@
      
       #._html.(⎕EX ⎕NL ¯9.4)  ⍝ erase all classes
      
-      :For e :In {⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}Elements
-          e↓⍨←-noend←'*'=¯1↑e
-          doc[1]←'∆'⎕R'hn'⍣(⎕D∊⍨⊃⌽e)⊢doc[1]
-          #._html.⎕FIX⊃,/(⍕¨e noend)∘{((,¨'∆⍺')⎕R ⍺),¨⍵}¨(1 1 1,(noend⌽1 0),1 1)/class doc make make1 make1a make2 endclass
+      :For e :In {⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}Elements  
+          n←⍕noend←'*'=¯1↑e
+          e~←'*'
+          l←'hn'⊣⍣(⎕D∊⍨⊃⌽e)⊢e
+          #._html.⎕FIX⊃,/{(,¨'∆⍙⍺')⎕R e l n,¨⍵}¨(1 1 1,(noend⌽1 0),1 1)/class doc make make1 make1a make2 endclass
       :EndFor
     ∇
 
