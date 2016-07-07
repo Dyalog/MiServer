@@ -5,12 +5,12 @@
     ∇ Compose;ns;widget;tab
       :Access public
       (ns widget)←Get'namespace widget'
-      ns Document widget
-      Add _.StyleSheet'/Styles/widgetDoc.css'
+      Add ns Document widget
     ∇
 
-    ∇ ns Document widget;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files;desc;h;ctor
+    ∇ div←ns Document widget;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files;desc;ctor;h
       :Access public shared
+      div←'#widgetdoc'New _.div
       r←¯1
       :If 9.1=#.⎕NC⊂ns
           ref←#.⍎ns
@@ -45,11 +45,11 @@
      
       :Select r
       :Case ¯1
-          (Add _.h2('Namespace "',ns,'" not found.')).Style'color' 'red'
+          (div.Add _.h2('Namespace "',ns,'" not found.')).Style'color' 'red'
       :Case ¯2
-          (Add _.h2('Widget "',widget,'" not found in namespace ',ns)).Style'color' 'red'
+          (div.Add _.h2('Widget "',widget,'" not found in namespace ',ns)).Style'color' 'red'
       :Else
-          h←Add _.h2
+          h←div.Add _.h2
           :If 0≠wref.⎕NC⊂'DocBase'
           :AndIf ~0∊⍴wref.DocBase ⍝ with link
               h.Add (ns,'.',widget)External wref.DocBase
@@ -58,15 +58,15 @@
           :EndIf
           h.Add' ',⊃⌽⊃↓r
           :If 0∊⍴r
-              Add _.h3'No documentation found.'
+              div.Add _.h3'No documentation found.'
           :Else
               r[;2]←{New _.pre ⍵}¨r[;2]
               r[;1]←{New _.h3 ⍵}¨r[;1]
-              Add¨1 0↓r
+              div.Add¨1 0↓r
           :EndIf
           :If ~0∊⍴files
-              Add _.h3'Samples'
-              {Add DescrEmbed ⍵}¨files
+              div.Add _.h3'Samples'
+              {div.Add DescrEmbed ⍵}¨files
           :EndIf
       :EndSelect
     ∇

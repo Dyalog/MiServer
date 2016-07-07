@@ -211,7 +211,7 @@ body {
 #codeblock {
     display: none;
     overflow-x: scroll;
-    padding-left: 235px;
+    margin-left: 235px;
 }
 
 #banner-resources ul {
@@ -296,7 +296,7 @@ pre {
     font-size: medium;
     white-space: pre-wrap;
     word-wrap: break-word;
-    width: 100%;
+    /* width: 100%; */
 }
 
 code, .a385 {
@@ -509,4 +509,19 @@ heading1 {
 #about td {
     padding: 20px;
     width: 33.3%;
+}
+
+iframe {
+    width: calc(100% - 35px);
+    background-color: wheat;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    padding: 5px;
+    border: none;
+    box-shadow: 0px 0px 4px 4px black, inset 0px 0px 4px 4px black;
+}
+
+#widgetdoc {
+    margin-left: 20px;
+    margin-right: 20px;
 }

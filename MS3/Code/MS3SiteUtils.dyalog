@@ -168,7 +168,7 @@
       DescrEmbed←{ ⍝ Link to and iframed page
           d←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵
           l←('target="_blank"'New _.A d('/',⍵))
-          e←'style="width: 100%;"'('src="/',⍵,'?nowrapper=1"')New _.iframe
+          e←('src="/',⍵,'?nowrapper=1"')New _.iframe
           l e
       }
 
