@@ -1,5 +1,5 @@
 <Server>
-    <Name>MiServer 3.0</Name>
+    <Name>MS3 Sample Site</Name>
     <ClassName>MS3Server</ClassName>
     <RESTful>1</RESTful>
     <AllowedHttpCommands>get,put,delete,post</AllowedHttpCommands>

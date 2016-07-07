@@ -156,10 +156,6 @@ body {
     font-weight: bold;
 }
 
-#banner-resources li {
-    font-weight: bold;
-}
-
 #banner-resources li li {
     cursor: pointer;
     font-weight: normal;
@@ -226,7 +222,6 @@ body {
     position: fixed;
     left: 0;
     border: none;
-    font-weight: bold;
     margin-top: -10px;
 }
 
@@ -239,10 +234,6 @@ body {
     color: white;
     padding-left: 20px;
     padding-top: 60px;
-}
-
-.widgetNs {
-    font-weight: bolder;
 }
 
 .widgethelp ul {

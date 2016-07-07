@@ -20,6 +20,9 @@
 				<li>Dyalog
 					<ul>
 						<li>
+							<a href="/">Back to main page</a>
+						</li>
+						<li>
 							<a target="_blank" href="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip">Download MiServer</a>
 						</li>
 						<li>
