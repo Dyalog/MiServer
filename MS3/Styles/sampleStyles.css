@@ -91,7 +91,12 @@ body {
         transform: translateX(-220px) scale(0,1)
     }
 
-    #about td:nth-child(2) {
+    #about td:first-child {
+        width: calc(100% - 40px) !important;
+    }
+
+    #about td {
+        display: block;
         width: calc(100% + 200px) !important;
     }
 }
@@ -101,14 +106,6 @@ body {
         transform: translateX(-250px) scale(0,1)
     }
 
-    #about td {
-        width: calc(100% - 50px) !important;
-        display: block;
-    }
-
-    #about td:last-child {
-        width: calc(100% + 200px) !important;
-    }
 }
 
 #banner-toggle {
