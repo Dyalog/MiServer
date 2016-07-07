@@ -81,7 +81,7 @@
       controls←{⍵[⍋↑⍵]}¨controls   ⍝ sort the lists
      
      ⍝ Now we create and populate the info div
-      r←'.widgethelp'New _.div(New _.h3'Used controls')
+      r←'.widgethelp'New _.div(New _.h3'Controls used<br />on this page')
       h←'http://'
       :For ns :In (×≢¨controls)/⍳⍴#.MS3SiteUtils.NSS ⍝ do not process if empty
           '.widgetNs'r.Add _.span,⊂ns⊃#.MS3SiteUtils.GROUPS

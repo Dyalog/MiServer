@@ -6,46 +6,48 @@
 
     :Include #.MS3SiteUtils
 
-    ∇ Compose;list;titles;sections;cols;text;tree;reading;substs
+    ∇ Compose;list;cols;text;tree;reading;substs;tabs
       :Access Public
      
-      (titles sections)←⊂⍬
-     
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-      titles,←'Introduction'Over'getting started/recommendations'
+      ⍝#._.title
+      tabs←New _.ejTab
+      'heightStyle'tabs.Set'content'
+      '.bigtabs'Add _.div tabs
+    
+     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      tabs.Titles,←'Introduction'Over'getting started/recommendations'
       substs←⊂'~' '&shy;'
-      substs,←⊂'%forums%'('fo&shy;rums'External'http://www.dyalog.com/forum/viewforum.php?f=34').Render 
+      substs,←⊂'%forums%'('fo&shy;rums'External'http://www.dyalog.com/forum/viewforum.php?f=34').Render
       substs,←⊂'%GitHub%'('Git&shy;Hub'External'https://github.com/dyalog/miserver/').Render
       text←'about'New _.table(New _.tr({New _.td(substs Subst ⍵)}¨Read'/Examples/Data/intro.txt'))
       reading←{(Name∘NoExt¨⍵)(Levels ⍵)(DocTreeLink¨⍵)}'/',¨(Read'Examples/Data/reading.txt')~⊂''
       tree←'#reading'New _.List reading
-      sections,←New _.Table(1 2⍴text tree)
+      tabs.Sections,←New _.Table(1 2⍴text tree)
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-      titles,←'Documentation'Over'general information/technique descriptions'
-      list←⍬
-      list,←'pdf'FormatList'Documentation'
-      list,←FormatList'Examples/Techniques'
-      sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑list)
-     
-     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-      titles,←'Controls'Over'list of all supported controls/links to samples using them'
-      cols←⍬
-      cols,←⊂('Control'Over'documentation link'),DocLink¨C.info[;1]
-      cols,←⊂(⊂'Description'),C.info[;2] ⍝,(2∘⊃,RelDocs∘⊃)¨↓C.info
-      cols,←⊂(⊂'Relevant samples'),RelDocs¨C.info[;1]
-      sections,←'ctrl'New _.DataTable(⍉↑cols)
-     
-     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-      titles,←'Samples'Over'pages and mini-apps/each uses just a few controls'
+      tabs.Titles,←'Samples'Over'pages and mini-apps/each uses just a few controls'
       cols←⍬
       cols,←⊂(⊂'Task demonstrated'),{Link('Description'Section Read ⍵)⍵}¨C.files
       cols,←⊂(⊂'Type'),'simple' 'advanced' 'mini-app'[1⍳⍨¨↓⍉∨/¨'Simple' 'Advanced'∘.⍷C.files]
       cols,←⊂(⊂'Main controls used'Over'documentation links'),{2↓∊(', ',DocLink)¨⍵}¨C.demoes
-      sections,←'eg'New _.DataTable(⍉↑cols)
+      tabs.Sections,←'eg'New _.DataTable(⍉↑cols)
      
-     ⍝⍝⍝ THE ACTUAL TABS CONTROL ⍝⍝⍝
-      Add BigTabs titles sections
+     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      tabs.Titles,←'Controls'Over'list of all supported controls/links to samples using them'
+      cols←⍬
+      cols,←⊂('Control'Over'documentation link'),DocLink¨C.info[;1]
+      cols,←⊂(⊂'Description'),C.info[;2] ⍝,(2∘⊃,RelDocs∘⊃)¨↓C.info
+      cols,←⊂(⊂'Relevant samples'),RelDocs¨C.info[;1]
+      tabs.Sections,←'ctrl'New _.DataTable(⍉↑cols)
+     
+     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      tabs.Titles,←'Reference'Over'general information/technique descriptions'
+      list←⍬
+      list,←'pdf'FormatList'Documentation'
+      list,←FormatList'Examples/Techniques'
+      tabs.Sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑list)
+     
     ∇
 
 :EndClass

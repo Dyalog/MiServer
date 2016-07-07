@@ -165,14 +165,6 @@
           '.external' 'target=_blank' 'data-Dyalog-tip="External link"'New _.A((⍺,'&#x1f517;')⍵)
       }
 
-      BigTabs←{ ⍝ Tabs with full width, adjustable height, and allows closing all tabs
-          d←'.bigtabs'New _.div
-          a←d.Add _.ejTab ⍵
-          sink←'heightStyle'a.Set'content'
-          ⍝sink←'collapsible'a.Set #.JSON.true⊣'true'
-          d
-      }
-
       DescrEmbed←{ ⍝ Link to and iframed page
           d←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵
           l←('target="_blank"'New _.A d('/',⍵))
