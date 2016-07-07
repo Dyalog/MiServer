@@ -1,6 +1,6 @@
 ﻿:Class DatatablesAdvanced_CFW1 : MiPageSample
 ⍝ Control::     _JS.DataTable
-⍝ Description:: A slightly mode advanced Datatable with plugins, mainly the "ColumnFilterWidget", to illustrate more features.
+⍝ Description:: Feature-rich Datatable with plugins like "ColumnFilterWidget"
 
     :field private Datafile←'TeamDyalog.csv'
 

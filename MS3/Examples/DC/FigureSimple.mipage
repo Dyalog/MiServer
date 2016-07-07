@@ -1,6 +1,6 @@
 ﻿:Class FigureSimple : MiPageSample
 ⍝ Control:: _DC.Figure
-⍝ Description:: A figure with a caption
+⍝ Description:: Figure with caption
 
     ∇ Compose;fig
       :Access Public      

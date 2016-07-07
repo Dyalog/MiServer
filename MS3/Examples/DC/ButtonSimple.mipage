@@ -1,6 +1,6 @@
 ﻿:Class ButtonSimple : MiPageSample
 ⍝ Control:: _DC.Button
-⍝ Description:: A button with a callback
+⍝ Description:: Button with callback
     
     ∇ Compose;button
       :Access public 

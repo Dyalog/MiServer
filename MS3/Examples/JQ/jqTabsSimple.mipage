@@ -1,6 +1,6 @@
 ﻿:Class jqTabsSimple: MiPageSample
 ⍝ Control:: _JQ.jqTabs
-⍝ Description:: A tabbed interface with two tabs.
+⍝ Description:: Tabbed interface with two tabs.
 
     ∇ Compose;ac
       :Access public

@@ -1,6 +1,6 @@
 :Class ejTreeViewAdvanced : MiPageSample
 ⍝ Control:: _SF.ejTreeView
-⍝ Description:: A TreeView with checkable nodes and the ability to add & delete nodes
+⍝ Description:: TreeView with checkable nodes and ability to add and delete nodes
 
     ∇ Compose;add;chk;del;exp;mod
       :Access Public

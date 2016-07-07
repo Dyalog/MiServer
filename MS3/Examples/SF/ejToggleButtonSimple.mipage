@@ -1,6 +1,6 @@
 ﻿:Class ejToggleButtonSimple : MiPageSample
 ⍝ Control:: _SF.ejToggleButton
-⍝ Description:: A button with two states
+⍝ Description:: Button with two states
 
     ∇ Compose
       :Access Public

@@ -1,6 +1,6 @@
 ﻿:Class ejGridSimple : MiPageSample
 ⍝ Control:: _SF.ejGrid
-⍝ Description:: A read-only grid with formatting and alignment options
+⍝ Description:: Read-only grid with formatting and alignment
     
     ∇ InitData
       VALUES←1 #.Files.FREAD #.Boot.ms.Config.AppRoot,'Examples/Data/stats.DCF'

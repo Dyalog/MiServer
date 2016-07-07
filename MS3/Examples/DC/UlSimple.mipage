@@ -1,6 +1,6 @@
 ﻿:Class UlSimple : MiPageSample
 ⍝ Control:: _DC.Ul
-⍝ Description:: A list of fruits and a list of clickable web page URLs 
+⍝ Description:: Lists of fruits and clickable links
 
     ∇ Compose;frm;single;multi;btn
       :Access public
