@@ -209,10 +209,9 @@ body {
 }
 
 #codeblock {
-    font-size: .70em;
     display: none;
     overflow-x: scroll;
-    float: right;
+    padding-left: 235px;
 }
 
 #banner-resources ul {
@@ -297,7 +296,6 @@ pre {
     font-size: medium;
     white-space: pre-wrap;
     word-wrap: break-word;
-    padding-left: 190px;
     width: 100%;
 }
 
