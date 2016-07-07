@@ -126,16 +126,45 @@ body {
 }
 
 #banner-resources {
-    float: right;
-    display: none;
-    width: 250px;
     border-radius: 0 0 0 50px;
+    right: 0;
+    padding-right: 10px;
+}
+
+/* Widget Help */
+.widgethelp {
+    border-radius: 0 0 50px 0;
+    left: 0;
+    padding-left: 10px;
 }
 
 #banner-resources, .widgethelp {
+    color: white;
+    display: none;
     background-color: black /*rgb(146,89,140)*/;
     box-shadow: 0px 0px 4px 4px black /*rgb(146,89,140)*/;
     transition: none;
+    position: fixed;
+    width: 200px;
+    top: 60px;
+}
+
+.widgethelp h3, #banner-resources h3 {
+    color: white;
+    text-align: center;
+}
+
+.widgethelp ul {
+    padding: 0px;
+    margin-top: 0px;
+}
+
+.widgethelp li {
+    margin: 0px;
+    font-weight: normal;
+    padding: 1px;
+    list-style: square;
+    padding-left: 20px;
 }
 
 #banner-dyalog input {
@@ -144,28 +173,6 @@ body {
 
 #banner-dyalog input:checked ~ #banner-resources {
     display: block;
-}
-
-#banner-resources ul {
-    list-style: none;
-    padding-left: 20px;
-}
-
-.resource-cat {
-    font-weight: bold;
-}
-
-#banner-resources li li {
-    cursor: pointer;
-    font-weight: normal;
-    color: darkorange;
-}
-
-#banner-resources li li:hover {
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    color: wheat;
 }
 
 .dyaloglogo {
@@ -203,49 +210,31 @@ body {
 
 #codeblock {
     font-size: .70em;
-    padding-bottom: 2em;
     display: none;
     overflow-x: scroll;
     float: right;
-    /* width: 830px;
- */
 }
 
-/* Widget Help */
-.widgethelp {
-    color: white;
-    border-radius: 0 0 50px 0;
-    padding: 10px;
-    padding-bottom: 0;
-    display: none;
-    position: fixed;
-    left: 0;
-    border: none;
-    margin-top: -10px;
-}
-
-.widgethelp h3 {
-    color: white;
-    margin-top: 0;
-}
-
-#banner-resources h3 {
-    color: white;
+#banner-resources ul {
+    list-style: none;
     padding-left: 20px;
-    padding-top: 60px;
 }
 
-.widgethelp ul {
-    padding: 0px;
-    margin-top: 0px;
+.resource-cat {
+    font-weight: bold;
 }
 
-.widgethelp li {
-    margin: 0px;
+#banner-resources li li {
+    cursor: pointer;
     font-weight: normal;
-    padding: 1px;
-    list-style: square;
-    padding-left: 20px;
+    color: darkorange;
+}
+
+#banner-resources li li:hover {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: wheat;
 }
 
 .widgetNs a {
@@ -290,6 +279,8 @@ a:visited {
 a:hover {
     color: black /*rgb(146,89,140) */;
     text-shadow: -1px -1px 0 darkorange, 1px -1px 0 darkorange, -1px 1px 0 darkorange, 1px 1px 0 darkorange, -1px -0px 0 darkorange, 0px -1px 0 darkorange, -0px 1px 0 darkorange, 1px 0px 0 darkorange;
+    /* border: 1px solid black; */
+    /*text-shadow: 0 0 1px darkorange;*/
 }
 
 a:active {
@@ -306,7 +297,7 @@ pre {
     font-size: medium;
     white-space: pre-wrap;
     word-wrap: break-word;
-    padding-left: 155px;
+    padding-left: 190px;
     width: 100%;
 }
 
@@ -471,7 +462,7 @@ heading1 {
     background-color: white;
     z-index: 1;
     height: 20px;
-   text-shadow: none;
+    text-shadow: none;
 }
 
 #reading, #reading ul, #reading ul li {

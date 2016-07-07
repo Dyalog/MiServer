@@ -17,25 +17,25 @@
 		<div id="banner-resources">
 			<h3>Resources</h3>
 			<ul>
-				<li>Dyalog
+				<li>MiServer
 					<ul>
 						<li>
 							<a href="/">Back to main page</a>
 						</li>
 						<li>
-							<a target="_blank" href="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip">Download MiServer</a>
+							<a target="_blank" href="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip">Download</a>
 						</li>
 						<li>
-							<a target="_blank" href="https://github.com/Dyalog/MiServer/tree/miserver.dyalog.com">MiServer on GitHub</a>
+							<a target="_blank" href="https://github.com/Dyalog/MiServer/tree/miserver.dyalog.com">GitHub</a>
 						</li>
 						<li>
-							<a target="_blank" href="http://www.dyalog.com/forum/viewforum.php?f=34">MiServer Forum</a>
+							<a target="_blank" href="http://www.dyalog.com/forum/viewforum.php?f=34">Forum</a>
 						</li>
 						<li>
-							<a target="_blank" href="http://www.dyalog.com/blog/category/miserver/">MiServer Blog Entries</a>
+							<a target="_blank" href="http://www.dyalog.com/blog/category/miserver/">Blog</a>
 						</li>
 						<li>
-							<a target="_blank" href="http://www.dyalog.com/">Dyalog Website</a>
+							<a target="_blank" href="http://www.dyalog.com/">Dyalog's Website</a>
 						</li>
 					</ul>
 				</li>
@@ -48,13 +48,13 @@
 							<a target="_blank" href="http://js.syncfusion.com/demos/web/">Syncfusion Demos</a>
 						</li>
 						<li>
-							<a target="_blank" href="http://helpjs.syncfusion.com/js/overview">Syncfusion References</a>
+							<a target="_blank" href="http://helpjs.syncfusion.com/js/overview">Syncfusion Refs</a>
 						</li>
 						<li>
-							<a target="_blank" href="http://www.jquery.com/">jQuery Home Page</a>
+							<a target="_blank" href="http://www.jquery.com/">jQuery</a>
 						</li>
 						<li>
-							<a target="_blank" href="http://www.jqueryui.com/">jQuery UI Home Page</a>
+							<a target="_blank" href="http://www.jqueryui.com/">jQuery UI</a>
 						</li>
 					</ul>
 				</li>
