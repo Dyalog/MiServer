@@ -561,9 +561,9 @@
          
                           :Case 'option' ⍝ jQueryUI and Syncfusion widgets
                               :If 0∊⍴arg
-                                  phrase←'JSON.stringify(',datasel,'("option"))'
+                                  phrase←'APLstringify(',datasel,'("option"))'
                               :Else
-                                  phrase←'JSON.stringify(',datasel,'("option",',(quote arg),'))'
+                                  phrase←'APLstringify(',datasel,'("option",',(quote arg),'))'
                               :EndIf
          
                           :Case 'method' ⍝ jQueryUI and Syncfusion widgets
@@ -576,7 +576,7 @@
                           :CaseList 'event' 'this' 'argument'
                               v←('event' 'argument' 'this'⍳⊂verb)⊃syn_event syn_event syn_this
                               :If 0∊⍴arg
-                                  phrase←'JSON.stringify(',v,')'
+                                  phrase←'APLstringify(',v,')'
                               :Else
                                   phrase←v,'.',arg
                               :EndIf
@@ -585,7 +585,7 @@
                               :If ~0∊⍴jqfn
                                   datasel,←'().'
                                   :If 0∊⍴arg
-                                      phrase←'JSON.stringify(',syn_model,')'
+                                      phrase←'APLstringify(',syn_model,')'
                                   :Else
                                       phrase←syn_model,'.',arg
                                   :EndIf

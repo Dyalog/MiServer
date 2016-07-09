@@ -4,39 +4,44 @@
 
     ∇ Compose;today;fromidn;tbl;tr;td;head;todate;from;to
       :Access Public
-      fromidn←dateToIDN 3↑today←⎕TS
+      fromidn←#.Dates.DateToIDN 3↑today←⎕TS
      
-      Add _.h2'R.U. Inn'_.br'Motel reservation system'
-
+      Add _.h2'We Rent Cars - Reservation System'
+     
     ⍝ The in date
       from←'in'New _.ejDateTimePicker today'yyyy/MM/dd HH:mm'
-    ⍝ The callback should return the date (value) of the argument for the IN date/time
-    ⍝ and the model's value for the OUT date/time
      
     ⍝ The out date
-      todate←IDNToDate fromidn+7
+      todate←#.Dates.IDNToDate fromidn+7
       to←'out'New _.ejDateTimePicker todate'yyyy/MM/dd HH:mm'
-
-      from.On'change' 'setNewDate' (('in' 'option' 'value')('out' 'option' 'value' to))
-      to.On'change' 'setNewDate'(('in' 'option' 'value' from)('out' 'option' 'value'))
      
-      Add _.InputGrid('Check In' 'Check Out',⍪from to)
+    ⍝ Retrieve both the input element values and the ejDataTimePicker options to show the difference
+      from.On'close' 'setNewDate'(('in' 'val')('out' 'val' '#out')('inOption' 'option' 'value')('outOption' 'option' 'value'to))
+      to.On'close' 'setNewDate'(('in' 'val' '#in')('out' 'val')('inOption' 'option' 'value'from)('outOption' 'option' 'value'))
+      to.On'change' 'setNewDate'(('in' 'val' '#in')('out' 'val')('inOption' 'option' 'value'from)('outOption' 'option' 'value'))
+     
+      Add _.InputGrid('Pick Up: ' 'Drop Off: ',⍪from to)
+     
+      Add _.br
      
       'output'Add _.div
+      Add _.br
+      Add _.p MarkdownFollows
+    ⍝ After selecting a date/time, you'll see the results obtained from both the underlying HTML input element and the value stored in the Syncfusion ejDateTimePicker object.\
+    ⍝ The input element value conforms to the display format set in the ejDateTimePicker constructor.\
+    ⍝ The value stored in the ejDateTimePicker model is a  JavaScript Date object and is returned to APL as a formatted string.\
+    ⍝ \
+      'output2'Add _.div
     ∇
 
-    newDate←{'⍎new Date("',(⍕⍵),'")'}
-    dateToIDN←{d←2 ⎕NQ'.' 'datetoidn'⍵ ⋄ d+(60⊥3↓6↑⍵)÷86400}
-    IDNToDate←{d←3↑2 ⎕NQ'.' 'idntodate'⍵ ⋄ d,0 60 60⊤⌊86400×1|⍵}
-
-    ∇ r←setNewDate;in;out
+    ∇ r←setNewDate;in;inRaw;out;outRaw;inOpt;outOpt
       :Access public
-        ∘∘∘
     ⍝ Find the difference between the dates
-      in←stringToDate Get'in'
-      out←stringToDate Get'out'
+      in←#.Dates.ParseDate inRaw←Get'in'
+      out←#.Dates.ParseDate outRaw←Get'out'
+      (inOpt outOpt)←Get'inOption outOption'
       :Trap 11
-          (in out)←dateToIDN¨in out
+          (in out)←#.Dates.DateToIDN¨in out
           :If in>out
               r←'#output'Replace'Going back in time?'
           :Else
@@ -45,32 +50,7 @@
       :Else
           r←'#output'Replace'Invalid input!'
       :EndTrap
-    ∇
-
-    MONTHS←↓12 3⍴'JanFebMarAprMayJunJulAugSepOctNovDec'
-
-    FI←{(b v)←⎕vfi ⍵ ⋄ b/v}
-
-    ∇ dt←stringToDate str;pos;mon;t;ymd
-     ⍝ str is of the genre "Wed Aug 05 2015 07:30:21 GMT-0400 (Eastern Daylight Time)"
-     ⍝ We need to weed out the day of the week and the time
-      str←(+/∧\' '=str)↓str           ⍝ remove the leading spaces
-     ⍝ What kind of string is this?
-      :If ~∧/1⊃(dt dt)←{b←~⍵∊'/-:' ⋄ ⎕VFI b\b/⍵}str  ⍝ yyyy/mm/dd hh:mm:ss ?
-          :If 0∊⍴t←MONTHS ⎕S 0 3⊢str      ⍝ look for the month as a string. If not found
-              ymd←3↑FI str                ⍝ grab the 1st 3 numbers found
-              ymd←ymd[⍒(2×31<ymd)+ymd<12] ⍝ put in correct order
-          :Else                           ⍝ otherwise (if found)
-              (pos mon)←0 1+1⊃t
-              :If ~0∊⍴t←FI pos↑str        ⍝ any number before the month? (e.g. 2 May 2021)
-                  ymd←⌽⍣(31<⍬⍴t)⊢(1↑FI pos↓str),mon,t
-              :Else
-                  ymd←¯1⌽mon,2↑FI pos↓str
-              :EndIf
-          :EndIf
-     ⍝ Now grab the time
-          dt←ymd,FI⍕'(\d+):(\d+):(\d+)'⎕S'\1 \2 \3'⊢str
-      :EndIf
+      r,←'#output2'Replace _.Grid(('"Pick Up" input value' '"Pick Up" Syncfusion option value' '"Drop Off" input value' '"Drop Off" Syncfusion option value'),[1.1]inRaw inOpt outRaw outOpt)'style="padding:5px"'
     ∇
 
 :EndClass

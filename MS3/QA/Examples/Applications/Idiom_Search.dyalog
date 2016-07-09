@@ -1,6 +1,6 @@
 ﻿ msg←Test dummy
 
- input←'TagName'Find'input'
+ input←'TagName'Find'input' 'type' 'search'
  output←Find'output'
 
  input SendKeys'rank off'

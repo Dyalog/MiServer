@@ -1,5 +1,5 @@
 ﻿ msg←Test dummy;picker;result;ok
- picker←'ClassName'Find'e-down-arrow'
+ picker←'ClassName'Find'e-arrow-sans-down'
  picker.Click
  picker.Click
  result←Find'result'

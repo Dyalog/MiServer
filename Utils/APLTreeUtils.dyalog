@@ -4,6 +4,9 @@
 ⍝
 ⍝ ## Version History
 ⍝
+⍝ * 3.2.2:
+⍝ * `GoToWebPage` did not deal with `\` and multiple `//`. I had no problems with that but it seems that 
+⍝   some browser do not like this. "\" is no converted into "/" and all "//" are reduced to a single one.
 ⍝ * 3.2.1:
 ⍝   * `Split` could cause an unneccesary WS FULL under certain circumstances.
 ⍝ * 3.2.0:
@@ -471,6 +474,8 @@
               Url←'http://',Url    ⍝ That's the default
           :EndIf
       :EndIf
+      (('\'=Url)/Url)←'/'
+      Url←{l←3+1⍳⍨'://'⍷⍵ ⋄ (l↑⍵),{(~'//'⍷⍵)/⍵}l↓Url}Url
       'wsh'⎕WC'OLEClient' 'WScript.Shell'
       {}wsh.Run Url
     ∇

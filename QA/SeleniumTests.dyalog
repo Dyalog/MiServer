@@ -38,11 +38,16 @@
       :If 0=⍴AppRoot←#.Load site
           ⎕←'Test abandoned' ⋄ →0
       :EndIf
-     
-      selpath←(AppRoot↓⍨-3⍳⍨+\'/\'∊⍨⌽AppRoot),'/Selenium/'
+
+      selpath←({∊'/',⍨¨¯1↓'/\' #.Utils.penclose ⍵}#.Boot.MSRoot),'Selenium/'
       :If 0=⎕NC'Selenium'
           :Trap 0 ⋄ ⎕SE.SALT.Load selpath,'/Selenium'
-          :Else ⋄ ⎕←'Unable to load Selenium' ⋄ →0
+          :Else
+              ⎕←'Selenium library not found at: ',selpath
+              →0⍴⍨0∊⍴selpath←{⍞↓⍨⍴⍞←⍵,': '}'Selenium path'
+              :Trap 0 ⋄ ⎕SE.SALT.Load selpath,'/Selenium'
+              :Else ⋄ ⎕←'Unable to load Selenium' ⋄ →0
+              :EndTrap
           :EndTrap
       :EndIf
       ⎕PATH,←' Selenium'
