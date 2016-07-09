@@ -1,0 +1,23 @@
+﻿:Class ejDatePickerSimple : MiPageSample
+⍝ Control:: _SF.ejDatePicker
+⍝ Description:: Pick a date in yyyy/MM/dd format
+
+    ∇ Compose;dp
+      :Access Public
+      dp←'dp'Add _.ejDatePicker(3↑⎕TS)'yyyy/MM/dd'
+     
+⍝      Use'⍎/Syncfusion/assets\scripts\common\ej.globalize.min.js'
+⍝      Use'⍎/Syncfusion/assets\scripts\cultures\ej.culture.de-DE.min.js'
+      Use'MyResource'
+     
+      dp.On'change' 'myCallBack'
+      'message'Add _.div
+    ∇
+
+    ∇ r←myCallBack;date
+      :Access Public
+      r←'#message'Replace'You selected: ',_value
+    ∇
+
+
+:EndClass

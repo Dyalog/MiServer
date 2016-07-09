@@ -1,0 +1,34 @@
+﻿:Class ejSliderBaas : MiPageSample
+⍝ Control:: _SF.ejSlider
+⍝ Description:: Single and Ranged Sliders
+
+    ∇ Compose;drag
+      :Access Public
+      Add _.h4'Syncfusion Slider Widget'
+      F←'#daForm'Add _.Form
+     
+      F.Add _.h6'Default Slider'
+      ('Default' '.slide'F.Add _.ejSlider).On 'change' 'myCallBack' (('newval' 'option'  'values')('blah' 'serialize'  '#daForm')('mtxt' 'val' '#mytext'))
+     
+      F.Add _.h6'Ranged Slider'
+      ('Ranged' '.slide'F.Add _.ejSlider 0 100 20 40).On 'change' 'myCallBack' (('newval' 'option' 'values')('blah'  'serialize' '#daForm'))
+     
+      Add _.br
+      '#mytext' 'value="This is my Text!"' 'name=mytext'F.Add _.input 
+      
+      '#output'F.Add _.div
+    ∇
+
+    ∇ r←myCallBack
+      :Access Public
+      ⎕se.Dyalog.Utils.disp 'NL⍳9:' (_PageData.⎕nl -⍳9)
+      show'newval'
+      show'mtxt'
+      show'mytext'
+      show'Default'
+      ∘∘∘
+      r←'#output'Replace _what,' Slider changed to ',⍕Get'newval'
+    ∇
+
+show←{⎕←'Get"',⍵,'" = ',Get ⍵}
+:EndClass

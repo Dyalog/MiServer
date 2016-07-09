@@ -6,7 +6,7 @@
       :Access Public
      
       :If 0=⎕NC'IDIOMS'
-          IDIOMS←⎕SE.SALT.Load'[ws]\MS3\Examples\Data\idioms -noname -nolink'
+          IDIOMS←⎕SE.SALT.Load #.Boot.AppRoot,'Examples\Data\idioms -noname -nolink'
           IDIOMS[;1]←'FinnAPL' 'Dyalog'[IDIOMS[;1]+1]
           IDIOMS⍪⍨←'Library' 'Description' 'Requirements' 'Expression'
       :EndIf

@@ -1,0 +1,9 @@
+﻿:Class rd1 : MiPage
+
+    ∇ Compose
+      :Access public
+       _Request.Redirect  '/' 
+    ∇
+
+
+:EndClass

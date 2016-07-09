@@ -1,0 +1,21 @@
+﻿:Class dpl : MiPage
+⍝ Control:: _SF.ejDatePicker
+⍝ Description:: Pick a date in yyyy/MM/dd format
+
+    ∇ Compose;dp
+      :Access Public
+      'lang' Set 'de'
+      :With 'dp'Add _.ejDatePicker(3↑⎕TS)
+         'locale' Set 'de-DE'
+         On'change' 'myCallBack'
+      :EndWith
+      'message'Add _.div
+    ∇
+
+    ∇ r←myCallBack;date
+      :Access Public
+      r←'#message'Replace'You selected: ',_value
+    ∇
+
+
+:EndClass

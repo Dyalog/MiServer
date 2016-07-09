@@ -1,0 +1,9 @@
+﻿:Class rd2 : MiPage
+
+    ∇ Compose
+      :Access public
+       Add 'rd2'
+    ∇
+
+
+:EndClass

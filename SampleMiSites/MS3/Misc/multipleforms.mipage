@@ -1,0 +1,25 @@
+﻿:Class multipleforms : #.MiPage
+    ∇ Compose
+      :Access public
+      :With 'form1'Add _.Form
+          'inp1'Add _.Input
+          Add _.br
+          'inp2'Add _.Input
+      :EndWith
+      Add 2⍴_.br
+      :With 'form2'Add _.Form
+          'inp3'Add _.Input
+          Add _.br
+          'inp4'Add _.Input
+      :EndWith
+     
+      (Add _.Button 'Click me!').On'click' 1 ('' 'serialize' '#form1')
+    ∇
+
+    ∇ r←APLJax
+      :Access public
+      r←''
+      ∘∘∘
+    ∇
+
+:EndClass
