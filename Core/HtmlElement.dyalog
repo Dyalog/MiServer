@@ -738,8 +738,14 @@
     ∇
 
     ∇ r←MarkdownFollows
-      :Access public shared 
+      :Access public shared
       r←⊃#.MarkAPL.Markdown2HTML{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI ⍝(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+    ∇
+
+    ∇ r←CodeFollows
+      :Access public shared
+      r←2↓∊(⎕UCS 13 10)∘,¨{¯1↓⍵/⍨∨\⌽<\∨/¨'⍝<<end>>'∘⍷¨⍵}(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI ⍝(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+      r←'<pre style="font-family:APL385 Unicode">',r,'</pre>'
     ∇
 
     ∇ r←WrapFollowing tag;text;SplitOnSpaceLines;Trim;FirstCommentBlock
