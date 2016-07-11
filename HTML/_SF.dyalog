@@ -37,7 +37,7 @@
           :If 0≠Options.⎕NC'locale'
           :AndIf 9=⎕NC'#.Boot.ms'
           :AndIf ~0∊⍴sfFolder←#.Boot.ms.Config.Virtual{(⍺.alias⍳⊂⍵)⊃⍺.path,⊂''}'Syncfusion'
-          :AndIf #.Files.Exists sfFolder,file←'assets/scripts/cultures/ej.culture.',Options.locale,'.min.js'
+          :AndIf #.Files.Exists sfFolder,file←'assets/scripts/i18n/ej.culture.',Options.locale,'.min.js'
               Use'⍎/Syncfusion/',file
           :EndIf
         ∇
