@@ -283,7 +283,7 @@
 
     ∇ r←GROUPS
       :Access public
-      r←'Dyalog' 'SyncFusion' 'jQueryUI' 'JavaScript' 'Base HTML'
+      r←'Dyalog' 'SyncFusion' 'jQueryUI' 'JavaScript' 'Base&nbsp;HTML'
     ∇
 
     ∇ r←CACHE

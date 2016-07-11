@@ -33,13 +33,13 @@ body {
 }
 
 #banner+.bodyblock {
-    padding-top: 80px;
+    padding-top: 4em;
 }
 
 /* Banner */
 #banner {
-    background: black /*rgb(146,89,140)*/;
-    box-shadow: 0px 0px 4px 4px black /*rgb(146,89,140)*/;
+    background: black;
+    box-shadow: 0px 0px 4px 4px black;
     color: white;
     position: fixed;
     width: 100%;
@@ -59,18 +59,6 @@ body {
     position: fixed;
 }
 
-#banner-logo.hov {
-    left: 0;
-}
-
-.hov {
-    opacity: 0;
-}
-
-.hov:hover {
-    opacity: 1;
-}
-
 #banner-heading {
     float: left;
     padding-left: 70px;
@@ -86,9 +74,9 @@ body {
     font-size: small;
 }
 
-@media (max-width: 740px) {
+@media (max-width: 1023px) {
     #banner-heading {
-        transform: translateX(-220px) scale(0,1)
+        transform: translateX(-225px) scale(0,1);
     }
 
     #about td:first-child {
@@ -101,15 +89,40 @@ body {
     }
 }
 
-@media (max-width: 840px) {
-    #banner-heading p {
-        transform: translateX(-250px) scale(0,1)
-    }
-}
-
 #banner-toggle {
     float: right;
     margin-right: 25px;
+}
+
+#view {
+    margin-top: -5px;
+    right: 215px;
+    position: fixed;
+    float: right;
+}
+
+#view caption {
+    padding-bottom: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#view td {
+    border: 2px solid white;
+    border-radius: 10px 10px 0 0;
+    width: 5em;
+    text-align: center;
+    padding: 2px 5px 7px 5px;
+    color: darkorange;
+    cursor: pointer;
+}
+
+.viewtab{
+    background:linear-gradient(rgba(255,255,255,0.5),transparent,transparent);
+}
+
+.activetab {
+    background:linear-gradient(rgba(255,255,255,0.75),white,white);
 }
 
 #toggle {
@@ -121,53 +134,57 @@ body {
     cursor: pointer;
 }
 
-#toggle:hover {
-    color: wheat;
+#hamburger {
+    position: fixed;
+    right: 2em;
+    font-size: x-large;
+    top: 0.8em;
+    color: darkorange;
+    z-index: 1;
+}
+
+#ham {
+    font-size: xx-large;
+    color: white;
+    position: relative;
+    top: -7px;
 }
 
 #banner-resources {
-    border-radius: 0 0 0 50px;
-    right: 0;
+    border-radius: 0 0 15px 15px;
+    right: 10px;
     padding-right: 10px;
 }
 
 /* Widget Help */
-.widgethelp {
-    border-radius: 0 0 50px 0;
-    left: 0;
-    padding-left: 10px;
-}
-
-#banner-resources, .widgethelp {
+#widgethelp {
+    padding: 10px;
     color: white;
     display: none;
-    background-color: black /*rgb(146,89,140)*/;
-    box-shadow: 0px 0px 4px 4px black /*rgb(146,89,140)*/;
+    background-color: black;
+    box-shadow: 0px 0px 4px 4px black;
     transition: none;
     position: fixed;
-    width: 200px;
-    top: 60px;
+    width: 100%;
+    bottom: 0;
 }
 
-.widgethelp h3, #banner-resources h3 {
+#used{
+    font-size:large;
+}
+#banner-resources {
     color: white;
-    text-align: center;
+    display: none;
+    background-color: black;
+    box-shadow: 0px 0px 4px 4px black;
+    transition: none;
+    position: fixed;
+    width: 185px;
+    top: 40px;
+    /* margin-bottom: -10px; */
 }
 
-.widgethelp ul {
-    padding: 0px;
-    margin-top: 0px;
-}
-
-.widgethelp li {
-    margin: 0px;
-    font-weight: normal;
-    padding: 1px;
-    list-style: square;
-    padding-left: 20px;
-}
-
-#banner-dyalog input {
+.hide {
     display: none;
 }
 
@@ -205,42 +222,23 @@ body {
 
 /*Template Content Area Styles*/
 #contentblock {
-    padding-bottom: 2em;
+    padding: 1em;
 }
 
 #codeblock {
     display: none;
-    overflow-x: scroll;
-    margin-left: 235px;
+    /* overflow-x: auto; */
 }
 
 #banner-resources ul {
     list-style: none;
-    padding-left: 20px;
+    padding-left: 15px;
 }
-
+#banner-resources>ul>li {
+    padding-top: 10px;
+}
 .resource-cat {
     font-weight: bold;
-}
-
-#banner-resources li li {
-    cursor: pointer;
-    font-weight: normal;
-    color: darkorange;
-}
-
-#banner-resources li li:hover {
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    color: wheat;
-}
-
-.widgetNs a {
-    font-weight: normal;
-    color: red;
-    text-decoration: none;
-    font-size: 70%;
 }
 
 /* Utility Styles */
@@ -265,38 +263,17 @@ a:link {
 
 a:visited {
     color: darkorange;
-    /* font-weight: bold;
- */
-    text-decoration: none;
-}
-
-#banner a:hover,.widgethelp a:hover {
-    color: black;
-    text-shadow: -1px -1px 0 wheat, 1px -1px 0 wheat, -1px 1px 0 wheat, 1px 1px 0 wheat, -1px -0px 0 wheat, 0px -1px 0 wheat, -0px 1px 0 wheat, 1px 0px 0 wheat;
-}
-
-a:hover {
-    color: black /*rgb(146,89,140) */;
-    text-shadow: -1px -1px 0 darkorange, 1px -1px 0 darkorange, -1px 1px 0 darkorange, 1px 1px 0 darkorange, -1px -0px 0 darkorange, 0px -1px 0 darkorange, -0px 1px 0 darkorange, 1px 0px 0 darkorange;
-    /* border: 1px solid black; */
-    /*text-shadow: 0 0 1px darkorange;*/
-}
-
-a:active {
-    /* color: #336699;
- */
-    /* font-weight: bold;
- */
+    /* font-weight: bold; */
     text-decoration: none;
 }
 
 pre {
     padding: 5px;
-    font-family: APL385 Unicode;
     font-size: medium;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    /* width: 100%; */
+    /* white-space: pre-wrap; */
+    /* word-wrap: break-word; */
+    overflow-x: scroll;
+    /* max-width: 100%; */
 }
 
 code, .a385 {
@@ -308,8 +285,6 @@ code, .a385 {
 }
 
 td {
-    color: #000000;
-    font-family: Verdana;
     vertical-align: top;
     padding: 0;
 }
@@ -437,7 +412,7 @@ heading1 {
 }
 
 .external {
-    font-weight: normal !important;
+    /* font-weight: normal !important; */
     display: inline-block;
 }
 
@@ -524,4 +499,9 @@ iframe {
 #widgetdoc {
     margin-left: 20px;
     margin-right: 20px;
+}
+
+.bigtabs{
+    margin-left:-15px;
+    margin-right:-15px;
 }

@@ -1,27 +1,31 @@
 <div id="banner">
 
 	<div id="banner-logo">
-		<img alt="MS3" src="/Styles/Images/D-MS3.png" />
-		<img alt="MS3" src="/Styles/Images/D-MS3-w.png" class="hov"/>
+		<a href="/">
+			<img alt="MS3" src="/Styles/Images/D-MS3.png" />
+		</a>
 	</div>
 
 	<div id="banner-heading">
-		<h1>The MiServer 3.0 Sample Site</h1>
-		<p>Anyone who can write an APL function should be able to host it on the web.™</p>
+		<h1>Dyalog MiServer 3.0 Sample Site</h1>
+		<p>Anyone who can write an APL function should be able to host it on the web.â„¢</p>
 	</div>
 
+
+	<table id="view">
+		<caption>View</caption>
+		<tr>
+			<td id="topage" class="viewtab activetab">Rendered<br/>webpage</td>
+			<td id="tocode" class="viewtab">APL<br/>code</td>
+		</tr>
+	</table>
 	<label id="banner-dyalog">
-		<input type="checkbox"/> 
-		<img class="dyaloglogo" alt="Dyalog" src="/Styles/Images/Dyalog_60.png" />
-		<img class="dyaloglogo hov" alt="Dyalog" src="/Styles/Images/Dyalog_60-w.png" />
+		<input type="checkbox" class="hide"/>
+		<div id="hamburger">Resources</div>
 		<div id="banner-resources">
-			<h3>Resources</h3>
 			<ul>
 				<li>MiServer
 					<ul>
-						<li>
-							<a href="/">Back to main page</a>
-						</li>
 						<li>
 							<a target="_blank" href="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip">Download</a>
 						</li>
@@ -45,10 +49,10 @@
 							<a target="_blank" href="http://www.w3schools.com/">w3schools</a>
 						</li>
 						<li>
-							<a target="_blank" href="http://js.syncfusion.com/demos/web/">Syncfusion Demos</a>
+							<a target="_blank" href="http://js.syncfusion.com/demos/web/">Syncfusion demos</a>
 						</li>
 						<li>
-							<a target="_blank" href="http://helpjs.syncfusion.com/js/overview">Syncfusion Refs</a>
+							<a target="_blank" href="http://helpjs.syncfusion.com/js/overview">Syncfusion refs</a>
 						</li>
 						<li>
 							<a target="_blank" href="http://www.jquery.com/">jQuery</a>

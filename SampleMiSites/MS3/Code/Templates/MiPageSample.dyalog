@@ -3,7 +3,7 @@
    ⍝ - adding a header and footer
    ⍝ - adding a handler that will toggle the display of the web page and its APL source code
 
-    ∇ {r}←Wrap;lang;server;c;src;ctrlsdiv
+    ∇ {r}←Wrap;lang;server;src;c
       :Access Public
      
       :If 0∊⍴Get'nowrapper'
@@ -28,14 +28,15 @@
         ⍝ add a hidden division to the body containing the APL source code
           (Add _.div(#.HTMLInput.APLToHTMLColour src←⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
      
-        ⍝ create a division with info about the controls used
-          ctrlsdiv←CtrlsDiv src
-     
+        
         ⍝ extract the content and re-write it in parallel to the controls info div
           c←Body.Content
           Body.Content←''
-          (Body.Add _.StackPanel ctrlsdiv c).Horizontal←1
-     
+          Body.Add c
+
+        ⍝ create a division with info about the controls used
+           Body.Add CtrlsDiv src
+          
         ⍝ wrap the content of the <body> element in a div
           '.bodyblock'Body.Push _.div
      
@@ -48,8 +49,21 @@
           'wrapper'Body.Push _.div
      
         ⍝ add a JQuery event handler to toggle the web page/APL source code
-          Add _.Script'$(function(){$("#banner-logo").on("click", function(evt){$("#contentblock,#codeblock,.widgethelp").toggle(1);});});'
-          ⍝Add _.Script'$(function(){$("#banner-logo").on("click", function(evt){$("#contentblock,#codeblock,.widgethelp").toggle(250,"swing");});});'
+          Add _.Script ScriptFollows
+          ⍝ $(function(){
+          ⍝   $("#tocode").click(function(){
+          ⍝     $("#contentblock").hide();
+          ⍝     $("#codeblock,#widgethelp").show();
+          ⍝     $("#topage").removeClass("activetab");
+          ⍝     $("#tocode").addClass("activetab");
+          ⍝   });
+          ⍝   $("#topage").click(function(){
+          ⍝     $("#contentblock").show();
+          ⍝     $("#codeblock,#widgethelp").hide();
+          ⍝     $("#topage").addClass("activetab");
+          ⍝     $("#tocode").removeClass("activetab");
+          ⍝   });
+          ⍝ });
      
         ⍝ set the language for the page
           lang←server.Config.Lang ⍝ use the language specified in Server.xml
@@ -63,7 +77,7 @@
       r←⎕BASE.Wrap
     ∇
 
-    ∇ r←CtrlsDiv source;control;controls;lia;ns;ul;cali;h;li
+    ∇ r←CtrlsDiv source;control;controls;ns
      ⍝ Creates a div with info on the controls used in source
      
      ⍝ First we extract proper lists of controls
@@ -81,16 +95,16 @@
       controls←{⍵[⍋↑⍵]}¨controls   ⍝ sort the lists
      
      ⍝ Now we create and populate the info div
-      r←'.widgethelp'New _.div(New _.h3'Controls used<br />on this page')
-      h←'http://'
+      r←'<div id="widgethelp"><span id="used">Controls used on this page:</span>'
       :For ns :In (×≢¨controls)/⍳⍴#.MS3SiteUtils.NSS ⍝ do not process if empty
-          '.widgetNs'r.Add _.span,⊂ns⊃#.MS3SiteUtils.GROUPS
-          ul←r.Add _.ul
+          r,←'&emsp;',(ns⊃#.MS3SiteUtils.GROUPS),':&nbsp;'
           :For control :In ns⊃controls
-              li←'<li><a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns⊃#.MS3SiteUtils.NSS
-              ul.Add li,'&amp;widget=',control,'">',control,'</a></li>'
+              r,←'<a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns⊃#.MS3SiteUtils.NSS
+              r,←'&amp;widget=',control,'">',control,'</a>,&nbsp;'
           :EndFor
+          r↓⍨←¯7
       :EndFor
+      r,←'</div>'
     ∇
 
     ∇ r←Walk content;e
