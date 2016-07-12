@@ -157,6 +157,10 @@ body {
     padding-right: 10px;
 }
 
+#banner-resources a:hover{
+    color:white;
+}
+
 /* Widget Help */
 #widgethelp {
     padding: 10px;
@@ -525,10 +529,6 @@ iframe {
     position: absolute;
 }
 
-.slideshow figure {
-    opacity: 0;
-}
-
 .slideshow figure:nth-child(1) {
     animation: xfade 48s 42s infinite;
 }
@@ -562,27 +562,16 @@ iframe {
 }
 
 @keyframes xfade {
-    0% {
+    0%, 10.5%, 100%  {
         opacity: 1;
     }
 
-    10.5% {
-        opacity: 1;
-    }
-
-    12.5% {
+     12.5%, 98% {
         opacity: 0;
-    }
-
-    98% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
     }
 }
 
-.slideshow figcaption{
-    padding:0.5em;
+.slideshow figcaption {
+    padding: 0.5em;
+    background: linear-gradient(transparent 25%, white 25%);
 }
