@@ -1,26 +1,42 @@
 <div class="slideshow">
 	<figure>
-		<img src="http://themarklee.com/wp-content/uploads/2013/10/class-header-css3.jpg" alt="class-header-css3" class="alignnone size-full wp-image-172" /><figcaption><strong>CSS3:</strong> CSS3 delivers a wide range of stylization and effects, enhancing the web app without sacrificing your semantic structure or performance. Additionally Web Open Font Format (WOFF) provides typographic flexibility and control far beyond anything the web has offered before.</figcaption> 
+		<img src="/Examples/Data/Slideshow/video.png" alt="HTML video sample"/>
+		<figcaption>
+			<strong>HTML video:</strong> Specify a list of alternate video sources.</figcaption> 
 	</figure>
 	<figure>
-		<img src="http://themarklee.com/wp-content/uploads/2013/10/class-header-semantics.jpg" alt="class-header-semantics" class="alignnone size-full wp-image-179" /><figcaption><strong>Semantics:</strong> Giving meaning to structure, semantics are front and center with HTML5. A richer set of tags, along with RDFa, microdata, and microformats, are enabling a more useful, data driven web for both programs and your users.</figcaption> 
+		<img src="/Examples/Data/Slideshow/Idiom_Search.png" alt="JavaScript DataTable sample" class="alignnone size-full wp-image-179" />
+		<figcaption>
+			<strong>JavaScript DataTable:</strong> Search the Dyalog and FinnAPL idiom lists.</figcaption> 
 	</figure>
 	<figure>
-		<img src="http://themarklee.com/wp-content/uploads/2013/10/class-header-offline.jpg" alt="class-header-offline" class="alignnone size-large wp-image-178" /><figcaption><strong>Offline &amp; Storage:</strong> Web Apps can start faster and work even if there is no internet connection, thanks to the HTML5 App Cache, as well as the Local Storage, Indexed DB, and the File API specifications.</figcaption> 
+		<img src="/Examples/Data/Slideshow/ejTreeGrid.png" alt="Syncfusion ejTreeGrid sample"/>
+		<figcaption>
+			<strong>Syncfusion ejTreeGrid:</strong> View and collapse a structured spreadsheet.</figcaption> 
 	</figure>
 	<figure>
-		<img src="http://themarklee.com/wp-content/uploads/2013/10/class-header-device.jpg" alt="class-header-device" class="alignnone size-full wp-image-177" /><figcaption><strong>Device Access:</strong> Beginning with the Geolocation API, Web Applications can present rich, device-aware features and experiences. Incredible device access innovations are being developed and implemented, from audio/video input access to microphones and cameras, to local data such as contacts &amp; events, and even tilt orientation.</figcaption> 
-	</figure>
-<figure>
-		<img src="http://themarklee.com/wp-content/uploads/2013/10/class-header-connectivity.jpg" alt="class-header-connectivity" class="alignnone size-large wp-image-176" /><figcaption><strong>Connectivity:</strong> More efficient connectivity means more real-time chats, faster games, and better communication. Web Sockets and Server-Sent Events are pushing (pun intended) data between client and server more efficiently than ever before.</figcaption> 
-	</figure>
-	<figure>
-		<img src="http://themarklee.com/wp-content/uploads/2013/10/class-header-multimedia.jpg" alt="class-header-multimedia" class="alignnone size-large wp-image-175" /><figcaption><strong>Multimedia:</strong> Audio and video are first class citizens in the HTML5 web, living in harmony with your apps and sites. Lights, camera, action!</figcaption> 
+		<img src="/Examples/Data/Slideshow/ejMenu.png" alt="Syncfusion ejMenu sample"/>
+		<figcaption>
+			<strong>Syncfusion ejMenu:</strong> Build a menu from external data.</figcaption> 
 	</figure>
 	<figure>
-		<img src="http://themarklee.com/wp-content/uploads/2013/10/class-header-3d.jpg" alt="class-header-3d" class="alignnone size-large wp-image-174" /><figcaption><strong>3D, Graphics &amp; Effects:</strong> Between SVG, Canvas, WebGL, and CSS3 3D features, you're sure to amaze your users with stunning visuals natively rendered in the browser.</figcaption> 
+		<img src="/Examples/Data/Slideshow/form.png" alt="HTML fieldset sample"/>
+		<figcaption>
+			<strong>HTML form:</strong> Arrange many interactive elements together.</figcaption> 
 	</figure>
 	<figure>
-		<img src="http://themarklee.com/wp-content/uploads/2013/10/class-header-performance.jpg" alt="class-header-performance"  class="alignnone size-large wp-image-173" /><figcaption><strong>Performance &amp; Integration:</strong> Make your Web Apps and dynamic web content faster with a variety of techniques and technologies such as Web Workers and XMLHttpRequest 2. No user should ever wait on your watch.</figcaption> 
+		<img src="/Examples/Data/Slideshow/RadioButtonGroup.png" alt="Dyalog RadioButtonGroup sample"/>
+		<figcaption>
+			<strong>Dyalog RaidoButtonGroup:</strong> Create an entire group of radio buttons at once.</figcaption> 
 	</figure>
-  </div>
+	<figure>
+		<img src="/Examples/Data/Slideshow/ListManager.png" alt="Dyalog ListManager sample"/>
+		<figcaption>
+			<strong>Dyalog ListManager:</strong> Move fruits between list with streamlined interface.</figcaption> 
+	</figure>
+	<figure>
+		<img src="/Examples/Data/Slideshow/jqSpinner.png" alt="jQuery UI Spinner sample"/>
+		<figcaption>
+			<strong>jQuery UI Spinner:</strong> (Pre-) select values with spinners.</figcaption> 
+	</figure>
+</div>

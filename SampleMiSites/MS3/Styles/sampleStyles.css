@@ -87,6 +87,10 @@ body {
         display: block;
         width: calc(100% + 200px) !important;
     }
+
+    .slideshow {
+        display: none;
+    }
 }
 
 #banner-toggle {
@@ -110,7 +114,7 @@ body {
 .viewtab {
     background: linear-gradient(white -100%,transparent);
     color: darkorange;
-    border-radius: 10px 10px 0  0;
+    border-radius: 10px 10px 0 0;
     width: 5em;
     text-align: center;
     padding: 5px;
@@ -510,8 +514,8 @@ iframe {
 .slideshow {
     width: 495px;
     height: 370px;
-    margin-left: 2em;
-    margin-bottom: 1em;
+    margin: 0.5em 0em 1.5em 2em;
+    box-shadow: 2px 2px 10px 0px;
 }
 
 .slideshow figure {
@@ -577,4 +581,8 @@ iframe {
     100% {
         opacity: 1;
     }
+}
+
+.slideshow figcaption{
+    padding:0.5em;
 }
