@@ -27,7 +27,7 @@
 	<figure>
 		<img src="/Examples/Data/Slideshow/RadioButtonGroup.png" alt="Dyalog RadioButtonGroup sample"/>
 		<figcaption>
-			<strong>Dyalog RaidoButtonGroup:</strong> Create an entire group of radio buttons at once.</figcaption> 
+			<strong>Dyalog RadioButtonGroup:</strong> Create an entire group of radio buttons at once.</figcaption> 
 	</figure>
 	<figure>
 		<img src="/Examples/Data/Slideshow/ListManager.png" alt="Dyalog ListManager sample"/>
