@@ -39,7 +39,7 @@
 							<a target="_blank" href="http://www.dyalog.com/blog/category/miserver/">Blog</a>
 						</li>
 						<li>
-							<a target="_blank" href="http://www.dyalog.com/">Dyalog's Website</a>
+							<a target="_blank" href="http://www.dyalog.com/">Dyalog's website</a>
 						</li>
 					</ul>
 				</li>
