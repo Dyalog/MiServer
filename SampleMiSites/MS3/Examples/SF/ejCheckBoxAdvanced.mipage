@@ -5,12 +5,12 @@
 
     ∇ Compose;n
       :Access Public
-    ⍝ We create an unchecked SyncFusion check box with caption 'Check Me!'
+    ⍝ We create an unchecked Syncfusion check box with caption 'Check Me!'
       cb1←'cb1'Add _.ejCheckBox 0 'Box 1'
      
       Add _.br
      
-    ⍝ We create an unchecked SyncFusion check box with caption 'Check Me!'
+    ⍝ We create an unchecked Syncfusion check box with caption 'Check Me!'
       cb2←'cb2'Add _.ejCheckBox 0 'Box 1 is triState'
      
     ⍝ We tell the server to call program 'myCallback' any changes and to return

@@ -1,5 +1,5 @@
 ﻿:Class ejListBoxTest : MiPageSample
-⍝ Demonstrate the SyncFusion ejListBox widget
+⍝ Demonstrate the Syncfusion ejListBox widget
 
     ∇ Render
       :Access Public

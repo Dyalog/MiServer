@@ -1,5 +1,5 @@
 ﻿:Class Splitter : MiPageSample
-⍝ Demonstrate the SyncFusion ejSplitter widget
+⍝ Demonstrate the Syncfusion ejSplitter widget
     
     ∇ Render;f;docn;ops;tbl;splitter;outeropt;inneropt;inner;outer;z
       :Access Public
@@ -9,7 +9,7 @@
       outeropt←↑('height' '100px')('width' '300px')('enableAnimation'_false)
       inneropt←↑('height' '92px')('animationSpeed' 3000) ⍝ slow expand/collapse
      
-      Add h3'SyncFusion Splitters'
+      Add h3'Syncfusion Splitters'
       Add p'Click to read <a href="',splitter.ApiLink,'" target="_blank">Syncfusion documentation</a>.'
      
       (inner←⎕NEW splitter('#inner'('TOP inner' 'BOTTOM<br>inner<br>with 3 lines'))).Orientation←'vertical'
