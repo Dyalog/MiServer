@@ -597,3 +597,47 @@ iframe {
 figcaption a {
     font-weight: bold;
 }
+
+/* Syntax colouring */
+.i200comment {
+    color: darkgreen;
+}
+
+.i200char {
+    color: darkcyan;
+    background-color:honeydew;
+}
+
+.i200num {
+    color: gray;
+    background-color:whitesmoke;
+}
+
+.i200global {
+    color: black;
+}
+
+.i200local {
+    color: gray;
+}
+
+.i200global {
+    color: black;
+}
+
+.i200primitive {
+    color: blue;
+}
+
+.i200idiom {
+    color:blue;
+    background-color:lightyellow;
+}
+
+.i200control {
+    color: brown;
+}
+
+.i200space {
+    color: blue;
+}
