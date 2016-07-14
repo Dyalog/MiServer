@@ -6,7 +6,7 @@
 
     :Include #.MS3SiteUtils
 
-    ∇ Compose;list;cols;text;tree;reading;substs;tabs;slideshow
+    ∇ Compose;cols;tabs;rows
       :Access Public
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
@@ -16,34 +16,34 @@
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Introduction'Over'getting started/recommendations'
-      text←'about'New _.div (Read'/Examples/Data/intro.txt')
-      slideshow←Read'Examples/Data/slideshow.txt'
-      reading←{(Name∘NoExt¨⍵)(Levels ⍵)(DocTreeLink¨⍵)}'/',¨(Read'Examples/Data/reading.txt')~⊂''
-      tree←'#reading'New _.List reading
-      tabs.Sections,←New _.Table(1 3⍴text slideshow tree)
+      cols←1 0⍴⍬
+      cols,←'about'New _.div(Read'/Examples/Data/intro.txt')
+      cols,←'slideshow'New _.div (Shuffle Read'Examples/Data/slideshow.txt')
+      cols,←'reading'New _.List (ReadingTree Read'Examples/Data/reading.txt')
+      tabs.Sections,←New _.Table cols
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Samples'Over'pages and mini-apps/each uses just a few controls'
       cols←⍬
       cols,←⊂(⊂'Task demonstrated'),{Link('Description'Section Read ⍵)⍵}¨C.files
       cols,←⊂(⊂'Type'),'simple' 'advanced' 'mini-app'[1⍳⍨¨↓⍉∨/¨'Simple' 'Advanced'∘.⍷C.files]
-      cols,←⊂(⊂'Main controls used'Over'documentation links'),{2↓∊(', ',DocLink)¨⍵}¨C.demoes
+      cols,←⊂(⊂'Main controls used'Over'documentation links'),{2↓∊(', ',DocLink)¨⍵}¨C.demos
       tabs.Sections,←'eg'New _.DataTable(⍉↑cols)
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Controls'Over'list of all supported controls/links to samples using them'
       cols←⍬
-      cols,←⊂('Control'Over'documentation link'),DocLink¨C.info[;1]
-      cols,←⊂(⊂'Description'),C.info[;2]
-      cols,←⊂(⊂'Relevant samples'),RelDocs¨C.info[;1]
+      cols,←⊂('Control'Over'documentation link'),DocLink¨C.controls
+      cols,←⊂(⊂'Description'),C.descr
+      cols,←⊂(⊂'Relevant samples'),RelDocs¨C.controls
       tabs.Sections,←'ctrl'New _.DataTable(⍉↑cols)
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Reference'Over'general information/technique descriptions'
-      list←⍬
-      list,←'pdf'FormatList'Documentation'
-      list,←FormatList'Examples/Techniques'
-      tabs.Sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑list)
+      rows←⍬
+      rows,←'pdf'FormatList'Documentation'
+      rows,←FormatList'Examples/Techniques'
+      tabs.Sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑rows)
      
     ∇
 

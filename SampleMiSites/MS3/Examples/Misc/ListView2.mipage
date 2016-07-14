@@ -1,5 +1,5 @@
 ﻿:Class ListView2 : MiPageSample 
-⍝ Demonstrate the SyncFusion ejListView widget 
+⍝ Demonstrate the Syncfusion ejListView widget 
 
     ⎕ml←⎕io←1
     

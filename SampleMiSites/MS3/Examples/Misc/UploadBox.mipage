@@ -1,5 +1,5 @@
 ﻿:Class Uploadbox : MiPageSample 
-⍝ Demonstrate the SyncFusion ejUploadBox widget
+⍝ Demonstrate the Syncfusion ejUploadBox widget
     
     ∇ Render;control;options;ub;targetfolder
       :Access Public
@@ -9,7 +9,7 @@
       ⍝ targetfolder←'Data'   ⍝ Would put files in the Data folder
       targetfolder←''         ⍝ If empty, demo page will not save a server-side file
      
-      Add h3'SyncFusion UploadBox'
+      Add h3'Syncfusion UploadBox'
       Add p'Click to read <a href="',_SF.ejUploadBox.ApiLink,'" target="_blank">Syncfusion documentation</a>.'
      
       ub←Add ⎕NEW _SF.ejUploadBox('myUpload'targetfolder)

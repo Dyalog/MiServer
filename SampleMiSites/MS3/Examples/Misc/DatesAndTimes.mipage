@@ -1,5 +1,5 @@
 ﻿:Class DatesAndTimes : MiPageSample
-⍝ Demonstrate Date, Time and DateTimePickers from SyncFusion
+⍝ Demonstrate Date, Time and DateTimePickers from Syncfusion
 
 ⍝ Date/Time Format codes:
 ⍝   ss: (seconds)
@@ -29,12 +29,12 @@
       :Access Public
       docn←names{⎕NEW _html.a((⍺,'Picker')('href="',⍵.ApiLink,'" target="_blank"'))}¨controls
      
-      Add h3'SyncFusion Date and Time Pickers'
+      Add h3'Syncfusion Date and Time Pickers'
       pickers←⎕NEW¨↓controls,⍪↓names,values,⍪formats
       pickers.{Option/⍵}options
       pickers.{On'change' 1(⍵('#',⍵))}names
       ops←{∊(⍵[;1],¨⊂': '),¨(⍕¨⍵[;2]),¨⊂', <br/>'}¨1↓¨options
-      hdrs←'b'#.HTMLInput.Enclose¨'Pickers' 'Options' 'SyncFusion Docn'
+      hdrs←'b'#.HTMLInput.Enclose¨'Pickers' 'Options' 'Syncfusion Docn'
       tbl←Add #._HTML.Table(hdrs⍪pickers,ops,⍪docn) ⍝ 'padding=5'
       tbl.HeaderRows←1
       'border' 'padding'tbl.Set¨1 5

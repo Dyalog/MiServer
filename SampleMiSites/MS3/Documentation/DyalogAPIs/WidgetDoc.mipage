@@ -2,15 +2,10 @@
 
     :include #.MS3SiteUtils
 
-    ∇ Compose;ns;widget;tab
+    ∇ Compose;ns;widget;tab;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files;desc;ctor;h;div;r
       :Access public
       (ns widget)←Get'namespace widget'
-      Add ns Document widget
-    ∇
-
-    ∇ div←ns Document widget;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files;desc;ctor;h
-      :Access public shared
-      div←'#widgetdoc'New _.div
+      div←'#widgetdoc'Add _.div
       r←¯1
       :If 9.1=#.⎕NC⊂ns
           ref←#.⍎ns
@@ -33,13 +28,13 @@
                   r⍪←c1 c2
               :EndFor
               :If ns≡'_html'
-                  r⍪←'Description'Ⓒ'Native HTML ',' element',⍨desc←#.Strings.lc Info'_html.',widget
+                  r⍪←'Description'('Native HTML ',' element',⍨desc←#.Strings.lc 'descr'ForControl widget)
                   ctor←(1+(New _⍎widget).NoEndTag)⊃'content' 'id'
-                  r⍪←'Constructor'Ⓒ'[',ctor,']<br />',ctor,' - the ',ctor,' of the ',desc
-                  r⍪←'Public Fields'Ⓒ'(none)'
-                  r⍪←'Notes'Ⓒ 3 Info'_html.',widget
+                  r⍪←'Constructor'('[',ctor,']<br />',ctor,' - the ',ctor,' of the ',desc)
+                  r⍪←'Public Fields' '(none)'
+                  r⍪←'Notes'('notes'ForControl widget)
               :EndIf
-              files←Relevant,widget
+              files←'relevant'ForControl widget
           :EndIf
       :EndIf
      

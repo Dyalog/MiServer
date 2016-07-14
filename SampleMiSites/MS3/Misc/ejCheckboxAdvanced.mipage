@@ -4,7 +4,7 @@
 
     ∇ Compose;cb1;cb;i;tbl;grp;cols;head;body;foot;all;last;allids;td;tr;L4;c4;c0
       :Access Public
-    ⍝ We create a series of SyncFusion check boxes with various captions
+    ⍝ We create a series of Syncfusion check boxes with various captions
      
       Add _.p'Click boxes and see that the left and bottom boxes react automatically.'
      

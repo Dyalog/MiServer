@@ -1,5 +1,5 @@
 ﻿:Class ListView : MiPageSample
-⍝ Demonstrate the SyncFusion ejListView widget
+⍝ Demonstrate the Syncfusion ejListView widget
     
     ∇ r←Render;items;t
       :Access Public

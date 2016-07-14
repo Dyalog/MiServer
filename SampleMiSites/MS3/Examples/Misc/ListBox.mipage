@@ -1,5 +1,5 @@
 ﻿:Class ListBox : MiPageSample
-⍝ Demonstrate the SyncFusion ejListBox widget
+⍝ Demonstrate the Syncfusion ejListBox widget
     
     ∇ Render;f;docn;foptions;listbox;fruits;groups;fitems;gitems;goptions
       :Access Public
@@ -9,7 +9,7 @@
       goptions←↑('height' '200px')('width' '100px')('cascadeTo' 'fruits')
       foptions←↑('height' '200px')('width' '100px')
      
-      Add h3'SyncFusion ListBox'
+      Add h3'Syncfusion ListBox'
       Add p'Click to read <a href="',listbox.ApiLink,'" target="_blank">Syncfusion documentation</a>.'
      
       fitems←'parentId' 'text'⍪'other' 'citrus' 'other' 'citrus',⍪'Apples' 'Oranges' 'Pears' 'Lemons'

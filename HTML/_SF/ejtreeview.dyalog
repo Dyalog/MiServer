@@ -121,7 +121,7 @@
 
     :Section SF APIs
     ⍝ This section contains methods that are suitable results for call-back functions
-    ⍝ which want to call SyncFusion API calls. The set of functions is not complete, please
+    ⍝ which want to call Syncfusion API calls. The set of functions is not complete, please
     ⍝ see the Syncfusion documentation for details and feel free to implement additions
 
     ∇ r←addNode name
