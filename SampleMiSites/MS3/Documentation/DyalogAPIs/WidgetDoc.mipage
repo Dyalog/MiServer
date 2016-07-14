@@ -39,7 +39,7 @@
                   r⍪←'Public Fields'Ⓒ'(none)'
                   r⍪←'Notes'Ⓒ 3 Info'_html.',widget
               :EndIf
-              files←Relevant,widget
+              files←'relevant'ForControl widget
           :EndIf
       :EndIf
      

@@ -24,7 +24,7 @@
 
     ∇ r←{a}Ⓒ w ⍝ Mnemonic for the ⊆ glyph
       r←⊂⍣(1=≡w)⊢w ⍝ enclose if simple
-      →0/⍨900⌶⍬    ⍝ but when dyadic...
+      →0/⍨900⌶⍬    ⍝ but when dyadic ...
       r,⍨←⊂a       ⍝ ... Iverson link
     ∇
 
@@ -66,7 +66,10 @@
 
     :SECTION B_FILES ⍝ FUNCTIONS THAT READ FILES
 
-    Relevant←{C.eocontrols⊂⍵:C.files[C.rankings⊃⍨C.controlsoi⊂⍵] ⋄ 0⍴⊂''} ⍝ Samples that demo ⍵
+⍝      Relevant←{
+⍝          C.eocontrols⊂⍵:C.files[C.rankings⊃⍨C.controlsoi⊂⍵]
+⍝          ⋄ 0⍴⊂''
+⍝          }
 
     Score←{(102-2×(50↑Z⍵)⍳⊂⍺)-'Advanced'In⊃⍵} ⍝ Relevance score on index of control in list
 
@@ -143,7 +146,7 @@
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :SECTION D_ELEMENTS ⍝ FUNCTIONS THAT AUTOMATE THE CREATION OF DOM ELEMENTS AND HTML CODE
-    
+
     Over←{⊂'<strong>',⍺,'</strong><br><small>',('/'⎕r'<br />'⊢⍵),'</small>'}
 
     Format←'small;border:none'∘#.HTMLInput.APLToHTMLColour ⍝ Make coloured HTML
@@ -172,12 +175,12 @@
           l e
       }
 
-      Info←{ ⍝ Get info (default: description) on a control
-          ⍺←2                                           ⍝ 1=Name, 2=Description, 3=Notes
-          control←(⍳∘'.'↓⊢)⍵                            ⍝ remove ns
-          C.eoinfo⊂control:C.info[;⍺]⊃⍨C.infooi⊂control ⍝ if we have, use that
-          'Description'Section ⎕SRC #⍎⍵                 ⍝ else extract it
-      }
+⍝      Info←{ ⍝ Get info (default: description) on a control
+⍝          ⍺←2                                           ⍝ 1=Name, 2=Description, 3=Notes
+⍝          control←(⍳∘'.'↓⊢)⍵                            ⍝ remove ns
+⍝          C.eoinfo⊂control:C.info[;⍺]⊃⍨C.infooi⊂control ⍝ if we have, use that
+⍝          'Description'Section ⎕SRC #⍎⍵                 ⍝ else extract it
+⍝      }
 
       FormatList←{ ⍝ List of category-title pairs
           ⍺←1↓FILEEXT
@@ -194,17 +197,17 @@
           ⍺←0
           (('data-Dyalog-tip=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
       }
-      
+
       DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
-          6::New¨(_.del ⍵)(_.small' deprecated')
-          ref←_⍎⍵
-          ns←#.MS3SiteUtils.NSS(⊃⊣(/⍨)(∨/⍷)¨)⊂⍕ref
+          ⍝6::New¨(_.del ⍵)(_.small' deprecated')
+          ns←'ns'ForControl ⍵
           link←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns,'&widget=',⍵
-          0::Link ⍵ link ⍝ upon fail to retrieve info
-          tip←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section ⎕SRC ref
-          tip,←(''≡tip)/(1+(New ref).NoEndTag)⊃'[content [attributes]]' '[attributes]'
-          tip,⍨←'Constructor: '
-          tip Link ⍵ link
+          ⍝tip←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section ⎕SRC ref
+⍝          tip,←(''≡tip)/(1+C.NoEndTag[C.controlsoi ⍵])⊃'[content [attributes]]' '[attributes]'
+⍝          tip,⍨←'Constructor: '
+          ctor←'ctor'ForControl ⍵
+          0=⍴ctor::Link ⍵ link ⍝ upon fail to retrieve info
+          ('Constructor: ',ctor)Link ⍵ link
       }
 
       DocTreeLink←{
@@ -219,9 +222,9 @@
       }
 
       RelDocs←{ ⍝ Links to related samples
-          list←Relevant ⍵
-          1↓∊(New _.br),¨{Link('Description'Section Read ⍵)⍵}¨list
-
+          list←'relevant'ForControl ⍵
+          1↓∊(New _.br),¨{Link('filedescr'ForFile ⍵)⍵}¨list
+     
 ⍝          0=≢list:'(none)'
 ⍝          nums←Circle¨⍳≢list
 ⍝          ∊nums{'&ensp;',⍺ LinkWithTip ⍵}¨list
@@ -296,30 +299,93 @@
       r←#.Boot.ms.Config.DefaultExtension
     ∇
 
-    ∇ C←C;scores;list;nl ⍝ Return ref to cache (init one if nonexistant)
+    ∇ C←C;scores;list;refs;srcs;control;i;info;ref;src;ctor;Read;Ø ⍝ Return ref to cache (init one if nonexistant)
       :Access public
+      Read←#.Files.GetVTV #.Boot.AppRoot∘,
       :Hold CACHE                                                    ⍝ prevent clashes
           :If 9≠⎕NC CACHE                                            ⍝ if cache is empty:
+              Ø←⊂''
               C←⍎CACHE ⎕NS ⍬                                             ⍝ create with shortcut
               C.read←⎕NS ⍬                                               ⍝ init cache for files
               C.read.(keys←data←⍬)                                       ⍝ init keys and data
+     
+              C.controls←(#._.⎕NL ¯9)~⊂'Handler'                         ⍝ cache all controls
+              C.controlsoi←C.controls∘⍳Ⓒ ⋄ C.eocontrols←∊∘C.controls Ⓒ   ⍝ hash tables
+              refs←#._⍎¨C.controls                                       ⍝ refs of all controls
+              C.ns←3↓¨⍕¨refs.##                                         ⍝ ns of each control
+              srcs←⎕SRC¨refs                                             ⍝ all sources
+     
               C.files←⊃⍪/{List'Examples/',⍵}¨NSS,⊂'Applications'         ⍝ sample filenames
-              C.demoes←{(Words'Control'Section Read ⍵)~'_',¨NSS}¨C.files ⍝ controls demoed in each
-              C.controls←∪↑,/C.demoes                                    ⍝ cache all controls
-              scores←C.controls∘.Score↓⍉↑C.files C.demoes                ⍝ controls vs files
+              C.filesoi←C.files∘⍳Ⓒ
+              C.filedescr←('Description'Section Read)¨C.files
+              C.demos←{(Words'Control'Section Read ⍵)~'_',¨NSS}¨C.files  ⍝ controls demoed in each
+              scores←C.controls∘.Score↓⍉↑C.files C.demos                 ⍝ controls vs files
               C.rankings←(+/0<scores)↑¨↓⍒#.Utils.∆rank 1⊢scores          ⍝ cache all rankings
-              C.controlsoi←C.controls∘⍳ ⋄ C.eocontrols←∊∘C.controls      ⍝ cache hash tables
-              C.info←FromCSV Read'Examples/Data/info.csv'                ⍝ cache lookup table
-              nl←'.*[A-Z].*'⎕S'\0'#._.⎕NL ¯9                             ⍝ all widgets except html
-              C.info⍪←↑{⍵(NoNL'Description'Section ⎕SRC⍎'#._.',⍵)''}¨nl  ⍝ get descriptions
-              C.info←C.info[∪⍳⍨C.info[;1];]                              ⍝ filter duplicates out
-              C.info⌿⍨←×≢¨C.info[;1]                                     ⍝ remove empties
-              C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1])            ⍝ cache hash tables
+     
+              C.descr←''
+              C.ctor←''
+              C.notes←''
+              C.relevant←''
+              info←FromCSV Read'Examples/Data/info.csv'
+              :For control ref src :InEach C.controls refs srcs
+                  i←info[;1]⍳⊂control
+                  :If i≤≢info
+                      C.descr,←info[i;2]
+                      C.notes,←info[i;3]
+                  :Else
+                      C.descr,←⊂NoNL'Description'Section src
+                      C.notes,←⊂NoNL'Notes'Section src
+                  :EndIf
+                  ctor←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section src
+                  :If ''≡ctor
+                      C.ctor,←'[content [attributes]]' '[attributes]'[1+(⎕NEW ref).NoEndTag]
+                  :Else
+                      C.ctor,←⊂ctor
+                  :EndIf
+     
+                  :If C.eocontrols⊂control
+                      C.relevant,←⊂C.files[C.rankings⊃⍨C.controlsoi⊂control]
+                  :Else
+                      C.relevant,←Ø
+                  :EndIf
+     
+              :EndFor
+     
+              C.filedescr,←Ø
+              C.demos,←Ø    ⍝ These cause an empty result if looked-up is not found
+              C.rankings,←Ø
+              C.descr,←Ø
+              C.ctor,←Ø
+              C.notes,←Ø
+              C.notes,←Ø
+              C.ns,←Ø
+     
+ ⍝             C.descrs←{NoNL'Description'Section ⍵}¨srcs                 ⍝ all descriptions
+⍝              C.info←FromCSV Read'Examples/Data/info.csv'                ⍝ cache lookup table
+⍝              C.info⍪←⍉↑C.(controls descrs'')                            ⍝ add to list
+              ⍝C.info⍪←↑{⍵(NoNL'Description'Section ⎕SRC⍎'#._.',⍵)''}¨nl  ⍝ get descriptions
+⍝              C.info←C.info[∪⍳⍨C.info[;1];]                              ⍝ filter duplicates out
+⍝              C.info⌿⍨←×≢¨C.info[;1]                                     ⍝ remove empties
+⍝              C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1])            ⍝ cache hash tables
+              ⍝C.controls←∪↑,/C.demoes                                   ⍝ cache all controls
+⍝              C.ctors←{
+⍝                  r←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section ⍵
+⍝                  ''≡r:r←'[content [attributes]]' '[attributes]'⊃⍨1+(⎕NEW ⍵).NoEndTag
+⍝                  r
+⍝              }¨srcs
+⍝              C.ctors
           :Else
               C←⍎CACHE                                             ⍝ establish shortcut
           :EndIf
       :EndHold
     ∇
+
+      ForControl←{     ⍝ e.g. 'notes'ForControl'DataTable'
+          (C.controlsoi⊂,⍵)⊃C⍎⍺
+      }
+      ForFile←{
+          (C.filesoi⊂,⍵)⊃C⍎⍺
+      }
 
     ∇ r←TREE;all;tree
       :Access public
@@ -338,7 +404,7 @@
 
     ∇ r←DOCS
       :Access public
-      r←(Read'Examples/Data/docs.txt')~⊂'' ⍝ load/cache tree and remove blank lines
+      r←(Read'Examples/Data/docs.txt')~Ø ⍝ load/cache tree and remove blank lines
     ∇
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────

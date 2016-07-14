@@ -27,15 +27,15 @@
       cols←⍬
       cols,←⊂(⊂'Task demonstrated'),{Link('Description'Section Read ⍵)⍵}¨C.files
       cols,←⊂(⊂'Type'),'simple' 'advanced' 'mini-app'[1⍳⍨¨↓⍉∨/¨'Simple' 'Advanced'∘.⍷C.files]
-      cols,←⊂(⊂'Main controls used'Over'documentation links'),{2↓∊(', ',DocLink)¨⍵}¨C.demoes
+      cols,←⊂(⊂'Main controls used'Over'documentation links'),{2↓∊(', ',DocLink)¨⍵}¨C.demos
       tabs.Sections,←'eg'New _.DataTable(⍉↑cols)
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Controls'Over'list of all supported controls/links to samples using them'
       cols←⍬
-      cols,←⊂('Control'Over'documentation link'),DocLink¨C.info[;1]
-      cols,←⊂(⊂'Description'),C.info[;2]
-      cols,←⊂(⊂'Relevant samples'),RelDocs¨C.info[;1]
+      cols,←⊂('Control'Over'documentation link'),DocLink¨C.controls
+      cols,←⊂(⊂'Description'),C.descr
+      cols,←⊂(⊂'Relevant samples'),RelDocs¨C.controls
       tabs.Sections,←'ctrl'New _.DataTable(⍉↑cols)
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
