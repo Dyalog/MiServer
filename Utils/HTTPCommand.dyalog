@@ -21,12 +21,12 @@
     :field public Command←'GET'
     :field public Cert←⍬
     :field public SSLFlags←32
-    :field public LocalDRC←''
+    :field public shared LocalDRC←''
     :field public URL←''
     :field public Params←''
     :field public Headers←''
     :field public Priority←'NORMAL:!CTYPE-OPENPGP'
-    :field public WaitTime←30
+    :field public shared WaitTime←30
 
 
     ∇ make
@@ -49,6 +49,11 @@
       :Else
           r←(Cert SSLFlags Priority)(Command HTTPCmd)URL Params Headers
       :EndIf
+    ∇
+
+    ∇ r←Get args
+      :Access public shared
+      r←('GET'HTTPCmd)args
     ∇
 
     ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime
@@ -189,9 +194,9 @@
                           done←done∨(∨/'</html>'⍷data)∨(∨/'</HTML>'⍷data)
                       :EndIf
                   :EndIf
-              :Elseif 100=1⊃rc ⍝ timeout?
-              done←⎕AI[3]>donetime
-                 ⎕←'tick'
+              :ElseIf 100=1⊃rc ⍝ timeout?
+                  done←⎕AI[3]>donetime
+                  ⎕←'tick'
               :EndIf
           :Until done
      

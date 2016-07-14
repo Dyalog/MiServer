@@ -1,10 +1,12 @@
-﻿:class Callbacks: MiPageSample
-⍝ Control:: Callbacks 
-⍝ Description:: MarkDown usage
+﻿:class MarkdownFollowsExample : MiPageSample
+⍝ Method:: MarkdownFollows 
+⍝ Description:: MarkdownFollows usage
 
     ∇ Compose;p
       :Access Public 
      
-      Add _.p'The default name of the callback function is APLJax.'
+      Add MarkdownFollows
+⍝### MarkdownFollows Example
+⍝You can incorporate *industry standard* markdown into your MiPages!/
     ∇
 :endclass

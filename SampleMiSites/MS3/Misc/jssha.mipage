@@ -1,0 +1,11 @@
+﻿:Class jsSHA : MiPageSample
+    ∇ Compose
+      :Access public
+      Use'jsSHA'
+      Add _.Script ScriptFollows
+⍝ var sha = new jsSHA("SHA-512", "TEXT");
+⍝ sha.update("This is a test");
+⍝ var hash = sha.getHash("HEX");
+⍝ alert(hash);
+    ∇
+:EndClass
