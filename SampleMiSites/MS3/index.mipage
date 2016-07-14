@@ -6,7 +6,7 @@
 
     :Include #.MS3SiteUtils
 
-    ∇ Compose;list;cols;text;tree;reading;substs;tabs;slideshow
+    ∇ Compose;cols;tabs;rows
       :Access Public
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
@@ -16,11 +16,11 @@
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Introduction'Over'getting started/recommendations'
-      text←'about'New _.div (Read'/Examples/Data/intro.txt')
-      slideshow←Read'Examples/Data/slideshow.txt'
-      reading←ReadingTree Read'Examples/Data/reading.txt'
-      tree←'#reading'New _.List reading
-      tabs.Sections,←New _.Table(1 3⍴text slideshow tree)
+      cols←1 0⍴⍬
+      cols,←'about'New _.div(Read'/Examples/Data/intro.txt')
+      cols,←'slideshow'New _.div (Shuffle Read'Examples/Data/slideshow.txt')
+      cols,←'reading'New _.List (ReadingTree Read'Examples/Data/reading.txt')
+      tabs.Sections,←New _.Table cols
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Samples'Over'pages and mini-apps/each uses just a few controls'
@@ -40,10 +40,10 @@
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Reference'Over'general information/technique descriptions'
-      list←⍬
-      list,←'pdf'FormatList'Documentation'
-      list,←FormatList'Examples/Techniques'
-      tabs.Sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑list)
+      rows←⍬
+      rows,←'pdf'FormatList'Documentation'
+      rows,←FormatList'Examples/Techniques'
+      tabs.Sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑rows)
      
     ∇
 

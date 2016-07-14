@@ -1,42 +1,56 @@
-<div class="slideshow">
-	<figure>
-		<img src="/Examples/Data/Slideshow/video.png" alt="HTML video sample"/>
-		<figcaption>
-			<strong>HTML video:</strong> Specify a list of alternate video sources.</figcaption> 
-	</figure>
-	<figure>
-		<img src="/Examples/Data/Slideshow/Idiom_Search.png" alt="JavaScript DataTable sample" class="alignnone size-full wp-image-179" />
-		<figcaption>
-			<strong>JavaScript DataTable:</strong> Search the Dyalog and FinnAPL idiom lists.</figcaption> 
-	</figure>
-	<figure>
-		<img src="/Examples/Data/Slideshow/ejTreeGrid.png" alt="Syncfusion ejTreeGrid sample"/>
-		<figcaption>
-			<strong>Syncfusion ejTreeGrid:</strong> View and collapse a structured spreadsheet.</figcaption> 
-	</figure>
-	<figure>
-		<img src="/Examples/Data/Slideshow/ejMenu.png" alt="Syncfusion ejMenu sample"/>
-		<figcaption>
-			<strong>Syncfusion ejMenu:</strong> Build a menu from external data.</figcaption> 
-	</figure>
-	<figure>
-		<img src="/Examples/Data/Slideshow/form.png" alt="HTML fieldset sample"/>
-		<figcaption>
-			<strong>HTML form:</strong> Arrange many interactive elements together.</figcaption> 
-	</figure>
-	<figure>
-		<img src="/Examples/Data/Slideshow/RadioButtonGroup.png" alt="Dyalog RadioButtonGroup sample"/>
-		<figcaption>
-			<strong>Dyalog RadioButtonGroup:</strong> Create an entire group of radio buttons at once.</figcaption> 
-	</figure>
-	<figure>
-		<img src="/Examples/Data/Slideshow/ListManager.png" alt="Dyalog ListManager sample"/>
-		<figcaption>
-			<strong>Dyalog ListManager:</strong> Move fruits between lists with streamlined interface.</figcaption> 
-	</figure>
-	<figure>
-		<img src="/Examples/Data/Slideshow/jqSpinner.png" alt="jQuery UI Spinner sample"/>
-		<figcaption>
-			<strong>jQuery UI Spinner:</strong> (Pre-) select values with spinners.</figcaption> 
-	</figure>
-</div>
+<figure>
+  <img src="/Examples/Data/Slideshow/video.png" alt="HTML video sample"></img>
+  <figcaption>
+    <strong>HTML video:</strong>
+    Specify a list of alternate video sources.
+  </figcaption>
+</figure>
+<figure>
+  <img src="/Examples/Data/Slideshow/Idiom_Search.png" alt="JavaScript DataTable sample"></img>
+  <figcaption>
+    <strong>JavaScript DataTable:</strong>
+    Search the Dyalog and FinnAPL idiom lists.
+  </figcaption>
+</figure>
+<figure>
+  <img src="/Examples/Data/Slideshow/ejTreeGrid.png" alt="Syncfusion ejTreeGrid sample"></img>
+  <figcaption>
+    <strong>Syncfusion ejTreeGrid:</strong>
+    View and collapse a structured spreadsheet.
+  </figcaption>
+</figure>
+<figure>
+  <img src="/Examples/Data/Slideshow/ejMenu.png" alt="Syncfusion ejMenu sample"></img>
+  <figcaption>
+    <strong>Syncfusion ejMenu:</strong>
+    Build a menu from external data.
+  </figcaption>
+</figure>
+<figure>
+  <img src="/Examples/Data/Slideshow/form.png" alt="HTML fieldset sample"></img>
+  <figcaption>
+    <strong>HTML form:</strong>
+    Arrange many interactive elements together.
+  </figcaption>
+</figure>
+<figure>
+  <img src="/Examples/Data/Slideshow/RadioButtonGroup.png" alt="Dyalog RadioButtonGroup sample"></img>
+  <figcaption>
+    <strong>Dyalog RadioButtonGroup:</strong>
+    Create an entire group of radio buttons at once.
+  </figcaption>
+</figure>
+<figure>
+  <img src="/Examples/Data/Slideshow/ListManager.png" alt="Dyalog ListManager sample"></img>
+  <figcaption>
+    <strong>Dyalog ListManager:</strong>
+    Move fruits between lists with streamlined interface.
+  </figcaption>
+</figure>
+<figure>
+  <img src="/Examples/Data/Slideshow/jqSpinner.png" alt="jQuery UI Spinner sample"></img>
+  <figcaption>
+    <strong>jQuery UI Spinner:</strong>
+    (Pre-) select values with spinners.
+  </figcaption>
+</figure>

@@ -91,6 +91,12 @@
 
     Levels←{(+/¨'/'=⍵)+~'/'=(⊃⌽)¨⍵} ⍝ Number of /s adjusted for categories' final /
 
+      Shuffle←{ ⍝ Shuffle the root elements of an XML snippet
+          m←⎕XML∊⍵
+          m←⊃⍪/(⊂⊃¨⍨≢?≢)m⊂[1]⍨0=m[;1]
+          ⎕XML m
+      } 
+
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
@@ -180,7 +186,7 @@
     ∇ C←C;scores;list;refs;srcs;control;i;info;ref;src;ctor;Read;Ø
      ⍝ Return ref to cache (initialize cache if nonexistant)
       :Access public
-      ⍝Read←#.Files.GetVTV #.Boot.AppRoot∘,
+      Read←#.Files.GetVTV #.Boot.AppRoot∘, ⍝ no-cache reading
       :Hold CACHE                          ⍝ prevent clashes
           :If 9≠⎕NC CACHE                  ⍝ if cache is empty:
               Ø←⊂''

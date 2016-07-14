@@ -88,7 +88,7 @@ body {
         width: calc(100% + 200px) !important;
     }
 
-    .slideshow {
+    #slideshow {
         display: none;
     }
 }
@@ -531,49 +531,49 @@ iframe {
 }
 
 /* SLIDESHOW CSS */
-.slideshow {
+#slideshow {
     width: 495px;
     height: 370px;
     margin: 0.5em 0em 1.5em 2em;
     box-shadow: 2px 2px 10px 0px;
 }
 
-.slideshow figure {
+#slideshow figure {
     margin: 0;
     max-width: 495px;
     height: 370px;
     position: absolute;
 }
 
-.slideshow figure:nth-child(1) {
+#slideshow figure:nth-child(1) {
     animation: xfade 48s 42s infinite;
 }
 
-.slideshow figure:nth-child(2) {
+#slideshow figure:nth-child(2) {
     animation: xfade 48s 36s infinite;
 }
 
-.slideshow figure:nth-child(3) {
+#slideshow figure:nth-child(3) {
     animation: xfade 48s 30s infinite;
 }
 
-.slideshow figure:nth-child(4) {
+#slideshow figure:nth-child(4) {
     animation: xfade 48s 24s infinite;
 }
 
-.slideshow figure:nth-child(5) {
+#slideshow figure:nth-child(5) {
     animation: xfade 48s 18s infinite;
 }
 
-.slideshow figure:nth-child(6) {
+#slideshow figure:nth-child(6) {
     animation: xfade 48s 12s infinite;
 }
 
-.slideshow figure:nth-child(7) {
+#slideshow figure:nth-child(7) {
     animation: xfade 48s 6s infinite;
 }
 
-.slideshow figure:nth-child(8) {
+#slideshow figure:nth-child(8) {
     animation: xfade 48s 0s infinite;
 }
 
@@ -587,7 +587,7 @@ iframe {
     }
 }
 
-.slideshow figcaption {
+#slideshow figcaption {
     padding: 0.5em;
     background: linear-gradient(transparent 25%, white 25%);
 }
