@@ -1,6 +1,6 @@
 ﻿:Class ListManagerSimple : MiPageSample
 ⍝ Control::     _DC.ListManager
-⍝ Description:: Move fruits between list with streamlined interface
+⍝ Description:: Move fruits between lists with streamlined interface
 
     ∇ Compose
       :Access public 
