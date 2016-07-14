@@ -1,0 +1,11 @@
+﻿:Class ejLocaleExample : MiPageSample
+⍝ Description:: Demonstrates how to use locale in Syncfusion controls that support it
+
+    ∇ Compose
+      :Access Public 
+      Add CodeFollows
+      ('dp' Add _.ejDatePicker).Set ('locale' 'de-DE')('buttonText' 'Heute')('watermarkText' 'Wählen Sie Datum')
+      ⍝<<end>>
+    ∇
+
+:EndClass

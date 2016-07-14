@@ -542,4 +542,14 @@
 	<script>/chosen/chosen-tools.js</script>
 	<style>/chosen/chosen.min.css</style>
 </resource>
+
+<!-- 
+****************************
+*     jsSHA resources      *
+****************************
+-->
+	<resource>
+		<name>jsSHA</name>
+		<script>/PlugIns/Other/jsSHA/sha.js</script>
+	</resource>
 </Resources>

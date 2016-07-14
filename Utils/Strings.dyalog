@@ -30,7 +30,9 @@
 
     dlb←{(+/∧\' '=⍵)↓⍵}               ⍝ Delete Leading Blanks
     dtb←{(-+/∧\' '=⌽⍵)↓⍵}             ⍝ Delete Trailing Blanks
-    deb←{{1↓¯1↓(~'  '⍷⍵)/⍵}' ',⍵,' '} ⍝ Delete extraneous blanks
+    deb←{{1↓¯1↓(~'  '⍷⍵)/⍵}' ',⍵,' '} ⍝ Delete extraneous blanks  
+       
+    vtv←{{1↓¨(v=n)⊂v←(n←⎕UCS 10),⍵}⍵~⎕UCS 13} ⍝ vector of text vectors
 
     ∇ str←str subst(from to);m;⎕IO;i
     ⍝ simple string substitution
