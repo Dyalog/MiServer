@@ -1,10 +1,20 @@
-﻿:class Callbacks: MiPageSample
-⍝ Control:: Callbacks 
+﻿:class MarkdownFollowsExample: MiPageSample
+⍝ Control:: Callbacks
 ⍝ Description:: MarkDown usage
 
     ∇ Compose;p
-      :Access Public 
+      :Access Public
      
-      Add _.p'The default name of the callback function is APLJax.'
+      Add MarkdownFollows
+      ⍝ ** \_target and \_currentTarget **
+      ⍝
+      ⍝ When an event is bound to an element that contains other elements it's sometimes useful to know the inner element that triggered the event.
+      ⍝
+      ⍝ In this example, a "click" handler is bound to the "outer" division which contains an "inner" division.
+      ⍝ Try clicking on both outer and inner and see what's returned for \_target and \_currentTarget.
+      ⍝
+      ⍝ As you can see, \_target is the innermost element where the event was triggered while \_currentTarget is the element where the event handler was bound.
+      ⍝
+      ⍝ If available, MiServer will populate the \_target and \_currentTarget fields on event callbacks.
     ∇
 :endclass

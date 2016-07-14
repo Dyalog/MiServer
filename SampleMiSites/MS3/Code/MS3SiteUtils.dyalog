@@ -126,9 +126,14 @@
           ('Constructor: ',ctor)Link ⍵ link
       }
 
-      DocTreeLink←{
+      DocTreeLink←{ ⍝ Link to file in doc folder
           '/'=⊃⌽⍵:''
           ('/Documentation/',⍵)'target="_blank"'
+      }
+
+      ReadingTree←{ ⍝ Create tree of documentation links
+          l←'/',¨⍵~⊂''
+          (Name∘NoExt¨l)(Levels l)(DocTreeLink¨l)
       }
 
       RelDocs←{ ⍝ Links to related samples
@@ -150,7 +155,7 @@
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
-    :SECTION F_CONSTANTS ⍝ NILADIC FUNCTIONS THAT ACT LIKE ;include'ABLE CONSTANTS
+    :SECTION F_CONSTANTS ⍝ NILADIC FUNCTIONS THAT ACT LIKE :include'ABLE CONSTANTS
 
     ∇ r←NSS
       :Access public
@@ -172,28 +177,29 @@
       r←#.Boot.ms.Config.DefaultExtension
     ∇
 
-    ∇ C←C;scores;list;refs;srcs;control;i;info;ref;src;ctor;Read;Ø ⍝ Return ref to cache (init one if nonexistant)
+    ∇ C←C;scores;list;refs;srcs;control;i;info;ref;src;ctor;Read;Ø
+     ⍝ Return ref to cache (initialize cache if nonexistant)
       :Access public
-      Read←#.Files.GetVTV #.Boot.AppRoot∘,
-      :Hold CACHE                                                    ⍝ prevent clashes
-          :If 9≠⎕NC CACHE                                            ⍝ if cache is empty:
+      ⍝Read←#.Files.GetVTV #.Boot.AppRoot∘,
+      :Hold CACHE                          ⍝ prevent clashes
+          :If 9≠⎕NC CACHE                  ⍝ if cache is empty:
               Ø←⊂''
-              C←⍎CACHE ⎕NS ⍬                                             ⍝ create with shortcut
-              C.read←⎕NS ⍬                                               ⍝ init cache for files
-              C.read.(keys←data←⍬)                                       ⍝ init keys and data
+              C←⍎CACHE ⎕NS ⍬       ⍝ create with shortcut
+              C.read←⎕NS ⍬         ⍝ init cache for files
+              C.read.(keys←data←⍬) ⍝ init keys and data
      
-              C.controls←(#._.⎕NL ¯9)~⊂'Handler'                         ⍝ cache all controls
-              C.controlsoi←C.controls∘⍳Ⓒ ⋄ C.eocontrols←∊∘C.controls Ⓒ   ⍝ hash tables
-              refs←#._⍎¨C.controls                                       ⍝ refs of all controls
-              C.ns←3↓¨⍕¨refs.##                                          ⍝ ns of each control
-              srcs←⎕SRC¨refs                                             ⍝ all sources
+              C.controls←(#._.⎕NL ¯9)~⊂'Handler'                       ⍝ cache all controls
+              C.controlsoi←C.controls∘⍳Ⓒ ⋄ C.eocontrols←∊∘C.controls Ⓒ ⍝ hash tables
+              refs←#._⍎¨C.controls                                     ⍝ refs of all controls
+              C.ns←3↓¨⍕¨refs.##                                        ⍝ ns of each control
+              srcs←⎕SRC¨refs                                           ⍝ all sources
      
-              C.files←⊃⍪/{List'Examples/',⍵}¨NSS,⊂'Applications'         ⍝ sample filenames
-              C.filesoi←C.files∘⍳Ⓒ
-              C.filedescr←('Description'Section Read)¨C.files
-              C.demos←Controls¨C.files                                   ⍝ controls demoed in each
-              scores←C.controls∘.Score↓⍉↑C.files C.demos                 ⍝ controls vs files
-              C.rankings←(+/0<scores)↑¨↓⍒#.Utils.∆rank 1⊢scores          ⍝ cache all rankings
+              C.files←⊃⍪/{List'Examples/',⍵}¨NSS,⊂'Applications' ⍝ sample filenames
+              C.filesoi←C.files∘⍳Ⓒ                               ⍝ hash table
+              C.filedescr←('Description'Section Read)¨C.files    ⍝ Description:: for all files
+              C.demos←Controls¨C.files                           ⍝ controls demoed in each
+              scores←C.controls∘.Score↓⍉↑C.files C.demos         ⍝ controls vs files
+              C.rankings←(+/0<scores)↑¨↓⍒#.Utils.∆rank 1⊢scores  ⍝ cache all rankings
      
               C.descr←''
               C.ctor←''
@@ -234,15 +240,15 @@
               C.ns,←Ø
      
           :Else
-              C←⍎CACHE                                             ⍝ establish shortcut
+              C←⍎CACHE ⍝ establish shortcut
           :EndIf
       :EndHold
     ∇
 
-      ForControl←{     ⍝ e.g. 'notes'ForControl'DataTable'
+      ForControl←{ ⍝ e.g. 'notes'ForControl'DataTable'
           (C.controlsoi⊂,⍵)⊃C⍎⍺
       }
-      ForFile←{
+      ForFile←{ ⍝ e.g. 'filedescr'ForFile'DataTable'
           (C.filesoi⊂,⍵)⊃C⍎⍺
       }
 

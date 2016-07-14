@@ -18,7 +18,7 @@
       tabs.Titles,←'Introduction'Over'getting started/recommendations'
       text←'about'New _.div (Read'/Examples/Data/intro.txt')
       slideshow←Read'Examples/Data/slideshow.txt'
-      reading←{(Name∘NoExt¨⍵)(Levels ⍵)(DocTreeLink¨⍵)}'/',¨(Read'Examples/Data/reading.txt')~⊂''
+      reading←ReadingTree Read'Examples/Data/reading.txt'
       tree←'#reading'New _.List reading
       tabs.Sections,←New _.Table(1 3⍴text slideshow tree)
      
