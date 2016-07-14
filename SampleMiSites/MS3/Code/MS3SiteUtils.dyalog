@@ -13,8 +13,6 @@
 ⍝ │                                                                                             │ ⍝
 ⍝ │     ∘ D_ELEMENTS aids to create elements for the HTML Document Object Model                 │ ⍝
 ⍝ │                                                                                             │ ⍝
-⍝ │     ∘ E_JAVASCRIPT shortcuts to MiServer's built-in functions for generating JavaScript     │ ⍝
-⍝ │                                                                                             │ ⍝
 ⍝ │     ∘ F_CONSTANTS niladic functions that return unchanging values and cache                 │ ⍝
 ⍝ │                                                                                             │ ⍝
 ⍝ └─────────────────────────────────────────────────────────────────────────────────────────────┘ ⍝
@@ -22,37 +20,13 @@
 
     :SECTION A_GENERAL ⍝ UTILITY FUNCTIONS THAT ARE NOT SPECIFIC TO THE "MS3" SITE
 
-    ∇ r←{a}Ⓒ w ⍝ Mnemonic for the ⊆ glyph
-      r←⊂⍣(1=≡w)⊢w ⍝ enclose if simple
-      →0/⍨900⌶⍬    ⍝ but when dyadic ...
-      r,⍨←⊂a       ⍝ ... Iverson link
-    ∇
+    Ⓒ←{⊂⍣(1=≡,⍵)⊢⍵} ⍝ enclose if simple     Mnemonic for the ⊆ glyph
 
-    NoSt←~∘'*'¨ ⍝ Remove stars from all elements in a VTV
-
-    Sl←'/'∘= ⍝ Slashes
-
-    In←∨/⍷ ⍝ Is found in
-
-    Z←⊃⌽ ⍝ Last
+    FwSl←'[\\/]+'⎕R'/' ⍝ Make all slash-block into single forward-slashes
 
     Q←'"'∘,,∘'"' ⍝ Surround with quotes
 
     FromCSV←↑{'"'~¨⍨1↓¨t⊂⍨(','=t)∧~≠\'"'=t←',',⍵}¨ ⍝ Convert CSV VTV to matrix (no escaped chars)
-
-    Of←{⍵/⍨⍺⍺¨⍵} ⍝ Those elements of ⍵ that satisfy ⍺⍺ element
-
-    Clean←'_'⎕R' ' ⍝ Underscores  →  spaces
-
-    FwSl←'[\\/]+'⎕R'/' ⍝ Make all slash-block into single forward-slashes
-
-    CaseLess←{⊃⍺⍺/LowerCase¨⍺ ⍵} ⍝ Apply fn without regard to upper/lower case
-
-      LowerCase←{ ⍝ Fold character array to lowercase
-          b←(∊w←⍵)∊#.Strings.upperAlphabet ⍝ location of uppercase chars
-          (b/∊w)←#.Strings.lc b/∊w         ⍝ change just those to lowercase
-          w                                ⍝ return the entire array
-      }
 
       Section←{ ⍝ Extract section ⍺:: from code ⍵
           regex←'^\s*⍝\s*',⍺,':(:.*?)$((\R^⍝(?!\s*\w+::).*?$)*)' ⍝ find '  ⍝  LeftArg:: some text'
@@ -61,17 +35,18 @@
           #.Strings.deb'⍝'~⍨1↓⊃res                               ⍝ strip spaces and lamp
       }
 
+      Controls←{ ⍝ Extract names of controls used in sample ⍵
+          (Words'Control'Section Read ⍵)~'_',¨NSS
+      }
+
+    Of←{⍵/⍨⍺⍺¨⍵} ⍝ Those elements of ⍵ that satisfy ⍺⍺ element
+
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :SECTION B_FILES ⍝ FUNCTIONS THAT READ FILES
 
-⍝      Relevant←{
-⍝          C.eocontrols⊂⍵:C.files[C.rankings⊃⍨C.controlsoi⊂⍵]
-⍝          ⋄ 0⍴⊂''
-⍝          }
-
-    Score←{(102-2×(50↑Z⍵)⍳⊂⍺)-'Advanced'In⊃⍵} ⍝ Relevance score on index of control in list
+    Score←{(102-2×(50↑⊃⌽⍵)⍳⊂⍺)-∨/'Advanced'⍷⊃⍵} ⍝ Relevance score on index of control in list
 
       List←{ ⍝ Files in site folder
           ⍺←1↓FILEEXT                                      ⍝ default .ext
@@ -82,15 +57,6 @@
           (d/list),←'/'                                    ⍝ mark dirs with final slashes
           (f/list),←⊂'.',⍺                                 ⍝ add .ext to files
           list↓¨⍨¯1+1⍳⍨(FwSl ⍵)⍷⊃list                      ⍝ trim
-      }
-
-      DirTree←{ ⍝ Make arg for ejTreeView based on files in folder and subfolders
-          ⍺←1↓FILEEXT                                      ⍝ default file extention
-          list←⍺ List ⍵                                    ⍝ get list of files
-          0∊⍴list:0 3⍴0 '' ''                              ⍝ skip parent if no children
-          parent←1(LastSub ⍵)('/',⍵,'/')                   ⍝ top level entry
-          levels←((+/-Z)¨Sl list)+3-+/Sl 3⊃parent          ⍝ level is / count, adjust for final /
-          DelEmpty⍣≡parent⍪⍉↑levels(NoExt∘Name¨list)list ⍝ recursively remove empty dirs
       }
 
     ∇ r←Read page;i ⍝ Read a page via the #.CACHE.read (C)
@@ -111,57 +77,28 @@
 
     :SECTION C_STRINGS ⍝ MANIPULATION OF CHARACTER VECTORS AND VECTORS OF CHARACTER VECTORS
 
-    LastSub←{⍵↑⍨1-'/'⍳⍨⌽⍵}     ⍝ '/aaa/bbb/ccc/ddd'  →         'ddd'
-    ⍝LastSub←{1 Name ⍵}
+    Slash←'/'∘=⊂⊢
 
-    Name←{1↓Z((Sl⊂⊢)⍵)~⊂,'/'}  ⍝ '/aaa/bbb/ccc/ddd/' →         'ddd' (only in BuildTree)
-    ⍝Name←{⍺←0 ⋄ {⍵↑⍨1-'/'⍳⍨⌽⍵}{(+/∨\'/'≠⌽⍵)↑⍵}⍣⍺⊢⍵} ⍝ prefix 1 to exclude trailing empty subs
-
-    NsControl←{1↓¨FirstLast ⍵} ⍝ '/aaa/bbb/ccc/ddd'  →  'aaa'  'ddd'
-
-    FirstLast←(⊃Ⓒ Z)(Sl⊂⊢) ⍝ '/aaa/bbb/ccc/ddd'  → '/aaa' '/ddd'
-    ⍝NsControl←1∘{⍺←0 ⋄ 1↓¨⍣⍺⊢(⊃Ⓒ Z)(Sl⊂⊢)⍵} ⍝ prefix 1 to remove leading / from substrings
-
-    Core←∊∘FirstLast¨'*'∘∊Of ⍝ Those ending in * but without middle category
-
-    Levels←{(+/¨Sl⍵)+~Sl Z¨⍵} ⍝ Number of /s adjusted for categories' final /
+    Name←{1↓⊃⌽(Slash ⍵)~⊂,'/'}  ⍝ '/aaa/bbb/ccc/ddd/' →         'ddd' (only in BuildTree)
 
     Words←{(1↓¨(∊∘' .'⊂⊢)' ',⍵)~⊂''} ⍝ Split at spaces and dots and remove empty pieces
 
-    SortFiles←{⍵[⍋↑LastSub¨⍵]} ⍝ Sort by filename while ignoring path
-
-    DelEmpty←{⍵⌿⍨(0,⍨2</⍵[;1])∨'/'≠⊃¨⌽¨⍵[;3]} ⍝ Remove folders that do not have files
-
     NoExt←{'.'∊⍵:⍵↓⍨-'.'⍳⍨⌽⍵⋄⍵} ⍝ 'aaa.bbb.ccc'  →  'aaa.bbb'
-
-    IsDemo←{∨/∊'Simple' 'Advanced'⍷¨⊂⍵}⍝ Is this sample a one-widget-demo
 
     NoNL←'\n' '\r'⎕R' ' ''⍠'Mode' 'D' ⍝ Replace newlines with spaces
 
-    LastSeg←{⍺←⊢ ⋄ 1↓⍺⊃⌽('/'∘=⊂⊢)'/',⍵} ⍝ ⍺th (default 1st) /-separated segment from the end
+    LastSeg←{⍺←⊢ ⋄ 1↓⍺⊃⌽Slash '/',⍵} ⍝ ⍺th (default 1st) /-separated segment from the end
 
-    Circle←{'&#',(9311+⍵),';'} ⍝ Circle a number using Unicode
+    Levels←{(+/¨'/'=⍵)+~'/'=(⊃⌽)¨⍵} ⍝ Number of /s adjusted for categories' final /
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :SECTION D_ELEMENTS ⍝ FUNCTIONS THAT AUTOMATE THE CREATION OF DOM ELEMENTS AND HTML CODE
 
-    Over←{⊂'<strong>',⍺,'</strong><br><small>',('/'⎕r'<br />'⊢⍵),'</small>'}
-
-    Format←'small;border:none'∘#.HTMLInput.APLToHTMLColour ⍝ Make coloured HTML
-
-    NewObj←{('width=740 height=900 data=',Q ⍵)New _.object} ⍝ Embed a full-page file
-
-    Frame←{⍺←⊢ ⋄ ⍺'.iframed'('src=',Q ⍵,'?NoWrapper=1')New _.iframe} ⍝ _.iframe without wrapper
-
-    NewWinA←{'target="_blank"' 'data-Dyalog-tip="Click to open in a new window"'New _.A,⍵} ⍝ New-tab link
-
-    Horz←{⍺←⊢ ⋄ r⊣(r←⍺ New _.StackPanel ⍵).Horizontal←1}  ⍝ Horizontal StackPanel
-
-    Doc←{∊'/Documentation/DyalogAPIs/WidgetDoc?namespace=_' '&widget=',¨⍵} ⍝ Address of WidgetDoc
-
-    BuildTree←{⍺{(⊂⍺),⍵}¨(Levels NoSt ⍵)(NoExt¨Name¨NoSt ⍵)⍵} ⍝ Build argument for ejTreeView
+      Over←{
+          ⊂'<strong>',⍺,'</strong><br><small>',('/'⎕R'<br />'⊢⍵),'</small>'
+      }
 
       External←{ ⍝ Icon off-site link
           ⍺←''
@@ -175,12 +112,29 @@
           l e
       }
 
-⍝      Info←{ ⍝ Get info (default: description) on a control
-⍝          ⍺←2                                           ⍝ 1=Name, 2=Description, 3=Notes
-⍝          control←(⍳∘'.'↓⊢)⍵                            ⍝ remove ns
-⍝          C.eoinfo⊂control:C.info[;⍺]⊃⍨C.infooi⊂control ⍝ if we have, use that
-⍝          'Description'Section ⎕SRC #⍎⍵                 ⍝ else extract it
-⍝      }
+      Link←{ ⍝ New-tab link with optional (⍺) "tooltip"
+          ⍺←0
+          (('data-Dyalog-tip=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
+      }
+
+      DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
+          ⍝6::New¨(_.del ⍵)(_.small' deprecated')
+          ns←'ns'ForControl ⍵
+          link←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns,'&widget=',⍵
+          ctor←'ctor'ForControl ⍵
+          0=⍴ctor::Link ⍵ link ⍝ upon fail to retrieve info
+          ('Constructor: ',ctor)Link ⍵ link
+      }
+
+      DocTreeLink←{
+          '/'=⊃⌽⍵:''
+          ('/Documentation/',⍵)'target="_blank"'
+      }
+
+      RelDocs←{ ⍝ Links to related samples
+          list←'relevant'ForControl ⍵
+          1↓∊(New _.br),¨{Link('filedescr'ForFile ⍵)⍵}¨list
+      }
 
       FormatList←{ ⍝ List of category-title pairs
           ⍺←1↓FILEEXT
@@ -192,87 +146,6 @@
           cat←'General' 'Mini App'cat['Documentation' 'Applications'⍳⊂cat]
           cat(Link((NoExt LastSeg)⍣(~⍺)('Description'Section Read)⍣⍺⊢⍵)⍵)
       }
-
-      Link←{ ⍝ New-tab link with optional (⍺) "tooltip"
-          ⍺←0
-          (('data-Dyalog-tip=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
-      }
-
-      DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
-          ⍝6::New¨(_.del ⍵)(_.small' deprecated')
-          ns←'ns'ForControl ⍵
-          link←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns,'&widget=',⍵
-          ⍝tip←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section ⎕SRC ref
-⍝          tip,←(''≡tip)/(1+C.NoEndTag[C.controlsoi ⍵])⊃'[content [attributes]]' '[attributes]'
-⍝          tip,⍨←'Constructor: '
-          ctor←'ctor'ForControl ⍵
-          0=⍴ctor::Link ⍵ link ⍝ upon fail to retrieve info
-          ('Constructor: ',ctor)Link ⍵ link
-      }
-
-      DocTreeLink←{
-          '/'=⊃⌽⍵:''
-          ('/Documentation/',⍵)'target="_blank"'
-      }
-
-      LinkWithTip←{ ⍝ Link with "tooltip" that has description and level
-          tip←'Description'Section Read ⍵
-          tip,←' (',((⊢⊃⍨(⍳∘1((∨/⍷∘⍵)¨¯1↓⊣)))'Simple' 'Advanced' 'Mini-App'),')'
-          tip Link ⍺ ⍵
-      }
-
-      RelDocs←{ ⍝ Links to related samples
-          list←'relevant'ForControl ⍵
-          1↓∊(New _.br),¨{Link('filedescr'ForFile ⍵)⍵}¨list
-     
-⍝          0=≢list:'(none)'
-⍝          nums←Circle¨⍳≢list
-⍝          ∊nums{'&ensp;',⍺ LinkWithTip ⍵}¨list
-      }
-
-    ∇ r←ListItem item;nost;noext ⍝ Generate pre-rendered lists item for performance (OO is slow)
-      nost←item~'*'
-      noext←~'.'∊nost
-      r←'<p class="listitem" '                 ⍝ begin paragraph and set class
-      r,←'id=',Q nost,(noext/FILEEXT),'*'∩item ⍝ id is filename, add and * to differ
-      r,←'><strong>'                           ⍝ end of paragraph tag - nest bold tag
-      r,←Clean NoExt LastSub nost              ⍝ just the name without path or extention
-      r,←'</strong>'                           ⍝ end of bold tag
-      :If ∨/noext,FILEEXT⍷nost                 ⍝ if default or no extension:
-          r,←' – ','Description'Section Read nost  ⍝ add dash and description from source
-      :EndIf
-      r,←'</p>'                                ⍝ close the paragraph
-    ∇
-
-    ∇ div←Tree title;xx;tree;levels;items;ids;id ⍝ Make tree based on its heading
-      div←New _.div                                             ⍝ container
-      div.Add _.hr                                              ⍝ horizontal ruler
-      '.cat'div.Add _.p title                                   ⍝ heading
-      xx←⎕A∩title                                               ⍝ initials of heading; XX
-      tree←⍎'MakeTree',xx                                       ⍝ calls MakeTreeXX
-      (levels items ids)←↓⍉tree                                 ⍝ new syntax
-      id←'tree',xx
-      tree←('#',id)div.Add _.ejTreeView(items levels)           ⍝ gives id="XX"
-      tree.On'nodeSelect' 'OnTree'('node' 'eval' 'argument.id') ⍝ sends along selected node's id
-      C.nodeIds⍪←ids,⍪id #.Utils.levels2ids levels
-    ∇
-
-    :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
-⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
-
-    :SECTION E_JAVASCRIPT ⍝ FUNCTIONS THAT GENERATE PSEUDO-JAVASCRIPT FOR CALLBACKS
-
-    Hide←{Execute'$("',⍵,'").hide()'} ⍝ Toggle object visibility off
-
-    Show←{Execute'$("',⍵,'").show()'} ⍝ Toggle object visibility on
-
-    ∇ r←ReplaceRelMsg ⍝ Replace message with count of related samples
-      r←'[for=''ShowRelated'']'Replace{'Show ',(⍕⍵),' related sample','.',⍨'s'/⍨⍵≠1}0⌈¯1+≢CURRFILES
-    ∇
-
-    ∇ r←RefreshHandler ⍝ Refresh event handler for newly inserted objects
-      r←'#Handler'Replace New _.Handler'.listitem' 'click' 'OnList'
-    ∇
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
@@ -312,13 +185,13 @@
               C.controls←(#._.⎕NL ¯9)~⊂'Handler'                         ⍝ cache all controls
               C.controlsoi←C.controls∘⍳Ⓒ ⋄ C.eocontrols←∊∘C.controls Ⓒ   ⍝ hash tables
               refs←#._⍎¨C.controls                                       ⍝ refs of all controls
-              C.ns←3↓¨⍕¨refs.##                                         ⍝ ns of each control
+              C.ns←3↓¨⍕¨refs.##                                          ⍝ ns of each control
               srcs←⎕SRC¨refs                                             ⍝ all sources
      
               C.files←⊃⍪/{List'Examples/',⍵}¨NSS,⊂'Applications'         ⍝ sample filenames
               C.filesoi←C.files∘⍳Ⓒ
               C.filedescr←('Description'Section Read)¨C.files
-              C.demos←{(Words'Control'Section Read ⍵)~'_',¨NSS}¨C.files  ⍝ controls demoed in each
+              C.demos←Controls¨C.files                                   ⍝ controls demoed in each
               scores←C.controls∘.Score↓⍉↑C.files C.demos                 ⍝ controls vs files
               C.rankings←(+/0<scores)↑¨↓⍒#.Utils.∆rank 1⊢scores          ⍝ cache all rankings
      
@@ -351,8 +224,8 @@
      
               :EndFor
      
-              C.filedescr,←Ø
-              C.demos,←Ø    ⍝ These cause an empty result if looked-up is not found
+              C.filedescr,←Ø ⍝ These cause an empty result if looked-up is not found
+              C.demos,←Ø
               C.rankings,←Ø
               C.descr,←Ø
               C.ctor,←Ø
@@ -360,20 +233,6 @@
               C.notes,←Ø
               C.ns,←Ø
      
- ⍝             C.descrs←{NoNL'Description'Section ⍵}¨srcs                 ⍝ all descriptions
-⍝              C.info←FromCSV Read'Examples/Data/info.csv'                ⍝ cache lookup table
-⍝              C.info⍪←⍉↑C.(controls descrs'')                            ⍝ add to list
-              ⍝C.info⍪←↑{⍵(NoNL'Description'Section ⎕SRC⍎'#._.',⍵)''}¨nl  ⍝ get descriptions
-⍝              C.info←C.info[∪⍳⍨C.info[;1];]                              ⍝ filter duplicates out
-⍝              C.info⌿⍨←×≢¨C.info[;1]                                     ⍝ remove empties
-⍝              C.infooi←C.info[;1]∘⍳ ⋄ C.eoinfo←∊∘(C.info[;1])            ⍝ cache hash tables
-              ⍝C.controls←∪↑,/C.demoes                                   ⍝ cache all controls
-⍝              C.ctors←{
-⍝                  r←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section ⍵
-⍝                  ''≡r:r←'[content [attributes]]' '[attributes]'⊃⍨1+(⎕NEW ⍵).NoEndTag
-⍝                  r
-⍝              }¨srcs
-⍝              C.ctors
           :Else
               C←⍎CACHE                                             ⍝ establish shortcut
           :EndIf
@@ -386,26 +245,6 @@
       ForFile←{
           (C.filesoi⊂,⍵)⊃C⍎⍺
       }
-
-    ∇ r←TREE;all;tree
-      :Access public
-      r←{⍵/⍨⍵∨.≠¨' '}Read'Examples/Data/tree.txt' ⍝ load/cache tree and remove blank lines
-      r/⍨←'⍝'≠⊃¨r                                 ⍝ remove comment lines
-      →0 ⍝ BPB
-      tree←'/([^/*]+)(\*|$)'⎕S'\1'⊢r~¨' '
-      all←'^.(?![A-Z])'⎕S'%'⊢#._DC.⎕NL ¯9
-      all,←'^[a-z]'⎕S'%'⊢#._html.⎕NL ¯9
-      all,←'^ej[A-Z]'⎕S'%'⊢#._SF.⎕NL ¯9
-      all,←'^jq[A-Z]'⎕S'%'⊢#._JQ.⎕NL ¯9
-      ⎕←{×≢⍵:'** Widgets found in the namespaces, but missing from the tree: ',⍕⍵ ⋄ 0 0⍴0}all~tree
-      ⎕←{×≢⍵:'** Widgets found in the tree, but missing from the namespaces: ',⍕⍵ ⋄ 0 0⍴0}tree~all
-     
-    ∇
-
-    ∇ r←DOCS
-      :Access public
-      r←(Read'Examples/Data/docs.txt')~Ø ⍝ load/cache tree and remove blank lines
-    ∇
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝

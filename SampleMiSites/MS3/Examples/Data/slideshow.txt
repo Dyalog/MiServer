@@ -32,7 +32,7 @@
 	<figure>
 		<img src="/Examples/Data/Slideshow/ListManager.png" alt="Dyalog ListManager sample"/>
 		<figcaption>
-			<strong>Dyalog ListManager:</strong> Move fruits between list with streamlined interface.</figcaption> 
+			<strong>Dyalog ListManager:</strong> Move fruits between lists with streamlined interface.</figcaption> 
 	</figure>
 	<figure>
 		<img src="/Examples/Data/Slideshow/jqSpinner.png" alt="jQuery UI Spinner sample"/>
