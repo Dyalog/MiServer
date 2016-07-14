@@ -33,11 +33,11 @@
                   r⍪←c1 c2
               :EndFor
               :If ns≡'_html'
-                  r⍪←'Description'Ⓒ'Native HTML ',' element',⍨desc←#.Strings.lc Info'_html.',widget
+                  r⍪←'Description'Ⓒ'Native HTML ',' element',⍨desc←#.Strings.lc 'descr'ForControl widget
                   ctor←(1+(New _⍎widget).NoEndTag)⊃'content' 'id'
                   r⍪←'Constructor'Ⓒ'[',ctor,']<br />',ctor,' - the ',ctor,' of the ',desc
                   r⍪←'Public Fields'Ⓒ'(none)'
-                  r⍪←'Notes'Ⓒ 3 Info'_html.',widget
+                  r⍪←'Notes'Ⓒ 'notes'ForControl widget
               :EndIf
               files←'relevant'ForControl widget
           :EndIf
