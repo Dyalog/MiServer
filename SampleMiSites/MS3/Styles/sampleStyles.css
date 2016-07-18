@@ -605,12 +605,12 @@ figcaption a {
 
 .i200char {
     color: darkcyan;
-    background-color:honeydew;
+    background-color: honeydew;
 }
 
 .i200num {
     color: gray;
-    background-color:whitesmoke;
+    background-color: whitesmoke;
 }
 
 .i200global {
@@ -621,8 +621,15 @@ figcaption a {
     color: gray;
 }
 
-.i200global {
-    color: black;
+.i200line {
+    color: blue;
+    border-right: 1px dotted black;
+    padding-right: 0.5em;
+    margin-right: 0.2em;
+}
+
+.i200quad {
+    color: darkblue;
 }
 
 .i200primitive {
@@ -630,8 +637,8 @@ figcaption a {
 }
 
 .i200idiom {
-    color:blue;
-    background-color:lightyellow;
+    color: blue;
+    background-color: lightyellow;
 }
 
 .i200control {

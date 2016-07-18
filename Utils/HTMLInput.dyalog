@@ -104,11 +104,8 @@
       html←('pre style="font-family:APL385 Unicode',fontsize,'"')Enclose'code'Enclose CRLF,⍨html
     ∇
 
-    ∇ html←{fontsize}APLToHTMLColour APL;types;spans;colour;mask;⎕ML;colours
+    ∇ html←APLToHTMLColour APL;types;colours;class;codes;apply;lines;head;tail
      ⍝ returns APL code formatted for HTML with syntax colouring
-     ⍝ Uses global APLToHTMLcolours e.g. ('blue' 19 23)('green' 1)('gray' 32)('red' 4)...
-      ⎕ML←1
-      fontsize←{6::'' ⋄ ';font-size:',⍎⍵}'fontsize'
       :Trap 0
           colours←⍬
           colours,←⊂'i200comment'(1 26 63)
@@ -118,27 +115,30 @@
           colours,←⊂'i200global'(7 52 55)
           colours,←⊂'i200primitive'(19 44 146 To 153 214 To 221)
           colours,←⊂'i200idiom'(23 48)
-          colours,←⊂'i200control'(58 155 To 179 181 To 213 248)
+          colours,←⊂'i200control'(58 155 To 179 181 To 213 222 To 248)
           colours,←⊂'i200space'(8 9 33 34)
-          
+          colours,←⊂'i200quad'(12 To 15 37 To 40)
+     
           html←({(+/∨\' '≠⌽⍵)↑¨↓⍵}⍣(1≥|≡APL))APL ⍝ Make VTV if matrix
-          html,¨⍨←⎕UCS 13                        ⍝ Mark line beginnings
-          types←∊200⌶html                        ⍝ Colour coding
-          html←∊html
-          spans←1,2≠/types                       ⍝ Colour spans
-          html⊂⍨←spans
-          types/⍨←spans
-          :For colour :In colours ⍝ 'Colour' CodeElementNumber CodeElementNumber ...
-              mask←types∊⊃⌽colour
-              (mask/html)←{'<span class="',(⊃colour),'">',(HtmlSafeText ⍵),'</span>'}¨mask/html
+          lines←∊1↑¨⍨≢¨html
+          types←0,0,⍨∊200⌶html                        ⍝ 200⌶ is colour coding
+          html←' ',' ',⍨∊html
+          :For class codes :In colours
+              apply←1 0⍷types∊codes
+              (apply/html)←(apply/html),¨⊂'</span>'
           :EndFor
-          html←∊html          ⍝ Encorporate tags
-          html⊂⍨←html=⎕UCS 13 ⍝ Restore lines
-          html↓¨⍨←1           ⍝ Remove line markers
-          html,⍨¨←↓↑('<span class="i200primitive">['∘,,∘'] </span>')¨⍕¨¯1+⍳⍴html ⍝ Prepend blue line numbers
-          html←('pre style="font-family:APL385 Unicode',fontsize,'"')Enclose'code'Enclose CRLF,⍨∊,∘CRLF¨html
+          :For class codes :In colours
+              apply←0 1⍷types∊codes
+              (apply/html)←(apply/html),¨⊂'<span class="',class,'">'
+          :EndFor
+          head←1↓⊃html ⋄ tail←¯1↓⊃⌽html
+          html←lines⊂1↓¯1↓html
+          (⊃html),⍨←head ⋄ (⊃⌽html),←tail
+          html←∊¨html
+          html,⍨¨←,∘'</span>'¨↓↑('<span class="i200line">['∘,,∘']')¨⍕¨¯1+⍳⍴html ⍝ Prepend line numbers
+          html←'pre'Enclose'code'Enclose html
       :Else
-          html←fontsize APLToHTML APL
+          html←APLToHTML APL
       :EndTrap
     ∇
 
