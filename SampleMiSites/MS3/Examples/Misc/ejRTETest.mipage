@@ -1,0 +1,12 @@
+﻿:Class ejRTETest : MiPageSample
+
+  ∇ Render;rte
+    :Access Public
+    rte←Add _.ejRTE
+⍝    rte.(Rows Cols)←10 70
+    'rows' 'cols'rte.Container.Set 10 70
+    'foo'rte.Option'abc'
+    rte.Container.Content←'<i>This is a test</i>'
+  ∇
+
+:EndClass

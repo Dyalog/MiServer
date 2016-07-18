@@ -1,0 +1,8 @@
+﻿:Class TestRest : RESTful
+
+    ∇ r←Respond
+      :Access public
+      (r←⎕NS'').name←'Brian'
+    ∇
+
+:EndClass

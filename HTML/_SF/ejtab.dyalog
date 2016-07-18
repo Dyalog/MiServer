@@ -15,7 +15,7 @@
 ⍝ ejTab ('Title1' 'Title2')('Section1' 'Section2')
 ⍝ ejTab 2 2⍴'Title1' 'Section1' 'Title2' 'Section2'
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejTab.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejTab.html'
     :field public shared readonly ApiLevel←1
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejTab.html'
     :field public shared readonly IntEvt←'active' 'ajaxBeforeLoad' 'ajaxError' 'ajaxLoad' 'ajaxSuccess' 'beforeActive' 'beforeItemRemove' 'create' 'destroy' 'itemAdd' 'itemRemove'
@@ -54,7 +54,7 @@
       :If 0=⎕NC'title' ⋄ title←'Tab ',⍕1+⍴Titles ⋄ :EndIf
       Titles,←⊂title
       Sections,←⊂content
-      IsURL,←0
+      IsURL←(⊃⍴Titles)↑IsURL
     ∇
 
     ∇ r←Render;sections;n;ids;i;section

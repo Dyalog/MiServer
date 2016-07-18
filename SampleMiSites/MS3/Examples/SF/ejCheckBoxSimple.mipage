@@ -1,0 +1,25 @@
+﻿:Class ejCheckBoxSimple : MiPageSample
+⍝ Control:: _SF.ejCheckBox
+⍝ Description:: Checkbox with callback
+
+    ∇ Compose;cb1
+      :Access Public
+    ⍝ We create an unchecked Syncfusion check box with caption 'Check Me!'
+      cb1←'cb1'Add _.ejCheckBox 0 'Check Me!'
+     
+    ⍝ We tell the server to call program 'myCallback' when it changes and to return
+    ⍝ the value of the checkState variable in the model under the name 'state'
+      cb1.On'change' 'myCallback'('state' 'model' 'checkState')
+     
+    ⍝ A place to write the message
+      Add _.br
+      'message'Add _.div
+    ∇
+
+    ∇ r←myCallback
+      :Access public
+    ⍝ Display the state of the check box in the message area
+      r←'#message'Replace(Get'state')
+    ∇
+
+:EndClass

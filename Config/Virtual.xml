@@ -4,22 +4,37 @@
      %SiteRoot%   - web site root -->
 
   <directory>
-    <alias>FontAwesome</alias>
-    <path>%ServerRoot%\PlugIns\font-awesome-4.4.0\</path>
-  </directory>
-
-  <directory>
     <alias>JQuery</alias>
     <path>%ServerRoot%/PlugIns/JQuery/</path>
   </directory>
 
   <directory>
     <alias>Syncfusion</alias>
-    <path>%ServerRoot%/PlugIns/Syncfusion-13.3.0.7/</path>
+    <path>%ServerRoot%/PlugIns/Syncfusion-14.2.0.26/</path>
   </directory>
 
   <directory>
     <alias>PlugIns</alias>
     <path>%ServerRoot%/PlugIns/</path>
+  </directory>
+
+  <directory>
+    <alias>FontAwesome</alias>
+    <path>%ServerRoot%/PlugIns/Other/font-awesome-4.6.2/</path>
+  </directory>
+
+  <directory>
+    <alias>jBox</alias>
+    <path>%ServerRoot%/PlugIns/Other/jBox/</path>
+  </directory>
+
+  <directory>
+    <alias>DataTables</alias>  
+    <path>%ServerRoot%/PlugIns/Other/DataTables-1.10.10/</path>
+  </directory>
+
+  <directory>
+    <alias>chosen</alias>
+    <path>%ServerRoot%/PlugIns/Other/chosen-1.6.1/</path>
   </directory>
 </Virtual>

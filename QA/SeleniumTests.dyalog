@@ -32,17 +32,22 @@
       :EndIf
     ∇
 
-    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames;maxlen
+    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames;maxlen;⎕USING
      
       (site filter)←2↑(eis site),'' ''
       :If 0=⍴AppRoot←#.Load site
           ⎕←'Test abandoned' ⋄ →0
       :EndIf
-     
-      selpath←(AppRoot↓⍨-3⍳⍨+\'/\'∊⍨⌽AppRoot),'/Selenium/'
+
+      selpath←({∊'/',⍨¨¯1↓'/\' #.Utils.penclose ⍵}#.Boot.MSRoot),'Selenium/'
       :If 0=⎕NC'Selenium'
           :Trap 0 ⋄ ⎕SE.SALT.Load selpath,'/Selenium'
-          :Else ⋄ ⎕←'Unable to load Selenium' ⋄ →0
+          :Else
+              ⎕←'Selenium library not found at: ',selpath
+              →0⍴⍨0∊⍴selpath←{⍞↓⍨⍴⍞←⍵,': '}'Selenium path'
+              :Trap 0 ⋄ ⎕SE.SALT.Load selpath,'/Selenium'
+              :Else ⋄ ⎕←'Unable to load Selenium' ⋄ →0
+              :EndTrap
           :EndTrap
       :EndIf
       ⎕PATH,←' Selenium'
@@ -60,7 +65,13 @@
       n←⍴files
       SITE←'http://127.0.0.1:',⍕Config.Port
      
+⍝⍝ Un-comment to play music while testing:
+⍝      :If site filter≡'MS3' ''
+⍝          ⎕CMD('"\Program Files (x86)\Windows Media Player\wmplayer.exe" "',AppRoot,'\Examples\Data\tellintro.mp3"')''
+⍝      :EndIf
+     
       Selenium.InitBrowser''
+      Selenium.BROWSER.Manage.Window.Maximize
      
      ⍝ Localize non-alphanumeric key names for easy access
       keynames←⍕#.SeleniumTests.Selenium.Keys.⎕NL ¯2

@@ -5,7 +5,7 @@
     :field public Head
     :field public Body
     :field public Scripts
-    :field public StylesLinks
+    :field public StylesLinks 
 
     ∇ make
       :Access public
@@ -24,8 +24,9 @@
       r←Body.Render
     ∇
 
-    ∇ r←RenderPage b;scr;mask
-      :Access public
+    ∇ r←RenderPage b;scr;mask;content
+      :Access public                 
+      content←Content
       :If ~0∊⍴scr←∪Scripts
       :AndIf ∨/mask←{0∊⍴⍵}¨scr.Content
           Head.Add¨mask/scr
@@ -35,10 +36,13 @@
       :EndIf
       Content←(Head.Render),b
       r←'<!DOCTYPE html>',∊⎕BASE.Render
+      Content←content
     ∇
 
-    ∇ r←Render;s;b;mask;scr;sty
-      :Access public
+    ∇ r←Render;s;b;mask;scr;sty;content;headContent
+      :Access public  
+      content←Content
+      headContent←Head.Content
       :If ~0∊⍴scr←∪Scripts
       :AndIf ∨/mask←{~0∊⍴⍵}¨scr.Content
           Body.Add¨mask/scr
@@ -48,11 +52,13 @@
       :AndIf ∨/mask←{0∊⍴⍵}¨scr.Content
           Head.Add¨mask/scr
       :EndIf
-      :If ~0∊⍴sty←∪⌽Styles
+      :If ~0∊⍴sty←∪⌽StylesLinks
           Head.Add¨StylesLinks
       :EndIf
       Content←(Head.Render),b
       r←'<!DOCTYPE html>',∊⎕BASE.Render
+      Content←content
+      Head.Content←headContent
     ∇
 
     ∇ _init
@@ -70,11 +76,11 @@
       :Access public
       :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
       :If isClass⊃what
-          :If #._html.script∊c←∊⎕CLASS⊃what
-              r←Scripts,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
-          :ElseIf #._JQ.Handler∊c
+⍝          :If #._html.script∊c←∊⎕CLASS⊃what
+⍝              r←Scripts,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
+          :If #._JQ.Handler∊c←∊⎕CLASS⊃what
               r←Body.Handlers,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
-              :If 0∊⍴r.Selectors ⋄ r.Selectors←'html' ⋄ :EndIf ⍝ if no selector specified, use page level
+              :If 0∊⍴r.Selector ⋄ r.Selector←'html' ⋄ :EndIf ⍝ if no selector specified, use page level
           :ElseIf ⊃∨/c∊¨⊂#._html.(style link)
               r←StylesLinks,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
           :ElseIf ⊃∨/c∊¨⊂#._html.(title meta noscript base) ⍝ elements that belong exclusively or primarily in the <head> element
@@ -96,7 +102,7 @@
               r←Scripts,⍨←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
           :ElseIf #._JQ.Handler∊c
               r←Body.Handlers,⍨←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
-              :If 0∊⍴r.Selectors ⋄ r.Selectors←'html' ⋄ :EndIf ⍝ if no selector specified, use page level
+              :If 0∊⍴r.Selector ⋄ r.Selector←'html' ⋄ :EndIf ⍝ if no selector specified, use page level
           :ElseIf ⊃∨/c∊¨⊂#._html.(style link)
               r←StylesLinks,⍨←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
           :ElseIf ⊃∨/c∊¨⊂#._html.(title meta noscript base) ⍝ elements that belong exclusively or primarily in the <head> element
@@ -113,7 +119,7 @@
     ∇ {r}←On args
       :Access public
       r←Body.On args
-      r.Selectors←'body'
+      r.Selector←'⍎document'
     ∇
 
     ∇ {r}←{attr}New what
@@ -123,26 +129,7 @@
       r._PageRef←⎕THIS
     ∇
 
-    ∇ r←isClass ao
-      :Access public
-      r←9.4∊⎕NC⊂'ao'
-    ∇
-
     dtlb←{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}
-
-    ∇ r←isTrue a
-      :Access public shared
-      →0⍴⍨r←(,1)≡,a
-      →0⍴⍨r←#.JSON.true≡a
-      →0⍴⍨r←'true'≡a
-    ∇
-
-    ∇ r←isFalse a
-      :Access public shared
-      →0⍴⍨r←(,0)≡,a
-      →0⍴⍨r←#.JSON.false≡a
-      →0⍴⍨r←'false'≡a
-    ∇
 
     ∇ r←Style style
       :Access public

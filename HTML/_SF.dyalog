@@ -17,7 +17,7 @@
 
         :Field public Data←''
 
-        handlerSyntax←'argument' 'argument'  'argument.model' 'this.element'  ⍝ Syncfusion's event model (see _JQ.RenderHandlerCore for details)
+        :Field public WidgetDef←'argument' 'argument'  'argument.model' 'this.element' '.val()'  ⍝ Syncfusion's event model (see _JQ.RenderHandlerCore for details)
 
         ∇ make
           :Access public
@@ -28,15 +28,19 @@
 
         ∇ r←Render
           :Access public
+          AddLocale
           JQPars←Options
           r←⎕BASE.Render
         ∇
 
-        ∇ {r}←opts RenderHandler handler
-          :Access public override
-          r←opts RenderHandlerCore(handler handlerSyntax Force)
+        ∇ AddLocale
+          :If 0≠Options.⎕NC'locale'
+          :AndIf 9=⎕NC'#.Boot.ms'
+          :AndIf ~0∊⍴sfFolder←#.Boot.ms.Config.Virtual{(⍺.alias⍳⊂⍵)⊃⍺.path,⊂''}'Syncfusion'
+          :AndIf #.Files.Exists sfFolder,file←'assets/scripts/i18n/ej.culture.',Options.locale,'.min.js'
+              Use'⍎/Syncfusion/',file
+          :EndIf
         ∇
-
     :EndClass
     :endsection
 :EndNamespace

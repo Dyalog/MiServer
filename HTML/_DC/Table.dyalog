@@ -4,7 +4,7 @@
 ⍝
 ⍝ Public Fields::
 ⍝ Data        - matrix of data to display in the table
-⍝ CellAttr    - Cell Attributes 
+⍝ CellAttr    - Cell Attributes
 ⍝ HeaderRows  - # of header rows
 ⍝ HeaderAttr  - Header attributes
 ⍝ MakeCellIds - 1 to generate IDs      <td id="tableId_r2c3">
@@ -26,16 +26,17 @@
       :Access public
       :Implements constructor
       :If 1<⍴⍴data ⋄ data←,⊂data ⋄ :EndIf
-      (Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)←6↑data,(⍴data)↓Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds
+      :If 1≥|≡data ⋄ data←,⊂1 1⍴⊂data ⋄ :EndIf
+      (Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)←data defaultArgs Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds
     ∇
 
     ∇ html←Render;data;atts;tda;tha;hdrrows;cellids;rowids;rows;x;head;body;table;thead;tbody
-      :Access public                                 
+      :Access public
       SetId
       data tda tha hdrrows cellids rowids←Data CellAttr HeaderAttr HeaderRows MakeCellIds MakeRowIds
       hdrrows←⍬⍴hdrrows
       data←((rows←×/¯1↓⍴data),¯1↑⍴data)⍴data
-      head←body←(0 1×⍴data)⍴⊂''
+      head←body←(0 1×⍴data)⍴⊂table←''
       :If 0≠hdrrows
           head←{z⊣(z←⎕NEW #._html.th).Add ⍵}¨hdrrows↑data
           :If cellids
@@ -64,9 +65,9 @@
       :If 0≠hdrrows
           (thead←⎕NEW #._html.thead).Add hdrrows↑table
       :EndIf
-      :If 0<(⊃⍴data)-hdrrows
-          (tbody←⎕NEW #._html.tbody).Add hdrrows↓table
-      :EndIf
+ ⍝     :If 0<(⊃⍴data)-hdrrows
+      (tbody←⎕NEW #._html.tbody).Add hdrrows↓table
+ ⍝     :EndIf
       Content←thead,tbody
       html←⎕BASE.Render
     ∇

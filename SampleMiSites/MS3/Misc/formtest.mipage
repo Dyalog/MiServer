@@ -1,0 +1,27 @@
+﻿:Class formtest : MiPage
+    ∇ Compose
+      :Access public
+      :With Add _.Fieldset'Form 1'
+          :With 'frm1'Add #._.Form
+              'first'Add _.Input'text' '' 'First Name: '
+              Add _.br
+              ('submit1'Add _.Button'Submit 1').On'click' ''('frm1' 'serialize' '#frm1')
+          :EndWith
+      :EndWith
+      :With Add _.Fieldset'Form 2'
+          :With 'frm2'Add #._.Form
+              'last'Add _.Input'text' '' 'Last Name: '
+              Add _.br
+              ('submit2'Add _.Button'Submit 2').On'click' ''('frm2' 'serialize' '#frm2')
+          :EndWith
+      :EndWith
+      ('submitAll'Add _.Button'Submit Both').On'click' ''('frms' 'serialize')
+    ∇
+
+    ∇ r←APLJax
+      :Access public
+      r←''
+      ∘∘∘
+    ∇
+
+:EndClass

@@ -1,0 +1,11 @@
+﻿:Class ejRatingSimple : MiPageSample
+⍝ Control:: _SF.ejRating
+⍝ Description:: Rating
+
+    ∇ Compose;bg
+      :Access Public
+      Add _.h4'ejRating Example'
+      '#rate' Add _.ejRating
+    ∇
+
+:EndClass

@@ -43,11 +43,6 @@
           :ElseIf typ=326 ⍝ ref (ns)
               'Cannot work on JSON itself'⎕SIGNAL 611 if ⎕THIS≡array
               r←qp APLObject array
-          :ElseIf jqopt
-              t←array~' '
-              :If 'function'≡8↑t ⋄ r←array
-              :ElseIf '⍎'=1↑t ⋄ r←(∨\~array∊' ⍎')/array ⋄
-              :ElseIf '⍕'=1↑t ⋄ r←1⌽'""',(~<\' '=array)/array ⋄ :EndIf
           :Else
               r←1⌽'""',JAchars array
           :EndIf
@@ -247,6 +242,7 @@
      
       :Access public shared
       :If isRef arr
+      :OrIf ∧/isRef¨arr
           r←0 0 1 fromAPL arr
       :Else
 ⍝          arr←,arr
@@ -335,7 +331,7 @@
       :If 0=⎕NC'a' ⋄ a←,1↑w ⋄ w↓⍨←1 ⋄ :EndIf
       :If (80 82∊⍨⎕DR a) ⋄ :AndIf (⍴,a)=2⊃⍴w ⋄ a←,¨a ⋄ :EndIf
       :If ~0∊⍴r←⎕NS¨(⊃⍴w)⍴⊂''
-          r(a{⍺.⍎'(',(⍕⍺⍺),')←⍵'})¨{1=⍴⍵:⊃⍵ ⋄ ⍵}¨↓w
+          r(a{⍺.⍎'(',(⍕makeName¨ ⍺⍺),')←⍵'})¨{1=⍴⍵:⊃⍵ ⋄ ⍵}¨↓w
       :EndIf
     ∇
 
@@ -356,6 +352,13 @@
       :If ~0∊⍴nss ⍝ anything left to do?
           r,←levels nestObjects nss
       :EndIf
+    ∇
+
+    ∇ r←{a}TableToJSON w
+      :Access public shared
+      :If 0=⎕NC'a' ⋄ r←fromAPL fromTable w
+      :Else ⋄ r←fromAPL a fromTable w
+      :End
     ∇
 
     ∇ r←aa Add(a w)
@@ -657,7 +660,7 @@
      
     ∇
 
-    ⎕RL←(2*30)|×/{⍵+0=2|⍵}⎕AI
+    ⎕RL←0
 
     ∇ ns←makeDict arg;depth;Nentries;i;name;value;⎕IO;VC;nvc
      ⍝ Create a dictionary. This is a list of name/value pairs encapsulated in a namespace.

@@ -14,7 +14,7 @@
 ⍝   optional [;3] URL to open if node is clicked
 ⍝   optional [;4] HTML attributes for the underlying anchor <a> tag
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejTagCloud.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejTagCloud.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly IntEvt←'click' 'create' 'destroy' 'mouseout' 'mouseover'
 

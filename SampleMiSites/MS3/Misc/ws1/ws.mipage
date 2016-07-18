@@ -1,0 +1,7 @@
+﻿:Class ws : RESTful
+
+    ∇ r←Respond
+      :Access Public
+      r←'hello' _Request.RESTfulReq
+    ∇
+:EndClass

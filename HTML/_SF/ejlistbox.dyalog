@@ -12,7 +12,7 @@
 ⍝ ejListBox
 ⍝ ejListBox ('Item1' 'Item3' 'Item3')
 
-    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejListBox.html'
+    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/js/api/ejListBox.html'
     :Field Public Shared Readonly ApiLevel←3
     :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejListBox.html'
 
@@ -126,8 +126,8 @@
       ⍝ get the current items in the list
       ⍝ x is one of '' (return text), 'text', or 'id'
       SetId
-      js←id{'function(){var tmp={items:[]};$.each($("#',⍺,'").ejListBox("getSelectedItems"),function(i,obj){tmp.items.push($(obj[0]).',⍵,')}; return tmp.items;}'}(1+x≡'id')⊃'text()' 'attr("id")'
-      r←name'eval'js
+      js←id{'⍎(function(){var tmp={items:[]};$.each($("#',⍺,'").ejListBox("getSelectedItems"),function(i,obj){tmp.items.push($(obj[0]).',⍵,')}; return tmp.items;})()'}(1+x≡'id')⊃'text()' 'attr("id")'
+      r←name js
     ∇
 
     ∇ r←name getItems x;js
@@ -139,8 +139,8 @@
       :Else
           id←⎕THIS.##.id,Side⊃'_left' '_right'
       :EndIf
-      js←id{'function(){var tmp=[]; $("#',⍺,' li").each(function(){tmp.push($(this).',⍵,')}); return JSON.stringify(tmp);}'}(1+x≡'id')⊃'text()' 'attr("id")'
-      r←name'eval'js
+      js←id{'⍎(function(){var tmp=[]; $("#',⍺,' li").each(function(){tmp.push($(this).',⍵,')}); return JSON.stringify(tmp);})()'}(1+x≡'id')⊃'text()' 'attr("id")'
+      r←name js
     ∇
 
     :endsection

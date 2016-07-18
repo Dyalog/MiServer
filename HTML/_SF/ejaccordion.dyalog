@@ -14,7 +14,7 @@
 ⍝ ejAccordion ('Title1' 'Title2')('Section1' 'Section2')
 ⍝ ejAccordion 2 2⍴'Title1' 'Section1' 'Title2' 'Section2'
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejAccordion.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejAccordion.html'
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejAccordion.html'
     :field public shared readonly IntEvt←'activate'  'ajaxBeforeLoad'  'ajaxError'  'ajaxLoad'  'ajaxSuccess'  'beforeActivate'  'beforeInactivate'  'create'  'destroy'  'inActivate'
     :field public shared readonly ApiLevel←3
@@ -52,7 +52,7 @@
       :If 0=⎕NC'title' ⋄ title←'Section ',⍕1+⍴Titles ⋄ :EndIf
       Titles,←⊂title
       Sections,←⊂content
-      IsURL,←0
+      IsURL←(⊃⍴Titles)↑IsURL
     ∇
 
     ∇ r←Render;sections;n;ids;i;t;section;u

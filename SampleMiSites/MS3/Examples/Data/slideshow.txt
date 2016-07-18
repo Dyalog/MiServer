@@ -1,0 +1,72 @@
+<figure>
+	<a target="_blank" href="/Examples/html/videoAdvanced.mipage">
+		<img src="/Examples/Data/Slideshow/video.png" alt="HTML video sample"/>
+	</a>
+	<figcaption>
+		<a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_html&amp;widget=video">HTML video:</a>
+    Specify a list of alternate video sources.
+	</figcaption>
+</figure>
+<figure>
+	<a target="_blank" href="/Examples/Applications/Idiom_Search.mipage">
+<img src="/Examples/Data/Slideshow/Idiom_Search.png" alt="JavaScript DataTable sample"/>
+	</a>
+<figcaption>
+		<a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_JS&amp;widget=DataTable">JavaScript DataTable:</a>
+    Search the Dyalog and FinnAPL idiom lists.
+	</figcaption>
+</figure>
+<figure>
+	<a target="_blank" href="/Examples/SF/ejTreeGridSimple.mipage">
+<img src="/Examples/Data/Slideshow/ejTreeGrid.png" alt="Syncfusion ejTreeGrid sample"/>
+	</a>
+<figcaption>
+		<a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_SF&amp;widget=ejTreeGrid">Syncfusion ejTreeGrid:</a>
+    View and collapse a structured spreadsheet.
+	</figcaption>
+</figure>
+<figure>
+	<a target="_blank" href="/Examples/SF/ejMenuAdvanced.mipage">
+<img src="/Examples/Data/Slideshow/ejMenu.png" alt="Syncfusion ejMenu sample"/>
+	</a>
+<figcaption>
+		<a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_SF&amp;widget=ejMenu">Syncfusion ejMenu:</a>
+    Build a menu from external data.
+	</figcaption>
+</figure>
+<figure>
+	<a target="_blank" href="/Examples/html/formSimple.mipage">
+<img src="/Examples/Data/Slideshow/form.png" alt="HTML form sample"/>
+	</a>
+<figcaption>
+		<a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_html&amp;widget=form">HTML form:</a>
+    Arrange many interactive elements together.
+	</figcaption>
+</figure>
+<figure>
+	<a target="_blank" href="/Examples/DC/RadioButtonGroupSimple.mipage">
+<img src="/Examples/Data/Slideshow/RadioButtonGroup.png" alt="Dyalog RadioButtonGroup sample"/>
+	</a>
+<figcaption>
+		<a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_DC&amp;widget=RadioButtonGroup">Dyalog RadioButtonGroup:</a>
+    Create an entire group of radio buttons at once.
+	</figcaption>
+</figure>
+<figure>
+	<a target="_blank" href="/Examples/DC/ListManagerSimple.mipage">
+<img src="/Examples/Data/Slideshow/ListManager.png" alt="Dyalog ListManager sample"/>
+	</a>
+<figcaption>
+		<a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_DC&amp;widget=ListManager">Dyalog ListManager:</a>
+    Move fruits between lists with streamlined interface.
+	</figcaption>
+</figure>
+<figure>
+	<a target="_blank" href="/Examples/JQ/jqSpinnerSimple.mipage">
+<img src="/Examples/Data/Slideshow/jqSpinner.png" alt="jQuery UI Spinner sample"/>
+	</a>
+<figcaption>
+		<a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_JQ&amp;widget=jqSpinner">jQuery UI Spinner:</a>
+    (Pre-) select values with spinners.
+	</figcaption>
+</figure>

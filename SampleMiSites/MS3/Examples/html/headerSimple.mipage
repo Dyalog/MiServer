@@ -1,0 +1,23 @@
+﻿:class headerSimple: MiPageSample
+⍝ Control:: _html.header 
+⍝ Description:: Insert a header with introductory content
+ 
+    ∇ Compose;h;authors
+      :Access public 
+
+    ⍝ First we put in a header
+      h←Add _.header
+      h.Add _.h1 'Title of This Article'
+      authors←h.Add _.p 'By Dan and Adam '
+      authors.Add _.time '25 Apr ''16'
+      
+     ⍝ h←Add _.header,⊂(New _.h1 'Title of This Article')(New _.p,⊂'By Dan and Adam '{⍺⍵}New _.time '25 Apr ''16')
+
+    ⍝ The we add the body text
+      Add _.p (888⍴'Curabitur in nisl congue, sollicitudin leo vitae, lacinia mi. ')
+      Add _.p (777⍴'Praesent volutpat, lorem quis fringilla posuere, nulla felis fringilla ligula, at vehicula elit mauris vitae nulla. ')
+      Add _.p (666⍴'Quisque lectus magna, rutrum in fermentum eu, pellentesque a nisl. ')
+    ∇
+
+:endclass
+

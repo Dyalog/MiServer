@@ -1,16 +1,16 @@
 ﻿:class CheckBox : #._html.input
-⍝ Description:: Dyalog tristate checkbox widget
-⍝ Constructor:: [tristate [value [label [labelpos]]]]
-⍝ tristate - whether the checkbox allows 'indeterminate' value ('false' (default) or 'true')
-⍝ value    - initial value for the checkbox ('unchecked' (default) or 'checked')
+⍝ Description:: Dyalog checkbox widget - support tristate
+⍝ Constructor:: [value [label [labelpos [tristate]]]]
+⍝ tristate - Boolean indicating whether the checkbox allows 3 states ('indeterminate' 'false' (default) or 'true')
+⍝ value    - initial value for the checkbox either 'checked', 'unchecked', or 'indeterminate' if tristate
 ⍝ label    - string of text to appear next to the checkbox
 ⍝ labelpos - position of label relative to the checkbox ('left' (default) or 'right')
 ⍝ Public Fields::
-⍝ TriState - whether the checkbox allows 'indeterminate' value ('false' (default) or 'true')
+⍝ TriState - Boolean indicating whether the checkbox allows 3 states ('indeterminate' 'false' (default) or 'true')
 ⍝ Label    - string of text to appear next to the input field
 ⍝ LabelPos - position of label relative to the input field ('left' (default) or 'right')
 
-    :field public TriState←'false'
+    :field public TriState←0
     :field public Label←''
     :field public LabelPos←'left'
 
@@ -18,7 +18,6 @@
       :Access public
       :Implements constructor
       type←'checkbox'
-      value←'unchecked'
     ∇
 
     ∇ Make1 args
@@ -26,7 +25,7 @@
       :Implements constructor
       args←eis args
       type←'checkbox'
-      (TriState value Label LabelPos)←args defaultArgs'false' 'unchecked' '' 'left'
+      (value Label LabelPos TriState)←args defaultArgs UNDEF'' 'left' 0
     ∇
 
     ∇ r←Render
@@ -34,6 +33,11 @@
       SetInputName
      
       r←''
+     
+      :If (⊂value)∨.≡UNDEF''
+          value←(1+TriState)⊃'unchecked' 'indeterminate'
+      :EndIf
+     
       :Select value
       :Case 'checked'
           Set'checked='
@@ -41,14 +45,15 @@
           r,←'<script>function si(cb) {cb.readOnly=cb.indeterminate=true;};si(',id,');</script>'
       :EndSelect
      
-      Set'onclick="',(1↑'bt'↓⍨'t'=1↑TriState),'s(this)"'
+      Set'onclick="',('bt'[1+TriState]),'s(this)"'
      
       r,⍨←⎕BASE.Render
+     
       :If ~0∊⍴Label
           r←r((LabelPos≡'right'){⍺⍺:⍺,⍵ ⋄ ⍵,⍺})(⎕NEW #._html.label(Label(,⊂'for'id))).Render
       :EndIf
      
-      :If 'true'≡TriState
+      :If TriState
           r,←(⎕NEW #._html.script ScriptFollows).Render
 ⍝ function ts(cb) {
 ⍝     if (cb.readOnly) {

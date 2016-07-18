@@ -1,0 +1,56 @@
+﻿:Class ejDateTimePickerAdvanced : MiPageSample
+⍝ Control:: _SF.ejDateTimePicker
+⍝ Description::  Let user select dates/times and display the difference
+
+    ∇ Compose;today;fromidn;tbl;tr;td;head;todate;from;to
+      :Access Public
+      fromidn←#.Dates.DateToIDN 3↑today←⎕TS
+     
+      Add _.h2'We Rent Cars - Reservation System'
+     
+    ⍝ The in date
+      from←'in'New _.ejDateTimePicker today'yyyy/MM/dd HH:mm'
+     
+    ⍝ The out date
+      todate←#.Dates.IDNToDate fromidn+7
+      to←'out'New _.ejDateTimePicker todate'yyyy/MM/dd HH:mm'
+     
+    ⍝ Retrieve both the input element values and the ejDataTimePicker options to show the difference
+      from.On'close' 'setNewDate'(('in' 'val')('out' 'val' '#out')('inOption' 'option' 'value')('outOption' 'option' 'value'to))
+      to.On'close' 'setNewDate'(('in' 'val' '#in')('out' 'val')('inOption' 'option' 'value'from)('outOption' 'option' 'value'))
+      to.On'change' 'setNewDate'(('in' 'val' '#in')('out' 'val')('inOption' 'option' 'value'from)('outOption' 'option' 'value'))
+     
+      Add _.InputGrid('Pick Up: ' 'Drop Off: ',⍪from to)
+     
+      Add _.br
+     
+      'output'Add _.div
+      Add _.br
+      Add _.p MarkdownFollows
+    ⍝ After selecting a date/time, you'll see the results obtained from both the underlying HTML input element and the value stored in the Syncfusion ejDateTimePicker object.\
+    ⍝ The input element value conforms to the display format set in the ejDateTimePicker constructor.\
+    ⍝ The value stored in the ejDateTimePicker model is a  JavaScript Date object and is returned to APL as a formatted string.\
+    ⍝ \
+      'output2'Add _.div
+    ∇
+
+    ∇ r←setNewDate;in;inRaw;out;outRaw;inOpt;outOpt
+      :Access public
+    ⍝ Find the difference between the dates
+      in←#.Dates.ParseDate inRaw←Get'in'
+      out←#.Dates.ParseDate outRaw←Get'out'
+      (inOpt outOpt)←Get'inOption outOption'
+      :Trap 11
+          (in out)←#.Dates.DateToIDN¨in out
+          :If in>out
+              r←'#output'Replace'Going back in time?'
+          :Else
+              r←'#output'Replace'The difference in days is: ',⍕out-in
+          :EndIf
+      :Else
+          r←'#output'Replace'Invalid input!'
+      :EndTrap
+      r,←'#output2'Replace _.Grid(('"Pick Up" input value' '"Pick Up" Syncfusion option value' '"Drop Off" input value' '"Drop Off" Syncfusion option value'),[1.1]inRaw inOpt outRaw outOpt)'style="padding:5px"'
+    ∇
+
+:EndClass

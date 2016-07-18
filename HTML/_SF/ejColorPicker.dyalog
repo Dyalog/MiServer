@@ -7,7 +7,7 @@
 ⍝ Color    - string of text to appear next to the input field
 ⍝ Palette  - position of label relative to the date input field ('left' (default) or 'right')
 
-    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejColorPicker.html'
+    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/js/api/ejColorPicker.html'
     :Field Public Shared ReadOnly ApiLevel←3
     :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejColorPicker.html'
     :Field public Shared ReadOnly IntEvt←'change' 'close' 'create' 'destroy' 'open' 'select'
@@ -36,6 +36,7 @@
       :Access Public
       :If 'true'≢⍕⎕THIS.GetOption'displayInline'
           ContainerTag←'input'
+          Container.NoEndTag←1
           Container.type←'text'
       :EndIf
       ('value' 'palette')Set Color Palette

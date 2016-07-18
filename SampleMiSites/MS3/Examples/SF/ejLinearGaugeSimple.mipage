@@ -1,0 +1,11 @@
+﻿:Class ejLinearGaugeSimple : MiPageSample
+⍝ Control:: _SF.ejLinearGauge
+⍝ Description:: Linear gauge (thermometre style)
+
+    ∇ Compose
+      :Access Public
+      Add _.h4'ejLinearGauge Example'
+      Add _.ejLinearGauge 67
+    ∇
+
+:EndClass

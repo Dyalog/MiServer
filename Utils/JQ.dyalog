@@ -11,18 +11,32 @@
     quote←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
 
-    ∇ r←{script}JQueryfn pars;jqfn;sel;jqpars;chain;script;oname;prejs
-    ⍝ pars - [1] jquery function name, [2] selectors, [3] jquery function parameters, [4] jquery function chain [5] object name for the created object
+    ∇ r←{script}JQueryfn pars;jqfn;sel;jqpars;chain;script;oname;prejs;option
+    ⍝ pars -
+    ⍝   [1] jquery function name,
+    ⍝   [2] selectors,
+    ⍝   [3] jquery function parameters,
+    ⍝   [4] jquery function chain,
+    ⍝   [5] object name for the created object
+    ⍝   [6] JavaScript to execute prior to function call
+    ⍝   [7] option
     ⍝ for usage examples, see other functions in this namespace
-      script←{6::1 1 ⋄ script}⍬  ⍝[1] wrap with <script>? [2]add jQuery onload $(function(){});?
-      script←2↑script,(⍴,script)↓1 1
+      script←{6::⍵ ⋄ script}⍬  ⍝[1] wrap with <script>? [2]add jQuery onload $(function(){});? [3] 1=use jQuery selector, 0=use JavaScript New
+      script←3↑script,(⍴,script)↓1 1 1
       pars←eis pars
-      jqfn sel jqpars chain oname prejs←pars,(⍴pars)↓'' '' '' '' '' ''
+      jqfn sel jqpars chain oname prejs option←pars,(⍴pars)↓'' '' '' '' '' '' ''
       chain,←(';'=¯1↑chain)↓';'
       sel←quote ¯2↓enlist{⍵,', '}¨eis sel
-      :If 9=|⎕NC'jqpars' ⋄ jqpars←#.JSON.toJQueryParameters jqpars
-      :ElseIf '{'≠1↑jqpars ⋄ jqpars←'{',jqpars,'}' ⋄ :EndIf
-      r←script[2]{⍺:'$(function(){',⍵,'});' ⋄ ⍵}(prejs ine prejs,';'),(oname ine oname,'='),'$(',sel,').',jqfn,'(',jqpars,')',chain
+      :If 9=|⎕NC'jqpars'
+          jqpars←#.JSON.toJQueryParameters jqpars
+      :ElseIf '{'≠1↑(+/∧\jqpars∊' ',CRLF)↓jqpars
+          jqpars←'{',jqpars,'}'
+      :EndIf
+      :If ~0∊⍴option
+          jqpars,⍨←(quote option),', '
+      :EndIf
+      r←script[3]{⍺:'$(',sel,').',⍵ ⋄ 'new ',⍵}jqfn,'(',jqpars,')',chain
+      r←script[2]{⍺:'$(function(){',⍵,'});' ⋄ ⍵}(prejs ine prejs,(';'=¯1↑prejs)↓';'),(oname ine oname,' = '),r
       r←script[1]{⍺:#.HTMLInput.JS ⍵ ⋄ ⍵}(oname ine'var ',oname,';'),r
     ∇
 

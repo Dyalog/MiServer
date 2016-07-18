@@ -1,0 +1,225 @@
+﻿:Class FontIconsSimple : MiPageSample
+⍝ Control:: _DC.FontIcons
+⍝ Description:: provides an easy cover for the wonderful icons from FontAwesome, Blacktie and FontIcons
+
+    ∇ Compose;frm;single;multi;btn
+      :Access public
+      'FontAwesome'_.FontIconsBase.DeriveClass'FontAwesome' 'fa' ⍝ set it up (should be done "elsewhere" after loading FI-Class...)
+      ⍝ notice how there is no Use-Statement required to load the resources! :-)
+     
+      Add _.title'_.FontIcons'
+      Add _.h2'Some Examples'
+      Add _.p ScriptFollows
+            ⍝ This widget simplifies access to the icons provided in FontAwesome which are used all over the web.
+            ⍝ Also "difficult" combinations should be simplified by this class - please study the source-code of this example-page for more details...
+     
+      Add _.h3'Basic Icons'
+      Add _.FontAwesome'camera'
+      Add _.FontAwesome'camera-retro'
+      Add _.FontAwesome'user'
+      Add _.FontAwesome'home'
+      Add _.FontAwesome'book'
+      Add _.FontAwesome'pencil'
+      Add _.FontAwesome'terminal'
+      Add _.FontAwesome'flag'
+      Add _.FontAwesome'trash'
+      Add _.FontAwesome'pied-piper-alt'
+      Add _.FontAwesome'hand-spock-o'
+      Add _.FontAwesome'thumbs-o-up'
+     
+      Add _.br
+      Add'Actually there are > 400 icons in the entire collection - see link below!'
+     
+      Add _.h3'Larger Icons'
+      Add _.FontAwesome'camera'
+      Add _.FontAwesome'camera 2x'
+      Add _.FontAwesome'camera 3x'
+      Add _.FontAwesome'camera 4x'
+      Add _.FontAwesome'camera 5x'
+      Add _.FontAwesome'camera-retro 5x'
+      Add _.FontAwesome'camera-retro 4x'
+      Add _.FontAwesome'camera-retro 3x'
+      Add _.FontAwesome'camera-retro 2x'
+      Add _.FontAwesome'camera-retro'
+     
+      Add _.h3'List Icons'
+      fa←Add _.FontAwesome
+      ⍝ examples also illustrate
+      fa.ul(('check-square' 'List icons' '#foo1')('check-square'('can be used' 'style="color: green;"'))('spinner spin'('as bullets' '#bulletsInner')'#bulletsOuter')('square' 'in lists'))
+     
+     
+      Add _.h3'Bordered & Pulled Icons'
+      d←Add _.div
+      d.Add _.FontAwesome'quote-left 2x pull-left border'
+      d.Add _.div'<i>...even quotations should look nice in APL!</i>" said the anonymous Danish CTO of an orange-coloured APL-Vendor...' 'style="font-style:italics;width: 300px;"'
+     
+     
+      Add _.h3'Animated Icons'
+      Add _.FontAwesome'circle-o-notch spin'
+      Add'And this dynamic stuff just rolls...'
+     
+     
+      Add _.br
+      Add _.FontAwesome'refresh spin'
+      Add'...and spins...'
+     
+     
+      Add _.br
+      Add _.FontAwesome'spinner pulse'
+      Add'...forever and ever!'
+     
+     
+      Add _.h3'Rotated & Flipped'
+      Add _.FontAwesome'shield' ⋄ Add'normal' ⋄ Add _.br
+      Add _.FontAwesome'shield rotate-90' ⋄ Add'rotate-90' ⋄ Add _.br
+      Add _.FontAwesome'shield rotate-180' ⋄ Add'rotate-180' ⋄ Add _.br
+      Add _.FontAwesome'shield rotate-270' ⋄ Add'rotate-270' ⋄ Add _.br
+      Add _.FontAwesome'shield flip-horizontal' ⋄ Add'flip-horizontal' ⋄ Add _.br
+      Add _.FontAwesome'shield flip-vertical' ⋄ Add'flip-vertical' ⋄ Add _.br
+     
+     
+     
+      Add _.h3'Stacked Icons'
+      fa←Add _.FontAwesome
+      fa.StackSize←'lg'
+      fa.stack'square-o stack-2x'
+      fa.stack'twitter'
+     
+      nocam←Add _.FontAwesome
+      nocam.StackSize←'lg'
+      nocam.stack'camera'
+      nocam.stack'ban 2x'(⊂'style' 'color:red;')
+     
+     
+      Add _.h3'Filenames and more stacking'
+      ⍝ actually, with all the stuff I got from the stacking-experiments, I may redo .tla - it would be "nice"
+      ⍝ if is also returned objects instead of HTML.
+      Use'⍕https://fonts.googleapis.com/css?family=Fira+Mono'  ⍝load font...
+      Add _.FontAwesome.tla'DWS'
+      Add 2 _.FontAwesome.tla'DWS'
+      Add 3 _.FontAwesome.tla'DWS'
+      Add 4 _.FontAwesome.tla'DWS'
+      Add 5 _.FontAwesome.tla'DWS'
+      Add _.p ScriptFollows
+      ⍝ Icons for 3-letter filenames can be constructed with the static function <code>tla</code> which takes 3 characters as argument and creates a nice file-icon.
+      ⍝ <br /><b>NB:</b> since this class requires a GoogleFont, it may look different when used w/o www-access!
+      ⍝ If you want to use it in an intranet or other offline-scenarios, you can <a href="https://www.google.com/fonts">download</a> the font and you will need to adjust the font-definition in the CSS (which will also be stored locally).
+     
+      Add 5 _.FontAwesome.tla2'XFL'
+      Add 5 'white' 'green'_.FontAwesome.tla2'APL'
+      Add 5 'white' '#FF00FF'_.FontAwesome.tla2'GIF'
+      Add 5 'yellow' 'red'_.FontAwesome.tla2'red'
+      Add _.p ScriptFollows
+      ⍝ And there also exists a function for files with a possibility to control the colors of text and file-icon!
+     
+     
+      par←Add _.p
+      par.SetAttr'style=display:inline-block;'
+      fa←(par.Add _.FontAwesome'pull-left').Add _.FontAwesome
+      fa.StackSize←'2x'
+      fa.stack New _.FontAwesome'file-o 2x'
+      fa.stack'gear'
+      par.Add'Note how you can also stack icons unto <code>file-o</code> to construct further file-type icons!'
+     
+      par←Add _.p
+      par.SetAttr'style=display:inline-block;'
+      fa←(par.Add _.FontAwesome'pull-left').Add _.FontAwesome
+      fa.StackSize←'3x'
+      fa.stack New _.FontAwesome'file-o 2x'
+      gear←New _.FontAwesome'gear' 'style="top: .25em;color: blue;"'
+      fa.stack gear
+      par.Add'Minor adjustment applied and also modified colour and scaled it to demonstrate how it still looks good ;-)'
+      par.Add'In order to keep this sort of fine-tuning "scaleable" (so that the whole thing can easily enlarged by embedding it all in a "fa-4x"-tag), be careful to always specify such offsets using relative measurement with <code>em</code>.<br /><br />'
+     
+      par←Add _.p
+      fao←par.Add _.FontAwesome'pull-left'  ⍝ outer fa
+      fa←fao.Add _.FontAwesome
+      fa.SetAttr'style="margin-bottom:.6em;margin-right: 1em;padding-top: .6em;vertical-align:bottom;"'
+      fa.StackSize←'1x'
+      fa.stack New _.FontAwesome'file-o 3x stack-1x'
+      nocam2←New _.FontAwesome'stack-1x'
+      nocam2.stack'camera'
+      nocam2.stack'ban 2x'(⊂'style' 'color:red;')
+      nocam2.SetAttr'style="top: 1em;left:.25em"'
+      fa.stack nocam2
+     
+      par.Add'As demonstrated in this example, you can even construct an icon for "no photos"!<br />By stacking an existing stacked object unto the file-icon!'
+      par.Add'Please note that the baseline of these icons is the same as that of your text, so if you want to top-align as in this example, you should add an outer "pull-left" tag.'
+     
+      par←Add _.p
+      fa←(par.Add _.FontAwesome'pull-left').Add _.FontAwesome
+      fa.StackSize←'2x'
+      fa.stack New _.FontAwesome'file-o 2x'
+      fa.stack New _.FontAwesome'exclamation' 'style=color:red;'
+      par.Add'These last nicely displayed paragraphs unfortunately could not come for free - they require some extra work from the user!'
+     ⍝ unfortunately I do not see a general solution, as there may well be cases where the user desires a different layout.
+     ⍝ and also, it would be neccessary to have that styling radiate out from the embedded icon-stack to the outer
+     ⍝ container - and I haveno idea how to achieve that.
+      ⌈
+      par←Add _.p
+      fa←(par.Add _.FontAwesome'pull-left').Add _.FontAwesome
+      fa.StackSize←'2x'
+      fa.stack New _.FontAwesome'file-o 2x'
+      fa.stack New _.FontAwesome'exclamation' 'style=color:red;'
+      par.Add'The effect of not doing what we''re about to reveal is demonstrated here: line-wraps and overlapping regions around left-aligned icons.'
+     
+      par←Add _.p
+      fa←(par.Add _.FontAwesome'pull-left').Add _.FontAwesome
+      fa.StackSize←'2x'
+      fa.stack New _.FontAwesome'file-o 2x'
+      fa.stack New _.FontAwesome'exclamation' 'style=color:green;margin-top:.2em;'
+      par.Add'To avoid this problem, you need to add a style-tag to the containing tag (typically a <code>p</code>) to set the display-attribute to <code>inline-block</code> or alternatively force enough linebreaks with <code>br</code>-tags (but that would be a very ugly hack since it might not work when the page is viewed on devices with larger/smaller dimensions etc. - the ultimate non-responsive layout ;-)'
+     
+     
+      par←Add _.p
+      fa1←par.Add _.FontAwesome'pull-left'
+      fa←fa1.Add _.FontAwesome
+      fa.StackSize←'3x'
+      fa.stack'calendar-o 2x'
+      fa.stack New _.span'42' 'style="margin-left: .4em;vertical-align: -16%;font-family:  ''Fira Mono'',''Monospace'';font-weight: 800;"' ⍝
+     
+      Use'⍕https://fonts.googleapis.com/css?family=Permanent+Marker'
+      ⍝par←Add _.p
+      fa1←par.Add _.FontAwesome'pull-left'
+      fa1.SetAttr'style=vertical-align: 1em;'  ⍝ lift the whole thing a bit up...
+      fa←fa1.Add _.FontAwesome
+      fa.StackSize←'3x'
+      fa.stack'comment-o 2x'
+      fa.stack New _.span'Hi' 'style="margin-top: -.1em;font-family:  ''Permanent Marker'';" class="fa-stack-1x"'
+     
+      par.Add'It is also possible to stack HTML-Text! Sometimes this may require fiddling with vertical and hotizontal offset, since the vertical spot in the icon may not always be centered. It is best to "em" or "%" as a relative measure when doing these fine adjustments, since you can then easily enlarge the whole thing by embedding it into a <code>FontAwesome''2x''</code>-tag. Examine source for examples...!'
+     
+      Add _.p'<i>If you come up with new ideas for stacking, pls. post a screenshot on twitter to @dyalog and @fonticons or to miserver@dyalog.com !</i>'
+     
+      Add _.h3'Blacktie & FontIcons'
+      Add'The developer of FontAwesome also has excellent commercial offering which we recommend to also have look at.'
+      fa2←Add _.FontAwesome
+      fa2.ul(('blacktie' '<a href="http://blacktie.io/">BlackTie</a>')('web' '<a href="http://fonticons.com">FontIcons</a>'))
+      Add'Both of these are supported as well through the underlying FontIconsBase-Class. To use any of these fonts, you will first need to derive a class for that purpose.'
+      Add'Fortunately we got you covered and the work has been done, so all you need to do is the initilization:'
+      (Add _.p).Add _.code'''FontIcons''_.FontIconsBase.DeriveClass'':9f8444473'' ''fid''   ⍝ use fi-demo kit'
+     
+      sp←Add _.p
+       ⍝proove it:
+      'FontIcons'_.FontIconsBase.DeriveClass':9f8444473' 'fid'   ⍝ fi-demo kit
+      sp.Add _.img''('src=/Examples/Data/fonticons.png' '.pull-left')
+     
+      sp.Add'<b>NB:</b> the string used as first argument to DeriveClass is the id of your kit as shown on your personal FontIcons-page (which you get after you signed up...)'
+      sp.Add _.br
+      sp.Add'...and then you can reference the icons in your kit using '
+      sp.(Add _.p).Add _.code'Add _.FontIcons''apple'''
+     
+      sp.Add'which results in:'
+      sp.Add _.FontIcons'apple'
+     
+      Add _.p'<i>(Of course these sample icons are also accessible via FontAwesome, they simply illustrate the principle. However, even accessing these via FontIcons might make sense as you could reduce the size of included script with a focussed iconset... )</i>'
+     
+     ⍝ --- Add a list of interesting web pages ---
+      Add _.br'' 'clear=all'
+      Add _.h2'Useful Links'
+      text←'FontAwesome Homepage' 'Examples and Doco' 'List of Icons' 'BlackTie-Font' 'FontIcons'
+      urls←'http://'∘,¨'fontawesome.io/' 'fontawesome.io/examples/' 'fontawesome.io/icons/' 'blacktie.io' 'fonticons.com'
+      Add _.Ul(text urls) ⍝ Construct Ul with texts and urls
+    ∇
+
+:EndClass

@@ -1,0 +1,22 @@
+﻿:Class jqToggleClassSimple: MiPageSample
+⍝ Control:: _JQ.jqToggleClass _html.head
+⍝ Description:: Toggle a class during callback
+
+    ∇ Compose
+      :Access public
+      Use'JQueryUI' ⍝ because we will add jQuery UI effects later
+      Add _.Style'.redclass',⊂('background-color' 'red')('font-size' 'large')
+      '#output'Add _.p ScriptFollows
+      ⍝ We've already set up a style for the class "redclass".<br>
+      ⍝ Click the button to toggle whether this paragraph has that class or not.<br>
+      ⍝ Having the clase should make the paragraph big and red.
+      ('button'Add _.Button'Toggle!').On'click' 'Toggle'
+    ∇
+
+    ∇ r←Toggle
+      :Access public
+      ⍝ Scripts belong in the <head> element:
+      r←'head'Append New _.jqToggleClass,⊂'#output' 'redclass' '' 800 'easeInOutBounce'
+    ∇
+
+:EndClass

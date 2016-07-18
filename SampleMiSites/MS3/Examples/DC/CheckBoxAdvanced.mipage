@@ -1,0 +1,27 @@
+﻿:Class CheckBoxAdvanced : MiPageSample
+⍝ Control:: _DC.CheckBox
+⍝ Description:: Variably tristate check-box
+
+    ∇ Compose;cb2;cb1div
+      :Access Public
+     
+      cb1div←'cb1div'Add _.div
+      'cb1'cb1div.Add _.CheckBox 'unchecked' 'This checkbox is 2-state' 'right'
+     
+      cb2←'cb2'Add _.CheckBox 'unchecked' '← Select to make the first one tri-state!' 'right' 0
+     
+      cb2.On'click' 'Switch'('cb1value' 'val' '#cb1')
+     
+    ∇
+    
+    ∇ js←Switch;newcb
+      :Access public
+     ⍝ We are not actually changing its tristate-ness, just replacing it with a new one
+      newcb←'cb1' New _.CheckBox (Get 'cb1value') 'This checkbox is 2-state' 'right'
+      :If 'checked'≡_value
+      newcb.(TriState Label)←1 'This checkbox is now 3-state'
+      :EndIf
+      js←'#cb1div'Replace newcb
+    ∇
+
+:EndClass

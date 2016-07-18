@@ -1,5 +1,5 @@
 ﻿:Class ejTimePicker : #._SF._ejWidget
-    :Field Public Shared ReadOnly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejTimePicker.html'
+    :Field Public Shared ReadOnly DocBase←'http://help.syncfusion.com/js/api/ejTimePicker.html'
     :Field Public Shared ReadOnly ApiLevel←2
     :Field Public Shared ReadOnly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejTimePicker.html'
     ∇ make0
@@ -21,4 +21,11 @@
       (n↑'value' 'timeFormat')Option 1↓args
       Container.type←'text'
     ∇
+	
+	∇ r←Render
+	:Access Public
+	Container.NoEndTag←1
+    r←⎕BASE.Render
+	∇
+	
 :EndClass

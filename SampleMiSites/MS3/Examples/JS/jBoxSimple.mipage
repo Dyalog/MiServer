@@ -1,0 +1,26 @@
+:Class jBoxSimple : MiPageSample
+⍝ Control::     _JS.jBox
+⍝ Description:: jBox provides several style of popups
+
+    ∇ Compose
+      :Access public
+     
+    ⍝ add some styling to make the tooltipped spans stand out more
+      Add _.Style'.tooltip'(('background-color' 'lightblue')('border' '1px solid gray'))
+     
+      Add _.h2'jBox Widget'
+     
+      Add _.p ScriptFollows
+    ⍝ jBox has various functions which might be of interest to the APL-Developer.
+    ⍝ First, we'd like to demonstrate tooltips. <span class="tooltip" title="Hi, I'm a tooltip!">Move mouse over this text!</span>
+    ⍝ The tooltip opens automatically when your moves over the element. To help you recognize these
+    ⍝ sensitive areas, the region of all "tooltipped" elements will be coloured - but that is a specific
+    ⍝ feature of this demo as you will see when <span title="Click on the topleft D-Icon!" class="tooltip"> examining the source-code</span>.
+    ⍝ <br />Some more advanced ways of creating and configuring tooltips
+    ⍝ are presented in the <a href="./jBoxAdvanced">advanced</a> example.
+     
+    ⍝ Now create tooltips for all elements with class "tooltip" (jBox by default uses title-attribute for text of tooltip):
+      (Add _.jBox).Selector←'.tooltip'
+     
+    ∇
+:EndClass

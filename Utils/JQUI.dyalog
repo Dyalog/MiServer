@@ -65,7 +65,7 @@
 
 ⍝ --- Widget functions ---
 
-    ∇ r←{req}Accordion pars;id;hdrs;content;jqpars;oname;chain
+    ∇ r←{req}Accordion pars;id;hdrs;content;jqpars;oname;chain;myid
     ⍝ req - HTTPRequest object
     ⍝ id - the id for the accordion
     ⍝ jqpars - Accordion parameters
@@ -74,7 +74,7 @@
     ⍝ updates req.Response.head and returns html
       pars←eis pars
       id hdrs content jqpars chain oname←6↑pars,(⍴pars)↓'' '' '' '' '' ''
-      :If 0∊⍴id ⋄ id←'myAccordian' ⋄ :EndIf
+      :If 0∊⍴id ⋄ id←#.HtmlElement.GenId ⋄ :EndIf
       :If 9=⎕NC'req' ⋄ req.Use'JQueryUI' ⋄ :EndIf
       hdrs←#.OldHTML.h3¨('href' '#')∘#.OldHTML.a¨hdrs
       content←#.OldHTML.div¨content

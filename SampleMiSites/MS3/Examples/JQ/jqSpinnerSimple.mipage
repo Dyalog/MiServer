@@ -1,0 +1,31 @@
+﻿:Class jqSpinnerSimple : MiPageSample
+⍝ Control:: _JQ.jqSpinner
+⍝ Description:: (Pre-) select values with spinners
+
+    ∇ Compose;drag
+      :Access Public
+      Add _.h4'jQuery Spinner Widget'
+     
+      Add _.h6'Simple Spinner'
+      '#Simple' '.spin'Add _.jqSpinner
+     
+      Add _.h6'Preset Spinner'
+      '#Preset' '.spin'Add _.jqSpinner 0 10 7
+      Add _.br
+     
+      Add _.Handler'.spin' 'spinchange' 'myCallBack'('newval' 'val')
+     
+      Add _.br
+      '#Update'Add _.Button'Update'
+      Add _.br
+     
+      '#output'Add _.div
+    ∇
+
+    ∇ r←myCallBack
+      :Access Public
+      r←'#output'Replace _what,' Spinner changed to ',⍕Get'newval'
+    ∇
+
+
+:EndClass

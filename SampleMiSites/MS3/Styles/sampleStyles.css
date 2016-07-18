@@ -1,0 +1,650 @@
+/* Global: all transitions equally long*/
+#banner, #about {
+    transition: 0.25s;
+}
+
+* {
+    transition: inherit;
+}
+
+/* APL font on devices without it */
+@font-face {
+    font-family: APL385 Unicode;
+    src: url(/Styles/apl385.ttf);
+}
+
+@font-face {
+    font-family: APL333;
+    src: url(/Styles/APL333.ttf);
+}
+
+/* Body and Wrapper */
+body {
+    font-family: Verdana;
+    margin: 0px;
+    min-width: 480px;
+}
+
+.bodyblock {
+    font-family: Verdana;
+    min-height: 150px;
+    font-size: 1em;
+    position: relative;
+}
+
+#banner+.bodyblock {
+    padding-top: 4em;
+}
+
+/* Banner */
+#banner {
+    background: black;
+    box-shadow: 0px 0px 4px 4px black;
+    color: white;
+    position: fixed;
+    width: 100%;
+    right: 0;
+    left: 0;
+    z-index: 99;
+    padding-top: 10px;
+    height: 47px;
+    float: left;
+    padding-bottom: 10px;
+}
+
+#banner-logo img {
+    width: 53px;
+    left: 10px;
+    cursor: pointer;
+    position: fixed;
+}
+
+#banner-heading {
+    float: left;
+    padding-left: 70px;
+}
+
+#banner-heading h1 {
+    margin: 1px;
+    font-size: x-large;
+}
+
+#banner-heading p {
+    margin: 0;
+    font-size: small;
+}
+
+@media (max-width: 1023px) {
+    #banner-heading {
+        transform: translateX(-225px) scale(0,1);
+    }
+
+    #about td:first-child {
+        width: calc(100% - 40px) !important;
+    }
+
+    #about td {
+        display: block;
+        width: calc(100% + 200px) !important;
+    }
+
+    #slideshow {
+        display: none;
+    }
+}
+
+#banner-toggle {
+    float: right;
+    margin-right: 25px;
+}
+
+#view {
+    margin-top: -5px;
+    right: 215px;
+    position: fixed;
+    float: right;
+}
+
+#view caption {
+    padding-bottom: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.viewtab {
+    background: linear-gradient(white -100%,transparent);
+    color: darkorange;
+    border-radius: 10px 10px 0 0;
+    width: 5em;
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+    box-shadow: 0 0px 10px 2px rgba(255,255,255,0.5) inset;
+}
+
+.viewtab:hover {
+    color: white;
+}
+
+.activetab {
+    background: white;
+}
+
+.activetab:hover {
+    color: darkorange;
+}
+
+#toggle {
+    font-family: Verdana;
+    font-weight: bold;
+    color: darkorange;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#hamburger {
+    position: fixed;
+    right: 2em;
+    font-size: x-large;
+    top: 0.8em;
+    color: darkorange;
+    z-index: 1;
+}
+
+#hamburger:hover {
+    color: white;
+}
+
+#ham {
+    font-size: xx-large;
+    color: white;
+    position: relative;
+    top: -7px;
+}
+
+#banner-resources {
+    border-radius: 0 0 15px 15px;
+    right: 10px;
+    padding-right: 10px;
+}
+
+#banner-resources a:hover {
+    color: white;
+}
+
+/* Widget Help */
+#widgethelp {
+    padding: 10px;
+    color: white;
+    display: none;
+    background-color: black;
+    box-shadow: 0px 0px 4px 4px black;
+    transition: none;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+#widgethelp a:hover {
+    color: white;
+}
+
+#used {
+    font-size: large;
+}
+
+#banner-resources {
+    color: white;
+    display: none;
+    background-color: black;
+    box-shadow: 0px 0px 4px 4px black;
+    transition: none;
+    position: fixed;
+    width: 185px;
+    top: 40px;
+    /* margin-bottom: -10px; */
+}
+
+.hide {
+    display: none;
+}
+
+#banner-dyalog input:checked ~ #banner-resources {
+    display: block;
+}
+
+.dyaloglogo {
+    height: 30px;
+    position: fixed;
+    right: 15px;
+    top: 20px;
+}
+
+/*Template Footer*/
+#footer {
+    background: #92598C;
+    padding: 10px 10px 5px 10px;
+    color: white;
+    width: 100%;
+    font-size: medium;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 99;
+    box-shadow: 0px -5px 10px gray;
+    font-weight: bold;
+    text-shadow: 1px 1px 5px black;
+}
+
+#footertext {
+    font-size: .6em;
+}
+
+/*Template Content Area Styles*/
+#contentblock {
+    padding: 1em;
+}
+
+#codeblock {
+    display: none;
+    /* overflow-x: auto; */
+}
+
+#banner-resources ul {
+    list-style: none;
+    padding-left: 15px;
+}
+
+#banner-resources>ul>li {
+    padding-top: 10px;
+}
+
+.resource-cat {
+    font-weight: bold;
+}
+
+/* Utility Styles */
+.clear {
+    /*An empty "clear: both" style div at the end of a section */
+    /*with floating columns is is useful for at the*/
+    /*end of a section with floating columns. */
+    clear: both;
+}
+
+/*General Styles*/
+#content {
+    margin-left: 30px;
+    font-size: .70em;
+    padding-bottom: 2em;
+}
+
+a:link {
+    color: darkorange;
+    text-decoration: none;
+}
+
+a:visited {
+    color: darkorange;
+    /* font-weight: bold; */
+    text-decoration: none;
+}
+
+pre {
+    padding: 5px;
+    font-size: medium;
+    /* white-space: pre-wrap; */
+    /* word-wrap: break-word; */
+    overflow-x: scroll;
+    /* max-width: 100%; */
+}
+
+code, .a385 {
+    font-family: APL385 Unicode;
+}
+
+.a333 {
+    font-family: APL333;
+}
+
+td {
+    vertical-align: top;
+    padding: 0;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+}
+
+h3 {
+    font-size: 1.1em;
+    color: #000000;
+    margin-left: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+font.value {
+    color: darkblue;
+    font-weight: bold;
+}
+
+font.key {
+    color: darkgreen;
+    font-weight: bold;
+}
+
+font.error {
+    color: darkred;
+    font-weight: bold;
+}
+
+heading1 {
+    color: #ffffff;
+    font-family: Tahoma;
+    font-size: 26px;
+    font-weight: normal;
+    background-color: #003366;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: -30px;
+    padding-top: 10px;
+    padding-bottom: 3px;
+    padding-left: 15px;
+    width: 105%;
+}
+
+.button {
+    background-color: #dcdcdc;
+    font-family: Verdana;
+    font-size: 1em;
+    border-top: #cccccc 1px solid;
+    border-bottom: #666666 1px solid;
+    border-left: #cccccc 1px solid;
+    border-right: #666666 1px solid;
+}
+
+.frmheader {
+    color: #000000;
+    background: #dcdcdc;
+    font-family: Verdana;
+    font-size: .7em;
+    font-weight: normal;
+    border-bottom: 1px solid #dcdcdc;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.frmtext {
+    font-family: Verdana;
+    font-size: .7em;
+    margin-top: 8px;
+    margin-bottom: 0px;
+    margin-left: 32px;
+}
+
+.frmInput {
+    font-family: Verdana;
+    font-size: 1em;
+}
+
+.intro {
+    margin-left: -15px;
+}
+
+.leftalign {
+    float: left;
+}
+
+.rightalign {
+    float: right;
+    margin-right: 20px;
+}
+
+.rightalign img {
+    width: 120px;
+    height: auto;
+}
+
+.exampletable td {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.rjust {
+    text-align: right;
+}
+
+.ljust {
+    text-align: left;
+}
+
+.cjust {
+    text-align: center;
+}
+
+.centered {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.external {
+    /* font-weight: normal !important; */
+    display: inline-block;
+}
+
+[data-dyalog-tip]:hover {
+    position: relative;
+}
+
+[data-dyalog-tip]:hover:after {
+    content: attr(data-dyalog-tip);
+    font-weight: normal;
+    font-size: small;
+    text-decoration: none;
+    padding: 4px;
+    color: black;
+    position: absolute;
+    left: 0px;
+    bottom: 20px;
+    white-space: nowrap;
+    box-shadow: 0px 0px 4px black;
+    background-color: white;
+    z-index: 1;
+    height: 20px;
+    text-shadow: none;
+}
+
+#reading, #reading ul, #reading ul li {
+    list-style: none;
+    padding-left: 10px;
+    width: 200px;
+    position: relative;
+    font-weight: bold;
+}
+
+#reading {
+    border-left: 1px solid lightgray;
+    margin-left: 20px;
+    padding-left: 20px;
+}
+
+#reading li li::before, #reading li li::after {
+    content: "";
+    position: absolute;
+    left: 0;
+}
+
+#reading li li::before {
+    border-top: 2px solid #000;
+    top: 9px;
+    width: 8px;
+    height: 0;
+}
+
+#reading li li::after {
+    border-left: 2px solid #000;
+    height: 100%;
+    width: 0px;
+    top: 2px;
+}
+
+#reading li li:last-child::after {
+    height: 8px;
+}
+
+#about {
+    line-height: 133%;
+    margin: -10px;
+}
+
+#about td {
+    padding: 20px;
+    width: 33.3%;
+}
+
+iframe {
+    width: calc(100% - 35px);
+    background-color: wheat;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    padding: 5px;
+    border: none;
+    box-shadow: 0px 0px 4px 4px black, inset 0px 0px 4px 4px black;
+}
+
+#widgetdoc {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.bigtabs {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+/* SLIDESHOW CSS */
+#slideshow {
+    width: 495px;
+    height: 370px;
+    margin: 0.5em 0em 1.5em 2em;
+    box-shadow: 2px 2px 10px 0px;
+}
+
+#slideshow figure {
+    margin: 0;
+    max-width: 495px;
+    height: 370px;
+    position: absolute;
+}
+
+#slideshow figure:nth-child(1) {
+    animation: xfade 48s 42s infinite;
+}
+
+#slideshow figure:nth-child(2) {
+    animation: xfade 48s 36s infinite;
+}
+
+#slideshow figure:nth-child(3) {
+    animation: xfade 48s 30s infinite;
+}
+
+#slideshow figure:nth-child(4) {
+    animation: xfade 48s 24s infinite;
+}
+
+#slideshow figure:nth-child(5) {
+    animation: xfade 48s 18s infinite;
+}
+
+#slideshow figure:nth-child(6) {
+    animation: xfade 48s 12s infinite;
+}
+
+#slideshow figure:nth-child(7) {
+    animation: xfade 48s 6s infinite;
+}
+
+#slideshow figure:nth-child(8) {
+    animation: xfade 48s 0s infinite;
+}
+
+@keyframes xfade {
+    0%, 10.5%, 100% {
+        opacity: 1;
+        z-index: 1;
+    }
+
+    12.5%, 98% {
+        opacity: 0;
+        z-index: -1;
+    }
+}
+
+#slideshow figcaption {
+    padding: 0.5em;
+    background: linear-gradient(transparent 25%, white 25%);
+}
+
+figcaption a {
+    font-weight: bold;
+}
+
+/* Syntax colouring */
+.i200comment {
+    color: darkgreen;
+}
+
+.i200char {
+    color: darkcyan;
+    background-color: honeydew;
+}
+
+.i200num {
+    color: gray;
+    background-color: whitesmoke;
+}
+
+.i200global {
+    color: black;
+}
+
+.i200local {
+    color: gray;
+}
+
+.i200line {
+    color: blue;
+    border-right: 1px dotted black;
+    padding-right: 0.5em;
+    margin-right: 0.2em;
+}
+
+.i200quad {
+    color: darkblue;
+}
+
+.i200primitive {
+    color: blue;
+}
+
+.i200idiom {
+    color: blue;
+    background-color: lightyellow;
+}
+
+.i200control {
+    color: brown;
+}
+
+.i200space {
+    color: blue;
+}

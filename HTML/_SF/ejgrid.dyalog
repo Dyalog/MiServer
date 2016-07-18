@@ -1,5 +1,5 @@
 ﻿:class ejGrid : #._SF._ejWidget
-    :Field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejGrid.html'
+    :Field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejGrid.html'
     :Field public shared readonly ApiLevel←3
     :Field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejGrid.html'
     :Field public shared readonly IntEvt←'actionBegin' 'actionComplete' 'actionFailure' 'batchAdd' 'batchDelete' 'beforeBatchAdd' 'beforeBatchDelete' 'beforeBatchSave' 'beginEdit' 'cellEdit' 'cellSave' 'cellSelected' 'cellSelecting' 'columnDrag' 'columnDragStart' 'columnDrop' 'columnSelected' 'columnSelecting' 'contextClick' 'contextOpen' 'create' 'dataBound' 'destroy' 'detailsCollapse' 'detailsDataBound' 'detailsExpand' 'endAdd' 'endDelete' 'endEdit' 'load' 'mergeCellInfo' 'queryCellInfo' 'recordClick' 'recordDoubleClick' 'resized' 'resizeEnd' 'resizeStart' 'rightClick' 'rowDataBound' 'rowSelected' 'rowSelecting' 'templateRefresh' 'toolBarClick'
@@ -37,7 +37,8 @@
     ∇
 
     ∇ r←Render;fields;src;rows;cols;coldefs;colfields;i
-      :Access public
+      :Access public 
+      SetId
       r←''
       (rows cols)←⍴Values
       :If 0=cols
@@ -61,7 +62,7 @@
      
           'columns'Set'⍎',coldefs
      
-          src←GenId
+          src←id,'_data'
           'dataSource'Set'⍎',src
           r←(⎕NEW #._DC.Script('var ',src,' = ',#.JSON.fromAPL ColNames #.JSON.fromTable Values)).Render
       :EndIf

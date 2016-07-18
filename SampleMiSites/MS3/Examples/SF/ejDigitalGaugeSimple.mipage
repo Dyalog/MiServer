@@ -1,0 +1,11 @@
+﻿:Class ejDigitalGaugeSimple : MiPageSample
+⍝ Control:: _SF.ejDigitalGauge
+⍝ Description:: Digital (LCD-style) display
+
+    ∇ Compose
+      :Access Public
+      Add _.h4'ejDigitalGauge Example'
+      Add _.ejDigitalGauge 'LCD-style display'
+    ∇
+
+:EndClass

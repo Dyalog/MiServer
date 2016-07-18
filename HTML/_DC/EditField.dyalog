@@ -1,6 +1,6 @@
 ﻿:class EditField : #._html.input
 ⍝ Description:: Dyalog text input field widget
-⍝ Constructor:: name [value [attr1=data1 attr2=data2 ...]]
+⍝ Constructor:: [name [value [attr1=data1 attr2=data2 ...]]]
 ⍝ name  - the id/name for the input field
 ⍝ value - the initial value for the input field
 ⍝ attr  - attribute(s) for the input field

@@ -1,0 +1,26 @@
+﻿:Class ListSimple : MiPageSample
+⍝ Control:: _DC.List
+⍝ Description:: Lists of fruits and clickable links
+
+    ∇ Compose;frm;single;multi;btn
+      :Access public
+     
+      intro←'This control combines the functionalities of HTMl ul (unordered list) '
+      intro,←'and ol (ordered list) while allowing optional nesting and hyperlinks.'
+     
+      Add _.title'_.List - Simple Example '
+      Add _.p intro
+     
+     ⍝ --- Add a simple list of fruits ---
+      Add _.h3'Fruits'       ⍝ Put a heading before it
+      fruits←'Apples' 'Bananas' 'Grapes' 'Oranges'
+      'fruits' Add _.List fruits   ⍝ Construct Ul with a vector of vectors
+     
+     ⍝ --- Add a list of interesting web pages ---
+      Add _.h3'Useful Links'
+      text←'Dyalog Home' 'Dyalog Forums' 'Dyalog Blog'
+      urls←'http://'∘,¨'www.dyalog.com' 'forums.dyalog.com' 'www.dyalog.com/blog'
+      Add _.List(text 1 urls) ⍝ Construct Ul with texts and urls
+    ∇
+
+:EndClass

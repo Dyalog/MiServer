@@ -4,8 +4,8 @@
 
     :section Startup/Shutdown
 
-    ∇ Run root
-     
+    ∇ {msroot}Run root
+      :If 0≠⎕NC'msroot' ⋄ MSRoot←msroot ⋄ :EndIf
       AppRoot←folderize root  ⍝ application (website) root
       AppRoot Load 1 ⍝ load essential objects
       #.Utils.SetupCompatibility
@@ -19,12 +19,10 @@
       ms.Run
     ∇
 
-    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;disperror;core;HTML;extensions;HTMLsubdirs
+    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;core;HTML;extensions;HTMLsubdirs
       ⍝ Load required objects for MiServer
       ⍝ Note: DRC namespace is not SALTed
       ⍝ yes - 1 to perform load, 0 to clean up
-     
-      disperror←{}∘{326=⎕DR ⍵:'' ⋄ '***'≡3↑⍵:⎕←⍵ ⋄ ''}
      
       classes←''
       :If 0≠⎕NC'AppRoot'
@@ -34,7 +32,7 @@
       utils←(⎕SE.SALT.List MSRoot,'Utils -raw')[;2]   ⍝ find utility libraries
       core←(⊂'Boot')~⍨(⎕SE.SALT.List MSRoot,'Core -raw')[;2]
       extensions←(⎕SE.SALT.List MSRoot,'Extensions -raw')[;2]
-      HTML←(⎕SE.SALT.List MSRoot,'HTML -raw')[;2] ⍝ force to be loaded first
+      HTML←∪(⎕SE.SALT.List MSRoot,'HTML -raw')[;2] ⍝ force to be loaded first
       HTMLsubdirs←HTML∩,⎕SE.SALT.List MSRoot,'HTML -folder'
       :If yes
      
@@ -43,7 +41,7 @@
           files,←'Extensions/'∘,¨extensions
      
           :For f :In files
-              disperror ⎕SE.SALT.Load MSRoot,f,' -target=#'
+              disperror ⎕SE.SALT.Load MSRoot,f,' -target=#' ⍝ do not reload already loaded spaces
           :EndFor
      
           #.SupportedHtml5Elements.Build_html_namespace
@@ -78,6 +76,12 @@
           #.⎕EX'Pages'
           #.⎕EX¨'MiServer' 'HTTPRequest'
       :EndIf
+    ∇
+
+    ∇ LoadHTML f
+    ⍝ Utility to reload an HTML content-generating namespace
+      disperror ⎕SE.SALT.Load MSRoot,'HTML/',f,' -target=#'
+      disperror¨⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
     ∇
 
     ∇ ms←Init Config;path;class;classes;e;res;mask
@@ -171,7 +175,7 @@
     ⍝ pars - name [num] [default]
     ⍝ ns - namespace reference
     ⍝ name - name of the setting
-    ⍝ num - 1 if setting is numeric, 0 otherwise
+    ⍝ num - 1 if setting is numeric scalar, (,1) if numeric vector is allowed, 0 otherwise
     ⍝ default - default value if not found
       pars←eis pars
       (name num)←2↑pars,(⍴pars)↓'' 0 ''
@@ -180,7 +184,7 @@
       :EndIf
       r←(⍴ns)⍴⊂default
       :If ∨/mask←0≠⊃¨ns.⎕NC⊂name
-          (mask/r)←(tonum⍣num)¨(mask/ns).⍎⊂name
+          (mask/r)←(((⍴⍴num)∘tonum)⍣(⊃num))¨(mask/ns).⍎⊂name
       :EndIf
       :If 0=⍴⍴r ⋄ r←⊃r ⋄ :EndIf
     ∇
@@ -235,7 +239,7 @@
       Config.Host←Config Setting'Host' 0 'localhost'
       Config.HttpCacheTime←Config Setting'HttpCacheTime' 1 0 ⍝ default to off (0)
       Config.IPVersion←Config Setting'IPVersion' 0 'IPV4'
-      Config.IdleTimeOut←Config Setting'IdleTimeOut' 1 0 ⍝ default to none (0)
+      Config.IdleTimeout←Config Setting'IdleTimeout' 1 0 ⍝ default to none (0)
       Config.KeyFile←Config Setting'KeyFile' 0 ''
       Config.Lang←Config Setting'Lang' 0 'en'
       Config.LogMessageLevel←Config Setting'LogMessageLevel' 1 1 ⍝ default to error messages only
@@ -243,6 +247,7 @@
       Config.MSRoot←MSRoot
       Config.Name←Config Setting'Name' 0 'MiServer'
       Config.Port←Config Setting'Port' 1 8080
+      Config.Ports←Config Setting'Ports'(,1)⍬
       Config.Production←Config Setting'Production' 1 0 ⍝ production mode?  (0/1 = development debug framework en/disabled)
       Config.RESTful←Config Setting'RESTful' 1 0 ⍝ RESTful web service?
       Config.RootCertDir←Config Setting'RootCertDir' 0 ''
@@ -251,10 +256,11 @@
       Config.Secure←Config Setting'Secure' 1 0
       Config.Server←Config Setting'Server' 0 ''
       Config.SessionHandler←Config Setting'SessionHandler' 0 'SimpleSessions'
-      Config.SessionTimeOut←Config Setting'SessionTimeOut' 1 30 ⍝ 30 minute timeout
+      Config.SessionTimeout←Config Setting'SessionTimeout' 1 30 ⍝ 30 minute timeout
       Config.SupportedEncodings←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}',',Config Setting'SupportedEncodings' 0
       Config.TempFolder←folderize Config.Root{0∊⍴⍵:⍵ ⋄ ((isRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
       Config.TrapErrors←Config Setting'TrapErrors' 1 0
+      Config.WaitTimeout←Config Setting'WaitTimeout' 1 5000 ⍝ 5000 msec (5 second timeout)
       Config.UseContentEncoding←Config Setting'UseContentEncoding' 1 0 ⍝ aka HTTP Compression default off (0)
      
       :If 0≠⎕NC'#.DrA' ⍝ Transfer DrA config options
@@ -285,8 +291,8 @@
      
           :Trap 0
               :If 0=#.⎕NC'SQA'
-                  dyalog←2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
-                  'SQA'#.⎕CY dyalog,'\ws\sqapl' ⍝ copy in SQA
+                  dyalog←('/\'[1+'Win'≡3↑1⊃#.⎕WG'APLVersion']){⍵,(-⍺=¯1↑⍵)↓⍺}2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
+                  'SQA'#.⎕CY dyalog,'ws/sqapl' ⍝ copy in SQA
               :EndIf
               :If 0≠1⊃#.SQA.Init'' ⍝ and initialize
                   1 ms.Log'SQA failed to initialize'
@@ -397,12 +403,16 @@
     :endsection
 
     :section Utilities
-    isWin←('.' ⎕WG 'APLVersion')[3]≡⊂,'W'
+    disperror←{}∘{326=⎕DR ⍵:'' ⋄ '***'≡3↑⍵:⎕←⍵ ⋄ ''}
+    isWin←'Win'≡3↑1⊃#.⎕WG'APLVersion'
     fileSep←'/\'[1+isWin]
-    MSRoot←{(1-⌊/'/\'⍳⍨⌽⍵)↓⍵}⎕WSID
     isRelPath←{{~'/\'∊⍨(⎕IO+2×isWin∧':'∊⍵)⊃⍵}3↑⍵}
+    MSRoot←{('.'=⊃⍵)∨isRelPath ⍵:'.',fileSep,⍵ ⋄ ⍵}{(1-⌊/'/\'⍳⍨⌽⍵)↓⍵}⎕WSID
     enlist←{⎕ML←1⋄∊⍵}
-    tonum←{w←⍵⋄((w='-')/w)←'¯'⋄2 1⊃⎕VFI w}
+      tonum←{⍺←0
+          1∊⍺:tonumvec ⍵
+          w←⍵ ⋄ ((w='-')/w)←'¯'
+          ⊃⊃{~∧/⍺:⎕SIGNAL 11 ⋄ ⍵}/⎕VFI w}
     try←{0::'' ⋄⍎⍵}
     empty←{0∊⍴⍵}
     notEmpty←~∘empty
@@ -410,6 +420,29 @@
     isRef←{(0∊⍴⍴⍵)∧326=⎕DR ⍵}
     folderize←{¯1↑⍵∊'/\':⍵ ⋄ ⍵,fileSep}
     makeSitePath←{⍺{((isRelPath ⍵)/⍺),⍵},folderize ⍵}
+    Log←{⎕←⍵}
+
+    ∇ r←tonumvec v;to;minus;digits;c;mask
+    ⍝ tonum vector version
+    ⍝ allows for specific of ranges and comma or space delimited numbers
+    ⍝ tonumvec '8080-8090'  or '5,7-9,11-15'
+      r←⍬
+      ⎕SIGNAL 11/⍨~∧/v∊⎕D,'., -¯'
+      to←{⍺←⍵ ⋄ ⍺,⍺+(¯1*⍺>⍵)×⍳|⍺-⍵}
+      v←('^\s*|\s*$'⎕R'')('\s+'⎕R' ')('\s*-\s*'⎕R'-')v
+      minus←'-'=v
+      digits←v∊⎕D,'.'
+      ((minus>(minus∨{1↓⍵,0}digits)∧{¯1↓0,⍵}digits)/v)←⊂'¯'
+      ((' '=v)/v)←','
+      (('-'=v)/v)←⊂' to '
+      :Trap 0
+          :For c :In {⎕ML←3 ⋄ ⍵⊂⍨⍵≠','}∊v
+              r,←⍎∊c
+          :EndFor
+      :Else
+          ⎕SIGNAL 11
+      :EndTrap
+    ∇
 
     ∇ r←SubstPath r
       r←(#.Strings.subst∘('%ServerRoot%'(¯1↓MSRoot)))r

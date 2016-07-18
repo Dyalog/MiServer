@@ -1,0 +1,40 @@
+﻿:class WrapFollowingExamples : MiPageSample
+⍝ Control:: WrapFollowing
+⍝ Description:: How to use WrapFollowing
+
+    ∇ Compose
+      :Access public
+      Add _.style'.bodytext {color: purple; font-weight: bold;};'
+     
+      Add WrapFollowing'p class="bodytext"'
+⍝ <big>WrapFollowing</big> allows you to insert multiple plain-text
+⍝ elements right into your MiPage code in the form of single comment blocks.
+⍝ You can keep
+⍝ lines at any desired length, as they will be
+⍝ seamlessly merged.
+⍝
+⍝ This page demonstrates some use-cases
+⍝ to get you started. Check the source code to see how we did it!
+⍝
+⍝ All the content on this page was created using calls
+⍝ to WrapFollowing:
+     
+      (Add _.ol).Add('{' '(<code>_.')('}' '</code>)')Subst WrapFollowing'li'
+⍝ Creating several paragraphs {p} at once, like the introductory text above.
+⍝
+⍝ Filling a numbered {ol} or bullet {ul} list with list
+⍝ items {li}.
+⍝
+⍝ Inserting code samples {pre}:
+     
+      Add WrapFollowing'pre'
+⍝ Add _.style'.bodytext {color: purple; font-weight: bold;};'
+⍝
+⍝ Add WrapFollowing'p class="bodytext"'
+⍝
+⍝ (Add _.ol).Add ('{' '(<code>_.')('}' '</code>)')Subst WrapFollowing'li'
+⍝
+⍝ Add WrapFollowing'pre'
+    ∇
+  
+:endclass

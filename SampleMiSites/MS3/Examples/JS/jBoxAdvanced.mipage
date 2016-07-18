@@ -1,0 +1,119 @@
+:Class jBoxAdvanced : MiPageSample
+⍝ Control::     _JS.jBox
+⍝ Description:: Tooltips and more
+
+
+
+    ∇ Compose;tab;jTab;dt;columns;ocw
+      :Access public
+      Use'FontAwesome'
+      Add _.Style'.demo'(('background-color' 'lightblue')('border' '1px solid gray'))
+     
+      Add _.Style'.tooltip'(('background-color' 'lightblue')('border' '1px solid gray'))
+      (Add _.jBox).Selector←'.tooltip'
+     
+     
+     
+      Add _.h2'jBox Widget - Advanced sample'
+     
+      Add _.h3'More fun with tooltips!'
+     
+      (dd←Add _.jBox).Selector←'.tooltipclicked'
+      'getTitle'dd.Set'data-jbox-title'
+      'getContent'dd.Set'data-jbox-content'   ⍝  use jBox-related attributes
+      'trigger'dd.Set'click'   ⍝ click to show tooltip!
+      daSpan←(Add _.p).Add _.span'This span''s tooltip will appear (and disappear) when you click on the text!'
+      daSpan.SetAttr'data-jbox-content="Not that I''d have to say anything...!" class="demo tooltipclicked" data-jbox-title="Important title!"'
+     
+      (dd←Add _.jBox).Selector←'.tooltip2'
+      'getTitle'dd.Set'data-jbox-title'           ⍝ the following applies to all items with class="tooltip2", all set up with this one instance!
+      'getContent'dd.Set'data-jbox-content'
+      Add _.p ScriptFollows
+    ⍝ Hover <span class="tooltip2 demo" data-jbox-title="Did you notice?" data-jbox-content="A tooltip with a title!">
+    ⍝ here</span> for a demo of Tooltips with titles!
+    ⍝ We will be <span class="tooltip2 demo"  data-jbox-title="How to do that" data-jbox-content="By applying it to all items with a class='tooltip2', as you can see in the source...">
+    ⍝ re-using</span> the configuration of the dd-Element (in the APL-Source) to reduce the # of JS-Calls.
+     
+     
+     
+      '.fa fa-thumbs-up fa-3x' 'style="color:green"'(NiceDiv←'#NiceDiv'Add _.div).Add _.i
+      NiceDiv.Add'Wow! This larger, model tooltip features <b>exciting</b> HTML-Layout and lots of text. Everything is possible!...<br /><br />'
+      NiceDiv.Add'This tooltip will disappear on any click or also when you press the Esc-Key!<br />'
+      NiceDiv.Add'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore<br /> et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.<br />Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,<br />consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,<br />sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea<br />takimata sanctus est Lorem ipsum dolor sit amet.'
+      NiceDiv.SetAttr'style=display:none'  ⍝ must be hidden in normal display...!
+     
+      Add'This text has a larger, modal tooltip that appears '
+      t3←'.tooltip3 demo'Add _.span'when you click here!'
+      Add _.br
+      dd←'.demo'Add _.jBox'Tooltip' 'Hello world! Weather is a bit shaky today! ;-)' 'Tis example shows an animated and styled tooltip!'
+      'animation'dd.Set'tada'
+      dd.Theme←'TooltipDark'
+     
+     
+      dd←Add _.jBox'Modal'
+      dd.Selector←'.tooltip3'
+      'title'dd.Set'Taken from a div in the HTML-Code...'
+      'content'dd.Set'⍎$("#NiceDiv")'
+      'closeOnEsc'dd.Set _true
+      'closeOnClick'dd.Set _true
+     
+      Add _.h3'Confirmations'
+      '.demo'Add _.div'Click this div to get a prompt...' 'data-confirm="Are you sure?" onclick="alert(''Thanks for confirming!'');"'
+      dd←Add _.jBox'Confirm'
+      dd.ScriptOptions←1 0 0 ⍝[1] Wrap in <script>? [2] wrap in $(function(){});? [3] use jQuery Selector syntax (1) or JavaScript new (0)
+      'confirmButton'dd.Set'Yes, please!'
+      'cancelButton'dd.Set'Absolutely not!'
+     ⍝ NB: the dialog will automatically attach itself to all elements with a data-confirm-Attribute!
+     
+      Add _.h3'Notices'
+      '.demo' '#notice'Add _.div'Click somewhere in this div to trigger a notice that will automatically hide after a bit'
+      jb←New _.jBox'Notice' 'Hurray! A notice!'
+      jb.ScriptOptions←0 0 0
+      'position.(x y)'jb.Set 15 65
+ ⍝ Now add the Handler...
+      h←Add _.Handler'#notice' 'click'
+      h.CallBack←0                        ⍝ no APL callback, it's all in JavaScript
+      h.JavaScript←jb.Render              ⍝ set the JavaScript
+     
+     
+      Add _.h3'Images & Gallery'
+      Add _.h4'Larger image on click'
+      Add _.p'<span title="Grey/Colouring is not a jBox-Effect, pure CSS-Styling!" class="tooltip">Hover over</span> these images and click them for a gallery-view in full size. Notice how you can browse the gallery with the arrow-left/right-keys!'
+   ⍝ following css-stuff for gray images that show colours on MouseOver!
+      Add _.Style ScriptFollows
+⍝.demo-img1 {
+⍝    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
+⍝   -webkit-filter: grayscale(100%);
+⍝   -moz-filter: grayscale(100%);
+⍝   -ms-filter: grayscale(100%);
+⍝   filter: grayscale(100%);
+⍝   filter: gray; /* IE 6-9 */
+⍝ margin: 10px;
+⍝}
+⍝.demo-img1:hover {
+⍝   -webkit-filter: none;
+⍝   -moz-filter: none;
+⍝   -ms-filter: none;
+⍝   filter: none;
+⍝}
+     
+      Add ScriptFollows
+⍝<a href="../Data/pic1.png" data-jbox-image="gallery1" class="demo-img1" title="The beauty of sum-reduction">
+⍝<img src="../Data/pic1_thumb.png" alt=""></a>
+⍝<a href="../Data/pic2.png" data-jbox-image="gallery1" class="demo-img1" title="Dyalog Duck">
+⍝<img src="../Data/pic2_thumb.png" alt=""></a>
+⍝<a href="../Data/pic3.png" data-jbox-image="gallery1" class="demo-img1" title="Creating RNA to match a DNA is easier in APL than in the lab!">
+⍝<img src="../Data/pic3_thumb.png" alt=""></a>
+      dd←'#imgs'Add _.jBox'Image'
+      dd.ScriptOptions←1 0 0
+⍝ Careful: must create images first, jBox thereafter, so that it finds something to work on!
+     
+     
+     
+     
+     
+     
+     
+    ∇
+
+:EndClass

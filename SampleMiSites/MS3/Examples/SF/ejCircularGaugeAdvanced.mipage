@@ -1,0 +1,39 @@
+﻿:Class ejCircularGaugeAdvanced : MiPageSample
+⍝ Control:: _SF.ejCircularGauge
+⍝ Description:: Formatted circular indicator gauge with multiple pointers
+
+    ∇ Compose;cg;members;values;scales;border1;border2;arg;border
+      :Access Public
+      Add _.h4'ejCircularGauge Example'
+     
+      ⍝ matrix argument:  Member1name    Member2name    Member3name    ...
+      ⍝                   Pointer1value  Pointer1value  Pointer1value
+      ⍝                   Pointer2value  Pointer2value  Pointer2value
+      ⍝                       etc.
+     
+      ⍝ member names:
+      members←'border' 'backgroundColor' 'value' 'length' 'width' 'opacity'
+     
+      ⍝ a value may be a namespace of sub-values:
+      (border1←⎕NS ⍬).(color width)←'purple' 2
+      (border2←⎕NS ⍬).(color width)←'blue' 3
+     
+      ⍝ ... or just plain text or numeric values:
+      values←border1'orange' 45 100 16 0.6
+      values←values,[0.5]border2'purple' 80 200 20 0.2
+     
+      ⍝ constructing the matrix:
+      arg←members⍪values
+     
+      cg←'output'Add _.ejCircularGauge arg
+     
+      ⍝ other options are set directly:
+      (border←⎕NS ⍬).(color width)←'orange' 1
+      values←#.JSON.true'yellow'border 10 150
+      (scales←⎕NS ⍬).(showScaleBar backgroundColor border width radius)←values
+     
+      ⍝ vector because there could be more than one scale
+      cg.Options.scales←,scales
+    ∇
+        
+:EndClass

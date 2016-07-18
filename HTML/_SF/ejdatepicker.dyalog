@@ -11,7 +11,7 @@
 ⍝ ejDatePicker '27-Nov-1966'
 ⍝ ejDatePicker (2000 1 1)('dd-MMM-yyyy')
 
-    :Field Public Shared ReadOnly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejDatePicker.html'
+    :Field Public Shared ReadOnly DocBase←'http://help.syncfusion.com/js/api/ejDatePicker.html'
     :Field Public Shared ReadOnly ApiLevel←3
     :Field Public Shared ReadOnly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejDatePicker.html'
     :Field Public Shared ReadOnly IntEvt←'beforeDateCreate'  'change'  'close'  'create'  'destroy'  'focusIn'  'focusOut'  'open'  'select'
@@ -34,6 +34,7 @@
       JQueryFn←Uses←'ejDatePicker'
       ContainerTag←'input'
       :Implements Constructor
+      args←(⊂⍣(3=10|⎕DR args))args
       (val fmt)←args defaultArgs(3↑⎕TS)'yyyy/MM/dd'
       ('value' 'dateFormat')Set(('⍎new Date("',(⍕val),'")')fmt)
       Container.type←'text'
@@ -42,10 +43,12 @@
 
     ∇ r←Render
       :Access public
+      Container.NoEndTag←1
       SetId
+      WidgetDef[5]←⊂'.ejDatePicker("option","value")'  ⍝ NB!! because ejDatePicker's input element is different from the container holding the slider, we use an alternate syntax to retrieve the value
       r←⎕BASE.Render
       :If Label≢''
-          r←r((LabelPos≡'right'){⍺⍺:⍺,⍵ ⋄ ⍵,⍺})(⎕NEW #._html.label(Label('for'id))).Render
+          r←r((LabelPos≡'right'){⍺⍺:⍺,⍵ ⋄ ⍵,⍺})(⎕NEW #._html.label(Label('for=',id))).Render
       :EndIf
     ∇
 

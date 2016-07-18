@@ -1,0 +1,50 @@
+﻿:Class index : MiPageSample ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
+⍝ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ ⍝
+⍝ │ This is the home page of the MiServer Sample Site, MS3, accessible at miserver.dyalog.com   │ ⍝
+⍝ └─────────────────────────────────────────────────────────────────────────────────────────────┘ ⍝
+⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
+
+    :Include #.MS3SiteUtils
+
+    ∇ Compose;cols;tabs;rows
+      :Access Public
+     
+     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      tabs←New _.ejTab
+      'heightStyle'tabs.Set'content'
+      '.bigtabs'Add _.div tabs
+     
+     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      tabs.Titles,←'Introduction'Over'getting started/recommendations'
+      cols←1 0⍴⍬
+      cols,←'about'New _.div(Read'/Examples/Data/intro.txt')
+      cols,←'slideshow'New _.div (Shuffle Read'Examples/Data/slideshow.txt')
+      cols,←'reading'New _.List (ReadingTree Read'Examples/Data/reading.txt')
+      tabs.Sections,←New _.Table cols
+     
+     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      tabs.Titles,←'Samples'Over'pages and mini-apps/each uses just a few controls'
+      cols←⍬
+      cols,←⊂(⊂'Task demonstrated'),{Link('Description'Section Read ⍵)⍵}¨C.files
+      cols,←⊂(⊂'Type'),'simple' 'advanced' 'mini-app'[1⍳⍨¨↓⍉∨/¨'Simple' 'Advanced'∘.⍷C.files]
+      cols,←⊂(⊂'Main controls used'Over'documentation links'),{2↓∊(', ',DocLink)¨⍵}¨C.demos
+      tabs.Sections,←'eg'New _.DataTable(⍉↑cols)
+     
+     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      tabs.Titles,←'Controls'Over'list of all supported controls/links to samples using them'
+      cols←⍬
+      cols,←⊂('Control'Over'documentation link'),DocLink¨C.controls
+      cols,←⊂(⊂'Description'),C.descr
+      cols,←⊂(⊂'Relevant samples'),RelDocs¨C.controls
+      tabs.Sections,←'ctrl'New _.DataTable(⍉↑cols)
+     
+     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+      tabs.Titles,←'Reference'Over'general information/technique descriptions'
+      rows←⍬
+      rows,←'pdf'FormatList'Documentation'
+      rows,←FormatList'Examples/Techniques'
+      tabs.Sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑rows)
+     
+    ∇
+
+:EndClass

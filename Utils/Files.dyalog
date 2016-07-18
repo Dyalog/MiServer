@@ -123,9 +123,25 @@
       :EndSelect
     ∇
 
-    ∇ r←GetText name;tn
-     ⍝ Read a text file as single byte text
-      tn←(unixfix name)⎕NTIE 0 ⋄ r←⎕NREAD tn(⎕DR' ')(⎕NSIZE tn) ⋄ ⎕NUNTIE tn
+    ∇ Chars←GetText name;nid;signature;nums;sz;b
+     ⍝ Read ANSI or Unicode character file
+      sz←⎕NSIZE nid←(unixfix name)⎕NTIE 0
+      signature←⎕NREAD nid 83 3 0
+      :If signature≡¯17 ¯69 ¯65 ⍝ UTF-8?
+          nums←⎕NREAD nid 83 sz
+          Chars←'UTF-8'⎕UCS 256|nums ⍝ Signed ints
+      :ElseIf ∨/b←(2↑signature)∧.=2 2⍴¯1 ¯2 ¯2 ⍝ Unicode (UTF-16)
+          Chars←{,⌽(2,⍨2÷⍨⍴⍵)⍴⍵}⍣(⊣/b)⎕NREAD nid 83 sz 2
+          Chars←'UTF-16'⎕UCS(2*16)|163 ⎕DR Chars
+      :Else ⍝ ANSI or UTF-8
+          Chars←{11::⎕UCS ⍵ ⋄ 'UTF-8'⎕UCS ⍵}256|⎕NREAD nid 83 sz 0
+      :EndIf
+      ⎕NUNTIE nid
+    ∇
+
+    ∇ vtv←GetVTV name
+     ⍝ Read ANSI or Unicode character file as vector of text vectors
+      vtv←{1↓¨(v=n)⊂v←(n←⎕UCS 10),⍵}(GetText name)~⎕UCS 13
     ∇
 
     ∇ r←LikelyURL w
@@ -237,6 +253,11 @@
       :Else
           tn←name ⎕NTIE 0
       :EndTrap
+    ∇
+
+    ∇ r←data Put name
+     ⍝ Write data to file
+      r←{(⎕NUNTIE ⍵)⊢data ⎕NAPPEND(0 ⎕NRESIZE ⍵)(⎕DR data)}Nopen name
     ∇
 
     ∇ r←text PutText name;tn
@@ -391,5 +412,15 @@
       t←w ⎕FSTIE 0
       r←⎕FREAD t a
       ⎕FUNTIE t
+    ∇
+
+    ∇ r←filename Fopen tieno
+    ⍝ tieno is tie number and optionally 1 to tie exclusively
+      tieno←2↑tieno ⍝ default to shares tie
+      :Trap 22
+          r←filename{⍵[2]:⍺ ⎕FTIE ⍵[1] ⋄ ⍺ ⎕FSTIE ⍵}tieno
+      :Else
+          r←filename{⍵[2]:⍵[3] ⋄ ⍺ ⎕FSTIE ⍵[2]⊣⎕FUNTIE ⍵[3]}tieno,filename ⎕FCREATE tieno[1]
+      :EndTrap
     ∇
 :EndNamespace

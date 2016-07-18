@@ -3,16 +3,15 @@
     ∇ make
       :Implements constructor
       :Access public
-      Uses←'d3'
     ∇
     ∇ make1 args
       :Implements constructor :base args
       :Access public
-      Uses←'d3'
     ∇
     ∇ r←Render
       :Access public
-      Use
+      Use'd3'
+      SetUse
       r←⎕BASE.Render
     ∇
 

@@ -1,5 +1,5 @@
 ﻿:class ejRotator : #._SF._ejWidget
-    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejRotator.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejRotator.html'
     :field public shared readonly ApiLevel←1
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejRotator.html'
     :field public Urls←''      ⍝ image URLs

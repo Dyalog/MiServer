@@ -1,0 +1,26 @@
+﻿:Class ejSliderSimple : MiPageSample
+⍝ Control:: _SF.ejSlider
+⍝ Description:: Single and Ranged Sliders
+
+    ∇ Compose;drag
+      :Access Public
+      Add _.h4'Syncfusion Slider Widget'
+     
+      Add _.h6'Default Slider'
+      ('Default' '.slide'Add _.ejSlider).On 'change' 'myCallBack' 
+     
+      Add _.h6'Ranged Slider'
+      ('Ranged' '.slide'Add _.ejSlider 0 100 20 40).On 'change' 'myCallBack'
+     
+      Add _.br
+      
+      '#output'Add _.div
+    ∇
+
+    ∇ r←myCallBack
+      :Access Public
+      r←'#output'Replace _what,' Slider changed to ',⍕_value
+    ∇
+
+
+:EndClass

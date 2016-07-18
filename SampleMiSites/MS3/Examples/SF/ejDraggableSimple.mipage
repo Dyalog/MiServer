@@ -1,0 +1,16 @@
+﻿:Class ejDraggableSimple : MiPageSample
+⍝ Control:: _SF.ejDraggable
+⍝ Description:: Make an element draggable
+
+    ∇ Compose;sp
+      :Access Public
+      Add _.Style'.drag'(('width' '50px')('height' '50px')('margin' '25px')('background-color' 'blue'))
+      Add _.Style'.drop'(('width' '50px')('height' '50px')('margin' '25px')('background-color' 'yellow'))
+      (sp←Add _.StackPanel).Horizontal←1
+      '.drag'sp.Add _.div'Drag Me'
+      '.drop'sp.Add _.div'Drop Here'
+      (Add _.ejDraggable'.drag').Set'scope' 'demo'
+      (Add _.ejDroppable'.drop').Set'scope' 'demo'
+    ∇
+
+:EndClass

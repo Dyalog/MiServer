@@ -1,0 +1,68 @@
+﻿:Class WidgetDoc : MiPageSample
+
+    :include #.MS3SiteUtils
+
+    ∇ Compose;ns;widget;tab;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files;desc;ctor;h;div;r
+      :Access public
+      (ns widget)←Get'namespace widget'
+      div←'#widgetdoc'Add _.div
+      r←¯1
+      :If 9.1=#.⎕NC⊂ns
+          ref←#.⍎ns
+          r←¯2
+          :If 9=ref.⎕NC widget
+              wref←ref⍎widget
+              src←1↓⎕SRC wref
+              src↓⍨←+/∧\''∘≡¨src
+              src←#.Strings.dlb¨src
+              src←src/⍨∧\'⍝'=⊃¨src
+              src←HtmlSafeText¨#.Strings.dlb¨{1↓¨⍵⊂⍨'¶'=⍵}∊'¶  +'⎕R' '⊢'¶',¨1↓¨src
+              pv←∨/¨'::'∘⍷¨src
+              r←0 2⍴⊂''
+              :For chunk :In pv⊂src
+                  c←⊃chunk
+                  (c1 c2)←{⍵{(1,1↓<\⍵)⊂⍺}'::'⍷⍵}c
+                  c2←#.Strings.deb 2↓c2
+                  c2←c2{0∊⍴⍺:⍵ ⋄ 0∊⍴⍵:⊂⍺ ⋄ (⊂⍺),⍵}1↓chunk
+                  c2←¯2↓∊c2,¨⊂⎕UCS 13 10
+                  r⍪←c1 c2
+              :EndFor
+              :If ns≡'_html'
+                  r⍪←'Description'('Native HTML ',' element',⍨desc←#.Strings.lc 'descr'ForControl widget)
+                  ctor←(1+(New _⍎widget).NoEndTag)⊃'content' 'id'
+                  r⍪←'Constructor'('[',ctor,']<br />',ctor,' - the ',ctor,' of the ',desc)
+                  r⍪←'Public Fields' '(none)'
+                  r⍪←'Notes'('notes'ForControl widget)
+              :EndIf
+              files←'relevant'ForControl widget
+          :EndIf
+      :EndIf
+     
+      :Select r
+      :Case ¯1
+          (div.Add _.h2('Namespace "',ns,'" not found.')).Style'color' 'red'
+      :Case ¯2
+          (div.Add _.h2('Widget "',widget,'" not found in namespace ',ns)).Style'color' 'red'
+      :Else
+          h←div.Add _.h2
+          :If 0≠wref.⎕NC⊂'DocBase'
+          :AndIf ~0∊⍴wref.DocBase ⍝ with link
+              h.Add (ns,'.',widget)External wref.DocBase
+          :Else                   ⍝ without link
+              h.Add ns,'.',widget
+          :EndIf
+          h.Add' ',⊃⌽⊃↓r
+          :If 0∊⍴r
+              div.Add _.h3'No documentation found.'
+          :Else
+              r[;2]←{New _.pre ⍵}¨r[;2]
+              r[;1]←{New _.h3 ⍵}¨r[;1]
+              div.Add¨1 0↓r
+          :EndIf
+          :If ~0∊⍴files
+              div.Add _.h3'Samples'
+              {div.Add DescrEmbed ⍵}¨files
+          :EndIf
+      :EndSelect
+    ∇
+:EndClass

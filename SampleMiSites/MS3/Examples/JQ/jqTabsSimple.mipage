@@ -1,0 +1,14 @@
+﻿:Class jqTabsSimple: MiPageSample
+⍝ Control:: _JQ.jqTabs
+⍝ Description:: Tabbed interface with two tabs.
+
+    ∇ Compose;ac
+      :Access public
+      Titles←'First' 'Second'          ⍝ headings for each of two tabs
+      p1←'p1'New _.p(999⍴'Ut sed viverra velit. ')
+      p2←'p2'New _.p(999⍴'Ac malesuada ante. ')
+      Sections←p1 p2
+      ac←'ac'Add _.jqTabs,⊂Titles Sections        ⍝ add the tab widget
+    ∇
+
+:EndClass

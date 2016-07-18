@@ -1,4 +1,12 @@
 ﻿:Class jqButton : #._JQ._jqUIWidget
+⍝ Description:: jQueryUI Sortable widget/interaction
+⍝ Constructor:: [text [type]]
+⍝ text - the text/content to appear on the button
+⍝ type - one of 'submit' (default), 'reset', or 'button'
+⍝ Public Fields::
+⍝ Text - the text/content to appear on the button
+⍝ Type - one of 'submit' (default), 'reset', or 'button'
+
     :field public shared readonly DocBase←'http://api.jqueryui.com/button/'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/jQuery/jqButtonHelp.html'
@@ -28,6 +36,7 @@
       :Select #.Strings.lc Type
       :CaseList 'button' 'submit' 'reset' 'checkbox' 'radio'
           ContainerTag←'input'
+          Container.NoEndTag←1
           Container.type←Type
       :Case 'anchor'
           ContainerTag←,'a'

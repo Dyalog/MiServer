@@ -1,0 +1,21 @@
+﻿:Class EditFieldSimple : MiPageSample
+⍝ Control:: _DC.EditField _DC.Button _html.label
+⍝ Description:: Collect input and echo it on a button press
+
+    ∇ Compose;btn;label;input;done
+      :Access Public
+     
+      label←'for="input"'Add _.label'Please enter your name'
+      input←'input'Add _.EditField
+      done←'done'Add _.Button'Done'
+      done.On'click' 'CallbackFn'('input' 'val' '#input')
+     
+      'output'Add _.div ⍝ a div to contain output, updated by CallbackFn
+    ∇
+
+    ∇ r←CallbackFn
+      :Access Public
+      r←'#output'Replace _.p('Hello, ',(Get'input'),'!')
+    ∇
+
+:EndClass

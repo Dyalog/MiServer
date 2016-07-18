@@ -1,0 +1,9 @@
+<Resources>
+
+  <Resource>
+    <name>MyResource</name>
+    <script>/Syncfusion/assets\scripts\common\ej.globalize.min.js</script>
+    <script>/Syncfusion/assets\scripts\cultures\ej.culture.de-DE.min.js</script>
+  </Resource>
+
+</Resources>

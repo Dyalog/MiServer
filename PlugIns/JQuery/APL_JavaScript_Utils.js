@@ -8,6 +8,12 @@ function APLJaxReturn(obj) {
         else {alert(JSON.stringify(d));}
     });
 }
+
+function APLstringify(obj){
+	if (obj instanceof Date) {return obj.toString()}
+	else {return JSON.stringify(obj)}
+	}
+
 function JSONSubset(model, selectors) {
     if (selectors == "*") {
         return JSON.stringify(model);

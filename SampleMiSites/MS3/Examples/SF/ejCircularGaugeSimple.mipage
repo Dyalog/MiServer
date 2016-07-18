@@ -1,0 +1,11 @@
+﻿:Class ejCircularGaugeSimple : MiPageSample
+⍝ Control:: _SF.ejCircularGauge
+⍝ Description:: Circular indicator gauge
+
+    ∇ Compose;bg
+      :Access Public
+      Add _.h4'ejCircularGauge Example'
+      Add _.ejCircularGauge 30 75
+    ∇
+
+:EndClass

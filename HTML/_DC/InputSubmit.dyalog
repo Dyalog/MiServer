@@ -13,7 +13,7 @@
       :Access public
       :Implements constructor :base
       args←eis args
-      value←⊃1↑args DefaultArgs ,⊂'Submit'
+      value←⊃1↑args defaultArgs,⊂'Submit'
       type←'submit'
     ∇
 :endclass

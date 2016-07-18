@@ -1,0 +1,29 @@
+﻿:Class OlSimple : MiPageSample
+⍝ Control:: _DC.Ol
+⍝ Description:: Lists of fruits and clickable links
+
+    ∇ Compose;frm;single;multi;btn
+      :Access public
+     
+      intro←'This control puts a very thin cover on top of the basic HTML ol '
+      intro,←' (ordered list) element, just adding a '
+      intro,←'constructor that makes it easy to specify the item contents '
+      intro,←'and optionally a list of URLs to be navigated to.'
+     
+      Add _.title'_.Ol - Simple Example '
+      Add _.h2'_.Ol - Unordered List'
+      Add _.p intro
+     
+     ⍝ --- Add a simple list of fruits ---
+      Add _.h3'Fruits'       ⍝ Put a heading before it
+      fruits←'Apples' 'Bananas' 'Grapes' 'Oranges'
+      'fruits' Add _.Ol fruits   ⍝ Construct Ul with a vector of vectors
+     
+     ⍝ --- Add a list of interesting web pages ---
+      Add _.h3'Useful Links'
+      text←'Dyalog Home' 'Dyalog Forums' 'Dyalog Blog'
+      urls←'http://'∘,¨'www.dyalog.com' 'forums.dyalog.com' 'www.dyalog.com/blog'
+      Add _.Ol(text urls) ⍝ Construct Ul with texts and urls
+    ∇
+
+:EndClass

@@ -6,7 +6,7 @@
 ⍝ Public Fields::
 ⍝ Selector - the jQuery/CSS selector to which to apply draggable interaction
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/UG/JS_CR/ejDraggable.html'
+    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejDraggable.html'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejDraggable.html'
     :field public shared readonly IntEvt←'destroy' 'drag' 'dragStart' 'dragStop' 'helper'
@@ -28,4 +28,3 @@
     ∇
 
 :EndClass
-

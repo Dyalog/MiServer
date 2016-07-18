@@ -1,0 +1,31 @@
+:Class ejTreeViewSimple : MiPageSample
+⍝ Control:: _SF.ejTreeView
+⍝ Description:: Build a simple tree with a node selection callback
+
+    ∇ Compose;tv;levels
+      :Access Public
+     
+      levels←1 2 2 3 3 1 2 1  ⍝ the level
+      ITEMS←'Item '∘,∘⍕¨⍳8    ⍝ the text
+     
+      Add _.h2'Here is a Tree'
+      tv←'tv'Add _.ejTreeView(ITEMS levels)
+      tv.On'nodeSelect' 'onNodeSelect'('node' 'eval' 'argument.id')
+     
+      'output'Add _.div
+    ∇
+
+    ∇ r←onNodeSelect
+      :Access Public
+     
+      r←'#output'Replace _.p(('_'⎕R'.'⊢3↓Get'node'),'. selected.')
+    ∇
+
+:EndClass
+
+
+
+
+
+
+

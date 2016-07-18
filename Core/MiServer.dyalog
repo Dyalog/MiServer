@@ -1,4 +1,6 @@
 ﻿:Class MiServer
+⍝ This is the core web server class - do not modify it!
+⍝ Customized web servers should be based on this class - e.g.  :Class MyServer : MiServer
 
     :Field Public Config
 
@@ -52,6 +54,16 @@
     ∇ onSessionEnd session
       :Access Public Overridable
     ⍝ Handle the end of a session
+    ∇
+
+    ∇ onHandleRequest req
+      :Access Public Overridable
+    ⍝ Called whenever a new request comes in
+    ∇
+
+    ∇ onHandleMSP req
+      :Access Public Overridable
+    ⍝ Called when MiPage invoked
     ∇
 
     ∇ onIdle
@@ -138,7 +150,7 @@
      
       idletime←#.Dates.DateToIDN ⎕TS
       :While ~Stop
-          wres←#.DRC.Wait ServerName 20000 ⍝ Tick every 20 secs
+          wres←#.DRC.Wait ServerName Config.WaitTimeout ⍝ Wait for WaitTimeout before timing out
           ⍝ wres: (return code) (object name) (command) (data)
      
           :Select 1⊃wres
@@ -184,8 +196,8 @@
      
           :Case 100 ⍝ Time out - put "housekeeping" code here
               SessionHandler.HouseKeeping ⎕THIS
-              :If 0<Config.IdleTimeOut ⍝ if an idle timeout (in seconds) has been specified
-              :AndIf Config.IdleTimeOut<86400×-/(ts←#.Dates.DateToIDN ⎕TS)idletime ⍝ has it passed?
+              :If 0<Config.IdleTimeout ⍝ if an idle timeout (in seconds) has been specified
+              :AndIf Config.IdleTimeout<86400×-/(ts←#.Dates.DateToIDN ⎕TS)idletime ⍝ has it passed?
                   onIdle
                   idletime←ts
               :EndIf
@@ -212,7 +224,7 @@
 
     :section Constructor/Destructor
 
-    ∇ Make config;CongaVersion;rc
+    ∇ Make config;CongaVersion;rc;allocated;port
       :Access Public
       :Implements Constructor
      
@@ -240,7 +252,14 @@
      
       PageTemplates←#.Pages.⎕NL ¯9.4
      
-      ('Unable to allocate TCP/IP port ',⍕Config.Port)⎕SIGNAL(0≠1⊃,AllocatePort)/11
+      allocated←0
+      :For port :In ports←∪Config.(Port,Ports)
+          :If allocated←0=1⊃,AllocatePort port
+              Config.Port←port
+              :Leave
+          :EndIf
+      :EndFor
+      ('Unable to allocate any TCP/IP port in ',1↓∊⍕¨',',¨ports)⎕SIGNAL(~allocated)/11
     ∇
 
     ∇ UnMake
@@ -248,7 +267,7 @@
       :Trap 0 ⋄ End ⋄ :EndTrap
     ∇
 
-    ∇ r←AllocatePort;ipv;server
+    ∇ r←AllocatePort port;ipv;server
     ⍝ Starts Conga, allocates TCP/IP port
       ipv←'Protocol'Config.IPVersion
       :If Config.Secure
@@ -257,7 +276,7 @@
               {}#.DRC.SetProp'.' 'RootCertDir'Config.RootCertDir
               server←1⊃#.DRC.X509Cert.ReadCertFromFile Config.CertFile
               server.KeyOrigin←'DER'Config.KeyFile
-              →(0≠1⊃r←#.DRC.Srv'' ''Config.Port'Raw' 10000('X509'server)('SSLValidation'Config.SSLFlags)ipv)⍴0 ⍝ Must have Conga v2.1
+              →(0≠1⊃r←#.DRC.Srv'' ''port'Raw' 10000('X509'server)('SSLValidation'Config.SSLFlags)ipv)⍴0 ⍝ Must have Conga v2.1
               1 Log'Starting secure server using certificate ',Config.CertFile
           :Else
               1 Log'Invalid certificate parameters'
@@ -265,7 +284,7 @@
               →0
           :EndIf
       :Else
-          →(0≠1⊃r←#.DRC.Srv'' ''Config.Port'Raw' 10000 ipv)⍴0
+          →(0≠1⊃r←#.DRC.Srv'' ''port'Raw' 10000 ipv)⍴0
       :EndIf
      
       ServerName←2⊃r
@@ -348,11 +367,7 @@
      
       :If 2=conns.⎕NC'PeerCert' ⋄ REQ.PeerCert←conns.PeerCert ⋄ :EndIf       ⍝ Add Client Cert Information
      
-      :If Config.RESTful  ⍝ if running RESTful web service...
-          n←+/∧\2>+\REQ.Page∊'/\'
-          REQ.RESTfulReq←n↓REQ.Page
-          REQ.Page←n↑REQ.Page
-      :EndIf
+      REQ.OrigPage←REQ.Page ⍝ capture the original page
      
       REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page ⍝ no page specified? use the default
       REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension ⍝ no extension specified? use the default
@@ -360,10 +375,9 @@
      
       SessionHandler.GetSession REQ
       Authentication.Authenticate REQ
-     
       :If REQ.Response.Status≠401 ⍝ Authentication did not fail
           :If Config.AllowedHttpCommands∊⍨⊂REQ.Command
-     
+              onHandleRequest REQ ⍝ overridable
               :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
                   filename HandleMSP REQ
               :Else
@@ -397,6 +411,7 @@
                   res.HTML←⎕NREAD tn 83 length 0
                   cacheMe←0≠Config.HttpCacheTime ⍝ for now, cache all files if set to use caching
               :Else
+                  res.HTML←⍬
                   REQ.Fail 404
                   length←⍴res.HTML
                   res.File←0
@@ -464,21 +479,25 @@
  ⍝     :EndHold
     ∇
 
-    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;fn;MS3;token;cb;mask;resp;t;RESTful;APLJax;flag;orig;path;name;ext;list
+    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;MS3;token;mask;resp;t;RESTful;APLJax;flag;path;name;ext;list;fn
     ⍝ Handle a "MiServer Page" request
      
       path name ext←#.Files.SplitFilename file
      
      RETRY:
-      :If 0=n←⊃⍴list←''#.Files.List orig←file ⍝ does the file exist?
-      :AndIf Config.DefaultExtension≢'.dyalog' ⍝ temporary measure to ease the transition to the .mipage extension
-          :If 1≠⊃⍴list←''#.Files.List∊path name'.dyalog'
-              REQ.Fail 404 ⋄ →0
-          :Else
-              1 Log'File not found: "',orig,'" using "',file,'" instead.'
+     
+      :If 1≠n←⊃⍴list←''#.Files.List file ⍝ does the file exist?
+          :If 0=n ⍝ no match
+              :If Config.RESTful ⍝ check for RESTful URI
+                  (list file)←Config FindRESTfulURI REQ
+                  n←⊃⍴list
+              :EndIf
+          :Else ⍝ multiple matches??
+              1 Log'Multiple matching files found for "',file,'"?'
           :EndIf
-      :ElseIf 1≠n
-          REQ.Fail 404 ⋄ →0
+          :If 1≠n
+              REQ.Fail 404 ⋄ →0
+          :EndIf
       :EndIf
      
       date←∊list[1;3]
@@ -491,7 +510,6 @@
       :AndIf (n←⍴REQ.Session.Pages)≥i←REQ.Session.Pages._PageName⍳⊂REQ.Page
           inst←i⊃REQ.Session.Pages ⍝ Get existing instance
           :If expired←inst._PageDate≢date  ⍝ Timestamp unchanged?
-⍝BPB      :AndIf expired←(⎕SRC⊃⊃⎕CLASS inst)≢#.UnicodeFile.ReadNestedText file  ⍝BPB commented out because it's wasteful
               oldinst←inst
               REQ.Session.Pages~←inst
               4 Log'Page: ',REQ.Page,' ... has been updated ...'
@@ -502,7 +520,9 @@
               :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage ⋄ inst._Request←REQ ⋄ :EndIf
           :EndIf
           :If 9=⎕NC'#.RESTful'
-              :If RESTful←∨/(∊⎕CLASS inst)∊#.RESTful ⋄ inst._Request←REQ ⋄ :EndIf
+              :If ∨/(∊⎕CLASS inst)∊#.RESTful
+                  inst._Request←REQ
+              :EndIf
           :EndIf
       :Else                        ⍝ First use of Page in this Session, or page expired
 ⍝          :If 0≠⍴z←#.Files.GetText file
@@ -521,10 +541,13 @@
               :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage
               :OrIf RESTful←∨/(∊⎕CLASS inst)∊#.RESTful
                   inst.(_Request _PageRef)←REQ inst
+                  :If 0≡REQ.RESTfulReq
+                      REQ.RESTfulReq←''
+                  :EndIf
               :EndIf
           :EndIf
      
-              ⍝ ======= TIMEOUT Logic =======
+              ⍝ ======= Expiration (newer version of page is available) Logic =======
               ⍝ If RESTful or not sessioned, let anything through
               ⍝ If sessioned and expired, let it though
               ⍝ If sessioned but not expired, check if GET
@@ -545,12 +568,14 @@
       :EndIf
      
       :Hold token
+          onHandleMSP REQ ⍝ overridable
      
      ⍝ Move arguments / parameters into Public Properties
           inst._PageData←⎕NS''
           :If 0≠1↑⍴data←{⍵[⍋↑⍵[;1];]}REQ.Arguments⍪REQ.Data
-              m←1,2≢/data[;1]
-              data←(m/data[;1]),[1.5]m⊂data[;2]
+              :If 0∊m←1,2≢/data[;1]
+                  data←(m/data[;1]),[1.5]m⊂data[;2]
+              :EndIf
               i←{⍵/⍳⍴⍵}1=⊃∘⍴¨data[;2]
               data[i;2]←⊃¨data[i;2]
               :If 0≠⍴lcp←props←('_'≠1⊃¨props)/props←(inst.⎕NL-2) ⍝ Get list of public properties (those beginning with '_' are excluded)
@@ -563,32 +588,34 @@
                   args←mask⌿data
                   :Trap 0
                       args[;1]←inst._PageData PrepareJSONTargets args[;1]
-                      ⍎'inst._PageData.(',(⍕args[;1]),')←args[;2]'
+                      ⍎'inst._PageData.(',(⍕args[;1]),')←(⊃⍣(1=⍬⍴⍴args))args[;2]'
                   :EndTrap
               :EndIf
           :EndIf
      
-          fn←cb←'Render'
+          fn←'Render'
           :If APLJax>RESTful ⍝ if it's an APLJax (XmlHttpRequest) request (but not web service)
               REQ.Response.NoWrap←1
-              fn←cb←'APLJax' ⍝ default callback function name
+              fn←'APLJax' ⍝ default callback function name
               :If MS3
                   inst._what←REQ.GetData'_what'
                   inst._event←REQ.GetData'_event'
                   inst._value←REQ.GetData'_value'
                   inst._selector←REQ.GetData'_selector'
+                  inst._target←REQ.GetData'_target'
+                  inst._currentTarget←REQ.GetData'_currentTarget'
                   inst._callback←REQ.GetData'_callback'
-                  :If ~0∊⍴inst._callback ⍝ does the request specify a callback function
-                      fn←cb←inst._callback
+                  :If ~0∊⍴inst._callback ⍝ does the request specify a callback function?
+                      fn←inst._callback
                   :EndIf
               :EndIf
           :ElseIf RESTful
-              fn←cb←'Respond'
+              fn←'Respond'
           :ElseIf MS3
-              cb←cb inst.{3=⌊|⎕NC⊂⍵:⍵ ⋄ ⍺}fn←'Compose' ⍝ default function to call
+              fn←'Compose'
           :EndIf
      
-          :If 3≠⌊|inst.⎕NC⊂cb            ⍝ and is it a public method?
+          :If 3≠⌊|inst.⎕NC⊂fn            ⍝ and is it a public method?
               1 Log'Method "',fn,'" not found (or not public) in page "',REQ.Page,'"'
               REQ.Fail 500
               →0
@@ -611,18 +638,20 @@
           :EndIf
      
           :Trap 85   ⍝ we use 85⌶ because "old" MiPages use REQ.Return internally (and don't return a result)...
-              resp←flag Debugger'inst.',cb,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
+              resp←flag Debugger'inst.',fn,(MS3⍱RESTful)/' REQ'  ⍝ ... whereas "new" MiPages return the HTML they generate
               resp←(#.JSON.toAPLJAX⍣APLJax)resp
               inst._TimedOut←0
+     
               :If RESTful
-              :AndIf ~∨/(⊂'content-type')(≡#.Strings.nocase)¨REQ.Response.Headers[;1]
-                  resp←1 #.JSON.fromAPL resp
-                  'Content-Type'REQ.SetHeader'application/json'
+                  :If ~∨/(⊂'content-type')(≡#.Strings.nocase)¨REQ.Response.Headers[;1]
+                      'Content-Type'REQ.SetHeader'application/json'
+                      resp←1 #.JSON.fromAPL resp
+                  :EndIf
               :EndIf
               REQ.Return resp
           :Else
               :If APLJax
-                  1 Log'No result returned by callback method "',cb,'" in page "',REQ.Page,'"'
+                  1 Log'No result returned by callback method "',fn,'" in page "',REQ.Page,'"'
                   REQ.Return''
               :EndIf
           :EndTrap
@@ -712,7 +741,7 @@
       :Trap 11
           x←⎕XML req
       :Else
-          ∘∘∘
+          ∘∘∘ ⍝ !! Intentional !!
       :EndTrap
       v←'var'∘≡¨x[;2]
       v←{⎕ML←3 ⋄ (~<\'='=⍵)⊂⍵}¨v/x[;3]
@@ -786,6 +815,27 @@
       r←'Win'≡3↑1⊃'.'⎕WG'APLVersion'
     ∇
 
+    ∇ (list filename)←Config FindRESTfulURI REQ;page;n;inds;i
+    ⍝ RESTful URIs can be ambiguous
+    ⍝ For example:  is /Misc/ws/ws
+    ⍝    a call to /Misc/ws/ws.mipage
+    ⍝    a call to /Misc/ws.mipage    with /ws as a parameter?
+    ⍝ or a call to /Misc.mipage       with /ws/ws as a parameter?
+    ⍝ This utility attempts to look up the folder structure to find the matching file
+     
+      inds←⌽{⍵/⍳⍴⍵}'/'=REQ.OrigPage
+      :For i :In inds
+          page←(i-1)↑REQ.OrigPage
+          ⍝page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}page ⍝ no page specified? use the default
+          page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}page)/Config.DefaultExtension ⍝ no extension specified? use the default
+          filename←Config Virtual page
+          :If 1=⊃⍴list←''#.Files.List filename
+              REQ.RESTfulReq←i↓REQ.OrigPage
+              REQ.Page←page
+              →0
+          :EndIf
+      :EndFor
+    ∇
     :endsection
 
 :EndClass

@@ -1,4 +1,4 @@
-﻿:Class MiPage : #.HtmlPage
+﻿:Class MiPage : #.HtmlPage           
 
     ⍝∇:require =\HtmlPage.dyalog
     ⍝∇:require =\JSON.dyalog
@@ -16,11 +16,14 @@
     :field Public _value          ⍝ set by APLJAX callback - value of the triggering element
     :field Public _selector       ⍝ set by APLJAX callback - CSS/jQuery selector for the element that triggered the event
     :field Public _callback       ⍝ set by APLJAX callback - name of the callback function
+    :field Public _target         ⍝ set by APLJAX callback - id of the target element
+    :field Public _currentTarget  ⍝ set by APLJAX callback - id of the currentTarget element
     :field Public _PageData       ⍝ namespace containing any data passed via forms or URL
     :field Public _AjaxResponse←''
-    :field Public _DebugCallbacks←0    
+    :field Public _DebugCallbacks←0
     :field Public _TimedOut←0
-    :field Public OnLoad←''     ⍝ page equivalent to ⎕LX
+    :field Public OnLoad←''       ⍝ page equivalent to ⎕LX
+    :field Public Charset←'UTF-8' ⍝ default charset
 
     _used←'' ⍝ keep track of what's been used
 
@@ -43,6 +46,7 @@
 
     ∇ {r}←Render;b;styles
       :Access public
+      Head.Insert #._html.meta''('charset=',⍕Charset)
       :If ''≢OnLoad
           Use'JQuery'
       :EndIf
@@ -73,7 +77,7 @@
       r←Render
     ∇
 
-    ∇ Use resources;n;ind;t;x
+    ∇ Use resources;n;ind;t;x;server
       :Access public
       resources←eis resources
       :For x :In resources
@@ -84,17 +88,22 @@
               :Case '⍕' ⍝ style sheet
                   _Styles,←⊂1↓x
               :Else
-                  :If 0≠⎕NC⊂'_Request.Server.Config.Resources'
-                  :AndIf ~0∊n←1↑⍴_Request.Server.Config.Resources
-                      :If n≥ind←_Request.Server.Config.Resources[;1]⍳⊂x
-                          :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 2)⊃_Request.Server.Config.Resources
-                              _Scripts,←t
+                  :If 0≠⎕NC'_Request.Server'
+                      server←_Request.Server
+                  :ElseIf 0≠⎕NC'#.Boot.ms'
+                      server←#.Boot.ms
+                  :EndIf
+                  :If 0≠server.⎕NC⊂'Config.Resources'
+                  :AndIf ~0∊n←1↑⍴server.Config.Resources
+                      :If n≥ind←server.Config.Resources[;1]⍳⊂x
+                          :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 2)⊃server.Config.Resources
+                              _Scripts,⍨←t
                           :EndIf
-                          :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 3)⊃_Request.Server.Config.Resources
-                              _Styles,←t
+                          :If ~0∊⍴t←{(~0∘∊∘⍴¨⍵)/⍵}(⊂ind 3)⊃server.Config.Resources
+                              _Styles,⍨←t
                           :EndIf
                       :Else
-                          1 _Request.Server.Log _PageName,' references unknown resource: ',x
+                          1 server.Log _PageName,' references unknown resource: ',x
                       :EndIf
                   :EndIf
               :EndSelect
@@ -208,6 +217,7 @@
     ∇
 
     ∇ r←renderContent content;c
+      :Access public shared
       r←''
       content←eis content
       :While ~0∊⍴content

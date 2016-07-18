@@ -1,0 +1,33 @@
+﻿:Class jqSortableSimple : MiPageSample
+⍝ Control:: _JQ.jqSortable
+⍝ Description:: Allow list items to be reordered
+
+    ∇ Compose;sort
+      :Access Public
+      Add _.Style'#sort li' 'border: 1px solid orange; background-color: white'
+      Add _.h3'jqSortable'
+      Add _.p'Drag and drop the below items to reorder them:'
+     
+      sort←'sort'Add _.jqSortable('Item1' 'Item2' 'Item3' 'Item4' 'Item5')
+      sort.On'stop' 'myCallBack'('order' 'method' '"toArray"')
+      sort.Options.tolerance←'pointer'
+     
+      '#output'Add _.div
+    ∇
+
+    ∇ r←myCallBack;order
+      :Access Public
+      order←⍎(⍕Get'order')∩11↑⎕D
+      :Select order
+      :Case ⍳5
+          order←'restored'
+      :Case ⌽⍳5
+          order←'reversed'
+      :Else
+          order←⍕order
+      :EndSelect
+      r←'#output'Replace'The order is now ',order,'.'
+    ∇
+
+
+:EndClass

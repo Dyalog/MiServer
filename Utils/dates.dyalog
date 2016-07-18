@@ -87,6 +87,20 @@
       r←1+7|(DateToIDN 3↑Date)-1
     ∇
 
+    ∇ r←{opt}DateFormat ymd
+    ⍝ opt - 0 dd MMM yyyy
+    ⍝       1 dd Month yyyy
+      :If 0=⎕NC'opt' ⋄ opt←0 ⋄ :EndIf
+      :Select ⊃opt
+      :Case 0
+          r←(⍕ymd[3]),(1⌽'  ',3↑(3×¯1+ymd[2])↓'JANFEBMARAPRMAYJUNJULAUGSEPOCTNOVDEC'),⍕ymd[1]
+      :Case 1
+          r←(⍕ymd[3]),(1⌽'  ',ymd[2]⊃'January' 'February' 'March' 'April' 'May' 'June' 'July' 'August' 'September' 'October' 'November' 'December'),⍕ymd[1]
+      :Else
+          r←⍕ymd
+      :EndSelect
+    ∇
+
     ∇ r←LogFmtNow;ver
     ⍝ returns now UTC adjusted, and formatted for log files (Common Log Format)
       :If 'Win'≡ver←3↑1⊃'.'⎕WG'APLVersion'
@@ -127,6 +141,31 @@
       m←(2⊃ts)⊃++\0 31,(28+0=4|⊃ts),31 30 31 30 31 31 30 31 30 ⍝ days in completed months
       y←{{(365×⍵)+⌈4÷⍨⍵-2}⍵-1970}⊃ts                           ⍝ days in years since 1970, leap years since 1972
       r←l+60×h+86400×y+m+d                                     ⍝ sum, convert to seconds, add seconds in the day convert to 60ths, add on 60ths
+    ∇
+
+
+    tonum←{(b v)←⎕vfi ⍵ ⋄ b/v}
+
+    ∇ dt←ParseDate str;pos;mon;t;ymd
+     ⍝ str is of the genre "Wed Aug 05 2015 07:30:21 GMT-0400 (Eastern Daylight Time)"
+     ⍝ We need to weed out the day of the week and the time
+      str←(+/∧\' '=str)↓str           ⍝ remove the leading spaces
+     ⍝ What kind of string is this?
+      :If ~∧/1⊃(dt dt)←{b←~⍵∊'/-:' ⋄ ⎕VFI b\b/⍵}str  ⍝ yyyy/mm/dd hh:mm:ss ?
+          :If 0∊⍴t←'Jan' 'Feb' 'Mar' 'Apr' 'May' 'Jun' 'Jul' 'Aug' 'Sep' 'Oct' 'Nov' 'Dec' ⎕S 0 3⊢str      ⍝ look for the month as a string. If not found
+              ymd←3↑tonum str                ⍝ grab the 1st 3 numbers found
+              ymd←ymd[⍒(2×31<ymd)+ymd<12] ⍝ put in correct order
+          :Else                           ⍝ otherwise (if found)
+              (pos mon)←0 1+1⊃t
+              :If ~0∊⍴t←tonum pos↑str        ⍝ any number before the month? (e.g. 2 May 2021)
+                  ymd←⌽⍣(31<⍬⍴t)⊢(1↑tonum pos↓str),mon,t
+              :Else
+                  ymd←¯1⌽mon,2↑tonum pos↓str
+              :EndIf
+          :EndIf
+     ⍝ Now grab the time
+          dt←ymd,tonum⍕'(\d+):(\d+):(\d+)'⎕S'\1 \2 \3'⊢str
+      :EndIf
     ∇
 
 :EndNamespace

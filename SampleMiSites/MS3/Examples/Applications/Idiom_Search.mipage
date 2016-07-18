@@ -1,0 +1,16 @@
+﻿:Class Idiom_Search :MiPageSample
+⍝ Control:: _JS.DataTable
+⍝ Description:: Search the Dyalog and FinnAPL idiom lists
+
+    ∇ Compose
+      :Access Public
+     
+      :If 0=⎕NC'IDIOMS'
+          IDIOMS←⎕SE.SALT.Load #.Boot.AppRoot,'Examples\Data\idioms -noname -nolink'
+          IDIOMS[;1]←'FinnAPL' 'Dyalog'[IDIOMS[;1]+1]
+          IDIOMS⍪⍨←'Library' 'Description' 'Requirements' 'Expression'
+      :EndIf
+      'output'Add _.DataTable(IDIOMS(2/'.a333' '.a385'))
+    ∇
+
+:EndClass

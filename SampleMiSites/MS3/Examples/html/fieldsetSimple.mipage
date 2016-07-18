@@ -1,0 +1,32 @@
+﻿:Class fieldsetSimple: MiPageSample
+⍝ Control:: _html.fieldset _html.legend
+⍝ Description:: Group form controls
+
+    ∇ Compose
+      :Access public
+     
+    ⍝ Show a title
+      Add _.h2'WONOWAY Insurance company'
+     
+    ⍝ The main form
+      frm←Add _.Form
+     
+    ⍝ Makes a box
+      fs←frm.Add _.fieldset
+     
+    ⍝ Puts a label on the top edge of the box
+      fs.Add _.legend'Customer information'
+     
+    ⍝ Automated adding of lists of elements with labels
+      Types←'text' 'password' ⋄ Labels←'Reference #' 'Password'
+      :For i :In ⍳⍴Types
+          ((fs.Add _.label,i⊃Labels).Add _.input).type←i⊃Types
+          fs.Add _.br
+      :EndFor
+     
+    ⍝ Submit button
+      (fs.Add _.input).(name type value)←⊂'Submit'
+     
+    ∇
+
+:EndClass

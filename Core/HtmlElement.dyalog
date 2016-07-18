@@ -15,14 +15,14 @@
     :field public Position    ⍝ has position information for this element (if position is set)
     :field public Uses←''     ⍝ resources that will be used by this object (can be overridden by derived classes)
 
-    :field public shared _true←#.JSON.true     ⍝ same definition as in #.JSON
-    :field public shared _false←#.JSON.false   ⍝ same definition as in #.JSON
+    :field public shared readonly _true←#.JSON.true     ⍝ same definition as in #.JSON
+    :field public shared readonly _false←#.JSON.false   ⍝ same definition as in #.JSON
 
 
 ⍝ define shortcuts to namespaces (initialized later)
     :field public _html        ⍝ reference to base HTML elements namespace
     :field public _JQ          ⍝ reference to JQuery/JQueryUI widgets namespace
-    :field public _SF          ⍝ reference to SyncFusion widgets namespace
+    :field public _SF          ⍝ reference to Syncfusion widgets namespace
     :field public _JSS         ⍝ reference to JavaScript Snippets namespace
     :field public _DC          ⍝ reference to Dyalog Controls namespace
     :field public _            ⍝ reference to namespace that refers to all elements/widgets
@@ -43,7 +43,7 @@
 
     :field public _styles←''
 
-    rand←{t←16807⌶2 ⋄r←?⍵ ⋄ t←16807⌶t ⋄ r }
+    rand←{?⍵⊣⎕RL←0}
 
     ∇ r←Version
       :Access public
@@ -91,11 +91,27 @@
       r←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}w
     ∇
 
+    ∇ r←isTrue a
+      :Access public shared
+      →0⍴⍨r←(,1)≡,a       ⍝ boolean
+      →0⍴⍨r←#.JSON.true≡a ⍝ namespace
+      →0⍴⍨r←'true'≡a      ⍝ string
+      →0⍴⍨r←a≡⊂'true'     ⍝ 7161⌶1
+    ∇
+
+    ∇ r←isFalse a
+      :Access public shared
+      →0⍴⍨r←(,0)≡,a        ⍝ boolean
+      →0⍴⍨r←#.JSON.false≡a ⍝ namespace
+      →0⍴⍨r←'false'≡a      ⍝ string
+      →0⍴⍨r←a≡⊂'false'     ⍝ 7161⌶0
+    ∇
+
     ∇ r←a ine w
       :Access public shared
       r←a{0∊⍴⍺:'' ⋄ ⍵}w ⍝ if not empty
     ∇
-    errorIf←{⍺←⊢ ⋄ 0≠⍵:⍺ ⎕SIGNAL ⍵ ⋄ ''}
+    errorIf←{⍺←⊢ ⋄ 0≠⍵:⍺ ⎕SIGNAL ⍵}
 
     :section Attribute Handling
 
@@ -196,6 +212,7 @@
      
           :If 2=⍴,attr  ⍝ 'attr' 'value' is never shorthanded (e.g. given special treatment for id/class)
           :AndIf 1∧.≥≡¨attr
+          :AndIf ~∧/'='∊¨attr
               attr←,⊂attr
           :EndIf
      
@@ -247,6 +264,15 @@
           :EndTrap
       :Else
           proto∘GetAttr¨attrname
+      :EndIf
+    ∇
+
+    ∇ r←AddClass c
+      :Access public
+      :If class≡UNDEF
+          class←c
+      :Else
+          class,←' ',c
       :EndIf
     ∇
 
@@ -323,13 +349,13 @@
       :Else
         ⍝ If we have a couple of items, the second of which is
         ⍝ a string or VTV, then we are dealing with attributes:
-          :If (,2)≡⍴arg
+          :If (1<|≡arg)∧(,2)≡⍴arg
           :AndIf isAttr 2⊃arg
               (content attr)←arg ⋄ SetAttr attr
           :Else
               content←arg
           :EndIf
-          Content,←arg
+          Add content
           Tag←t
       :EndIf
       Init
@@ -363,7 +389,7 @@
       Position←⎕NS''
     ∇
 
-    ∇ Use;c
+    ∇ SetUse;c
       :Access public overridable
       :If ~0∊⍴Uses
           :Trap 0
@@ -380,28 +406,43 @@
       :EndIf
     ∇
 
+    ∇ Use resource
+      :Access public
+      :If ~0∊⍴Uses ⋄ Uses←eis Uses ⋄ :EndIf
+      Uses,←eis resource
+    ∇
+
     :endsection
 
     :section Event Handling
 
-    ∇ {r}←On handler
+    ∇ {handler}←On args;n;i
       :Access public
-      handler←eis handler
-      Handlers,←r←⎕NEW #._JQ.Handler
-      r.(Events Callback ClientData JavaScript Delegates jQueryWrap ScriptWrap Hourglass)←8↑handler,(⍴handler)↓'' 1 '' '' '' 1 1 ¯1
-      :If ¯1=r.Hourglass ⋄ r.Hourglass←(,0)≢,r.Callback ⋄ :EndIf
+      args←eis args
+      handler←⎕NEW #._JQ.Handler
+      handler.(Events Callback ClientData JavaScript Delegates jQueryWrap ScriptWrap Hourglass)←args defaultArgs'' 1 '' '' '' 1 1 ¯1
+      handler.WidgetRef←⎕THIS
+      handler.Page←_PageRef
+      :If ¯1=handler.Hourglass ⋄ handler.Hourglass←(,0)≢,handler.Callback ⋄ :EndIf
+      :If 0∊n←⍴Handlers
+          Handlers,←handler
+      :ElseIf n<i←Handlers.Events⍳⊂handler.Events
+          Handlers,←handler
+      :Else
+          Handlers[i]←handler
+      :EndIf
     ∇
 
     ∇ r←RenderHandlers;myid;h
       :Access public ⍝!!! remove this after testing
       r←''
       :If ~0∊⍴Handlers
-          :If ∨/0∘∊∘⍴¨Handlers.Selectors
+          :If ∨/0∘∊∘⍴¨Handlers.Selector
               myid←SetId
           :EndIf
           :For h :In Handlers
-              :If 0∊⍴h.Selectors
-                  h.Selectors←'#',myid
+              :If 0∊⍴h.Selector
+                  h.Selector←'#',myid
               :EndIf
               r,←h.Render
           :EndFor
@@ -428,7 +469,11 @@
               av,←∊fmtAttr/¨vs
           :EndIf
           av,←RenderStyles
-          r←(av Enclose r),h,p
+          :If (⊂Tag)∊'html' 'body' 'head'
+              r←av Enclose r,h,p
+          :Else
+              r←(av Enclose r),h,p
+          :EndIf
       :EndIf
     ∇
 
@@ -501,17 +546,18 @@
     ∇ r←tag Enclose txt;nl
       :Access public shared
       tag←,tag
-      r←(tag{NoEndTag∧0∊⍴⍵:Bracket ⍺,'/' ⋄ (Bracket ⍺),⍵,Bracket'/',⍺↑⍨¯1+⍺⍳' '}txt),NL
+      r←(tag{NoEndTag∧0∊⍴⍵:Bracket ⍺,'/' ⋄ (Bracket ⍺),⍵,Bracket'/',⍺↑⍨¯1+⍺⍳' '}txt)⍝,NL
     ∇
 
     ∇ r←{a}eis w
       :Access public shared
       r←((,∘⊂)⍣((isString w)∧2>|≡w))w ⍝ enclose if simple character
+      ⍝r← (,∘⊂)⍣((326∊⎕DR w)<2>|≡w)⊢w ⍝ Enclose if simple
     ∇
 
     ∇ da←args defaultArgs defaultvalues
       :Access public shared
-      da←da,(⍴da←eis args)↓defaultvalues
+      da←da,(⍴,da←eis args)↓defaultvalues
     ∇
 
     ∇ r←Quote a;b
@@ -532,28 +578,32 @@
               :If ~0∊⍴attr
                   r.SetAttr attr
               :EndIf
-          :Else ⍝If isInstance⊃args
+          :ElseIf isInstance⊃args
+              :If ~0∊⍴attr
+                  (⊃args).SetAttr attr
+              :EndIf
+              r←args
+          :Else
               r←args
           :EndIf
       :EndIf
     ∇
 
-    ∇ {r}←Push args;c;cl;attr;elm
+    ∇ {r}←{attr}Push args;c;cl;attr;elm
       :Access public
       :If ~0∊⍴r←args
-          (cl attr)←{2↑⍵,(⍴⍵)↓'' ''}eis args
           c←Content
-          :If isClass cl
-              elm←⎕NEW cl
-              elm.Content←c
-              :If ~0∊⍴attr
-                  elm.SetAttr attr
-              :EndIf
-              r←Content←elm
-          :ElseIf 0∊⍴attr
-              r←Content,⍨←⊂cl
+          :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
+          r←attr ParseArgs args
+          :If isInstance r
+              :Trap 4 5 ⍝ rank and length error
+                  r.Content,←c
+              :Else
+                  r.Content,←⊂c
+              :EndTrap
+              Content←r
           :Else
-              'Invalid Push arguments'⎕SIGNAL 11
+              Content,⍨←r
           :EndIf
       :EndIf
     ∇
@@ -606,19 +656,31 @@
       r←⊃⌽Content
     ∇
 
-    ∇ r←isClass ao
+    ∇ r←{ref}isClass ao
       :Access public shared
-      r←9.4∊⎕NC⊂'ao'
+      →0↓⍨r←9.4∊⎕NC⊂'ao'
+      :If 0≠⎕NC'ref'
+          r←ref∊∊⎕CLASS ao
+      :EndIf
     ∇
 
-    ∇ r←isInstance ao
+    ∇ r←{ref}isInstance ao
       :Access public shared
-      r←9.2∊⎕NC⊂'ao'
+      →0↓⍨r←9.2∊⎕NC⊂'ao'
+      :If 0≠⎕NC'ref'
+          r←ref∊∊⎕CLASS ao
+      :EndIf
     ∇
 
     ∇ r←isRef obj
       :Access public shared
       r←9∊⎕NC'obj'
+    ∇
+
+    ∇ r←isWidget obj
+      :Access public shared
+      →0↓⍨r←9.2∊⎕NC⊂'obj'
+      r←#._JQ._jqWidget∊∊⎕CLASS obj
     ∇
 
     isattr←{isString ⍵:1 ⋄ isRef ⍵:0 ⋄ ∧/∇¨⍵}
@@ -672,7 +734,43 @@
 
     ∇ r←ScriptFollows
       :Access public shared
-      r←∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+      r←2↓∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI ⍝(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+    ∇
+
+    ∇ r←MarkdownFollows
+      :Access public shared
+      r←⊃#.MarkAPL.Markdown2HTML{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI ⍝(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+    ∇
+
+    ∇ r←CodeFollows
+      :Access public shared
+      r←2↓∊(⎕UCS 13 10)∘,¨{¯1↓⍵/⍨∨\⌽<\∨/¨'⍝<<end>>'∘⍷¨⍵}(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI ⍝(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+      r←'<pre style="font-family:APL385 Unicode">',r,'</pre>'
+    ∇
+
+    ∇ r←WrapFollowing tag;text;SplitOnSpaceLines;Trim;FirstCommentBlock
+      :Access public shared
+     
+     ⍝ USAGE:
+     ⍝
+     ⍝      Add WrapFollowing 'p class="bodytext"'
+     ⍝      ⍝ paragraph may span
+     ⍝      ⍝ several lines
+     ⍝      ⍝
+     ⍝      ⍝ they are separated by empty comment lines
+     ⍝
+     ⍝ RESULT:
+     ⍝
+     ⍝      <p class="bodytext">paragraph may span several lines</p>
+     ⍝      <p class="bodytext">they are separated by empty comment lines</p>
+     ⍝
+     
+      Trim←{(∨\' '≠⍵)/⍵}¨
+      FirstCommentBlock←{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}
+      SplitOnSpaceLines←{1↓¨⍵⊂⍨⍵∧.=¨' '}
+      text←(1+2⊃⎕LC)↓↓(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+     
+      r←tag∘#.HTMLUtils.Enclose¨∊¨SplitOnSpaceLines' ',¨⍨' ',⌽¨Trim⌽¨FirstCommentBlock Trim text
     ∇
 
     ∇ r←what Subst text;names;gv;i;repl;fixL;fixR
