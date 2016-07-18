@@ -530,6 +530,10 @@ iframe {
     margin-right: -15px;
 }
 
+.bigtabs table {
+    font-family: Verdana, Geneva, sans-serif;
+}
+
 /* SLIDESHOW CSS */
 #slideshow {
     width: 495px;
