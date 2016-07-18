@@ -91,9 +91,8 @@
 
     Levels←{(+/¨'/'=⍵)+~'/'=(⊃⌽)¨⍵} ⍝ Number of /s adjusted for categories' final /
 
-    Shuffle←(?⍨∘≢⊃¨⊂)⊢⊂⍨⊢⍷⍨⍳∘'>'↑⊢ ⍝ Shuffle the root elements of an XML snippet
-
-
+    Shuffle←(?⍨∘≢⊃¨⊂)⊢⊂⍨⊢≡¨1↑⊢ ⍝ Shuffle the root elements of an XML snippet
+    
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
