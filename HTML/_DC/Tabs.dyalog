@@ -25,7 +25,7 @@
 
     ∇ Make1 args
       :Access public
-      :Implements constructor :base args
+      :Implements constructor
       Uses←'dcTabs'
       args←eis args
       :If 1=⍴args
@@ -52,25 +52,27 @@
       numbers←{2↓GenId}¨Sections
       
       ⍝ HTML structure
-      r←'<div class="dc-tabs">'
+      Content←'<div class="dc-tabs">'
       :For title n :InEach Titles numbers
           :If isRef title ⋄ title←title.Render ⋄ :EndIf
-          r,←'<input type="radio" name="dc-tabs',group,'" id="dc-tabT',n,'" '
-          :If n≡⊃numbers ⋄ r,←' checked="checked"' ⋄ :EndIf
-          r,←'/><label for="dc-tabT',n,'">',title,'</label>'
+          Content,←'<input type="radio" name="dc-tabs',group,'" id="dc-tabT',n,'"'
+          :If n≡⊃numbers ⋄ Content,←' checked="checked"' ⋄ :EndIf
+          Content,←'/><label for="dc-tabT',n,'">',title,'</label>'
       :EndFor
       :For section n :InEach Sections numbers
           :If isRef section ⋄ section←section.Render ⋄ :EndIf
-          r,←'<div id="dc-tabS',n,'">',section,'</div>'
+          Content,←'<div id="dc-tabS',n,'">',section,'</div>'
       :EndFor
-      r,←'</div>'
+      Content,←'</div>'
      
       ⍝ CSS This matchs tabs displaying to their associated radio inputs
-      r,←'<style>'
+      Content,←'<style>'
       :For n :In numbers
-          r,←'#dc-tabT',n,':checked ~ #dc-tabS',n,', '
+          Content,←'#dc-tabT',n,':checked ~ #dc-tabS',n,', '
       :EndFor
-      r↓⍨←¯2
-      r,←'{display: block;}</style>'
+      Content↓⍨←¯2
+      Content,←'{display: block;}</style>'
+      
+      r←⎕base.Render
     ∇
 :endclass
