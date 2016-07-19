@@ -22,12 +22,11 @@
 
     ∇ make1 arg
       :Access public
-      :Implements constructor :base arg
-      Tag←'div'
+      :Implements constructor :base 'div' arg
     ∇
 
     ∇ r←Render;content;file
-      :Access public
+      :Access public 
       content←Content
       :If ~0∊⍴File
           :If #.Boot.isRelPath file←File
