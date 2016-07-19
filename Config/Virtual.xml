@@ -4,6 +4,11 @@
      %SiteRoot%   - web site root -->
 
   <directory>
+    <alias>Dyalog</alias>
+    <path>%ServerRoot%/PlugIns/Dyalog/</path>
+  </directory>
+
+  <directory>
     <alias>JQuery</alias>
     <path>%ServerRoot%/PlugIns/JQuery/</path>
   </directory>

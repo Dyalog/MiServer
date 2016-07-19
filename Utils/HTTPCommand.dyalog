@@ -14,7 +14,15 @@
 ⍝   Priority - if using SSL, this is the GNU TLS priority string (generally you won't change this from the default)
 ⍝   LocalDRC - if set, this is a reference to the DRC namespace from Conga - otherwise, we look for DRC in the workspace root
 ⍝   WaitTime - time (in seconds) to wait for the response (default 30)
-
+⍝
+⍝   Methods Run and Get return a namespace containing the variables:
+⍝   data          - the response message payload
+⍝   httpver       - the server HTTP version
+⍝   httpstatus    - the response HTTP status code (200 means OK)
+⍝   httpstatusmsg - the response HTTP status message
+⍝   headers       - the response HTTP headers
+⍝   peercert      - the server (peer) certificate if running secure
+⍝   rc            - the Conga return code (0 means no error)
 
     ⎕ML←⎕IO←1
 
@@ -37,7 +45,7 @@
     ∇ make1 args
       :Access public
       :Implements constructor
-      ⍝ args - [URL Params Headers Command Cert SSLFlags Priority]
+      ⍝ args - [Command URL Params Headers Cert SSLFlags Priority]
       args←eis args
       Command URL Params Headers Cert SSLFlags Priority←7↑args,(⍴args)↓Command URL Params Headers Cert SSLFlags Priority
     ∇
@@ -142,7 +150,7 @@
      
       hdrs←'Accept-Encoding'(hdrs addHeader)'gzip, deflate'
      
-      req←cmd,' ',(page,urlparms),' HTTP/1.1',NL,'Host: ',host,NL
+      req←(uc cmd),' ',(page,urlparms),' HTTP/1.1',NL,'Host: ',host,NL
       req,←fmtHeaders hdrs
       req,←auth
      
@@ -182,7 +190,7 @@
                               data,←chunklength↑(len+2)↓buffer
                               buffer←(chunklength+len+4)↓buffer
                               :If done←0=chunklength ⍝ chunked transfer can add headers at the end of the transmission
-                                  header←⊂header⍪2⊃DecodeHeader buffer
+                                  header←header⍪2⊃DecodeHeader buffer
                               :EndIf
                           :EndIf
                       :EndWhile
@@ -217,9 +225,10 @@
                       →GET⍴⍨0<⍴url←'location'{(⍵[;1]⍳⊂⍺)⊃⍵[;2],⊂''}header ⍝ use the "location" header field for the URL
                   :EndIf
      
-                  httpver httpstatus httpstatusmsg←{⎕ML←3 ⋄ ⍵⊂⍨{⍵∨2<+\~⍵}⍵≠' '}(⊂1 1)⊃header
-                  header↓⍨←1
               :EndTrap
+
+              httpver httpstatus httpstatusmsg←{⎕ML←3 ⋄ ⍵⊂⍨{⍵∨2<+\~⍵}⍵≠' '}(⊂1 1)⊃header
+              header↓⍨←1
      
               :If secure ⋄ peercert←⊂LDRC.GetProp cmd'PeerCert' ⋄ :EndIf
           :EndIf
@@ -246,10 +255,11 @@
     getchunklen←{¯1=len←¯1+⊃(NL⍷⍵)/⍳⍴⍵:¯1 ¯1 ⋄ chunklen←h2d len↑⍵ ⋄ (⍴⍵)<len+chunklen+4:¯1 ¯1 ⋄ len chunklen}
     eis←{⍺←1 ⋄ ,(⊂⍣(⍺=|≡⍵))⍵} ⍝ enclose if simple
     toNum←{0∊⍴⍵:⍬ ⋄ 1⊃2⊃⎕VFI ⍕⍵}
-    getHeader←{(⍺[;2],⊂'')⊃⍨⍺[;1]⍳eis lc ⍵}
-    addHeader←{0∊⍴⍺⍺ getHeader ⍺:⍺⍺⍪⍺ ⍵ ⋄ ⍺⍺}
+    getHeader←{(⍺[;2],⊂'∘∘∘')⊃⍨(lc ¨⍺[;1])⍳eis lc ⍵}
+    addHeader←{'∘∘∘'≡⍺⍺ getHeader ⍺:⍺⍺⍪⍺ ⍵ ⋄ ⍺⍺} ⍝ add a header unless it's already defined
     makeHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:0 2⍴⊂'' ⋄ 2=⍴⍴⍵:⍵ ⋄ ↑2 eis ⍵}
-    fmtHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:'' ⋄ ∊{NL,⍨(1⊃⍵),': ',⍕2⊃⍵}¨↓⍵}
+    fmtHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:'' ⋄ ∊{0∊⍴2⊃⍵:'' ⋄ NL,⍨(firstCaps 1⊃⍵),': ',⍕2⊃⍵}¨↓⍵}
+    firstCaps←{1↓{(¯1↓0,'-'=⍵) (819⌶)¨ ⍵}'-',⍵}
       b64Encode←{ ⍝ Base64 Encode
           raw←⊃,/11∘⎕DR¨⍵
           cols←6

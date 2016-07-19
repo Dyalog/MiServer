@@ -2,6 +2,15 @@
 <Resources>
 <!-- 
 *******************************
+*    Dyalog Widget resources  *
+*******************************
+-->
+	<resource>
+		<name>dcTabs</name>
+		<style>/Dyalog/dcTabs/dcTabs.css</style>
+	</resource>
+<!-- 
+*******************************
 *      fontawesome resources  *
 *******************************
 -->
