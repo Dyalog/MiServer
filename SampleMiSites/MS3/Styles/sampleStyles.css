@@ -594,7 +594,11 @@ iframe {
 
 #slideshow figcaption {
     padding: 0.5em;
-    background: linear-gradient(transparent 25%, white 25%);
+    background: linear-gradient(transparent,black 10%);
+    position: relative;
+    bottom:50px;
+    color:white;
+    height:34px
 }
 
 figcaption a {
