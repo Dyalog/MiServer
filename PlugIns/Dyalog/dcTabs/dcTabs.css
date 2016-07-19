@@ -23,34 +23,42 @@
     /* Padding around tab text */
     padding: 5px 10px;
  
+    /* Margin to next tab */
+    margin-right: 5px;
+		
     /* Set the default colours (non-selected tab) */
-    background:linear-gradient(lightgrey,white);
-    font-weight:bold;
+    background: -webkit-linear-gradient(lightgrey,white);
+    background: linear-gradient(lightgrey,white);
+    font-weight: bold;
   
-    cursor:pointer;
+    /* Hand when over the tab */
+    cursor: pointer;
 }
 
 /* Hovered tabs need to be highlighted as such */
 .dc-tabs > input[type="radio"] + label:hover{
-  background:linear-gradient(#E9B06A,white)
+  background: -webkit-linear-gradient(#E9B06A,white);
+  background: linear-gradient(#E9B06A,white);
 }
 
 /* Focused tabs need to be highlighted as such */
 .dc-tabs > input[type="radio"]:focus + label {
-  background:linear-gradient(darkorange,white)!important;
+  background: -webkit-linear-gradient(darkorange,white)!important;
+  background: linear-gradient(darkorange,white)!important;
 }
 
 /* Active tabs need to be highlighted as such */
 .dc-tabs > input[type="radio"]:active + label {
-  background:linear-gradient(darkorange,white)!important;
+  background: -linear-gradient(darkorange,white)!important;
+  background: linear-gradient(darkorange,white)!important;
 }
 
 /* Checked tabs must be white with the bottom border removed */
 .dc-tabs > input[type="radio"]:checked + label {
-    background:white;
+    background: white;
     border-bottom: 1px solid white;
     margin-bottom: -1px;
-    cursor:default;
+    cursor: default;
 }
  
 /* The tab content must fill the widgets size and have a nice border */
