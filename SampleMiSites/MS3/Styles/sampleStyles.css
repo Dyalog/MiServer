@@ -516,8 +516,7 @@ iframe {
     margin-top: 10px;
     margin-bottom: 30px;
     padding: 5px;
-    border: none;
-    box-shadow: 0px 0px 4px 4px black, inset 0px 0px 4px 4px black;
+    border: 2px solid black;
 }
 
 #widgetdoc {
