@@ -1,2 +1,75 @@
-/* CSS for the _DC.dcTabs widget 
-For Adam to fill in */
+/* CSS for the _DC.dcTabs widget */
+
+/* Configure the radio buttons to hide behind their tabs */
+.dc-tabs > input[type="radio"] {
+    position: absolute;
+    z-index: -1;
+}
+ 
+/* Configure labels to look like tabs */
+.dc-tabs > input[type="radio"] + label {
+    /* inline-block such that the label can be given dimensions */
+    display: inline-block;
+ 
+    /* A nice curved border around the tab */
+    border: 1px solid black;
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+     
+    /* the bottom border is handled by the tab content div */
+    border-bottom: 0;
+ 
+    /* Padding around tab text */
+    padding: 5px 10px;
+ 
+    /* Margin to next tab */
+    margin-right: 5px;
+		
+    /* Set the default colours (non-selected tab) */
+    background: -webkit-linear-gradient(lightgrey,white);
+    background: linear-gradient(lightgrey,white);
+    font-weight: bold;
+  
+    /* Hand when over the tab */
+    cursor: pointer;
+}
+
+/* Hovered tabs need to be highlighted as such */
+.dc-tabs > input[type="radio"] + label:hover{
+  background: -webkit-linear-gradient(#E9B06A,white);
+  background: linear-gradient(#E9B06A,white);
+}
+
+/* Focused tabs need to be highlighted as such */
+.dc-tabs > input[type="radio"]:focus + label {
+  background: -webkit-linear-gradient(darkorange,white)!important;
+  background: linear-gradient(darkorange,white)!important;
+}
+
+/* Active tabs need to be highlighted as such */
+.dc-tabs > input[type="radio"]:active + label {
+  background: -linear-gradient(darkorange,white)!important;
+  background: linear-gradient(darkorange,white)!important;
+}
+
+/* Checked tabs must be white with the bottom border removed */
+.dc-tabs > input[type="radio"]:checked + label {
+    background: white;
+    border-bottom: 1px solid white;
+    margin-bottom: -1px;
+    cursor: default;
+}
+ 
+/* The tab content must fill the widgets size and have a nice border */
+.dc-tabs > div {
+    display: none;
+    border: 1px solid black;
+    padding: 10px 10px;
+    height: 100%;
+    overflow: auto;
+  
+    border-radius: 0 5px 5px 5px;
+    -moz-border-radius: 0 5px 5px 5px;
+    -webkit-border-radius: 0 5px 5px 5px;
+}

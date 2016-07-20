@@ -524,12 +524,12 @@ iframe {
     margin-right: 20px;
 }
 
-.bigtabs {
+#bigtabs {
     margin-left: -15px;
     margin-right: -15px;
 }
 
-.bigtabs table {
+#bigtabs table {
     font-family: Verdana, Geneva, sans-serif;
 }
 

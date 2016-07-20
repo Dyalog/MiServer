@@ -1,0 +1,35 @@
+﻿:Class TabsSimple: MiPageSample
+⍝ Control:: _DC.Tabs
+⍝ Description:: Tabbed interface with four pseudo-language samples
+
+    ∇ Compose;langs;texts
+      :Access public
+      langs←'Latin' 'German' 'French' 'English'
+      texts←WrapFollowing 'p'
+⍝Neque fieri horum errem ab me eo credo. Hanc sic meo quae ipsa. Fal membrorum existenti conservet 
+⍝per sapientia dubitavit. Apta gi de et enim gnum data. Id quadratam ut archimede attingere re ne. 
+⍝Humanam infusum has iis veteris mei occasio replere istarum. Emanant poterit capaces at in 
+⍝numerum de exigere ob chartam. 
+⍝
+⍝Fu en leuchtete du verwegene nachgehen la kindliche zierliche. Pa erschrak hinunter zwischen 
+⍝nirgends zu en ratloses. Die fur herde abend als gehen adieu danke. Grad frau aber bis sei ruth. 
+⍝Langsam wahrend heiland da richten sa bedeckt leuchte wo ja. Ist lohgruben furchtete betrubtes 
+⍝nur sudwesten ausgeruht ausdenken. Ferne namen denen regen lag nie davon naher. Bilderbuch dir 
+⍝erkundigte fluchtigen aus geschwatzt zaunpfahle wie. Das besonderes vertreiben hut grashalden 
+⍝fur aneinander ihr. 
+⍝
+⍝Que ans avez deja dur pile nez. La as bouche un ne gloire labour. Te firmament escadrons oh 
+⍝officiers croissent oh va. Consumait ma te redoutait effrayant. Ame peu veterans capitale son 
+⍝soutenir mettions. Demeurent te entrerent entourage apprenons mystiques inassouvi je de. Mon 
+⍝rougeatres singuliers maintenant fut construits assurances comprendre une. Compagnies legerement 
+⍝lumineuses convulsion au sa bouquetins. 
+⍝
+⍝Continual delighted as elsewhere am convinced unfeeling. Introduced stimulated attachment no by 
+⍝projection. To loud lady whom my mile sold four. Need miss all four case fine age tell. He 
+⍝families my pleasant speaking it bringing it thoughts. View busy dine oh in knew if even. Boy 
+⍝these along far own other equal old fanny charm. Difficulty invitation put introduced see 
+⍝middletons nor preference. 
+      'output'Add _.Tabs(langs texts)
+    ∇
+
+:EndClass
