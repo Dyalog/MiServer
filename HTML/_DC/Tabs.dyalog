@@ -16,6 +16,7 @@
     :field public shared readonly ApiLevel←3
     :Field public Titles←0⍴⊂''
     :Field public Sections←0⍴⊂''
+    :Field public Theme←'#FF8C00' ⍝ darkorange
 
     ∇ Make
       :Access public
@@ -46,36 +47,65 @@
       Sections,←⊂content
     ∇
 
-    ∇ r←Render;title;section;numbers;n
+    ∇ r←Render;title;section;numbers;n;mix
       :Access public
       SetId
       SetUse
       AddClass'dc-tabs'
       numbers←('dc-tabs-',id,'_','_',⍨⍕)¨⍳≢Sections
-      
+     
       ⍝ HTML structure
       Content←''
-
+     
       :For title n :InEach Titles numbers
           :If isRef title ⋄ title←title.Render ⋄ :EndIf
           Content,←'<input type="radio" name="',id,'" id="',n,'t"'
           :If n≡⊃numbers ⋄ Content,←' checked="checked"' ⋄ :EndIf
           Content,←'/><label for="',n,'t">',title,'</label>'
       :EndFor
-
+     
       :For section n :InEach Sections numbers
-          :If isRef section ⋄ section←section.Render ⋄ :EndIf
-          Content,←'<div id="',n,'s">',section,'</div>'
+          Content,←'<div id="',n,'s">',(RenderCore section),'</div>'
       :EndFor
- 
+     
       r←⎕BASE.Render
-
+     
+      mix←Mix Theme'#D3D3D3'
+      Theme←Mix⊂Theme
+     
       ⍝ Specific CSS
-      r,←'<style>'
+      r,←'<style scoped="scoped">'
+     
+      r,←'/* Hovered tabs need to be highlighted as such */'
+      r,←'#',id,' > input[type="radio"] + label:hover{'
+      r,←'  background: -webkit-linear-gradient(',mix,',white);'
+      r,←'  background: linear-gradient(',mix,',white);'
+      r,←'}'
+      r,←''
+      r,←'/* Focused tabs need to be highlighted as such */'
+      r,←'#',id,' > input[type="radio"]:focus + label {'
+      r,←'  background: -webkit-linear-gradient(',Theme,',white)!important;'
+      r,←'  background: linear-gradient(',Theme,',white)!important;'
+      r,←'}'
+      r,←''
+      r,←'/* Active tabs need to be highlighted as such */'
+      r,←'#',id,' > input[type="radio"]:active + label {'
+      r,←'  background: -webkit-linear-gradient(',Theme,',white)!important;'
+      r,←'  background: linear-gradient(',Theme,',white)!important;'
+      r,←'}'
+     
       :For n :In numbers
           r,←'#',n,'t:checked ~ #',n,'s, '
       :EndFor
       r↓⍨←¯2
-      r,←'{display: block;}</style>'
+      r,←'{display: block;}'
+      
+      r,←'</style>'
     ∇
+
+      Mix←{
+          h←⎕D,6↑⎕A
+          '#',,⍉h[1+16 16⊤⌊0.5+(⊃+/÷≢){16⊥⍉¯1+h⍳⍵[⌈3 2⍴(6÷≢⍵)/⍳6]}¨#.Strings.uc ⍵~¨⊂' #']
+      }
+
 :endclass

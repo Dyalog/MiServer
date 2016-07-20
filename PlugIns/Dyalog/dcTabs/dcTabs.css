@@ -20,9 +20,10 @@
     /* the bottom border is handled by the tab content div */
     border-bottom: 0;
  
-    /* Padding around tab text */
+    /* Padding around centered tab text */
     padding: 5px 10px;
- 
+    text-align: center;
+
     /* Margin to next tab */
     margin-right: 5px;
 		
@@ -36,19 +37,19 @@
 }
 
 /* Hovered tabs need to be highlighted as such */
-.dc-tabs > input[type="radio"] + label:hover{
+/*.dc-tabs > input[type="radio"] + label:hover{
   background: -webkit-linear-gradient(#E9B06A,white);
   background: linear-gradient(#E9B06A,white);
 }
 
 /* Focused tabs need to be highlighted as such */
-.dc-tabs > input[type="radio"]:focus + label {
+/*.dc-tabs > input[type="radio"]:focus + label {
   background: -webkit-linear-gradient(darkorange,white)!important;
   background: linear-gradient(darkorange,white)!important;
 }
 
 /* Active tabs need to be highlighted as such */
-.dc-tabs > input[type="radio"]:active + label {
+/*.dc-tabs > input[type="radio"]:active + label {
   background: -webkit-linear-gradient(darkorange,white)!important;
   background: linear-gradient(darkorange,white)!important;
 }
