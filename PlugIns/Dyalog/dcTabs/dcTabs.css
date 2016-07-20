@@ -1,9 +1,9 @@
 /* CSS for the _DC.dcTabs widget */
 
-/* Configure the radio buttons to hide behind their tabs */
+/* Configure the radio buttons to be outside the screen */
 .dc-tabs > input[type="radio"] {
     position: absolute;
-    z-index: -1;
+    top: -100%;
 }
  
 /* Configure labels to look like tabs */
@@ -49,7 +49,7 @@
 
 /* Active tabs need to be highlighted as such */
 .dc-tabs > input[type="radio"]:active + label {
-  background: -linear-gradient(darkorange,white)!important;
+  background: -webkit-linear-gradient(darkorange,white)!important;
   background: linear-gradient(darkorange,white)!important;
 }
 
