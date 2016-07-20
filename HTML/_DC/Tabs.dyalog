@@ -46,33 +46,34 @@
       Sections,←⊂content
     ∇
 
-    ∇ r←Render;title;section;numbers;n;group
+    ∇ r←Render;title;section;numbers;n
       :Access public
       SetId
       SetUse
-      group←2↓GenId
-      numbers←{2↓GenId}¨Sections
       AddClass'dc-tabs'
+      numbers←('dc-tabs-',id,'_','_',⍨⍕)¨⍳≢Sections
+      
       ⍝ HTML structure
       Content←''
 
       :For title n :InEach Titles numbers
           :If isRef title ⋄ title←title.Render ⋄ :EndIf
-          Content,←'<input type="radio" name="dc-tabs',group,'" id="dc-tabT',n,'"'
+          Content,←'<input type="radio" name="',id,'" id="',n,'t"'
           :If n≡⊃numbers ⋄ Content,←' checked="checked"' ⋄ :EndIf
-          Content,←'/><label for="dc-tabT',n,'">',title,'</label>'
+          Content,←'/><label for="',n,'t">',title,'</label>'
       :EndFor
 
       :For section n :InEach Sections numbers
           :If isRef section ⋄ section←section.Render ⋄ :EndIf
-          Content,←'<div id="dc-tabS',n,'">',section,'</div>'
+          Content,←'<div id="',n,'s">',section,'</div>'
       :EndFor
  
       r←⎕BASE.Render
 
+      ⍝ Specific CSS
       r,←'<style>'
       :For n :In numbers
-          r,←'#dc-tabT',n,':checked ~ #dc-tabS',n,', '
+          r,←'#',n,'t:checked ~ #',n,'s, '
       :EndFor
       r↓⍨←¯2
       r,←'{display: block;}</style>'
