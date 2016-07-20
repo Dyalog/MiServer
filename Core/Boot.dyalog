@@ -65,6 +65,7 @@
      
           'Pages'#.⎕NS'' ⍝ Container Space for loaded classes
           #.Pages.(MiPage MildPage RESTful)←#.(MiPage MildPage RESTful)
+          'CachedPages'#.⎕NS'' ⍝ Container for cached pages
           BuildEAWC ⍝ build the Easy As ⎕WC namespace
           :If #.Files.DirExists AppRoot,'/Code/Templates/'
               disperror ⎕SE.SALT.Load AppRoot,'/Code/Templates/* -target=#.Pages'
@@ -74,6 +75,7 @@
           #.⎕EX¨classes
           #.⎕EX¨utils
           #.⎕EX'Pages'
+          #.⎕EX'CachedPages'
           #.⎕EX¨'MiServer' 'HTTPRequest'
       :EndIf
     ∇

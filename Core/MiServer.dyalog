@@ -368,7 +368,6 @@
       :If 2=conns.⎕NC'PeerCert' ⋄ REQ.PeerCert←conns.PeerCert ⋄ :EndIf       ⍝ Add Client Cert Information
      
       REQ.OrigPage←REQ.Page ⍝ capture the original page
-     
       REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page ⍝ no page specified? use the default
       REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension ⍝ no extension specified? use the default
       ext←⊃¯1↑#.Files.SplitFilename filename←Config Virtual REQ.Page
@@ -524,8 +523,7 @@
                   inst._Request←REQ
               :EndIf
           :EndIf
-      :Else                        ⍝ First use of Page in this Session, or page expired
-⍝          :If 0≠⍴z←#.Files.GetText file
+      :Else
           :Trap 11 22 92
               inst←Config.AppRoot LoadMSP file ⍝ ⎕NEW ⎕SE.SALT.Load file,' -target=#.Pages'
           :Case 11 ⋄ REQ.Fail 500 ⋄ 1 Log'Domain Error trying to load "',file,'"' ⋄ →0 ⍝ Domain Error: HTTP Internal Error
@@ -565,6 +563,13 @@
       :If sessioned ⋄ token←REQ.(Page,⍕Session.ID)
       :ElseIf ~0∊⍴REQ.PeerAddr ⋄ token←REQ.(Page,PeerAddr)
       :Else ⋄ token←⍕⎕TID
+      :EndIf
+     
+     
+      :If inst.Cacheable
+      :AndIf ~0∊⍴inst._cache
+          REQ.Response.HTML←inst._cache
+          →0
       :EndIf
      
       :Hold token
@@ -691,7 +696,22 @@
       REQ.Return html
     ∇
 
-    ∇ inst←root LoadMSP file;path;name;ext;rpath;ns;tree;class;level;n;created;node;mask
+    ∇ CacheMSP file
+      :Access public
+     
+    ∇
+
+    ∇ inst←root LoadMSP file;path;name;ext;ns;class
+      path name ext←#.Files.SplitFilename file
+      ns←root NamespaceForMSP file
+      inst←⎕NEW class←⎕SE.SALT.Load file,' -target=',⍕ns
+     
+      :If ~name(≡#.Strings.nocase)class←⊃¯1↑'.'#.Utils.penclose⍕class
+          1 Log'Filename/Classname mismatch: ',file,' ≢ ',class
+      :EndIf
+    ∇
+
+    ∇ ns←root NamespaceForMSP file;path;name;ext;rpath;tree;created;n;level;node;mask
       path name ext←#.Files.SplitFilename file
       rpath←(⍴root)↓path
       ns←#.Pages
@@ -721,12 +741,6 @@
               ⎕SIGNAL 11
           :EndSelect
       :EndFor
-     
-      inst←⎕NEW class←⎕SE.SALT.Load file,' -target=',⍕ns
-     
-      :If ~name(≡#.Strings.nocase)class←⊃¯1↑'.'#.Utils.penclose⍕class
-          1 Log'Filename/Classname mismatch: ',file,' ≢ ',class
-      :EndIf
     ∇
 
     ∇ (req buffer)←MakeHTTPRequest req;x;v;s;p;l;m;n;i;c;h
