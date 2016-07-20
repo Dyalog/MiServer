@@ -5,26 +5,29 @@
     ∇ Compose;inner;outer
       :Access public
      
-      Add _.style'#outer {width:50%;}' ⍝ half width
-     
+      Add _.style ScriptFollows
+⍝#outer {width:50%;}
+⍝#outer > div {min-height: 400px;}
+
       outer←'outer'Add _.Tabs
-      outer.Theme←'#99 32 CC' ⍝ DarkOrchid
+      outer.Theme←'#99 32 CC' ⍝ "DarkOrchid"
       outer.Titles←(New _.em'Intro')'Languages'
       outer.Sections←(WrapFollowing'p')(inner←'inner'New _.Tabs)
 ⍝This demonstrates how tabs can be nested and themed, and how even the titles may contain
 ⍝further elements.
 ⍝
 ⍝The first thing you will notice is that we styled this control to only take half the screen width.
+⍝We have also given teh contents fixed minimum heights, the tab control does not change size.
 ⍝
 ⍝Right above, you will find that this tab's title is in italics.
 ⍝
-⍝Try hovering and selecting the above tabs; the theme colour is DarkOrchid.
+⍝Try hovering and selecting the above tabs; the theme colour is called "DarkOrchid".
 ⍝
-⍝Now switch to the Languages tab, and see that the theme colour of the inner tab control is Yellow.
+⍝Now switch to the Languages tab, and see that the theme colour of the inner tab control is "Teal". 
 ⍝
 ⍝Finally we have used multiple controls in the inner tab titles themselves.
      
-      inner.Theme←'FF0' ⍝ Yellow
+      inner.Theme←'088' ⍝ "Teal"
       inner.Titles←('Stultitiam',_.br,'Latinae')'Deutsch Quatsch'
       inner.Titles,←('Balivernes',_.br,'Françaises')('English'_.br(New _.small'(nonsense)'))
       inner.Sections←WrapFollowing'p' ⍝ one paragraph for each tab

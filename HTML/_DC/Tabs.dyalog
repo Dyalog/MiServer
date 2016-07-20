@@ -47,7 +47,7 @@
       Sections,←⊂content
     ∇
 
-    ∇ r←Render;title;section;numbers;n;mix
+    ∇ r←Render;title;section;numbers;n;mix;bg
       :Access public
       SetId
       SetUse
@@ -70,14 +70,22 @@
      
       r←⎕BASE.Render
      
-      mix←Mix Theme'#D3D3D3'
+      
+      ⍝ Create colour scheme based on the Theme colour
       Theme←Mix⊂Theme
-     
+      mix←Mix'#D3D3D3' Theme
+      bg←Mix'#FFFFFF'Theme 
+
       ⍝ Specific CSS
       r,←'<style scoped="scoped">'
-     
+      
+      r,←'/* Background */'
+      r,←'#',id,' {'
+      r,←'  background: ',bg,';'
+      r,←'}'
+      r,←''
       r,←'/* Hovered tabs need to be highlighted as such */'
-      r,←'#',id,' > input[type="radio"] + label:hover{'
+      r,←'#',id,' > input[type="radio"] + label:hover {'
       r,←'  background: -webkit-linear-gradient(',mix,',white);'
       r,←'  background: linear-gradient(',mix,',white);'
       r,←'}'
