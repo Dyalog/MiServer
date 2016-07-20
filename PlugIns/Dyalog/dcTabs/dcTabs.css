@@ -75,6 +75,6 @@
     overflow: auto;
     border-radius: 0 0 5px 5px;
     -moz-border-radius: 0 0 5px 5px;
-    -webkit-border-radius: 0 -0 5px 5px;
+    -webkit-border-radius: 0 0 5px 5px;
     background-color: white;
 }

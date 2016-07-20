@@ -112,26 +112,29 @@ body {
 }
 
 .viewtab {
-    background: linear-gradient(white -100%,transparent);
-    color: darkorange;
-    border-radius: 10px 10px 0 0;
+    background: linear-gradient(gray,white);
+    color: black;
+    border-radius: 5px 5px 0 0;
     width: 5em;
     text-align: center;
     padding: 5px;
     cursor: pointer;
-    box-shadow: 0 0px 10px 2px rgba(255,255,255,0.5) inset;
+    /* box-shadow: 0 0px 10px 2px rgba(255,255,255,0.5) inset; */
+    font-weight: bold;
 }
 
 .viewtab:hover {
-    color: white;
+    background: linear-gradient(darkorange,white);
 }
 
 .activetab {
     background: white;
+    cursor: default;
 }
 
 .activetab:hover {
-    color: darkorange;
+    /* color: darkorange; */
+    background: white;
 }
 
 #toggle {
@@ -203,7 +206,6 @@ body {
     position: fixed;
     width: 185px;
     top: 40px;
-    /* margin-bottom: -10px; */
 }
 
 .hide {
@@ -470,12 +472,6 @@ heading1 {
     font-weight: bold;
 }
 
-#reading {
-    border-left: 1px solid lightgray;
-    margin-left: 20px;
-    padding-left: 20px;
-}
-
 #reading li li::before, #reading li li::after {
     content: "";
     position: absolute;
@@ -502,7 +498,6 @@ heading1 {
 
 #about {
     line-height: 133%;
-    margin: -10px;
 }
 
 #about td {
@@ -525,20 +520,21 @@ iframe {
 }
 
 #bigtabs {
-    margin-left: -15px;
-    margin-right: -15px;
+    margin-left: -0.5em;
+    margin-right: -0.5em;
 }
 
 #bigtabs table {
     font-family: Verdana, Geneva, sans-serif;
+    margin: 0 20px;
 }
 
 /* SLIDESHOW CSS */
 #slideshow {
     width: 495px;
     height: 370px;
-    margin: 0.5em 0em 1.5em 2em;
-    box-shadow: 2px 2px 10px 0px;
+    margin: 20px;
+    box-shadow: 0px 4px 15px 1px;
 }
 
 #slideshow figure {

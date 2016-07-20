@@ -5,18 +5,15 @@
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :Include #.MS3SiteUtils
-
+    
+    :Field Public Cacheable←1
+    
     ∇ Compose;cols;tabs;rows
       :Access Public
      
-⍝      :If ×C.⎕NC'index'
-⍝          Add C.index
-⍝      :Else
-     
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-          tabs←New _.ejTab
-          'heightStyle'tabs.Set'content'
-          'bigtabs'Add _.div tabs
+          tabs←'bigtabs'Add _.Tabs
+          ⍝'bigtabs'Add _.div tabs
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
           tabs.Titles,←'Introduction'Over'getting started/recommendations'
@@ -48,8 +45,6 @@
           rows,←'pdf'FormatList'Documentation'
           rows,←FormatList'Examples/Techniques'
           tabs.Sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑rows)
-     
-⍝      :EndIf
      
     ∇
 
