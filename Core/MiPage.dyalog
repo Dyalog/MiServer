@@ -77,7 +77,7 @@
     ∇ {r}←Wrap
       :Access public
       r←Render
-      :If Cacheable ⋄ _cache←r :EndIf
+      :If Cacheable ⋄ _cache←r ⋄ :EndIf
     ∇
 
     ∇ Use resources;n;ind;t;x;server
