@@ -17,7 +17,7 @@
 ⍝original APL way of doing things – without nested arrays and other modern features. The APL2
 ⍝entries do use nested arrays, but may not take advantage of Dyalog's newest addistions, like
 ⍝dfns, <code class="a385">⌸, ⍤ ⍨ ∪ ∩ ≢</code>, etc. The glyph <code class="a385">⊆</code> stands for APL2's partition: 
-⍝<code class="a385">{⎕ML←3 ⋄ ⍺⊂⍵}<code>.
+⍝<code class="a385">{⎕ML←3 ⋄ ⍺⊂⍵}</code>.
  
       idioms←⎕SE.SALT.Load #.Boot.AppRoot,'Examples\Data\idioms -noname -nolink'
       idioms[;4]←'FinnAPL' 'Dyalog' 'APL2'[1+idioms[;4]]

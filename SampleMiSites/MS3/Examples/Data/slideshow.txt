@@ -13,7 +13,7 @@
 	</a>
 <figcaption>
 		<a target="_blank" href="/Documentation/DyalogAPIs/WidgetDoc?namespace=_JS&amp;widget=DataTable">JavaScript DataTable:</a>
-    Search the Dyalog and FinnAPL idiom lists.
+    Search almost 1500 idioms in an instant.
 	</figcaption>
 </figure>
 <figure>
