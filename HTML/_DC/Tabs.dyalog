@@ -16,7 +16,7 @@
     :field public shared readonly ApiLevel←3
     :Field public Titles←0⍴⊂''
     :Field public Sections←0⍴⊂''
-    :Field public Theme←'#FF8C00' ⍝ darkorange
+    :Field public Theme←'#808080' ⍝ "Grey"
 
     ∇ Make
       :Access public
@@ -70,15 +70,15 @@
      
       r←⎕BASE.Render
      
-      
+     
       ⍝ Create colour scheme based on the Theme colour
       Theme←Mix⊂Theme
-      mix←Mix'#D3D3D3' Theme
-      bg←Mix'#FFFFFF'Theme 
-
+      mix←Mix'#D3D3D3'Theme
+      bg←Mix'#FFFFFF'Theme
+     
       ⍝ Specific CSS
       r,←'<style scoped="scoped">'
-      
+     
       r,←'/* Background */'
       r,←'#',id,' {'
       r,←'  background: ',bg,';'
@@ -107,13 +107,14 @@
       :EndFor
       r↓⍨←¯2
       r,←'{display: block;}'
-      
+     
       r,←'</style>'
     ∇
 
-      Mix←{
+      Mix←{ ⍝ Arithmetic mean of multiple hex colours
+          ⎕IO←0
           h←⎕D,6↑⎕A
-          '#',,⍉h[1+16 16⊤⌊0.5+(⊃+/÷≢){16⊥⍉¯1+h⍳⍵[⌈3 2⍴(6÷≢⍵)/⍳6]}¨#.Strings.uc ⍵~¨⊂' #']
+          '#',,⍉h[16 16⊤⌊0.5+(⊃+/÷≢){16⊥⍉h⍳3 2⍴⍵/⍨6÷≢⍵}¨#.Strings.uc ⍵~¨⊂' #']
       }
-
+  
 :endclass
