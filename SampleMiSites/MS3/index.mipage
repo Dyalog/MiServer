@@ -5,46 +5,51 @@
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :Include #.MS3SiteUtils
-    
-    :Field Public Cacheable←1
-    
+
+    ∇ Make
+      :Access public
+      :Implements Constructor
+      Cacheable←1
+    ∇
+
+
     ∇ Compose;cols;tabs;rows
       :Access Public
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-          tabs←'bigtabs'Add _.Tabs
+      tabs←'bigtabs'Add _.Tabs
           ⍝'bigtabs'Add _.div tabs
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-          tabs.Titles,←'Introduction'Over'getting started/recommendations'
-          cols←1 0⍴⍬
-          cols,←'about'New _.div(Read'/Examples/Data/intro.txt')
-          cols,←'slideshow'New _.div(Shuffle Read'Examples/Data/slideshow.txt')
-          cols,←'reading'New _.List(ReadingTree Read'Examples/Data/reading.txt')
-          tabs.Sections,←New _.Table cols
+      tabs.Titles,←'Introduction'Over'getting started/recommendations'
+      cols←1 0⍴⍬
+      cols,←'about'New _.div(Read'/Examples/Data/intro.txt')
+      cols,←'slideshow'New _.div(Shuffle Read'Examples/Data/slideshow.txt')
+      cols,←'reading'New _.List(ReadingTree Read'Examples/Data/reading.txt')
+      tabs.Sections,←New _.Table cols
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-          tabs.Titles,←'Samples'Over'pages and mini-apps/each uses just a few controls'
-          cols←⍬
-          cols,←⊂(⊂'Task demonstrated'),C.tasks
-          cols,←⊂(⊂'Type'),C.type
-          cols,←⊂(⊂'Main controls used'Over'documentation links'),C.used
-          tabs.Sections,←'eg'New _.DataTable(⍉↑cols)
+      tabs.Titles,←'Samples'Over'pages and mini-apps/each uses just a few controls'
+      cols←⍬
+      cols,←⊂(⊂'Task demonstrated'),C.tasks
+      cols,←⊂(⊂'Type'),C.type
+      cols,←⊂(⊂'Main controls used'Over'documentation links'),C.used
+      tabs.Sections,←'eg'New _.DataTable(⍉↑cols)
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-          tabs.Titles,←'Controls'Over'list of all supported controls/links to samples using them'
-          cols←⍬
-          cols,←⊂('Control'Over'documentation link'),¯1↓C.doclink
-          cols,←⊂(⊂'Description'),C.descr
-          cols,←⊂(⊂'Relevant samples'),¯1↓C.reldocs
-          tabs.Sections,←'ctrl'New _.DataTable(⍉↑cols)
+      tabs.Titles,←'Controls'Over'list of all supported controls/links to samples using them'
+      cols←⍬
+      cols,←⊂('Control'Over'documentation link'),¯1↓C.doclink
+      cols,←⊂(⊂'Description'),C.descr
+      cols,←⊂(⊂'Relevant samples'),¯1↓C.reldocs
+      tabs.Sections,←'ctrl'New _.DataTable(⍉↑cols)
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-          tabs.Titles,←'Reference'Over'general information/technique descriptions'
-          rows←⍬
-          rows,←'pdf'FormatList'Documentation'
-          rows,←FormatList'Examples/Techniques'
-          tabs.Sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑rows)
+      tabs.Titles,←'Reference'Over'general information/technique descriptions'
+      rows←⍬
+      rows,←'pdf'FormatList'Documentation'
+      rows,←FormatList'Examples/Techniques'
+      tabs.Sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑rows)
      
     ∇
 
