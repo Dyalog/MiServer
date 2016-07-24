@@ -11,7 +11,7 @@
 ⍝ Examples::
 ⍝ Tabs 'Title1' 'Title2'
 ⍝ Tabs ('Title1' 'Title2')('Section1' 'Section2')
-⍝ Tabs 2 2⍴'Title1' 'Section1' 'Title2' 'Section2' 
+⍝ Tabs 2 2⍴'Title1' 'Section1' 'Title2' 'Section2'
 ⍝ Notes::  This control is implemented in HTML+CSS without any JavaScript and is therefore
 ⍝          extremely lightwight, resulting in faster load times. However, this comes at the
 ⍝          cost of fewer features compared to competing controls. Use it if you just need
@@ -77,42 +77,16 @@
      
       ⍝ Create colour scheme based on the Theme colour
       Theme←Mix⊂Theme
-      mix←Mix'#D3D3D3'Theme
-      bg←Mix'#FFFFFF'Theme
+      bg←Mix'#FFFFFF' Theme
+      mix←Mix '#FFFFFF' bg
      
       ⍝ Specific CSS
-      r,←'<style scoped="scoped">'
-     
-      r,←'/* Background */'
-      r,←'#',id,' {'
-      r,←'  background: ',bg,';'
-      r,←'}'
-      r,←''
-      r,←'/* Hovered tabs need to be highlighted as such */'
-      r,←'#',id,' > input[type="radio"] + label:hover {'
-      r,←'  background: -webkit-linear-gradient(',mix,',white);'
-      r,←'  background: linear-gradient(',mix,',white);'
-      r,←'}'
-      r,←''
-      r,←'/* Focused tabs need to be highlighted as such */'
-      r,←'#',id,' > input[type="radio"]:focus + label {'
-      r,←'  background: -webkit-linear-gradient(',Theme,',white)!important;'
-      r,←'  background: linear-gradient(',Theme,',white)!important;'
-      r,←'}'
-      r,←''
-      r,←'/* Active tabs need to be highlighted as such */'
-      r,←'#',id,' > input[type="radio"]:active + label {'
-      r,←'  background: -webkit-linear-gradient(',Theme,',white)!important;'
-      r,←'  background: linear-gradient(',Theme,',white)!important;'
-      r,←'}'
-     
+      r,←'<style scoped="scoped">#',id,'{background:',bg,';}'
       :For n :In numbers
-          r,←'#',n,'t:checked ~ #',n,'s, '
+          r,←'#',n,'t:checked~#',n,'s,'
       :EndFor
-      r↓⍨←¯2
-      r,←'{display: block;}'
-     
-      r,←'</style>'
+      r↓⍨←¯1
+      r,←'{display:block;}</style>'
     ∇
 
       Mix←{ ⍝ Arithmetic mean of multiple hex colours
@@ -120,5 +94,5 @@
           h←⎕D,6↑⎕A
           '#',,⍉h[16 16⊤⌊0.5+(⊃+/÷≢){16⊥⍉h⍳3 2⍴⍵/⍨6÷≢⍵}¨#.Strings.uc ⍵~¨⊂' #']
       }
-  
+
 :endclass

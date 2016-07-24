@@ -112,7 +112,7 @@ body {
 }
 
 .viewtab {
-    background: linear-gradient(gray,white);
+    background: linear-gradient(grey,white);
     color: black;
     border-radius: 5px 5px 0 0;
     width: 5em;
@@ -124,7 +124,7 @@ body {
 }
 
 .viewtab:hover {
-    background: linear-gradient(darkorange,white);
+    background: linear-gradient(#C0C0C0,white);
 }
 
 .activetab {
@@ -529,6 +529,9 @@ iframe {
     margin: 0 20px;
 }
 
+#bigtabs>div>div{
+    width: calc(100% - 20px);
+}
 /* SLIDESHOW CSS */
 #slideshow {
     width: 495px;

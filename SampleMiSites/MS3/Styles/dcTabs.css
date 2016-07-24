@@ -42,9 +42,21 @@
 }
 
 /* Hovered tabs need to be highlighted as such */
-.dc-tabs > input[type="radio"] + label:hover{
-  background: -webkit-linear-gradient(white, rgba(255,255,255,0.5));
-  background: linear-gradient(white, rgba(255,255,255,0.5));
+/*.dc-tabs > input[type="radio"] + label:hover{
+  background: -webkit-linear-gradient(#E9B06A,white);
+  background: linear-gradient(#E9B06A,white);
+}
+
+/* Focused tabs need to be highlighted as such */
+/*.dc-tabs > input[type="radio"]:focus + label {
+  background: -webkit-linear-gradient(darkorange,white)!important;
+  background: linear-gradient(darkorange,white)!important;
+}
+
+/* Active tabs need to be highlighted as such */
+/*.dc-tabs > input[type="radio"]:active + label {
+  background: -webkit-linear-gradient(darkorange,white)!important;
+  background: linear-gradient(darkorange,white)!important;
 }
 
 /* Checked tabs must be white with the bottom border removed */
