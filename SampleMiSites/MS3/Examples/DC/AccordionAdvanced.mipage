@@ -1,5 +1,5 @@
-﻿:Class TabsAdvanced: MiPageSample
-⍝ Control:: _DC.Tabs
+﻿:Class AccordionAdvanced: MiPageSample
+⍝ Control:: _DC.Accordion
 ⍝ Description:: Nested custom themed tabs with complex titles
 
     ∇ Compose;inner;outer
@@ -9,28 +9,28 @@
 ⍝#outer {width:50%;}
 ⍝#outer > div {min-height: 400px;}
 
-      outer←'outer'Add _.Tabs
+      outer←'outer'Add _.Accordion
       outer.Theme←'#99 32 CC' ⍝ "DarkOrchid"
       outer.Titles←(New _.em'Intro')'Languages'
-      outer.Sections←(WrapFollowing'p')(inner←'inner'New _.Tabs)
-⍝This demonstrates how tabs can be nested and themed, and how even the titles may contain
+      outer.Sections←(WrapFollowing'p')(inner←'inner'New _.Accordion)
+⍝This demonstrates how accordions can be nested and themed, and how even the titles may contain
 ⍝further elements.
 ⍝
 ⍝The first thing you will notice is that we styled this control to only take half the screen width.
-⍝We have also given the contents fixed minimum heights, the tab control does not change size.
+⍝We have also given the contents fixed minimum heights so the accordion control does not change size.
 ⍝
-⍝Right above, you will find that this tab's title is in italics.
+⍝Right above, you will find that this section's title is in italics.
 ⍝
-⍝Try hovering and selecting the above tabs; the theme colour is called "DarkOrchid".
+⍝Try hovering and selecting the sections; the theme colour is called "DarkOrchid".
 ⍝
-⍝Now switch to the Languages tab, and see that the theme colour of the inner tab control is "Teal". 
+⍝Now switch to the Languages section, and see that the theme colour of the inner accordion control is "Teal". 
 ⍝
-⍝Finally we have used multiple controls in the inner tab titles themselves.
+⍝Finally we have used multiple controls in the inner section titles themselves.
      
       inner.Theme←'088' ⍝ "Teal"
       inner.Titles←('Stultitiam',_.br,'Latinae')'Deutsch Quatsch'
       inner.Titles,←('Balivernes',_.br,'Françaises')('English'_.br(New _.small'(nonsense)'))
-      inner.Sections←WrapFollowing'p' ⍝ one paragraph for each tab
+      inner.Sections←WrapFollowing'p' ⍝ one paragraph for each section
 ⍝Neque fieri horum errem ab me eo credo. Hanc sic meo quae ipsa. Fal membrorum existenti conservet
 ⍝per sapientia dubitavit. Apta gi de et enim gnum data. Id quadratam ut archimede attingere re ne.
 ⍝Humanam infusum has iis veteris mei occasio replere istarum. Emanant poterit capaces at in

@@ -1,0 +1,77 @@
+/* CSS for the _DC.dcsections widget */
+
+/* Nice rounded border */
+.dc-accordion {
+    border-radius: 10px;
+    padding: 5px;
+}
+
+/* Configure the radio buttons to be outside the screen */
+.dc-accordion > input[type="radio"] {
+    position: absolute;
+    top: -100%;
+}
+ 
+/* Configure labels to look like sections */
+.dc-accordion > input[type="radio"] + label {
+    /* inline-block such that the label can be given dimensions */
+    display: block;
+ 
+    /* A nice curved border around the section */
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+     
+    /* Margin to previous tab */
+    margin-top: 5px;
+		
+    /* Padding around section text */
+    padding: 5px 10px;
+
+    /* Set the default colours (non-selected section) */
+    background: -webkit-linear-gradient(white,transparent);
+    background: linear-gradient(white,transparent);
+    font-weight: bold;
+  
+    /* Hand when over the section */
+    cursor: pointer;
+}
+
+.dc-accordion > input[type="radio"]:first-child + label {
+    margin-top: 0;
+}
+
+/* Hovered sections need to be highlighted as such */
+.dc-accordion > input[type="radio"] + label:hover{
+  background: -webkit-linear-gradient(white, rgba(255,255,255,0.5));
+  background: linear-gradient(white, rgba(255,255,255,0.5));
+}
+
+/* Checked sections must be white with the bottom border removed */
+.dc-accordion > input[type="radio"]:checked + label {
+    background: white;
+    cursor: default;
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+}
+
+/* The section content must fill the widgets size and have a nice border */
+.dc-accordion > div {
+    display: none;
+    padding: 5px;
+    overflow: auto;
+    border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    -webkit-border-radius: 0 0 5px 5px;
+    background-color: white;
+}
+
+.dc-accordion > input[type="radio"] + label:after {
+    content: "\2228";
+		float: right;
+}
+
+.dc-accordion > input[type="radio"]:checked + label:after {
+    content: "\2227";
+}

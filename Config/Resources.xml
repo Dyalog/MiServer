@@ -9,6 +9,10 @@
 		<name>dcTabs</name>
 		<style>/Dyalog/dcTabs/dcTabs.css</style>
 	</resource>
+	<resource>
+		<name>dcAccordion</name>
+		<style>/Dyalog/dcAccordion/dcAccordion.css</style>
+	</resource>
 <!-- 
 *******************************
 *      fontawesome resources  *
