@@ -13,12 +13,11 @@
       Add _.p intro
      
       Add _.h2'Tabs on the left'
-      captions←'Tab One' 'Another' 'Third Tab'
-      contents←⊂'/Examples/Data/SampleText1.txt' ⍝ First one
-      contents,←'These<br/>are<br/>the<br/>contents<br/>of<br/>the<br/>tab<br/>labelled<br/><br/>'∘,¨1↓captions
+      captions←'Tab One' 'Another' 'Third Tab' 'Fourth Tab'
+      contents←{'/Examples/Data/SampleText',(⍕⍵),'.txt'}¨⍳4
       tab←'tab1' Add _.ejTab(captions contents)
       'headerPosition'tab.Set'left'
-      tab.IsURL←1 0 0 ⍝ Let it know which are URLs
+      tab.IsURL←4/1 ⍝ Let it know which are URLs
     ∇
 
 :EndClass
