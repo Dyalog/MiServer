@@ -1,68 +1,42 @@
 <div id="banner">
-
-	<div id="banner-logo">
-		<a href="/">
-			<img alt="MS3" src="/Styles/Images/D-MS3.png" />
-		</a>
-	</div>
-
-	<div id="banner-heading">
-		<h1>Dyalog MiServer 3.0 Sample Site</h1>
-		<p>Anyone who can write an APL function should be able to host it on the web.™</p>
-	</div>
-
-
-	<table id="view">
-		<caption>View</caption>
-		<tr>
-			<td id="topage" class="viewtab activetab">Rendered<br/>webpage</td>
-			<td id="tocode" class="viewtab">APL<br/>code</td>
-		</tr>
-	</table>
-	<label id="banner-dyalog">
-		<input type="checkbox" class="hide"/>
-		<div id="hamburger">Resources</div>
-		<div id="banner-resources">
-			<ul>
-				<li>MiServer
-					<ul>
-						<li>
-							<a target="_blank" href="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip">Download</a>
-						</li>
-						<li>
-							<a target="_blank" href="https://github.com/Dyalog/MiServer/tree/miserver.dyalog.com">GitHub</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://www.dyalog.com/forum/viewforum.php?f=34">Forum</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://www.dyalog.com/blog/category/miserver/">Blog</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://www.dyalog.com/">Dyalog's website</a>
-						</li>
-					</ul>
-				</li>
-				<li>External
-					<ul>
-						<li>
-							<a target="_blank" href="http://www.w3schools.com/">w3schools</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://js.syncfusion.com/demos/web/">Syncfusion demos</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://helpjs.syncfusion.com/js/overview">Syncfusion refs</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://www.jquery.com/">jQuery</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://www.jqueryui.com/">jQuery UI</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-	</label>
-</div>
+  <div id="banner-logo">
+	<a href="/"><img alt="MS3" src="/Styles/Images/D-MS3.png" /> </a></div>
+  <div id="banner-heading">
+	<h1>Dyalog MiServer 3.0 Sample Site</h1>
+	<p>Anyone who can write an APL function should be able to host it on the web.™</p>
+  </div>
+  <table id="view">
+	<caption>View</caption>
+	<tr>
+	  <td id="topage" class="viewtab activetab">Rendered<br />
+	  webpage</td>
+	  <td id="tocode" class="viewtab">APL<br />
+	  code</td>
+	</tr>
+  </table>
+  <label id="banner-dyalog"><input class="hide" type="checkbox" />
+  <div id="hamburger">
+	Resources</div>
+  <div id="banner-resources">
+	<ul>
+	  <li>MiServer
+	  <ul>
+		<li><a href="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip" target="_blank">Download</a> </li>
+		<li><a href="https://github.com/Dyalog/MiServer/tree/miserver.dyalog.com" target="_blank">GitHub</a> </li>
+		<li><a href="http://www.dyalog.com/forum/viewforum.php?f=34" target="_blank">Forum</a> </li>
+		<li><a href="http://www.dyalog.com/blog/category/miserver/" target="_blank">Blog</a> </li>
+		<li><a href="http://www.dyalog.com/" target="_blank">Dyalog's website</a> </li>
+	  </ul>
+	  </li>
+	  <li>External
+	  <ul>
+		<li><a href="http://www.w3schools.com/" target="_blank">w3schools</a> </li>
+		<li><a href="http://js.syncfusion.com/demos/web/" target="_blank">Syncfusion demos</a> </li>
+		<li><a href="http://helpjs.syncfusion.com/js/overview" target="_blank">Syncfusion refs</a> </li>
+		<li><a href="http://www.jquery.com/" target="_blank">jQuery</a> </li>
+		<li><a href="http://www.jqueryui.com/" target="_blank">jQuery UI</a> </li>
+	  </ul>
+	  </li>
+	</ul>
+  </div>
+  </label></div>

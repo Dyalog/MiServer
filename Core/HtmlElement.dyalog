@@ -546,7 +546,7 @@
     ∇ r←tag Enclose txt;nl
       :Access public shared
       tag←,tag
-      r←(tag{NoEndTag∧0∊⍴⍵:Bracket ⍺,'/' ⋄ (Bracket ⍺),⍵,Bracket'/',⍺↑⍨¯1+⍺⍳' '}txt)⍝,NL
+      r←(tag{NoEndTag∧0∊⍴⍵:Bracket ⍺,'/' ⋄ (Bracket ⍺),⍵,Bracket'/',⍺↑⍨¯1+⍺⍳' '}txt)
     ∇
 
     ∇ r←{a}eis w
