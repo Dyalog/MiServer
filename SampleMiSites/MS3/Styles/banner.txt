@@ -19,50 +19,50 @@
 			<td id="tocode" class="viewtab">APL<br/>code</td>
 		</tr>
 	</table>
-	<label id="banner-dyalog">
-		<input type="checkbox" class="hide"/>
-		<div id="hamburger">Resources</div>
-		<div id="banner-resources">
-			<ul>
-				<li>MiServer
-					<ul>
-						<li>
-							<a target="_blank" href="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip">Download</a>
-						</li>
-						<li>
-							<a target="_blank" href="https://github.com/Dyalog/MiServer/tree/miserver.dyalog.com">GitHub</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://www.dyalog.com/forum/viewforum.php?f=34">Forum</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://www.dyalog.com/blog/category/miserver/">Blog</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://www.dyalog.com/">Dyalog's website</a>
-						</li>
-					</ul>
-				</li>
-				<li>External
-					<ul>
-						<li>
-							<a target="_blank" href="http://www.w3schools.com/">w3schools</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://js.syncfusion.com/demos/web/">Syncfusion demos</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://helpjs.syncfusion.com/js/overview">Syncfusion refs</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://www.jquery.com/">jQuery</a>
-						</li>
-						<li>
-							<a target="_blank" href="http://www.jqueryui.com/">jQuery UI</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
+	<input id="hamburger" type="checkbox" class="hide"/>
+	<label id="banner-dyalog" for="hamburger">
+		Resources
 	</label>
+	<div id="banner-resources" class="hide">
+		<ul>
+			<li>MiServer
+				<ul>
+					<li>
+						<a target="_blank" href="https://github.com/Dyalog/MiServer/archive/miserver.dyalog.com.zip">Download</a>
+					</li>
+					<li>
+						<a target="_blank" href="https://github.com/Dyalog/MiServer/tree/miserver.dyalog.com">GitHub</a>
+					</li>
+					<li>
+						<a target="_blank" href="http://www.dyalog.com/forum/viewforum.php?f=34">Forum</a>
+					</li>
+					<li>
+						<a target="_blank" href="http://www.dyalog.com/blog/category/miserver/">Blog</a>
+					</li>
+					<li>
+						<a target="_blank" href="http://www.dyalog.com/">Dyalog's website</a>
+					</li>
+				</ul>
+			</li>
+			<li>External
+				<ul>
+					<li>
+						<a target="_blank" href="http://www.w3schools.com/">w3schools</a>
+					</li>
+					<li>
+						<a target="_blank" href="http://js.syncfusion.com/demos/web/">Syncfusion demos</a>
+					</li>
+					<li>
+						<a target="_blank" href="http://helpjs.syncfusion.com/js/overview">Syncfusion refs</a>
+					</li>
+					<li>
+						<a target="_blank" href="http://www.jquery.com/">jQuery</a>
+					</li>
+					<li>
+						<a target="_blank" href="http://www.jqueryui.com/">jQuery UI</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
 </div>

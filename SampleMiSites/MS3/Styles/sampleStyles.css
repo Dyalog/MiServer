@@ -146,28 +146,22 @@ body {
     cursor: pointer;
 }
 
-#hamburger {
+#banner-dyalog {
     position: fixed;
     right: 2em;
     font-size: x-large;
     top: 0.8em;
     color: darkorange;
     z-index: 1;
+		cursor: pointer;
 }
 
 #hamburger:hover {
     color: white;
 }
 
-#ham {
-    font-size: xx-large;
-    color: white;
-    position: relative;
-    top: -7px;
-}
-
 #banner-resources {
-    border-radius: 0 0 15px 15px;
+    border-radius: 0 0 5px 5px;
     right: 10px;
     padding-right: 10px;
 }
@@ -212,15 +206,12 @@ body {
     display: none;
 }
 
-#banner-dyalog input:checked ~ #banner-resources {
-    display: block;
+#banner-dyalog:hover {
+    color: white;
 }
 
-.dyaloglogo {
-    height: 30px;
-    position: fixed;
-    right: 15px;
-    top: 20px;
+#hamburger:checked ~ #banner-resources {
+    display: block;
 }
 
 /*Template Footer*/
