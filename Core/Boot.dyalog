@@ -19,7 +19,7 @@
       ms.Run
     ∇
 
-    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;core;HTML;extensions;HTMLsubdirs
+    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;core;HTML;extensions;HTMLsubdirs;failed;file;stat
       ⍝ Load required objects for MiServer
       ⍝ Note: DRC namespace is not SALTed
       ⍝ yes - 1 to perform load, 0 to clean up
@@ -46,16 +46,21 @@
      
           #.SupportedHtml5Elements.Build_html_namespace
      
+          ⍝↓↓↓ Some controls may require controls in other folders.
+          ⍝    So we attempt to load everything, and keep track of what failed
+          ⍝    and then go back and try to load the failed controls again their
+          failed←''
+          stat←AutoStatus 0 ⍝ turn off show status on error
           :For f :In HTML
               disperror ⎕SE.SALT.Load MSRoot,'HTML/',f,' -target=#'
               :If (⊂f)∊HTMLsubdirs
-                  disperror¨⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
+                  f∘{326=⎕DR ⍵: ⋄ '***'≡3↑⍵:failed,←⊂⍺(('<.+>'⎕S{1↓¯1↓⍵.Match})⍵)}¨⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
               :EndIf
           :EndFor
-     
-⍝          :For f :In HTML∩,⎕SE.SALT.List MSRoot,'HTML -folder'
-⍝              ⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
-⍝          :EndFor
+          AutoStatus stat ⍝ restore show status state
+          :For (f file) :In failed
+              disperror ⎕SE.SALT.Load file,' -target=#.',f
+          :EndFor
      
           :If 0≠⍴classes
               :For class :In classes
@@ -229,7 +234,7 @@
     ⍝ configure server level settings, setting defaults for needed ones that are not supplied
       Config←ReadConfiguration'Server'
      
-      Config.AllowedHttpCommands←{⎕ML←3 ⋄ ⍵⊂⍨~⍵∊' ,'}#.Strings.lc Config Setting'AllowedHttpCommands' 0 'get,post'
+      Config.AllowedHTTPCommands←{⎕ML←3 ⋄ ⍵⊂⍨~⍵∊' ,'}#.Strings.lc Config Setting'AllowedHTTPCommands' 0 'get,post'
       Config.AppRoot←AppRoot
       Config.Authentication←Config Setting'Authentication' 0 'SimpleAuth'
       Config.CertFile←Config Setting'CertFile' 0 ''
@@ -239,9 +244,9 @@
       Config.DefaultPage←Config Setting'DefaultPage' 0 'index.mipage'
       Config.FormatHtml←Config Setting'FormatHtml' 1 0
       Config.Host←Config Setting'Host' 0 'localhost'
-      Config.HttpCacheTime←Config Setting'HttpCacheTime' 1 0 ⍝ default to off (0)
+      Config.HTTPCacheTime←'m'#.Dates.ParseTime Config Setting'HTTPCacheTime' 0 '0' ⍝ default to off (0)
       Config.IPVersion←Config Setting'IPVersion' 0 'IPV4'
-      Config.IdleTimeout←Config Setting'IdleTimeout' 1 0 ⍝ default to none (0)
+      Config.IdleTimeout←'s'#.Dates.ParseTime Config Setting'IdleTimeout' 0 '0' ⍝ default to none (0)
       Config.KeyFile←Config Setting'KeyFile' 0 ''
       Config.Lang←Config Setting'Lang' 0 'en'
       Config.LogMessageLevel←Config Setting'LogMessageLevel' 1 1 ⍝ default to error messages only
@@ -258,11 +263,11 @@
       Config.Secure←Config Setting'Secure' 1 0
       Config.Server←Config Setting'Server' 0 ''
       Config.SessionHandler←Config Setting'SessionHandler' 0 'SimpleSessions'
-      Config.SessionTimeout←Config Setting'SessionTimeout' 1 30 ⍝ 30 minute timeout
+      Config.SessionTimeout←'m'#.Dates.ParseTime Config Setting'SessionTimeout' 0 '30m' ⍝ 30 minute timeout
       Config.SupportedEncodings←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}',',Config Setting'SupportedEncodings' 0
       Config.TempFolder←folderize Config.Root{0∊⍴⍵:⍵ ⋄ ((isRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
       Config.TrapErrors←Config Setting'TrapErrors' 1 0
-      Config.WaitTimeout←Config Setting'WaitTimeout' 1 5000 ⍝ 5000 msec (5 second timeout)
+      Config.WaitTimeout←#.Dates.ParseTime Config Setting'WaitTimeout' 0 '5000ms' ⍝ 5000 msec (5 second timeout)
       Config.UseContentEncoding←Config Setting'UseContentEncoding' 1 0 ⍝ aka HTTP Compression default off (0)
      
       :If 0≠⎕NC'#.DrA' ⍝ Transfer DrA config options
@@ -405,7 +410,7 @@
     :endsection
 
     :section Utilities
-    disperror←{}∘{326=⎕DR ⍵:'' ⋄ '***'≡3↑⍵:⎕←⍵ ⋄ ''}
+    disperror←{326=⎕DR ⍵: ⋄ '***'≡3↑⍵:⎕←⍵}
     isWin←'Win'≡3↑1⊃#.⎕WG'APLVersion'
     fileSep←'/\'[1+isWin]
     isRelPath←{{~'/\'∊⍨(⎕IO+2×isWin∧':'∊⍵)⊃⍵}3↑⍵}
@@ -423,6 +428,17 @@
     folderize←{¯1↑⍵∊'/\':⍵ ⋄ ⍵,fileSep}
     makeSitePath←{⍺{((isRelPath ⍵)/⍺),⍵},folderize ⍵}
     Log←{⎕←⍵}
+
+    ∇ {r}←AutoStatus setting
+      ⍝ Set Dyalog/Windows AutoStatus setting    
+      :If r←isWin
+          :Trap 0
+              :If setting≠r←⎕SE.mb.tools.status_error.Checked
+                  1 ⎕NQ ⎕SE.mb.tools.status_error'Select'
+              :EndIf
+          :EndTrap
+      :EndIf
+    ∇
 
     ∇ r←tonumvec v;to;minus;digits;c;mask
     ⍝ tonum vector version

@@ -375,7 +375,7 @@
       SessionHandler.GetSession REQ
       Authentication.Authenticate REQ
       :If REQ.Response.Status≠401 ⍝ Authentication did not fail
-          :If Config.AllowedHttpCommands∊⍨⊂REQ.Command
+          :If Config.AllowedHTTPCommands∊⍨⊂REQ.Command
               onHandleRequest REQ ⍝ overridable
               :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
                   filename HandleMSP REQ
@@ -408,7 +408,7 @@
                   :Else ⋄ length←BlockSize        ⍝ otherwise send it a block at a time
                   :EndIf
                   res.HTML←⎕NREAD tn 83 length 0
-                  cacheMe←0≠Config.HttpCacheTime ⍝ for now, cache all files if set to use caching
+                  cacheMe←0≠Config.HTTPCacheTime ⍝ for now, cache all files if set to use caching
               :Else
                   res.HTML←⍬
                   REQ.Fail 404
@@ -444,8 +444,8 @@
       :EndIf
      
       :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires
-      :AndIf 0<Config.HttpCacheTime
-          res.Headers⍪←'Expires'(Config.HttpCacheTime #.Dates.HttpDate ⎕TS)
+      :AndIf 0<Config.HTTPCacheTime
+          res.Headers⍪←'Expires'(Config.HTTPCacheTime #.Dates.HTTPDate ⎕TS)
       :EndIf
       res.Headers⍪←{0∊⍴⍵:'' '' ⋄ 'Server'⍵}Config.Server
       status←res.((⍕Status),' ',StatusText)
@@ -495,6 +495,10 @@
               1 Log'Multiple matching files found for "',file,'"?'
           :EndIf
           :If 1≠n
+⍝              :If 0=n
+⍝              :AndIf '/'=¯1↑REQ.OrigPage
+⍝                  REQ CheckDirectoryBrowser REQ.OrigPage
+⍝              :EndIf
               REQ.Fail 404 ⋄ →0
           :EndIf
       :EndIf

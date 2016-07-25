@@ -79,6 +79,10 @@
       r←(sel JQuery'toggle')args
     ∇
 
+    ∇ r←Submit sel
+      r←(sel JQuery'submit')''
+    ∇
+
     ∇ r←{eval}JSDate date
     ⍝ snippet to create a JS date (JavaScript months are 0-11!!!)
     ⍝ date is in 3↑⎕TS form
