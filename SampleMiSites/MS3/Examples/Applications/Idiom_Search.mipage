@@ -22,7 +22,7 @@
       idioms←⎕SE.SALT.Load #.Boot.AppRoot,'Examples\Data\idioms -noname -nolink'
       idioms[;4]←'FinnAPL' 'Dyalog' 'APL2'[1+idioms[;4]]
       idioms⍪⍨←'Description' 'Expression' 'Requirements' 'Library'
-      'output'Add _.DataTable(idioms(2/'.a333' '.a385'))
+      'output'Add _.DataTable(idioms(1⌽2/'.a333' '.a385'))
     ∇
 
 :EndClass
