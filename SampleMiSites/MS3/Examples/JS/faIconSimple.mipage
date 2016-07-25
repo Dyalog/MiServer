@@ -1,5 +1,5 @@
 ﻿:Class faIconSimple : MiPageSample
-⍝ Control:: _DC.FontIcons
+⍝ Control:: _JS.faIcon
 ⍝ Description:: provides an easy cover for the wonderful icons from FontAwesome, Blacktie and FontIcons
 
     ∇ Compose;frm;single;multi;btn
