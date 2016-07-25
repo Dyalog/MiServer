@@ -25,7 +25,7 @@
       cols,←'about'New _.div(Read'/Examples/Data/intro.txt')
       cols,←'slideshow'New _.div(Shuffle Read'Examples/Data/slideshow.txt')
       cols,←'reading'New _.List(ReadingTree Read'Examples/Data/reading.txt')
-      tabs.Sections,←New _.Table cols
+      tabs.Sections,←'intro'New _.Table cols
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Samples'Over'pages and mini-apps/each uses just a few controls'

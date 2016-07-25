@@ -146,7 +146,7 @@
       list←'relevant'ForControl w
       r←''
       :For item :In list
-          r,←'<br/>',Link('filedescr'ForFile item)item
+          r,←'<p>',(Link('filedescr'ForFile item)item),'</p><br/>'
       :EndFor
       r↓⍨←¯5
     ∇

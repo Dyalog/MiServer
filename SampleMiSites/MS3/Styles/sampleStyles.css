@@ -153,7 +153,7 @@ body {
     top: 0.8em;
     color: darkorange;
     z-index: 1;
-		cursor: pointer;
+    cursor: pointer;
 }
 
 #hamburger:hover {
@@ -518,11 +518,17 @@ iframe {
 #bigtabs table {
     font-family: Verdana, Geneva, sans-serif;
     margin: 0 20px;
+    /* text-indent: -15px; */
 }
 
-#bigtabs>div>div{
+#ctrl p {
+    margin: auto;
+}
+
+#bigtabs>div>div {
     width: calc(100% - 20px);
 }
+
 /* SLIDESHOW CSS */
 #slideshow {
     width: 495px;
@@ -586,9 +592,9 @@ iframe {
     padding: 0.5em;
     background: linear-gradient(transparent,black 10%);
     position: relative;
-    bottom:50px;
-    color:white;
-    height:34px
+    bottom: 50px;
+    color: white;
+    height: 34px
 }
 
 figcaption a {
