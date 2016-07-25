@@ -1,5 +1,5 @@
 ﻿:Class A : #._html.a
-⍝ Description:: Dyalog Hyperlink widget based on HTML <a> tag
+⍝ Description:: Dyalog Hyperlink widget based on the HTML a tag
 ⍝ Constructor:: [content [href]]
 ⍝ content - the displayed content for the link
 ⍝ href    - the URL for the link (default is '#')
