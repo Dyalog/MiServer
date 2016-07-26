@@ -36,12 +36,10 @@
       files⌿⍨←'.'≠⊃¨files[;1] ⍝ remove current and parent entries
       :If ~0∊⍴files
           files←{⍵[⍒⍵[;4];]}{⍵[⍋#.Strings.lc↑⍵[;1];]}files
-          filenames←files[;1]{⍺,⍵/'/'}¨files[;4]
-          links←Folder∘{New #._DC.A ⍵(⍺,⍵)}¨filenames
-          :If ∨/~files[;4]
-              ((~files[;4])/links).Set¨⊂'target' '_blank'
-          :EndIf
-          sizes←(~files[;4]){⍺\⍺/#.Strings.commaFmt ⍵}files[;2]
+          filenames←files[;1]{(⍵/'./'),⍺,⍵/'/'}¨files[;4] 
+          links←files[;4](Folder{'<a ',((~⍺)/'target="_blank" '),'href="',(⍺⍺,⍵),'">',⍵,'</a>'})¨filenames
+          sizes←#.Strings.commaFmt files[;2]
+          (files[;4]/sizes)←⊂'[dir]'
           Data←links,sizes,⍪#.Dates.TSFmt¨files[;3]
       :EndIf
       :If Up>0∊⍴Folder
@@ -49,9 +47,9 @@
       :EndIf
       Data⍪⍨←'Name' 'Size' 'Timestamp'
       'autoWidth'Set _true
-      'columns'Set'⍎[{"type":"html","className":"db-left"},{"type":"num-fmt","className":"db-center"},{"type":"date","className":"db-center"}]'
+      'columns'Set'⍎[{"type":"html","className":"db-left"},{"type":"num-fmt","className":"db-right"},{"type":"date","className":"db-left"}]'
       AddClass'display'
-      r←(⎕NEW #._DC.Style((('.db-left')('text-align' 'left'))(('.db-center')('text-align' 'center')))).Render
+      r←(⎕NEW #._DC.Style((('.db-left')('text-align' 'left'))(('.db-center')('text-align' 'center'))(('.db-right')('text-align' 'right')))).Render
       r,←⎕BASE.Render
     ∇
 
