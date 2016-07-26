@@ -37,14 +37,17 @@
       :If ~0∊⍴files
           files←{⍵[⍒⍵[;4];]}{⍵[⍋#.Strings.lc↑⍵[;1];]}files
           filenames←files[;1]{⍺,⍵/'/'}¨files[;4]
-          links←Folder∘{(New #._DC.A ⍵(⍺,⍵)).Render}¨filenames
+          links←Folder∘{New #._DC.A ⍵(⍺,⍵)}¨filenames
+          :If ∨/~files[;4]
+              ((~files[;4])/links).Set¨⊂'target' '_blank'
+          :EndIf
           sizes←(~files[;4]){⍺\⍺/#.Strings.commaFmt ⍵}files[;2]
           Data←links,sizes,⍪#.Dates.TSFmt¨files[;3]
       :EndIf
       :If Up>0∊⍴Folder
           Data⍪⍨←((New #._DC.A'..'({⍵↓⍨-⊥⍨'/'≠⍵}¯1↓Folder)).Render)'' ''
       :EndIf
-      Data⍪⍨←'Name' 'Size' 'Last Update'
+      Data⍪⍨←'Name' 'Size' 'Timestamp'
       'autoWidth'Set _true
       'columns'Set'⍎[{"type":"html","className":"db-left"},{"type":"num-fmt","className":"db-center"},{"type":"date","className":"db-center"}]'
       AddClass'display'
