@@ -1,5 +1,5 @@
 ﻿:class Tic_Tac_Toe :MiPageSample
-⍝ Control:: _.html.svg _DC.Table
+⍝ Control:: _html.svg _DC.Table _DC.StyleSheet
 ⍝ Description:: Vector graphics Tic Tac Toe game
 
     ∇ Compose;board;size;width;cells;data;game
@@ -45,52 +45,40 @@
      ⍝ Buttons to reload game with new size
       {'.button'game.Add _.A(⍕⍵)('?size=',⍕⍵)}¨3 4 5~size
      
-     ⍝ Add a style sheet
-      Add _.style'#game {width:',(⍕20+100×size),'px; ',ScriptFollows
-      ⍝ margin: auto; text-align: center; background:grey; color:white; border-radius:2em; padding:10px; font-family:sans-serif;}
-      ⍝ #title {margin:0;}
-      ⍝ #board {border-collapse:collapse; margin:auto; background:lightgrey;}
-      ⍝ #next,#status {text-align:left; margin: 12px; font-size:x-large;}
-      ⍝ .button {border:none; border-radius:1em; background:lightgrey; color:black!important; font-size:x-large; padding:10px; cursor:pointer; display:inline-block; min-width:1.2em; margin:0 5px 10px 5px;}
-      ⍝ .button:hover {background:white;}
-      ⍝ svg {width:100px; height:100px; box-shadow:0 0 0 2px grey inset; margin:0px;margin-bottom:-4px; cursor:pointer;}
-      ⍝ svg:hover {background:white;}
-      ⍝ .X,.O {stroke-width:20; font-weight:bold;}
-      ⍝ .X {stroke:darkviolet; color:darkviolet;}
-      ⍝ .O {stroke:darkorange; color:darkorange; fill:transparent;}
-      ⍝ .b {x:0; y:0; width:100px; height:100px; cursor:not-allowed; fill:transparent;}
-     
+     ⍝ Add a styling
+      Add _.style '#game {width:',(⍕20+100×size),'px;}'
+      Add _.StyleSheet '/Examples/Data/Tic_Tac_Toe.css'
     ∇
 
     ∇ js←OnClick;reset;cell;clicked ⍝ Universal callback function
       :Access public
       js←'' ⍝ initiate JavaScript response
      
-      reset←'reset'≡_what                           ⍝ did user click Clear?
-      :If reset∨Won∨Tie                               ⍝ clear the board?
-          js,←'td[id^=''board_'']'Replace B           ⍝ clear client cells (must use single quotes)
-          STATE[]←BLANK                               ⍝ clear server state
-          NEXT←⊃XOS                                   ⍝ revert to first player
-          js,←0 Msg NEXT                              ⍝ update footer
-          js,←1 Msg'Board cleared'
+      reset←'reset'≡_what                   ⍝ did user click Clear?
+      :If reset∨Won∨Tie                     ⍝ clear the board?
+          js,←'td[id^=''board_'']'Replace B ⍝ clear client cells (must use single quotes)
+          STATE[]←BLANK                     ⍝ clear server state
+          NEXT←⊃XOS                         ⍝ revert to first player
+          js,←0 Msg NEXT                    ⍝ update footer
+          js,←1 Msg'Board cleared'          ⍝ and message
       :EndIf
      
       :If ~reset              ⍝ did player either win or click cell?
           cell←'#',Get'cell'  ⍝ retrieve sent-along data
           clicked←ALL⍳⊂7↓cell ⍝ cardinal number of chosen cell
      
-          :If BLANK≡clicked⌷STATE         ⍝ is clicked cell available?
-              js,←cell Replace⍎NEXT ⍝ update the client cell
-              STATE[clicked]←⊂NEXT        ⍝ update the server state
-              :If Won                     ⍝ do we have a win?
-                  js,←0 Msg⊃XOS           ⍝ update footer
-                  js,←1 Msg NEXT,' wins'  ⍝ update client status
-              :ElseIf Tie                 ⍝ no blanks left?
-                  js,←0 Msg⊃XOS           ⍝ update footer
-                  js,←1 Msg'Tie game'     ⍝ inform
-              :Else                       ⍝ regular move
-                  NEXT←⊃(XOS⍳⊂NEXT)⌽XOS   ⍝ rotate player stack to find next player
-                  js,←0 Msg NEXT          ⍝ update footer
+          :If BLANK≡clicked⌷STATE        ⍝ is clicked cell available?
+              js,←cell Replace⍎NEXT      ⍝ update the client cell
+              STATE[clicked]←⊂NEXT       ⍝ update the server state
+              :If Won                    ⍝ do we have a win?
+                  js,←0 Msg⊃XOS          ⍝ update footer
+                  js,←1 Msg NEXT,' wins' ⍝ update client status
+              :ElseIf Tie                ⍝ no blanks left?
+                  js,←0 Msg⊃XOS          ⍝ update footer
+                  js,←1 Msg'Tie game'    ⍝ inform
+              :Else                      ⍝ regular move
+                  NEXT←⊃(XOS⍳⊂NEXT)⌽XOS  ⍝ rotate player stack to find next player
+                  js,←0 Msg NEXT         ⍝ update footer
               :EndIf
      
           :Else                               ⍝ clicked unavailable cell
@@ -108,8 +96,8 @@
     ∇
 
     ∇ r←status Msg text ⍝ Various formats for displaying text in the output area
-      r←(~status)/'#next'Replace'Next: ',('.',text)New _.span text ⍝ show mark of next player
-      r,←'#status'Replace('Go'text⊃⍨1+status),'!'     ⍝ add message
+      r←(~status)/'#next'Replace'Next: ',('.',text)New _.span text ⍝ show mark of next player?
+      r,←'#status'Replace('Go'text⊃⍨1+status),'!'                  ⍝ add message
      
     ∇
 
