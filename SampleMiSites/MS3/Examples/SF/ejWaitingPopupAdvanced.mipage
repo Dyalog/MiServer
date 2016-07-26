@@ -1,30 +1,44 @@
-﻿:Class ejWaitingPopupAdvanced : MiPageSample 
+﻿:Class ejWaitingPopupAdvanced : MiPageSample
 ⍝ Control:: _SF.ejWaitingPopup
-⍝ Description:: Insert toggleable pop-up with arbitrary web content (does not display right)
+⍝ Description:: Insert styled toggleable pop-up with arbitrary web content (does not display right)
 
-    ∇ Compose;wp;mydiv;myp
+    ∇ Compose;wp;mydiv;p
       :Access public
      
-⍝   This is what we want in our popup:
-⍝    <div align="center">
-⍝        <img src=../Data/spin.gif></img>
-⍝        <p>Create cutting-edge </p>
-⍝        <p><b>HTML5</b> web applications </p>
-⍝        <p>with ease </p>
-⍝    </div>
+      Add _.style ScriptFollows
+      ⍝ #mydiv {
+      ⍝     width: 220px;
+      ⍝     margin-top: 10em;
+      ⍝     color: white;
+      ⍝     background-color: black;
+      ⍝     padding: 5px;
+      ⍝     border-radius: 10px;
+      ⍝     cursor: progress;
+      ⍝     box-shadow: 0 10px 30px 0 black;
+      ⍝ }
+      ⍝
+      ⍝ #title {
+      ⍝     margin-top: 0;
+      ⍝     padding: 5px;
+      ⍝     background-color: darkorange;
+      ⍝     border-radius: 5px;
+      ⍝     font-size; larger;
+      ⍝     font-weight: bold;
+      ⍝ }
      
       mydiv←'mydiv'Add _.div
-      mydiv.Set⊂'align' 'center'
-      'src' '../Data/spin.gif'mydiv.Add _.img
-      mydiv.Add _.p'Create cutting-edge '
-      myp←mydiv.Add _.p
-      myp.Add _.b'HTML5'
-      myp.Add' web applications '
-      mydiv.Add _.p'with ease'
-      (wp←Add ejWaitingPopup).Set⊂'template' '#mydiv'
+      'align'mydiv.Set'center'
+      'title'mydiv.Add _.p'PLEASE WAIT'
+      'src="../Data/spin.gif"'mydiv.Add _.img
+      
+      p←mydiv.Add _.p
+      p.Add'Create cutting-edge '
+      p.Add _.b'HTML5'
+      p.Add' web applications with ease'
      
-     ⍝ By default, the pop-up is hidden
-      'showOnInit'wp.Set _true
+      wp←Add _.ejWaitingPopup
+      'template'wp.Set'#mydiv' ⍝ we want the div we just created to be the contents
+      'showOnInit'wp.Set _true ⍝ by default, the pop-up is hidden
     ∇
 
 :EndClass
