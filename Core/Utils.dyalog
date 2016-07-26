@@ -73,5 +73,6 @@
     tohex←1∘hex
     fromhex←0∘hex
     vectorize←{1≥|≡⍵:,⍵ ⋄ ∇¨⍵} ⍝ turn scalars into vectors
-
+    
+    WSRoot←{⍵↓⍨-⊥⍨('/\'⊃⍨1+'Win'≡3↑⊃'.'⎕WG'APLVersion')≠⍵}⎕WSID
 :EndNamespace

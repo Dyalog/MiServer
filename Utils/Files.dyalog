@@ -149,17 +149,22 @@
       r←{(0∊⍴⍵)<∧/⍵∊'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%-._~:/?#[]@!$&''()*+,;='}w ⍝ identify likely URIs
     ∇
 
-    ∇ r←{file}List path;z;rslt;handle;next;ok;attrs;⎕IO;FindFirstFileX;FindNextFileX;FindClose;FileTimeToLocalFileTime;FileTimeToSystemTime;GetLastError;isFile;filter
+    ∇ r←{file}List path;z;rslt;handle;next;ok;attrs;⎕IO;FindFirstFileX;FindNextFileX;FindClose;FileTimeToLocalFileTime;FileTimeToSystemTime;GetLastError;isFile;filter;isFolder
     ⍝ Return matrix containing
     ⍝ [;0] Name [;1] Length [;2] LastAccessTime [;3] IsDirectory
       ⎕IO←0
-      :If isFile←2=⎕NC'file' ⋄ filter←(0<⍴,file)/'/',file ⋄ :Else ⋄ filter←'/*' ⋄ :EndIf
-      filter←('/\'∊⍨¯1↑path)↓filter
+      :If 0=⎕NC'file' ⋄ file←'' ⋄ :EndIf
+      isFolder←'/\'∊⍨¯1↑path
+      filter←''
+      :If isFile←~0∊⍴file
+          filter←isFolder↓'/',file
+      :EndIf
+     
       r←0 4⍴'' 0 0 0
      
       :Select APLVersion
       :Case '*nix'
-          →(0∊⍴rslt←1 _SH'ls -al --time-style=full-iso ',unixfix path,isFile/filter)⍴0
+          →(0∊⍴rslt←1 _SH'ls -al',isFolder↓'d --time-style=full-iso ',unixfix path,filter)⍴0
           rslt←↑rslt
           rslt←' ',('total '≡6⍴rslt)↓[0]rslt
           →(0=1↑⍴r←((1↑⍴rslt),4)⍴0)⍴0
@@ -173,7 +178,7 @@
           r[;0]←{(⌽~∨\⌽⍵='/')/⍵}¨{(-+/∧\' '=⌽⍵)↓¨↓⍵}0 1↓8⊃rslt    ⍝ Name
      
       :Case 'Mac'
-          →(0∊⍴rslt←1 _SH'stat -lt "%F %T %z" ',unixfix path,isFile/filter)⍴0
+          →(0∊⍴rslt←1 _SH'stat -lt "%F %T %z" ',unixfix path,isFolder{0∊⍴⍵:⍺/'*' ⋄ ⍵}filter)⍴0
           r←((1↑⍴rslt),4)⍴0
           rslt←↑{⎕ML←3 ⋄ ⍵⊂⍨~{⍵∧9>+\⍵}' '=⍵}¨rslt
           r[;3]←'d'=0⊃¨rslt[;1]                 ⍝ IsDirectory
@@ -185,7 +190,7 @@
       :Case 'Win'
       ⍝ See DirX for explanations of results of _FindNextFile etc
           _FindDefine
-          handle rslt←_FindFirstFile path,filter
+          handle rslt←_FindFirstFile path,isFolder{0∊⍴⍵:⍺/'*' ⋄ ⍵}filter
           :If 0=handle
               :Return ⍝ ('ntdir error:',⍕rslt)⎕SIGNAL 102      ⍝ file not found
           :EndIf
@@ -322,13 +327,15 @@
     ∇
 
     ∇ _FindDefine;WIN32_FIND_DATA
-      WIN32_FIND_DATA←'{I4 {I4 I4} {I4 I4} {I4 I4} {U4 U4} {I4 I4} T[260] T[14]}'
-      'FindFirstFileX'⎕NA'I4 kernel32.C32|FindFirstFile* <0T >',WIN32_FIND_DATA
-      'FindNextFileX'⎕NA'U4 kernel32.C32|FindNextFile* I4 >',WIN32_FIND_DATA
-      ⎕NA'kernel32.C32|FindClose I4'
-      ⎕NA'I4 kernel32.C32|FileTimeToLocalFileTime <{I4 I4} >{I4 I4}'
-      ⎕NA'I4 kernel32.C32|FileTimeToSystemTime <{I4 I4} >{I2 I2 I2 I2 I2 I2 I2 I2}'
-      ⎕NA'I4 kernel32.C32∣GetLastError'
+      :If 0=⎕NC'FindFirstFileX'
+          WIN32_FIND_DATA←'{I4 {I4 I4} {I4 I4} {I4 I4} {U4 U4} {I4 I4} T[260] T[14]}'
+          'FindFirstFileX'⎕NA'I4 kernel32.C32|FindFirstFile* <0T >',WIN32_FIND_DATA
+          'FindNextFileX'⎕NA'U4 kernel32.C32|FindNextFile* I4 >',WIN32_FIND_DATA
+          ⎕NA'kernel32.C32|FindClose I4'
+          ⎕NA'I4 kernel32.C32|FileTimeToLocalFileTime <{I4 I4} >{I4 I4}'
+          ⎕NA'I4 kernel32.C32|FileTimeToSystemTime <{I4 I4} >{I2 I2 I2 I2 I2 I2 I2 I2}'
+          ⎕NA'I4 kernel32.C32∣GetLastError'
+      :EndIf
     ∇
 
     ∇ rslt←_FindFirstFile name;⎕IO
