@@ -91,7 +91,7 @@
               r←0<⍴_SH'ls -adl ',unixfix path
           :EndTrap
       :Case 'Win'
-          r←0<⍬⍴⍴'.'List path
+          r←{1≠⊃⍴⍵:0 ⋄ ⍵[1;4]}'.'List path
       :EndSelect
     ∇
 

@@ -407,6 +407,73 @@
       :EndIf
     ∇
 
+    :Class ConfigSpace
+        :field public config
+
+        ∇ make filename;ns;n
+          :Access public
+          :Implements constructor
+          ns←#.XML.ToNS #.Files.GetText filename
+          'Config file needs a single root node'⎕SIGNAL 11/⍨1≠⍴n←ns.⎕NL ¯9
+          config←ns⍎⊃n
+        ∇
+
+        ∇ r←Get args
+          :Access public
+          r←config Setting args
+        ∇
+
+        ∇ r←ns Setting pars;name;num;default;mask
+    ⍝ returns setting from a config style namespace or provides a default if it doesn't exist
+    ⍝ pars - name [num] [default]
+    ⍝ ns - namespace reference
+    ⍝ name - name of the setting
+    ⍝ num - 1 if setting is numeric scalar, (,1) if numeric vector is allowed, 0 otherwise
+    ⍝ default - default value if not found
+          pars←eis pars
+          (name num)←2↑pars,(⍴pars)↓'' 0 ''
+          :If 2<⍴pars ⋄ default←3⊃pars
+          :Else ⋄ default←(1+num)⊃''⍬
+          :EndIf
+          r←(⍴ns)⍴⊂default
+          :If ∨/mask←0≠⊃¨ns.⎕NC⊂name
+              (mask/r)←(((⍴⍴num)∘tonum)⍣(⊃num))¨(mask/ns).⍎⊂name
+          :EndIf
+          :If 0=⍴⍴r ⋄ r←⊃r ⋄ :EndIf
+        ∇                               
+
+        eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
+
+          tonum←{⍺←0
+              1∊⍺:tonumvec ⍵
+              w←⍵ ⋄ ((w='-')/w)←'¯'
+              ⊃⊃{~∧/⍺:⎕SIGNAL 11 ⋄ ⍵}/⎕VFI w}
+
+        ∇ r←tonumvec v;to;minus;digits;c;mask
+    ⍝ tonum vector version
+    ⍝ allows for specific of ranges and comma or space delimited numbers
+    ⍝ tonumvec '8080-8090'  or '5,7-9,11-15'
+          r←⍬
+          ⎕SIGNAL 11/⍨~∧/v∊⎕D,'., -¯'
+          to←{⍺←⍵ ⋄ ⍺,⍺+(¯1*⍺>⍵)×⍳|⍺-⍵}
+          v←('^\s*|\s*$'⎕R'')('\s+'⎕R' ')('\s*-\s*'⎕R'-')v
+          minus←'-'=v
+          digits←v∊⎕D,'.'
+          ((minus>(minus∨{1↓⍵,0}digits)∧{¯1↓0,⍵}digits)/v)←⊂'¯'
+          ((' '=v)/v)←','
+          (('-'=v)/v)←⊂' to '
+          :Trap 0
+              :For c :In {⎕ML←3 ⋄ ⍵⊂⍨⍵≠','}∊v
+                  r,←⍎∊c
+              :EndFor
+          :Else
+              ⎕SIGNAL 11
+          :EndTrap
+        ∇
+
+    :Endclass
+
+
     :endsection
 
     :section Utilities
@@ -430,7 +497,7 @@
     Log←{⎕←⍵}
 
     ∇ {r}←AutoStatus setting
-      ⍝ Set Dyalog/Windows AutoStatus setting    
+      ⍝ Set Dyalog/Windows AutoStatus setting
       :If r←isWin
           :Trap 0
               :If setting≠r←⎕SE.mb.tools.status_error.Checked

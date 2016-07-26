@@ -22,6 +22,8 @@
       :Access public
       JQueryFn←Uses←'DataTable'
       :Implements constructor
+      Container←⎕NEW #._DC.Table
+      ContainerTag←'table'
     ∇
 
     ∇ Make1 args
@@ -30,19 +32,19 @@
       :Implements Constructor
       :If 2=⍴⍴args ⋄ args←,⊂args ⋄ :EndIf
       Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds←args defaultArgs Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds
+      Container←⎕NEW #._DC.Table
+      ContainerTag←'table'
     ∇
 
     ∇ html←Render;tab
       :Access public
-      SetId
-      Selector←'#',id
       :If 'true'≡⍕GetOption'searchHighlight'
           Use'jquery.Highlight'
           Use'⍎/DataTables/extras/searchHighlight/DataTables.searchHighlight.min.js'
           Use'⍕/DataTables/extras/searchHighlight/DataTables.searchHighlight.css'
       :EndIf
-      (tab←⎕NEW #._DC.Table(Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)).id←id
-      html←(tab.Render),⎕BASE.Render
+      Container.(Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)←(Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)
+      html←⎕BASE.Render
      
      
 ⍝ BPB - to be sorted out with Michael

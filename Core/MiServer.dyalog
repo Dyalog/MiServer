@@ -482,7 +482,6 @@
     ⍝ Handle a "MiServer Page" request
      
       path name ext←#.Files.SplitFilename file
-     
      RETRY:
      
       :If 1≠n←⊃⍴list←''#.Files.List file ⍝ does the file exist?
@@ -495,10 +494,10 @@
               1 Log'Multiple matching files found for "',file,'"?'
           :EndIf
           :If 1≠n
-⍝              :If 0=n
-⍝              :AndIf '/'=¯1↑REQ.OrigPage
-⍝                  REQ CheckDirectoryBrowser REQ.OrigPage
-⍝              :EndIf
+              :If 0=n
+              :AndIf #.Files.DirExists Config.AppRoot,REQ.OrigPage↓⍨'/\'∊⍨⊃REQ.OrigPage
+                  →0⍴⍨CheckDirectoryBrowser REQ
+              :EndIf
               REQ.Fail 404 ⋄ →0
           :EndIf
       :EndIf
@@ -559,9 +558,6 @@
           :EndIf
      
           :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID ⋄ :EndIf
-⍝          :Else  ⍝ empty file or file not found
-⍝              REQ.Fail 404 ⋄ →0
-⍝          :EndIf
       :EndIf
      
       :If sessioned ⋄ token←REQ.(Page,⍕Session.ID)
@@ -569,7 +565,7 @@
       :Else ⋄ token←⍕⎕TID
       :EndIf
      
-     
+    ⍝!!!BPB!!! Finish Me
       :If inst.Cacheable
       :AndIf ~0∊⍴inst._cache
           REQ.Response.HTML←inst._cache
@@ -853,6 +849,37 @@
               →0
           :EndIf
       :EndFor
+    ∇
+
+    ∇ r←CheckDirectoryBrowser REQ;folder;file;F;filter;template;propagate;up;directory;inst;code;page
+    ⍝ checks if the requested URI is a browsable directory
+      folder←page←{⍵,'/'/⍨~'/\'∊⍨¯1↑⍵}REQ.OrigPage
+      r←up←0
+      :Trap 0/0 ⍝!!! remove 0/ after testing
+          :While r⍱0∊⍴folder
+              :If #.Files.Exists file←Config.AppRoot,folder,'Folder.xml'
+                  F←⎕NEW #.Boot.ConfigSpace file
+                  :If F.Get'browsable' 1 0
+                      filter←F.Get'filter'
+                      template←{0∊⍴⍵:'MiPage' ⋄ ⍵}F.Get'template'
+                      propagate←F.Get'propagate' 1 0
+                      →0⍴⍨up>propagate
+                      code←⊂':Class directorybrowser : #.Pages.',template
+                      code,←'∇Compose' ':Access Public'
+                      code,←⊂'Add #._html.h2 ''Directory Listing for "',page,filter,'"'''
+                      code,←('''dirBrowser'' Add #._DC.DirectoryBrowser ''',page,''' ''',filter,''' ',(⍕propagate),' ',⍕up)'∇' ':EndClass'
+                      inst←⎕NEW ⎕FIX code
+                      inst._Request←REQ
+                      inst.Compose
+                      inst.Wrap
+                      r←1
+                  :EndIf
+              :Else
+                  up←1
+                  folder←{⍵↓⍨-⊥⍨⍵≠'/'}¯1↓folder
+              :EndIf
+          :EndWhile
+      :EndTrap
     ∇
     :endsection
 

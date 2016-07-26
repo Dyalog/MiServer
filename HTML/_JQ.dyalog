@@ -91,7 +91,6 @@
         :field public Container
         :field public InternalEvents←'' ⍝ list of events the widget "knows" about
         :field public BuildHTML←1       ⍝ if 0, we build any HTML infrastructure for the widget, otherwise, assume the user built it
-⍝        :field public WidgetSyntax←''
         :field public WidgetDef←'event,ui' 'event'  'ui' '$(event.currentTarget)' '.val()'  ⍝ see _JQ.RenderHandlerCore for details
 
         ∇ r←{a}rand w;⎕RL
@@ -106,7 +105,6 @@
           Options←⎕NS''
           Container←⎕NEW #.HtmlElement
           :Implements constructor
-⍝          WidgetSyntax←WidgetDef
         ∇
 
         ∇ r←Render;build;html;handlers;js;oldJavaScript

@@ -734,19 +734,26 @@
 
     ∇ r←ScriptFollows
       :Access public shared
-      r←2↓∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI ⍝(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+      r←2↓∊(⎕UCS 13 10)∘,¨Follows
+    ∇
+
+    ∇ r←Follows;n
+      :Access public shared
+      n←⎕XSI{1++/⍵∘≡¨(⊃⍴⍵)↑¨⍺}(⍕⎕THIS),'.'
+      r←{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+n⊃⎕LC)↓↓(180⌶)n⊃⎕XSI
     ∇
 
     ∇ r←MarkdownFollows
       :Access public shared
-      r←⊃#.MarkAPL.Markdown2HTML{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI ⍝(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+      r←⊃#.MarkAPL.Markdown2HTML Follows
     ∇
 
     ∇ r←CodeFollows
       :Access public shared
-      r←2↓∊(⎕UCS 13 10)∘,¨{¯1↓⍵/⍨∨\⌽<\∨/¨'⍝<<end>>'∘⍷¨⍵}(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI ⍝(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+      r←2↓∊(⎕UCS 13 10)∘,¨{¯1↓⍵/⍨∨\⌽<\∨/¨'⍝<<end>>'∘⍷¨⍵}(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
       r←'<pre style="font-family:APL385 Unicode">',r,'</pre>'
     ∇
+
 
     ∇ r←WrapFollowing tag;text;SplitOnSpaceLines;Trim;FirstCommentBlock
       :Access public shared
