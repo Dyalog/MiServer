@@ -20,13 +20,13 @@
 
 /* Body and Wrapper */
 body {
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     margin: 0px;
     min-width: 480px;
 }
 
 .bodyblock {
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     min-height: 150px;
     font-size: 1em;
     position: relative;
@@ -138,7 +138,7 @@ body {
 }
 
 #toggle {
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     font-weight: bold;
     color: darkorange;
     background: transparent;
@@ -354,7 +354,7 @@ heading1 {
 
 .button {
     background-color: #dcdcdc;
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     font-size: 1em;
     border-top: #cccccc 1px solid;
     border-bottom: #666666 1px solid;
@@ -365,7 +365,7 @@ heading1 {
 .frmheader {
     color: #000000;
     background: #dcdcdc;
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     font-size: .7em;
     font-weight: normal;
     border-bottom: 1px solid #dcdcdc;
@@ -374,7 +374,7 @@ heading1 {
 }
 
 .frmtext {
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     font-size: .7em;
     margin-top: 8px;
     margin-bottom: 0px;
@@ -382,7 +382,7 @@ heading1 {
 }
 
 .frmInput {
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     font-size: 1em;
 }
 
