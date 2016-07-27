@@ -49,6 +49,11 @@
     background: white;
     cursor: default;
 }
+
+/* Show focus for keyboard navigation */
+.dc-tabs > input[type="radio"]:focus + label {
+    outline: #5B9DD9 auto;
+}
  
 /* The tab content must fill the widgets size and have a nice border */
 .dc-tabs > div {
