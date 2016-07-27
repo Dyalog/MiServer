@@ -4,16 +4,19 @@
 
     ∇ Compose
       :Access public
-      :With Add _.p
-          Add'DYALOG.EXE is a component of the development '
-          Add'version of Dyalog APL/W and is protected by U.K. '
-          Add'Copyright laws and international treaties.'
-      :EndWith
-      :With Add _.p
-          Add'DYALOG.EXE may be used by a Dyalog APL/W Licensee for '
-          Add'development purposes. Its sale or distribution for '
-          Add'commercial purposes is otherwise strictly prohibited.'
-      :EndWith
+      Add¨ WrapFollowing 'p'
+      ⍝This is an example of some descriptive text, followed by
+      ⍝information about where to address requests. For example
+      ⍝take some legal text like the following, with an e-mail
+      ⍝address for questions about it:
+      ⍝
+      ⍝DYALOG.EXE is a component of the development
+      ⍝version of Dyalog APL/W and is protected by U.K.
+      ⍝Copyright laws and international treaties.
+      ⍝
+      ⍝DYALOG.EXE may be used by a Dyalog APL/W Licensee for 
+      ⍝development purposes. Its sale or distribution for
+      ⍝commercial purposes is otherwise strictly prohibited.
       Add _.address'For further information contact sales@dyalog.com.'
     ∇
 :endclass

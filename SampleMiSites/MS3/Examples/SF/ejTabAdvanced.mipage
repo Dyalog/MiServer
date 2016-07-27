@@ -1,6 +1,6 @@
 ﻿:Class ejTabAdvanced : MiPageSample
 ⍝ Control:: _SF.ejTab
-⍝ Description:: Add an advanced tabbed interface
+⍝ Description:: Tabbed interface with tabs on the left
 
     ∇ Compose;captions;contents;intro;tab
       :Access public
@@ -8,8 +8,6 @@
       intro←'Frequently used features include the ability to switch between four orientations '
       intro,←'and load content asynchronously from another page.'
      
-      Add _.title'_SF.ejTab - Simple Example '
-      Add _.h2'_SF.ejTab - Syncfusion Tab Control'
       Add _.p intro
      
       Add _.h2'Tabs on the left'
@@ -17,7 +15,7 @@
       contents←{'/Examples/Data/SampleText',(⍕⍵),'.txt'}¨⍳4
       tab←'tab1' Add _.ejTab(captions contents)
       'headerPosition'tab.Set'left'
-      tab.IsURL←4/1 ⍝ Let it know which are URLs
+      tab.IsURL←4/1 ⍝ The texts are URLs and not actual content
     ∇
 
 :EndClass
