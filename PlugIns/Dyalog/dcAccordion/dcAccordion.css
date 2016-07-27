@@ -56,6 +56,12 @@
     -webkit-border-radius: 5px 5px 0 0;
 }
 
+/* Configure the radio buttons to be outside the screen */
+.dc-accordion > input[type="radio"] {
+    position: absolute;
+    top: -100%;
+}
+
 /* The section content must fill the widgets size and have a nice border */
 .dc-accordion > div {
     display: none;
