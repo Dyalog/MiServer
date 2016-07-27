@@ -44,7 +44,8 @@
           :EndIf
           :If ~0∊⍴tha
               head.Set(⍴head)⍴eis tha
-          :EndIf
+          :EndIf 
+          head←head.Render
       :EndIf
       :If 0<(⊃⍴data)-hdrrows
           body←{z⊣(z←⎕NEW #._html.td).Add ⍵}¨hdrrows↓data
@@ -53,7 +54,8 @@
           :EndIf
           :If ~0∊⍴tda
               body.Set(⍴body)⍴eis tda
-          :EndIf
+          :EndIf  
+          body←body.Render
       :EndIf
       :If rows>0
           (table←⎕NEW¨rows⍴#._html.tr).Add↓head⍪body
@@ -65,9 +67,7 @@
       :If 0≠hdrrows
           (thead←⎕NEW #._html.thead).Add hdrrows↑table
       :EndIf
- ⍝     :If 0<(⊃⍴data)-hdrrows
       (tbody←⎕NEW #._html.tbody).Add hdrrows↓table
- ⍝     :EndIf
       Content←thead,tbody
       html←⎕BASE.Render
     ∇

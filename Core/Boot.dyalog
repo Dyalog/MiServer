@@ -62,16 +62,21 @@
               disperror ⎕SE.SALT.Load file,' -target=#.',f
           :EndFor
      
+          'Pages'#.⎕NS'' ⍝ Container Space for loaded classes
+          #.Pages.(MiPage MildPage RESTful)←#.(MiPage MildPage RESTful)
+     
+          'CachedPages'#.⎕NS'' ⍝ Container for cached pages
+     
+          BuildEAWC ⍝ build the Easy As ⎕WC namespace
+     
+⍝ Now load any code from the MiSite
+     
           :If 0≠⍴classes
               :For class :In classes
                   disperror ⎕SE.SALT.Load AppRoot,'Code/',class,' -target=#'
               :EndFor
           :EndIf
      
-          'Pages'#.⎕NS'' ⍝ Container Space for loaded classes
-          #.Pages.(MiPage MildPage RESTful)←#.(MiPage MildPage RESTful)
-          'CachedPages'#.⎕NS'' ⍝ Container for cached pages
-          BuildEAWC ⍝ build the Easy As ⎕WC namespace
           :If #.Files.DirExists AppRoot,'/Code/Templates/'
               disperror ⎕SE.SALT.Load AppRoot,'/Code/Templates/* -target=#.Pages'
           :EndIf
@@ -440,7 +445,7 @@
               (mask/r)←(((⍴⍴num)∘tonum)⍣(⊃num))¨(mask/ns).⍎⊂name
           :EndIf
           :If 0=⍴⍴r ⋄ r←⊃r ⋄ :EndIf
-        ∇                               
+        ∇
 
         eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
 

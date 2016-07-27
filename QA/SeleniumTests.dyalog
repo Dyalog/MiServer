@@ -5,10 +5,15 @@
       :If (≡x)∊0 1 ⋄ x←,⊂,x ⋄ :EndIf
     ∇
 
+    ∇ r←lopFirst url
+    ⍝ remove first segment of URL
+      r←{⍵/⍨(1+'/'=1↑⍵)≤+\'/'=⍵}url
+    ∇
+
     ∇ r←Run1Test page;name;ref;Test
      ⍝ eg MS3Test '/QA/DC/InputGridSimple'
      
-      Selenium.GoTo SITE,3↓page ⍝ Drop the "QA"
+      Selenium.GoTo SITE,lopFirst page ⍝ Drop the "QA"
       :If 'Test'≡name←⎕SE.SALT.Load AppRoot,page
           :Trap stopOnError×9999
               :If stopOnError∧0≠⍴r←Test ⍬
@@ -26,9 +31,10 @@
       :If 0=⎕NC'Config.DefaultExtension' ⋄ ext←'.dyalog'
       :Else ⋄ ext←Config.DefaultExtension
       :EndIf
-      r←(⊂root,'/'),¨(('*',ext)#.Files.List root)[;1]
+      root,←'/'/⍨~'/\'∊⍨¯1↑root ⍝ append trailing / if missing
+      r←root∘,¨(('*',ext)#.Files.List root)[;1]
       :If 0≠⍴folders←{(('.'≠⊃¨⍵[;1])∧⍵[;4])/⍵[;1]}#.Files.List root
-          r←r,⊃,/FindAllFiles¨(⊂root,'/'),¨folders
+          r←r,⊃,/FindAllFiles¨root∘,¨folders
       :EndIf
     ∇
 
@@ -38,8 +44,8 @@
       :If 0=⍴AppRoot←#.Load site
           ⎕←'Test abandoned' ⋄ →0
       :EndIf
-
-      selpath←({∊'/',⍨¨¯1↓'/\' #.Utils.penclose ⍵}#.Boot.MSRoot),'Selenium/'
+     
+      selpath←({∊'/',⍨¨¯1↓'/\'#.Utils.penclose ⍵}#.Boot.MSRoot),'Selenium/'
       :If 0=⎕NC'Selenium'
           :Trap 0 ⋄ ⎕SE.SALT.Load selpath,'/Selenium'
           :Else
@@ -56,7 +62,7 @@
       Config←#.Boot.ConfigureServer AppRoot
       ext←Config.DefaultExtension
       Config.DefaultExtension←'.dyalog' ⍝ We are searching for code
-      n←⍴files←(⍴AppRoot)↓¨¯7↓¨FindAllFiles AppRoot,'/QA'
+      n←⍴files←(⍴AppRoot)↓¨¯7↓¨FindAllFiles AppRoot,'QA'
       ⍝ // Add code to compare this to the mipages found in the whole app
       :If 0≠⍴filter
           files←(filter ⎕S'%')files
@@ -82,7 +88,7 @@
      
       :For i :In ⍳n
           COUNT+←1
-          :If 0=⍴t←Run1Test{⍵⊣⍞←(⎕UCS 13),maxlen↑3↓⍵}z←i⊃files
+          :If 0=⍴t←Run1Test{⍵⊣⍞←(⎕UCS 13),maxlen↑lopFirst ⍵}z←i⊃files
               ⍞←'*** PASSED ***'
           :Else
               FAIL+←1

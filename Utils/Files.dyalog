@@ -149,15 +149,25 @@
       r←{(0∊⍴⍵)<∧/⍵∊'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%-._~:/?#[]@!$&''()*+,;='}w ⍝ identify likely URIs
     ∇
 
-    ∇ r←{file}List path;z;rslt;handle;next;ok;attrs;⎕IO;FindFirstFileX;FindNextFileX;FindClose;FileTimeToLocalFileTime;FileTimeToSystemTime;GetLastError;isFile;filter;isFolder
-    ⍝ Return matrix containing
+    ∇ r←{pattern}List path;z;rslt;handle;next;ok;attrs;⎕IO;FindFirstFileX;FindNextFileX;FindClose;FileTimeToLocalFileTime;FileTimeToSystemTime;GetLastError;isFile;filter;isFolder
+    ⍝ path and pattern are related.
+    ⍝ If there is no pattern (or pattern is empty)
+    ⍝   If path ends with '/' or '\' then return information for the contents of the folder, otherwise, return information about the folder (or file) itself
+    ⍝ If a non-empty pattern exists, it is used as a filter on the contents of path (path is treated as a folder name)
+    ⍝ Examples:
+    ⍝   List '/dir/foo'  ⍝ returns information about /dir/foo
+    ⍝   List '/dir/foo/' ⍝ returns information about the contents of /dir/foo/
+    ⍝   '*.dyalog' List '/dir/foo'  ⍝ returns information about the .dyalog files in /dir/foo/
+    ⍝   List '/dir/foo/*.dyalog'    ⍝ also returns information about the .dyalog files in /dir/foo/
+     
+    ⍝ Information returned is:
     ⍝ [;0] Name [;1] Length [;2] LastAccessTime [;3] IsDirectory
       ⎕IO←0
-      :If 0=⎕NC'file' ⋄ file←'' ⋄ :EndIf
+      :If 0=⎕NC'pattern' ⋄ pattern←'' ⋄ :EndIf
       isFolder←'/\'∊⍨¯1↑path
       filter←''
-      :If isFile←~0∊⍴file
-          filter←isFolder↓'/',file
+      :If isFile←~0∊⍴pattern
+          filter←isFolder↓'/',pattern
       :EndIf
      
       r←0 4⍴'' 0 0 0
@@ -167,7 +177,7 @@
           →(0∊⍴rslt←1 _SH'ls -al',isFolder↓'d --time-style=full-iso ',unixfix path,filter)⍴0
           rslt←↑rslt
           rslt←' ',('total '≡6⍴rslt)↓[0]rslt
-          →(0=1↑⍴r←((1↑⍴rslt),4)⍴0)⍴0
+          r←((1↑⍴rslt),4)⍴0
           z←∧⌿' '=rslt ⍝ entirely blank columns
           z←z∧10>+\z    ⍝ Do not split file names
           rslt←z⊂rslt
@@ -182,7 +192,7 @@
           r←((1↑⍴rslt),4)⍴0
           rslt←↑{⎕ML←3 ⋄ ⍵⊂⍨~{⍵∧9>+\⍵}' '=⍵}¨rslt
           r[;3]←'d'=0⊃¨rslt[;1]                 ⍝ IsDirectory
-          r[;1]←(~r[;3])×1⊃¨⎕VFI¨rslt[;4]        ⍝ Size
+          r[;1]←(~r[;3])×1⊃¨⎕VFI¨rslt[;4]       ⍝ Size
           z←↑∊¨↓{w←⍵ ⋄ ((w∊'-:')/w)←' ' ⋄ 1⊃⎕VFI w}¨rslt[;5 6] ⍝
           r[;2]←↓z,0                            ⍝ 0 msec for MacOS to Timestamp
           r[;0]←rslt[;8]                        ⍝ Name
@@ -202,11 +212,11 @@
               ('ntdir error:',⍕next)⎕SIGNAL 11   ⍝ DOMAIN
           :EndIf
           ok←FindClose handle
-          rslt←↓[0]↑rslt
-          →(0=1↑⍴r←((1↑⍴0⊃rslt),4)⍴0)⍴0
-          (0⊃rslt)←⍉attrs←(32⍴2)⊤0⊃rslt                ⍝ Get attributes into bits
+          →(0∊⍴rslt←↓[0]↑rslt)⍴0
+          r←((1↑⍴0⊃rslt),4)⍴0
+          (0⊃rslt)←⍉attrs←(32⍴2)⊤0⊃rslt    ⍝ Get attributes into bits
           r[;3]←(0⊃rslt)[;27]              ⍝ IsDirectory?
-          r[;1]←0(2*32)⊥⍉↑4⊃rslt          ⍝ combine size elements
+          r[;1]←0(2*32)⊥⍉↑4⊃rslt           ⍝ combine size elements
           r[;2]←_Filetime_to_TS¨3⊃rslt     ⍝ As ⎕TS vector
           r[;0]←6⊃rslt                     ⍝ Name
       :EndSelect
