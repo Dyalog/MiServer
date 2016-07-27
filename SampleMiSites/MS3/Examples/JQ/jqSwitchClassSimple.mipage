@@ -1,24 +1,32 @@
 ﻿:Class jqSwitchClassSimple: MiPageSample
 ⍝ Control:: _JQ.jqSwitchClass _html.head
-⍝ Description:: Add a class during callback
+⍝ Description:: Interchange classes during callback
 
-    ∇ Compose
+    ∇ Compose;box
       :Access public
       Use'JQueryUI' ⍝ because we will add a jQuery UI effect later
-      Add _.Style'.redclass',⊂('background-color' 'red')('outline' '0px solid black')
-      Add _.Style'.yelclass',⊂('background-color' 'yellow')('outline' '15px solid black')
-      '#output' '.redclass'Add _.p ScriptFollows
-      ⍝ This paragraph is big and red because it has the class "redclass".<br>
-      ⍝ We've also set up a style for the class "yelclass".<br>
-      ⍝ Click the button to switch to that style.<br>
-      ⍝ The paragraph should turn yellow and gain an outline upon clicking the button.
-      ('button'Add _.Button'Repaint!').On'click' 'Repaint'
+     
+      Add _.style ScriptFollows
+      ⍝ .redclass {background-color:red;    border:15px solid transparent;}
+      ⍝ .yelclass {background-color:yellow; border:15px solid blue;      }
+      
+      box←'#output' '.redclass'Add _.div(WrapFollowing'p')
+      ⍝ This box is red because it has the class "redclass".
+      ⍝
+      ⍝ We've also set up a style for the class "yelclass".
+      ⍝
+      ⍝ Click the button to switch to that style.
+      ⍝
+      ⍝ The box should then turn yellow and gain a thick blue border.
+     
+      ('#button'box.Add _.Button'Repaint').On'click' 'Repaint'
+      'onclick="window.location.reload()"'box.Add _.Button'Reload'
     ∇
 
     ∇ r←Repaint
       :Access public
       ⍝ Scripts belong in the <head> element:
-      r←'head'Append New _.jqSwitchClass,⊂'#output' 'redclass' 'yelclass' 800 'easeInOutCirc'
+      r←'head'Append New _.jqSwitchClass('#output' 'redclass' 'yelclass' 800 'easeInOutCirc')
     ∇
 
 :EndClass

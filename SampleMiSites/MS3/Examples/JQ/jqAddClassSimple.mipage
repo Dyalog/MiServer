@@ -17,8 +17,8 @@
       ⍝
       ⍝ The box should then grow and become red.
       
-      ('button'box.Add _.Button'Paint').On'click' 'Paint'
-      'button' 'onclick="window.location.reload()"' box.Add _.Button'Reload'
+      ('#button'box.Add _.Button'Paint').On'click' 'Paint'
+      'onclick="window.location.reload()"' box.Add _.Button'Reload'
     ∇
 
     ∇ r←Paint
