@@ -1,23 +1,21 @@
 ﻿:Class jqSpinnerSimple : MiPageSample
 ⍝ Control:: _JQ.jqSpinner
-⍝ Description:: (Pre-) select values with spinners
+⍝ Description:: Select and preselect values with spinners
 
-    ∇ Compose;drag
+    ∇ Compose
       :Access Public
-      Add _.h4'jQuery Spinner Widget'
-     
-      Add _.h6'Simple Spinner'
+      
+      Add _.style '#Update {display: block; margin:20px;}'
+
+      Add _.h2'Simple Spinner'
       '#Simple' '.spin'Add _.jqSpinner
      
-      Add _.h6'Preset Spinner'
+      Add _.h2'Preset Spinner'
       '#Preset' '.spin'Add _.jqSpinner 0 10 7
-      Add _.br
      
       Add _.Handler'.spin' 'spinchange' 'myCallBack'('newval' 'val')
      
-      Add _.br
-      '#Update'Add _.Button'Update'
-      Add _.br
+      '#Update'Add _.Button'Report' ⍝ makes user leave control
      
       '#output'Add _.div
     ∇
