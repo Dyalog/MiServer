@@ -11,14 +11,17 @@
     ∇ Compose;idioms
       :Access Public
      
-      Add _.p ScriptFollows
-⍝ This is a collection of the Dyalog, FinnAPL, and APL2 idiom lists. The lists differ a bit:
+      Add¨WrapFollowing 'p'
+⍝ This is a collection of the Dyalog, FinnAPL, and APL2 idiom lists.
+⍝
+⍝ The lists differ a bit:
 ⍝ The Dyalog entries are optimized in interpreter. The FinnAPL entries represent the traditional
 ⍝ original APL way of doing things – without nested arrays and other modern features. The APL2
 ⍝ entries do use nested arrays, but may not take advantage of Dyalog's newest addistions, like
-⍝ dfns, <code class="a385">⌸, ⍤ ⍨ ∪ ∩ ≢</code>, etc. The glyph <code class="a385">⊆</code> stands
-⍝ for APL2's partition: <code class="a385">{⎕ML←3 ⋄ ⍺⊂⍵}</code>. You can click on an APL expression
-⍝ to copy it to the clipboard.
+⍝ dfns, <code class="a385">⌸, ⍤ ⍨ ∪ ∩ ≢</code>, etc. Note that the glyph <code class="a385">⊆</code>
+⍝ stands for APL2's partition: <code class="a385">{⎕ML←3 ⋄ ⍺⊂⍵}</code>.
+⍝
+⍝ If you click on an APL expression it will be copied to the clipboard.
  
       idioms←⎕SE.SALT.Load #.Boot.AppRoot,'Examples\Data\idioms -noname -nolink'
       idioms[;4]←'FinnAPL' 'Dyalog' 'APL2'[1+idioms[;4]]
