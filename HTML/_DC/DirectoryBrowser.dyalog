@@ -36,14 +36,14 @@
       files⌿⍨←'.'≠⊃¨files[;1] ⍝ remove current and parent entries
       :If ~0∊⍴files
           files←{⍵[⍒⍵[;4];]}{⍵[⍋#.Strings.lc↑⍵[;1];]}files
-          filenames←files[;1]{(⍵/'./'),⍺,⍵/'/'}¨files[;4] 
-          links←files[;4](Folder{'<a ',((~⍺)/'target="_blank" '),'href="',(⍺⍺,⍵),'">',⍵,'</a>'})¨filenames
+          filenames←files[;1]{'&#',(⍕128196-2×⍵),'; ',⍺,⍵/'/'}¨files[;4] 
+          links←files[;4](Folder{'<a ',((~⍺)/'target="_blank" '),'href="',(⍺⍺,10↓⍵),'">',⍵,'</a>'})¨filenames
           sizes←#.Strings.commaFmt files[;2]
           (files[;4]/sizes)←⊂'[dir]'
           Data←links,sizes,⍪#.Dates.TSFmt¨files[;3]
       :EndIf
       :If Up>0∊⍴Folder
-          Data⍪⍨←((New #._DC.A'..'({⍵↓⍨-⊥⍨'/'≠⍵}¯1↓Folder)).Render)'' ''
+          Data⍪⍨←((New #._DC.A'&#128193; ..'({⍵↓⍨-⊥⍨'/'≠⍵}¯1↓Folder)).Render)'' ''
       :EndIf
       Data⍪⍨←'Name' 'Size' 'Timestamp'
       'autoWidth'Set _true
