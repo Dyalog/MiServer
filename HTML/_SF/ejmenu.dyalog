@@ -16,7 +16,7 @@
     :field public Levels←1
     :field public Items←⍬
     :field public Links←⍬
-    :field public MakeIds←0  
+    :field public MakeIds←0
 
     ∇ make
       :Access public
@@ -73,31 +73,31 @@
               opts,←opt
           :EndFor
      
-      :EndIf
+          mat←⎕XML∊{isRef ⍵:⍵.Render ⋄ '<span>',⍵,'</span>'}¨opts
      
-      mat←⎕XML∊{isRef ⍵:⍵.Render ⋄ '<span>',⍵,'</span>'}¨opts
+          Levels⍴⍨←n
+          diff←0,¯2-/Levels
+          ul←≠\2/diff>0           ⍝ Step up: new ul
      
-      Levels⍴⍨←n
-      diff←0,¯2-/Levels
-      ul←≠\2/diff>0           ⍝ Step up: new ul
+          ids←{'id'⍵}¨id #.Utils.levels2ids Levels
      
-      ids←{'id'⍵}¨id #.Utils.levels2ids Levels
-     
-      i←⍋⍋(2×n)⍴0 1
-      mat←(,Levels∘.+0 1),(((n 2⍴'li' ''),ids)⍪mat[;1+⍳3])[i;]
+          i←⍋⍋(2×n)⍴0 1
+          mat←(,Levels∘.+0 1),(((n 2⍴'li' ''),ids)⍪mat[;1+⍳3])[i;]
      
      ⍝ We now insert ul/ols where they belong
-      xp←~ul←≠\(1+ul)/ul ⋄ n←≢i←ul/⍳⍴ul
-      mat←xp⍀mat
-      mat[i;]←mat[i-1;1],n 3⍴Tag'' '' ⍝ same as level before
-      mat[;1]+←+\xp\,0,⍨⍪diff           ⍝ the others get corrected
+          xp←~ul←≠\(1+ul)/ul ⋄ n←≢i←ul/⍳⍴ul
+          mat←xp⍀mat
+          mat[i;]←mat[i-1;1],n 3⍴Tag'' '' ⍝ same as level before
+          mat[;1]+←+\xp\,0,⍨⍪diff           ⍝ the others get corrected
      
      ⍝ Finally we adjust the level number so it starts a 0
-      mat[;1]-←1⍴mat
+          mat[;1]-←1⍴mat
      
-      r←(id New _.ul(⎕XML mat)).Render  ⍝ and use ⎕XML to format nicely
+      ⍝r←(id New _.ul(⎕XML mat)).Render  ⍝ and use ⎕XML to format nicely
+          Container.Content←(⎕XML mat)
+      :EndIf
      
-      r,←⎕BASE.Render
+      r←⎕BASE.Render
     ∇
 
 :EndClass
