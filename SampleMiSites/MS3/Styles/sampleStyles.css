@@ -34,6 +34,8 @@ body {
 
 #banner + .bodyblock {
     margin-top: 75px;
+    height: calc(100vh - 75px);
+    overflow: auto;
 }
 
 /* Banner */
@@ -167,14 +169,14 @@ body {
     background-color: rgba(0,0,0,0.9);
     position: fixed;
     width: 185px;
-    border-radius: 0 0 10px 10px;
-    right: 24px;
+    border-radius: 10px;
+    right: 23px;
     transition: 0.25s;
     top: -100%;
 }
 
 #hamburger:checked ~ #banner-resources {
-    top: 50px;
+    top: 80px;
 }
 
 #banner-dyalog::before {
@@ -254,11 +256,11 @@ body {
 
 #banner-resources ul {
     list-style: none;
-    padding: 0 15px;
+    padding-left: 10px;
 }
 
 #banner-resources>ul>li {
-    padding-top: 10px;
+    padding: 5px;
 }
 
 .resource-cat {
@@ -293,12 +295,9 @@ a:visited {
 
 pre {
     font-size: medium;
-    /* white-space: pre-wrap; */
-    /* word-wrap: break-word; */
-    overflow-x: scroll;
-    /* max-width: 100%; */
+    overflow-x: auto;
+    max-width: 100%;
     padding: 30px 5px 0 5px;
-    height: calc(100vh - 105px);
     margin: 13px 0 0 0;
 }
 
