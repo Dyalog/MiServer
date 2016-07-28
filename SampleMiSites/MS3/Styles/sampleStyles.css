@@ -534,7 +534,8 @@ iframe {
     width: 495px;
     height: 370px;
     margin: 20px;
-    box-shadow: 0px 4px 15px 1px;
+    border-radius: 5px;
+    border: 5px solid #FFC680;
 }
 
 #slideshow figure {
@@ -589,12 +590,14 @@ iframe {
 }
 
 #slideshow figcaption {
-    padding: 0.5em;
-    background: linear-gradient(transparent,black 10%);
+    padding: 5px 10px 10px 10px;
+    background: rgba(0,0,0,0.75);
     position: relative;
-    bottom: 50px;
+    bottom: 61px;
+    border-radius: 10px;
+    height: 34px;
+    margin: 5px;
     color: white;
-    height: 34px
 }
 
 figcaption a {
