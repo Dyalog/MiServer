@@ -43,7 +43,7 @@
       (menu.Add _.tr).Add¨_.th,¨'Hear letter' 'Hear again' 'Show letter' 'Start over'
       buttons←(menu.Add _.tr).Add¨4/_.th
      
-      '#play' '.menu'(buttons[1]).Add _.Button'&#x25BA;' ⍝ Play
+      '#play' '.menu' 'autofocus'(buttons[1]).Add _.Button'&#x25BA;' ⍝ Play
       '#hear' '.menu'(buttons[2]).Add _.Button'&#x23E9;' ⍝ FF
       '#hint' '.menu'(buttons[3]).Add _.Button'&#x1F440;' ⍝ eyes
       '#new' '.menu'(buttons[4]).Add _.Button'&#x1F503;'  ⍝ reload
