@@ -3,10 +3,10 @@
 ⍝ Description:: Embed a style sheet
 
     ∇ Compose
-      :Access public 
-      Add _.style 'h1 {color:orange;} p {color:orchid;background-color:purple;}'
-	  Add _.h1 'Dyalog''s Colour Preferences'
-      Add _.p 'We love all shades of purple colours.'
+      :Access public
+      Add _.style'#title {color:orange;} #text {color:orchid;background-color:purple;}'
+      '#title'Add _.h1'Dyalog''s Colour Preferences'
+      '#text'Add _.p'We love all shades of purple colours.'
     ∇
 
 :endclass

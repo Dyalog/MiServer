@@ -1,10 +1,10 @@
 ﻿:Class ejTagCloudSimple : MiPageSample
 ⍝ Control:: _SF.ejTagCloud
-⍝ Description:: Display a Tag Cloud of Classes in Root (#.⎕NL ¯9.4)
+⍝ Description:: Display a tag cloud of object sizes in MiServer's workspace
  
     ∇ Compose;data;tc
       :Access public
-      data←↑{⍵(⊃#.⎕SIZE ⍵)}¨#.⎕NL ¯9.4
+      data←↑{⍵(⊃#.⎕SIZE ⍵)}¨(#.⎕NL ¯9)~'Boot' 'SALT' 'Pages'
       ('tc1' Add _.ejTagCloud data).Set'titleText' 'Class Sizes'
     ∇
 

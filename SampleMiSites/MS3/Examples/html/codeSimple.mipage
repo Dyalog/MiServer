@@ -2,12 +2,11 @@
 ⍝ Control:: _html.code 
 ⍝ Description:: Embed a code fragment
 
-    ∇ Compose
+    ∇ Compose;p
       :Access public 
-      Add'Format this computer code: {(-⊥⍨'' ''=⍵)↓⍵}'
-      Add _.br _.br
-      Add'It should become '
-      Add _.code' {(-⊥⍨'' ''=⍵)↓⍵}'
+      Add _.p'When you want to insert code into your page, the default rendering makes it look ugly: {(-⊥⍨'' ''=⍵)↓⍵}'
+      p←Add _.p'By using the code element, the renderer will know how to handle it right: '
+      p.Add _.code'{(-⊥⍨'' ''=⍵)↓⍵}'
     ∇
 
 :endclass
