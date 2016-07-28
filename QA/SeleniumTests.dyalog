@@ -38,8 +38,8 @@
       :EndIf
     ∇
 
-    ∇ {stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames;maxlen;⎕USING
-     
+    ∇ r←{stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames;maxlen;⎕USING
+      r←''
       (site filter)←2↑(eis site),'' ''
       :If 0=⍴AppRoot←#.Load site
           ⎕←'Test abandoned' ⋄ →0
@@ -92,6 +92,7 @@
               ⍞←'*** PASSED ***'
           :Else
               FAIL+←1
+              r,←⊂z
               ⍞←'*** FAILED *** #',(⍕i),' of ',(⍕n),': ',z,': ',t
           :EndIf
       :EndFor
