@@ -5,12 +5,16 @@
     ∇ Compose
       :Access public
       (min val max)←+\?3/9
-      Add(val' in the range from 'min' to 'max': ')
+      Add(val' in the range from 'min' to 'max': 'min)
       ('value'val)('min'min)('max'max)Add _.meter
-     
+      Add max
+      
+      Add _.br
+
       pct←?0
-      Add('%: ',⍨⍕⌊0.5+100×pct)
+      Add(⍕⌊0.5+100×pct),'%: 0%'
       (⊂'value'pct)Add _.meter
+      Add '100%'
      
     ∇
 :endclass

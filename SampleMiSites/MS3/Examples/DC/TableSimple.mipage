@@ -1,9 +1,11 @@
 ﻿:Class TableSimple : MiPageSample
 ⍝ Control:: _DC.Table
-⍝ Description:: Display a matrix as a table
+⍝ Description:: Automatically display a matrix as a table
 
     ∇ Compose
       :Access public
+     
+      Add _.style'#myTable{text-align:right;} #myTable td {width:30px;}'
      
       Add _.h2'The Little Multiplication Table'
       'myTable'Add _.Table(∘.×⍨⍳10)
