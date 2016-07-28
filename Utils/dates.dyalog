@@ -176,7 +176,7 @@
       factors←86400000 3600000 60000 1000 1 1
       chunks←{⎕ML←3 ⋄ (1+⍵∊⎕D)⊂⍵}string
       :Trap 0/0
-          r←(⍎¨{⍵∩⎕D}¨chunks)+.×factors[units⍳{(819⌶)⍵~⎕D}¨chunks]
+          r←(⍎¨{⍵∩⎕D}¨chunks)+.×factors[units⍳{Strings.lc ⍵~⎕D}¨chunks]
       :Else
           'Invalid time string'⎕SIGNAL 11
       :EndTrap
