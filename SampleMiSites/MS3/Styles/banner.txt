@@ -21,9 +21,9 @@
 	</table>
 	<input id="hamburger" type="checkbox" class="hide"/>
 	<label id="banner-dyalog" for="hamburger">
-		Resources
+		 Resources
 	</label>
-	<div id="banner-resources" class="hide">
+	<div id="banner-resources">
 		<ul>
 			<li>MiServer
 				<ul>

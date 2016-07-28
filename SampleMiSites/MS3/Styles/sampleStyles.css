@@ -32,14 +32,13 @@ body {
     position: relative;
 }
 
-#banner+.bodyblock {
-    padding-top: 4em;
+#banner + .bodyblock {
+    margin-top: 75px;
 }
 
 /* Banner */
 #banner {
     background: black;
-    box-shadow: 0px 0px 4px 4px black;
     color: white;
     position: fixed;
     width: 100%;
@@ -47,9 +46,10 @@ body {
     left: 0;
     z-index: 99;
     padding-top: 10px;
-    height: 47px;
+    height: 55px;
     float: left;
     padding-bottom: 10px;
+    top: 0;
 }
 
 #banner-logo img {
@@ -99,7 +99,7 @@ body {
 }
 
 #view {
-    margin-top: -5px;
+    margin-top: -6.5px;
     right: 215px;
     position: fixed;
     float: right;
@@ -148,22 +148,41 @@ body {
 
 #banner-dyalog {
     position: fixed;
-    right: 2em;
+    right: 22px;
     font-size: x-large;
-    top: 0.8em;
+    top: 0;
     color: darkorange;
     z-index: 1;
     cursor: pointer;
+    background: black;
+    padding: 33px 22px 11px 22px;
 }
 
 #hamburger:hover {
     color: white;
 }
 
-#banner-resources {
-    border-radius: 0 0 5px 5px;
-    right: 10px;
-    padding-right: 10px;
+#hamburger ~ #banner-resources {
+    color: white;
+    background-color: rgba(0,0,0,0.9);
+    position: fixed;
+    width: 185px;
+    border-radius: 0 0 10px 10px;
+    right: 24px;
+    transition: 0.25s;
+    top: -100%;
+}
+
+#hamburger:checked ~ #banner-resources {
+    top: 50px;
+}
+
+#banner-dyalog::before {
+    content: "∨";
+}
+
+#hamburger:checked ~ #banner-dyalog:before {
+    content: "∧";
 }
 
 #banner-resources a:hover {
@@ -175,12 +194,15 @@ body {
     padding: 10px;
     color: white;
     display: none;
-    background-color: black;
-    box-shadow: 0px 0px 4px 4px black;
+    background-color: rgba(0,0,0,0.9);
+    /* box-shadow: 0px 0px 4px 4px black; */
     transition: none;
     position: fixed;
-    width: 100%;
-    bottom: 0;
+    /* width: 100%; */
+    top: 75px;
+    margin: 5px;
+    border-radius: 10px;
+    /* right: 0; */
 }
 
 #widgethelp a:hover {
@@ -191,27 +213,12 @@ body {
     font-size: large;
 }
 
-#banner-resources {
-    color: white;
-    display: none;
-    background-color: black;
-    box-shadow: 0px 0px 4px 4px black;
-    transition: none;
-    position: fixed;
-    width: 185px;
-    top: 40px;
-}
-
 .hide {
     display: none;
 }
 
 #banner-dyalog:hover {
     color: white;
-}
-
-#hamburger:checked ~ #banner-resources {
-    display: block;
 }
 
 /*Template Footer*/
@@ -247,7 +254,7 @@ body {
 
 #banner-resources ul {
     list-style: none;
-    padding-left: 15px;
+    padding: 0 15px;
 }
 
 #banner-resources>ul>li {
@@ -285,12 +292,14 @@ a:visited {
 }
 
 pre {
-    padding: 5px;
     font-size: medium;
     /* white-space: pre-wrap; */
     /* word-wrap: break-word; */
     overflow-x: scroll;
     /* max-width: 100%; */
+    padding: 30px 5px 0 5px;
+    height: calc(100vh - 105px);
+    margin: 13px 0 0 0;
 }
 
 code, .a385 {
@@ -511,8 +520,7 @@ iframe {
 }
 
 #bigtabs {
-    margin-left: -0.5em;
-    margin-right: -0.5em;
+    margin: calc(5px - 1em);
 }
 
 #bigtabs table {
@@ -591,7 +599,7 @@ iframe {
 
 #slideshow figcaption {
     padding: 5px 10px 10px 10px;
-    background: rgba(0,0,0,0.75);
+    background: rgba(0,0,0,0.9);
     position: relative;
     bottom: 61px;
     border-radius: 10px;
