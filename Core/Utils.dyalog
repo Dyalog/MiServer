@@ -73,6 +73,15 @@
     tohex←1∘hex
     fromhex←0∘hex
     vectorize←{1≥|≡⍵:,⍵ ⋄ ∇¨⍵} ⍝ turn scalars into vectors
-    
+
     WSRoot←{⍵↓⍨-⊥⍨('/\'⊃⍨1+'Win'≡3↑⊃'.'⎕WG'APLVersion')≠⍵}⎕WSID
+
+    ∇ r←Platform
+    ⍝ return our best guess for the platform we're running on
+      :If 'lin'≡r←#.Strings.lc 3↑⊃'.'⎕WG'APLVersion'
+          :If 'armv'≡4↑⎕SH'uname -m'  ⍝!!! warning, could be Android someday
+              r←'pi'
+          :EndIf
+      :EndIf
+    ∇
 :EndNamespace
