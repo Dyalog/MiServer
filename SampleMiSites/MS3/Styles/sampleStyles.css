@@ -1,4 +1,4 @@
-/* Global: all transitions equally long*/
+﻿/* Global: all transitions equally long*/
 #banner, #about {
     transition: 0.25s;
 }
@@ -102,7 +102,7 @@ body {
 
 #view {
     margin-top: -6.5px;
-    right: 215px;
+    right: 235px;
     position: fixed;
     float: right;
 }
@@ -180,11 +180,11 @@ body {
 }
 
 #banner-dyalog::before {
-    content: "\2228";
+    content: "\25BA";
 }
 
 #hamburger:checked ~ #banner-dyalog:before {
-    content: "\2227";
+    content: "\25BC";
 }
 
 #banner-resources a:hover {
