@@ -82,7 +82,7 @@
               r←Body.Handlers,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
               :If 0∊⍴r.Selector ⋄ r.Selector←'html' ⋄ :EndIf ⍝ if no selector specified, use page level
           :ElseIf ⊃∨/c∊¨⊂#._html.(style link)
-              r←StylesLinks,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
+              r←StylesLinks,←attr New what
           :ElseIf ⊃∨/c∊¨⊂#._html.(title meta noscript base) ⍝ elements that belong exclusively or primarily in the <head> element
               r←attr Head.Add what
           :Else
