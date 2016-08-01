@@ -1,14 +1,36 @@
 ﻿:Class ResetButtonSimple : MiPageSample
-⍝ Control:: _DC.ResetButton 
-⍝ Description:: Explain ResetButton
+⍝ Control:: _DC.ResetButton _DC.SubmitButton _DC.Fieldset
+⍝ Description:: Clear a form with a ResetButton
+    :Field Public fname←''
+    :Field Public lname←''
 
-    ∇ Compose
+    ∇ Compose;frm;field;prompt;value;fieldset;hello;inputs
       :Access Public
      
-      'output'Add _.p ScriptFollows
+      Add _.style'#Reset {font-weight: bold; font-size: large;}'
+      
+      :If _Request.Command≡'get' ⍝ Reset names on a GET
+          fname←lname←''
+      :EndIf
+     
+      Add _.p ScriptFollows
       ⍝ The ResetButton control is typically used together with a SubmitBotton, to clear all
-      ⍝ input fields in a form. See <a href="/Examples/DC/SubmitButtonSimple" target="_blank">/Examples/DC/SubmitButtonSimple</a>
-      ⍝ for an example of a form which uses both controls.
+      ⍝ input fields in a form like the one below. However, if the form was loaded with
+      ⍝ values already being set, those values will be returned when the ResetButton is clicked.
+     
+      frm←Add _.Form
+      fieldset←frm.Add _.Fieldset'Personalia:' ⍝ The fieldset will surround our input fields
+      inputs←fieldset.Add _.InputGrid
+      inputs.Labels←'First Name:' 'Last Name:'
+      inputs.Inputs←{New _.EditField ⍵}¨('fname'fname)('lname'lname)
+     
+      Add _.br
+      'Submit'frm.Add _.SubmitButton'Submit'
+      'Reset'frm.Add _.ResetButton'Reset'
+     
+      :If 0≠⍴fname,lname ⋄ hello←' +!'⎕R'!'⊢'Hello, ',fname,' ',lname,'!'
+      :Else ⋄ hello←'' ⋄ :EndIf
+     
+      'output'Add _.div hello
     ∇
-
 :EndClass

@@ -2,7 +2,7 @@
 ⍝ Control:: _html.link
 ⍝ Description:: Embed raw image data in the page itself
 
-    ∇ Compose
+    ∇ Compose;duck
       :Access public
      
       duck←'AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAM834ABu/6gDJ8f0AXdn3ADjS9QBY4PoAK7bhAESlyQAhyP'
@@ -20,14 +20,13 @@
       duck,←'gYQmc3xkAACPBjl4C1h/RjsVI0yVAAAAAKk0n1+hllAYlzNObQAAAAAASaemLiVKIROgeZN2qAAAAAAAAABhUUNNnlZrMIsAAAAAAAAAHRkeYC2JmkAyAAAAAAAAAKVqL36dok'
       duck,←'sAAAAAAAAAAAByBJwnZj8DAAAAAAAAAAAAAJhlGqRBAAAAAPgPAADgBwAAgAMAAIADAACAAwAAAAMAAAADAAAAAwAAAAcAAIAHAADAAQAA/AEAAPwBAAD8BwAA/AcAAP4PAAA='
      
-      'href="../Data/apple.ico"' 'rel="icon"' 'type="image/x-icon"'Add _.link
-      ('href' 'data:image/x-icon;base64,',duck)('rel' 'icon')('type' 'image/x-icon')Add _.link
+      'href="../Data/apple.ico" rel="icon" type="image/x-icon"'Add _.link
+      ('href="data:image/x-icon;base64,',duck,'" rel="icon" type="image/x-icon"')Add _.link
      
       Add _.title'← LOOK HERE'
      
-      (('href'_Request.Page)('target' '_blank')Add _.a).Add _.p'Click here to open this page in a separate tab or window'
       Add _.p'Most browsers support embedded raw image data.'
-      Add _.p'In this case, your browser''s tab or window should show a rubber duck icon.'
+      Add _.p'In such a browser the tab or window should show a rubber duck icon.'
       Add _.p'If you are using Internet Explorer, you will instead see a red apple.'
     ∇
 
