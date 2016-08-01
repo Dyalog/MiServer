@@ -2,27 +2,30 @@
 ⍝ Control:: _html.table _html.tbody _html.thead _html.tfoot _html.colgroup _html.col _html.tr _html.td _html.th _html.caption
 ⍝ Description:: Insert an interactive table with column-wise formatting
 
-    ∇ Compose;mytable;mycolgroup;mycols;myhead;mybody;myfoot
+    ∇ Compose;mytable;mycolgroup;mycols;mybody;myfoot
       :Access public
      
       mydata←?3 5⍴99
      
-      Add _.h2'Interactive Table'
-      Add _.p'Click data or subtotals to recalculate.'
+       Add _.p'Click the data and then the subtotals to recalculate them.'
      
-      mytable←Add _.table
-     
+      mytable←'#sales'Add _.table
+      Add _.style ScriptFollows
+      ⍝ #sales {border-spacing:0;}
+      ⍝ #sales td, #sales th {padding: 5px;}
+      ⍝ #sales td{cursor: pointer; text-align: right;}
+      ⍝ #sales td:hover {box-shadow: 0 0 0 30px rgba(0,0,0,0.33) inset; color: white;}
+      
     ⍝ Column-wise formatting
       mycolgroup←mytable.Add _.colgroup
       mycols←mycolgroup.Add¨7/_.col ⍝ we don't actually need a col for each column
-      mycols.Set⊂'width="50"'
+      mycols.Set⊂'width="60"'
       mycols[4].Set'style=background-color:pink'
       mycols[1 7].Set⊂'style=background-color:orchid'
       ⍝ Columns that did not receive formating remain with the default
      
     ⍝ Header
-      myhead←mytable.Add _.thead
-      (myhead.Add _.tr).Add¨_.th,¨' ',¯3+⎕TS[1]+⍳5
+      mytable.Add _.thead (New _.tr (New¨_.th,¨' ',¯3+⎕TS[1]+⍳5))
      
     ⍝ Body
       mybody←'data'mytable.Add _.tbody
@@ -34,7 +37,7 @@
     ⍝ Footer
       myfoot←'totals'mytable.Add _.tfoot
       mytotals←(myfoot.Add _.tr).Add¨7/_.td ⍝ uneven rows allowed
-      'YPQRSTU'mytotals.Add _.b,¨(⊂'Total'),(+⌿mydata),(+/,mydata)
+      'YPQRSTU'mytotals.Add _.strong,¨(⊂'Total'),(+⌿mydata),(+/,mydata)
       myfoot.On'click' 'callbackPgm'
      
     ⍝ Caption always goes on top, even if added later

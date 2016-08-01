@@ -1,26 +1,24 @@
 ﻿:Class ejMenuSimple : MiPageSample
 ⍝ Control:: _SF.ejMenu
-⍝ Description:: Insert a menu bar with a background image
+⍝ Description:: Horizontal (application or navigation ) menu bar with background image
 
-    ∇ r←Compose;items;t;href;img;levels;style
+    ∇ r←Compose;items;img;levels;style
       :Access Public
      
     ⍝ Define the items.
-      items←'DB' 'PA' 'JM' 'BS' 'NMe' 'GC' 'HB' 'BC'
-      levels←1 2 2 3 3 1 2 2
-      href←'http://aplsmith.com' 'http://dyalog.com' ''
-      href,←'https://sites.google.com/site/baavector/home' 'http://dyalog.com/resource-map.htm'
-      href,←'' 'http://dyalog.com/meet-team-dyalog.htm' 'http://hellobc.com'
-     
+      items←'Germanic' 'Scandinavian' 'Danish' 'Norwegian' 'German' 'Romance' 'Italian' 'French'
+      levels←1 2 3 3 2 1 2 2
+      hrefs←'https://en.wikipedia.org/wiki/'∘,¨items∘.,⊂'_language'
+      
      
       img←'.imgframe'Add _.div  ⍝ add a picture placeholder (.imgframe)
-      'width'('menu'img.Add _.ejMenu(items levels href)).Set 500
+      'width'('menu'img.Add _.ejMenu(items levels hrefs)).Set 500
      
      ⍝ The following is used to specify the picture display properties, it has nothing to do with
      ⍝ the menu itself.
-      style←('width' '500px')('height' '200px')('margin' '0 auto')
-      style,←⊂'background' 'url("../Data/menupix.jpg") no-repeat scroll 0 0 transparent'
-      Add _.Style(⊂'.imgframe' style)
+     Add _.style ScriptFollows
+     ⍝.imgframe {width:500px; height: 200px; margin: 0 auto;
+     ⍝    background: url("../Data/menupix.jpg") no-repeat scroll 0 0 transparent;}
      ∇
 
 :EndClass

@@ -4,9 +4,9 @@
 
     ∇ Compose
       :Access public 
-      Add 'As it was so eloquently put:'
+      Add _.p'Use the blockquote element to let your webpage include longer passages, like the following:'
       Add _.blockquote ('T','...',⍨999⍴'his sentence just keeps going on and on and never seems to stop, especially because t')
-      Add 'That is exactly how I would express it.'
+      Add 'Nifty, eh?'
     ∇
 
 :endclass

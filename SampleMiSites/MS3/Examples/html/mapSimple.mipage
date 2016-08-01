@@ -1,18 +1,16 @@
 ﻿:class mapSimple: MiPageSample
 ⍝ Control:: _html.img _html.map _html.area
-⍝ Description:: Insert an image with clickable areas
+⍝ Description:: Image (in this case a map) with clickable areas
 
-    ∇ Compose
+    ∇ Compose;data
       :Access public
       Add _.p'Click on the sun or on one of the planets for a closer look:'
      
-      settings←'src="../Data/planets.gif"' 'width="145"' 'height="126"'
-      settings,←'alt="Planets"' 'usemap="#planetmap"'
-      settings Add _.img
+      'src="../Data/planets.gif" width="145" height="126" alt="Planets" usemap="#planetmap"'Add _.img
      
-      data←⊂'shape="rect"' 'coords="0,0,82,126"' 'alt="Sun"' 'href="../Data/sun.htm"'
-      data,←⊂'shape="circle"' 'coords="90,58,3"' 'alt="Mercury"' 'href="../Data/mercur.htm"'
-      data,←⊂'shape="circle"' 'coords="124,58,8"' 'alt="Venus"' 'href="../Data/venus.htm"'
+      data←⊂'shape="rect" coords="0,0,82,126" alt="Sun" href="../Data/sun.htm" title="Sun"'
+      data,←⊂'shape="circle" coords="90,58,3" alt="Mercury" href="../Data/mercur.htm" title="Mercury"'
+      data,←⊂'shape="circle" coords="124,58,8" alt="Venus" href="../Data/venus.htm" title="Venus"'
      
       data('name="planetmap"'Add _.map).Add¨_.area
     ∇

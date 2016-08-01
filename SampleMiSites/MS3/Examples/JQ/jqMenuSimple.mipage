@@ -1,22 +1,17 @@
 ﻿:Class jqMenuSimple : MiPageSample
 ⍝ Control:: _JQ.jqMenu
-⍝ Description:: Insert a menu bar
+⍝ Description:: Insert a vertical (drop-down or context) menu
 
-    ∇ r←Compose;items;href;levels
+    ∇ r←Compose;items;levels;hrefs
       :Access Public
      
     ⍝ Define the items.
-      items←'DB' 'PA' 'JM' 'BS' 'NMe' 'GC' 'HB' 'BC'
-      levels←1 2 2 3 3 1 2 2
-      href←'http://aplsmith.com' 'http://dyalog.com' ''
-      href,←'https://sites.google.com/site/baavector/home' 'http://dyalog.com/resource-map.htm'
-      href,←'' 'http://dyalog.com/meet-team-dyalog.htm' 'http://hellobc.com'
+      items←'Germanic' 'Scandinavian' 'Danish' 'Norwegian' 'German' 'Romance' 'Italian' 'French'
+      levels←1 2 3 3 2 1 2 2
+      hrefs←'https://en.wikipedia.org/wiki/'∘,¨items∘.,⊂'_language'
+      '#mymenu'Add _.jqMenu(items levels hrefs)
       
-     
-     Add _.jqMenu (items levels href)
-     ∇
+      Add _.style'#mymenu {width:150px;}'
+    ∇
 
 :EndClass
-
-
-
