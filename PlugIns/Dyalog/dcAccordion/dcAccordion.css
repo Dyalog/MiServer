@@ -73,11 +73,10 @@
     background-color: white;
 }
 
-.dc-accordion > input[type="radio"] + label:after {
-    content: "\2228";
-		float: right;
+.dc-accordion > input[type="radio"] + label:before {
+    content: "\25BA  ";
 }
 
-.dc-accordion > input[type="radio"]:checked + label:after {
-    content: "\2227";
+.dc-accordion > input[type="radio"]:checked + label:before {
+    content: "\25BC  ";
 }
