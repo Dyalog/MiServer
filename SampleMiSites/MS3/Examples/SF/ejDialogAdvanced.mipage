@@ -34,9 +34,9 @@
      
       popup←'#popup'Add _.div 
       popup.Add '<p>This example only shows off dialog boxes.</p>'
-      popup.Add '<p>For form submission techniques, go to the main '
-      popup.Add _.A 'MS3' '/'
-      popup.Add'page and search for "input".</p>'
+      popup.Add '<p>For form submission techniques, go to '
+      popup.Add _.A 'the main page' '/'
+      popup.Add' and search for "input".</p>'
       
       'showOnInit'(Add _.ejDialog'#popup' 'Terms and Conditions').Set _false
      

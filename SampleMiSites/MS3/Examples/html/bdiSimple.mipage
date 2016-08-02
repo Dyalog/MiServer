@@ -2,14 +2,24 @@
 ⍝ Control:: _html.bdi
 ⍝ Description:: Isolate text that should be displayed with a reading order that is different from the surrounding text
 
-    ∇ Compose
-      :Access Public 
-      Add'My name is '
-    ⍝ The text below will look like XTO in editors which do not support bi-directional text,
-    ⍝ but like OTX in a browser (or in the RIDE, which is built on a browser engine)
-      Add _.bdi'אדם'
-      Add' in Hebrew. (NB: not all browsers support this!)'
-    ⍝ See http://www.w3.org/International/questions/qa-visual-vs-logical for more info
+    ∇ Compose;p
+      :Access Public
+      Add WrapFollowing'p'
+      ⍝ Not all browsers support this!
+      ⍝
+      ⍝ The below characters will look like <span class="serif">&#8501;&#8502;&#8503;&#8504;</span>
+      ⍝ in editors which do not support bi-directional text, but like 
+      ⍝ <span class="serif">&#8504;&#8503;&#8502;&#8501;</span> in browsers and some editors.
+      p←Add _.p'The first four letters of the Hebrew alphabet are '
+      '.serif'p.Add _.bdi'אבגד'
+     
+      Add _.p'bdi can also be used to reverse text:'
+      p←Add _.p'Reverse text: '
+      '#flip' '.serif'p.Add _.bdi'this text has been reversed'
+      
+      Add _.style'#flip {direction: rtl; unicode-bidi: bidi-override;} .serif {font-family: serif; font-size: 2em;}'
+      
+      Add _.p(New _.A'See here for more info' 'http://www.w3.org/International/questions/qa-visual-vs-logical')
     ∇
 
 :EndClass

@@ -4,7 +4,7 @@
 
     ∇ Compose;size;sizable
       :Access Public
-      (sizable←'#sizable'Add _.div'Resize me! ').Style('height' '150px')('width' '150px')('padding' '10px')('background-color' 'aliceblue')
+      (sizable←'#sizable'Add _.div'Resize me! ').Style('height' '150px')('width' '150px')('padding' '10px')('background-color' 'wheat')('text-align' 'center')
       '#size'sizable.Add _.span
       size←Add _.jqResizable'#sizable'
       size.On'stop' 'myCallBack'('siz' 'ui' 'size') ⍝ 0 '' 'alert(JSON.stringify(this))' ⍝

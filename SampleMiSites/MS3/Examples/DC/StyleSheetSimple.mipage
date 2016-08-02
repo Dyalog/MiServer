@@ -1,6 +1,6 @@
 ﻿:Class StyleSheetSimple : MiPageSample
 ⍝ Control:: _DC.StyleSheet
-⍝ Description:: Red H2 Headers using an external style sheet
+⍝ Description:: Colour headdings red using an external style sheet
 
     ∇ Compose
       :Access Public
@@ -16,9 +16,9 @@
       Add _.h2'Other Reading'
      
       Add _.p ScriptFollows
-     ⍝ Also look up the <a href="/Examples/DC/StyleSimple?NoWrapper=1">Simple Style Example</a>, which shows how to embed style in
+     ⍝ Also look up the <a href="/Examples/DC/StyleSimple">Simple Style Example</a>, which shows how to embed style in
      ⍝ a page without an external style sheet, and
-     ⍝ take a look at the <a href="/Examples/DC/TableAdvanced?NoWrapper=1">Advanced Table Example</a> which uses a combination of
+     ⍝ take a look at the <a href="/Examples/DC/TableAdvanced">Advanced Table Example</a> which uses a combination of
      ⍝ the raw html _.style control and the ScriptFollows to add a significant quantity of style in-line.
     ∇
 
