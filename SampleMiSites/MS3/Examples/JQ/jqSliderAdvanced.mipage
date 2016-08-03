@@ -7,8 +7,6 @@
       (min max)←20 40
       avg←0.5×min+max
      
-      Add _.h2'jQuery Slider Widget'
-     
       Add _.p'The master slider sets the allowed range for the slave slider.'
      
       '#slave'(Add _.h3'Slave Slider: ').Add _.span avg

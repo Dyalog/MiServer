@@ -1,6 +1,6 @@
 ﻿:Class ejCircularGaugeSimple : MiPageSample
 ⍝ Control:: _SF.ejCircularGauge
-⍝ Description:: Spedometer style display
+⍝ Description:: Speedometer style display
 
     ∇ Compose;bg
       :Access Public
