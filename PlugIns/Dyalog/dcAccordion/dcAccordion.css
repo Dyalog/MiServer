@@ -25,8 +25,9 @@
     /* Margin to previous tab */
     margin-top: 5px;
 		
-    /* Padding around section text */
-    padding: 5px 10px;
+    /* Padding and hanging indent for section text */
+    text-indent:-21px;
+    padding: 5px 10px 5px 28px;
 
     /* Set the default colours (non-selected section) */
     background: -webkit-linear-gradient(white,transparent);
