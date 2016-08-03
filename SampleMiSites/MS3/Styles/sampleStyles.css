@@ -1,4 +1,4 @@
-﻿/* Global: all transitions equally long*/
+/* Global: all transitions equally long*/
 #banner, #about {
     transition: 0.25s;
 }
@@ -447,20 +447,14 @@ heading1 {
 
 [data-dyalog-tip]:hover:after {
     content: attr(data-dyalog-tip);
-    font-weight: normal;
-    font-size: small;
-    text-decoration: none;
-    padding: 4px;
-    color: black;
+    padding: 5px;
     position: absolute;
     left: 0px;
-    bottom: 20px;
-    white-space: nowrap;
-    box-shadow: 0px 0px 4px black;
-    background-color: white;
-    z-index: 1;
-    height: 20px;
-    text-shadow: none;
+    bottom: 1.5em;
+    line-height: 1em;
+    border-radius: 10px;
+    background: black;
+    font-size: small;
 }
 
 #reading, #reading ul, #reading ul li {

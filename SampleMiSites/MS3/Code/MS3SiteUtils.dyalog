@@ -105,7 +105,7 @@
       External←{ ⍝ Icon off-site link
           ⍺←''
       ⍝    '.external' 'target=_blank' 'data-dyalog-tip="External link"'New _.A((⍺,'&#x1f517;')⍵)
-          '<a class=".external" target="_blank" data-dyalog-tip="External link" href="',⍵,'">&#x1f517;</a>'
+          '<a class=".external" target="_blank" data-dyalog-tip="External link" href="',⍵,'">',⍺,'&#x1f517;</a>'
       }
 
       DescrEmbed←{ ⍝ Link to and iframed page

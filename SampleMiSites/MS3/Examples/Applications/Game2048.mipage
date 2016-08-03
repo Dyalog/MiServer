@@ -18,7 +18,7 @@
       (u l r d)←'a1' 'a0' 'a2' 'a3'{⍺'.slide'New _.div ⍵}¨'&#9650;' '&#9668;' '&#9658;' '&#9660;'
       'game'Add _.Table(3 3⍴''u help l('board'New _.div(Disp BOARD))r''d)
       Add _.Handler'.slide' 'click' 'OnSlide'
-      Add _.script'$(document).keydown(function(x){return!$("#a"+(x.which-37)).click().length[0]})'
+      On'keydown' 0 '' '$("#a"+(event.which-37)).click().length[0]'
     ∇
 
     ∇ r←OnSlide;try;already
