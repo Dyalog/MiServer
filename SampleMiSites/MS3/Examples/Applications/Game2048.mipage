@@ -1,10 +1,10 @@
 ﻿:class Game2048 :MiPageSample
 ⍝ Control:: _DC.Table
-⍝ Description:: The addictive "2048" sliding game
+⍝ Description:: Simple version of the addictive "2048" sliding game
 
-    ∇ Compose;u;l;r;d;board;help
-      :Access Public           ⍝ quick win ⍝ quick lose
-      ⎕RL←⍬ ⋄ BOARD←Put2 4 4⍴0 ⍝⊢0 0 512   ⍝⊢ 0 8 4 16 32 64 128 256 512
+    ∇ Compose;u;l;r;d;board;help;keys
+      :Access Public
+      ⎕RL←⍬ ⋄ BOARD←Put2 4 4⍴0 ⍝ Initialize RNG and the board
       Add _.style ScriptFollows
       ⍝ #game {font-size:xx-large; margin: auto;}
       ⍝ #game td {vertical-align: middle; text-align: center;}
@@ -14,34 +14,69 @@
       ⍝      background: #FFC680; box-shadow: 0 0 0 3px white inset;}
       ⍝ #status {position: fixed; text-align: center; top: 75px; bottom: 0; left: 0; right: 0;
       ⍝      color: darkorange; font-size: 2em; line-height: calc(100vh - 2em); cursor: pointer;}
+      ⍝ #keys {font-size: medium; width: 2em; white-space: nowrap; color: darkorange}
+     
       help←'#help' 'target="_blank"'New _.A'&nbsp;?&nbsp;' 'https://en.wikipedia.org/wiki/2048_(video_game)#Gameplay'
+      keys←'#keys'New _.div'Use keyboard''s arrow keys'
+      board←'board'New _.div(Disp BOARD)
       (u l r d)←'a1' 'a0' 'a2' 'a3'{⍺'.slide'New _.div ⍵}¨'&#9650;' '&#9668;' '&#9658;' '&#9660;'
-      'game'Add _.Table(3 3⍴''u help l('board'New _.div(Disp BOARD))r''d)
+      'game'Add _.Table(3 3⍴keys u help l board r''d'')
       Add _.Handler'.slide' 'click' 'OnSlide'
-      On'keydown' 0 '' '$("#a"+(event.which-37)).click().length[0]'
+      ⍝ If user presses a keyboard button "click" the corresponding element and return false to prevent scrolling the page:
+      On'keydown' 0 '' 'return!$("#a"+(event.which-37)).click().length[0]'
     ∇
 
-    ∇ r←OnSlide;try;already
+    ∇ r←OnSlide;already;new
       :Access public
       r←''
       already←Won BOARD
-      try←BOARD Slide⍎1↓_target
-      :If try≢BOARD
-          BOARD←Put2 try
+      new←BOARD Slide⍎1↓_target
+      :If new≢BOARD ⍝ invalid slide if sliding did not do anything
+          BOARD←Put2 new
           r,←'#board'Replace Disp BOARD
-          :If already<Won BOARD
+          :If (Won BOARD)∧(~already) ⍝ won now
               r,←Status'WIN &ndash; click to clear'
-          :ElseIf (Won BOARD)⍱1∊(0∘=,(⍉2=⌿⊢),2=/⊢)BOARD
+          :ElseIf (Won BOARD)⍱(Movable BOARD) ⍝ cannot move and has not won
               r,←Status'LOSS &ndash; click to clear'
           :EndIf
       :EndIf
     ∇
 
-    Won←2048≤⌈/∘∊
-    Put2←{t←⍵ ⋄ ((0=∊t)/∊t)[?+/0=∊t]←2+2×1=?10 ⋄ t}
-    Disp←{w←⍵ ⋄ ((0=∊w)/∊w)←' ' ⋄ New _.Table w}
-    Pack←{4↑⎕UCS(2/¨⎕UCS¨t)⎕R(,¨⎕UCS 2×t←2*⍳16)⎕UCS ⍵~0}
-    Under←{⍵⍵⍣¯1 ⍺⍺ ⍵⍵ ⍵}
-    Slide←{Pack¨Under↓Under(⍉∘⌽⍣⍵)⊢⍺}
+    ∇ board←Put2 board;what;empties;where ⍝ Add a 2 to an empty tile
+      what←2+2×1=?10              ⍝ a 2, but 1 in 10 chance of a 4
+      empties←Empties board
+      where←?+/empties            ⍝ random empty cell
+      (where⊃empties/∊board)←what ⍝ do it
+    ∇
+
+    ∇ table←Disp board;empties ⍝ Create a display form of the board
+      empties←Empties board
+      (empties/∊board)←' '    ⍝ replace with spaces so they do not display
+      table←New _.Table board
+    ∇
+
+      Pack←{ ⍝ Find the new row state caused by packing to the left
+          t←2*⍳16                        ⍝ 2 4 8 16... 65536, the biggest tile that can be merged
+          pairs←2/¨t                     ⍝ (2 2)(4 4)(8 8)(16 16)...
+          results←,¨2×t                  ⍝ (,4)(,8)(,16)(,32)...
+          filled←⍵~0                     ⍝ remove empty tiles to leave just the filled ones - packed to the left
+          packed←pairs ∆R results⊢filled ⍝ replace two identicals with one double-the-value
+          4↑packed                       ⍝ replenish with empty tiles to the right
+      }
+
+    Empties←0=∊
+
+    Movable←1∊0∘=,(⍉2=⌿⊢),2=/⊢ ⍝ Has empties or two identicals above each other or two identicals next to each other
+
+    Won←2048≤⌈/∘∊ ⍝ Do we have 2048 or higher?
+
+    ∆R←{⎕UCS(⎕UCS¨⍺⍺)⎕R(⎕UCS¨⍵⍵)⎕UCS ⍵} ⍝ This is just a ⎕R which uses numbers instead of strings
+
+    Under←{⍵⍵⍣¯1 ⍺⍺ ⍵⍵ ⍵} ⍝ See http://www.dyalog.com/user-meetings/dyalog15.htm#D16
+
+    Rot_90←⍉∘⌽ ⍝ Rotate 90 degrees counterclockwise
+
+    Slide←{Pack¨Under↓Under(Rot_90⍣⍵)⊢⍺} ⍝ Rotate, split, pack each, mix, rotate back
+
     Status←{'#contentblock'Append'#status' 'onclick="window.location.reload()"'New _.div ⍵}
 :endclass

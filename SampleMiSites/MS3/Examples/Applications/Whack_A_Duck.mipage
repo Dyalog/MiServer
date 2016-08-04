@@ -1,0 +1,35 @@
+﻿:class Whack_A_Duck :MiPageSample
+⍝ Control:: _DC.Button
+⍝ Description:: Shrinking button that jumps away progressively faster you click it
+
+    ∇ Compose;duck;style
+      :Access Public
+      Add _.style ScriptFollows
+      ⍝ #duck {position: fixed; top: 50%; left: calc(50% - 15vh); cursor: pointer; 
+      ⍝     background: transparent; border: none; outline: none; padding: 0;
+      ⍝     animation: wag 0.5s infinite; transition-duration: 0.5s;}
+      ⍝ @keyframes wag {0%{-webkit-transform: rotate(-15deg);}
+      ⍝                50%{-webkit-transform: rotate( 15deg);}
+      ⍝               100%{-webkit-transform: rotate(-15deg);}}
+      ⍝ #duck {height: 40vh;}
+      ⍝ #duck, h1 {-ms-user-select: none; -moz-user-select: none; -webkit-user-select: none; user-select: none;}
+      'align="center"'Add _.h1'Click the duck to make it shrink!'
+      duck←'#duck' 'src="/Examples/Data/duck.png" alt="Duck"'Add _.img
+      Add _.script 'var t=0'
+      duck.On'mousemove' 0 ''ScriptFollows
+      ⍝ if(t>+new Date)return;
+      ⍝ $(this).css({left: "calc("+Math.random()+" * (100% - "+$(this).width()+"px))",
+      ⍝              top: "calc(75px + "+Math.random()+" * (100% - ("+$(this).height()+"px + 75px)))",
+      ⍝ });
+      ⍝ t=500+ +new Date;
+      duck.On'mousedown' 0 ''ScriptFollows
+      ⍝ $(this).css({left: "calc("+Math.random()+" * (100% - "+$(this).width()+"px))",
+      ⍝              top: "calc(75px + "+Math.random()+" * (100% - ("+$(this).height()+"px + 75px)))",
+      ⍝              height: ($(this).height()*0.75)+"px",
+      ⍝              "transition-duration":$(this).css("transition-duration").slice(0,-1)*0.75+"s",
+      ⍝ });
+      ⍝ t=500+ +new Date;
+      ⍝ return false;
+    ∇
+
+:endclass
