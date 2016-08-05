@@ -27,4 +27,10 @@
       InternalEvents←IntEvt
     ∇
 
+    ∇ r←Render
+      :Access public
+      'helper'SetIfNotSet'⍎function(evt){return $(evt.element);}'
+      r←⎕BASE.Render
+    ∇
+
 :EndClass

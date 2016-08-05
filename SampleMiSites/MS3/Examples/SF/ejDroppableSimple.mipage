@@ -1,6 +1,6 @@
-﻿:Class ejDraggableSimple : MiPageSample
-⍝ Control:: _SF.ejDraggable
-⍝ Description:: Make an element draggable
+﻿:Class ejDroppableSimple : MiPageSample
+⍝ Control:: _SF.ejDroppable
+⍝ Description:: Make elements accept draggable content
 
     ∇ Compose;sp;sp2;colors
       :Access Public

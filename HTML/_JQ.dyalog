@@ -474,9 +474,9 @@
          
               (syn_handler syn_event syn_model syn_this syn_value)←5↑WidgetDef
               try←{'(function(){try{return ',⍵,';}catch(e){return "";}})()'}
-              data←'_event: ',syn_event,'.type, '
-              data,←'_what: ',syn_this,'.attr("id"), '
-              data,←'_value: ',syn_this,syn_value,', '
+              data←'_event: ',(try syn_event,'.type'),', '
+              data,←'_what: ',(try syn_this,'.attr("id")'),', '
+              data,←'_value: ',(try syn_this,syn_value),', '
               data,←'_selector: ',(quote selector~'⍎'),', '
               data,←'_target: ',(try syn_event,'.target.id'),', '
               data,←'_currentTarget: ',(try syn_event,'.currentTarget.id'),', '
