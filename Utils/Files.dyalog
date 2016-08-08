@@ -52,7 +52,7 @@
       ⎕IO←0
       :Select APLVersion
       :CaseList '*nix' 'Mac'
-          _SH'rm ',unixfix name
+          _SH'rm -f ',unixfix name
       :Case 'Win'
           'DeleteFileX'⎕NA'I kernel32.C32∣DeleteFile* <0T'
           ⎕NA'I4 kernel32.C32|GetLastError'
