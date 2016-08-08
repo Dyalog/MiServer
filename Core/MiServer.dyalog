@@ -851,7 +851,7 @@
       :EndFor
     ∇
 
-    ∇ r←CheckDirectoryBrowser REQ;folder;file;F;filter;template;propagate;up;directory;inst;code;page
+    ∇ r←CheckDirectoryBrowser REQ;folder;file;F;filter;template;propagate;up;directory;inst;code;page;breadcrumb
     ⍝ checks if the requested URI is a browsable directory
       folder←page←{⍵,'/'/⍨~'/\'∊⍨¯1↑⍵}REQ.OrigPage
       r←up←0
@@ -866,7 +866,8 @@
                       →0⍴⍨up>propagate
                       code←⊂':Class directorybrowser : #.Pages.',template
                       code,←'∇Compose' ':Access Public'
-                      code,←⊂'Add #._html.h2 ''Directory Listing for "',page,filter,'"'''
+                      breadcrumb←(∊1∘↓,⍨((,\{'<a class="breadcrumb" href="',⍺,'">',⍵,'</a>'}¨⊢)⊃⊂⍨¯1⌽'/'=⊃))#.Files.SplitFilename page,filter
+                      code,←⊂'Add #._html.h2 ''Directory Listing for ',breadcrumb,''''
                       code,←('''dirBrowser'' Add #._DC.DirectoryBrowser ''',page,''' ''',filter,''' ',(⍕propagate),' ',⍕up)'∇' ':EndClass'
                       inst←⎕NEW ⎕FIX code
                       inst._Request←REQ
