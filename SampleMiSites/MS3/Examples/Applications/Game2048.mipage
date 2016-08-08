@@ -2,7 +2,7 @@
 ⍝ Control:: _DC.Table
 ⍝ Description:: Simple version of the addictive "2048" sliding game
 
-    ∇ Compose;u;l;r;d;board;help;keys
+    ∇ Compose;u;l;r;d;board;help;keys;score;name
       :Access Public
       ⎕RL←⍬ ⋄ BOARD←Put2 4 4⍴0 ⍝ Initialize RNG and the board
       Add _.style ScriptFollows
@@ -14,13 +14,17 @@
       ⍝      background: #FFC680; box-shadow: 0 0 0 3px white inset;}
       ⍝ #status {position: fixed; text-align: center; top: 75px; bottom: 0; left: 0; right: 0;
       ⍝      color: darkorange; font-size: 2em; line-height: calc(100vh - 2em); cursor: pointer;}
-      ⍝ #keys {font-size: medium; width: 2em; white-space: nowrap; color: darkorange}
+      ⍝ #keys {font-size: medium; width: 2em; white-space: nowrap; color: darkorange;}
+      ⍝ #name {width: 2em; color: darkorange; font-size: 200%;}
+      ⍝ #score {width: 2em; direction: rtl;}
      
       help←'#help' 'target="_blank"'New _.A'&nbsp;?&nbsp;' 'https://en.wikipedia.org/wiki/2048_(video_game)#Gameplay'
       keys←'#keys'New _.div'Use keyboard''s arrow keys'
-      board←'board'New _.div(Disp BOARD)
+      board←'#board'New _.div(Disp BOARD)
+      name←'#name'New _.div 2048
+      score←'#score'New _.div 0
       (u l r d)←'a1' 'a0' 'a2' 'a3'{⍺'.slide'New _.div ⍵}¨'&#9650;' '&#9668;' '&#9658;' '&#9660;'
-      'game'Add _.Table(3 3⍴keys u help l board r''d'')
+      'game'Add _.Table(3 3⍴name u score l board r keys d help)
       Add _.Handler'.slide' 'click' 'OnSlide'
       ⍝ If user presses a keyboard button "click" the corresponding element and return false to prevent scrolling the page:
       On'keydown' 0 '' 'return!$("#a"+(event.which-37)).click().length[0]'
@@ -28,9 +32,9 @@
 
     ∇ r←OnSlide;already;new
       :Access public
-      r←''
       already←Won BOARD
       new←BOARD Slide⍎1↓_target
+      r←'#score'Replace Score new ⍝ right-to-left trickery to get cell overflow to the left
       :If new≢BOARD ⍝ invalid slide if sliding did not do anything
           BOARD←Put2 new
           r,←'#board'Replace Disp BOARD
@@ -77,6 +81,8 @@
     Rot_90←⍉∘⌽ ⍝ Rotate 90 degrees counterclockwise
 
     Slide←{Pack¨Under↓Under(Rot_90⍣⍵)⊢⍺} ⍝ Rotate, split, pack each, mix, rotate back
+
+    Score←+/∘∊4×∘⌊2*⍨÷∘4 ⍝ 16: 16 + 8+8 + 4+4+4+4
 
     Status←{'#contentblock'Append'#status' 'onclick="window.location.reload()"'New _.div ⍵}
 :endclass
