@@ -2,7 +2,7 @@
 
     ∇ Compose
       :Access Public
-      Add _.(d3 ScriptFollows)
+      Add _.d3 ScriptFollows
 ⍝// Update
 ⍝var p = d3.select("#contentblock").selectAll("p")
 ⍝    .data([4, 8, 15, 16, 23, 42])
