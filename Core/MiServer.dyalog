@@ -866,7 +866,7 @@
                       →0⍴⍨up>propagate
                       code←⊂':Class directorybrowser : #.Pages.',template
                       code,←'∇Compose' ':Access Public'
-                      code,←⊂'Add #._html.title ''',(page,filter),''''
+                      code,←⊂'Add #._html.title ''',(⊃⌽'/(.+?)/'⎕S'\1'⊢page),''''
                       breadcrumb←(∊1∘↓,⍨((,\{'<a class="breadcrumb" href="',⍺,'">',⍵,'</a>'}¨⊢)⊃⊂⍨¯1⌽'/'=⊃))#.Files.SplitFilename page,filter
                       code,←⊂'Add #._html.h2 ''Directory Listing for ',breadcrumb,''''
                       code,←('''dirBrowser'' Add #._DC.DirectoryBrowser ''',page,''' ''',filter,''' ',(⍕propagate),' ',⍕up)'∇' ':EndClass'
