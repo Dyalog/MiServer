@@ -559,7 +559,7 @@
      
           :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID ⋄ :EndIf
       :EndIf
-     
+      {'#.Pages',('/'⎕R'.'){⌽1↓⍵/⍨∨\'.'=⍵}⌽⍵}inst._PageName ⍝ DON'T PUSH! Special for Adam
       :If sessioned ⋄ token←REQ.(Page,⍕Session.ID)
       :ElseIf ~0∊⍴REQ.PeerAddr ⋄ token←REQ.(Page,PeerAddr)
       :Else ⋄ token←⍕⎕TID
@@ -866,6 +866,7 @@
                       →0⍴⍨up>propagate
                       code←⊂':Class directorybrowser : #.Pages.',template
                       code,←'∇Compose' ':Access Public'
+                      code,←⊂'Add #._html.title ''',(page,filter),''''
                       breadcrumb←(∊1∘↓,⍨((,\{'<a class="breadcrumb" href="',⍺,'">',⍵,'</a>'}¨⊢)⊃⊂⍨¯1⌽'/'=⊃))#.Files.SplitFilename page,filter
                       code,←⊂'Add #._html.h2 ''Directory Listing for ',breadcrumb,''''
                       code,←('''dirBrowser'' Add #._DC.DirectoryBrowser ''',page,''' ''',filter,''' ',(⍕propagate),' ',⍕up)'∇' ':EndClass'

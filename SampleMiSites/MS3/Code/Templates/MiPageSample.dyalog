@@ -13,7 +13,7 @@
           Use'JQuery' ⍝ this is a resource defined in Config/Resources.xml
      
         ⍝ set the title display in the browser to the name of the page or application
-          Add _.title('Advanced' 'Simple' 'index' '_'⎕R'' ''server.Config.Name' '((-'.'⍳⍨⌽)↓⊢↑⍨1-'/'⍳⍨⌽)_Request.Page)
+          Add _.title('Advanced' 'Simple' 'Examples?' 'index' '_'⎕R'' '' ''server.Config.Name' '((-'.'⍳⍨⌽)↓⊢↑⍨1-'/'⍳⍨⌽)_Request.Page)
      
         ⍝ add a link to our CSS stylesheet
           _CssReset←'/Styles/cssreset.css'
