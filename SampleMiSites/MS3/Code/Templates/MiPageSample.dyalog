@@ -12,8 +12,8 @@
         ⍝ we need jQuery to toggle content/source, other resources will be loaded if needed
           Use'JQuery' ⍝ this is a resource defined in Config/Resources.xml
      
-        ⍝ set the title display in the browser to the name of the application defined in Config/Server.xml
-          Add _.title server.Config.Name
+        ⍝ set the title display in the browser to the name of the page or application
+          Add _.title('Advanced' 'Simple' 'index' '_'⎕R'' ''server.Config.Name' '((-'.'⍳⍨⌽)↓⊢↑⍨1-'/'⍳⍨⌽)_Request.Page)
      
         ⍝ add a link to our CSS stylesheet
           _CssReset←'/Styles/cssreset.css'
@@ -28,15 +28,15 @@
         ⍝ add a hidden division to the body containing the APL source code
           (Add _.div(#.HTMLInput.APLToHTMLColour src←⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
      
-        
+     
         ⍝ extract the content and re-write it in parallel to the controls info div
           c←Body.Content
           Body.Content←''
           Body.Add c
-
+     
         ⍝ create a division with info about the controls used
-           Body.Add CtrlsDiv src
-          
+          Body.Add CtrlsDiv src
+     
         ⍝ wrap the content of the <body> element in a div
           '.bodyblock'Body.Push _.div
      
