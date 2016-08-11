@@ -1,4 +1,6 @@
 ﻿:Class SQAPLExample : MiPageSample
+⍝ Control:: _.DataTable
+⍝ Description:: Submit queries an SQL database using SQAPL
 
     :field Public state←''
     :field Public Shared States
@@ -14,7 +16,6 @@
           :If state≢''
               data←#.SQL.Do'ZipCodes' 'select * from ZipCodes where StateAbbr = :a<C2: order by Zipcode'state
               :If 0=data.ReturnCode
-                  ⍝req #.JQO.TableSorter'tab1' ⍝ not sure what this is
                   Add _.DataTable data.(Columns⍪Data)
               :Else
                   Add _.h3'Database query failed? RC = ',⍕data.ReturnCode
