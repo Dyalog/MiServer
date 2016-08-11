@@ -1,0 +1,38 @@
+﻿:Class SQAPLExample : MiPageSample
+
+    :field Public state←''
+    :field Public Shared States
+
+    ∇ Compose;form;data
+      :Access Public
+      Add _.h2'SQAPL/jQuery Demonstration'
+      :If ~0∊⍴States
+          Add _.h3'Zip Codes by State'
+          form←Add _.Form'#'
+          form.Add'Select State: '
+          'autofocus="autofocus" onChange="this.form.submit()"'form.Add _.Select(States(States[;1]⍳⊂state))
+          :If state≢''
+              data←#.SQL.Do'ZipCodes' 'select * from ZipCodes where StateAbbr = :a<C2: order by Zipcode'state
+              :If 0=data.ReturnCode
+                  ⍝req #.JQO.TableSorter'tab1' ⍝ not sure what this is
+                  Add _.DataTable data.(Columns⍪Data)
+              :Else
+                  Add _.h3'Database query failed? RC = ',⍕data.ReturnCode
+              :EndIf
+          :EndIf
+      :Else
+          Add _.h3'ZipCodes database is not available!  Sorry...'
+      :EndIf
+    ∇
+
+    ∇ Init;data
+      :Implements constructor :base
+      :Access public
+      States←0 2⍴''
+      data←#.SQL.Do'ZipCodes' 'select * from States order by StateName'
+      :If data.ReturnCode=0
+          States←'' ''⍪data.Data
+      :EndIf
+    ∇
+
+:EndClass
