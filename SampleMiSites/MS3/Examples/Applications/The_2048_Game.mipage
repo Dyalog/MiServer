@@ -63,7 +63,7 @@
     ∇ table←Disp board;empties ⍝ Create a display form of the board
       empties←Empties board
       (empties/∊board)←' '    ⍝ replace with spaces so they do not display
-      table←New _.Table board
+      table←'#world'New _.Table board
     ∇
 
       Pack←{ ⍝ Find the new row state caused by packing to the left
