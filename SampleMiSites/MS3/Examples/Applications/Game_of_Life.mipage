@@ -1,0 +1,115 @@
+﻿:Class Game_of_Life : MiPageSample
+⍝ Control:: _DC.Table
+⍝ Description:: John Conway's "Game of Life" (interactive)
+
+    :Field public WORLD
+    :Field public SHAPE
+    :Field public SHAPES←'Plane' 'Cylinder' 'Torus' 'Möbius' 'Klein'
+    :Field public CELL
+    :Field public RESET
+    :Field public STEP
+
+    ∇ Setup
+      :Access Public
+      :Implements Constructor
+      SHAPE←'Torus'
+      CELL←'.cell slot'New _.div
+      RESET←0⍪0,11 11↑3 3⍴0 0 1 1 0 1 0 1 1
+      WORLD←RESET
+      STEP←1
+    ∇
+
+    ∇ Compose
+      :Access Public
+     
+      Add _.style ScriptFollows
+      ⍝ .slot {height: 30px; width: 30px;}
+      ⍝ .cell {border-radius: 12px; background: green; box-shadow: 0 0 15px 3px green; position: absolute; z-index: -1;}
+      ⍝ #world td {box-shadow: 0 0 0 1px silver; cursor: pointer;}
+      ⍝ #world table {box-shadow: 0 0 0 1px silver inset;}
+      ⍝ #step {width: 3em;}
+     
+      {Add'&nbsp;'⊣(⍵'.act')Add _.Button ⍵}¨'Reset' 'Stop' 'Step' 'Slow' 'Fast'
+      ('#step'Add _.Input'number'STEP' Step size: ').On'change' 'Step'
+      '#shapes'Add _.RadioButtonGroup((SHAPES,¨⊂'&nbsp;')3 'right' 1)
+      '#world'Add _.div(Disp WORLD)
+     
+      Add _.Timer 333 0 'tick' 'Fast'
+      Add _.Timer 1000 0 'tick' 'Slow'
+      On'tick' 'Advance'
+      Add _.Handler'.act,#shapes_container input' 'click' 'Action'
+    ∇
+
+    ∇ r←Edit
+      :Access Public
+      r←''
+      :If 'grid'≢_what
+          ((⊂⍎¨'\d+'⎕S'&'⊢_what)⊃WORLD)=←0
+          r←'#world'Replace Disp WORLD
+      :EndIf
+    ∇
+
+    ∇ r←Action
+      :Access Public
+      :Select _what
+      :Case 'Stop'
+          r←Execute'$(function(){Faststop();Slowstop();});'
+      :Case 'Slow'
+          r←Execute'$(function(){Faststop();Slowrun();});'
+      :Case 'Fast'
+          r←Execute'$(function(){Slowstop();Fastrun();});'
+      :Case 'Step'
+          r←Advance
+      :Case 'Reset'
+          WORLD←RESET
+          r←'#world'Replace Disp WORLD
+      :CaseList 'shapes_'∘,¨⍕¨⍳5
+          SHAPE←SHAPES⊃⍨⍎⊃⌽_what
+          r←''
+      :EndSelect
+    ∇
+
+    ∇ r←Advance
+      :Access Public
+      WORLD←Life(⍎SHAPE)⍣STEP⊢WORLD
+      r←'#world'Replace Disp WORLD
+    ∇
+
+    ∇ r←Step
+      :Access public
+      STEP←1⌈⍎_value∩⎕D
+      r←''
+    ∇
+
+    ∇ table←Disp world
+      table←'#grid'New _.Table((''CELL[1+world])'.slot' 0 '' 1)
+      table.On'click' 'Edit'
+    ∇
+
+    Life←{↑1 ⍵∨.∧3 4=+/,¯1 0 1∘.(⌽∘⍉)⍣2⊂⍵}
+
+      Plane←{                     ⍝ ┌───┐
+          1 0↓0 1↓⍺⍺ 0,0⍪⍵        ⍝ │   │
+                                  ⍝ └───┘
+      }
+      Cylinder←{                  ⍝ ┌───┐
+          1 0↓⍺⍺ 0⍪⍵              ⍝ ⍋   ⍋
+                                  ⍝ └───┘
+      }
+      Torus←{                     ⍝ ┌─→─┐
+          ⍺⍺ ⍵                    ⍝ ⍋   ⍋
+                                  ⍝ └─→─┘
+      }
+      Möbius←{                    ⍝ ┌───┐ möbius strip
+          1 0↓0 2↓¯1⌽⍺⍺ 0⍪Twist ⍵ ⍝ ⍋   ⍒
+                                  ⍝ └───┘
+      }
+      Klein←{⎕ML←0                ⍝ ┌─→─┐ klein bottle
+          0 2↓¯1⌽⍺⍺ Twist ⍵       ⍝ ⍋   ⍒
+                                  ⍝ └─→─┘
+      }
+      Twist←{                     ⍝  ┌───┐    ┌ ┌───┐ ┐
+          ¯1⌽⍵,⌽⊖2↑[1+⎕IO]¯1⌽⍵    ⍝  ⍋   ↑ →  ↓,⍋   ↑,⍒
+                                  ⍝  └───┘    └ └───┘ ┘
+      }
+:EndClass
