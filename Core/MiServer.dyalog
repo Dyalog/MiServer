@@ -107,7 +107,7 @@
       TID←RunServer&⍬
     ∇
 
-    ∇ End;tempfiles
+    ∇ End
     ⍝ Called by destructor
       :Access Public
       Logger.Stop ⍬
@@ -119,12 +119,6 @@
           :Trap 6 ⍝ ⎕TSYNC may not return a value if the thread doesn't, so handle the possible VALUE ERROR
               {}⎕TSYNC ⎕TID~⍨TID∩⎕TNUMS
           :EndTrap
-      :EndIf
-      :If ~0∊⍴Config.TempFolder
-          tempfiles←{(~⍵[;4])/⍵[;1]}#.Files.List Config.TempFolder
-          :If 0≠⍴tempfiles←(tempfiles∨.≠¨'.')/tempfiles
-              {}{0::'' ⋄ #.Files.Delete Config.TempFolder,⍵}¨tempfiles
-          :EndIf
       :EndIf
       Cleanup ⍝ overridable
       TID←¯1
@@ -559,7 +553,7 @@
      
           :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID ⋄ :EndIf
       :EndIf
-      {'#.Pages',('/'⎕R'.'){⌽1↓⍵/⍨∨\'.'=⍵}⌽⍵}inst._PageName ⍝ DON'T PUSH! Special for Adam
+
       :If sessioned ⋄ token←REQ.(Page,⍕Session.ID)
       :ElseIf ~0∊⍴REQ.PeerAddr ⋄ token←REQ.(Page,PeerAddr)
       :Else ⋄ token←⍕⎕TID

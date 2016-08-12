@@ -263,14 +263,13 @@
       Config.Production←Config Setting'Production' 1 0 ⍝ production mode?  (0/1 = development debug framework en/disabled)
       Config.RESTful←Config Setting'RESTful' 1 0 ⍝ RESTful web service?
       Config.RootCertDir←Config Setting'RootCertDir' 0 ''
-      Config.Root←AppRoot ⍝ folderize MSRoot{((isRelPath ⍵)/⍺),⍵}AppRoot
+      Config.Root←AppRoot
       Config.SSLFlags←Config Setting'SSLFlags' 1(32+64)  ⍝ Accept Without Validating, RequestClientCertificate
       Config.Secure←Config Setting'Secure' 1 0
       Config.Server←Config Setting'Server' 0 ''
       Config.SessionHandler←Config Setting'SessionHandler' 0 'SimpleSessions'
       Config.SessionTimeout←'m'#.Dates.ParseTime Config Setting'SessionTimeout' 0 '30m' ⍝ 30 minute timeout
       Config.SupportedEncodings←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}',',Config Setting'SupportedEncodings' 0
-      Config.TempFolder←folderize Config.Root{0∊⍴⍵:⍵ ⋄ ((isRelPath ⍵)/⍺),⍵}Config Setting'TempFolder' 0
       Config.TrapErrors←Config Setting'TrapErrors' 1 0
       Config.WaitTimeout←#.Dates.ParseTime Config Setting'WaitTimeout' 0 '5000ms' ⍝ 5000 msec (5 second timeout)
       Config.UseContentEncoding←Config Setting'UseContentEncoding' 1 0 ⍝ aka HTTP Compression default off (0)
@@ -309,8 +308,6 @@
               :If 0≠1⊃#.SQA.Init'' ⍝ and initialize
                   1 ms.Log'SQA failed to initialize'
               :EndIf
-          :Else
-              1 ms.Log'SQA failed to initialize'
           :EndTrap
       :EndIf
     ∇
@@ -497,7 +494,7 @@
     notEmpty←~∘empty
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     isRef←{(0∊⍴⍴⍵)∧326=⎕DR ⍵}
-    folderize←{¯1↑⍵∊'/\':⍵ ⋄ ⍵,fileSep}
+    folderize←{⍺←0 ⋄ ⍺∧0∊⍴⍵:⍵ ⋄ ¯1↑⍵∊'/\':⍵ ⋄ ⍵,fileSep} ⍝ append trailing file separator unless empty and left arg←1
     makeSitePath←{⍺{((isRelPath ⍵)/⍺),⍵},folderize ⍵}
     Log←{⎕←⍵}
 
