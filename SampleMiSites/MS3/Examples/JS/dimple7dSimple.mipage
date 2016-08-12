@@ -1,10 +1,10 @@
-﻿:Class dimple7d : MiPageSample
-
+﻿:Class dimple7dSimple : MiPageSample
+⍝ Control: _.Script _.div
+⍝ Description:: An example of what "dimple" can do
     ∇ Compose;chart;text
       :Access public
       Use'dimple'
-      Add _.h4'An example of what "dimple" can do'
-     
+      
       Add'Copied from '
       Add _.A'dimplejs.org' 'http://dimplejs.org/advanced_examples_viewer.html?id=advanced_animated_multiple_pie_bubbles'
      

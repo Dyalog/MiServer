@@ -1,4 +1,6 @@
-﻿:Class d3Sample : MiPageSample
+﻿:Class d3Simple : MiPageSample
+⍝ Control:: _.dimple
+⍝ Description:: Dimple data chart
 
     ∇ Compose
       :Access Public

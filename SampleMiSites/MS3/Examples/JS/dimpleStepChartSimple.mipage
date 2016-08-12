@@ -1,9 +1,11 @@
-﻿:Class dimpleStepChart : MiPageSample
+﻿:Class dimpleStepChartSimple : MiPageSample
+⍝ Control:: _.dimple _.div
+⍝ Description:: Dimple line plot chart
 
     ∇ Compose
       :Access Public
       'chartContainer'Add _.div
-      Add _.(dimple ScriptFollows)
+      Add _.dimple ScriptFollows
 ⍝    var svg = dimple.newSvg("#chartContainer", 590, 400);
 ⍝    var myChart = new dimple.chart(svg);
 ⍝    myChart.data = [{"Period":1,"Factor":50},{"Period":4,"Factor":100},{"Period":9,"Factor":50}];
