@@ -151,7 +151,10 @@
 
     ∇ attr←{plain}ParseAttr arg;split;item;t;f;i;eq;nq;items;n
       :Access public shared
-      ⍝ Parse html sttributes
+     
+⍝ Parse html sttributes
+⍝ {plain} - Boolean indicating whether to not interpret a plain first token as an if
+⍝ args    - vector of tokens to parse
 ⍝
 ⍝     1)    In only the first token, a simple string (i.e. not in the form 'abc=def') without a leading '#' or '.' is treated as an id
 ⍝        'foo'  > id="foo"
@@ -456,7 +459,10 @@
 
 ⍝ area base basefont br col frame hr img input isindex link meta param
 
-    fmtAttr←{' ',⍺,'=',Quote HtmlSafeText,⍕⍵}
+    ∇ r←a FormatAttr w
+      :Access public shared
+      r←' ',a,'=',Quote HtmlSafeText,⍕w
+    ∇
 
     ∇ r←Render;av;t;vs;e;h;c;p
       :Access public
@@ -466,7 +472,7 @@
           h←RenderHandlers
           p←RenderPosition
           :If 0<⍴vs←Attrs[]
-              av,←∊fmtAttr/¨vs
+              av,←∊FormatAttr/¨vs
           :EndIf
           av,←RenderStyles
           :If (⊂Tag)∊'html' 'body' 'head'
