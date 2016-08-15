@@ -34,8 +34,8 @@
       '#shapes'Add _.RadioButtonGroup((SHAPES,¨⊂'&nbsp;')3 'right' 1)
       '#world'Add _.div(Disp WORLD)
      
-      Add _.Timer 333 0 'tick' 'Fast'
-      Add _.Timer 1000 0 'tick' 'Slow'
+      Add _.Timer 200 0 'tick' 'Fast'
+      Add _.Timer 500 0 'tick' 'Slow'
       On'tick' 'Advance'
       Add _.Handler'.act,#shapes_container input' 'click' 'Action'
     ∇
