@@ -24,7 +24,7 @@
      
       Add _.style ScriptFollows
       ⍝ .slot {height: 30px; width: 30px;}
-      ⍝ .live, .dead, .surv {border-radius: 12px; position: absolute; z-index: -1;}
+      ⍝ .live, .dead, .surv {border-radius: 33%; position: absolute; z-index: -1;}
       ⍝ .live {background: LimeGreen; background: radial-gradient(DarkGreen 33%,aqua);}
       ⍝ .surv {background: DarkGreen; background: radial-gradient(DarkGreen 33%,khaki);}
       ⍝ .dead {background: Khaki; background: radial-gradient(Khaki,White);}
