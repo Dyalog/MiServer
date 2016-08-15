@@ -2,17 +2,16 @@
 ⍝ Control:: _.DataTable
 ⍝ Description:: Submit queries an SQL database using SQAPL
 
-    :field Public state←''
-    :field Public Shared States
+    :field Public state←''      ⍝ holds the input from the Select
+    :field Public Shared States ⍝ holds the list of [;1] state names [;2] state abbbreviations
 
-    ∇ Compose;form;data
+    ∇ Compose;data
       :Access Public
+     
       Add _.h2'SQAPL/jQuery Demonstration'
       :If ~0∊⍴States
           Add _.h3'Zip Codes by State'
-          form←Add _.Form'#'
-          form.Add'Select State: '
-          'autofocus="autofocus" onChange="this.form.submit()"'form.Add _.Select(States(States[;1]⍳⊂state))
+          ('#state' 'autofocus="autofocus" onChange="this.form.submit()"'(Add _.Form).Add _.Select(States(States[;1]⍳⊂state))).Prompt←'[Select State]'
           :If state≢''
               data←#.SQL.Do'ZipCodes' 'select * from ZipCodes where StateAbbr = :a<C2: order by Zipcode'state
               :If 0=data.ReturnCode
@@ -29,10 +28,11 @@
     ∇ Init;data
       :Implements constructor :base
       :Access public
+     
       States←0 2⍴''
       data←#.SQL.Do'ZipCodes' 'select * from States order by StateName'
       :If data.ReturnCode=0
-          States←'' ''⍪data.Data
+          States←⌽data.Data
       :EndIf
     ∇
 

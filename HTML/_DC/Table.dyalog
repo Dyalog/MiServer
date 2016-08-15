@@ -44,7 +44,7 @@
               headids←{' id="',(id,'_',∊'rc',¨⍕¨⍵),'"'}¨⍳size
           :EndIf
           :If ~0∊⍴tha
-              headattrs←size⍴{∊FormatAttr/¨1 ParseAttr ⍵}∘fmtAttr¨tha
+              headattrs←size⍴{∊FormatAttr/¨1 ParseAttr ⍵}∘fmtAttr¨eis tha
           :EndIf
           head←(eis headids,¨headattrs){'<th',⍺,'>',(renderIt ⍵),'</th>'}¨hdrrows↑data
       :EndIf
@@ -55,7 +55,7 @@
               bodyids←{' id="',(id,'_',∊'rc',¨⍕¨⍵),'"'}¨⍳size
           :EndIf
           :If ~0∊⍴tda
-              bodyattrs←size⍴{∊FormatAttr/¨1 ParseAttr ⍵}¨fmtAttr¨tda
+              bodyattrs←size⍴{∊FormatAttr/¨1 ParseAttr ⍵}¨fmtAttr¨eis tda
           :EndIf
           body←(eis bodyids,¨bodyattrs){'<td',⍺,'>',(renderIt ⍵),'</td>'}¨hdrrows↓data
       :EndIf
