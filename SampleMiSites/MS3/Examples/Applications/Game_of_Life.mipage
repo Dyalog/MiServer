@@ -1,19 +1,19 @@
 ﻿:Class Game_of_Life : MiPageSample
-⍝ Control:: _DC.Table
+⍝ Control:: _DC.Table _DC.RadioButtonGroup _.DC.Timer
 ⍝ Description:: John Conway's "Game of Life" (interactive)
 
     :Field public WORLD
     :Field public SHAPE
-    :Field public SHAPES←'Plane' 'Cylinder' 'Torus' 'Möbius' 'Klein'
-    :Field public CELL
-    :Field public RESET
     :Field public STEP
 
     ∇ Setup
       :Access Public
       :Implements Constructor
-      SHAPE←'Torus'
-      CELL←'.cell slot'New _.div
+      SHAPES←'Plane' 'Cylinder' 'Torus' 'Möbius' 'Klein'
+      SHAPE←3⊃SHAPES
+      LIVE←'.live slot'New _.div
+      DEAD←'.dead slot'New _.div
+      SURVIVOR←'.surv slot'New _.div
       RESET←0⍪0,11 11↑3 3⍴0 0 1 1 0 1 0 1 1
       WORLD←RESET
       STEP←1
@@ -24,7 +24,10 @@
      
       Add _.style ScriptFollows
       ⍝ .slot {height: 30px; width: 30px;}
-      ⍝ .cell {border-radius: 12px; background: green; box-shadow: 0 0 15px 3px green; position: absolute; z-index: -1;}
+      ⍝ .live, .dead, .surv {border-radius: 12px; position: absolute; z-index: -1;}
+      ⍝ .live {background: LimeGreen; background: radial-gradient(DarkGreen 33%,aqua);}
+      ⍝ .surv {background: DarkGreen; background: radial-gradient(DarkGreen 33%,khaki);}
+      ⍝ .dead {background: Khaki; background: radial-gradient(Khaki,White);}
       ⍝ #world td {box-shadow: 0 0 0 1px silver; cursor: pointer;}
       ⍝ #world table {box-shadow: 0 0 0 1px silver inset;}
       ⍝ #step {width: 3em;}
@@ -71,7 +74,7 @@
 
     ∇ r←Advance
       :Access Public
-      WORLD←Life(⍎SHAPE)⍣STEP⊢WORLD
+      WORLD←(0.5×⌊WORLD)+Life(⍎SHAPE)⍣STEP⊢⌊WORLD
       r←'#world'Replace Disp WORLD
     ∇
 
@@ -81,8 +84,8 @@
       r←''
     ∇
 
-    ∇ table←Disp world
-      table←'#grid'New _.Table((''CELL[1+world])'.slot' 0 '' 1)
+    ∇ table←{dead}Disp world
+      table←'#grid'New _.Table((''DEAD LIVE SURVIVOR[1+2×world])'.slot' 0 '' 1)
       table.On'click' 'Edit'
     ∇
 
