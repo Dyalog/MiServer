@@ -1,5 +1,5 @@
 ﻿:Class Game_of_Life : MiPageSample
-⍝ Control:: _DC.Table _DC.RadioButtonGroup _.DC.Timer
+⍝ Control:: _DC.Table _DC.RadioButtonGroup _DC.Timer
 ⍝ Description:: John Conway's "Game of Life" (interactive)
 
     :Field public WORLD
@@ -9,14 +9,14 @@
     ∇ Setup
       :Access Public
       :Implements Constructor
+      INIT←'Acorn'
       SHAPES←'Plane' 'Cylinder' 'Torus' 'Möbius' 'Klein'
       SHAPE←3⊃SHAPES
       LIVE←'.live slot'New _.div
       DEAD←'.dead slot'New _.div
       SURVIVOR←'.surv slot'New _.div
-      RESET←0⍪0,11 11↑3 3⍴0 0 1 1 0 1 0 1 1
-      WORLD←RESET
       STEP←1
+      RUN←0
     ∇
 
     ∇ Compose
@@ -32,50 +32,96 @@
       ⍝ #world table {box-shadow: 0 0 0 1px silver inset;}
       ⍝ #step {width: 3em;}
      
-      {Add'&nbsp;'⊣(⍵'.act')Add _.Button ⍵}¨'Reset' 'Stop' 'Step' 'Slow' 'Fast'
+      FILES←¯4↓¨⊃¨↓#.Files.List #.Boot.AppRoot,'Examples/Data/Life/*.txt'
+      WORLD←Load INIT
+      HISTORY←,⊂⌊WORLD
+     
+      ('#select'Add _.Select(FILES(FILES⍳⊂INIT)⍬'Select world:')).On'change' 'Select'
+      {(⍵'.act')Add _.Button ⍵⊣Add'&nbsp;'}¨'Stop' 'Step' 'Slow' 'Fast'
       ('#step'Add _.Input'number'STEP' Step size: ').On'change' 'Step'
       '#shapes'Add _.RadioButtonGroup((SHAPES,¨⊂'&nbsp;')3 'right' 1)
+      Add _.p('Generation '('#gen'New _.span 1))
       '#world'Add _.div(Disp WORLD)
      
-      Add _.Timer 200 0 'tick' 'Fast'
-      Add _.Timer 500 0 'tick' 'Slow'
+      Add _.Timer 50 0 'tick' 'Fast'
+      Add _.Timer 250 0 'tick' 'Slow'
       On'tick' 'Advance'
-      Add _.Handler'.act,#shapes_container input' 'click' 'Action'
+      ⍝ Why doesn't this work?
+      Add _.Handler'.act,#shapes_container input' 'click' 'Action' ⍝'' '' '$(function(){Faststop();Slowstop();});'
     ∇
+
+    ∇ r←Select
+      :Access public
+      WORLD←Load _value
+      r←Reset WORLD
+    ∇
+
+    Load←{⊃⍪/,/(3 3⍴¯5↑1)×⊂↑'*'=#.Files.GetVTV #.Boot.AppRoot,'Examples/Data/Life/',⍵,'.txt'}
 
     ∇ r←Edit
       :Access Public
       r←''
       :If 'grid'≢_what
-          ((⊂⍎¨'\d+'⎕S'&'⊢_what)⊃WORLD)=←0
-          r←'#world'Replace Disp WORLD
+          r,←Stop
+          ((⊂⍎¨'\d+'⎕S'&'⊢_what)⊃WORLD)≤←0.5
+          r,←Reset WORLD
       :EndIf
+    ∇
+
+    ∇ r←Reset world
+      r←'#world'Replace Disp world
+      HISTORY←,⊂⌊world
+      r,←'#gen'Replace 1
     ∇
 
     ∇ r←Action
       :Access Public
+      r←Stop
       :Select _what
-      :Case 'Stop'
-          r←Execute'$(function(){Faststop();Slowstop();});'
-      :Case 'Slow'
-          r←Execute'$(function(){Faststop();Slowrun();});'
-      :Case 'Fast'
-          r←Execute'$(function(){Slowstop();Fastrun();});'
+      :CaseList 'Slow' 'Fast'
+          r,←Go _what
       :Case 'Step'
-          r←Advance
+          RUN←1
+          r,←Advance
+          RUN←0
       :Case 'Reset'
-          WORLD←RESET
-          r←'#world'Replace Disp WORLD
+          WORLD←Load INIT
+          r,←Reset WORLD
       :CaseList 'shapes_'∘,¨⍕¨⍳5
           SHAPE←SHAPES⊃⍨⍎⊃⌽_what
-          r←''
       :EndSelect
     ∇
 
-    ∇ r←Advance
+    ∇ r←Go speed
+      RUN←1
+      r←Execute'$(function(){',_what,'run();});'
+    ∇
+
+    ∇ r←Stop
+      RUN←0
+      r←Execute'$(function(){Faststop();Slowstop();});'
+    ∇
+
+    ∇ r←Advance;snap;now;orig
       :Access Public
-      WORLD←(0.5×⌊WORLD)+Life(⍎SHAPE)⍣STEP⊢⌊WORLD
-      r←'#world'Replace Disp WORLD
+      r←''
+      :For step :In ⍳STEP
+          :If RUN
+              WORLD←(0.5×⌊WORLD)+Life(⍎SHAPE)⌊WORLD
+              r,←'#world'Replace Disp WORLD
+              snap←⊂⌊WORLD
+              :If snap∊HISTORY
+                  r,←Stop
+                  now←1+≢HISTORY
+                  orig←HISTORY⍳snap
+                  r,←'#gen'Replace now' ≡ Generation 'orig' (period is '(now-orig)')'
+                  HISTORY←,snap
+              :Else
+                  HISTORY,←snap
+                  r,←'#gen'Replace≢HISTORY
+              :EndIf
+          :EndIf
+      :EndFor
     ∇
 
     ∇ r←Step
@@ -84,7 +130,7 @@
       r←''
     ∇
 
-    ∇ table←{dead}Disp world
+    ∇ table←Disp world
       table←'#grid'New _.Table((''DEAD LIVE SURVIVOR[1+2×world])'.slot' 0 '' 1)
       table.On'click' 'Edit'
     ∇
@@ -107,7 +153,7 @@
           1 0↓0 2↓¯1⌽⍺⍺ 0⍪Twist ⍵ ⍝ ⍋   ⍒
                                   ⍝ └───┘
       }
-      Klein←{⎕ML←0                ⍝ ┌─→─┐ klein bottle
+      Klein←{                     ⍝ ┌─→─┐ klein bottle
           0 2↓¯1⌽⍺⍺ Twist ⍵       ⍝ ⍋   ⍒
                                   ⍝ └─→─┘
       }
