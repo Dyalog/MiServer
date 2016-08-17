@@ -553,7 +553,7 @@
      
           :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID ⋄ :EndIf
       :EndIf
-
+     
       :If sessioned ⋄ token←REQ.(Page,⍕Session.ID)
       :ElseIf ~0∊⍴REQ.PeerAddr ⋄ token←REQ.(Page,PeerAddr)
       :Else ⋄ token←⍕⎕TID
@@ -568,6 +568,10 @@
      
       :Hold token
           onHandleMSP REQ ⍝ overridable
+     
+          :If expired ⍝ move old public fields (those beginning with '_' are excluded)
+              {0:: ⋄ ⍎'inst.',⍵,'←oldinst.',⍵}¨⊃∩/{⍵/⍨'_'≠⊃¨⍵}¨(inst oldinst).⎕NL ¯2.2
+          :EndIf
      
      ⍝ Move arguments / parameters into Public Properties
           inst._PageData←⎕NS''
