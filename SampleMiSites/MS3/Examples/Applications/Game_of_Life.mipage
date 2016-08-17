@@ -17,19 +17,21 @@
       SURVIVOR←'.surv slot'New _.div
       STEP←1
       RUN←0
+      SPEEDS←'Slow' 'Medium' 'Fast'
+      STOP←'$(function(){',(∊'Slow' 'Medium' 'Fast',¨⊂'stop();'),'});'
     ∇
 
-    ∇ Compose
+    ∇ Compose;row
       :Access Public
      
       Add _.style ScriptFollows
-      ⍝ .slot {height: 30px; width: 30px;}
+      ⍝ .slot {height: 10px; width: 10px;}
       ⍝ .live, .dead, .surv {border-radius: 33%; position: absolute; z-index: -1;}
-      ⍝ .live {background: LimeGreen; background: radial-gradient(DarkGreen 33%,aqua);}
-      ⍝ .surv {background: DarkGreen; background: radial-gradient(DarkGreen 33%,khaki);}
+      ⍝ .live {background: LimeGreen; background: radial-gradient(DarkGreen,Aqua);}
+      ⍝ .surv {background: DarkGreen; background: radial-gradient(DarkGreen,Khaki);}
       ⍝ .dead {background: Khaki; background: radial-gradient(Khaki,White);}
-      ⍝ #world td {box-shadow: 0 0 0 1px silver; cursor: pointer;}
-      ⍝ #world table {box-shadow: 0 0 0 1px silver inset;}
+      ⍝ #world td {border: 1px solid silver; cursor: pointer;}
+      ⍝ #world table {border-collapse: collapse;}
       ⍝ #step {width: 3em;}
      
       FILES←¯4↓¨⊃¨↓#.Files.List #.Boot.AppRoot,'Examples/Data/Life/*.txt'
@@ -37,17 +39,24 @@
       HISTORY←,⊂⌊WORLD
      
       ('#select'Add _.Select(FILES(FILES⍳⊂INIT)⍬'Select world:')).On'change' 'Select'
-      {(⍵'.act')Add _.Button ⍵⊣Add'&nbsp;'}¨'Stop' 'Step' 'Slow' 'Fast'
-      ('#step'Add _.Input'number'STEP' Step size: ').On'change' 'Step'
-      '#shapes'Add _.RadioButtonGroup((SHAPES,¨⊂'&nbsp;')3 'right' 1)
-      Add _.p('Generation '('#gen'New _.span 1))
+     
+      {(⍵'.act')Add _.Button ⍵⊣Add'&nbsp;'}¨'Stop' 'Step',SPEEDS
+      Add _.Handler'.act' 'click' 'Action' '' ''STOP
+     
+      Add _.p('#shapes'New _.RadioButtonGroup((SHAPES,¨⊂'&nbsp;')3 'right' 1))
+      Add _.Handler'#shapes_container input' 'click' 'Reshape'
+     
+      row←Add _.p
+      ('#step'row.Add _.Input'number'STEP' Step size: ').On'change' 'Step'
+      row.Add'Generation '
+      '#gen'row.Add _.span 1
+     
       '#world'Add _.div(Disp WORLD)
      
       Add _.Timer 50 0 'tick' 'Fast'
-      Add _.Timer 250 0 'tick' 'Slow'
+      Add _.Timer 158 0 'tick' 'Medium'
+      Add _.Timer 500 0 'tick' 'Slow'
       On'tick' 'Advance'
-      ⍝ Why doesn't this work?
-      Add _.Handler'.act,#shapes_container input' 'click' 'Action' ⍝'' '' '$(function(){Faststop();Slowstop();});'
     ∇
 
     ∇ r←Select
@@ -78,50 +87,46 @@
       :Access Public
       r←Stop
       :Select _what
-      :CaseList 'Slow' 'Fast'
-          r,←Go _what
+      :Case 'Stop'
       :Case 'Step'
           RUN←1
           r,←Advance
           RUN←0
-      :Case 'Reset'
-          WORLD←Load INIT
-          r,←Reset WORLD
-      :CaseList 'shapes_'∘,¨⍕¨⍳5
-          SHAPE←SHAPES⊃⍨⍎⊃⌽_what
+      :Else
+          RUN←1
+          r,←Execute'$(function(){',_what,'run();});'
       :EndSelect
     ∇
 
-    ∇ r←Go speed
-      RUN←1
-      r←Execute'$(function(){',_what,'run();});'
+    ∇ r←Reshape
+      :Access Public
+      r←''
+      SHAPE←SHAPES⊃⍨⍎⊃⌽_what
     ∇
 
     ∇ r←Stop
       RUN←0
-      r←Execute'$(function(){Faststop();Slowstop();});'
+      r←Execute STOP
     ∇
 
     ∇ r←Advance;snap;now;orig
       :Access Public
       r←''
-      :For step :In ⍳STEP
-          :If RUN
-              WORLD←(0.5×⌊WORLD)+Life(⍎SHAPE)⌊WORLD
-              r,←'#world'Replace Disp WORLD
-              snap←⊂⌊WORLD
-              :If snap∊HISTORY
-                  r,←Stop
-                  now←1+≢HISTORY
-                  orig←HISTORY⍳snap
-                  r,←'#gen'Replace now' ≡ Generation 'orig' (period is '(now-orig)')'
-                  HISTORY←,snap
-              :Else
-                  HISTORY,←snap
-                  r,←'#gen'Replace≢HISTORY
-              :EndIf
+      :If RUN
+          WORLD←(0.5×⌊WORLD)+Life(⍎SHAPE)⍣STEP⌊WORLD
+          r,←'#world'Replace Disp WORLD
+          snap←⊂⌊WORLD
+          :If snap∊HISTORY
+              r,←Stop
+              now←1+≢HISTORY
+              orig←HISTORY⍳snap
+              r,←'#gen'Replace now' ≡ Generation 'orig' (period is '(now-orig)')'
+              HISTORY←,snap
+          :Else
+              HISTORY,←snap
+              r,←'#gen'Replace≢HISTORY
           :EndIf
-      :EndFor
+      :EndIf
     ∇
 
     ∇ r←Step
