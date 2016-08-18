@@ -506,6 +506,7 @@
       :AndIf (n←⍴REQ.Session.Pages)≥i←REQ.Session.Pages._PageName⍳⊂REQ.Page
           inst←i⊃REQ.Session.Pages ⍝ Get existing instance
           :If expired←inst._PageDate≢date  ⍝ Timestamp unchanged?
+          :AndIf expired←(⎕SRC⊃⊃⎕CLASS inst)≢(#.Files.GetVTV file)~⊂''
               oldinst←inst
               REQ.Session.Pages~←inst
               4 Log'Page: ',REQ.Page,' ... has been updated ...'
@@ -569,7 +570,7 @@
       :Hold token
           onHandleMSP REQ ⍝ overridable
      
-          :If expired ⍝ move old public fields (those beginning with '_' are excluded)
+          :If expired∧REQ.isPost ⍝ move old public fields (those beginning with '_' are excluded)
               {0:: ⋄ ⍎'inst.',⍵,'←oldinst.',⍵}¨⊃∩/{⍵/⍨'_'≠⊃¨⍵}¨(inst oldinst).⎕NL ¯2.2
           :EndIf
      
