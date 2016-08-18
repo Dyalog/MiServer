@@ -10,7 +10,7 @@
 ⍝ path:     https://www.w3.org/TR/SVG11/paths.html#DAttribute
      
 ⍝ element names followed by '*' have no closing tag
-      Elements←{{('*'~⍨⊃⍵)('*'≠⊃⌽⊃⍵)(⊃⌽⍵)}¯1 0↓¨⍵⊂⍨¯1↓1,(⍵⍳' ')=⍳⍴⍵}∘{{1↓¯1↓(~'  '⍷⍵)/⍵}' ',⍵,' '}¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+⊃⎕LC)↓↓(180⌶)⊃⎕XSI
+      Elements←{{('*'~⍨1↓⊃⍵)('*'≠⊃⌽⊃⍵)(1↓∊1↓⍵)}1↓⍵}¨{⍵↑⍨¯1+⍵⍳⊂0⍴⊂''}((⊂,' ')~⍨' '∘=⊂⊢)¨(1+⊃⎕LC)↓⎕NR⊃⎕XSI
       ⍝ a          Defines a hyperlink
       ⍝ abbr       Defines an abbreviation or an acronym
       ⍝ address    Defines contact information for the author/owner of a document
