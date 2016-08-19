@@ -107,7 +107,7 @@
       TID←RunServer&⍬
     ∇
 
-    ∇ End;tempfiles
+    ∇ End
     ⍝ Called by destructor
       :Access Public
       Logger.Stop ⍬
@@ -119,12 +119,6 @@
           :Trap 6 ⍝ ⎕TSYNC may not return a value if the thread doesn't, so handle the possible VALUE ERROR
               {}⎕TSYNC ⎕TID~⍨TID∩⎕TNUMS
           :EndTrap
-      :EndIf
-      :If ~0∊⍴Config.TempFolder
-          tempfiles←{(~⍵[;4])/⍵[;1]}#.Files.List Config.TempFolder
-          :If 0≠⍴tempfiles←(tempfiles∨.≠¨'.')/tempfiles
-              {}{0::'' ⋄ #.Files.Delete Config.TempFolder,⍵}¨tempfiles
-          :EndIf
       :EndIf
       Cleanup ⍝ overridable
       TID←¯1
@@ -368,7 +362,6 @@
       :If 2=conns.⎕NC'PeerCert' ⋄ REQ.PeerCert←conns.PeerCert ⋄ :EndIf       ⍝ Add Client Cert Information
      
       REQ.OrigPage←REQ.Page ⍝ capture the original page
-     
       REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page ⍝ no page specified? use the default
       REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension ⍝ no extension specified? use the default
       ext←⊃¯1↑#.Files.SplitFilename filename←Config Virtual REQ.Page
@@ -376,7 +369,7 @@
       SessionHandler.GetSession REQ
       Authentication.Authenticate REQ
       :If REQ.Response.Status≠401 ⍝ Authentication did not fail
-          :If Config.AllowedHttpCommands∊⍨⊂REQ.Command
+          :If Config.AllowedHTTPCommands∊⍨⊂REQ.Command
               onHandleRequest REQ ⍝ overridable
               :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
                   filename HandleMSP REQ
@@ -409,7 +402,7 @@
                   :Else ⋄ length←BlockSize        ⍝ otherwise send it a block at a time
                   :EndIf
                   res.HTML←⎕NREAD tn 83 length 0
-                  cacheMe←0≠Config.HttpCacheTime ⍝ for now, cache all files if set to use caching
+                  cacheMe←0≠Config.HTTPCacheTime ⍝ for now, cache all files if set to use caching
               :Else
                   res.HTML←⍬
                   REQ.Fail 404
@@ -445,8 +438,8 @@
       :EndIf
      
       :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires
-      :AndIf 0<Config.HttpCacheTime
-          res.Headers⍪←'Expires'(Config.HttpCacheTime #.Dates.HttpDate ⎕TS)
+      :AndIf 0<Config.HTTPCacheTime
+          res.Headers⍪←'Expires'(Config.HTTPCacheTime #.Dates.HTTPDate ⎕TS)
       :EndIf
       res.Headers⍪←{0∊⍴⍵:'' '' ⋄ 'Server'⍵}Config.Server
       status←res.((⍕Status),' ',StatusText)
@@ -483,7 +476,6 @@
     ⍝ Handle a "MiServer Page" request
      
       path name ext←#.Files.SplitFilename file
-     
      RETRY:
      
       :If 1≠n←⊃⍴list←''#.Files.List file ⍝ does the file exist?
@@ -496,6 +488,10 @@
               1 Log'Multiple matching files found for "',file,'"?'
           :EndIf
           :If 1≠n
+              :If 0=n
+              :AndIf #.Files.DirExists Config.AppRoot,REQ.OrigPage↓⍨'/\'∊⍨⊃REQ.OrigPage
+                  →0⍴⍨CheckDirectoryBrowser REQ
+              :EndIf
               REQ.Fail 404 ⋄ →0
           :EndIf
       :EndIf
@@ -510,6 +506,7 @@
       :AndIf (n←⍴REQ.Session.Pages)≥i←REQ.Session.Pages._PageName⍳⊂REQ.Page
           inst←i⊃REQ.Session.Pages ⍝ Get existing instance
           :If expired←inst._PageDate≢date  ⍝ Timestamp unchanged?
+          :AndIf expired←(⎕SRC⊃⊃⎕CLASS inst)≢(#.Files.GetVTV file)~⊂''
               oldinst←inst
               REQ.Session.Pages~←inst
               4 Log'Page: ',REQ.Page,' ... has been updated ...'
@@ -524,8 +521,7 @@
                   inst._Request←REQ
               :EndIf
           :EndIf
-      :Else                        ⍝ First use of Page in this Session, or page expired
-⍝          :If 0≠⍴z←#.Files.GetText file
+      :Else
           :Trap 11 22 92
               inst←Config.AppRoot LoadMSP file ⍝ ⎕NEW ⎕SE.SALT.Load file,' -target=#.Pages'
           :Case 11 ⋄ REQ.Fail 500 ⋄ 1 Log'Domain Error trying to load "',file,'"' ⋄ →0 ⍝ Domain Error: HTTP Internal Error
@@ -557,9 +553,6 @@
           :EndIf
      
           :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID ⋄ :EndIf
-⍝          :Else  ⍝ empty file or file not found
-⍝              REQ.Fail 404 ⋄ →0
-⍝          :EndIf
       :EndIf
      
       :If sessioned ⋄ token←REQ.(Page,⍕Session.ID)
@@ -567,8 +560,19 @@
       :Else ⋄ token←⍕⎕TID
       :EndIf
      
+    ⍝!!!BPB!!! Finish Me
+      :If inst.Cacheable
+      :AndIf ~0∊⍴inst._cache
+          REQ.Response.HTML←inst._cache
+          →0
+      :EndIf
+     
       :Hold token
           onHandleMSP REQ ⍝ overridable
+     
+          :If expired∧REQ.isPost ⍝ move old public fields (those beginning with '_' are excluded)
+              {0:: ⋄ ⍎'inst.',⍵,'←oldinst.',⍵}¨⊃∩/{⍵/⍨'_'≠⊃¨⍵}¨(inst oldinst).⎕NL ¯2.2
+          :EndIf
      
      ⍝ Move arguments / parameters into Public Properties
           inst._PageData←⎕NS''
@@ -691,7 +695,22 @@
       REQ.Return html
     ∇
 
-    ∇ inst←root LoadMSP file;path;name;ext;rpath;ns;tree;class;level;n;created;node;mask
+    ∇ CacheMSP file
+      :Access public
+     
+    ∇
+
+    ∇ inst←root LoadMSP file;path;name;ext;ns;class
+      path name ext←#.Files.SplitFilename file
+      ns←root NamespaceForMSP file
+      inst←⎕NEW class←⎕SE.SALT.Load file,' -target=',⍕ns
+     
+      :If ~name(≡#.Strings.nocase)class←⊃¯1↑'.'#.Utils.penclose⍕class
+          1 Log'Filename/Classname mismatch: ',file,' ≢ ',class
+      :EndIf
+    ∇
+
+    ∇ ns←root NamespaceForMSP file;path;name;ext;rpath;tree;created;n;level;node;mask
       path name ext←#.Files.SplitFilename file
       rpath←(⍴root)↓path
       ns←#.Pages
@@ -721,12 +740,6 @@
               ⎕SIGNAL 11
           :EndSelect
       :EndFor
-     
-      inst←⎕NEW class←⎕SE.SALT.Load file,' -target=',⍕ns
-     
-      :If ~name(≡#.Strings.nocase)class←⊃¯1↑'.'#.Utils.penclose⍕class
-          1 Log'Filename/Classname mismatch: ',file,' ≢ ',class
-      :EndIf
     ∇
 
     ∇ (req buffer)←MakeHTTPRequest req;x;v;s;p;l;m;n;i;c;h
@@ -835,6 +848,39 @@
               →0
           :EndIf
       :EndFor
+    ∇
+
+    ∇ r←CheckDirectoryBrowser REQ;folder;file;F;filter;template;propagate;up;directory;inst;code;page;breadcrumb
+    ⍝ checks if the requested URI is a browsable directory
+      folder←page←{⍵,'/'/⍨~'/\'∊⍨¯1↑⍵}REQ.OrigPage
+      r←up←0
+      :Trap 0/0 ⍝!!! remove 0/ after testing
+          :While r⍱0∊⍴folder
+              :If #.Files.Exists file←Config.AppRoot,folder,'Folder.xml'
+                  F←⎕NEW #.Boot.ConfigSpace file
+                  :If F.Get'browsable' 1 0
+                      filter←F.Get'filter'
+                      template←{0∊⍴⍵:'MiPage' ⋄ ⍵}F.Get'template'
+                      propagate←F.Get'propagate' 1 0
+                      →0⍴⍨up>propagate
+                      code←⊂':Class directorybrowser : #.Pages.',template
+                      code,←'∇Compose' ':Access Public'
+                      code,←⊂'Add #._html.title ''',(1↓⊃⌽('/'∘=⊂⊢)¯1↓page),''''
+                      breadcrumb←(∊1∘↓,⍨((,\{'<a class="breadcrumb" href="',⍺,'">',⍵,'</a>'}¨⊢)⊃⊂⍨¯1⌽'/'=⊃))#.Files.SplitFilename page,filter
+                      code,←⊂'Add #._html.h2 ''Directory Listing for ',breadcrumb,''''
+                      code,←('''dirBrowser'' Add #._DC.DirectoryBrowser ''',page,''' ''',filter,''' ',(⍕propagate),' ',⍕up)'∇' ':EndClass'
+                      inst←⎕NEW ⎕FIX code
+                      inst._Request←REQ
+                      inst.Compose
+                      inst.Wrap
+                      r←1
+                  :EndIf
+              :Else
+                  up←1
+                  folder←{⍵↓⍨-⊥⍨⍵≠'/'}¯1↓folder
+              :EndIf
+          :EndWhile
+      :EndTrap
     ∇
     :endsection
 

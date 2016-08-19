@@ -92,7 +92,7 @@
     Levels←{(+/¨'/'=⍵)+~'/'=(⊃⌽)¨⍵} ⍝ Number of /s adjusted for categories' final /
 
     Shuffle←(?⍨∘≢⊃¨⊂)⊢⊂⍨⊢≡¨1↑⊢ ⍝ Shuffle the root elements of an XML snippet
-    
+
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
@@ -104,19 +104,23 @@
 
       External←{ ⍝ Icon off-site link
           ⍺←''
-          '.external' 'target=_blank' 'data-Dyalog-tip="External link"'New _.A((⍺,'&#x1f517;')⍵)
+      ⍝    '.external' 'target=_blank' 'data-dyalog-tip="External link"'New _.A((⍺,'&#x1f517;')⍵)
+          '<a class=".external" target="_blank" data-dyalog-tip="External link" href="',⍵,'">',⍺,'&#x1f517;</a>'
       }
 
       DescrEmbed←{ ⍝ Link to and iframed page
           d←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵
-          l←('target="_blank"'New _.A d('/',⍵))
-          e←('src="/',⍵,'?nowrapper=1"')New _.iframe
+       ⍝   l←('target="_blank"'New _.A d('/',⍵))
+          l←'<a target="_blank" href="/',⍵,'">',d,'</a>'
+       ⍝   e←('src="/',⍵,'?nowrapper=1"')New _.iframe
+          e←'<iframe src="/',⍵,'?nowrapper=1"/>'
           l e
       }
 
       Link←{ ⍝ New-tab link with optional (⍺) "tooltip"
           ⍺←0
-          (('data-Dyalog-tip=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
+          ⍝(('data-dyalog-tip=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
+          '<a target="_blank" href=',(Q⊃⌽⍵),((⍺≢0)/' data-dyalog-tip=',Q ⍺),'>',(⊃⍵),'</a>'
       }
 
       DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
@@ -138,10 +142,14 @@
           (Name∘NoExt¨l)(Levels l)(DocTreeLink¨l)
       }
 
-      RelDocs←{ ⍝ Links to related samples
-          list←'relevant'ForControl ⍵
-          1↓∊(New _.br),¨{Link('filedescr'ForFile ⍵)⍵}¨list
-      }
+    ∇ r←RelDocs w;list;item ⍝ Links to related samples
+      list←'relevant'ForControl w
+      r←''
+      :For item :In list
+          r,←'<p>',(Link('filedescr'ForFile item)item),'</p><br/>'
+      :EndFor
+      r↓⍨←¯5
+    ∇
 
       FormatList←{ ⍝ List of category-title pairs
           ⍺←1↓FILEEXT
@@ -179,7 +187,7 @@
       r←#.Boot.ms.Config.DefaultExtension
     ∇
 
-    ∇ C←C;scores;list;refs;srcs;control;i;info;ref;src;ctor;Read;Ø
+    ∇ C←C;scores;list;refs;srcs;control;i;info;ref;src;ctor;Read;Ø;demo
      ⍝ Return ref to cache (initialize cache if nonexistant)
       :Access public
       Read←#.Files.GetVTV #.Boot.AppRoot∘, ⍝ no-cache reading
@@ -207,6 +215,8 @@
               C.ctor←''
               C.notes←''
               C.relevant←''
+              C.reldocs←''
+              C.doclinks←''
               info←FromCSV Read'Examples/Data/info.csv'
               :For control ref src :InEach C.controls refs srcs
                   i←info[;1]⍳⊂control
@@ -217,6 +227,7 @@
                       C.descr,←⊂NoNL'Description'Section src
                       C.notes,←⊂NoNL'Notes'Section src
                   :EndIf
+     
                   ctor←{⍵↑⍨¯1+⌊/⍵⍳⎕UCS 13 10}'Constructor'Section src
                   :If ''≡ctor
                       C.ctor,←'[content [attributes]]' '[attributes]'[1+(⎕NEW ref).NoEndTag]
@@ -230,7 +241,16 @@
                       C.relevant,←Ø
                   :EndIf
      
+     
               :EndFor
+     
+              C.reldocs←(RelDocs¨C.controls),Ø
+              C.doclink←(DocLink¨C.controls),Ø
+              C.used←{⊂2↓∊', '∘,¨C.doclink[C.controlsoi¨⍵]}¨C.demos
+     
+              C.tasks←{Link('Description'Section Read ⍵)⍵}¨C.files
+     
+              C.type←'simple' 'advanced' 'mini-app'[1⍳⍨¨↓⍉∨/¨'Simple' 'Advanced'∘.⍷C.files]
      
               C.filedescr,←Ø ⍝ These cause an empty result if looked-up is not found
               C.demos,←Ø

@@ -2,7 +2,7 @@
 ⍝ Control:: _html.li _html.ol _html.ul
 ⍝ Description:: Add nested lists of varying types
 
-    ∇ Compose;myol;myul
+    ∇ Compose;myol;myul;myli
       :Access public 
      
     ⍝ First we build a list container (ordered)
@@ -13,8 +13,8 @@
       myol.Add _.li'Second item'
      
     ⍝ Then we build another list container (unordered this time)
-      myol.Add _.li'Here is an unordered list:'
-      myul←myol.Add _.ul
+      myli←myol.Add _.li'Here is an unordered list:'
+      myul←myli.Add _.ul
     ⍝ which contains 3 elements
       myul.Add _.li'First  item'
       myul.Add _.li'Second item'

@@ -1,4 +1,4 @@
-﻿:Class MiPage : #.HtmlPage           
+﻿:Class MiPage : #.HtmlPage
 
     ⍝∇:require =\HtmlPage.dyalog
     ⍝∇:require =\JSON.dyalog
@@ -22,8 +22,10 @@
     :field Public _AjaxResponse←''
     :field Public _DebugCallbacks←0
     :field Public _TimedOut←0
+    :field Public _cache←''       ⍝ cached content if page is marked cacheable
     :field Public OnLoad←''       ⍝ page equivalent to ⎕LX
     :field Public Charset←'UTF-8' ⍝ default charset
+    :field Public Cacheable←0     ⍝ is the page cacheable?
 
     _used←'' ⍝ keep track of what's been used
 
@@ -75,6 +77,7 @@
     ∇ {r}←Wrap
       :Access public
       r←Render
+      :If Cacheable ⋄ _cache←r ⋄ :EndIf
     ∇
 
     ∇ Use resources;n;ind;t;x;server

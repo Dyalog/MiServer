@@ -8,7 +8,7 @@
       A←'─────────╫'
       Add _.Timer 200 0 'Atick' 'A'
       {(⍵ Add _.button ⍵).On'click' 'Click'}¨'Arun' 'Astop'
-      '#Aoutput'Add _.span A
+      '#Aoutput'Add _.code A
       On'Atick' 'Aupdate'
      
       Add _.br
@@ -16,7 +16,7 @@
       B←'─────────╫'
       Add _.Timer 300 0 'Btick' 'B'
       {(⍵ Add _.button ⍵).On'click' 'Click'}¨'Brun' 'Bstop'
-      '#Boutput'Add _.span B
+      '#Boutput'Add _.code B
       On'Btick' 'Bupdate'
      
     ∇

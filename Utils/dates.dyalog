@@ -11,7 +11,7 @@
       r←,('<',day,', >,ZI2,<-',mon,'->,ZI4,< >,ZI2,<:>,ZI2,<:>,ZI2,< GMT>')⎕FMT 1 5⍴(6↑date)[3 1 4 5 6]
     ∇
 
-    ∇ r←{minOffset}HttpDate ts;sign;day;mon;ver;⎕USING;t
+    ∇ r←{minOffset}HTTPDate ts;sign;day;mon;ver;⎕USING;t
     ⍝ return RCF 1123/822 compliant date
     ⍝ minOffset is option number of minutes to offset time with (used for HTTP caching expirations)
       minOffset←{0::0 ⋄ minOffset}''
@@ -58,7 +58,7 @@
     ∇
 
     ∇ r←TSFmt ts
-      r←,'ZI4,<->,ZI2,<->,ZI2,< >,ZI2,<:>,ZI2'⎕FMT 1 5⍴ts
+      r←,'ZI4,<->,ZI2,<->,ZI2,< >,ZI2,<:>,ZI2,<:>,ZI2'⎕FMT 1 6⍴6↑ts
     ∇
 
     ∇ r←TSFmtNice ts;now;yday;today;z;i;m;idn;s
@@ -152,7 +152,7 @@
       str←(+/∧\' '=str)↓str           ⍝ remove the leading spaces
      ⍝ What kind of string is this?
       :If ~∧/1⊃(dt dt)←{b←~⍵∊'/-:' ⋄ ⎕VFI b\b/⍵}str  ⍝ yyyy/mm/dd hh:mm:ss ?
-          :If 0∊⍴t←'Jan' 'Feb' 'Mar' 'Apr' 'May' 'Jun' 'Jul' 'Aug' 'Sep' 'Oct' 'Nov' 'Dec' ⎕S 0 3⊢str      ⍝ look for the month as a string. If not found
+          :If 0∊⍴t←'Jan' 'Feb' 'Mar' 'Apr' 'May' 'Jun' 'Jul' 'Aug' 'Sep' 'Oct' 'Nov' 'Dec'⎕S 0 3⊢str      ⍝ look for the month as a string. If not found
               ymd←3↑tonum str                ⍝ grab the 1st 3 numbers found
               ymd←ymd[⍒(2×31<ymd)+ymd<12] ⍝ put in correct order
           :Else                           ⍝ otherwise (if found)
@@ -166,6 +166,21 @@
      ⍝ Now grab the time
           dt←ymd,tonum⍕'(\d+):(\d+):(\d+)'⎕S'\1 \2 \3'⊢str
       :EndIf
+    ∇
+
+    ∇ r←{unit}ParseTime string;chunks;units;factors
+     ⍝ Parse time string into units (default is ms)
+     ⍝ String is a string like '5d4h47m6s266ms'
+      :If 0=⎕NC'unit' ⋄ unit←'ms' ⋄ :EndIf
+      units←(1 1 1 1 1 0⊂'dhmsms'),⊂''
+      factors←86400000 3600000 60000 1000 1 1
+      chunks←{⎕ML←3 ⋄ (1+⍵∊⎕D)⊂⍵}string
+      :Trap 0/0
+          r←(⍎¨{⍵∩⎕D}¨chunks)+.×factors[units⍳{#.Strings.lc ⍵~⎕D}¨chunks]
+      :Else
+          'Invalid time string'⎕SIGNAL 11
+      :EndTrap
+      r←r÷factors[units⍳⊂,unit]
     ∇
 
 :EndNamespace

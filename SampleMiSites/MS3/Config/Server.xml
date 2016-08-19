@@ -2,5 +2,5 @@
     <Name>MS3 Sample Site</Name>
     <ClassName>MS3Server</ClassName>
     <RESTful>1</RESTful>
-    <AllowedHttpCommands>get,put,delete,post</AllowedHttpCommands>
+    <AllowedHTTPCommands>get,put,delete,post</AllowedHTTPCommands>
 </Server>

@@ -52,7 +52,7 @@
       ⎕IO←0
       :Select APLVersion
       :CaseList '*nix' 'Mac'
-          _SH'rm ',unixfix name
+          _SH'rm -f ',unixfix name
       :Case 'Win'
           'DeleteFileX'⎕NA'I kernel32.C32∣DeleteFile* <0T'
           ⎕NA'I4 kernel32.C32|GetLastError'
@@ -91,7 +91,7 @@
               r←0<⍴_SH'ls -adl ',unixfix path
           :EndTrap
       :Case 'Win'
-          r←0<⍬⍴⍴'.'List path
+          r←{1≠⊃⍴⍵:0 ⋄ ⍵[1;4]}'.'List path
       :EndSelect
     ∇
 
@@ -149,20 +149,35 @@
       r←{(0∊⍴⍵)<∧/⍵∊'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%-._~:/?#[]@!$&''()*+,;='}w ⍝ identify likely URIs
     ∇
 
-    ∇ r←{file}List path;z;rslt;handle;next;ok;attrs;⎕IO;FindFirstFileX;FindNextFileX;FindClose;FileTimeToLocalFileTime;FileTimeToSystemTime;GetLastError;isFile;filter
-    ⍝ Return matrix containing
+    ∇ r←{pattern}List path;z;rslt;handle;next;ok;attrs;⎕IO;FindFirstFileX;FindNextFileX;FindClose;FileTimeToLocalFileTime;FileTimeToSystemTime;GetLastError;isFile;filter;isFolder
+    ⍝ path and pattern are related.
+    ⍝ If there is no pattern (or pattern is empty)
+    ⍝   If path ends with '/' or '\' then return information for the contents of the folder, otherwise, return information about the folder (or file) itself
+    ⍝ If a non-empty pattern exists, it is used as a filter on the contents of path (path is treated as a folder name)
+    ⍝ Examples:
+    ⍝   List '/dir/foo'  ⍝ returns information about /dir/foo
+    ⍝   List '/dir/foo/' ⍝ returns information about the contents of /dir/foo/
+    ⍝   '*.dyalog' List '/dir/foo'  ⍝ returns information about the .dyalog files in /dir/foo/
+    ⍝   List '/dir/foo/*.dyalog'    ⍝ also returns information about the .dyalog files in /dir/foo/
+     
+    ⍝ Information returned is:
     ⍝ [;0] Name [;1] Length [;2] LastAccessTime [;3] IsDirectory
       ⎕IO←0
-      :If isFile←2=⎕NC'file' ⋄ filter←(0<⍴,file)/'/',file ⋄ :Else ⋄ filter←'/*' ⋄ :EndIf
-      filter←('/\'∊⍨¯1↑path)↓filter
+      :If 0=⎕NC'pattern' ⋄ pattern←'' ⋄ :EndIf
+      isFolder←'/\'∊⍨¯1↑path
+      filter←''
+      :If isFile←~0∊⍴pattern
+          filter←isFolder↓'/',pattern
+      :EndIf
+     
       r←0 4⍴'' 0 0 0
      
       :Select APLVersion
       :Case '*nix'
-          →(0∊⍴rslt←1 _SH'ls -al --time-style=full-iso ',unixfix path,isFile/filter)⍴0
+          →(0∊⍴rslt←1 _SH'ls -al',isFolder↓'d --time-style=full-iso ',unixfix path,filter)⍴0
           rslt←↑rslt
           rslt←' ',('total '≡6⍴rslt)↓[0]rslt
-          →(0=1↑⍴r←((1↑⍴rslt),4)⍴0)⍴0
+          r←((1↑⍴rslt),4)⍴0
           z←∧⌿' '=rslt ⍝ entirely blank columns
           z←z∧10>+\z    ⍝ Do not split file names
           rslt←z⊂rslt
@@ -173,11 +188,11 @@
           r[;0]←{(⌽~∨\⌽⍵='/')/⍵}¨{(-+/∧\' '=⌽⍵)↓¨↓⍵}0 1↓8⊃rslt    ⍝ Name
      
       :Case 'Mac'
-          →(0∊⍴rslt←1 _SH'stat -lt "%F %T %z" ',unixfix path,isFile/filter)⍴0
+          →(0∊⍴rslt←1 _SH'stat -lt "%F %T %z" ',unixfix path,isFolder{0∊⍴⍵:⍺/'*' ⋄ ⍵}filter)⍴0
           r←((1↑⍴rslt),4)⍴0
           rslt←↑{⎕ML←3 ⋄ ⍵⊂⍨~{⍵∧9>+\⍵}' '=⍵}¨rslt
           r[;3]←'d'=0⊃¨rslt[;1]                 ⍝ IsDirectory
-          r[;1]←(~r[;3])×1⊃¨⎕VFI¨rslt[;4]        ⍝ Size
+          r[;1]←(~r[;3])×1⊃¨⎕VFI¨rslt[;4]       ⍝ Size
           z←↑∊¨↓{w←⍵ ⋄ ((w∊'-:')/w)←' ' ⋄ 1⊃⎕VFI w}¨rslt[;5 6] ⍝
           r[;2]←↓z,0                            ⍝ 0 msec for MacOS to Timestamp
           r[;0]←rslt[;8]                        ⍝ Name
@@ -185,7 +200,7 @@
       :Case 'Win'
       ⍝ See DirX for explanations of results of _FindNextFile etc
           _FindDefine
-          handle rslt←_FindFirstFile path,filter
+          handle rslt←_FindFirstFile path,isFolder{0∊⍴⍵:⍺/'*' ⋄ ⍵}filter
           :If 0=handle
               :Return ⍝ ('ntdir error:',⍕rslt)⎕SIGNAL 102      ⍝ file not found
           :EndIf
@@ -197,11 +212,11 @@
               ('ntdir error:',⍕next)⎕SIGNAL 11   ⍝ DOMAIN
           :EndIf
           ok←FindClose handle
-          rslt←↓[0]↑rslt
-          →(0=1↑⍴r←((1↑⍴0⊃rslt),4)⍴0)⍴0
-          (0⊃rslt)←⍉attrs←(32⍴2)⊤0⊃rslt                ⍝ Get attributes into bits
+          →(0∊⍴rslt←↓[0]↑rslt)⍴0
+          r←((1↑⍴0⊃rslt),4)⍴0
+          (0⊃rslt)←⍉attrs←(32⍴2)⊤0⊃rslt    ⍝ Get attributes into bits
           r[;3]←(0⊃rslt)[;27]              ⍝ IsDirectory?
-          r[;1]←0(2*32)⊥⍉↑4⊃rslt          ⍝ combine size elements
+          r[;1]←0(2*32)⊥⍉↑4⊃rslt           ⍝ combine size elements
           r[;2]←_Filetime_to_TS¨3⊃rslt     ⍝ As ⎕TS vector
           r[;0]←6⊃rslt                     ⍝ Name
       :EndSelect
@@ -322,13 +337,15 @@
     ∇
 
     ∇ _FindDefine;WIN32_FIND_DATA
-      WIN32_FIND_DATA←'{I4 {I4 I4} {I4 I4} {I4 I4} {U4 U4} {I4 I4} T[260] T[14]}'
-      'FindFirstFileX'⎕NA'I4 kernel32.C32|FindFirstFile* <0T >',WIN32_FIND_DATA
-      'FindNextFileX'⎕NA'U4 kernel32.C32|FindNextFile* I4 >',WIN32_FIND_DATA
-      ⎕NA'kernel32.C32|FindClose I4'
-      ⎕NA'I4 kernel32.C32|FileTimeToLocalFileTime <{I4 I4} >{I4 I4}'
-      ⎕NA'I4 kernel32.C32|FileTimeToSystemTime <{I4 I4} >{I2 I2 I2 I2 I2 I2 I2 I2}'
-      ⎕NA'I4 kernel32.C32∣GetLastError'
+      :If 0=⎕NC'FindFirstFileX'
+          WIN32_FIND_DATA←'{I4 {I4 I4} {I4 I4} {I4 I4} {U4 U4} {I4 I4} T[260] T[14]}'
+          'FindFirstFileX'⎕NA'I4 kernel32.C32|FindFirstFile* <0T >',WIN32_FIND_DATA
+          'FindNextFileX'⎕NA'U4 kernel32.C32|FindNextFile* I4 >',WIN32_FIND_DATA
+          ⎕NA'kernel32.C32|FindClose I4'
+          ⎕NA'I4 kernel32.C32|FileTimeToLocalFileTime <{I4 I4} >{I4 I4}'
+          ⎕NA'I4 kernel32.C32|FileTimeToSystemTime <{I4 I4} >{I2 I2 I2 I2 I2 I2 I2 I2}'
+          ⎕NA'I4 kernel32.C32∣GetLastError'
+      :EndIf
     ∇
 
     ∇ rslt←_FindFirstFile name;⎕IO
@@ -409,9 +426,7 @@
     :endsection
 
     ∇ r←a FREAD w;t
-      t←w ⎕FSTIE 0
-      r←⎕FREAD t a
-      ⎕FUNTIE t
+      r←a{⍺{(⎕FUNTIE ⍵)⊢⎕FREAD ⍵ ⍺}w ⎕FSTIE 0}w
     ∇
 
     ∇ r←filename Fopen tieno

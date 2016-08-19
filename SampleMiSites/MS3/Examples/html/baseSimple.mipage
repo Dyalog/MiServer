@@ -2,11 +2,13 @@
 ⍝ Control:: _html.base _html.a
 ⍝ Description:: Set document base URI for relative links
 
-    ∇ Compose
+    ∇ Compose;l
       :Access public 
       'href="http://www.dyalog.com/"'Add _.base
-      Add _.p'We''ve specified the starting-poing of relative links, so the following link works: '
-      'href="meet-team-dyalog"' 'target="_blank"'Add _.a'meet-team-dyalog'
+      l←Add _.h1'LOOK HERE: We''ve specified the starting-poing of relative links, so the following link works: '
+      'href="meet-team-dyalog"' 'target="_blank"'l.Add _.a'meet-team-dyalog'
+      Add _.h1 'All other relative references, like the style sheet and the top left logo, are now broken.'
+      
     ∇
 
 :endclass

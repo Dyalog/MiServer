@@ -1,20 +1,40 @@
 ﻿:Class ejTabSimple : MiPageSample
 ⍝ Control:: _SF.ejTab
-⍝ Description:: Add a simple tabbed interface
+⍝ Description:: Syncfusion tabbed interface with four pseudo-language tabs
  
     ∇ Compose;captions;contents;intro
       :Access public
      
-      intro←'The ejTab control allows you to create a tabbed area. The constructor '
-      intro,←'takes a vector of tab captions and a vector of tab contents.'
-     
-      Add _.title'_SF.ejTab - Simple Example '
       Add _.h2'_SF.ejTab - Syncfusion Tab Control'
-      Add _.p intro
+      
+      Add _.p ScriptFollows
+⍝ The ejTab control allows you to create a tabbed area. The constructor
+⍝ takes a vector of tab captions and a vector of tab contents.
      
-      captions←'Tab One' 'Another' 'Third Tab'
-      contents←'This is the contents of '∘,¨captions
-      'tab1' Add _.ejTab(captions contents)
+      'output'Add _.ejTab('Latin' 'German' 'French' 'English')(WrapFollowing'p')
+⍝ Neque fieri horum errem ab me eo credo. Hanc sic meo quae ipsa. Fal membrorum existenti conservet
+⍝ per sapientia dubitavit. Apta gi de et enim gnum data. Id quadratam ut archimede attingere re ne.
+⍝ Humanam infusum has iis veteris mei occasio replere istarum. Emanant poterit capaces at in
+⍝ numerum de exigere ob chartam.
+⍝
+⍝ Fu en leuchtete du verwegene nachgehen la kindliche zierliche. Pa erschrak hinunter zwischen
+⍝ nirgends zu en ratloses. Die fur herde abend als gehen adieu danke. Grad frau aber bis sei ruth.
+⍝ Langsam wahrend heiland da richten sa bedeckt leuchte wo ja. Ist lohgruben furchtete betrubtes
+⍝ nur sudwesten ausgeruht ausdenken. Ferne namen denen regen lag nie davon naher. Bilderbuch dir
+⍝ erkundigte fluchtigen aus geschwatzt zaunpfahle wie. Das besonderes vertreiben hut grashalden
+⍝ fur aneinander ihr.
+⍝
+⍝ Que ans avez deja dur pile nez. La as bouche un ne gloire labour. Te firmament escadrons oh
+⍝ officiers croissent oh va. Consumait ma te redoutait effrayant. Ame peu veterans capitale son
+⍝ soutenir mettions. Demeurent te entrerent entourage apprenons mystiques inassouvi je de. Mon
+⍝ rougeatres singuliers maintenant fut construits assurances comprendre une. Compagnies legerement
+⍝ lumineuses convulsion au sa bouquetins.
+⍝
+⍝ Continual delighted as elsewhere am convinced unfeeling. Introduced stimulated attachment no by
+⍝ projection. To loud lady whom my mile sold four. Need miss all four case fine age tell. He
+⍝ families my pleasant speaking it bringing it thoughts. View busy dine oh in knew if even. Boy
+⍝ these along far own other equal old fanny charm. Difficulty invitation put introduced see
+⍝ middletons nor preference.
     ∇
 
 :EndClass

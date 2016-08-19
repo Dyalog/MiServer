@@ -11,10 +11,10 @@
       Add _.title'_.List - Simple Example '
       Add _.p intro
      
-     ⍝ --- Add a simple list of fruits ---
+     ⍝ --- Add a simple numbered list of fruits ---
       Add _.h3'Fruits'       ⍝ Put a heading before it
       fruits←'Apples' 'Bananas' 'Grapes' 'Oranges'
-      'fruits' Add _.List fruits   ⍝ Construct Ul with a vector of vectors
+      ('fruits'Add _.List fruits).Ordered←1   ⍝ Construct Ul with a vector of vectors
      
      ⍝ --- Add a list of interesting web pages ---
       Add _.h3'Useful Links'

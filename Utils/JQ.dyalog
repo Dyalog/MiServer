@@ -8,7 +8,7 @@
 
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     enlist←{⎕ML←1 ⋄ ∊⍵} ⍝ APL2 style enlist
-    quote←{'"'∊⍵:⍵ ⋄ '"',⍵,'"'}
+    quote←{'⍎'=1↑⍵:⍵ ⋄ '"'∊⍵:⍵ ⋄ '"',⍵,'"'}
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
 
     ∇ r←{script}JQueryfn pars;jqfn;sel;jqpars;chain;script;oname;prejs;option

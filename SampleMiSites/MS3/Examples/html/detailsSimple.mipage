@@ -3,12 +3,14 @@
 ⍝ Description:: Add a summary with revealable details
  
     ∇ Compose;det
-      :Access public 
+      :Access public
+      Add _.p 'Click the line below to reveal the details.'
+       
       det←Add _.details
     ⍝ Add a summary line that will display next to the little arrow
-      det.Add _.summary'Details upon request'
+      det.Add _.summary'Click here for details'
     ⍝ Add the text to be hidden by default
-      det.Add'And a request has been made to uncover this text!'
+      det.Add'A request has been made to uncover this text!'
     ∇
 
 :endclass

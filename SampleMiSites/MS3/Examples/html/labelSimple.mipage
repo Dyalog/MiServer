@@ -2,19 +2,20 @@
 ⍝ Control:: _html.label _html.form
 ⍝ Description:: Include text in controls' clickable area
 
-    ∇ Compose
+    ∇ Compose;f;sex
       :Access public
      
-      Add _.p'Click on one of the text labels to toggle the related control:'
-      :With Add _.form
-          'for="male"'Add _.label'Male'
-          '#male' 'type="radio"' 'name="sex"' 'value="male"'Add _.input
-          Add¨2/_.br
-          'for="female"'Add _.label'Female'
-          '#female' 'type="radio"' 'name="sex"' 'value="female"'Add _.input
-          Add¨2/_.br
-          'type="submit"' 'value="Submit"'Add _.input
-      :EndWith
+      f←Add _.form
+      P'Click on one of the text labels to toggle the related control:'
+     
+      P('for="male"'New _.label'Male')('#male type="radio" name="sex" value="masculine"'New _.input)
+      P('for="female"'New _.label'Female')('#female type="radio" name="sex" value="feminine"'New _.input)
+      P'type="submit"' 'value="Submit"'New _.input
+     
+      :If ''≢sex←Get'sex'
+          P'You selected: ',sex
+      :EndIf
     ∇
 
+    P←{f.Add _.p ⍵}
 :endclass

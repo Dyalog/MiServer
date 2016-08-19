@@ -5,7 +5,7 @@
     ∇ Compose
       :Access public
       myform←'method="get"'Add _.form
-     
+      myform.Add _.h2 'Lots of options in one form'
      ⍝ This adds a box with an embedded legend
       mybox←myform.Add _.fieldset
       mybox.Add _.legend'Text input'
@@ -28,8 +28,5 @@
       mybox.Add¨2/_.br
       mybox.Add'Security: '
       'name="security"'mybox.Add _.keygen
-     
-      myform.Add _.br
-      'type="submit"'myform.Add _.input
     ∇
 :endclass

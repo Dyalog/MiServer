@@ -1,12 +1,12 @@
 ﻿:class pSimple: MiPageSample
-⍝ Control:: _html.p 
-⍝ Description:: Add a paragraph
- 
+⍝ Control:: _html.p
+⍝ Description:: Three simple paragraphs
+
     ∇ Compose
-      :Access public 
-      Add 'Just a line of text.'
-      Add _.p 'Paragraphs, like this one, go on separate lines with spacing.'
-      Add 'That''s all.'
+      :Access public
+      Add _.p'Here are three paragraphs'
+      Add _.p'Paragraphs, like like these, go on separate lines with spacing around them.'
+      Add _.p'Use paragraphs to contain blocks of text.'
     ∇
 
 :endclass

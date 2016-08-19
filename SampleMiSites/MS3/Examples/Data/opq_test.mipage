@@ -1,0 +1,8 @@
+:class opq_test : MiPageSample
+
+    ∇ Compose
+      :Access Public
+      Add'This is here to test that the DirectoryBrowser sorts correctly.'
+    ∇
+
+:endclass

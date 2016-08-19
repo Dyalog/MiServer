@@ -2,21 +2,29 @@
 ⍝ Control:: _JQ.jqAddClass _html.head
 ⍝ Description:: Add a class during callback
 
-    ∇ Compose
+    ∇ Compose;box
       :Access public
       Use'JQueryUI' ⍝ because we will add a jQuery UI effect later
-      Add _.Style'.redclass',⊂('background-color' 'red')('font-size' 'large')
-      '#output'Add _.p ScriptFollows
-      ⍝ We've already set up a style for the class "redclass".<br>
-      ⍝ Click the button to make this paragraph have that class.<br>
-      ⍝ The paragraph should big and red upon clicking the button.
-      ('button'Add _.Button'Paint!').On'click' 'Paint'
+      
+      Add _.style ScriptFollows
+      ⍝ #output {border:3px solid black; padding: 1em;}
+      ⍝ .redclass {background-color:red; font-size:x-large;}
+      
+      box←'#output'Add _.div (WrapFollowing 'p')
+      ⍝ We've already set up a style for the class "redclass".
+      ⍝
+      ⍝ Click the button to make this box have that class.
+      ⍝
+      ⍝ The box should then grow and become red.
+      
+      ('#button'box.Add _.Button'Paint').On'click' 'Paint'
+      'onclick="window.location.reload()"' box.Add _.Button'Reload'
     ∇
 
     ∇ r←Paint
       :Access public
       ⍝ Scripts belong in the <head> element:
-      r←'head'Append New _.jqAddClass,⊂'#output' 'redclass' 800 'easeInBounce'
+      r←'head'Append New _.jqAddClass('#output' 'redclass' 800 'easeInBounce')
     ∇
 
 :EndClass

@@ -1,13 +1,15 @@
 ﻿:Class SubmitButtonSimple : MiPageSample
 ⍝ Control:: _DC.SubmitButton _DC.ResetButton _DC.Fieldset
-⍝ Description:: Use a Submitbutton to POST the form, rather than use an AJAX callback
+⍝ Description:: Use a SubmitButton to POST a form, rather than use an AJAX callback
 
     :Field Public fname←''
-    :Field Public lname←'' 
+    :Field Public lname←''
 
     ∇ Compose;frm;field;prompt;value;fieldset;hello;inputs
       :Access Public
-     
+      
+      Add _.style'#Submit {font-weight: bold; font-size: large;}'
+      
       :If _Request.Command≡'get' ⍝ Reset names on a GET
           fname←lname←''
       :EndIf
@@ -31,13 +33,13 @@
       inputs.Inputs←{New _.EditField ⍵}¨('fname'fname)('lname'lname)
      
       Add _.br
-      'Submit' frm.Add _.SubmitButton'Submit'
-      'Reset' frm.Add _.ResetButton'Reset'
+      'Submit'frm.Add _.SubmitButton'Submit'
+      'Reset'frm.Add _.ResetButton'Reset'
      
-      :If 0≠⍴fname,lname ⋄ hello←'Hello, ',fname,' ',lname,'!'
+      :If 0≠⍴fname,lname ⋄ hello←' +!'⎕R'!'⊢'Hello, ',fname,' ',lname,'!'
       :Else ⋄ hello←'' ⋄ :EndIf
      
-      'output' Add _.div hello 
+      'output'Add _.div hello
     ∇
 
 :EndClass

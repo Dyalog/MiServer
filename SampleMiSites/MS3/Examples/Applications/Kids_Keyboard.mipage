@@ -12,7 +12,7 @@
           (¯1 127 ¯1+?1 128 256)[3?3]
       }
 
-    ∇ Compose;style
+    ∇ Compose;style;size
       :Access public
       :Trap 11
           {}16807⌶2 ⍝ ≤15.0
@@ -21,29 +21,34 @@
       :EndTrap
       TASK←''
       BIG←0∊⍴Get'nowrapper'
-      Add _.Style'button'('border-radius' '10px')
-      style←''
-      style,←'th {padding: 0 ',(⍕10×7*BIG),'px;}'
+      style←'#contentblock {background-color: buttonface; max-width: 860px; border-radius: 20px; margin: 20px; '
+      style,←'box-shadow: 5px 5px 5px 0 white inset,-3px -3px 5px 0 darkgrey inset;}'
+      style,←'.title {margin: auto;}'
+      style,←'#keys {padding-top: 20px;}'
+      style,←'button {border: none; border-radius: 10px; margin:2pt; font-family: serif; transition: 0.2s;'
+      style,←'font-weight:bold; width: ',size,'height: ',size←(⍕30×2*BIG),'pt; '
+      style,←'box-shadow: 5px 5px 5px 0 white inset,-3px -3px 5px 0 darkgrey inset; cursor:pointer;}'
       style,←'button, #output {font-size: ',(⍕20×2*BIG),'pt;} '
-      style,←'button {width: ',(⍕30×2*BIG),'pt; height: ',(⍕30×2*BIG),'pt; margin:2pt; font-family: serif;} '
-      style,←'button:hover {font-weight:bold; cursor:pointer;} '
+      style,←'button:hover { } '
+      style,←'button:active {box-shadow: -5px -5px 5px 0 white inset,3px 3px 5px 0 darkgrey inset;}'
+      style,←'button:focus {outline: none;}'
+      style,←'button:focus:after{content: "\261A";position:absolute;color:black;}'
       style,←'.serif1 {font-family: serif;} '
+      style,←'th {padding: 0 ',(⍕10×5.5*BIG),'px;}'
       Add _.style style
      
-      Add¨_.h3{⍺ ⍵}¨(,/⍣BIG)'Press buttons to hear letter names. ' 'Press › to hear which letter to find. '
      
       menu←Add _.table
+      menu.Add _.tr('colspan="4"'New _.th(New¨_.h3{⍺ ⍵}¨(,/⍣BIG)'Press buttons to hear letter names. ' 'Press › to hear which letter to find. '))
       (menu.Add _.tr).Add¨_.th,¨'Hear letter' 'Hear again' 'Show letter' 'Start over'
       buttons←(menu.Add _.tr).Add¨4/_.th
      
-      '#play' '.menu'(buttons[1]).Add _.Button'›'
-      '#hear' '.menu'(buttons[2]).Add _.Button'»'
-      '#hint' '.menu'(buttons[3]).Add _.Button'?'
-      '#new' '.menu'(buttons[4]).Add _.Button'×'
+      '#play' '.menu' 'autofocus'(buttons[1]).Add _.Button'&#x25BA;' ⍝ Play
+      '#hear' '.menu'(buttons[2]).Add _.Button'&#x23E9;' ⍝ FF
+      '#hint' '.menu'(buttons[3]).Add _.Button'&#x1F440;' ⍝ eyes
+      '#new' '.menu'(buttons[4]).Add _.Button'&#x1F503;'  ⍝ reload
      
       Add _.Handler'.menu' 'click' 'OnClick'
-     
-      Add _.hr
      
       ('#keys'Add _.div).Add Keyboard
      
@@ -83,14 +88,14 @@
               r←Sound TASK
           :Case TASK
               r←Sound'Yay'
-              r,←2 Print'☺ '
+              r,←2 Print ⎕UCS 9786 32⍝ smiling
               TASK←''
           :Case 'new'
               r←'#keys'Replace Keyboard
               TASK←''
           :Else
               r←Sound'Boo'
-              r,←1 Print'☹ '
+              r,←1 Print ⎕UCS 9785 32 ⍝ disappointed
           :EndSelect
       :Else
           :Select _what

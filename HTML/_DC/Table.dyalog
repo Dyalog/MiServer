@@ -30,30 +30,34 @@
       (Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)←data defaultArgs Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds
     ∇
 
-    ∇ html←Render;data;atts;tda;tha;hdrrows;cellids;rowids;rows;x;head;body;table;thead;tbody
+    ∇ html←Render;data;tda;tha;hdrrows;cellids;rowids;table;body;head;headids;headattrs;bodyids;bodyattrs;rows;tbody;thead;cols;size;bodyrows
       :Access public
       SetId
       data tda tha hdrrows cellids rowids←Data CellAttr HeaderAttr HeaderRows MakeCellIds MakeRowIds
       hdrrows←⍬⍴hdrrows
-      data←((rows←×/¯1↓⍴data),¯1↑⍴data)⍴data
+      data←((rows←×/¯1↓⍴data),cols←¯1↑⍴data)⍴data
       head←body←(0 1×⍴data)⍴⊂table←''
       :If 0≠hdrrows
-          head←{z⊣(z←⎕NEW #._html.th).Add ⍵}¨hdrrows↑data
+          headids←headattrs←⊂''
+          size←hdrrows,cols
           :If cellids
-              head.id←{id,'_',∊'rc',¨⍕¨⍵}¨⍳⍴head
+              headids←{' id="',(id,'_',∊'rc',¨⍕¨⍵),'"'}¨⍳size
           :EndIf
           :If ~0∊⍴tha
-              head.Set(⍴head)⍴eis tha
+              headattrs←size⍴{∊FormatAttr/¨1 ParseAttr ⍵}∘fmtAttr¨eis tha
           :EndIf
+          head←(eis headids,¨headattrs){'<th',⍺,'>',(renderIt ⍵),'</th>'}¨hdrrows↑data
       :EndIf
-      :If 0<(⊃⍴data)-hdrrows
-          body←{z⊣(z←⎕NEW #._html.td).Add ⍵}¨hdrrows↓data
+      :If 0<bodyrows←(⊃⍴data)-hdrrows
+          bodyids←bodyattrs←⊂''
+          size←bodyrows,cols
           :If cellids
-              body.id←{id,'_',∊'rc',¨⍕¨⍵}¨hdrrows↓⍳⍴data
+              bodyids←{' id="',(id,'_',∊'rc',¨⍕¨⍵),'"'}¨⍳size
           :EndIf
           :If ~0∊⍴tda
-              body.Set(⍴body)⍴eis tda
+              bodyattrs←size⍴{∊FormatAttr/¨1 ParseAttr ⍵}¨fmtAttr¨eis tda
           :EndIf
+          body←(eis bodyids,¨bodyattrs){'<td',⍺,'>',(renderIt ⍵),'</td>'}¨hdrrows↓data
       :EndIf
       :If rows>0
           (table←⎕NEW¨rows⍴#._html.tr).Add↓head⍪body
@@ -65,11 +69,17 @@
       :If 0≠hdrrows
           (thead←⎕NEW #._html.thead).Add hdrrows↑table
       :EndIf
- ⍝     :If 0<(⊃⍴data)-hdrrows
       (tbody←⎕NEW #._html.tbody).Add hdrrows↓table
- ⍝     :EndIf
       Content←thead,tbody
       html←⎕BASE.Render
+    ∇
+
+    ∇ attr←fmtAttr attr                                             
+      :If 2=⍴,attr  ⍝ 'attr' 'value' is never shorthanded (e.g. given special treatment for id/class)
+      :AndIf 1∧.≥≡¨attr
+      :AndIf ~∧/'='∊¨attr
+          attr←,⊂attr
+      :EndIf
     ∇
 
 :EndClass

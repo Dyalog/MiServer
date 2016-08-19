@@ -1,9 +1,11 @@
 ﻿:class abbrSimple: MiPageSample
-⍝ Control:: _html.abbr 
+⍝ Control:: _html.abbr
 ⍝ Description:: Display definition when hovering over an abbreviation
 
     ∇ Compose;p
-      :Access Public 
+      :Access Public
+     
+      Add _.style'abbr {font-style: italic;}'
      
       p←Add _.p ⍝ All text should be in a paragraph
       p.Add'Hover over '

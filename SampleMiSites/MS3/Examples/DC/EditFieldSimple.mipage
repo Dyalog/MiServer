@@ -5,7 +5,7 @@
     ∇ Compose;btn;label;input;done
       :Access Public
      
-      label←'for="input"'Add _.label'Please enter your name'
+      label←'for="input"'Add _.label'Please enter your name '
       input←'input'Add _.EditField
       done←'done'Add _.Button'Done'
       done.On'click' 'CallbackFn'('input' 'val' '#input')

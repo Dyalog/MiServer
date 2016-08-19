@@ -9,7 +9,9 @@
       Add _.h2'_SF.ejRTE - Syncfusion Rich Text Editor Control'
      
       'mytext'(Add _.Form).Add _.ejRTE
-      (Add _.Button'Ok').On'click' 'mycallback'
+      (Add _.Button'OK').On'click' 'mycallback'
+      
+      Add _.style'#mytext_Iframe {padding:0; margin:0; background-color:white;}'
     ∇
 
     ∇ r←mycallback

@@ -25,7 +25,7 @@
       myp←Add _.p
       myp.Add _.code'FirstMatrix'
       (matmult←myp.Add _.ruby).Add _.code'+.×'
-      (matmult.Add _.rt).Add¨'outer'_.br'product'
+      (matmult.Add _.rt).Add¨'inner'_.br'product'
       myp.Add _.code'SecondMatrix'
      
     ⍝ Content of tags that are unknown by a browser render as plain
@@ -49,18 +49,18 @@
       myp←Add _.p'Go to '
       myword←myp.Add _.ruby'gaol'
       myword.Add¨(_.rp' [American: ')(_.rt'jail')(_.rp'] ')
-      myp.Add'now!'
+      myp.Add' now!'
      
     ⍝ Emulated non-recognition of the ruby related tags
       Add _.h3'Here, the fallback is emulated with styling:'
       myp←Add _.p'Go to '
       myword←myp.Add _.ruby'gaol'
       (⊂'style="display:inline;font-size:100%"')myword.Add¨(_.rp' [American: ')(_.rt'jail')(_.rp'] ')
-      myp.Add'now!'
+      myp.Add' now!'
      
     ⍝ IE does not handle the above emulation correctly
       Add _.h3'And for Internet Explorer users, this is how the above line should have looked:'
-      Add _.p'Go to gaol [American: jail ] now!'
+      Add _.p'Go to gaol [American: jail] now!'
     ∇
 
 :endclass

@@ -1,10 +1,9 @@
-:Class jqButtonsetSimple : MiPageSample
+﻿:Class jqButtonsetSimple : MiPageSample
 ⍝ Control:: _JQ.jqButtonset
 ⍝ Description:: Grouped sets of buttons
 
     ∇ Compose;output;fw;menu;form
       :Access Public
-      Add _.h3'jqButtonset'
       form←Add _.Form
       
       TEXTS←'Shoes' 'Boots' 'Sandals' 'Flip-Flops'
@@ -43,5 +42,4 @@
 
 
 :EndClass
-
 

@@ -1,10 +1,9 @@
 ﻿:Class ejCircularGaugeSimple : MiPageSample
 ⍝ Control:: _SF.ejCircularGauge
-⍝ Description:: Circular indicator gauge
+⍝ Description:: Speedometer style display
 
     ∇ Compose;bg
       :Access Public
-      Add _.h4'ejCircularGauge Example'
       Add _.ejCircularGauge 30 75
     ∇
 

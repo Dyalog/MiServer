@@ -1,9 +1,12 @@
 ﻿:class footerSimple: MiPageSample
 ⍝ Control:: _html.footer 
-⍝ Description:: Add a section footer 
+⍝ Description:: Section footer following run of paragraphs
 
     ∇ Compose
-      :Access public 
+      :Access public
+      
+      Add _.style 'p {font-size:xx-small;}'
+       
     ⍝ First we build a page with paragraphs
       Add _.p (999⍴'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ')
       Add _.p (888⍴'Curabitur in nisl congue, sollicitudin leo vitae, lacinia mi. ')

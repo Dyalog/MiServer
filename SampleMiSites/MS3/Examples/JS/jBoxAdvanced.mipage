@@ -1,4 +1,4 @@
-:Class jBoxAdvanced : MiPageSample
+﻿:Class jBoxAdvanced : MiPageSample
 ⍝ Control::     _JS.jBox
 ⍝ Description:: Tooltips and more
 
@@ -23,7 +23,7 @@
       'getContent'dd.Set'data-jbox-content'   ⍝  use jBox-related attributes
       'trigger'dd.Set'click'   ⍝ click to show tooltip!
       daSpan←(Add _.p).Add _.span'This span''s tooltip will appear (and disappear) when you click on the text!'
-      daSpan.SetAttr'data-jbox-content="Not that I''d have to say anything...!" class="demo tooltipclicked" data-jbox-title="Important title!"'
+      daSpan.Set'data-jbox-content="Not that I''d have to say anything...!" class="demo tooltipclicked" data-jbox-title="Important title!"'
      
       (dd←Add _.jBox).Selector←'.tooltip2'
       'getTitle'dd.Set'data-jbox-title'           ⍝ the following applies to all items with class="tooltip2", all set up with this one instance!
@@ -40,7 +40,7 @@
       NiceDiv.Add'Wow! This larger, model tooltip features <b>exciting</b> HTML-Layout and lots of text. Everything is possible!...<br /><br />'
       NiceDiv.Add'This tooltip will disappear on any click or also when you press the Esc-Key!<br />'
       NiceDiv.Add'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore<br /> et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.<br />Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,<br />consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,<br />sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea<br />takimata sanctus est Lorem ipsum dolor sit amet.'
-      NiceDiv.SetAttr'style=display:none'  ⍝ must be hidden in normal display...!
+      NiceDiv.Set'style=display:none'  ⍝ must be hidden in normal display...!
      
       Add'This text has a larger, modal tooltip that appears '
       t3←'.tooltip3 demo'Add _.span'when you click here!'
@@ -82,13 +82,14 @@
    ⍝ following css-stuff for gray images that show colours on MouseOver!
       Add _.Style ScriptFollows
 ⍝.demo-img1 {
-⍝    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
+⍝   filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
 ⍝   -webkit-filter: grayscale(100%);
 ⍝   -moz-filter: grayscale(100%);
 ⍝   -ms-filter: grayscale(100%);
 ⍝   filter: grayscale(100%);
 ⍝   filter: gray; /* IE 6-9 */
-⍝ margin: 10px;
+⍝   margin: 10px;
+⍝   transition: 1s;
 ⍝}
 ⍝.demo-img1:hover {
 ⍝   -webkit-filter: none;

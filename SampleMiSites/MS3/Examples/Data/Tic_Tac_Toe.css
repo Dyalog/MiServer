@@ -1,0 +1,93 @@
+#game
+{
+    margin: auto;
+    text-align: center;
+    background: grey;
+    color: white;
+    border-radius: 2em;
+    padding: 10px;
+    font-family: sans-serif;
+}
+
+#title
+{
+    margin: 0;
+}
+
+#board
+{
+    border-collapse: collapse;
+    margin: auto;
+    background: lightgrey;
+}
+
+#next,#status
+{
+    text-align: left;
+    margin: 12px;
+    font-size: x-large;
+}
+
+.button
+{
+    border: none;
+    border-radius: 1em;
+    background: lightgrey;
+    color: black!important;
+    font-size: x-large;
+    padding: 10px;
+    cursor: pointer;
+    display: inline-block;
+    min-width: 1.2em;
+    margin: 0 5px 10px 5px;
+}
+
+.button:hover
+{
+    background: white;
+}
+
+svg
+{
+    width: 100px;
+    height: 100px;
+    box-shadow: 0 0 0 2px grey inset;
+    margin: 0px;
+    margin-bottom: -4px;
+    cursor: pointer;
+}
+
+svg:hover
+{
+    background: white;
+}
+
+.X,.O
+{
+    stroke-width: 20;
+    font-weight: bold;
+}
+
+.X
+{
+    stroke: darkviolet;
+    color: darkviolet;
+}
+
+.O
+{
+    stroke: darkorange;
+    color: darkorange;
+    fill: transparent;
+}
+
+.b
+{
+    x: 0;
+    y: 0;
+    width: 100px;
+    height: 100px;
+    cursor: not-allowed;
+    fill: transparent;
+}
+

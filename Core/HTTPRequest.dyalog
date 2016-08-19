@@ -375,7 +375,7 @@
 
     ∇ r←JSPlugIn file;root ⍝ Retrieve a JavaScript PlugIn
       :Access Public Instance
-      root←{(1-(⌽⍵)⍳'\')↓⍵}⎕WSID
+      root←{(1-⌊/'/\'⍳⍨⌽⍵)↓⍵}⎕WSID
       r←#.Files.GetText root,'PlugIns\',file
     ∇
 

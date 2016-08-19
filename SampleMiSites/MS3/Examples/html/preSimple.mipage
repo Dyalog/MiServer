@@ -1,12 +1,13 @@
 ﻿:class preSimple: MiPageSample
-⍝ Control:: _html.pre 
-⍝ Description:: Add preformatted text
- 
+⍝ Control:: _html.pre
+⍝ Description:: Block of text preserving linebreaks and multiple spaces
+
     ∇ Compose
-      :Access public 
-      Add 'The following text comes as it is:'
-      Add _.pre (⎕vr 'Compose')
-      Add 'Presented by the association of APL programmers in your area'
+      :Access public
+      Add _.p'In a pre, line breaks and spaces are preserved as-is.'
+      Add _.p'This is perfect for displaying blocks of code:'
+      Add _.pre(⎕VR'Compose')
+      Add _.p'Above is for example the source code of this very page.'
     ∇
 
 :endclass

@@ -22,9 +22,9 @@
     ∇
 
     ∇ r←CallbackFn;text
-      :Access Public  
+      :Access Public
      
-      text←'Hi ',(Get'fname'),' ',(Get'lname'),'!'
+      text←' +!'⎕R'!'⍕'Hi'(Get'fname lname'),'!'
       r←'#output'Replace _.h2 text
     ∇
 

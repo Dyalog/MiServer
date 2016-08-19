@@ -1,6 +1,6 @@
 ﻿:Class jqMenuAdvanced : MiPageSample
 ⍝ Control:: _JQ.jqMenu
-⍝ Description:: Build a menu from external data
+⍝ Description:: Build a vertical (drop-down) menu from external data
 
 ⍝ This example is a bit more elaborate than the simple example but it is in fact very simple.
 ⍝ The number of menu items is larger but the idea is the same. And all the links go to the
@@ -8,8 +8,9 @@
 
     ∇ r←Compose
       :Access Public
-      'width'(Add _.jqMenu fixExample).Set 632
-    ∇
+      Add _.style'#menu {width:125px}'
+      '#menu'Add _.jqMenu fixExample
+     ∇
 
     ∇ (items levels links)←fixExample;mat;sink
       :Access public shared
@@ -129,4 +130,3 @@
     ∇
 
 :EndClass
-

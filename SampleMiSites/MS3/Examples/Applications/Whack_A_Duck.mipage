@@ -1,0 +1,51 @@
+﻿:class Whack_A_Duck :MiPageSample
+⍝ Control:: _html.img _html.script _html.img
+⍝ Description:: Shrinking button that jumps away progressively faster you click it
+
+    ∇ Compose;duck
+      :Access Public
+     
+      '.nosel' 'align="center"'Add _.h1'Click the duck to make it shrink!'
+      '#clicks' '.nosel' 'align="center"'Add _.div
+      duck←'#duck' '.nosel' 'src="/Examples/Data/duck.png" alt="Duck"'Add _.img
+     
+      Add _.Timer 1000 ⍝ to trigger movement even if user is inactive
+      On'tick' 0 '' 'jump();'
+     
+      duck.On'mousemove' 0 '' 'jump();' ⍝ jump away of the mouse moves over the duck
+      duck.On'mousedown' 0 ''ScriptFollows ⍝ jump, quicken, and shrink if the user succeeds in clicking
+      ⍝ $("#duck").css({
+      ⍝     "transition-duration":$("#duck").css("transition-duration").slice(0,-1)*0.8+"s",
+      ⍝     "animation-duration":$("#duck").css("animation-duration").slice(0,-1)*0.8+"s",
+      ⍝     height: $("#duck").height()*0.8+"px",
+      ⍝     width: $("#duck").width()*0.8+"px",
+      ⍝ });
+      ⍝ jump();
+      ⍝ $("#clicks").html($("#clicks").html()- -1);
+     
+     ⍝ JavaScript which makes the duck jump
+      Add _.script ScriptFollows
+      ⍝ var time=0
+      ⍝ var jump=function(){
+      ⍝     if(time>+new Date)return;
+      ⍝     $("#duck").css({
+      ⍝         left: "calc("+Math.random()+" * (100% - "+$("#duck").width()+"px))",
+      ⍝         top: "calc(75px + "+Math.random()+" * (100% - ("+$("#duck").height()+"px + 75px)))",
+      ⍝     });
+      ⍝     time=500+ +new Date;
+      ⍝ }
+     
+     ⍝ Styling and animation for the duck
+      Add _.style ScriptFollows
+      ⍝ .bodyblock {cursor: crosshair;}
+      ⍝ .bodyblock, .nosel {-ms-user-select: none; -moz-user-select: none; -webkit-user-select: none; user-select: none;}
+      ⍝ #duck {position: fixed; top: 50%; left: calc(50% - 15vh);
+      ⍝     background: transparent; border: none; outline: none; padding: 0; height: 40vh;
+      ⍝     animation: wag 2s infinite; transition-duration: 1s;}
+      ⍝ @keyframes wag {0%{-webkit-transform: rotate(-15deg);}
+      ⍝                50%{-webkit-transform: rotate( 15deg);}
+      ⍝               100%{-webkit-transform: rotate(-15deg);}}
+      ⍝ #clicks {font-size: 50vh; left: 0; right: 0; top: 75px; bottom: 0; color: transparent; text-shadow:0 0 5vh silver}
+     
+    ∇
+:endclass

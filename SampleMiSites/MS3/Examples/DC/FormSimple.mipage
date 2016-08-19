@@ -2,27 +2,34 @@
 ⍝ Control:: _DC.Form
 ⍝ Description:: Explain about Forms
 
+    :Field public check←''
+
     ∇ Compose
       :Access Public
      
-      'output'Add _.h2'Why Use a Form'
+      f←'output'Add _.Form
+      f.Add _.h2'Why Use a Form'
      
-      Add _.p ScriptFollows
+      f.Add WrapFollowing'p'
      ⍝ Any MiServer page which is going to be used to post data back to the server
      ⍝ will need a form. If you use a classical Submit button, all the input elements
      ⍝ within the form that the button is in will be sent to the server as part of the POST.
-     ⍝ see <a href="/Examples/DC/SubmitButtonSimple" target="_blank">/Examples/DC/SubmitButtonSimple</a> for an example.
-     ⍝ </p><p>
+     ⍝
      ⍝ If you use events and AJAX-style interaction, the default handler will serialise
      ⍝ the contents of the form and post it back to the server. See
      ⍝ see <a href="/Examples/DC/InputGridSimple" target="_blank">/Examples/DC/InputGridSimple</a> for an example of this style of coding,
      ⍝ which is becoming more and more popular.
-     ⍝ </p><p>
+     ⍝
      ⍝ In either case, values that are posted back to the server will be available using the Get function
      ⍝ (using the name of an element to retrieve the value that was posted back). Also, if your MiPage exposes
      ⍝ public fields with the same name, it will automatically be populated with the incoming value.
-     ⍝ </p><p>
-     ⍝ Note that <strong>this</strong> page doesn't use a form - there is no input.
+     
+      :If 'on'≡Get'check'
+          f.Add _.p'You understood these instructions'
+      :Else
+          f.Add _.p('#check'New _.Input'checkbox' 'on' 'I understand these instructions' 'right')
+          f.Add _.p('#submit'New _.SubmitButton'Submit')
+      :EndIf
     ∇
 
 :EndClass

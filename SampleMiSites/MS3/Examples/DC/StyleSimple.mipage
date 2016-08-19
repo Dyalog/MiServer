@@ -1,6 +1,6 @@
 ﻿:Class StyleSimple : MiPageSample
 ⍝ Control:: _DC.Style
-⍝ Description:: Red H2 Headers and some explanation of the Style control
+⍝ Description:: Colour headdings red using an internal style element
 
     ∇ Compose
       :Access Public

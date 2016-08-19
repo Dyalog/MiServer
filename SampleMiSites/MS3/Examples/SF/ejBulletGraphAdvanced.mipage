@@ -4,7 +4,6 @@
 
     ∇ Compose;bg;vals;avg;cats;table
       :Access Public
-      Add _.h4'ejBulletGraph Example'
       vals←0.1×?4/100
       avg←4/(+/÷≢)vals
       cats←'north' 'east' 'south' 'west'

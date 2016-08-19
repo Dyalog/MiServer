@@ -1,14 +1,32 @@
 ﻿:class progressSimple: MiPageSample
 ⍝ Control:: _html.progress
-⍝ Description:: Display progress bars
+⍝ Description:: Graphically display time using progress bars
 
-    ∇ Compose;prog
+    ∇ Compose
       :Access public
      
-      prog←{(('value'⍵)('max'⍺))'' ''Add¨_.progress ⍵ _.br}
+      Add _.h3'Graphical Clock'
+      
+      '#h'Add 23 prog 4⊃⎕TS
+      '#m'Add 59 prog 5⊃⎕TS
+      '#s'Add 59 prog 6⊃⎕TS
      
-      Add _.h3'Graphical time stamp'
-      23 59 59 prog¨3↑3↓⎕TS
+      Add _.Timer 100
      
+      On'tick' 'cb'
     ∇
+
+    ∇ r←cb
+      :Access public
+      r←'#h'Replace 23 prog 4⊃⎕TS
+      r,←'#m'Replace 59 prog 5⊃⎕TS
+      r,←'#s'Replace 59 prog 6⊃⎕TS
+    ∇
+
+    ∇ div←max prog val
+      div←New _.div
+      ('value'val)('max'max)div.Add _.progress
+      div.Add val
+    ∇
+
 :endclass

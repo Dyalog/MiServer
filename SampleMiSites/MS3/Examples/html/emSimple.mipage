@@ -1,11 +1,13 @@
 ﻿:class emSimple: MiPageSample
-⍝ Control:: _html.em 
-⍝ Description:: Emphasize text 
+⍝ Control:: _html.em
+⍝ Description:: Emphasize text
 
     ∇ Compose
-      :Access public 
-      Add'Format '
+      :Access public
+      Add'The em element allows you to mark '
       Add _.em'emphatic'
+      Add' and otherwise '
+      Add _.em'emphasised'
       Add' text.'
     ∇
 

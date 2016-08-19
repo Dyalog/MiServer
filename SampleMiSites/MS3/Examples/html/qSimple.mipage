@@ -1,12 +1,12 @@
 ﻿:class qSimple: MiPageSample
 ⍝ Control:: _html.q 
-⍝ Description:: Add an quotation inside the containing text
+⍝ Description:: Mark text as a quotation inside the containing text
 
     ∇ Compose
       :Access public 
-      Add'Format '
-      Add _.q'a phrase'
-      Add' of quoted text.'
+      Add'So-called '
+      Add _.q'quoted text'
+      Add' is usually styled with quotation marks.'
     ∇
 
 :endclass

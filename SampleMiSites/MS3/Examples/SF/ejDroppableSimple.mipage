@@ -1,0 +1,36 @@
+﻿:Class ejDroppableSimple : MiPageSample
+⍝ Control:: _SF.ejDroppable
+⍝ Description:: Make elements accept draggable content
+
+    ∇ Compose;sp;sp2;colors
+      :Access Public
+      Add _.Markdown ScriptFollows
+      ⍝## Syncfusion ejDraggable and ejDroppable Widgets ##
+      ⍝Unfortunately these are poorly documented by Syncfusion.\
+      ⍝Syncfusion's API documentation as of 4 August 2016 is incomplete and inaccurate.\
+      ⍝We recommend that if you need drag/drop functionality, that you look at jqDraggable/jqDroppable.\
+      ⍝
+     
+      ⍝ Define the styling for the boxes
+      Add _.Style'.demo'(('width' '100px')('height' '100px')('margin-right' '40px')('text-align' 'center')('color' 'white'))
+      Add _.Style'#drag'('background-color' 'blue')
+      Add _.Style'#outer td'('height' '125px')
+      {Add _.Style('.',⍵)('background-color'⍵)}¨colors←'purple' 'green' 'red'  ⍝ define the droppable targets color
+     
+      sp←'outer'Add _.StackPanel
+      '#drag' '.demo'sp.Add _.div'Drag Me'
+      (sp2←sp.Add _.StackPanel).Horizontal←1
+      colors{sp2.Add(('#',⍺)('.drop demo ',⍺))New _.div ⍵}¨'Drop Here' 'Or Here' 'Or Here'
+     
+      (Add _.ejDraggable'#drag').On 'dragStop' 0 '' '$("#output").html("")'
+      (Add _.ejDroppable'.drop').On'drop' 'myCallback'('_what' 'event' 'dropTarget.attr("id")')
+     
+      '#output'Add _.div
+    ∇
+
+    ∇ r←myCallback
+      :Access public 
+      r←'#output'Replace'You dropped on ',_what
+    ∇
+
+:EndClass

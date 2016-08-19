@@ -6,37 +6,42 @@
 
     :Include #.MS3SiteUtils
 
+    ∇ Make
+      :Access public
+      :Implements Constructor
+      Cacheable←1
+    ∇
+
+
     ∇ Compose;cols;tabs;rows
       :Access Public
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-      tabs←New _.ejTab
-      'heightStyle'tabs.Set'content'
-      '.bigtabs'Add _.div tabs
-     
+      (tabs←'bigtabs'Add _.Tabs).Theme←'FF8C00'
+      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Introduction'Over'getting started/recommendations'
       cols←1 0⍴⍬
       cols,←'about'New _.div(Read'/Examples/Data/intro.txt')
-      cols,←'slideshow'New _.div (Shuffle Read'Examples/Data/slideshow.txt')
-      cols,←'reading'New _.List (ReadingTree Read'Examples/Data/reading.txt')
-      tabs.Sections,←New _.Table cols
+      cols,←'slideshow'New _.div(Shuffle Read'Examples/Data/slideshow.txt')
+      cols,←'reading'New _.List(ReadingTree Read'Examples/Data/reading.txt')
+      tabs.Sections,←'intro'New _.Table cols
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Samples'Over'pages and mini-apps/each uses just a few controls'
       cols←⍬
-      cols,←⊂(⊂'Task demonstrated'),{Link('Description'Section Read ⍵)⍵}¨C.files
-      cols,←⊂(⊂'Type'),'simple' 'advanced' 'mini-app'[1⍳⍨¨↓⍉∨/¨'Simple' 'Advanced'∘.⍷C.files]
-      cols,←⊂(⊂'Main controls used'Over'documentation links'),{2↓∊(', ',DocLink)¨⍵}¨C.demos
+      cols,←⊂(⊂'Task demonstrated'),C.tasks
+      cols,←⊂(⊂'Type'),C.type
+      cols,←⊂(⊂'Main controls used'Over'documentation links'),C.used
       tabs.Sections,←'eg'New _.DataTable(⍉↑cols)
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Controls'Over'list of all supported controls/links to samples using them'
       cols←⍬
-      cols,←⊂('Control'Over'documentation link'),DocLink¨C.controls
+      cols,←⊂('Control'Over'documentation link'),C.doclink
       cols,←⊂(⊂'Description'),C.descr
-      cols,←⊂(⊂'Relevant samples'),RelDocs¨C.controls
-      tabs.Sections,←'ctrl'New _.DataTable(⍉↑cols)
+      cols,←⊂(⊂'Relevant samples'),C.reldocs
+      tabs.Sections,←'ctrl'New _.DataTable(¯1 0↓⍉↑cols)
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Reference'Over'general information/technique descriptions'
@@ -45,6 +50,8 @@
       rows,←FormatList'Examples/Techniques'
       tabs.Sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑rows)
      
+     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝ 
+      tabs.Sections[2 3 4].class←⊂'display'
     ∇
 
 :EndClass

@@ -2,8 +2,9 @@
 ⍝ Control:: _html.details _html.summary
 ⍝ Description:: Make an expandable menu
 
-    ∇ Compose
+    ∇ Compose;men;det1;det13;det2
       :Access public
+      Add _.p'This only works in some browsers!'
       men←Add _.div'Main Menu'
       det1←men.Add _.details
       det1.Add _.summary'1. First Submenu'

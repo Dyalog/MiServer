@@ -1,0 +1,169 @@
+﻿:Class Game_of_Life : MiPageSample
+⍝ Control:: _DC.Table _DC.RadioButtonGroup _DC.Timer
+⍝ Description:: John Conway's "Game of Life" (interactive)
+
+    :Field public WORLD
+    :Field public SHAPE
+    :Field public STEP
+
+    ∇ Setup
+      :Access Public
+      :Implements Constructor
+      INIT←'Acorn'
+      SHAPES←'Plane' 'Cylinder' 'Torus' 'Möbius' 'Klein'
+      SHAPE←3⊃SHAPES
+      LIVE←'.live slot'New _.div
+      DEAD←'.dead slot'New _.div
+      SURVIVOR←'.surv slot'New _.div
+      STEP←1
+      RUN←0
+      SPEEDS←'Slow' 'Medium' 'Fast'
+      STOP←'$(function(){',(∊'Slow' 'Medium' 'Fast',¨⊂'stop();'),'});'
+    ∇
+
+    ∇ Compose;row
+      :Access Public
+     
+      Add _.style ScriptFollows
+      ⍝ .slot {height: 10px; width: 10px;}
+      ⍝ .live, .dead, .surv {border-radius: 33%; position: absolute; z-index: -1;}
+      ⍝ .live {background: LimeGreen; background: radial-gradient(DarkGreen,Aqua);}
+      ⍝ .surv {background: DarkGreen; background: radial-gradient(DarkGreen,Khaki);}
+      ⍝ .dead {background: Khaki; background: radial-gradient(Khaki,White);}
+      ⍝ #world td {border: 1px solid silver; cursor: pointer;}
+      ⍝ #world table {border-collapse: collapse;}
+      ⍝ #step {width: 3em;}
+     
+      FILES←¯4↓¨⊃¨↓#.Files.List #.Boot.AppRoot,'Examples/Data/Life/*.txt'
+      WORLD←Load INIT
+      HISTORY←,⊂⌊WORLD
+     
+      ('#select'Add _.Select(FILES(FILES⍳⊂INIT)⍬'Select world:')).On'change' 'Select'
+     
+      {(⍵'.act')Add _.Button ⍵⊣Add'&nbsp;'}¨'Stop' 'Step',SPEEDS
+      Add _.Handler'.act' 'click' 'Action' '' ''STOP
+     
+      Add _.p('#shapes'New _.RadioButtonGroup((SHAPES,¨⊂'&nbsp;')3 'right' 1))
+      Add _.Handler'#shapes_container input' 'click' 'Reshape'
+     
+      row←Add _.p
+      ('#step'row.Add _.Input'number'STEP' Step size: ').On'change' 'Step'
+      row.Add'Generation '
+      '#gen'row.Add _.span 1
+     
+      '#world'Add _.div(Disp WORLD)
+     
+      Add _.Timer 50 0 'tick' 'Fast'
+      Add _.Timer 158 0 'tick' 'Medium'
+      Add _.Timer 500 0 'tick' 'Slow'
+      On'tick' 'Advance'
+    ∇
+
+    ∇ r←Select
+      :Access public
+      WORLD←Load _value
+      r←Reset WORLD
+    ∇
+
+    Load←{⊃⍪/,/(3 3⍴¯5↑1)×⊂↑'*'=#.Files.GetVTV #.Boot.AppRoot,'Examples/Data/Life/',⍵,'.txt'}
+
+    ∇ r←Edit
+      :Access Public
+      r←''
+      :If 'grid'≢_what
+          r,←Stop
+          ((⊂⍎¨'\d+'⎕S'&'⊢_what)⊃WORLD)≤←0.5
+          r,←Reset WORLD
+      :EndIf
+    ∇
+
+    ∇ r←Reset world
+      r←'#world'Replace Disp world
+      HISTORY←,⊂⌊world
+      r,←'#gen'Replace 1
+    ∇
+
+    ∇ r←Action
+      :Access Public
+      r←Stop
+      :Select _what
+      :Case 'Stop'
+      :Case 'Step'
+          RUN←1
+          r,←Advance
+          RUN←0
+      :Else
+          RUN←1
+          r,←Execute'$(function(){',_what,'run();});'
+      :EndSelect
+    ∇
+
+    ∇ r←Reshape
+      :Access Public
+      r←''
+      SHAPE←SHAPES⊃⍨⍎⊃⌽_what
+    ∇
+
+    ∇ r←Stop
+      RUN←0
+      r←Execute STOP
+    ∇
+
+    ∇ r←Advance;snap;now;orig
+      :Access Public
+      r←''
+      :If RUN
+          WORLD←(0.5×⌊WORLD)+Life(⍎SHAPE)⍣STEP⌊WORLD
+          r,←'#world'Replace Disp WORLD
+          snap←⊂⌊WORLD
+          :If snap∊HISTORY
+              r,←Stop
+              now←1+≢HISTORY
+              orig←HISTORY⍳snap
+              r,←'#gen'Replace now' ≡ Generation 'orig' (period is '(now-orig)')'
+              HISTORY←,snap
+          :Else
+              HISTORY,←snap
+              r,←'#gen'Replace≢HISTORY
+          :EndIf
+      :EndIf
+    ∇
+
+    ∇ r←Step
+      :Access public
+      STEP←1⌈⍎_value∩⎕D
+      r←''
+    ∇
+
+    ∇ table←Disp world
+      table←'#grid'New _.Table((''DEAD LIVE SURVIVOR[1+2×world])'.slot' 0 '' 1)
+      table.On'click' 'Edit'
+    ∇
+
+    Life←{↑1 ⍵∨.∧3 4=+/,¯1 0 1∘.(⌽∘⍉)⍣2⊂⍵}
+
+      Plane←{                     ⍝ ┌───┐
+          1 0↓0 1↓⍺⍺ 0,0⍪⍵        ⍝ │   │
+                                  ⍝ └───┘
+      }
+      Cylinder←{                  ⍝ ┌───┐
+          1 0↓⍺⍺ 0⍪⍵              ⍝ ⍋   ⍋
+                                  ⍝ └───┘
+      }
+      Torus←{                     ⍝ ┌─→─┐
+          ⍺⍺ ⍵                    ⍝ ⍋   ⍋
+                                  ⍝ └─→─┘
+      }
+      Möbius←{                    ⍝ ┌───┐ möbius strip
+          1 0↓0 2↓¯1⌽⍺⍺ 0⍪Twist ⍵ ⍝ ⍋   ⍒
+                                  ⍝ └───┘
+      }
+      Klein←{                     ⍝ ┌─→─┐ klein bottle
+          0 2↓¯1⌽⍺⍺ Twist ⍵       ⍝ ⍋   ⍒
+                                  ⍝ └─→─┘
+      }
+      Twist←{                     ⍝  ┌───┐    ┌ ┌───┐ ┐
+          ¯1⌽⍵,⌽⊖2↑[1+⎕IO]¯1⌽⍵    ⍝  ⍋   ↑ →  ↓,⍋   ↑,⍒
+                                  ⍝  └───┘    └ └───┘ ┘
+      }
+:EndClass

@@ -20,12 +20,12 @@
 
 
 ⍝ define shortcuts to namespaces (initialized later)
-    :field public _html        ⍝ reference to base HTML elements namespace
-    :field public _JQ          ⍝ reference to JQuery/JQueryUI widgets namespace
-    :field public _SF          ⍝ reference to Syncfusion widgets namespace
-    :field public _JSS         ⍝ reference to JavaScript Snippets namespace
-    :field public _DC          ⍝ reference to Dyalog Controls namespace
-    :field public _            ⍝ reference to namespace that refers to all elements/widgets
+    :field public shared _html ⍝ reference to base HTML elements namespace
+    :field public shared _JQ   ⍝ reference to JQuery/JQueryUI widgets namespace
+    :field public shared _SF   ⍝ reference to Syncfusion widgets namespace
+    :field public shared _JSS  ⍝ reference to JavaScript Snippets namespace
+    :field public shared _DC   ⍝ reference to Dyalog Controls namespace
+    :field public shared _     ⍝ reference to namespace that refers to all elements/widgets
 
    ⍝ make shortcuts for some common HTML attributes
     :field public shared readonly UNDEF←⎕NULL  ⍝ setting for undefined attributes
@@ -151,7 +151,10 @@
 
     ∇ attr←{plain}ParseAttr arg;split;item;t;f;i;eq;nq;items;n
       :Access public shared
-      ⍝ Parse html sttributes
+     
+⍝ Parse html sttributes
+⍝ {plain} - Boolean indicating whether to not interpret a plain first token as an if
+⍝ args    - vector of tokens to parse
 ⍝
 ⍝     1)    In only the first token, a simple string (i.e. not in the form 'abc=def') without a leading '#' or '.' is treated as an id
 ⍝        'foo'  > id="foo"
@@ -456,7 +459,10 @@
 
 ⍝ area base basefont br col frame hr img input isindex link meta param
 
-    fmtAttr←{' ',⍺,'=',Quote HtmlSafeText,⍕⍵}
+    ∇ r←a FormatAttr w
+      :Access public shared
+      r←' ',a,'=',Quote HtmlSafeText,⍕w
+    ∇
 
     ∇ r←Render;av;t;vs;e;h;c;p
       :Access public
@@ -466,7 +472,7 @@
           h←RenderHandlers
           p←RenderPosition
           :If 0<⍴vs←Attrs[]
-              av,←∊fmtAttr/¨vs
+              av,←∊FormatAttr/¨vs
           :EndIf
           av,←RenderStyles
           :If (⊂Tag)∊'html' 'body' 'head'
@@ -546,7 +552,7 @@
     ∇ r←tag Enclose txt;nl
       :Access public shared
       tag←,tag
-      r←(tag{NoEndTag∧0∊⍴⍵:Bracket ⍺,'/' ⋄ (Bracket ⍺),⍵,Bracket'/',⍺↑⍨¯1+⍺⍳' '}txt)⍝,NL
+      r←(tag{NoEndTag∧0∊⍴⍵:Bracket ⍺,'/' ⋄ (Bracket ⍺),⍵,Bracket'/',⍺↑⍨¯1+⍺⍳' '}txt)
     ∇
 
     ∇ r←{a}eis w
@@ -734,19 +740,26 @@
 
     ∇ r←ScriptFollows
       :Access public shared
-      r←2↓∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI ⍝(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+      r←2↓∊(⎕UCS 13 10)∘,¨Follows
+    ∇
+
+    ∇ r←Follows;n
+      :Access public shared
+      n←⎕XSI{1++/∧\⍵∘≡¨(⊃⍴⍵)↑¨⍺}(⍕⎕THIS),'.'
+      r←{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+n⊃⎕LC)↓↓(180⌶)n⊃⎕XSI
     ∇
 
     ∇ r←MarkdownFollows
       :Access public shared
-      r←⊃#.MarkAPL.Markdown2HTML{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI ⍝(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+      r←⊃#.MarkAPL.Markdown2HTML Follows
     ∇
 
     ∇ r←CodeFollows
       :Access public shared
-      r←2↓∊(⎕UCS 13 10)∘,¨{¯1↓⍵/⍨∨\⌽<\∨/¨'⍝<<end>>'∘⍷¨⍵}(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI ⍝(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
+      r←2↓∊(⎕UCS 13 10)∘,¨{¯1↓⍵/⍨∨\⌽<\∨/¨'⍝<<end>>'∘⍷¨⍵}(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
       r←'<pre style="font-family:APL385 Unicode">',r,'</pre>'
     ∇
+
 
     ∇ r←WrapFollowing tag;text;SplitOnSpaceLines;Trim;FirstCommentBlock
       :Access public shared

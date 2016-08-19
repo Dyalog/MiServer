@@ -20,26 +20,27 @@
 
 /* Body and Wrapper */
 body {
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     margin: 0px;
     min-width: 480px;
 }
 
 .bodyblock {
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     min-height: 150px;
     font-size: 1em;
     position: relative;
 }
 
-#banner+.bodyblock {
-    padding-top: 4em;
+#banner + .bodyblock {
+    margin-top: 75px;
+    height: calc(100vh - 75px);
+    overflow: auto;
 }
 
 /* Banner */
 #banner {
     background: black;
-    box-shadow: 0px 0px 4px 4px black;
     color: white;
     position: fixed;
     width: 100%;
@@ -47,9 +48,10 @@ body {
     left: 0;
     z-index: 99;
     padding-top: 10px;
-    height: 47px;
+    height: 55px;
     float: left;
     padding-bottom: 10px;
+    top: 0;
 }
 
 #banner-logo img {
@@ -99,8 +101,8 @@ body {
 }
 
 #view {
-    margin-top: -5px;
-    right: 215px;
+    margin-top: -6.5px;
+    right: 235px;
     position: fixed;
     float: right;
 }
@@ -112,30 +114,33 @@ body {
 }
 
 .viewtab {
-    background: linear-gradient(white -100%,transparent);
-    color: darkorange;
-    border-radius: 10px 10px 0 0;
+    background: linear-gradient(grey,white);
+    color: black;
+    border-radius: 5px 5px 0 0;
     width: 5em;
     text-align: center;
     padding: 5px;
     cursor: pointer;
-    box-shadow: 0 0px 10px 2px rgba(255,255,255,0.5) inset;
+    /* box-shadow: 0 0px 10px 2px rgba(255,255,255,0.5) inset; */
+    font-weight: bold;
 }
 
 .viewtab:hover {
-    color: white;
+    background: linear-gradient(#C0C0C0,white);
 }
 
 .activetab {
     background: white;
+    cursor: default;
 }
 
 .activetab:hover {
-    color: darkorange;
+    /* color: darkorange; */
+    background: white;
 }
 
 #toggle {
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     font-weight: bold;
     color: darkorange;
     background: transparent;
@@ -143,30 +148,43 @@ body {
     cursor: pointer;
 }
 
-#hamburger {
+#banner-dyalog {
     position: fixed;
-    right: 2em;
+    right: 22px;
     font-size: x-large;
-    top: 0.8em;
+    top: 0;
     color: darkorange;
     z-index: 1;
+    cursor: pointer;
+    background: black;
+    padding: 33px 22px 11px 22px;
 }
 
 #hamburger:hover {
     color: white;
 }
 
-#ham {
-    font-size: xx-large;
+#hamburger ~ #banner-resources {
     color: white;
-    position: relative;
-    top: -7px;
+    background-color: rgba(0,0,0,0.9);
+    position: fixed;
+    width: 185px;
+    border-radius: 10px;
+    right: 23px;
+    transition: 0.25s;
+    top: -100%;
 }
 
-#banner-resources {
-    border-radius: 0 0 15px 15px;
-    right: 10px;
-    padding-right: 10px;
+#hamburger:checked ~ #banner-resources {
+    top: 80px;
+}
+
+#banner-dyalog::before {
+    content: "\25BA";
+}
+
+#hamburger:checked ~ #banner-dyalog:before {
+    content: "\25BC";
 }
 
 #banner-resources a:hover {
@@ -178,12 +196,15 @@ body {
     padding: 10px;
     color: white;
     display: none;
-    background-color: black;
-    box-shadow: 0px 0px 4px 4px black;
+    background-color: rgba(0,0,0,0.9);
+    /* box-shadow: 0px 0px 4px 4px black; */
     transition: none;
     position: fixed;
-    width: 100%;
-    bottom: 0;
+    /* width: 100%; */
+    top: 75px;
+    margin: 5px;
+    border-radius: 10px;
+    /* right: 0; */
 }
 
 #widgethelp a:hover {
@@ -194,31 +215,12 @@ body {
     font-size: large;
 }
 
-#banner-resources {
-    color: white;
-    display: none;
-    background-color: black;
-    box-shadow: 0px 0px 4px 4px black;
-    transition: none;
-    position: fixed;
-    width: 185px;
-    top: 40px;
-    /* margin-bottom: -10px; */
-}
-
 .hide {
     display: none;
 }
 
-#banner-dyalog input:checked ~ #banner-resources {
-    display: block;
-}
-
-.dyaloglogo {
-    height: 30px;
-    position: fixed;
-    right: 15px;
-    top: 20px;
+#banner-dyalog:hover {
+    color: white;
 }
 
 /*Template Footer*/
@@ -254,11 +256,11 @@ body {
 
 #banner-resources ul {
     list-style: none;
-    padding-left: 15px;
+    padding-left: 10px;
 }
 
 #banner-resources>ul>li {
-    padding-top: 10px;
+    padding: 5px;
 }
 
 .resource-cat {
@@ -292,12 +294,11 @@ a:visited {
 }
 
 pre {
-    padding: 5px;
     font-size: medium;
-    /* white-space: pre-wrap; */
-    /* word-wrap: break-word; */
-    overflow-x: scroll;
-    /* max-width: 100%; */
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 30px 5px 0 5px;
+    margin: 13px 0 0 0;
 }
 
 code, .a385 {
@@ -361,7 +362,7 @@ heading1 {
 
 .button {
     background-color: #dcdcdc;
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     font-size: 1em;
     border-top: #cccccc 1px solid;
     border-bottom: #666666 1px solid;
@@ -372,7 +373,7 @@ heading1 {
 .frmheader {
     color: #000000;
     background: #dcdcdc;
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     font-size: .7em;
     font-weight: normal;
     border-bottom: 1px solid #dcdcdc;
@@ -381,7 +382,7 @@ heading1 {
 }
 
 .frmtext {
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     font-size: .7em;
     margin-top: 8px;
     margin-bottom: 0px;
@@ -389,7 +390,7 @@ heading1 {
 }
 
 .frmInput {
-    font-family: Verdana;
+    font-family: Verdana, Geneva, sans-serif;
     font-size: 1em;
 }
 
@@ -446,34 +447,22 @@ heading1 {
 
 [data-dyalog-tip]:hover:after {
     content: attr(data-dyalog-tip);
-    font-weight: normal;
-    font-size: small;
-    text-decoration: none;
-    padding: 4px;
-    color: black;
+    padding: 5px;
     position: absolute;
     left: 0px;
-    bottom: 20px;
-    white-space: nowrap;
-    box-shadow: 0px 0px 4px black;
-    background-color: white;
-    z-index: 1;
-    height: 20px;
-    text-shadow: none;
+    bottom: 1.5em;
+    line-height: 1em;
+    border-radius: 10px;
+    background: black;
+    font-size: small;
 }
 
 #reading, #reading ul, #reading ul li {
     list-style: none;
     padding-left: 10px;
-    width: 200px;
+    width: 210px;
     position: relative;
     font-weight: bold;
-}
-
-#reading {
-    border-left: 1px solid lightgray;
-    margin-left: 20px;
-    padding-left: 20px;
 }
 
 #reading li li::before, #reading li li::after {
@@ -502,7 +491,6 @@ heading1 {
 
 #about {
     line-height: 133%;
-    margin: -10px;
 }
 
 #about td {
@@ -524,21 +512,32 @@ iframe {
     margin-right: 20px;
 }
 
-.bigtabs {
-    margin-left: -15px;
-    margin-right: -15px;
+#bigtabs {
+    margin: calc(5px - 1em);
 }
 
-.bigtabs table {
+#bigtabs table {
     font-family: Verdana, Geneva, sans-serif;
+    margin: 0 20px;
+    /* text-indent: -15px; */
+}
+
+#ctrl p {
+    margin: auto;
+}
+
+#bigtabs>div>div {
+    width: calc(100% - 20px);
 }
 
 /* SLIDESHOW CSS */
 #slideshow {
     width: 495px;
     height: 370px;
-    margin: 0.5em 0em 1.5em 2em;
-    box-shadow: 2px 2px 10px 0px;
+    margin: 20px;
+    border-radius: 10px;
+    border: 5px solid #FFC680;
+    padding: 5px;
 }
 
 #slideshow figure {
@@ -593,12 +592,13 @@ iframe {
 }
 
 #slideshow figcaption {
-    padding: 0.5em;
-    background: linear-gradient(transparent,black 10%);
+    padding: 5px 10px 10px 10px;
+    background: rgba(0,0,0,0.9);
     position: relative;
-    bottom:50px;
-    color:white;
-    height:34px
+    bottom: 55px;
+    border-radius: 10px;
+    min-height: 38px;
+    color: white;
 }
 
 figcaption a {
@@ -612,7 +612,6 @@ figcaption a {
 
 .i200char {
     color: darkcyan;
-    background-color: honeydew;
 }
 
 .i200num {

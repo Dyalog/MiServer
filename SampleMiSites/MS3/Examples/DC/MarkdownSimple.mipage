@@ -1,0 +1,13 @@
+﻿:Class MarkdownSimple : MiPageSample
+⍝ Control:: _DC.Markdown
+⍝ Description:: Use markdown to generate HTML
+
+    ∇ Compose
+      :Access public
+      Add #._.Markdown ScriptFollows
+    ⍝## The Markdown widget processes "markdown" 
+    ⍝Markdown is a simple way to add formatting like headers, **bold**, bulleted lists, and so on to plain text.\ 
+    ⍝It was originally designed to be an easy alternative to HTML, and allows people to create web pages with no HTML experience.
+    ∇
+
+:EndClass

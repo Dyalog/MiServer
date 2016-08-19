@@ -104,7 +104,7 @@
       html←('pre style="font-family:APL385 Unicode',fontsize,'"')Enclose'code'Enclose CRLF,⍨html
     ∇
 
-    ∇ html←APLToHTMLColour APL;types;colours;class;codes;apply;lines;head;tail
+    ∇ html←APLToHTMLColour APL;types;colours;class;codes;apply;lines;head;tail;c;ent
      ⍝ returns APL code formatted for HTML with syntax colouring
       :Trap 0
           colours←⍬
@@ -122,7 +122,12 @@
           html←({(+/∨\' '≠⌽⍵)↑¨↓⍵}⍣(1≥|≡APL))APL ⍝ Make VTV if matrix
           lines←∊1↑¨⍨≢¨html
           types←0,0,⍨∊200⌶html                        ⍝ 200⌶ is colour coding
-          html←' ',' ',⍨∊html
+     
+          :For c ent :InEach '&<'('&amp;' '&lt;')
+              ((c⍷∊html)/∊html)←⊂⊂ent
+          :EndFor
+     
+          html←' ',' ',⍨⊃,/html
           :For class codes :In colours
               apply←1 0⍷types∊codes
               (apply/html)←(apply/html),¨⊂'</span>'

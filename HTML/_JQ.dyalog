@@ -91,7 +91,6 @@
         :field public Container
         :field public InternalEvents←'' ⍝ list of events the widget "knows" about
         :field public BuildHTML←1       ⍝ if 0, we build any HTML infrastructure for the widget, otherwise, assume the user built it
-⍝        :field public WidgetSyntax←''
         :field public WidgetDef←'event,ui' 'event'  'ui' '$(event.currentTarget)' '.val()'  ⍝ see _JQ.RenderHandlerCore for details
 
         ∇ r←{a}rand w;⎕RL
@@ -106,7 +105,6 @@
           Options←⎕NS''
           Container←⎕NEW #.HtmlElement
           :Implements constructor
-⍝          WidgetSyntax←WidgetDef
         ∇
 
         ∇ r←Render;build;html;handlers;js;oldJavaScript
@@ -476,9 +474,9 @@
          
               (syn_handler syn_event syn_model syn_this syn_value)←5↑WidgetDef
               try←{'(function(){try{return ',⍵,';}catch(e){return "";}})()'}
-              data←'_event: ',syn_event,'.type, '
-              data,←'_what: ',syn_this,'.attr("id"), '
-              data,←'_value: ',syn_this,syn_value,', '
+              data←'_event: ',(try syn_event,'.type'),', '
+              data,←'_what: ',(try syn_this,'.attr("id")'),', '
+              data,←'_value: ',(try syn_this,syn_value),', '
               data,←'_selector: ',(quote selector~'⍎'),', '
               data,←'_target: ',(try syn_event,'.target.id'),', '
               data,←'_currentTarget: ',(try syn_event,'.currentTarget.id'),', '
