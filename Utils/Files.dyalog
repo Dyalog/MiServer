@@ -426,9 +426,7 @@
     :endsection
 
     ∇ r←a FREAD w;t
-      t←w ⎕FSTIE 0
-      r←⎕FREAD t a
-      ⎕FUNTIE t
+      r←a{⍺{(⎕FUNTIE ⍵)⊢⎕FREAD ⍵ ⍺}w ⎕FSTIE 0}w
     ∇
 
     ∇ r←filename Fopen tieno

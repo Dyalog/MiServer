@@ -14,6 +14,10 @@
       r←'alert(',(quote txt),');'
     ∇
 
+    ∇ r←CloseWindow
+      r←'var w=window.open(window.location,''_self''); w.close();'
+    ∇
+     
     ∇ r←{val}(sel JQuery fn)args;opt
     ⍝ construct JavaScript to call a jQuery function - eg val(), html(), css(), prop(), or attr()
     ⍝ optionally setting a value for
