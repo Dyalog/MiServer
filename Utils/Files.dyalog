@@ -191,11 +191,11 @@
           →(0∊⍴rslt←1 _SH'stat -lt "%F %T %z" ',unixfix path,isFolder{0∊⍴⍵:⍺/'*' ⋄ ⍵}filter)⍴0
           r←((1↑⍴rslt),4)⍴0
           rslt←↑{⎕ML←3 ⋄ ⍵⊂⍨~{⍵∧9>+\⍵}' '=⍵}¨rslt
-          r[;3]←'d'=0⊃¨rslt[;1]                 ⍝ IsDirectory
-          r[;1]←(~r[;3])×1⊃¨⎕VFI¨rslt[;4]       ⍝ Size
+          r[;3]←'d'=0⊃¨rslt[;1]                         ⍝ IsDirectory
+          r[;1]←(~r[;3])×1⊃¨⎕VFI¨rslt[;4]               ⍝ Size
           z←↑∊¨↓{w←⍵ ⋄ ((w∊'-:')/w)←' ' ⋄ 1⊃⎕VFI w}¨rslt[;5 6] ⍝
-          r[;2]←↓z,0                            ⍝ 0 msec for MacOS to Timestamp
-          r[;0]←rslt[;8]                        ⍝ Name
+          r[;2]←↓z,0                                    ⍝ 0 msec for MacOS to Timestamp
+          r[;0]←path{⍺((⍴⍺){⍵↓⍨⍺⍺×⍺≡⍺⍺⍴⍵})⍵}¨rslt[;8]   ⍝ Name
      
       :Case 'Win'
       ⍝ See DirX for explanations of results of _FindNextFile etc
