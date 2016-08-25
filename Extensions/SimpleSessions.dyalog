@@ -119,7 +119,7 @@
 
     ∇ HouseKeeping Server;now;m;i;p
     ⍝ Check to see if any sessions have expired due to inactivity
-    ⍝ Call the application callback if necessary
+    ⍝ Call any page application callbacks (_Close) if necessary
      
       :Access Public
       now←#.Dates.DateToIDN ⎕TS
@@ -127,7 +127,10 @@
           :Hold 'Sessions'
               :For i :In m/⍳⍴m
                   Server.onSessionEnd i⊃Sessions
-                  :If 0≠⍴p←(i⊃Sessions).Pages ⋄ p.Close i⊃Sessions ⋄ :EndIf
+                  :If 0≠⍴p←(i⊃Sessions).Pages
+                  :AndIf 0≠⊃p.⎕NC⊂'_Close'
+                      p._Close i⊃Sessions
+                  :EndIf
               :EndFor
               Sessions←(~m)/Sessions
           :EndHold

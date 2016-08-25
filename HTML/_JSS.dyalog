@@ -11,40 +11,13 @@
     JAchars←#.JSON.JAchars
 
     ∇ r←Alert txt
+    ⍝ popup alert text
       r←'alert(',(quote txt),');'
     ∇
 
     ∇ r←CloseWindow
+    ⍝ close the browser window
       r←'var w=window.open(window.location,''_self''); w.close();'
-    ∇
-     
-    ∇ r←{val}(sel JQuery fn)args;opt
-    ⍝ construct JavaScript to call a jQuery function - eg val(), html(), css(), prop(), or attr()
-    ⍝ optionally setting a value for
-    ⍝ Get a jQuery parameter:
-    ⍝    ('"#id"' JQuery 'attr') '"data-role"'
-    ⍝ Set a jQuery parameter:
-    ⍝    '"blue"' ('#id' JQuery 'css') 'background-color'
-    ⍝
-      args←eis args
-      :If 0=⎕NC'val'
-          (opt val)←2↑args,(⍴args)↓''⎕NULL
-      :Else
-          opt←⊃args
-      :EndIf
-      :If val≡⎕NULL
-          r←'$(',(fmtSelector sel),').',fn,'(',(quote opt),');'
-      :Else
-          r←'$(',(fmtSelector sel),').',fn,'(',(quote opt),',',(fmtData val),');'
-      :EndIf
-    ∇
-
-    ∇ r←{val}(fn JQueryOpt sel)opt
-      :If 0=⎕NC'val'
-          r←'$(',(fmtSelector sel),').',fn,'("option",',(quote opt),');'
-      :Else
-          r←'$(',(fmtSelector sel),').',fn,'("option",',(quote opt),',',(fmtData val),');'
-      :EndIf
     ∇
 
     ∇ r←sel Css args ⍝ JQuery css cover
@@ -89,7 +62,10 @@
 
     ∇ r←{eval}JSDate date
     ⍝ snippet to create a JS date (JavaScript months are 0-11!!!)
-    ⍝ date is in 3↑⎕TS form
+    ⍝ date is in 6↑⎕TS form
+    ⍝ eval is optional Boolean to indicate whether to prepend '⍎' to the snippet (default is 0=do not prepend)
+    ⍝         prepending ⍎ tells MiServer that this is an executable phrase and not simply a string
+
       :If 0=⎕NC'eval' ⋄ eval←0 ⋄ :EndIf
       :If 0 2∊⍨10|⎕DR date  ⍝ char?
           date←'"',date,'"'
@@ -111,10 +87,39 @@
       r←(((~0∊⍴varname)/'var ',varname,' = '),0 0 1 #.JSON.fromAPL data),';'
     ∇
 
+    ∇ r←{val}(sel JQuery fn)args;opt
+    ⍝ construct JavaScript to call a jQuery function - eg val(), html(), css(), prop(), or attr()
+    ⍝ optionally setting a value for
+    ⍝ Get a jQuery parameter:
+    ⍝    ('"#id"' JQuery 'attr') '"data-role"'
+    ⍝ Set a jQuery parameter:
+    ⍝    '"blue"' ('#id' JQuery 'css') 'background-color'
+    ⍝
+      args←eis args
+      :If 0=⎕NC'val'
+          (opt val)←2↑args,(⍴args)↓''⎕NULL
+      :Else
+          opt←⊃args
+      :EndIf
+      :If val≡⎕NULL
+          r←'$(',(fmtSelector sel),').',fn,'(',(quote opt),');'
+      :Else
+          r←'$(',(fmtSelector sel),').',fn,'(',(quote opt),',',(fmtData val),');'
+      :EndIf
+    ∇
+
+    ∇ r←{val}(fn JQueryOpt sel)opt
+      :If 0=⎕NC'val'
+          r←'$(',(fmtSelector sel),').',fn,'("option",',(quote opt),');'
+      :Else
+          r←'$(',(fmtSelector sel),').',fn,'("option",',(quote opt),',',(fmtData val),');'
+      :EndIf
+    ∇
 
 
 
-    :Class StorageObject
+    :Class StorageObject 
+    ⍝ !!!Prototype!!!
 
         ∇ r←{what}Set(type value);name;w;v
           :Access public shared

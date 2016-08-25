@@ -196,7 +196,8 @@
       :EndIf
     ∇
 
-    ∇ Close session ⍝ Called when the session ends
+    ∇ _Close session ⍝ Called when the session ends
+    ⍝ this method is specific to #.SimpleSessions and is called when a
       :Access Public Overridable
     ∇
 
@@ -333,28 +334,43 @@
     ∇
 
     ∇ r←sel Css args ⍝ JQuery css cover
-      :Access public
       r←(sel #._JSS.JQuery'css')args
     ∇
 
     ∇ r←sel Val args ⍝ JQuery val cover
-      :Access public
       r←(sel #._JSS.JQuery'val')args
     ∇
 
+    ∇ r←sel Prop args ⍝ JQuery prop cover
+      r←(sel #._JSS.JQuery'prop')args
+    ∇
+
     ∇ r←sel Attr args ⍝ JQuery attr cover
-      :Access public
       r←(sel #._JSS.JQuery'attr')args
     ∇
 
     ∇ r←sel RemoveAttr args ⍝ JQuery removeAttr cover
-      :Access public
       r←(sel #._JSS.JQuery'removeAttr')args
     ∇
 
     ∇ r←sel Html args ⍝ JQuery html cover
-      :Access public
       r←(sel #._JSS.JQuery'html')args
+    ∇
+
+    ∇ r←sel Show args ⍝ JQuery show cover
+      r←(sel #._JSS.JQuery'show')args
+    ∇
+
+    ∇ r←sel Hide args ⍝ JQuery hide cover
+      r←(sel #._JSS.JQuery'hide')args
+    ∇
+
+    ∇ r←sel Toggle args ⍝ JQuery toggle cover
+      r←(sel #._JSS.JQuery'toggle')args
+    ∇
+
+    ∇ r←Submit sel ⍝ JQuery submit cover
+      r←(sel #._JSS.JQuery'submit')''
     ∇
 
     :endsection

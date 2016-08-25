@@ -423,7 +423,7 @@
       :Access public
       args←eis args
       handler←⎕NEW #._JQ.Handler
-      handler.(Events Callback ClientData JavaScript Delegates jQueryWrap ScriptWrap Hourglass)←args defaultArgs'' 1 '' '' '' 1 1 ¯1
+      handler.(Events Callback ClientData JavaScript Delegates jQueryWrap ScriptWrap Cursor)←args defaultArgs'' 1 '' '' '' 1 1 ¯1
       handler.WidgetRef←⎕THIS
       handler.Page←_PageRef
       :If ¯1=handler.Hourglass ⋄ handler.Hourglass←(,0)≢,handler.Callback ⋄ :EndIf
@@ -754,9 +754,10 @@
       r←⊃#.MarkAPL.Markdown2HTML Follows
     ∇
 
-    ∇ r←CodeFollows
+    ∇ r←CodeFollows;n
       :Access public shared
-      r←2↓∊(⎕UCS 13 10)∘,¨{¯1↓⍵/⍨∨\⌽<\∨/¨'⍝<<end>>'∘⍷¨⍵}(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
+      n←⎕XSI{1++/∧\⍵∘≡¨(⊃⍴⍵)↑¨⍺}(⍕⎕THIS),'.'
+      r←2↓∊(⎕UCS 13 10)∘,¨{¯1↓⍵/⍨∨\⌽<\∨/¨'⍝<<end>>'∘⍷¨⍵}(1+n⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
       r←'<pre style="font-family:APL385 Unicode">',r,'</pre>'
     ∇
 
