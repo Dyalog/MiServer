@@ -50,7 +50,7 @@
     ∇
 
 
-    ∇ r←Render;i;link;links;opt;opts;text;n;ids;mat;diff;ul;xp
+    ∇ r←Render;i;link;links;opt;opts;text;n;ids;mat;diff;ul;xp;placeholders;from;to
       :Access public
       Tag←'ul'
       SetId
@@ -58,7 +58,7 @@
       n←≢Items
      
       :If ~0∊n
-          opts←{isRef ⍵:⍵ ⋄ HtmlSafeText ⍵}¨eis Items
+          opts←{'⍎'=⊃⍵:1↓⍵ ⋄ isRef ⍵:⍵ ⋄ HtmlSafeText ⍵}¨eis Items
           links←(⍴Items)↑(eis Links),(⍴Items)⍴⊂''
           text←opts
           opts←⍬
@@ -73,7 +73,10 @@
               opts,←opt
           :EndFor
      
-          mat←⎕XML∊{isRef ⍵:⍵.Render ⋄ '<span>',⍵,'</span>'}¨opts
+⍝          mat←⎕XML∊{isRef ⍵:⍵.Render ⋄ '<span>',⍵,'</span>'}¨opts
+          placeholders←⍕¨⍳⍴opts
+     
+          mat←0,(⊂'span'),((⍪placeholders),⊂0 2⍴⊂''),5
      
           Levels⍴⍨←n
           diff←0,¯2-/Levels
@@ -93,8 +96,12 @@
      ⍝ Finally we adjust the level number so it starts a 0
           mat[;1]-←1⍴mat
      
-      ⍝r←(id New _.ul(⎕XML mat)).Render  ⍝ and use ⎕XML to format nicely
-          Container.Content←(⎕XML mat)
+     ⍝ Prepare replacement of placeholders
+          from←{'<span>',⍵,'</span>'}¨placeholders
+          to←{isRef ⍵:⍵.Render ⋄ ⍵}¨opts
+     
+     ⍝ Use ⎕XML to format nicely
+          Container.Content←from ⎕R to⊢⎕XML mat
       :EndIf
      
       r←⎕BASE.Render
