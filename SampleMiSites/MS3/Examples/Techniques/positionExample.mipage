@@ -1,11 +1,38 @@
 ﻿:Class positionExample : MiPageSample
 ⍝ Control:: _DC.Style _html.div
 
-    ∇ Compose;d1
-      :Access Public 
-      Add _.Style'.positionDiv'(('position' 'absolute')('width' '75px')('height' '75px')('background' 'green'))
-      d1←Add _.div'' 'id=targetElement'
-      (d1.Add _.div'' 'id=position1 class=positionDiv')Position'center' 'center' '#targetElement'
+    ∇ Compose
+      :Access Public
+      Add _.style ScriptFollows
+      ⍝ #target {
+      ⍝    position: absolute;
+      ⍝    margin: 10vh;
+      ⍝    height: 75%;
+      ⍝    width: 75%;
+      ⍝    border: 3px solid Black;
+      ⍝ }
+      ⍝ .positioned {
+      ⍝    height: 20vh;
+      ⍝    width: 20vh;
+      ⍝    background: rgba(255,140,0,0.75);
+      ⍝    box-shadow: 0 0 5vh 5vh darkorange inset;
+      ⍝    padding: 1vh;
+      ⍝    position: absolute;
+      ⍝ }
+     
+      '#target'Add _.div
+      Nest'center' 'center'
+      Nest'left top-10' 'top'
+      Nest'center' 'left top'
+      Nest'left bottom' 'left bottom'
+      Nest'center' 'center+25% center+25%'
+      Nest'right' 'right+2.5%'
+     
     ∇
-                     
+
+    ∇ Nest(my at);target;positioned
+      positioned←'.positioned'Add _.div('my ',my,' at target''s ',at)
+      positioned Position my at'#target'
+    ∇
+
 :EndClass

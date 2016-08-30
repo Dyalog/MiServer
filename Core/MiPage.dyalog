@@ -283,8 +283,9 @@
     :endsection
 
     :section Position
+
     ∇ ref Position args;inds;mask;parameters;my;at;of;collision;within;q
-      :Access public shared
+      :Access public
       ⍝ ref  - a reference to an instance of anything based on HtmlElement
       ⍝ args - position information per jQueryUI's Position widget http://api.jqueryui.com/position/
       ⍝        can be in any of the following forms
@@ -317,7 +318,7 @@
           :EndIf
           parameters(ref{⍺⍺⍎'Position.',⍺,'←',q ⍵})¨args
           ref.Uses,←⊂'JQueryUI'
-          ref.Use
+          SetUse
       :EndIf
     ∇
     :endsection
