@@ -272,7 +272,7 @@
     ∇
     ∇ r←Execute content
       :Access public
-      r←⊂('execute'content)
+      r←⊂('execute'(renderContent content))
     ∇
 
     ∇ r←name Assign data

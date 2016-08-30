@@ -53,27 +53,62 @@
 
         :section APLJax
 
+        ∇ r←renderContent content;c
+          r←''
+          content←eis content
+          :While ~0∊⍴content
+              :Select ≡c←⊃content
+              :Case 0
+                  :If isClass c
+                      :Select ⊃⍴content
+                      :Case 1
+                          r,←(⎕NEW c).Render
+                      :Case 2
+                          r,←(⎕NEW c(2⊃content)).Render
+                      :Else
+                          r,←(⎕NEW c(1↓content)).Render
+                      :EndSelect
+                  :ElseIf isInstance c
+                      r,←c.Render
+                  :Else
+                      r,←(⎕NEW #.HtmlElement(''content)).Render
+                  :EndIf
+                  content←''
+              :Case 1
+                  :If isClass⊃c
+                      r,←(⎕NEW(⊃c)(1↓c)).Render
+                  :ElseIf isInstance⊃c
+                      ∘∘∘ ⍝ should not happen! (I think)
+                  :Else
+                      r,←(⎕NEW #.HtmlElement(''c)).Render
+                  :EndIf
+                  content←1↓content
+              :Else
+                  r,←renderContent c
+                  content←1↓content
+              :EndSelect
+          :EndWhile
+        ∇
+
+
         ∇ r←selector Replace content
           :Access public
-          :If isInstance content ⋄ content←content.Render ⋄ :EndIf
-          :If isClass content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
-          r←⊂('replace'selector)('data'content)
+          r←⊂('replace'selector)('data'(renderContent content))
         ∇
+
         ∇ r←selector Append content
           :Access public
-          :If isInstance content ⋄ content←content.Render ⋄ :EndIf
-          :If isClass content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
-          r←⊂('append'selector)('data'content)
+          r←⊂('append'selector)('data'(renderContent content))
         ∇
+
         ∇ r←selector Prepend content
           :Access public
-          :If isInstance content ⋄ content←content.Render ⋄ :EndIf
-          :If isClass content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
-          r←⊂('prepend'selector)('data'content)
+          r←⊂('prepend'selector)('data'(renderContent content))
         ∇
+
         ∇ r←Execute content
           :Access public
-          r←⊂('execute'content)
+          r←⊂('execute'(renderContent content))
         ∇
 
         ∇ r←name Assign data
