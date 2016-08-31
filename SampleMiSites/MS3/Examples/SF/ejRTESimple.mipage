@@ -1,23 +1,24 @@
 ﻿:Class ejRTESimple : MiPageSample
 ⍝ Control:: _SF.ejRTE
-⍝ Description:: Rich Txt Editor
- 
-    ∇ Compose;captions;contents;intro
+⍝ Description:: Open Rich-Text Editor and retrieve document
+
+    ∇ Compose;p
       :Access public
      
-      Add _.title'_SF.ejRTE - Simple Example '
-      Add _.h2'_SF.ejRTE - Syncfusion Rich Text Editor Control'
+      Add _.style'#output {background: Gainsboro;} #display {font-size: 1em;}'
      
-      'mytext'(Add _.Form).Add _.ejRTE
-      (Add _.Button'OK').On'click' 'mycallback'
-      
-      Add _.style'#mytext_Iframe {padding:0; margin:0; background-color:white;}'
+      '#mytext'(Add _.Form).Add _.ejRTE'<h3><b>Note:</b> <i>Edit this text</i><h3>'
+     
+      p←Add _.p'Click '
+      ('#display'p.Add _.Button'here').On'click' 'Display'('doc' 'val' '#mytext')
+      p.Add' to display the HTML code which would generate whatever is in the editor above.'
+     
+      '#output'Add _.code
     ∇
 
-    ∇ r←mycallback
+    ∇ r←Display
       :Access public
-      r←''
-      ∘∘∘
+      r←'#output'Replace #.HTMLInput.HtmlSafeText Get'doc'
     ∇
 
 :EndClass

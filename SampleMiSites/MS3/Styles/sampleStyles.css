@@ -498,13 +498,17 @@ heading1 {
     width: 33.3%;
 }
 
-iframe {
+#widgetdoc iframe {
     width: calc(100% - 35px);
     background-color: wheat;
     margin-top: 10px;
     margin-bottom: 30px;
     padding: 5px;
     border: 2px solid black;
+}
+
+#widgetdoc pre {
+    padding: 0 0 30px;
 }
 
 #widgetdoc {
