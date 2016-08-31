@@ -509,11 +509,11 @@
          
               (syn_handler syn_event syn_model syn_this syn_value)←5↑WidgetDef
               data←'_event: ',syn_event,'.type, '
-              data,←'_what: function(arg){try{return arg.attr("id");}catch(e){alert("_what");return"";}}(',syn_this,'), '
-              data,←'_value: function(arg){try{return arg',syn_value,';}catch(e){alert("_value");return"";}}(',syn_this,'), '
+              data,←'_what: function(arg){try{return arg.attr("id");}catch(e){return"";}}(',syn_this,'), '
+              data,←'_value: function(arg){try{return arg',syn_value,';}catch(e){return"";}}(',syn_this,'), '
               data,←'_selector: ',(quote selector~'⍎'),', '
-              data,←'_target: function(arg){try{return arg.target.id;}catch(e){alert("_target");return"";}}(',syn_event,'), '
-              data,←'_currentTarget: function(arg){try{return arg.currentTarget.id;}catch(e){alert("_currentTarget");return"";}}(',syn_event,'), '
+              data,←'_target: function(arg){try{return arg.target.id;}catch(e){return"";}}(',syn_event,'), '
+              data,←'_currentTarget: function(arg){try{return arg.currentTarget.id;}catch(e){return"";}}(',syn_event,'), '
          
               :If #.HtmlElement.isString Callback ⍝ numeric Callback 1-call APLJax, 0-no callback to server
               :AndIf ~0∊⍴Callback
