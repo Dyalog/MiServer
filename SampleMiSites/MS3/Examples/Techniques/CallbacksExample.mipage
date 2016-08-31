@@ -31,7 +31,7 @@
       fs.Add _.p'Finally, you can attach a single handler to multiple sub-elements, like this Fieldset has a single handler for its buttons.'
       {⍵'.huge'fs.Add _.Button ⍵}¨⎕D
       fs.On'click' 'Choice' '' '' 'button'
-      fs.Add _.p ('The code to achieve this is: 'Code'.On ''click'' ''Choice'' '''' '''' ''button''')
+      fs.Add _.p('The code to achieve this is: 'Code'.On ''click'' ''Choice'' '''' '''' ''button''')
      
      
       '#output'Add _.h3'Watch this space while you click an input control!'

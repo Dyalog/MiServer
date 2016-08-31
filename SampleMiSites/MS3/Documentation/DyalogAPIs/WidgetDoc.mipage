@@ -28,7 +28,7 @@
                   r⍪←c1 c2
               :EndFor
               :If ns≡'_html'
-                  r⍪←'Description'('Native HTML ',' element',⍨desc←#.Strings.lc 'descr'ForControl widget)
+                  r⍪←'Description'('Native HTML ',' element',⍨desc←#.Strings.lc'descr'ForControl widget)
                   ctor←(1+(New _⍎widget).NoEndTag)⊃'content' 'id'
                   r⍪←'Constructor'('[',ctor,']<br />',ctor,' - the ',ctor,' of the ',desc)
                   r⍪←'Public Fields' '(none)'
@@ -47,7 +47,7 @@
           h←div.Add _.h2
           :If 0≠wref.⎕NC⊂'DocBase'
           :AndIf ~0∊⍴wref.DocBase ⍝ with link
-              h.Add (ns,'.',widget)External wref.DocBase
+              h.Add(ns,'.',widget)External wref.DocBase
           :Else                   ⍝ without link
               h.Add ns,'.',widget
           :EndIf
