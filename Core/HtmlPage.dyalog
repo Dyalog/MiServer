@@ -5,7 +5,7 @@
     :field public Head
     :field public Body
     :field public Scripts
-    :field public StylesLinks 
+    :field public StylesLinks
 
     ∇ make
       :Access public
@@ -25,7 +25,7 @@
     ∇
 
     ∇ r←RenderPage b;scr;mask;content
-      :Access public                 
+      :Access public
       content←Content
       :If ~0∊⍴scr←∪Scripts
       :AndIf ∨/mask←{0∊⍴⍵}¨scr.Content
@@ -40,7 +40,7 @@
     ∇
 
     ∇ r←Render;s;b;mask;scr;sty;content;headContent
-      :Access public  
+      :Access public
       content←Content
       headContent←Head.Content
       :If ~0∊⍴scr←∪Scripts
@@ -76,7 +76,7 @@
       :Access public
       :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
       :If isClass⊃what
-⍝          :If #._html.script∊c←∊⎕CLASS⊃what
+⍝BPB-Why? :If #._html.script∊c←∊⎕CLASS⊃what
 ⍝              r←Scripts,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
           :If #._JQ.Handler∊c←∊⎕CLASS⊃what
               r←Body.Handlers,←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
@@ -98,9 +98,9 @@
       :Access public
       :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
       :If isClass⊃what
-          :If #._html.script∊c←∊⎕CLASS⊃what
-              r←Scripts,⍨←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
-          :ElseIf #._JQ.Handler∊c
+⍝BPB-why? :If #._html.script∊c←∊⎕CLASS⊃what
+⍝             r←Scripts,⍨←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
+          :If #._JQ.Handler∊c
               r←Body.Handlers,⍨←{(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵))}what
               :If 0∊⍴r.Selector ⋄ r.Selector←'html' ⋄ :EndIf ⍝ if no selector specified, use page level
           :ElseIf ⊃∨/c∊¨⊂#._html.(style link)
