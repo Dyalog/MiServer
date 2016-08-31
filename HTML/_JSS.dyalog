@@ -60,12 +60,40 @@
       r←(sel JQuery'submit')''
     ∇
 
+    ∇ r←sel Position args;Position;inds;parameters;q;mask
+      parameters←'my' 'at' 'of' 'collision' 'within'
+      q←{1⌽'''''',{⍵/⍨1+''''=⍵}⍕⍵}
+      Position←⎕NS ⍬
+      :If 2=⍴⍴args ⍝ matrix
+          args←,args
+      :ElseIf 3=≡args
+          args←⊃,/args
+      :EndIf
+      args←eis args
+      inds←parameters⍳args
+      :If ∨/mask←inds≤⍴parameters
+          :If mask≡(2×+/mask)⍴1 0
+              parameters←mask/args
+              args←(1⌽mask)/args
+          :EndIf
+      :Else
+          parameters←(⍴args)↑parameters
+      :EndIf
+      mask←⍬∘≢¨args
+      args←mask/args
+      parameters←mask/parameters
+      parameters({⍎'Position.',⍺,'←',q ⍵})¨args
+      :If ~0∊⍴Position.⎕NL-2
+          r←0 #.JQ.JQueryfn'position'sel Position
+      :EndIf
+    ∇
+
     ∇ r←{eval}JSDate date
     ⍝ snippet to create a JS date (JavaScript months are 0-11!!!)
     ⍝ date is in 6↑⎕TS form
     ⍝ eval is optional Boolean to indicate whether to prepend '⍎' to the snippet (default is 0=do not prepend)
     ⍝         prepending ⍎ tells MiServer that this is an executable phrase and not simply a string
-
+     
       :If 0=⎕NC'eval' ⋄ eval←0 ⋄ :EndIf
       :If 0 2∊⍨10|⎕DR date  ⍝ char?
           date←'"',date,'"'
@@ -118,7 +146,7 @@
 
 
 
-    :Class StorageObject 
+    :Class StorageObject
     ⍝ !!!Prototype!!!
 
         ∇ r←{what}Set(type value);name;w;v

@@ -10,6 +10,8 @@
       ⍝    height: 75%;
       ⍝    width: 75%;
       ⍝    border: 3px solid Black;
+      ⍝    padding-left: 30vh;
+      ⍝    line-height: 10em;
       ⍝ }
       ⍝ .positioned {
       ⍝    height: 20vh;
@@ -20,7 +22,7 @@
       ⍝    position: absolute;
       ⍝ }
      
-      '#target'Add _.div
+      '#target'Add _.div'target'
       Nest'center' 'center'
       Nest'left top-10' 'top'
       Nest'center' 'left top'

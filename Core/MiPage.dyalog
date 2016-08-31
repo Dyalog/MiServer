@@ -316,6 +316,9 @@
           :Else
               parameters←(⍴args)↑parameters
           :EndIf
+          mask←⍬∘≢¨args
+          args←mask/args
+          parameters←mask/parameters
           parameters(ref{⍺⍺⍎'Position.',⍺,'←',q ⍵})¨args
           ref.Uses,←⊂'JQueryUI'
           SetUse
