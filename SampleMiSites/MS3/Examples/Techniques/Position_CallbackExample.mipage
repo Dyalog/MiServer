@@ -1,5 +1,6 @@
 ﻿:Class Position_CallbackExample : MiPageSample
-⍝ Control:: _html.div
+⍝ Control:: _JSS.Position _html.div
+⍝ Description:: Callback with jQuery UI Position JavaScript snippets to reposition one element relative to another
 
     ∇ Compose;positioned;positions
       :Access Public

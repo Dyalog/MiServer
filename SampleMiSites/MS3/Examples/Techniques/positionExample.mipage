@@ -1,5 +1,6 @@
 ﻿:Class positionExample : MiPageSample
-⍝ Control:: _DC.Style _html.div
+⍝ Control:: _html.style _html.div
+⍝ Description:: Use jQuery UI Position to place one element relative to another
 
     ∇ Compose
       :Access Public
@@ -23,18 +24,13 @@
       ⍝ }
      
       '#target'Add _.div'target'
-      Nest'center' 'center'
-      Nest'left top-10' 'top'
-      Nest'center' 'left top'
-      Nest'left bottom' 'left bottom'
-      Nest'center' 'center+25% center+25%'
-      Nest'right' 'right+2.5%'
-     
-    ∇
 
-    ∇ Nest(my at);target;positioned
-      positioned←'.positioned'Add _.div('my ',my,' at target''s ',at)
-      positioned Position my at'#target'
+      ('.positioned'Add _.div'my center at target''s center')Position'center' 'center' '#target'
+      ('.positioned'Add _.div'my left top-10 at target''s top')Position'left top-10' 'top' '#target'
+      ('.positioned'Add _.div'my center at target''s left top')Position'center' 'left top' '#target'
+      ('.positioned'Add _.div'my left bottom at target''s left bottom')Position'left bottom' 'left bottom' '#target'
+      ('.positioned'Add _.div'my center at target''s center+25% center+25%')Position'center' 'center+25% center+25%' '#target'
+      ('.positioned'Add _.div'my right at target''s right+2.5%')Position'right' 'right+2.5%' '#target'
     ∇
 
 :EndClass
