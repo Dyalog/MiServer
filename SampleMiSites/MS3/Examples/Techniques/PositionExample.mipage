@@ -1,4 +1,4 @@
-﻿:Class positionExample : MiPageSample
+﻿:Class PositionExample : MiPageSample
 ⍝ Control:: _html.style _html.div
 ⍝ Description:: Use jQuery UI Position to place one element relative to another
 
