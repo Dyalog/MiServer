@@ -1,14 +1,9 @@
-﻿ msg←Test dummy;p1;p2
+﻿ msg←Test dummy;Has
 
- (p1 p2)←'Ut sed viverra velit.' 'Ac malesuada ante.'
+ Has←{(~∨/⍵⍷∊(⌷'CssSelectors'Find'#output p').Text⊣Wait 200⊣'LinkText'Click ⍺)/⍺,' text not visible'}
 
- :If 0=⍴msg←'p1'WaitFor p1'First section not found'
-
-     Wait 500 ⍝ Wait for animation
-     'LinkText'Click'Second'
- :AndIf 0=⍴msg←'p2'WaitFor p2'Second section failed to expand'
-
-     Wait 500 ⍝ Wait for animation
-     'LinkText'Click'First'
-     msg←'p1'WaitFor p1'First section failed to expand'
+ :If 0=⍴msg←'Latin'Has'Neque'
+ :AndIf 0=⍴msg←'German'Has'Fu en leuchtete'
+ :AndIf 0=⍴msg←'English'Has'Continual'
+ :AndIf 0=⍴msg←'French'Has'Que ans avez'
  :EndIf
