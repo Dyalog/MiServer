@@ -1,0 +1,45 @@
+﻿:Class IconSimple : MiPageSample
+⍝ Control:: _DC.Icon
+⍝ Description:: Icons from FontAwesome, Syncfusion, and Google
+
+    ∇ Compose;p
+      :Access Public
+     
+      ⍝ !!! NOTE !!!
+      ⍝ remove the next three lines when xxIcon resources are added
+      Add _.StyleSheet'http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css'
+      Add _.StyleSheet'https://fonts.googleapis.com/icon?family=Material+Icons'
+      Use'sfTheme'
+      
+      Add _.style '.red {color: red;}'
+      
+      p←Add _.p
+      p.Add _.Icon'fa-cloud-upload'
+      p.Add 'FontAwesome'
+      
+      p←Add _.p
+      p.Add _.Icon'md-fingerprint'
+      p.Add'Google Material Design'
+      
+      p←Add _.p
+      p.Add _.Icon'e-delete-column_01'
+      p.Add'Syncfusion'
+      
+      p←Add _.p
+      '.fa-spin'p.Add _.Icon'md-track_changes'
+      p.Add'FontAwesome effects'
+      
+      p←Add _.p
+      '.red'p.Add _.Icon'e-stop'
+      p.Add 'custom styling'
+
+      p←Add _.p
+      p.Add _.Icon'fa-square' 'fa-terminal fa-inverse' 
+      p.Add 'small on large'
+
+      p←Add _.p
+      p.Add _.Icon'fa-camera' 'fa-ban red' 1
+      p.Add 'large on small'
+    ∇
+
+:EndClass
