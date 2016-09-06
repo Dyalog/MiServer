@@ -18,7 +18,7 @@
  :AndIf 0∊⍴msg←'Parent blocks child' ''TryClick'popup_title'
 
  ⍝ Close the original dialog, and check mode
- :AndIf 0∊⍴msg←'' 'Failed to unblock'TryClick'banner'⊣⎕DL 0.2⊣Click'dialog_closebutton'
+ :AndIf 0∊⍴msg←'Failed to unblock' ''TryClick'banner'⊣⎕DL 0.2⊣Click'dialog_closebutton'
 
  ⍝ Re-invoke the dialog and check that it blocks the orphan popup
  :AndIf 0∊⍴msg←'' 'Dialog not modal'TryClick'popup_closebutton'⊣Click'show'⊣⎕DL 0.2

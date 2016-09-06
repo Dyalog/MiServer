@@ -6,7 +6,7 @@
 
  ⍝↓↓↓ remove directories, select one of each file type based on extension
  files←{⍵[(3⌊⍴⍵)?⍴⍵]}∊¨↓{⍵⌷[1]⍨⊂⍵[;3]⍳∪⍵[;3]}↑#.Files.SplitFilename¨{⍵[;1]/⍨~⍵[;4]}#.Files.List path←AppRoot,'examples\data\'
- ⍞←' testing ',(⍕⍴files),' files '
+ ⍝⍞←' testing ',(⍕⍴files),' files '
  c←0
  :For f :In files  ⍝ all files, no directories
      (Find'ipfl').SendKeys⊂file←path,f  ⍝ must send all at once, otherwise causing Selenium-Exception because of filename...
@@ -28,5 +28,5 @@
          :EndIf
      :EndIf
      c+←1
-     ⍞←⍕10|c
+     ⍝⍞←⍕10|c
  :EndFor
