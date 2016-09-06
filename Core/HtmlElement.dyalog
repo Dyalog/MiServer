@@ -123,7 +123,7 @@
     ∇ SyncAttrs arg
       :Implements Trigger id,name,class,style,title,type,value
       :If ⊃≢/arg.(NewValue OldValue)
-          arg.Name Set arg.NewValue
+          arg.Name Set arg.NewValue~UNDEF
       :EndIf
     ∇
 
