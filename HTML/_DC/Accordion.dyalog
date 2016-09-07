@@ -8,11 +8,13 @@
 ⍝ Public Fields::
 ⍝ Titles          - vector of char vectors containing titles to appear on sections
 ⍝ Sections        - vector of vectors containing HTML content for each sectino
+⍝ Theme           - base colour for the colour theme (default '#808080')
 ⍝ Examples::
 ⍝ Accordion 'Title1' 'Title2'
 ⍝ Accordion ('Title1' 'Title2')('Section1' 'Section2')
 ⍝ Accordion 2 2⍴'Title1' 'Section1' 'Title2' 'Section2'
-⍝ Notes::  This control is implemented in HTML+CSS without any JavaScript and is therefore
+⍝ Notes::
+⍝  - This control is implemented in HTML+CSS without any JavaScript and is therefore
 ⍝          extremely lightwight, resulting in faster load times. However, this comes at the
 ⍝          cost of fewer features compared to competing controls. Use it if you just need
 ⍝          a basic Accordion.

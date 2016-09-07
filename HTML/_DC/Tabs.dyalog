@@ -8,14 +8,16 @@
 ⍝ Public Fields::
 ⍝ Titles          - vector of char vectors containing titles to appear on tabs
 ⍝ Sections        - vector of vectors containing HTML content for each tab
+⍝ Theme           - base colour for the colour theme (default '#808080')
 ⍝ Examples::
 ⍝ Tabs 'Title1' 'Title2'
 ⍝ Tabs ('Title1' 'Title2')('Section1' 'Section2')
 ⍝ Tabs 2 2⍴'Title1' 'Section1' 'Title2' 'Section2'
-⍝ Notes::  This control is implemented in HTML+CSS without any JavaScript and is therefore
-⍝          extremely lightwight, resulting in faster load times. However, this comes at the
-⍝          cost of fewer features compared to competing controls. Use it if you just need
-⍝          basic Tabs.
+⍝ Notes::
+⍝ hello This control is implemented in HTML+CSS without any JavaScript and is therefore
+⍝   extremely lightwight, resulting in faster load times. However, this comes at the
+⍝   cost of fewer features compared to competing controls. Use it if you just need
+⍝   basic Tabs. 
 
     :field public shared readonly ApiLevel←3
     :Field public Titles←0⍴⊂''

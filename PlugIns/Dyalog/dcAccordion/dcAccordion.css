@@ -33,9 +33,6 @@
     background: -webkit-linear-gradient(white,transparent);
     background: linear-gradient(white,transparent);
     font-weight: bold;
-  
-    /* Hand when over the section */
-    cursor: pointer;
 }
 
 .dc-accordion > input[type="radio"]:first-child + label {

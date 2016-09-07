@@ -33,9 +33,6 @@
     background: -webkit-linear-gradient(white,transparent);
     background: linear-gradient(white,transparent);
     font-weight: bold;
-  
-    /* Hand when over the tab */
-    cursor: pointer;
 }
 
 /* Hovered tabs need to be highlighted as such */
