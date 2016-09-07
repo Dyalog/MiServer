@@ -1,4 +1,4 @@
-﻿:class Game2048 :MiPageSample
+﻿:class The_2048_Game :MiPageSample
 ⍝ Control:: _DC.Table
 ⍝ Description:: Simple version of the addictive "2048" sliding game
 
