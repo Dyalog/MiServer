@@ -1,7 +1,13 @@
 ﻿:Class DataTable : #._JQ._jqWidget
 ⍝ Description:: Enhanced searchable and reorderable HTML table
-⍝ Constructor:: [Data [CellAttr [HeaderRows [HeaderAttr [MakeCellIds [MakeRowIds]]]]]
-⍝ Notes:: Constructor arguments are identical to those for _.Table
+⍝ Constructor:: [data [cellAttr [headerRows [headerAttr [makeCellIds [makeRowIds]]]]]
+⍝ Note that constructor arguments are identical to those for Table
+⍝ data        - matrix of data to display in the table
+⍝ cellAttr    - Cell Attributes
+⍝ headerRows  - # of header rows
+⍝ headerAttr  - Header attributes
+⍝ makeCellIds - 1 to generate IDs      <td id="tableId_r2c3">
+⍝ makeRowIds  - 1 to generate Row IDs  <tr id="tableId_row2">
 ⍝ Public Fields::
 ⍝ Data        - matrix of data to display in the table
 ⍝ CellAttr    - Cell Attributes

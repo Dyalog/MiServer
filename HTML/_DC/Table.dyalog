@@ -1,7 +1,12 @@
 ﻿:Class Table : #._html.table
 ⍝ Description:: Improved html table - accepts matrix of data
-⍝ Constructor:: [Data [CellAttr [HeaderRows [HeaderAttr [MakeCellIds [MakeRowIds]]]]]
-⍝
+⍝ Constructor:: [data [cellAttr [headerRows [headerAttr [makeCellIds [makeRowIds]]]]]
+⍝ data        - matrix of data to display in the table
+⍝ cellAttr    - Cell Attributes
+⍝ headerRows  - # of header rows
+⍝ headerAttr  - Header attributes
+⍝ makeCellIds - 1 to generate IDs      <td id="tableId_r2c3">
+⍝ makeRowIds  - 1 to generate Row IDs  <tr id="tableId_row2">
 ⍝ Public Fields::
 ⍝ Data        - matrix of data to display in the table
 ⍝ CellAttr    - Cell Attributes
