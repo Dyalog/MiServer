@@ -13,15 +13,37 @@
 		<name>dcAccordion</name>
 		<style>/Dyalog/dcAccordion/dcAccordion.css</style>
 	</resource>
+
 <!-- 
 *******************************
-*      fontawesome resources  *
+*      FontAwesome Icons      *
 *******************************
 -->
 	<resource>
-		<name>FontAwesomeIcons</name>
+		<name>faIcons</name>
 		<style>/FontAwesome/css/font-awesome.min.css</style>
 	</resource>
+
+<!-- 
+******************************************
+*      Google Material Design Icons      *
+******************************************
+-->
+	<resource>
+		<name>mdIcons</name>
+		<style>/material-icons/material-icons.css</style>
+	</resource>
+
+<!-- 
+*********************************
+*      Syncfusion ej-Icons      *
+*********************************
+-->
+	<resource>
+		<name>ejIcons</name>
+		<uses>sfTheme</uses>   <!-- Syncfusion ejIcons are built into theme -->
+	</resource>
+
 <!-- 
 ****************************
 *      jBox resources      *
@@ -92,10 +114,6 @@
 		<style>/Syncfusion/assets/css/web/gradient-saffron/ej.widgets.all.min.css</style>
 	</resource>
 	<resource>
-		<name>sfThemeMobile</name>
-		<style>/Syncfusion/assets/css/mobile/ej.mobile.all.min.css</style>
-	</resource>
-	<resource>
 		<name>jquery.easing</name>
 		<uses>JQuery</uses>
 		<script>/Syncfusion/assets/external/jquery.easing.1.3.min.js</script>
@@ -131,12 +149,6 @@
 		<uses>JQuery</uses>
 		<uses>sfTheme</uses>
 		<uses>SyncfusionJS</uses>
-	</resource>
-	<resource>
-		<name>SyncfusionMobile</name>
-		<uses>JQuery</uses>
-		<uses>sfThemeMobile</uses>
-		<script>/Syncfusion/assets/scripts/mobile/ej.mobile.all.min.js</script>
 	</resource>
 <!-- 
 *********************************
@@ -426,111 +438,7 @@
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
 	</resource>
-	<resource>
-		<name>ejmAccordion</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmAutocomplete</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmButton</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmCheckBox</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmDatePicker</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmDialog</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmFooter</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmGrid</name>
-		<uses>SyncfusionMobile</uses>
-		<uses>jsrender</uses>
-	</resource>
-	<resource>
-		<name>ejmGroupButton</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmHeader</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmListbox</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmMenu</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmNumeric</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmProgress</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmRadioButton</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmRating</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmRotator</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmScrollPanel</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmSlider</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmSplitPane</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmTab</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmTextBox</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmTile</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmTimePicker</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmToggleButton</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
-	<resource>
-		<name>ejmToolbar</name>
-		<uses>SyncfusionMobile</uses>
-	</resource>
+
 <!-- 
 *********************************
 *  Datatables resources         *

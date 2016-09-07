@@ -279,6 +279,16 @@
       :EndIf
     ∇
 
+
+    ∇ r←AddStyle s;t
+      :Access public
+      :If style≡UNDEF
+          style←s,(';'=¯1↑s)↓';'
+      :Else
+          style,←(';'=¯1↑style)↓';',s,(';'=¯1↑s)↓';'
+      :EndIf
+    ∇
+
     :EndSection
 
     :Section Styles
