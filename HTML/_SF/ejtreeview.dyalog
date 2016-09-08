@@ -1,32 +1,32 @@
 ﻿:class ejTreeView : #._SF._ejWidget
 ⍝ Description:: Syncfusion TreeView widget
 ⍝ Constructor::  [items [levels [links]]]
-⍝ items  - vector of character vectors containing the tree node texts
-⍝ levels - the levels of the corresponding items
-⍝ links  - the href string to be used when the corresponding element is chosen (clicked)
+⍝ items  - ⍝ vector of character vectors containing the tree node texts
+⍝ levels - ⍝ the levels of the corresponding items
+⍝ links  - ⍝ the href string to be used when the corresponding element is chosen (clicked)
 ⍝ Public Fields::
-⍝ Items        - vector of character vectors containing the tree node texts
-⍝ Levels       - the levels of the corresponding items
-⍝ Links        - the href string to be used when the corresponding element is chosen (clicked)
-⍝ MakeIds      - 1 to generate IDs
-⍝ onNodeSelect - 1 to call APLJax, or the name of the callback function
+⍝ Items        - ⍝ vector of character vectors containing the tree node texts
+⍝ Levels       - ⍝ the levels of the corresponding items
+⍝ Links        - ⍝ the href string to be used when the corresponding element is chosen (clicked)
+⍝ MakeIds      - ⍝ 1 to generate IDs
+⍝ onNodeSelect - ⍝ 1 to call APLJax, or the name of the callback function
 ⍝
-⍝ Public Method to request model data to be return to the server::
-⍝    r←name getModel subsel - Passes the TreeView model back as a variable called 'model' as input to a callback
+⍝ Public Method to request model data to be returned to the server::
+⍝ r←name getModel subsel ⍝ Passes the TreeView model back as a variable called 'model' as input to a callback.
 ⍝
 ⍝ Public Methods to be used in Callbacks::
-⍝    r←addNode name - Will add a node with id "tv_n", where n starts at 0 and increases each time a node is added
-⍝    r←removeNode node - Removes the identified node
-⍝    r←checkAll - Check everything below the current node
-⍝    r←checkNode node - Check a node
-⍝    r←uncheckAll - Uncheck everything below the current node
-⍝    r←uncheckNode node - Uncheck a node
-⍝    r←expandAll - Expands everything below the current node
-⍝    r←expandNode node - Expands everything below a node
-⍝    r←collapseAll - Collapses everything below the current node
-⍝    r←collapseNode node - Collapses everything below a node
-⍝    r←selectNode node - Select a node
-⍝    r←unselectNode node - Unselect a node
+⍝ r←addNode name ⍝ Will add a node with id "tv_n", where n starts at 0 and increases each time a node is added
+⍝ r←removeNode node ⍝ Removes the identified node
+⍝ r←checkAll ⍝ Check everything below the current node
+⍝ r←checkNode node ⍝ Check a node
+⍝ r←uncheckAll ⍝ Uncheck everything below the current node
+⍝ r←uncheckNode node ⍝ Uncheck a node
+⍝ r←expandAll ⍝ Expands everything below the current node
+⍝ r←expandNode node ⍝ Expands everything below a node
+⍝ r←collapseAll ⍝ Collapses everything below the current node
+⍝ r←collapseNode node ⍝ Collapses everything below a node
+⍝ r←selectNode node ⍝ Select a node
+⍝ r←unselectNode node ⍝ Unselect a node
 ⍝
 
     :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejTreeView.html'
@@ -128,80 +128,80 @@
       ⍝ Will add a node with id "tv_n", where n starts at 0 and increases each time a node is added
       ⍝ /// NB due to a bug in the Syncfusion widget (August 2015), the "model" is not updated
       :Access Public
-      SetId ⋄ r←Execute'$("#',id,'").data("ejTreeView").addNode("',name,'");'
+      r←Execute'$("#',id,'").data("ejTreeView").addNode("',name,'");'
     ∇
 
     ∇ r←removeNode node
       ⍝ Removes the identified node
       :Access Public
-      SetId ⋄ r←Execute'$("#',id,'").data("ejTreeView").removeNode($("#',node,'"));'
+      r←Execute'$("#',id,'").data("ejTreeView").removeNode($("#',node,'"));'
     ∇
 
     ∇ r←checkAll
       ⍝ Check everything below the current node
       :Access Public
-      SetId ⋄ r←Execute'$("#',id,'").data("ejTreeView").checkAll();'
+      r←Execute'$("#',id,'").data("ejTreeView").checkAll();'
     ∇
 
     ∇ r←checkNode node
       ⍝ Check a node
       :Access Public
-      SetId ⋄ r←Execute'$("#',id,'").data("ejTreeView").checkNode($("#',node,'"));'
+      r←Execute'$("#',id,'").data("ejTreeView").checkNode($("#',node,'"));'
     ∇
 
     ∇ r←uncheckAll
       ⍝ Uncheck everything below the current node
       :Access Public
-      SetId ⋄ r←Execute'$("#',id,'").data("ejTreeView").uncheckAll();'
+      r←Execute'$("#',id,'").data("ejTreeView").uncheckAll();'
     ∇
 
     ∇ r←uncheckNode node
       ⍝ Uncheck a node
       :Access Public
-      SetId ⋄ r←Execute'$("#',id,'").data("ejTreeView").uncheckNode($("#',node,'"));'
+      r←Execute'$("#',id,'").data("ejTreeView").uncheckNode($("#',node,'"));'
     ∇
 
     ∇ r←expandAll
       ⍝ Expands everything below the current node
       :Access Public
-      SetId ⋄ r←Execute'$("#',id,'").data("ejTreeView").expandAll();'
+      r←Execute'$("#',id,'").data("ejTreeView").expandAll();'
     ∇
 
     ∇ r←expandNode node
       ⍝ Expands everything below a node
       :Access Public
-      SetId ⋄ r←Execute'$("#',id,'").data("ejTreeView").expandNode($("#',node,'"));'
+      r←Execute'$("#',id,'").data("ejTreeView").expandNode($("#',node,'"));'
     ∇
 
     ∇ r←collapseAll
       ⍝ Collapses everything below the current node
       :Access Public
-      SetId ⋄ r←Execute'$("#',id,'").data("ejTreeView").collapseAll();'
+      r←Execute'$("#',id,'").data("ejTreeView").collapseAll();'
     ∇
 
     ∇ r←collapseNode node
       ⍝ Collapses everything below a node
       :Access Public
-      SetId ⋄ r←Execute'$("#',id,'").data("ejTreeView").collapseNode($("#',node,'"));'
+      r←Execute'$("#',id,'").data("ejTreeView").collapseNode($("#',node,'"));'
     ∇
 
     ∇ r←selectNode node
       ⍝ Select a node
       :Access Public
-      SetId ⋄ r←Execute'$("#',id,'").data("ejTreeView").selectNode($("#',node,'"));'
+      r←Execute'$("#',id,'").data("ejTreeView").selectNode($("#',node,'"));'
     ∇
 
     ∇ r←unselectNode node
       ⍝ Unselect a node
       :Access Public
-      SetId ⋄ r←Execute'$("#',id,'").data("ejTreeView").unselectNode($("#',node,'"));'
+      r←Execute'$("#',id,'").data("ejTreeView").unselectNode($("#',node,'"));'
     ∇
 
     ∇ r←name getModel subsel;model
       ⍝ Passes the TreeView model back as a variable called 'model' as input to a callback
       ⍝ Usage:     aButton.On 'click' 'onButtonClick' ('model' tvinstance.getModel '')
       :Access Public
-      SetId ⋄ model←'model',(0≠⍴subsel)/'.',subsel ⍝ "model" or "model.subsel"
+      model←'model',(0≠⍴subsel)/'.',subsel ⍝ "model" or "model.subsel"
       r←(name'eval'('JSON.stringify($("#',id,'").ejTreeView("',model,'"))'))
     ∇
 

@@ -2,7 +2,7 @@
 
     :include #.MS3SiteUtils
 
-    ∇ Compose;ns;widget;ref;wref;src;chunk;div;dash;files;r
+    ∇ Compose;ns;widget;ref;wref;src;chunk;div;files;r;split;find
       :Access public
       Add _.style'.red {color: red;} #view {display: none}'
       r←''
@@ -14,7 +14,7 @@
               wref←ref⍎widget
               r,←'<h3 id="WidgetDocTitle">'
               :If 0=wref.⎕NC⊂'DocBase'
-              :orIf 0∊⍴wref.DocBase      ⍝ without link
+              :OrIf 0∊⍴wref.DocBase      ⍝ without link
                   r,←ns,'.',widget
               :Else                      ⍝ with link
                   r,←(ns,'.',widget)External wref.DocBase
@@ -33,20 +33,23 @@
               :Else
                   :For chunk :In src
                       :If ∨/'::'⍷chunk
-                          :If ∨/' - '⍷chunk
-                              dash←1⍳⍨' - '⍷chunk
-                              r,←'<h3>',(chunk↑⍨¯1+dash),'</h3>'
-                              r,←'<p>',(chunk↓⍨2+dash),'</p>'
+                          :If ∨/find←' - '⍷chunk
+                              split←find⍳1
+                              r,←'<h3>',(chunk↑⍨¯1+split),'</h3>'
+                              r,←'<p>',(chunk↓⍨2+split),'</p>'
                           :Else
                               r,←'<h3>',chunk,'</h3>'
                           :EndIf
                       :ElseIf '-'=⊃' '~⍨chunk
                           chunk←#.Strings.deb chunk
                           r,←'<p>',('-'~⍨2↑chunk),2↓chunk,'</p>'
-                      :ElseIf ∨/' - '⍷chunk
-                          dash←1⍳⍨' - '⍷chunk
-                          r,←'<dl><dt>',(chunk↑⍨¯1+dash),'</dt>'
-                          r,←'<dd><code>',(chunk↓⍨2+dash),'</code></dd></dl>'
+                      :ElseIf ∨/find←'&#9053;'⍷chunk
+                          split←6+find⍳1
+                          r,←'<p><code>',(split↑chunk),'</code>',(split↓chunk),'</p>'
+                      :ElseIf ∨/find←' - '⍷chunk
+                          split←find⍳1
+                          r,←'<dl><dt>',(chunk↑⍨¯1+split),'</dt>'
+                          r,←'<dd><code>',(chunk↓⍨2+split),'</code></dd></dl>'
                       :Else
                           r,←'<p><code>',chunk,'</code></p>'
                       :EndIf
