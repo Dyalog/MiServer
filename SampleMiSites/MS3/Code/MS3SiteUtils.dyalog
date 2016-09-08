@@ -109,8 +109,10 @@
       }
 
       DescrEmbed←{ ⍝ Link to and iframed page
-          d←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵
-          l←'<a target="_blank" href="/',⍵,'">',d,'</a>'
+          l←('Description'Section Read ⍵),'<br />'
+          l,←'<a target="_blank" href="/',⍵,'">Open this '
+          l,←'simple sample' 'advanced sample' 'mini-app'⊃⍨1⍳⍨∨/¨'Simple' 'Advanced'⍷¨⊂⍵
+          l,←' in a new tab</a>'
           e←'<iframe src="/',⍵,'?nowrapper=1"></iframe>'
           l e
       }

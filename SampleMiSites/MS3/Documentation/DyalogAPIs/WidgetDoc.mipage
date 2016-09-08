@@ -2,8 +2,9 @@
 
     :include #.MS3SiteUtils
 
-    ∇ Compose;ns;widget;tab;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files;desc;ctor;h;div;r
+    ∇ Compose;ns;widget;ref;wref;src;chunk;div;r;dash;files
       :Access public
+      Add _.style'.red {color: red;} #view {display: none}'
       (ns widget)←Get'namespace widget'
       div←'#widgetdoc'Add _.div
       r←¯1
@@ -17,52 +18,56 @@
               src←#.Strings.dlb¨src
               src←src/⍨∧\'⍝'=⊃¨src
               src←HtmlSafeText¨#.Strings.dlb¨{1↓¨⍵⊂⍨'¶'=⍵}∊'¶  +'⎕R' '⊢'¶',¨1↓¨src
-              pv←∨/¨'::'∘⍷¨src
-              r←0 2⍴⊂''
-              :For chunk :In pv⊂src
-                  c←⊃chunk
-                  (c1 c2)←{⍵{(1,1↓<\⍵)⊂⍺}'::'⍷⍵}c
-                  c2←#.Strings.deb 2↓c2
-                  c2←c2{0∊⍴⍺:⍵ ⋄ 0∊⍴⍵:⊂⍺ ⋄ (⊂⍺),⍵}1↓chunk
-                  c2←¯2↓∊c2,¨⊂⎕UCS 13 10
-                  r⍪←c1 c2
+              r←''
+              :For chunk :In src
+                  :If ∨/'::'⍷chunk
+                      chunk←'::'⎕R':'⊢chunk
+                      :If ∨/' - '⍷chunk
+                          dash←1⍳⍨' - '⍷chunk
+                          r,←'<h3>',(chunk↑⍨¯1+dash),'</h3>'
+                          r,←'<p>',(chunk↓⍨2+dash),'</p>'
+                      :Else
+                          r,←'<h3>',chunk,'</h3>'
+                      :EndIf
+                  :ElseIf '-'=⊃' '~⍨chunk
+                      chunk←#.Strings.deb chunk
+                      r,←'<p>',('-'~⍨2↑chunk),2↓chunk,'</p>'
+                  :ElseIf ∨/' - '⍷chunk
+                      dash←1⍳⍨' - '⍷chunk
+                      r,←'<dl><dt>',(chunk↑⍨¯1+dash),'</dt>'
+                      r,←'<dd><code>',(chunk↓⍨2+dash),'</code></dd></dl>'
+                  :Else
+                      r,←'<p><code>',chunk,'</code></p>'
+                  :EndIf
               :EndFor
-              :If ns≡'_html'
-                  r⍪←'Description'('Native HTML ',' element',⍨desc←#.Strings.lc'descr'ForControl widget)
-                  ctor←(1+(New _⍎widget).NoEndTag)⊃'content' 'id'
-                  r⍪←'Constructor'('[',ctor,']<br />',ctor,' - the ',ctor,' of the ',desc)
-                  r⍪←'Public Fields' '(none)'
-                  r⍪←'Notes'('notes'ForControl widget)
-              :EndIf
               files←'relevant'ForControl widget
           :EndIf
       :EndIf
      
       :Select r
       :Case ¯1
-          (div.Add _.h2('Namespace "',ns,'" not found.')).Style'color' 'red'
+          '.red'div.Add _.h2('Namespace "',ns,'" not found.')
       :Case ¯2
-          (div.Add _.h2('Widget "',widget,'" not found in namespace ',ns)).Style'color' 'red'
+          '.red'div.Add _.h2('Widget "',widget,'" not found in namespace ',ns,'.')
       :Else
-          h←div.Add _.h2
           :If 0≠wref.⎕NC⊂'DocBase'
           :AndIf ~0∊⍴wref.DocBase ⍝ with link
-              h.Add(ns,'.',widget)External wref.DocBase
+              div.Add'<h2>',(ns,'.',widget)External wref.DocBase
           :Else                   ⍝ without link
-              h.Add ns,'.',widget
+              div.Add'<h2>',ns,'.',widget
           :EndIf
-          h.Add' ',⊃⌽⊃↓r
+     
           :If 0∊⍴r
-              div.Add _.h3'No documentation found.'
+              '.red'div.Add _.h3'No documentation found.'
           :Else
-              r[;2]←{New _.pre ⍵}¨r[;2]
-              r[;1]←{New _.h3 ⍵}¨r[;1]
-              div.Add¨1 0↓r
+              div.Add r↓⍨16×'<h3>Description:'≡16↑r
           :EndIf
+     
           :If ~0∊⍴files
-              div.Add _.h3'Samples'
-              {div.Add DescrEmbed ⍵}¨files
+              div.Add _.h3'Relevant Sample Pages:'
+              ('#samples'div.Add _.Tabs(↓⍉↑{DescrEmbed ⍵}¨files)).Theme←'FF8C00'
           :EndIf
+     
       :EndSelect
     ∇
 :EndClass
