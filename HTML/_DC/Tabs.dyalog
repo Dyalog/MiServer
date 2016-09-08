@@ -14,7 +14,7 @@
 ⍝ Tabs ('Title1' 'Title2')('Section1' 'Section2')
 ⍝ Tabs 2 2⍴'Title1' 'Section1' 'Title2' 'Section2'
 ⍝ Notes::
-⍝ hello This control is implemented in HTML+CSS without any JavaScript and is therefore
+⍝    - This control is implemented in HTML+CSS without any JavaScript and is therefore
 ⍝   extremely lightwight, resulting in faster load times. However, this comes at the
 ⍝   cost of fewer features compared to competing controls. Use it if you just need
 ⍝   basic Tabs. 

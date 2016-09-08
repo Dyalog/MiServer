@@ -9,7 +9,7 @@
 /* Configure the radio buttons to be outside the screen */
 .dc-tabs > input[type="radio"] {
     position: absolute;
-    top: -100%;
+    left: -100%;
 }
  
 /* Configure labels to look like tabs */
