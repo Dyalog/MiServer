@@ -32,7 +32,7 @@
                   r,←'<h3 class="red">No documentation found.</h3>'
               :Else
                   :For chunk :In src
-                      :If ∨/'::'⍷chunk
+                      :If ∨/'::'⍷chunk ⍝ section
                           :If ∨/find←' - '⍷chunk
                               split←find⍳1
                               r,←'<h3>',(chunk↑⍨¯1+split),'</h3>'
@@ -40,18 +40,24 @@
                           :Else
                               r,←'<h3>',chunk,'</h3>'
                           :EndIf
-                      :ElseIf '-'=⊃' '~⍨chunk
+                      :ElseIf '-'=⊃' '~⍨chunk ⍝ text
                           chunk←#.Strings.deb chunk
                           r,←'<p>',('-'~⍨2↑chunk),2↓chunk,'</p>'
-                      :ElseIf ∨/find←'&#9053;'⍷chunk
-                          split←6+find⍳1
-                          r,←'<p><code>',(split↑chunk),'</code>',(split↓chunk),'</p>'
-                      :ElseIf ∨/find←' - '⍷chunk
+                      :ElseIf ∨/find←' - '⍷chunk ⍝ term - definition
                           split←find⍳1
                           r,←'<dl><dt>',(chunk↑⍨¯1+split),'</dt>'
-                          r,←'<dd><code>',(chunk↓⍨2+split),'</code></dd></dl>'
-                      :Else
-                          r,←'<p><code>',chunk,'</code></p>'
+                          chunk←chunk↓⍨2+split
+                          r,←'<dd>'
+                          :If '&#9053;'≡7↑chunk
+                              r,←7↓chunk
+                          :Else
+                              r,←'<code>',chunk,'</code>'
+                          :EndIf
+                          r,←'</dd></dl>'
+                      :Else ⍝ [APL code] [⍝ comment]
+                          find←'&#9053;'⍷chunk
+                          split←6+find⍳1
+                          r,←'<p><code>',(split↑chunk),'</code>',(split↓chunk),'</p>'
                       :EndIf
                   :EndFor
               :EndIf

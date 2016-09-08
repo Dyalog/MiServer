@@ -498,10 +498,12 @@ heading1 {
     width: 33.3%;
 }
 
-#WidgetDocTitle{font-size: x-large;}
+#WidgetDocTitle {
+    font-size: x-large;
+}
 
-#samples>label{
-    font-size:small;
+#samples>label {
+    font-size: small;
 }
 
 #samples>div {
@@ -512,7 +514,7 @@ heading1 {
     padding-left: 5px;
     border: none;
     width: calc(100% - 5px);
-    margin-bottom:-3px;
+    margin-bottom: -3px;
     height: calc(100vh - 200px);
 }
 
