@@ -2,72 +2,71 @@
 
     :include #.MS3SiteUtils
 
-    ∇ Compose;ns;widget;ref;wref;src;chunk;div;r;dash;files
+    ∇ Compose;ns;widget;ref;wref;src;chunk;div;dash;files;r
       :Access public
       Add _.style'.red {color: red;} #view {display: none}'
+      r←''
       (ns widget)←Get'namespace widget'
       div←'#widgetdoc'Add _.div
-      r←¯1
       :If 9.1=#.⎕NC⊂ns
           ref←#.⍎ns
-          r←¯2
           :If 9=ref.⎕NC widget
               wref←ref⍎widget
+              r,←'<h3 id="WidgetDocTitle">'
+              :If 0=wref.⎕NC⊂'DocBase'
+              :orIf 0∊⍴wref.DocBase      ⍝ without link
+                  r,←ns,'.',widget
+              :Else                      ⍝ with link
+                  r,←(ns,'.',widget)External wref.DocBase
+              :EndIf
+     
               src←1↓⎕SRC wref
               src↓⍨←+/∧\''∘≡¨src
               src←#.Strings.dlb¨src
               src←src/⍨∧\'⍝'=⊃¨src
-              src←HtmlSafeText¨#.Strings.dlb¨{1↓¨⍵⊂⍨'¶'=⍵}∊'¶  +'⎕R' '⊢'¶',¨1↓¨src
-              r←''
-              :For chunk :In src
-                  :If ∨/'::'⍷chunk
-                      chunk←'::'⎕R':'⊢chunk
-                      :If ∨/' - '⍷chunk
+              src←'¶  +'⎕R' '⊢'¶',¨1↓¨src
+              src←{1↓¨⍵⊂⍨'¶'=⍵}∊src
+              src←HtmlSafeText¨#.Strings.dlb¨src
+     
+              :If 0∊⍴src
+                  r,←'<h3 class="red">No documentation found.</h3>'
+              :Else
+                  :For chunk :In src
+                      :If ∨/'::'⍷chunk
+                          :If ∨/' - '⍷chunk
+                              dash←1⍳⍨' - '⍷chunk
+                              r,←'<h3>',(chunk↑⍨¯1+dash),'</h3>'
+                              r,←'<p>',(chunk↓⍨2+dash),'</p>'
+                          :Else
+                              r,←'<h3>',chunk,'</h3>'
+                          :EndIf
+                      :ElseIf '-'=⊃' '~⍨chunk
+                          chunk←#.Strings.deb chunk
+                          r,←'<p>',('-'~⍨2↑chunk),2↓chunk,'</p>'
+                      :ElseIf ∨/' - '⍷chunk
                           dash←1⍳⍨' - '⍷chunk
-                          r,←'<h3>',(chunk↑⍨¯1+dash),'</h3>'
-                          r,←'<p>',(chunk↓⍨2+dash),'</p>'
+                          r,←'<dl><dt>',(chunk↑⍨¯1+dash),'</dt>'
+                          r,←'<dd><code>',(chunk↓⍨2+dash),'</code></dd></dl>'
                       :Else
-                          r,←'<h3>',chunk,'</h3>'
+                          r,←'<p><code>',chunk,'</code></p>'
                       :EndIf
-                  :ElseIf '-'=⊃' '~⍨chunk
-                      chunk←#.Strings.deb chunk
-                      r,←'<p>',('-'~⍨2↑chunk),2↓chunk,'</p>'
-                  :ElseIf ∨/' - '⍷chunk
-                      dash←1⍳⍨' - '⍷chunk
-                      r,←'<dl><dt>',(chunk↑⍨¯1+dash),'</dt>'
-                      r,←'<dd><code>',(chunk↓⍨2+dash),'</code></dd></dl>'
-                  :Else
-                      r,←'<p><code>',chunk,'</code></p>'
-                  :EndIf
-              :EndFor
+                  :EndFor
+              :EndIf
+     
               files←'relevant'ForControl widget
-          :EndIf
-      :EndIf
-     
-      :Select r
-      :Case ¯1
-          '.red'div.Add _.h2('Namespace "',ns,'" not found.')
-      :Case ¯2
-          '.red'div.Add _.h2('Widget "',widget,'" not found in namespace ',ns,'.')
-      :Else
-          :If 0≠wref.⎕NC⊂'DocBase'
-          :AndIf ~0∊⍴wref.DocBase ⍝ with link
-              div.Add'<h2>',(ns,'.',widget)External wref.DocBase
-          :Else                   ⍝ without link
-              div.Add'<h2>',ns,'.',widget
-          :EndIf
-     
-          :If 0∊⍴r
-              '.red'div.Add _.h3'No documentation found.'
+              :If 0∊⍴files
+                  r,←'<h3 class="red">No relevant sample pages found.</h3>'
+              :Else
+                  r,←'<h3>Relevant Sample Pages:</h3>'
+                  (files←'#samples'New _.Tabs(↓⍉↑{DescrEmbed ⍵}¨files)).Theme←'FF8C00'
+                  r,←files.Render
+              :EndIf
           :Else
-              div.Add r↓⍨16×'<h3>Description:'≡16↑r
+              r,←'<h3 class="red">Widget "',widget,'" not found in namespace ',ns,'.</h3>'
           :EndIf
-     
-          :If ~0∊⍴files
-              div.Add _.h3'Relevant Sample Pages:'
-              ('#samples'div.Add _.Tabs(↓⍉↑{DescrEmbed ⍵}¨files)).Theme←'FF8C00'
-          :EndIf
-     
-      :EndSelect
+      :Else
+          r,←'<h3 class="red">Namespace "',ns,'" not found.</h3>'
+      :EndIf
+      Add'<h3>Description::' '::'⎕R'' ':'⊢r
     ∇
 :EndClass

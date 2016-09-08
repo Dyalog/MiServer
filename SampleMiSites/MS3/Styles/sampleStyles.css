@@ -498,22 +498,22 @@ heading1 {
     width: 33.3%;
 }
 
-#widgetdoc iframe {
-    width: calc(100% - 35px);
-    background-color: wheat;
-    margin-top: 10px;
-    margin-bottom: 30px;
-    padding: 5px;
-    border: 2px solid black;
+#WidgetDocTitle{font-size: x-large;}
+
+#samples>label{
+    font-size:small;
 }
 
-#widgetdoc pre {
-    padding: 0 0 30px;
+#samples>div {
+    padding: 0;
 }
 
-#widgetdoc {
-    margin-left: 20px;
-    margin-right: 20px;
+#samples iframe {
+    padding-left: 5px;
+    border: none;
+    width: calc(100% - 5px);
+    margin-bottom:-3px;
+    height: calc(100vh - 200px);
 }
 
 #bigtabs {
