@@ -1,4 +1,4 @@
-﻿:class Icon : #._html.i
+﻿:class Icon : #._html.span
 ⍝ Description:: Dyalog Icon widget
 ⍝ Constructor:: [spec [order]]
 ⍝ spec - either a single or pair of string which specify the icon(s) to use
@@ -33,7 +33,7 @@
       :Implements constructor
     ∇
 
-    ∇ Make1 args;numeric;last
+    ∇ Make1 args;last
       :Access public
       :Implements constructor
       :If 2|⎕DR last←⊃¯1↑Spec←args
@@ -41,37 +41,52 @@
       :EndIf
     ∇
 
-    ∇ r←Render;prefix;spec;icon;classes
+    ∇ r←Render;prefix;spec;icon;classes;n
       :Access public
       Spec←eis Spec
+      Spec,←eis Content
+      Content←⍬
       :If 1=⍴Spec ⍝ Simple icon
-          (prefix spec)←(⊃Spec)SplitOn1st'-'
-          :Select prefix
+          Spec←{⊃⍣(1<≡⍵)⊢⍵}Spec ⍝ Disclose if nested (eis⍣¯1)
+          :If isInstance Spec
+              Spec←Spec.Spec
+          :EndIf
+          (prefix spec)←Spec SplitOn1st'-'
+          :Select ¯1↓prefix
           :Case 'fa' ⍝ FontAwesome
               Use'faIcons'
-              AddClass'fa ',⊃Spec
+              AddClass'fa ',Spec
      
           :Case 'md' ⍝ Google
               Use'mdIcons'
               (icon classes)←(spec,' ')SplitOn1st' '
               AddClass'material-icons ',classes
-              Content←icon
+              Content←¯1↓icon
      
           :CaseList (,'e')'ej' ⍝ Syncfusion
               Use'ejIcons'
               AddClass'e-icon e-',spec
               AddStyle'display: inline-block'  ⍝ add this because default Syncfusion is "block"
-     
+          :else
+              Content←Spec
+
           :EndSelect
+     
       :Else
           Use'faIcons'
           AddClass'fa-stack'
-          Spec(Add _.Icon{⍺ ⍵},)¨⌽⍣(~Order)(' fa-stack-','x',⍨⍕)¨⍳⍴Spec
-     
+          :For spec n :InEach Spec(⌽⍣(~Order)('fa-stack-','x',⍨⍕)¨⍳⍴Spec)
+              :If isInstance spec
+                  spec.AddClass n
+                  Add spec
+              :Else
+                  (Add _.Icon spec).AddClass n
+              :EndIf
+          :EndFor
       :EndIf
       SetUse
       r←⎕BASE.Render
     ∇
 
-    SplitOn1st←{⎕ML←3 ⋄ (~<\⍺∊⍵)⊂⍺}
+    SplitOn1st←{(l↑⍺)((l←⍺⍳⍵)↓⍺)}
 :endclass
