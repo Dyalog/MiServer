@@ -14,7 +14,9 @@
 
     :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/js/api/ejListBox.html'
     :Field Public Shared Readonly ApiLevel←3
-    :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejListBox.html'
+    :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejListBox.html' 
+    :Field Public Shared Readonly IntEvt←'actionBegin' 'actionSuccess' 'actionComplete' 'actionFailure' 'actionBeforeSuccess' 'change' 'checkChange' 'create' 'destroy' 'focusIn' 'focusOut' 'itemDrag' 'itemDragStart' 'itemDragStop' 'itemDrop' 'select' 'unselect'
+
 
     :Field Public Items←0⍴⊂''
     :Field Public Selected←⍬
@@ -41,8 +43,9 @@
     ∇ make
       :Access public
       JQueryFn←Uses←'ejListBox'
-      ContainerTag←'ul'
-      :Implements constructor
+      ContainerTag←'ul'                                                            
+      :Implements constructor                                                      
+      InternalEvents←IntEvt
     ∇
 
     ∇ makec args;x
@@ -53,6 +56,7 @@
       ContainerTag←'ul'
       :Implements constructor
       (Items Selected)←args defaultArgs ⍬ ⍬
+      InternalEvents←IntEvt
     ∇
 
     ∇ r←Render;src;items;t;sel;flds;numItems
