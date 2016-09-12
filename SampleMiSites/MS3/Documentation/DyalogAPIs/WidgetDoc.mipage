@@ -2,12 +2,11 @@
 
     :include #.MS3SiteUtils
 
-    ∇ Compose;ns;widget;ref;wref;src;chunk;div;files;r;split;find
+    ∇ Compose;ns;widget;ref;wref;src;chunk;files;r;split;find
       :Access public
-      Add _.style'.red {color: red;} #view {display: none}'
-      r←''
+      Add _.style'#view {display: none}'
+      r←'<div class="WidgetDoc">'
       (ns widget)←Get'namespace widget'
-      div←'#widgetdoc'Add _.div
       :If 9.1=#.⎕NC⊂ns
           ref←#.⍎ns
           :If 9=ref.⎕NC widget
@@ -32,32 +31,38 @@
                   r,←'<h3 class="red">No documentation found.</h3>'
               :Else
                   :For chunk :In src
-                      :If ∨/'::'⍷chunk ⍝ section
+                      ⍝ Section::
+                      ⍝ Section:: text
+                      ⍝ text - text
+                      ⍝  - text
+                      ⍝ code ⍝ text
+                      ⍝ code
+                      :If ∨/'::'⍷chunk ⍝ Section::
                           :If ∨/find←' - '⍷chunk
                               split←find⍳1
-                              r,←'<h3>',(chunk↑⍨¯1+split),'</h3>'
-                              r,←'<p>',(chunk↓⍨2+split),'</p>'
+                              r,←'<h3>',(chunk↑⍨split-1),'</h3>'
+                              chunk←chunk↓⍨split+2
+                              find←'- '⍷chunk
+                              split←find⍳1
+                              r,←'<p'
+                              :If '-'≠⊃chunk~' '
+                                  r,←' class="hang"'
+                              :EndIf
+                              r,←'>',(chunk↑⍨split-1),'&ndash;',(split↓chunk),'</p>'
                           :Else
                               r,←'<h3>',chunk,'</h3>'
                           :EndIf
-                      :ElseIf '-'=⊃' '~⍨chunk ⍝ text
-                          chunk←#.Strings.deb chunk
-                          r,←'<p>',('-'~⍨2↑chunk),2↓chunk,'</p>'
-                      :ElseIf ∨/find←' - '⍷chunk ⍝ term - definition
+                      :ElseIf ∨/find←'- '⍷chunk
                           split←find⍳1
-                          r,←'<dl><dt>',(chunk↑⍨¯1+split),'</dt>'
-                          chunk←chunk↓⍨2+split
-                          r,←'<dd>'
-                          :If '&#9053;'≡7↑chunk
-                              r,←7↓chunk
-                          :Else
-                              r,←'<code>',chunk,'</code>'
+                          r,←'<p'
+                          :If '-'≠⊃chunk~' '
+                              r,←' class="hang"'
                           :EndIf
-                          r,←'</dd></dl>'
+                          r,←'>',(chunk↑⍨split-1),'&ndash;',(split↓chunk),'</p>'
                       :Else ⍝ [APL code] [⍝ comment]
                           find←'&#9053;'⍷chunk
                           split←6+find⍳1
-                          r,←'<p><code>',(split↑chunk),'</code>',(split↓chunk),'</p>'
+                          r,←'<p class="hang"><code>',(split↑chunk),'</code>',(split↓chunk),'</p>'
                       :EndIf
                   :EndFor
               :EndIf
@@ -76,6 +81,7 @@
       :Else
           r,←'<h3 class="red">Namespace "',ns,'" not found.</h3>'
       :EndIf
+      r,←'</div>'
       Add'<h3>Description::' '::'⎕R'' ':'⊢r
     ∇
 :EndClass

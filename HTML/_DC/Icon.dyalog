@@ -5,15 +5,17 @@
 ⍝        each consists of a vendor-prefix, dash, icon-name, and optionally space-separated modifiers
 ⍝        when two strings are used, it represents a "stacked" icon, with second icon overlayed on the first
 ⍝        "stacked" icons are a feature of FontAwesome icons - using other icons may or may not have the desired visual effect
-⍝ order - when stacking: 0 indicates that the second icon is small and overlayed on a large first icon
-⍝                        1 indicates that the second icon is large and overlayed on a small first icon
+⍝ order - when stacking, 0 indicates that the second icon is small and overlayed on a large first icon, 
+⍝         1 indicates that the second icon is large and overlayed on a small first icon
+⍝
 ⍝ Public Fields::
 ⍝ Spec  - either a single or pair of string which specify the icon(s) to use
 ⍝         each consists of a vendor-prefix, dash, icon-name, and optionally space-separated modifiers
 ⍝         when two strings are used, it represents a "stacked" icon, with second icon overlayed on the first
 ⍝         "stacked" icons are a feature of FontAwesome icons - using other icons may or may not have the desired visual effect
-⍝ Order - when stacking: 0 indicates that the second icon is small and overlayed on a large first icon
-⍝                        1 indicates that the second icon is large and overlayed on a small first icon
+⍝ Order - when stacking, 0 indicates that the second icon is small and overlayed on a large first icon, 
+⍝         1 indicates that the second icon is large and overlayed on a small first icon
+⍝
 ⍝ Examples::
 ⍝ Add _.Icon 'fa-cloud-upload'    ⍝ FontAwesome: http://fontawesome.io/icons/
 ⍝ Add _.Icon 'md-fingerprint'     ⍝ Google Material Design: https://design.google.com/icons/
