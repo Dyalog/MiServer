@@ -3,7 +3,7 @@
     ∇ Compose
       :Access public
       (Add _.Button'Hourglass').On'click' 'myCallback'
-      Add #.HTMLUtils.HtmlSafeText'   '
+      Add #.HtmlUtils.HtmlSafeText'   '
       ((Add _.Button'No Hourglass').On'click' 'myCallback').Hourglass←0
     ∇
 

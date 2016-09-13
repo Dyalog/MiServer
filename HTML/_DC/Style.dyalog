@@ -46,16 +46,16 @@
           t←i⊃styles
           :If 0 1∊⍨≡t ⍝ scalar or vector
               :If n=i ⍝ last element?
-                  html,←t #.HTMLUtils.Styles''
+                  html,←t #.HtmlUtils.Styles''
                   t←s←''
               :Else
                   :If 0 1∊⍨≡d←(i+1)⊃styles ⍝ next item is also scalar or vector
-                      html,←t #.HTMLUtils.Styles''
+                      html,←t #.HtmlUtils.Styles''
                   :ElseIf 2 3∊⍨≡d
-                      html,←t #.HTMLUtils.Styles d
+                      html,←t #.HtmlUtils.Styles d
                       i+←1
                   :Else
-                      html,←t #.HTMLUtils.Styles''
+                      html,←t #.HtmlUtils.Styles''
                       html,←parseStyles d
                       i+←1
                   :EndIf

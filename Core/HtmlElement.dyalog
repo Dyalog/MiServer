@@ -793,7 +793,7 @@
       SplitOnSpaceLines←{1↓¨⍵⊂⍨⍵∧.=¨' '}
       text←(1+2⊃⎕LC)↓↓(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
      
-      r←tag∘#.HTMLUtils.Enclose¨∊¨SplitOnSpaceLines' ',¨⍨' ',⌽¨Trim⌽¨FirstCommentBlock Trim text
+      r←tag∘#.HtmlUtils.Enclose¨∊¨SplitOnSpaceLines' ',¨⍨' ',⌽¨Trim⌽¨FirstCommentBlock Trim text
     ∇
 
     ∇ r←what Subst text;names;gv;i;repl;fixL;fixR

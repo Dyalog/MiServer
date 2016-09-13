@@ -1,4 +1,4 @@
-﻿:Namespace HTMLUtils
+﻿:Namespace HtmlUtils
 
     (⎕IO ⎕ML)←1
     ⎕FX 'r←CRLF' 'r←⎕UCS 13 10' ⍝ So it will be :Included
