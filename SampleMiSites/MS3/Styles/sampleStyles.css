@@ -502,6 +502,15 @@ heading1 {
     font-size: x-large;
 }
 
+.hang {
+    padding-left: 4em;
+    text-indent: -4em;
+}
+
+.red {
+    color: red;
+}
+
 #samples>label {
     font-size: small;
 }

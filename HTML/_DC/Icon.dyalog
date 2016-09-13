@@ -1,20 +1,16 @@
 ﻿:class Icon : #._html.span
 ⍝ Description:: Dyalog Icon widget
-⍝ Constructor:: [spec [order]]
+⍝ Constructor:: [spec]
 ⍝ spec - either a single or pair of string which specify the icon(s) to use
 ⍝        each consists of a vendor-prefix, dash, icon-name, and optionally space-separated modifiers
 ⍝        when two strings are used, it represents a "stacked" icon, with second icon overlayed on the first
 ⍝        "stacked" icons are a feature of FontAwesome icons - using other icons may or may not have the desired visual effect
-⍝ order - when stacking, 0 indicates that the second icon is small and overlayed on a large first icon, 
-⍝         1 indicates that the second icon is large and overlayed on a small first icon
 ⍝
 ⍝ Public Fields::
 ⍝ Spec  - either a single or pair of string which specify the icon(s) to use
 ⍝         each consists of a vendor-prefix, dash, icon-name, and optionally space-separated modifiers
 ⍝         when two strings are used, it represents a "stacked" icon, with second icon overlayed on the first
 ⍝         "stacked" icons are a feature of FontAwesome icons - using other icons may or may not have the desired visual effect
-⍝ Order - when stacking, 0 indicates that the second icon is small and overlayed on a large first icon, 
-⍝         1 indicates that the second icon is large and overlayed on a small first icon
 ⍝
 ⍝ Examples::
 ⍝ Add _.Icon 'fa-cloud-upload'    ⍝ FontAwesome: http://fontawesome.io/icons/
@@ -22,12 +18,11 @@
 ⍝ Add _.Icon 'e-delete-column_01' ⍝ Syncfusion Essential JavaScript: http://js.syncfusion.com/demos/web/#!/azure/icon/EJIcons
 ⍝ '.fa-spin' Add _.Icon 'md-track_changes' ⍝ FontAwesome effects (works on non-FA icons too)
 ⍝ 'style="color: red;"' Add _.Icon 'e-stop' ⍝ Applying own styling
-⍝ Add _.Icon 'fa-square' 'fa-terminal fa-inverse' ⍝ Stacking inverse small on large
-⍝ Add _.Icon 'fa-camera' 'fa-ban' 1 ⍝ Stacking large on small
+⍝ Add _.Icon 'fa-square fa-2x' 'fa-terminal fa-inverse' ⍝ Stacking inverse small on large
+⍝ Add _.Icon 'fa-camera' 'fa-ban fa-2x'  ⍝ Stacking large on small
 
     :field public shared readonly ApiLevel←3
     :Field public Spec←⍬
-    :Field public Order←0
     :field public shared readonly DocBase←'http://fontawesome.io/examples/'
 
     ∇ Make
@@ -69,20 +64,20 @@
               Use'ejIcons'
               AddClass'e-icon e-',spec
               AddStyle'display: inline-block'  ⍝ add this because default Syncfusion is "block"
-          :else
+          :Else
               Content←Spec
-
+     
           :EndSelect
      
       :Else
           Use'faIcons'
           AddClass'fa-stack'
-          :For spec n :InEach Spec(⌽⍣(~Order)('fa-stack-','x',⍨⍕)¨⍳⍴Spec)
+          :For spec :In Spec
               :If isInstance spec
-                  spec.AddClass n
+                  spec.AddClass'fa-stack-1x'
                   Add spec
               :Else
-                  (Add _.Icon spec).AddClass n
+                  (Add _.Icon spec).AddClass'fa-stack-1x'
               :EndIf
           :EndFor
       :EndIf
