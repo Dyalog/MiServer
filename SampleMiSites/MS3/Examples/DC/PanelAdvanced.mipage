@@ -1,0 +1,31 @@
+﻿:class PanelAdvanced : MiPageSample
+⍝ Control:: _DC.Panel
+⍝ Description:: Panels with custom icons and colors and example of using Add to add content
+
+    ∇ Compose
+      :Access public
+      Add _.h3'The Panel Control'
+     
+      
+      p←Add _.Panel '' 'info'
+      p.Icon←'fa-certificate fa-3x'
+      p.Add 'And finally you may also build panels using the Add-mechanism!'
+      p.Add 'You may also assign custom icons using the field "pIcon"'
+
+			Add _.style ScriptFollows
+			⍝ .custom-class {background-color: green;}
+			⍝ .custom-class.dc-panel-title {background-color: lightgreen;}
+			⍝ .custom-class.dc-panel-icon {color: white;}
+      p←Add _.Panel  '' '.custom-class' 'We did it!'
+      p.Icon ←'fa-thumbs-up' 
+      p.Add _.b 'Yes! Custom class and Icon!'
+     
+      Add _.p'Feedback pls!'
+      Add _.Ul'What do you think about the transparent background when title is given?' 'Perhaps, when title is given, float icon to right of title?' 'Other comments?' 'Syntax: possibly swap arguments? (style content title)...' 'Any nice CSS-Suggestions welcome...'
+     
+     
+    ∇
+
+
+
+:endclass
