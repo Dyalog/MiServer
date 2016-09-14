@@ -13,6 +13,11 @@
 		<name>dcAccordion</name>
 		<style>/Dyalog/dcAccordion/dcAccordion.css</style>
 	</resource>
+	<resource>
+		<name>dcPanel</name>
+		<uses>faIcons</uses>
+		<style>/Dyalog/dcPanel/dcPanel.css</style>
+	</resource>
 
 <!-- 
 *******************************
