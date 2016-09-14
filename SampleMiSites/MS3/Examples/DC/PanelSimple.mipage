@@ -1,0 +1,31 @@
+﻿:class PanelSimple : MiPageSample
+⍝ Control:: _DC.Panel
+⍝ Description:: Display information, warnings, errors or success-message
+
+    ∇ Compose
+      :Access public
+      Add _.h3'The Panel Control'
+     
+      pTxt←ScriptFollows
+⍝ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+⍝ ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
+⍝ invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
+⍝ justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+     
+      Add _.Panel pTxt'info'
+      Add _.Panel pTxt'warning'
+      'style="width: 350px;"'Add _.Panel('This special (green) sample demonstrates that you can also control the width of the panels by controling its style-attribute. Text has been shortened in this example... ',400↑pTxt)'success'
+      Add _.Panel pTxt'error'
+      Add _.Panel pTxt'error' 'Yes, titles are also supported!'
+      Add _.Panel'Simple one-liner' 'info'
+      Add _.Panel'Simple one-liner' 'info' 'May also have a title!'
+     
+      Add _.p'Feedback pls!'
+      Add _.Ul'What do you think about the transparent background when title is given?' 'Perhaps, when title is given, float icon to right of title?' 'Other comments?' 'Syntax: possibly swap arguments? (style content title)...' 'Any nice CSS-Suggestions welcome...'
+     
+     
+    ∇
+
+
+
+:endclass
