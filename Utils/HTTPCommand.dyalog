@@ -83,12 +83,12 @@
           :Case 0
               FileSep←'/\'[1+'Win'≡3↑1⊃#.⎕WG'APLVersion']
               dyalog←{⍵,(-FileSep=¯1↑⍵)↓FileSep}2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
-              'DRC'#.⎕CY dyalog,'ws/conga' ⍝ runtime needs full workspace path
-              :If 9≠#.⎕NC'DRC'
+              'DRC'⎕CY dyalog,'ws/conga' ⍝ runtime needs full workspace path
+              :If {0::1 ⋄ 0⊣⍎'DRC'}''
                   ⎕←'Conga namespace DRC not found or defined'
                   →0
               :EndIf
-              LDRC←#.DRC
+              LDRC←DRC
           :Else
               ⎕←'Conga namespace DRC not found or defined'
               →0
