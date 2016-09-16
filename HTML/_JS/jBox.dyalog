@@ -1,4 +1,4 @@
-:Class jBox : #._JQ._jqWidget
+﻿:Class jBox : #._JQ._jqWidget
 ⍝ Description:: jBox widget
 ⍝
 ⍝ Constructor:: [type [message [content]]]
@@ -12,8 +12,13 @@
 ⍝ Content - the content for the target element
 ⍝ Theme - name of a jBox-Theme (one of 'ModalBorder','NoticeBorder','TooltipBorder' or 'TooltipDark')
 ⍝
+⍝ Shared Methods:
+⍝ {optionsORcolour} Notice [message] - displays a popup-msg.
+⍝ {options} Modal [message] - modal popup
+⍝
 ⍝ Notes::
 ⍝ For more information see https://github.com/StephanWagner/jBox
+⍝ Documentation of options can be found @ http://stephanwagner.me/jBox/options
 ⍝ Type is a public field in the base class
 
     :field public shared readonly DocBase←'http://stephanwagner.me/jBox/documentation'
@@ -55,4 +60,33 @@
       :EndIf
       r←⎕BASE.Render
     ∇
+
+    ∇ r←{ColorOrOpts}Notice txt;jb
+      :Access public shared
+      jb←New _.jBox'Notice'txt
+      jb.ScriptOptions←0 0 0
+      :If 2=⎕NC'ColorOrOpts'
+      :AndIf 0<ColorOrOpts
+          jb.Options.color←ColorOrOpts
+      :ElseIf 9=⎕NC'ColorOrOpts'
+          jb.Options←ColorOrOpts
+      :EndIf
+      r←jb.Render            ⍝ set the JavaScript
+    ∇
+
+
+    ∇ r←{opts}Modal txt;jb
+      :Access public shared
+      jb←New _.jBox'Modal'
+      jb.Content←txt
+      jb.ScriptOptions←0 0 0
+      :If 9=⎕NC'opts'
+          jb.Options←opts
+      :EndIf
+      'onInit'jb.Set'function() { this.open(); }'
+      r←jb.Render
+    ∇
+
+
+
 :EndClass

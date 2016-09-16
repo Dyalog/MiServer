@@ -6,12 +6,11 @@
 
     ∇ Compose;tab;jTab;dt;columns;ocw
       :Access public
-      Use'FontAwesome'
+      Use'faIcons'
       Add _.Style'.demo'(('background-color' 'lightblue')('border' '1px solid gray'))
      
       Add _.Style'.tooltip'(('background-color' 'lightblue')('border' '1px solid gray'))
       (Add _.jBox).Selector←'.tooltip'
-     
      
      
       Add _.h2'jBox Widget - Advanced sample'
@@ -65,15 +64,9 @@
       'cancelButton'dd.Set'Absolutely not!'
      ⍝ NB: the dialog will automatically attach itself to all elements with a data-confirm-Attribute!
      
-      Add _.h3'Notices'
-      '.demo' '#notice'Add _.div'Click somewhere in this div to trigger a notice that will automatically hide after a bit'
-      jb←New _.jBox'Notice' 'Hurray! A notice!'
-      jb.ScriptOptions←0 0 0
-      'position.(x y)'jb.Set 15 65
- ⍝ Now add the Handler...
-      h←Add _.Handler'#notice' 'click'
-      h.CallBack←0                        ⍝ no APL callback, it's all in JavaScript
-      h.JavaScript←jb.Render              ⍝ set the JavaScript
+      Add _.h3'Shared functions to your callbacks'
+      ('.demo' '#notice'Add _.div'Click somewhere in this div to trigger a notice that will automatically hide after a bit').On'click' 'FireNotice'
+      ('.demo'Add _.div'Click here for a modal popup').On'click' 'FireModal'
      
      
       Add _.h3'Images & Gallery'
@@ -117,4 +110,26 @@
      
     ∇
 
+    ∇ R←FireNotice
+      :Access public
+      opts←⎕NS''
+      opts.animation←'slide'
+      opts.theme←'ModalBorder'
+      opts.color←'green'
+      R←Execute opts _.jBox.Notice'Hurray! A notice!'
+      R,←Execute _.jBox.Notice'And here is a simple example w/o any settings'
+      R,←Execute _.jBox.Notice'That demonstrates how nicely these notices stack up...'
+    ∇
+
+    ∇ R←FireModal;opts
+      :Access public
+      opts←⎕NS''
+      opts.title←'Modal message'
+      opts.theme←'ModalBorder'
+      cnt←New _.Icon'fa-thumbs-up'
+      cnt,←,'Meet the '
+      cnt,←'href="http://www.dyalog.com/meet-team-dyalog.htm"' 'target="blank"'Add _.a'Team'
+      opts.content←(New _.span cnt).Render
+      R←Execute opts _.jBox.Modal''
+    ∇
 :EndClass
