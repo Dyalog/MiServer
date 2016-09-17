@@ -88,7 +88,7 @@
       d.Add Content
       Content←c,d
       Use'faIcons'
-      Use'⍕/PlugIns/Dyalog/Panel/panel.css'
+      Use'dcPanel'
       SetUse
       'class'Set'dc-panel'
       r←⎕BASE.Render

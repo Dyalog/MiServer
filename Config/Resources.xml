@@ -13,7 +13,10 @@
 		<name>dcAccordion</name>
 		<style>/Dyalog/dcAccordion/dcAccordion.css</style>
 	</resource>
-
+	<resource>
+		<name>dcPanel</name>
+		<style>/Dyalog/Panel/Panel.css</style>
+	</resource>
 <!-- 
 *******************************
 *      FontAwesome Icons      *
