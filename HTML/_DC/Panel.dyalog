@@ -7,7 +7,7 @@
 ⍝ Title - Text of the title (Box is rendered without title-section if no title is specified)
 ⍝
 ⍝ Public Fields::
-⍝ Message - the text that will appear in the popup
+⍝ Value - the message that will appear in the popup
 ⍝ Type - one of 'info', 'warn', 'erro[r]', 'succ[ess]', 'warnRed' OR .ClassName for custom styling
 ⍝ Title - Text of the title (Box is rendered without title-section if no title is specified)
 ⍝ Icon - name of an Icon (as accepted by the Icon-Class) OR a ref to an existing Icon-Object
@@ -24,32 +24,16 @@
     :field public Type←'info'    ⍝ info | warn | errorr] | success | warnRed (Warning-Symbol with red colour - if you don't like normal "error"-style)
     :field public Icon←''
 
-    ∇ make0
+    ∇ make
       :Access public
       :Implements constructor :base
     ∇
 
-    ∇ make1 arg
+    ∇ make1 args
       :Access public
       :Implements constructor :base
-      Value←arg
+      (Value Type Title)←args defaultArgs Value Type Title
     ∇
-
-    ∇ make2(arg1 arg2)
-      :Access public
-      :Implements constructor :base
-      Value←arg1
-      Type←arg2
-    ∇
-
-    ∇ make3(arg1 arg2 arg3)
-      :Access public
-      :Implements constructor :base
-      Value←arg1
-      Type←arg2
-      Title←arg3
-    ∇
-
 
     ∇ r←Render;icon;class;c;cclass
       cclass←'dc-panel-dfltStyle'
@@ -82,7 +66,6 @@
       :EndIf
      
       c,←ic.Render
-     
      
       d←('class="',class,' ',cclass,' dc-panel-content" id="',SetId,'_content"')New _.div Value
       d.Add Content

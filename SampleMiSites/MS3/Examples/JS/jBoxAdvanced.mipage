@@ -7,6 +7,7 @@
     ∇ Compose;tab;jTab;dt;columns;ocw
       :Access public
       Use'faIcons'
+      Use'dcPanel'  ⍝ required by Panel that is used in callback function
       Add _.Style'.demo'(('background-color' 'lightblue')('border' '1px solid gray'))
      
       Add _.Style'.tooltip'(('background-color' 'lightblue')('border' '1px solid gray'))
@@ -117,19 +118,24 @@
       opts.theme←'ModalBorder'
       opts.color←'green'
       R←Execute opts _.jBox.Notice'Hurray! A notice!'
-      R,←Execute _.jBox.Notice'And here is a simple example w/o any settings'
-      R,←Execute _.jBox.Notice'That demonstrates how nicely these notices stack up...'
     ∇
 
-    ∇ R←FireModal;opts
+    ∇ R←FireModal;opts;MyPanel;cnt
       :Access public
       opts←⎕NS''
-      opts.title←'Modal message'
       opts.theme←'ModalBorder'
       cnt←New _.Icon'fa-thumbs-up'
+      cnt,←'You can even use other MiServer-Widgets in jBoxes!'
+      
+      ⍝ let's proove that one can also add links...
+      cnt,←New _.br   
       cnt,←,'Meet the '
-      cnt,←'href="http://www.dyalog.com/meet-team-dyalog.htm"' 'target="blank"'Add _.a'Team'
-      opts.content←(New _.span cnt).Render
-      R←Execute opts _.jBox.Modal''
+      cnt,←'href="http://www.dyalog.com/meet-team-dyalog.htm"' 'target="blank"'Add _.a'Team'   
+      MyPanel←New _.Panel
+      MyPanel.Title←'A Panel in a Popup!'
+      MyPanel.Type←'info'
+      MyPanel.Content←cnt
+      R←Execute (opts _.jBox.Modal MyPanel)
+
     ∇
 :EndClass
