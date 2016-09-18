@@ -38,11 +38,11 @@
       :EndIf
     ∇
 
-    ∇ r←Render;prefix;spec;icon;classes;n
+    ∇ r←Render;prefix;spec;icon;classes;n;Content∆
       :Access public
       Spec←eis Spec
       Spec,←eis Content
-      Content←⍬
+      Content∆←⍬
       :If 1=⍴Spec ⍝ Simple icon
           Spec←{⊃⍣(1<≡⍵)⊢⍵}Spec ⍝ Disclose if nested (eis⍣¯1)
           :If isInstance Spec
@@ -58,14 +58,14 @@
               Use'mdIcons'
               (icon classes)←(spec,' ')SplitOn1st' '
               AddClass'material-icons ',classes
-              Content←¯1↓icon
+              Content∆←¯1↓icon
      
           :CaseList (,'e')'ej' ⍝ Syncfusion
               Use'ejIcons'
               AddClass'e-icon e-',spec
               AddStyle'display: inline-block'  ⍝ add this because default Syncfusion is "block"
           :Else
-              Content←Spec
+              Content∆←Spec
      
           :EndSelect
      
@@ -82,7 +82,9 @@
           :EndFor
       :EndIf
       SetUse
+      (Content Content∆)←Content∆ Content
       r←⎕BASE.Render
+      (Content Content∆)←Content∆ Content
     ∇
 
     SplitOn1st←{(l↑⍺)((l←⍺⍳⍵)↓⍺)}

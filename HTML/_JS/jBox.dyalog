@@ -1,7 +1,7 @@
 ﻿:Class jBox : #._JQ._jqWidget
 ⍝ Description:: jBox widget
 ⍝
-⍝ Constructor:: [type [message [content]]]
+⍝ Constructor:: [Type [Message [Content]]]
 ⍝ type - one of 'Tooltip', 'Mouse', 'Modal', 'Confirm', 'Notice', 'Image'
 ⍝ message - the text that will appear in the popup
 ⍝ content - the content for the target element
@@ -53,7 +53,9 @@
       'Invalid jBox Type'⎕SIGNAL(ind>⍴Types)/11
       Type←ind⊃Types
       Container.Content←Content
-      'content'Set renderIt Message
+      'content'Set renderIt New _.span Message   ⍝ seems to be neccessary to render EVERYTHING!   
+      ⍝  example: _.jBox.Notice((#.HtmlElement.New _.Icon'fa-thumbs-up'),' Hurray! A notice!'))
+      ⍝ skipped the triumphant sentence at the end...
       BuildHTML←~0∊⍴Content
       :If 0<⍴Theme
           'theme'Set Theme
@@ -80,13 +82,12 @@
 
     ∇ r←{opts}Modal txt;jb
       :Access public shared
-      jb←New _.jBox'Modal'
+      jb←New _.jBox'Modal'txt
       jb.ScriptOptions←0 0 0
       :If 9=⎕NC'opts'
           jb.Options←opts
       :EndIf
       'onInit'jb.Set'function() { this.open(); }'
-      'content'jb.Set (renderIt txt)
       r←jb.Render
     ∇
 
