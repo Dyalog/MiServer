@@ -52,7 +52,7 @@
       'Invalid jBox Type'⎕SIGNAL(ind>⍴Types)/11
       Type←ind⊃Types
       Container.Content←Content
-      'content'Set renderIt Message
+      'content'Set renderIt New _.span Message
       BuildHTML←~0∊⍴Content
       :If 0<⍴Theme
           'theme'Set Theme
@@ -66,7 +66,8 @@
       jb←New _.jBox'Notice'txt
       jb.ScriptOptions←0 0 0
       :If 2=⎕NC'ColorOrOpts'
-      :AndIf 0<ColorOrOpts
+      :AndIf isString ColorOrOpts
+      :AndIf ~0∊⍴ColorOrOpts
           jb.Options.color←ColorOrOpts
       :ElseIf 9=⎕NC'ColorOrOpts'
           jb.Options←ColorOrOpts
@@ -77,8 +78,7 @@
 
     ∇ r←{opts}Modal txt;jb
       :Access public shared
-      jb←New _.jBox'Modal'
-      jb.Content←txt
+      jb←New _.jBox'Modal' txt
       jb.ScriptOptions←0 0 0
       :If 9=⎕NC'opts'
           jb.Options←opts
