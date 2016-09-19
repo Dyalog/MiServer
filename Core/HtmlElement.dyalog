@@ -70,6 +70,11 @@
       r←0 2∊⍨10|⎕DR w
     ∇
 
+    ∇ r←isNum w
+      :Access public shared
+      r←2|⎕DR w
+    ∇
+
     ∇ r←isString w
       :Access public shared
       :Select ≡w
