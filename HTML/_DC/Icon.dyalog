@@ -38,8 +38,9 @@
       :EndIf
     ∇
 
-    ∇ r←Render;prefix;spec;icon;classes;n
+    ∇ r←Render;prefix;spec;icon;classes;n;origContent;origSpec;origClass
       :Access public
+      (origSpec origContent origClass)←Spec Content class
       Spec←eis Spec
       Spec,←eis Content
       Content←⍬
@@ -83,6 +84,7 @@
       :EndIf
       SetUse
       r←⎕BASE.Render
+      (Spec Content class)←origSpec origContent((1+origClass≡UNDEF)⊃origClass'') ⍝ cannot just "unset" class
     ∇
 
     SplitOn1st←{(l↑⍺)((l←⍺⍳⍵)↓⍺)}

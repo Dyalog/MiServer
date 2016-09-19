@@ -2,16 +2,15 @@
 ⍝ Control::     _JS.jBox
 ⍝ Description:: Tooltips and more
 
-
-
-    ∇ Compose;tab;jTab;dt;columns;ocw
+    ∇ Compose;tab;jTab;dt;columns;ocw;dd;daSpan;NiceDiv;t3
       :Access public
+      
+
       Use'faIcons'
-      Add _.Style'.demo'(('background-color' 'lightblue')('border' '1px solid gray'))
+      Use'dcPanel'  ⍝ required by Panel that is used in callback function
+      Add _.style'.demo {border:2px dotted darkorange}'
      
-      Add _.Style'.tooltip'(('background-color' 'lightblue')('border' '1px solid gray'))
       (Add _.jBox).Selector←'.tooltip'
-     
      
       Add _.h2'jBox Widget - Advanced sample'
      
@@ -32,9 +31,7 @@
     ⍝ here</span> for a demo of Tooltips with titles!
     ⍝ We will be <span class="tooltip2 demo"  data-jbox-title="How to do that" data-jbox-content="By applying it to all items with a class='tooltip2', as you can see in the source...">
     ⍝ re-using</span> the configuration of the dd-Element (in the APL-Source) to reduce the # of JS-Calls.
-     
-     
-     
+          
       '.fa fa-thumbs-up fa-3x' 'style="color:green"'(NiceDiv←'#NiceDiv'Add _.div).Add _.i
       NiceDiv.Add'Wow! This larger, model tooltip features <b>exciting</b> HTML-Layout and lots of text. Everything is possible!...<br /><br />'
       NiceDiv.Add'This tooltip will disappear on any click or also when you press the Esc-Key!<br />'
@@ -57,79 +54,110 @@
       'closeOnClick'dd.Set _true
      
       Add _.h3'Confirmations'
-      '.demo'Add _.div'Click this div to get a prompt...' 'data-confirm="Are you sure?" onclick="alert(''Thanks for confirming!'');"'
+      '.demo'Add _.span'Click this text to get a prompt...' 'data-confirm="Are you sure?" onclick="alert(''Thanks for confirming!'');"'
+      Add _.br
       dd←Add _.jBox'Confirm'
       dd.ScriptOptions←1 0 0 ⍝[1] Wrap in <script>? [2] wrap in $(function(){});? [3] use jQuery Selector syntax (1) or JavaScript new (0)
       'confirmButton'dd.Set'Yes, please!'
       'cancelButton'dd.Set'Absolutely not!'
      ⍝ NB: the dialog will automatically attach itself to all elements with a data-confirm-Attribute!
+      Add'This example currently does not have much practical use, as you may want to respond differently to the choices. This is on our ToDo-List and a future update will provide features to enable that!'
      
       Add _.h3'Shared functions to your callbacks'
-      ('.demo' '#notice'Add _.div'Click somewhere in this div to trigger a notice that will automatically hide after a bit').On'click' 'FireNotice'
-      ('.demo'Add _.div'Click here for a modal popup').On'click' 'FireModal'
+      Add _.div'Click the following "pseudo sample-links" to trigger notices that will automatically hide after a bit. Also observer behaviour when you click repeatedly!'
+      sp←'.demo' '#notice'Add _.span'Simple notice' ⋄ sp.On'click' 'FireNoticeSimple'
+      Add' and '
+      sp←'.demo'Add _.span'advanced (green & sliding)' ⋄ sp.On'click' 'FireNoticeAdvanced1'
+      Add' or '
+      sp←'.demo'Add _.span'advanced (yellow, sliding & decorated)' ⋄ sp.On'click' 'FireNoticeAdvanced2'
+      Add'sample.'
+     
+      dd←Add _.div'Click here for '
+      sp←'.demo'New _.span'simple' ⋄ sp.On'click' 'FireModalSimple'
+      dd.Add sp
+      dd.Add' or '
+      sp←'.demo'New _.span'advanced' ⋄ sp.On'click' 'FireModalAdvanced'
+      dd.Add sp
+      dd.Add'popups.'
      
      
       Add _.h3'Images & Gallery'
       Add _.h4'Larger image on click'
       Add _.p'<span title="Grey/Colouring is not a jBox-Effect, pure CSS-Styling!" class="tooltip">Hover over</span> these images and click them for a gallery-view in full size. Notice how you can browse the gallery with the arrow-left/right-keys!'
-   ⍝ following css-stuff for gray images that show colours on MouseOver!
+    ⍝ following css-stuff for gray images that show colours on MouseOver!
       Add _.Style ScriptFollows
-⍝.demo-img1 {
-⍝   filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
-⍝   -webkit-filter: grayscale(100%);
-⍝   -moz-filter: grayscale(100%);
-⍝   -ms-filter: grayscale(100%);
-⍝   filter: grayscale(100%);
-⍝   filter: gray; /* IE 6-9 */
-⍝   margin: 10px;
-⍝   transition: 1s;
-⍝}
-⍝.demo-img1:hover {
-⍝   -webkit-filter: none;
-⍝   -moz-filter: none;
-⍝   -ms-filter: none;
-⍝   filter: none;
-⍝}
+     ⍝.demo-img1 {
+     ⍝   filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
+     ⍝   -webkit-filter: grayscale(100%);
+     ⍝   -moz-filter: grayscale(100%);
+     ⍝   -ms-filter: grayscale(100%);
+     ⍝   filter: grayscale(100%);
+     ⍝   filter: gray; /* IE 6-9 */
+     ⍝   margin: 10px;
+     ⍝   transition: 1s;
+     ⍝}
+     ⍝.demo-img1:hover {
+     ⍝   -webkit-filter: none;
+     ⍝   -moz-filter: none;
+     ⍝   -ms-filter: none;
+     ⍝   filter: none;
+     ⍝}
      
       Add ScriptFollows
-⍝<a href="../Data/pic1.png" data-jbox-image="gallery1" class="demo-img1" title="The beauty of sum-reduction">
-⍝<img src="../Data/pic1_thumb.png" alt=""></a>
-⍝<a href="../Data/pic2.png" data-jbox-image="gallery1" class="demo-img1" title="Dyalog Duck">
-⍝<img src="../Data/pic2_thumb.png" alt=""></a>
-⍝<a href="../Data/pic3.png" data-jbox-image="gallery1" class="demo-img1" title="Creating RNA to match a DNA is easier in APL than in the lab!">
-⍝<img src="../Data/pic3_thumb.png" alt=""></a>
+     ⍝<a href="../Data/pic1.png" data-jbox-image="gallery1" class="demo-img1" title="The beauty of sum-reduction">
+     ⍝<img src="../Data/pic1_thumb.png" alt=""></a>
+     ⍝<a href="../Data/pic2.png" data-jbox-image="gallery1" class="demo-img1" title="Dyalog Duck">
+     ⍝<img src="../Data/pic2_thumb.png" alt=""></a>
+     ⍝<a href="../Data/pic3.png" data-jbox-image="gallery1" class="demo-img1" title="Creating RNA to match a DNA is easier in APL than in the lab!">
+     ⍝<img src="../Data/pic3_thumb.png" alt=""></a>
       dd←'#imgs'Add _.jBox'Image'
       dd.ScriptOptions←1 0 0
-⍝ Careful: must create images first, jBox thereafter, so that it finds something to work on!
-     
-     
-     
-     
-     
-     
-     
+     ⍝ Careful: must create images first, jBox thereafter, so that it finds something to work on!
     ∇
 
-    ∇ R←FireNotice
+    ∇ R←FireNoticeSimple;opts
+      :Access public
+      R←Execute _.jBox.Notice'Hurray! A notice!'
+    ∇
+
+    ∇ R←FireNoticeAdvanced1;opts
       :Access public
       opts←⎕NS''
       opts.animation←'slide'
       opts.theme←'ModalBorder'
       opts.color←'green'
-      R←Execute opts _.jBox.Notice'Hurray! A notice!'
-      R,←Execute _.jBox.Notice'And here is a simple example w/o any settings'
-      R,←Execute _.jBox.Notice'That demonstrates how nicely these notices stack up...'
+      R←Execute(opts _.jBox.Notice'Hurray! A notice!')
     ∇
 
-    ∇ R←FireModal;opts
+    ∇ R←FireNoticeAdvanced2;opts
       :Access public
       opts←⎕NS''
-      opts.title←'Modal message'
+      opts.animation←'slide'
+      opts.theme←'ModalBorder'
+      opts.color←'yellow'
+      R←Execute(opts _.jBox.Notice((New _.Icon'fa-thumbs-up'),' Hurray! A notice!'))
+    ∇
+
+    ∇ R←FireModalSimple;opts;MyPanel;cnt
+      :Access public
+      R←Execute _.jBox.Modal'Hello from a simple modal popup!'
+    ∇    
+
+    ∇ R←FireModalAdvanced;opts;MyPanel;cnt
+      :Access public
+      opts←⎕NS''
       opts.theme←'ModalBorder'
       cnt←New _.Icon'fa-thumbs-up'
+      cnt,←'You can even use other MiServer-Widgets in jBoxes!'
+     
+      ⍝ let's proove that one can also add links...
+      cnt,←New _.br
       cnt,←,'Meet the '
       cnt,←'href="http://www.dyalog.com/meet-team-dyalog.htm"' 'target="blank"'Add _.a'Team'
-      opts.content←(New _.span cnt).Render
-      R←Execute opts _.jBox.Modal''
+      MyPanel←New _.Panel
+      MyPanel.Title←'A Panel in a Popup!'
+      MyPanel.Type←'info'
+      MyPanel.Content←cnt
+      R←Execute(opts _.jBox.Modal MyPanel)
     ∇
 :EndClass
