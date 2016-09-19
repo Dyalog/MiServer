@@ -1,0 +1,31 @@
+﻿:Class DataTableAdvanced : MiPageSample
+⍝ Control::     _JS.DataTable
+⍝ Description:: DataTable with options plus "ColumnFilterWidget" and "SearchHighlight" plug-ins
+
+    :field private Datafile←'TeamDyalog.csv'
+
+    ∇ Compose;dyalog;dPath;dat;dt
+      :Access Public
+     
+      Add MarkdownFollows
+⍝ In this example we are using two plug-ins to enhance our DataTable:
+⍝ 
+⍝  - **SearchHighlight** highlights the searched-for phrase in each result (try typing *mar* into the search box)
+⍝  - **ColumnFilterWidgets** adds dropdown list-boxes for selection of filtering criteria. You can remove any item by clicking on it.
+⍝  - Note how the **dom** option is used to hide the page switching buttons -- only
+⍝    one page of data (limited to the default of 10 records) is shown
+     
+      dPath←_Request.Server.Config.AppRoot,'examples/data/'
+      :If 0=⎕NC'#.LoadData'
+          dyalog←2 ⎕NQ'.' 'GetEnvironment' 'dyalog'
+          #.⎕CY dyalog,'/ws/loaddata'            ⍝ must be copied to root because of absolute reference #.fileUtilities
+      :EndIf
+     
+      dat←#.LoadTEXT dPath,Datafile              ⍝ get Data from CSV
+      dt←'#sample'Add _.DataTable dat'' 1 '' 0 0 ⍝ add table to the page with that data
+      dt.Options.dom←'Wfrtip'                    ⍝ with "W"-Option for the CFW-Widget
+      dt.Options.searchHighlight←_true           ⍝ Brian: should't #.JSON.true be useable in such cases? It is not. Is there another tool for that?
+     
+    ∇
+
+:EndClass

@@ -1,24 +1,23 @@
-Name;Based in;Joined;Title
-Gitte;DK;2005/04;Managing Director / CEO
-Morten;DK;2005/04;Evangelist / CXO
-Adám;CA;2015/05;Developer
-Andy;UK;1987/07;Operations Manager  / COO
-Bjørn;DK;2005/04;Developer
-Brian;USA;2011/03;APL Tools Group Manager
-Dan;CA;2006/01;Tester, teacher, writer
-Fiona;UK;2013/04;Documentation Manager
-Geoff;UK;1977/01;Radical
-Helene;DK;2005/04;Finance Manager (CFO)
-Jason;UK;2007/05;IT Manager
-Jay;UK;2010/04;Technical Director / CTO
-JohnD;UK;1991/09;Chief Architect
-JohnS;UK;1981/07;Founder & Old hand
-Karen;UK;1992/05;Customer Account Manager
-Nadine;DK;2014/05;Communication
-Nic;F;2006/08;Developer
-Nick;UK;2014/01;Developer
-Pete;GR;1977/09;Founder & Bouzuki-Player
-Richard;UK;2008/06;Development Manager
-Roger;CA;2011/01;Aesthetic Thinking
-Vibeke;UK;2006/02;PR & Marketing Guru
-Vince;UK;1996/06;Support
+Name,Based in,Month,Year
+Gitte,Denmark,April,2005
+Morten,Denmark,April,2005
+Adám,United Kingdom,May,2015
+Andy,United Kingdom,July,1987
+Bjørn,Denmark,April,2005
+Brian,USA,March,2011
+Dan,Canada,January,2006
+Fiona,United Kingdom,April,2013
+Geoff,United Kingdom,January,1977
+Helene,Denmark,April,2005
+Jason,United Kingdom,May,2007
+Jay,United Kingdom,April,2010
+JohnD,United Kingdom,September,1991
+JohnS,United Kingdom,July,1981
+Karen,United Kingdom,May,1992
+Nic,France,August,2006
+Nick,United Kingdom,January,2014
+Pete,Greece,September,1977
+Richard,United Kingdom,June,2008
+Roger,Canada,January,2011
+Vibeke,United Kingdom,February,2006
+Vince,United Kingdom,June,1996
