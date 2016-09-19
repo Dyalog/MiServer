@@ -41,9 +41,12 @@
       :EndIf
     ∇
 
-    ∇ html←Render;cells;rows
+    ∇ html←Render;cells;rows;ids
       SetId
       :Access public
+      ids←Inputs.id
+      ((ids≡¨⎕NULL)/ids)←{GenId}¨⍳+/ids≡¨⎕NULL
+      Labels←ids{'<label for="',⍺,'">',(renderIt ⍵),'</label>'}¨Labels
       cells←{⎕NEW #._html.td(⍵)}¨renderIt¨(,Labels),[1.1],Inputs
       cells[;1].class←⊂id,'_label'
       cells[;2].class←⊂id,'_input'
