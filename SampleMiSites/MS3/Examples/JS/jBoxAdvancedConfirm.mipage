@@ -1,0 +1,24 @@
+﻿:Class jBoxAdvanceMore : MiPageSample
+⍝ Control::     _JS.jBox
+⍝ Description::confirmations (works, but may need more features...)
+
+    ∇ Compose;dd
+      :Access public
+
+      Add _.style'.demo {border:2px dotted darkorange}'
+     
+      Add _.h2'jBox Widget - Advanced sample: Confirmations'
+      '.demo'Add _.span'Click this text to get a prompt...' 'data-confirm="Are you sure?" onclick="alert(''Thanks for confirming!'');"'
+      Add _.br
+      dd←Add _.jBox'Confirm'
+      dd.ScriptOptions←1 0 0 ⍝[1] Wrap in <script>? [2] wrap in $(function(){});? [3] use jQuery Selector syntax (1) or JavaScript new (0)
+      'confirmButton'dd.Set'Yes, please!'
+      'cancelButton'dd.Set'Absolutely not!'
+      
+     ⍝ NB: the dialog will automatically attach itself to all elements with a data-confirm-Attribute!
+      Add ScriptFollows
+     ⍝ This example currently does not have much practical use, as you may want to respond differently to the choices (from your APL-Fn.)
+     ⍝ This is on our ToDo-List and a future update will provide features to enable that!
+     
+    ∇
+:EndClass

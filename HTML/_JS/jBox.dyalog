@@ -52,7 +52,9 @@
       'Invalid jBox Type'⎕SIGNAL(ind>⍴Types)/11
       Type←ind⊃Types
       Container.Content←Content
-      'content'Set renderIt New _.span Message
+      :If ~0∊⍴Message  ⍝ do not overwrite content if Message is empty!
+          'content'Set renderIt New _.span Message       
+      :EndIf
       BuildHTML←~0∊⍴Content
       :If 0<⍴Theme
           'theme'Set Theme
@@ -78,7 +80,7 @@
 
     ∇ r←{opts}Modal txt;jb
       :Access public shared
-      jb←New _.jBox'Modal' txt
+      jb←New _.jBox'Modal'txt
       jb.ScriptOptions←0 0 0
       :If 9=⎕NC'opts'
           jb.Options←opts
