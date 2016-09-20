@@ -462,6 +462,11 @@
 	</resource>
 <resource>
 
+<!--
+*********************************
+*      chosen resources         *
+*********************************
+-->
 	<name>chosen</name>
 	<uses>JQuery</uses>
 	<script>/chosen/chosen.jquery.min.js</script>

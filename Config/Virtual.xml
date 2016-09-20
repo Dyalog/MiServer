@@ -45,6 +45,6 @@
 
   <directory>
     <alias>chosen</alias>
-    <path>%ServerRoot%/PlugIns/Other/chosen-1.6.1/</path>
+    <path>%ServerRoot%/PlugIns/Other/chosen-1.6.2/</path>
   </directory>
 </Virtual>

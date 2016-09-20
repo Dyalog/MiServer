@@ -44,6 +44,12 @@
 
     ∇ r←Version
       :Access Public Shared
+      ⍝ * 1.8.4
+      ⍝   * "_italic_." switched <em> on but no off.
+      ⍝ * 1.8.3
+      ⍝   * Functions are not compiled for the time being; see bug <01164>.
+      ⍝   * Documentation improved.
+      ⍝   * Bug fix: a table with just a header made MarkAPL crash.
       ⍝ * 1.8.2
       ⍝   * Something like #._fnsName is now recognized as a compound name and NOT marked up with <em>.
       ⍝   * Both `**` and `*` are now allowed within names.
@@ -52,7 +58,7 @@
       ⍝     * Recognizing embedded functions did not always work properly.
       ⍝ * 1.8.0
       ⍝   * Definition lists improved.
-      r←(Last⍕⎕THIS)'1.8.2' '2016-07-03'
+      r←(Last⍕⎕THIS)'1.8.4' '2016-07-23'
     ∇
 
     :Field Public Shared ReadOnly PartOfNames←⎕A,⎕D,'_∆⍙','qwertyuiopasdfghjklzxcvbnm'
@@ -565,12 +571,14 @@
               drop←1
           :EndIf
           ns.html,←⊂'<tbody>'
-          cells←SplitTableRowButMaskCode¨drop↓ns.noOf↑ns.markdown
-          cells←{dlb∘dtb ⍵}¨¨cells
-          cells←ns{⍺ CheckOddNumberOfDoubleQuotes ⍵'header'}¨¨cells
-          cells←ns ProcessInlineMarkUp¨¨cells
-          rows←{('td'∘{⍺,⍵}¨align)Tag¨⍵}¨(⍴align)↑¨cells
-          ns.html,←⊃,/{(⊂'<tr>'),⍵,⊂'</tr>'}¨rows
+          :If ~0∊⍴cells←drop↓ns.noOf↑ns.markdown
+              cells←SplitTableRowButMaskCode¨drop↓ns.noOf↑ns.markdown
+              cells←{dlb∘dtb ⍵}¨¨cells
+              cells←ns{⍺ CheckOddNumberOfDoubleQuotes ⍵'header'}¨¨cells
+              cells←ns ProcessInlineMarkUp¨¨cells
+              rows←{('td'∘{⍺,⍵}¨align)Tag¨⍵}¨(⍴align)↑¨cells
+              ns.html,←⊃,/{(⊂'<tr>'),⍵,⊂'</tr>'}¨rows
+          :EndIf
           ns.html,←⊂'</tbody>'
           ns.html,←⊂'</table>'
           ns←Drop ns
@@ -1375,7 +1383,6 @@
           mask←GetMaskForCode txt
           bool∧←~mask
       :AndIf ~0∊⍴ind←Where bool
-⍝      :AndIf ~0∊⍴ind←((txt 2∘NotWithinWord¨ind))/ind
           start←((⍴ind)⍴1 0)/ind
           end←((⍴ind)⍴0 1)/ind
           txt[start]←⊂'<strong>'
@@ -1584,15 +1591,15 @@
       NotWithinWord←{
     ⍝ ⍵ is a vector of hits for, say `_`
     ⍝ ⍺ is a two-element vector:
-    ⍝   * Something like a paragraph
-    ⍝   * Length of markup (_, *, **, __, ~~, ...); 1∨2
+    ⍝   [1] Something like a paragraph
+    ⍝   [2] Length of markup (_, *, **, __, ~~, ...); 1∨2
           (txt length)←⍺
           hit←⍵
-          boundaries1←(⊂hit+¯1,length)⌷txt
-          boundaries2←(⊂hit+¯2,length+1)⌷txt
-          f1←1 1≢boundaries1∊PartOfNames,'.'  ⍝ Add "." for compound names
-          0=+/b←boundaries1='.':f1
-          f2←⊃(~b)/boundaries2∊PartOfNames
+          boundaries1←(⊂hit+¯1,length)⌷txt     ⍝ What's to the left and right of the hit
+          boundaries2←(⊂hit+¯2,length+1)⌷txt   ⍝ What's to the left and right of boundary1 (for recognizing compound names)
+          f1←1 1≢boundaries1∊PartOfNames
+          0=+/b←boundaries1='.':f1             ⍝ No compound names? Done!
+          f2←⊃b/~boundaries2∊¨(⊂PartOfNames),¨'#' ''
           f1∧f2
       }
 
@@ -2279,7 +2286,7 @@
           parms←⍵
           0=parms.compileFunctions:0    ⍝ Don't?!
           1(400⌶)'Between':0            ⍝ already compiled
-          {2(400⌶)⍵}¨↓⎕NL 3
+          ⍬ ⍝{2(400⌶)⍵}¨↓⎕NL 3
       }
 
     Between←{⍵∨≠\⍵}

@@ -4,10 +4,21 @@
 
     ∇ Compose
       :Access public
-      Add #._.Markdown ScriptFollows
-    ⍝## The Markdown widget processes "markdown" 
-    ⍝Markdown is a simple way to add formatting like headers, **bold**, bulleted lists, and so on to plain text.\ 
-    ⍝It was originally designed to be an easy alternative to HTML, and allows people to create web pages with no HTML experience.
+      Add _.h3'The Markdown widget based on Kai Jaeger''s MarkAPL project'
+      Add'The following code produces the output below...'
+      Add CodeFollows
+      Add _.Markdown ScriptFollows
+    ⍝#### The Markdown widget processes "markdown"
+    ⍝Markdown is a simple way to add formatting like headers, **bold text**, _italicized text_,\
+    ⍝* bulleted
+    ⍝* lists\
+    ⍝
+    ⍝
+    ⍝ and so on, to plain text without having to use HTML markup.\
+    ⍝
+    ⍝ [Click here for more information on The MarkAPL Project](http://aplwiki.com/MarkAPL).
+     
+    ⍝<<end>>
     ∇
 
 :EndClass

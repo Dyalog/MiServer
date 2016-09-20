@@ -64,7 +64,7 @@
       r←('GET'HTTPCmd)args
     ∇
 
-    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime
+    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime;congaCopied
 ⍝ issue an HTTP command
 ⍝ certs - optional [X509Cert [SSLValidation [Priority]]]
 ⍝ args  - [1] URL in format [HTTP[S]://][user:pass@]url[:port][/page]
@@ -76,6 +76,7 @@
       r←⎕NS''
       (rc httpver httpstatus httpstatusmsg header data peercert)←¯1 '' 400(⊂'bad request')(0 2⍴⊂'')''⍬
      
+      congaCopied←0
       :If 0∊⍴LocalDRC
           :Select ⊃#.⎕NC'DRC'
           :Case 9
@@ -89,6 +90,7 @@
                   →0
               :EndIf
               LDRC←DRC
+              congaCopied←1
           :Else
               ⎕←'Conga namespace DRC not found or defined'
               →0
@@ -226,7 +228,7 @@
                   :EndIf
      
               :EndTrap
-
+     
               httpver httpstatus httpstatusmsg←{⎕ML←3 ⋄ ⍵⊂⍨{⍵∨2<+\~⍵}⍵≠' '}(⊂1 1)⊃header
               header↓⍨←1
      
@@ -241,6 +243,11 @@
       :EndIf
      
       {}LDRC.Close cmd
+
+      :If congaCopied
+          {}LDRC.Close'.'
+          LDRC.(⎕EX¨⍙naedfns)
+      :EndIf
     ∇
 
     NL←⎕UCS 13 10

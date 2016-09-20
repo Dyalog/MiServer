@@ -1,0 +1,3139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>MarkAPL</title>
+<style media="screen">
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+
+/**
+ * 1. Set default font family to sans-serif.
+ * 2. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+
+html {
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/**
+ * Remove default margin.
+ */
+
+body {
+  margin: 30px;
+}
+
+/* HTML5 display definitions
+   ========================================================================== */
+
+/**
+ * Correct `block` display not defined for any HTML5 element in IE 8/9.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11
+ * and Firefox.
+ * Correct `block` display not defined for `main` in IE 11.
+ */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+
+/**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+ */
+
+audio,
+canvas,
+progress,
+video {
+  display: inline-block; /* 1 */
+  vertical-align: baseline; /* 2 */
+}
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/**
+ * Address `[hidden]` styling not present in IE 8/9/10.
+ * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+ */
+
+[hidden],
+template {
+  display: none;
+}
+
+/* Links
+   ========================================================================== */
+
+/**
+ * Remove the gray background color from active links in IE 10.
+ */
+
+a {
+  background-color: transparent;
+}
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+
+a:active,
+a:hover {
+  outline: 0;
+}
+
+/* Text-level semantics
+   ========================================================================== */
+
+/**
+ * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+ */
+
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+/**
+ * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+ */
+
+b,
+strong {
+  font-weight: bold;
+}
+
+/**
+ * Address styling not present in Safari and Chrome.
+ */
+
+dfn {
+  font-style: italic;
+}
+
+/**
+ * Address variable `h1` font-size and margin within `section` and `article`
+ * contexts in Firefox 4+, Safari, and Chrome.
+ */
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/**
+ * Address styling not present in IE 8/9.
+ */
+
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+/* Embedded content
+   ========================================================================== */
+
+/**
+ * Remove border when inside `a` element in IE 8/9/10.
+ */
+
+img {
+  border: 0;
+}
+
+/**
+ * Correct overflow not hidden in IE 9/10/11.
+ */
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* Grouping content
+   ========================================================================== */
+
+/**
+ * Address margin not present in IE 8/9 and Safari.
+ */
+
+figure {
+  margin: 1em 40px;
+}
+
+/**
+ * Address differences between Firefox and other browsers.
+ */
+
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+/**
+ * Contain overflow in all browsers.
+ */
+
+/**
+ * Address odd `em`-unit font size rendering in all browsers.
+ */
+
+code,
+kbd,
+pre,
+samp {
+  font-family: "APL385 Unicode", monospace;
+  font-size: 1em;
+}
+
+/* Forms
+   ========================================================================== */
+
+/**
+ * Known limitation: by default, Chrome and Safari on OS X allow very limited
+ * styling of `select`, unless a `border` property is set.
+ */
+
+/**
+ * 1. Correct color not being inherited.
+ *    Known issue: affects color of disabled elements.
+ * 2. Correct font properties not being inherited.
+ * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit; /* 1 */
+  font: inherit; /* 2 */
+  margin: 0; /* 3 */
+}
+
+/**
+ * Address `overflow` set to `hidden` in IE 8/9/10/11.
+ */
+
+button {
+  overflow: visible;
+}
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+ * Correct `select` style inheritance in Firefox.
+ */
+
+button,
+select {
+  text-transform: none;
+}
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ */
+
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button; /* 2 */
+  cursor: pointer; /* 3 */
+}
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+
+/**
+ * Remove inner padding and border in Firefox 4+.
+ */
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+
+input {
+  line-height: normal;
+}
+
+/**
+ * It is recommended that you do not attempt to style these elements.
+ * Firefox does not respect box-sizing, padding, or width.
+ *
+ * 1. Address box sizing set to `content-box` in IE 8/9/10.
+ * 2. Remove excess padding in IE 8/9/10.
+ */
+
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+
+/**
+ * Fix the cursor style for increment/decrement buttons of Chrome. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari and Chrome
+ *    (include `-moz` to future-proof).
+ */
+
+input[type="search"] {
+  -webkit-appearance: textfield; /* 1 */
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box; /* 2 */
+  box-sizing: content-box;
+}
+
+/**
+ * Remove inner padding and search cancel button in Safari and Chrome on OS X.
+ * Safari (but not Chrome) clips the cancel button when the search input has
+ * padding (and `textfield` appearance).
+ */
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct `color` not being inherited in IE 8/9/10/11.
+ * 2. Remove padding so people are not caught out if they zero out fieldsets.
+ */
+
+legend {
+  border: 0; /* 1 */
+  padding: 0; /* 2 */
+}
+
+/**
+ * Remove default vertical scrollbar in IE 8/9/10/11.
+ */
+
+textarea {
+  overflow: auto;
+}
+
+/**
+ * Do not inherit the `font-weight` (applied by a rule above).
+ * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+ */
+
+optgroup {
+  font-weight: bold;
+}
+
+/* Tables
+   ========================================================================== */
+
+/**
+ * Remove most spacing between table cells.
+ */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td,
+th {
+  padding: 0;
+}
+
+/* ########################################################################## */
+
+/* MarkAPL default CSS file for screens */
+
+body  {
+    margin: 2em;
+    font-family: "Bookman Old Style", serif;
+    background-color: #fdfdfd;
+    font-size: 18px;
+    line-height: 1.4;
+    max-width: 900px;
+    padding: 15px;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #868686;
+    font-weight: 800;
+    padding-left: 0;
+    max-width: 900px;
+}
+h1, h2, h3, h4, p {  
+    margin-bottom: 16px;
+}
+h1 {
+    font-size: 32px;
+    margin: 5px 0 20px 0;
+}
+h2 {
+    font-size: 26px;
+    margin: 10px 0 10px 0;
+    padding-top: 10px;
+    border-bottom: 1px solid Silver;
+}
+h3 {
+    margin: 0;
+	 margin-top: 10px;
+    font-size: 22px;
+} 
+
+h4 {
+    font-size: 18px;
+    margin: 0;
+    margin-top: 10px;
+}
+h5, h6 {
+    font-size: 16px;
+    margin: 0;
+    margin-top: 12px;
+    padding:0;
+}
+a {
+    color: #0099ff;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+a:visited {
+    color: purple;
+}
+ul, ol {
+    padding: 0;
+    margin: 0;
+}
+li > ul, ol {
+	padding-bottom:0;
+}
+li {
+    line-height: 1.3;
+    margin-left: 1.5em;
+    margin-bottom: 10px;
+}
+li ul, li ul {
+    margin-left: 14px;
+}
+li p {
+	padding: 1px 0 0 0;	
+	margin: 10px 0 5px 0;
+	line-height: 1.3;
+}
+p, ul, ol {
+    line-height: 1.3;
+    max-width: 900px;
+    padding: 8px 8px 8px 0;
+    margin: 0;
+    color: #292929;
+}
+pre {
+	overflow: auto;
+	padding: 10px 5px;
+   margin: 10px 0 10px 0 !important;
+   max-width: 900px;
+   white-space: pre-wrap;
+	background-color: #faebd7;
+	color: #3e3e3e;
+   border: 1px Silver dashed;
+   display: block;
+   font-family: "APL385 Unicode", monospace;
+   font-weight: 400;
+}
+pre > code {
+	line-height: 1.2;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	background-color: inherit;
+	color: inherit;
+	font-weight: inherit;
+}
+nav code {
+	background-color: inherit;
+}
+code {
+	font-family: "APL385 Unicode", monospace;
+	background-color: #efefef;
+	color: Black;
+	font-weight: 800;
+	line-height: 1.2;
+	font-size: 16px;
+	margin: 0;
+	color: #950000;
+	padding: 0 3px;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+
+th, td {
+  padding: 3px 5px;
+}
+
+table {
+  border-color: Black;
+  background-color: #ebebeb;
+  margin: 20px 20px;
+  border: 2px black;
+  border-collapse: collapse;
+  font-family: "APL385 Unicode";
+  font-size:16px;
+  line-height: 1.2;
+  border: 1pt solid Gray;
+}
+
+tr	{
+	margin: 20px;
+}
+
+blockquote {
+	border-left: 5px solid silver;
+	padding-left: 5px;
+}
+
+nav {
+	background-color: #f5f5f5;
+	border: 1px solid Black;
+	min-width: 240px;	
+	max-width: 300px;
+	float: right;
+	padding: 10px 10px 10px 0;
+	margin: 10px;
+	margin-right:0;
+	box-shadow: 5px 5px 5px Gray; 
+}
+nav ul  {
+	list-style-type: none; 
+	margin: 0 0 2px 0;
+	padding: 0;
+}
+nav a:visited { 
+	color: #0099ff;
+}
+nav ul li {
+	margin-bottom: 0px;
+}
+nav > p, nav > a> p {
+	text-align: center;
+	font-weight: 800;
+	
+}
+nav li p a {
+	font-weight: 100;
+}
+nav li p {
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+	margin: 0;
+	padding: 0;
+}
+nav li {
+	font-size: 12px;
+	line-height: 1.2;
+	padding: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: 15px;
+}
+
+dt {
+	font-weight: 800;
+}
+</style>
+<style media="print">
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+
+/**
+ * 1. Set default font family to sans-serif.
+ * 2. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+
+html {
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/**
+ * Remove default margin.
+ */
+
+body {
+  margin: 0;
+  -webkit-print-color-adjust:exact;
+}
+
+/* HTML5 display definitions
+   ========================================================================== */
+
+/**
+ * Correct `block` display not defined for any HTML5 element in IE 8/9.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11
+ * and Firefox.
+ * Correct `block` display not defined for `main` in IE 11.
+ */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+
+/**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+ */
+
+audio,
+canvas,
+progress,
+video {
+  display: inline-block; /* 1 */
+  vertical-align: baseline; /* 2 */
+}
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/**
+ * Address `[hidden]` styling not present in IE 8/9/10.
+ * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+ */
+
+[hidden],
+template {
+  display: none;
+}
+
+/* Links
+   ========================================================================== */
+
+/**
+ * Remove the gray background color from active links in IE 10.
+ */
+
+a {
+  background-color: transparent;
+}
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+a {
+	color: black !important;
+	text-decoration: none;
+}
+a:active,
+a:hover {
+  color: black;
+  outline: 0;
+}
+
+/* Text-level semantics
+   ========================================================================== */
+
+/**
+ * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+ */
+
+/**
+ * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+ */
+
+b,
+strong {
+  font-weight: bold;
+}
+
+/**
+ * Address styling not present in Safari and Chrome.
+ */
+
+dfn {
+  font-style: italic;
+}
+
+/**
+ * Address variable `h1` font-size and margin within `section` and `article`
+ * contexts in Firefox 4+, Safari, and Chrome.
+ */
+
+h1 {
+  margin: 0.67em 0;
+}
+
+/**
+ * Address styling not present in IE 8/9.
+ */
+
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+/* Embedded content
+   ========================================================================== */
+
+/**
+ * Remove border when inside `a` element in IE 8/9/10.
+ */
+
+img {
+  border: 0;
+}
+
+/**
+ * Correct overflow not hidden in IE 9/10/11.
+ */
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* Grouping content
+   ========================================================================== */
+
+/**
+ * Address margin not present in IE 8/9 and Safari.
+ */
+
+figure {
+  margin: 1em 40pt;
+}
+
+/**
+ * Address differences between Firefox and other browsers.
+ */
+
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+/**
+ * Contain overflow in all browsers.
+ */
+
+/**
+ * Address odd `em`-unit font size rendering in all browsers.
+ */
+
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+/* Forms
+   ========================================================================== */
+
+/**
+ * Known limitation: by default, Chrome and Safari on OS X allow very limited
+ * styling of `select`, unless a `border` property is set.
+ */
+
+/**
+ * 1. Correct color not being inherited.
+ *    Known issue: affects color of disabled elements.
+ * 2. Correct font properties not being inherited.
+ * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit; /* 1 */
+  font: inherit; /* 2 */
+  margin: 0; /* 3 */
+}
+
+/**
+ * Address `overflow` set to `hidden` in IE 8/9/10/11.
+ */
+
+button {
+  overflow: visible;
+}
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+ * Correct `select` style inheritance in Firefox.
+ */
+
+button,
+select {
+  text-transform: none;
+}
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ */
+
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button; /* 2 */
+  cursor: pointer; /* 3 */
+}
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+
+/**
+ * Remove inner padding and border in Firefox 4+.
+ */
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+
+input {
+  line-height: normal;
+}
+
+/**
+ * It is recommended that you do not attempt to style these elements.
+ * Firefox does not respect box-sizing, padding, or width.
+ *
+ * 1. Address box sizing set to `content-box` in IE 8/9/10.
+ * 2. Remove excess padding in IE 8/9/10.
+ */
+
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+
+/**
+ * Fix the cursor style for increment/decrement buttons of Chrome. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari and Chrome
+ *    (include `-moz` to future-proof).
+ */
+
+input[type="search"] {
+  -webkit-appearance: textfield; /* 1 */
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box; /* 2 */
+  box-sizing: content-box;
+}
+
+/**
+ * Remove inner padding and search cancel button in Safari and Chrome on OS X.
+ * Safari (but not Chrome) clips the cancel button when the search input has
+ * padding (and `textfield` appearance).
+ */
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+
+fieldset {
+  border: 1pt solid #c0c0c0;
+  margin: 0 2pt;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct `color` not being inherited in IE 8/9/10/11.
+ * 2. Remove padding so people are not caught out if they zero out fieldsets.
+ */
+
+legend {
+  border: 0; /* 1 */
+  padding: 0; /* 2 */
+}
+
+/**
+ * Remove default vertical scrollbar in IE 8/9/10/11.
+ */
+
+textarea {
+  overflow: auto;
+}
+
+/**
+ * Do not inherit the `font-weight` (applied by a rule above).
+ * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+ */
+
+optgroup {
+  font-weight: bold;
+}
+
+/* Tables
+   ========================================================================== */
+
+/**
+ * Remove most spacing between table cells.
+ */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0px;
+}
+
+td,
+th {
+  padding: 0;
+}
+
+/* ########################################################################## */
+
+/* MarkAPL default CSS file for screens */
+
+body  {
+    margin: 2em;
+    font-family: "Bookman Old Style", serif;
+    background-color: #fdfdfd;
+    font-size: 9pt;
+    line-height: 1.2;
+    max-width: 900pt;
+    padding: 15pt;
+}
+h1, h2, h3, h4 h5 h6 {
+    color: black;
+    font-weight: 800;
+    padding-left: 0;
+    max-width: 900pt;
+    margin: 5pt 0 0 0;
+    padding:0
+    }
+}
+h1, h2, h3, h4, p {  
+    margin-bottom: 5pt;
+}
+h1 {
+    font-size: 150%;
+    margin-top: 5pt;
+}
+h2 {
+    font-size: 135%;
+    margin: 5pt;
+    border-bottom: 1pt solid Silver;
+}
+h3 {
+    font-size: 125%;
+}
+
+h3, h4 > pre {
+	margin-bottom: 8pt;	
+}
+h4 {
+    font-size: 115%;
+}
+h5 {
+    font-size: 105%;
+}
+h5 {
+    font-size: 100%;
+}
+a {
+    color: #0099ff;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+ul, ol {
+    padding: 0;
+    margin: 0;
+}
+li {
+    margin-left: 20pt;
+    margin-top: 5px;
+}
+li ul, li ul {
+    margin-left: 10pt;
+}
+li p {
+	padding: 1pt 0 0 0;	
+}
+p, ul, ol {
+    line-height: 1.3;
+    max-width: 900pt;
+    padding: 2pt 2pt 2pt 0;
+    margin: 0;
+    color: #292929;
+}
+pre {
+    padding: 3pt;
+    margin: 5px 0;
+    max-width: 900pt;
+    white-space: pre-wrap;
+	background-color: #f8f8f8;
+    border: 1pt Silver solid;
+    display: block;
+    font-family: "APL385 Unicode", monospace;
+    font-weight: 800;
+    overflow: auto;
+}
+pre code {
+	 background-color: #f0f0f0;
+	 color: Black;
+	 padding: 0;
+	 margin: 0 0 -6pt 0;
+	 line-height: 1.1;
+	 border: 0;
+}
+code {
+	font-family: "APL385 Unicode", monospace;
+	font-weight: 800;
+	line-height: 1.2;
+	font-size: 8pt;
+	color: #950000;
+	padding:2pt 1pt;
+}
+tbody tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+
+th, td {
+  padding: 3pt 5pt;
+}
+
+table {
+  background-color: #f1f1f1;
+  margin: 20pt;
+  font-family: "APL385 Unicode";
+  font-size: 8pt;
+  padding: 3pt 5pt;
+  border: 1pt solid silver;
+  page-break-inside:avoid;
+}
+
+tr	{
+	margin: 20pt;
+}
+
+blockquote {
+	border-left: 5pt solid silver;
+	padding-left: 5px;
+}
+
+nav {
+	background-color: #f8f8f8;
+	border: 1pt solid silver;
+	min-width: 120pt;	
+	max-width: 180pt;	
+	float: right;
+	padding: 5pt 5pt 5pt 0;
+	margin: 5pt 0 5pt 5pt;
+	box-shadow: 5px 5px 5px Silver; 
+}
+nav ul  {
+	list-style-type: none; 
+	margin: 0 0 2pt 0;
+	padding: 0;
+}
+nav a:visited { 
+	color: Black;
+}
+nav ul li {
+	margin-bottom: 0pt;
+	padding:0;
+}
+nav * {
+	font-size: 6pt;
+	line-height: 1.2;	
+}
+nav > p {
+	font-size: 7pt;
+	font-weight: 600;
+	text-align: center;
+	padding-bottom: 10pt;
+}
+nav > p, nav > a > p {
+	text-align: center;
+	font-weight: 800;
+	
+}
+nav li p a {
+	font-weight: 100;
+	color: Black;
+}
+nav li p {
+	margin: 0;
+	padding: 0;
+	margin: 0;
+	padding: 0;
+}
+nav li {
+	font-size: 7px;
+	line-height: 1.2;
+	padding: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: 8pt;
+}
+
+dt {
+	font-weight: 800;
+}
+</style>
+</head>
+<body>
+<a id="markapl" class="autoheaderlink">
+<h1>MarkAPL</h1>
+<nav>
+<p>Table of contents</p>
+<ul>
+<ul>
+<li><a href="#overview">1. Overview</a>
+<ul>
+<li><a href="#what-is-markdown">1.1. What is Markdown?</a>
+<li><a href="#is-there-a-markdown-standard">1.2. Is there a Markdown standard?</a>
+<li><a href="#what-is-markapl">1.3. What is MarkAPL?</a>
+<li><a href="#markapl-markdown-markdown-extra-and-commonmark">1.4. MarkAPL, Markdown, Markdown Extra and CommonMark</a>
+<li><a href="#preconditions">1.5. Preconditions</a>
+</ul>
+<li><a href="#compatibility-features-bugs">2. Compatibility, features, bugs</a>
+<ul>
+<li><a href="#standard-compliance">2.1. Standard compliance</a>
+<ul>
+<li><a href="#intentional-differences">2.1.1. Intentional differences</a>
+<li><a href="#not-implemented">2.1.2. Not implemented</a>
+</ul>
+<li><a href="#enhancements">2.2. Enhancements</a>
+<li><a href="#known-bugs">2.3. Known bugs</a>
+</ul>
+<li><a href="#reference">3. Reference</a>
+<ul>
+<li><a href="#mark-up">3.1. Mark-up</a>
+<ul>
+<li><a href="#overview-1">3.1.1. Overview</a>
+<li><a href="#comments">3.1.2. Comments</a>
+<li><a href="#abbreviations">3.1.3. <abbr title="Text is marked up with the &lt;abbr&gt; tag">Abbreviations</abbr></a>
+<li><a href="#blockquotes">3.1.4. Blockquotes</a>
+<li><a href="#code-blocks">3.1.5. Code blocks</a>
+<li><a href="#definition-lists">3.1.6. Definition lists</a>
+<li><a href="#footnotes">3.1.7. Footnotes</a>
+<li><a href="#headers">3.1.8. Headers</a>
+<li><a href="#html-blocks">3.1.9. HTML blocks</a>
+<li><a href="#horizontal-rulers">3.1.10. Horizontal rulers</a>
+<li><a href="#images">3.1.11. Images</a>
+<li><a href="#in-line-mark-up">3.1.12. In-line mark up</a>
+<li><a href="#links">3.1.13. Links</a>
+<li><a href="#lists">3.1.14. Lists</a>
+<li><a href="#paragraphs">3.1.15. Paragraphs</a>
+<li><a href="#tables">3.1.16. Tables</a>
+</ul>
+<li><a href="#misc">3.2. Misc</a>
+<ul>
+<li><a href="#function-calls">3.2.1. Function calls</a>
+<li><a href="#special-attributes">3.2.2. Special attributes</a>
+<li><a href="#data">3.2.3. Data</a>
+<li><a href="#sub-topics">3.2.4. Sub topics</a>
+</ul>
+<li><a href="#methods">3.3. Methods</a>
+<ul>
+<li><a href="#createparms">3.3.1. CreateParms</a>
+<li><a href="#createhelpparms">3.3.2. CreateHelpParms</a>
+<li><a href="#execute">3.3.3. Execute</a>
+<li><a href="#help">3.3.4. Help</a>
+<li><a href="#init">3.3.5. Init</a>
+<li><a href="#makehtml_doc">3.3.6. MakeHTML_Doc</a>
+<li><a href="#markdown2html">3.3.7. MarkDown2HTML</a>
+<li><a href="#process">3.3.8. Process</a>
+<li><a href="#version">3.3.9. Version</a>
+</ul>
+<li><a href="#parameters">3.4. Parameters</a>
+<ul>
+<li><a href="#overview-3">3.4.1. Overview</a>
+<li><a href="#the-parameters-in-detail">3.4.2. The parameters in detail</a>
+</ul>
+<li><a href="#the-ns-namespace">3.5. The "ns" namespace.</a>
+<ul>
+<li><a href="#overview-4">3.5.1. Overview</a>
+<li><a href="#the-ns-namespace-in-detail">3.5.2. The "ns" namespace in detail</a>
+</ul>
+<li><a href="#how-to">4. How to</a>
+<li><a href="#problems">5. Problems</a>
+<ul>
+<li><a href="#crashes">5.1. Crashes</a>
+<li><a href="#bugs">5.2. Bugs</a>
+<li><a href="#unexpected-results">5.3. Unexpected results</a>
+</ul>
+</ul>
+</ul>
+</ul>
+</nav>
+</a>
+<a id="overview" class="autoheaderlink">
+<h2>1. Overview</h2>
+</a>
+<a id="what-is-markdown" class="autoheaderlink">
+<h3>1.1. What is Markdown?</h3>
+</a>
+<p>Markdown &mdash; which is much better readable and therefore much better maintainable than HTML &mdash; can be transformed into HTML.</p>
+<p>Because of its advantages over HTML and because the rules are easy to learn, Markdown became ubiquitous: many of the big names are using it now. Examples are StackFlow, Git, SourceForge and Trello. Wiki engines have also started to adopt the concept.</p>
+<a id="is-there-a-markdown-standard" class="autoheaderlink">
+<h3>1.2. Is there a Markdown standard?</h3>
+</a>
+<p>Yes and no. The original implementation by John Gruber had no specification at all, just a Perl script and test cases. Unfortunately it was also quite buggy. Gruber has not put work into developing his brain child. Some consider the original Markdown therefore abandonware[<a id="fnref1" href="#fn1" class="footnoteRef"><sup>1</sup></a>].</p>
+<p>Because of the bugs, some ambiguities and the lack of much needed features several flavours of an enhanced Markdown evolved, the most important ones being <a href="https://help.github.com/articles/working-with-advanced-formatting/">Git-flavoured Markdown</a>, <a href="https://www.wikiwand.com/en/Markdown_Extra">Markdown Extra</a> and <a href="http://pandoc.org/README.html">PanDoc's Markdown</a>.</p>
+<a id="what-is-markapl" class="autoheaderlink">
+<h3>1.3. What is MarkAPL?</h3>
+</a>
+<p><strong><em>MarkAPL</em></strong> is an APL program that converts (extended) Markdown into valid HTML5.</p>
+<a id="markapl-markdown-markdown-extra-and-commonmark" class="autoheaderlink">
+<h3>1.4. MarkAPL, Markdown, Markdown Extra and CommonMark</h3>
+</a>
+<p>CommonMark [<a id="fnref2" href="#fn2" class="footnoteRef"><sup>2</sup></a>] is an attempt to establish a standard for Markdown.</p>
+<p><strong><em>MarkAPL</em></strong> aims to implement the original Markdown specification with very few exceptions. It also aims to implement most &mdash; but not all &mdash; of the Markdown Extra enhancements. Finally it also aims to follow the CommonMark specification as far as it seems to be reasonable.</p>
+<p>In addition <strong><em>MarkAPL</em></strong> offers several enhancements that might be particularly useful to APLers and don't hurt otherwise. However, if compatibility is paramount then you must not use them.</p>
+<p>For example, any lines that start with an APL lamp symbol (<code>⍝</code>) &mdash; except in a code block of course &mdash; are considered comment lines which won't contribute to the output at all.</p>
+<p>For a full list see the next chapter.</p>
+<a id="preconditions" class="autoheaderlink">
+<h3>1.5. Preconditions</h3>
+</a>
+<p><strong><em>MarkAPL</em></strong> needs Dyalog APL version 14.0 or better.</p>
+<a id="compatibility-features-bugs" class="autoheaderlink">
+<h2>2. Compatibility, features, bugs</h2>
+</a>
+<a id="standard-compliance" class="autoheaderlink">
+<h3>2.1. Standard compliance</h3>
+</a>
+<a id="intentional-differences" class="autoheaderlink">
+<h4>2.1.1. Intentional differences</h4>
+</a>
+<ul>
+<li>Code blocks are identified as such <strong>just by fencing</strong>. Any lines indented by 4 characters <strong>do not</strong> define a code block in <strong><em>MarkAPL</em></strong>.
+<li>In front of the fencing characters there might be zero or up to three white space character.
+<li>HTML blocks that must end with an end tag should <strong>not have</strong> anything after the end tag on that very line: it would be ignored.
+<li>Although <code>\</code> is used as the escape character, and although <code>\\</code> results correctly in a single  backslash character, multiple backslashes as in <code>\\\</code> are not supported and must not be used.
+<p>  However, note that <code>\</code> at the end of a line in a paragraph inserts a page break - see <a href="#line-breaks">Line breaks</a> for details.</p>
+<li>For defining any attributes a pair of double quotes must be used. Single quotes have no effect. (This contradicts the original Markdown documentation but due to a bug it does not work with the original Markdown implementation either)
+<li><strong><em>MarkAPL</em></strong> does not have the concept of &ldquo;loose list items&rdquo;. In CommonMark, the contents of any list item that is followed by a blank line is called a &ldquo;loose&rdquo; list item and wrapped into an additional <code>&lt;p&gt;</code> tag.
+<p>  This is of little value and complicates matters enormously. Therefore <strong><em>MarkAPL</em></strong> simply ignores empty lines between list items.</p>
+<p>  You can still get a <code>&lt;p&gt;</code> tag around something that actually belongs to the list item but only after the initial text. This is called a sub-paragraph. See <a href="#lists">Lists</a> for details.</p>
+<li>According to the Markdown specification a list item following a paragraph must be separated from the paragraph by a blank line. The reason for this rule is probably that in very rare circumstances one might start a list accidentally.
+<p>  Experience shows however that users are way more likely to wonder why a list they intended to start straight after the end of a paragraph doesn't. For that reason <strong><em>MarkAPL</em></strong> does <strong>not</strong> require a blank line between the end of a paragraph and the first list item of a list.</p>
+<li>According to the original Markdown standard two spaces at the end of a line are converted into a line break by replacing the two blanks by <code>&lt;br /&gt;</code>. This was actually implemented in version 1.0 of <strong><em>MarkAPL</em></strong>.
+<p>  However, people reported a bug about unintentional line breaks which were accidentally caused by adding two spaces at the end of a paragraph or a list item. Therefore with version 1.3 this ill-designed feature was removed from <strong><em>MarkAPL</em></strong>.</p>
+<p>  Note that there are other &mdash; and better &mdash; ways to achieve the same goal: see <a href="#line-breaks">Line breaks</a> for details.</p>
+</ul>
+<a id="not-implemented" class="autoheaderlink">
+<h4>2.1.2. Not implemented</h4>
+</a>
+<ul>
+<li>Markdown in-line mark-up inside an HTML block is ignored. This restriction might be lifted depending on demand.
+<li>All types of HTML blocks but one can, according to the CommonMark specification, interrupt a paragraph. There are no plans to implement this.
+<li>According to the CommonMark specification a tag like <code>&lt;div&gt;</code> can have a line break in between and will still be recognized as a tag. Not only seems this to have very little value, it decreases readability. Therefore this is not implemented in <strong><em>MarkAPL</em></strong>.
+<li>A list item can contain paragraphs, code blocks and sub-lists but nothing else.
+</ul>
+<a id="enhancements" class="autoheaderlink">
+<h3>2.2. Enhancements</h3>
+</a>
+<ul>
+<li>For every header an anchor is created automatically by default. See <a href="#headers-and-bookmarks">Headers and bookmarks</a> for details.
+<li>Bookmark links have a special simplified syntax; see <a href="#internal-links">Internal links (bookmarks)</a> for details.
+<li><strong><em>MarkAPL</em></strong> can optionally insert a table of contents from the headers into a document. See <a href="#toc">toc (table of contents)</a> for details.
+<li>With <code>&lt;&lt;SubTOC&gt;&gt;</code> one can insert sub-tables of contents anywhere in the document. See <a href="#sub-topics">Sub topics</a> for details.
+<li>Headers can be numbered. By setting <code>numberHeaders</code> (which defaults to 0) to 1 one can force <strong><em>MarkAPL</em></strong> to number all or some headers. See <a href="#numberheaders">numberHeaders</a> for details.
+<p>  This was implemented because numbering with CSS does not really work yet.</p>
+<li>Calling APL functions: something like <code>⍎⍎FnsName⍎⍎</code> calls an APL method <code>FnsName</code> which gets the <code>ns</code> namespace as right argument. See &ldquo;<a href="#function-calls">Function calls</a>&rdquo; for details.
+<li>Typographical sugar. This can be switched off by setting <code>markdownStrict</code> to 1; for details see <a href="#markdownstrict">markdownStrict</a>.
+<ul>
+<li>Pairs of double-quotes (<code>"</code>) are exchanged against their typographically correct equivalents &ldquo;like here&rdquo;.
+<p>      Note that this means that mentioning a single double-quote requires it to be put between back-ticks or escaped with a <code>\</code> character when there are also pairs of double-quotes in the same paragraph, cell, list item, blockquote or header, because otherwise <strong><em>MarkAPL</em></strong> has no idea what to do with it.</p>
+<p>A single double quote (") however is simply shown as is.</p>
+<li>Three dots (<code>...</code>) are exchanged against an ellipses: &hellip;
+<li>Three hyphens (<code>---</code>) are exchanged against &mdash;.
+<li>Two hyphens (<code>--</code>) are exchanged against &ndash;.
+<li><code>(c)</code> is exchanged against ©.
+<li><code>(tm)</code> is exchanged against ™.
+</ul>
+<li>Assigning ID names, class names and attributes to certain elements as in:<br/> <code>{#foo .my_class .another_class style="display:none;" target="_blank"}</code><br/> is implemented for most but not all elements. This idea was taken from Markdown Extra.
+<p>See <a href="#special-attributes">Special attributes</a> for details.     In this document the horizontal ruler that separates the footnotes from the remaining document is styled with special attributes.</p>
+<li><a href="#abbreviations"><abbr title="Text is marked up with the &lt;abbr&gt; tag">Abbreviations</abbr></a>. This was introduced by Markdown Extra.
+<li>A <code>&lt;br/&gt;</code> tag can be inserted into paragraphs, lists and table cells with <code>&lt;&lt;br&gt;&gt;</code>.
+<li>Comments: any line that starts with a <code>⍝</code> (the APL symbol used to indicate a comment) and is <strong>not</strong> situated within a code block will be ignored, no matter what else is found on that line.
+<pre><code>⍝ This demonstrates a comment. Useful to leave stuff in a Markdown file 
+⍝ but prevent it from making it into any resulting HTML document.</code></pre>
+<li>Defining data: any line that starts with <code>[data]:</code> defines a key-value pair of data. See <a href="#data">Data</a>  for details. This has all sorts of applications; for example, this can be used to specify meta tags (name, content).
+</ul>
+<a id="known-bugs" class="autoheaderlink">
+<h3>2.3. Known bugs</h3>
+</a>
+<p>See <a href="http://aplwiki.com/MarkAPL/ProjectPage">http://aplwiki.com/MarkAPL/ProjectPage</a></p>
+<a id="reference" class="autoheaderlink">
+<h2>3. Reference</h2>
+</a>
+<a id="mark-up" class="autoheaderlink">
+<h3>3.1. Mark-up</h3>
+</a>
+<a id="overview-1" class="autoheaderlink">
+<h4>3.1.1. Overview</h4>
+</a>
+<p>The following table categorizes the different mark-ups into &ldquo;Standard&rdquo;, &ldquo;Extra&rdquo;, &ldquo;Pandoc&rdquo; and &ldquo;MarkAPL&rdquo;. A single line might carry more than on X in case it got enhanced.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"> Name                        </th>
+<th style="text-align: center;"> Standard  </th>
+<th style="text-align: center;"> Extra   </th>
+<th style="text-align: center;"> Pandoc    </th>
+<th style="text-align: center;"> MarkAPL </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><abbr title="Text is marked up with the &lt;abbr&gt; tag">Abbreviations</abbr></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Automated links</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Blockquotes</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Calling functions</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Code blocks (indented)</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Code blocks (fenced)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Definition lists</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Footnotes</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Headers</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">HTML blocks</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">HR</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Images</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Inline markup</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Line breaks (two spaces)</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Line breaks    (<code>\</code>)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Line breaks (<code>&lt;&lt;br&gt;&gt;</code>)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Links</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Link references</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Lists</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Loose/tight lists</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Markdown inside HTML</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Paragraphs</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Tables</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Table of contents (TOC)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sub TOC</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Smart typography</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td style="text-align: left;">Special attributes</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+</tbody>
+</table>
+<p>Note that &ldquo;Code blocks (indented)&rdquo; don't carry an X in the &ldquo;MarkAPL&rdquo; column because marking up a code block by indenting is deliberately not implemented in <strong><em>MarkAPL</em></strong>.</p>
+<p>The implementation of <a href="#definition-lists">Definition lists</a> comes with some restrictions; see there.</p>
+<a id="comments" class="autoheaderlink">
+<h4>3.1.2. Comments</h4>
+</a>
+<p>Any line that starts with an APL lamp symbol (<code>⍝</code>) is ignored. That means that the line won't make it into the resulting HTML at all.</p>
+<p>This is true for any line that is not part of a code block, including lines that are part of a paragraph.</p>
+<p>Example:</p>
+<pre><code>Start of a para that contains
+⍝ Ignored
+a commented line.</code></pre>
+<p>This is the result:</p>
+<p>Start of a para that contains a commented line.</p>
+<a id="abbreviations" class="autoheaderlink">
+<h4>3.1.3. <abbr title="Text is marked up with the &lt;abbr&gt; tag">Abbreviations</abbr></h4>
+</a>
+<p><abbr title="Text is marked up with the &lt;abbr&gt; tag">Abbreviations</abbr> can be defined anywhere in the document. This is the syntax:</p>
+<pre><code>*[HTML] Hyper Text Markup Language</code></pre>
+<p>All occurrences of &ldquo;HTML&rdquo; within the Markdown document &mdash; except those marked as code &mdash; are then marked up like this:</p>
+<p><code>&lt;abbr title="Hyper Text Markup Language"&gt;HTML&lt;/abbr&gt;</code></p>
+<p>Therefore this:</p>
+<pre><code>*[Abbreviations]: Text is marked up with the &lt;abbr&gt; tag</code></pre>
+<p>should show the string &ldquo;Text is marked up with the &lt;abbr&gt; tag&rdquo; when you hover over the word &ldquo;<abbr title="Text is marked up with the &lt;abbr&gt; tag">Abbreviations</abbr>&rdquo;.</p>
+<p>Notes:</p>
+<ul>
+<li>You may have more than just one word between the <code>[</code> and the <code>]</code> bracket. However, any leading and trailing blanks will be removed.
+<li>Any leading and trailing blanks regarding the comment will be removed.
+<li>What is within the square brackets is case sensitive.
+<li>You may use any Unicode characters belonging to the Unicode &ldquo;letter&rdquo; category plus <code>+-_= /&amp;</code> (plus, minus, underscore, equal, space, slash and ampersand).
+</ul>
+<a id="blockquotes" class="autoheaderlink">
+<h4>3.1.4. Blockquotes</h4>
+</a>
+<p>Markdown &mdash; and therefore <strong><em>MarkAPL</em></strong> &mdash; uses the <code>&gt;</code> characters for block quoting. If you’re familiar with quoting passages of text in an email message then you know how to create a block quote in Markdown. It looks best if you hard wrap the text and put a <code>&gt;</code> before every line:</p>
+<pre><code>&gt; This is a blockquote with one paragraph. Lorem ipsum dolor sit amet,
+&gt; consec tetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
+&gt; Vestibulum enim wisi, _viverra_ nec, fringilla **in** risus.
+&gt; 
+&gt; Donec sit amet nisl. Aliquam `(+/⍵)÷⍴,⍵` semper ipsum sit amet velit. Suspendisse
+&gt; id sem consectetuer libero luctus adipiscing.
+&gt; 
+&gt; &gt; Donec sit amet nisl. Aliquam `(+/⍵)÷⍴,⍵` semper ipsum sit amet velit. Suspendisse
+&gt; id sem consectetuer libero luctus adipiscing.</code></pre>
+<p>This is the result:</p>
+<blockquote>
+<p>This is a blockquote with one paragraph. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla <strong>in</strong> risus.</p>
+<p>Donec sit amet nisl. Aliquam <code>(+/⍵)÷⍴,⍵</code> semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.</p>
+<blockquote>
+<p>Donec sit amet nisl. Aliquam <code>(+/⍵)÷⍴,⍵</code> semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.</p>
+</blockquote>
+</blockquote>
+<p>However, <strong><em>MarkAPL</em></strong> allows you to be lazy and only put the &gt; before the first line of a paragraph:</p>
+<pre><code>&gt; This is a **lazy** blockquote with two paragraphs. Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
+Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
+
+&gt; Second para.</code></pre>
+<p>This is the result:</p>
+<blockquote>
+<p>This is a <strong>lazy</strong> blockquote with two paragraphs. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla <strong>in</strong>.</p>
+</blockquote>
+<blockquote>
+<p>Second para.</p>
+</blockquote>
+<p>Note that blockquotes are not restricted in any respect: they may contain paragraphs, tables, lists, headers and blockquotes. However, headers are not numbered and do not have anchors attached, and any <code>&lt;&lt;SubTOC&gt;&gt;</code> directives are removed from a blockquote.</p>
+<a id="code-blocks" class="autoheaderlink">
+<h4>3.1.5. Code blocks</h4>
+</a>
+<p>According to the original Markdown specification any lines indented by 4 characters were considered a code block. Apart from not being particularly readable this caused problems with nested lists and code blocks within lists. Therefore later a convention called &ldquo;fencing&rdquo; was introduced.</p>
+<p><strong><em>MarkAPL</em></strong> goes a step further: to avoid confusion indenting is <strong>not</strong> supported for marking up code blocks.</p>
+<p>Code blocks can be marked up in two different ways:</p>
+<a id="fencing" class="autoheaderlink">
+<h5>3.1.5.1. Fencing</h5>
+</a>
+<p>You can use the &ldquo;Git&rdquo; style with three &mdash; or more &mdash; back-ticks as shown here:</p>
+<pre><code>```
+This is a block ...
+of code!
+```</code></pre>
+<p>You can use the Markdown Extra specification with three &mdash; or more &mdash; tildes:</p>
+<pre><code>~~~
+This is a another block ...
+of code!
+~~~</code></pre>
+<p>You don't have to have empty lines around fenced code blocks but you might find that such lines help to improve readability.</p>
+<p>Notes:</p>
+<ul>
+<li>The fencing lines may have up to three leading white space characters. These will just be ignored.
+<p>Note that this rule does <strong>not</strong> apply when a code block is part of a list item since the number of spaces is then used to   determine the level of nesting.</p>
+<li>Code blocks may also have <a href="#special-attributes">Special attributes</a>; see there for details.
+</ul>
+<a id="code-the--tag" class="autoheaderlink">
+<h5>3.1.5.2. Code: the <code>&lt;pre&gt;</code> tag</h5>
+</a>
+<p>You can also mark a block of text with the HTML <code>&lt;pre&gt;</code> tag. For example, this can be useful in order to show the fencing characters as part of the code.</p>
+<p>If you must assign an ID or a class or any styling stuff to the <code>&lt;pre&gt;</code> tag of a code block you must do this:</p>
+<pre><code>&lt;pre id="foo" class="my"&gt;
+...
+&lt;/pre&gt;</code></pre>
+<p>There is no other way since assigning a <a href="#special-attributes">special attribute</a> to a fenced block as shown here:</p>
+<pre><code>~~~ {#foo}
+...
+~~~</code></pre>
+<p>does assign the attributes not to the <code>&lt;pre&gt;</code> tag but to the inner <code>&lt;code&gt;</code> element:</p>
+<pre><code>&lt;pre&gt;&lt;code id="foo"&gt;
+...
+&lt;/code&gt;&lt;/pre&gt;</code></pre>
+<p>Notes:</p>
+<ul>
+<li><strong><em>MarkAPL</em></strong> requires a <code>&lt;code&gt;</code> tag within any <code>&lt;pre&gt;</code> tag. Even if you do not specify the <code>&lt;code&gt;</code> tag <strong><em>MarkAPL</em></strong> will insert it for you anyway.
+<li>Assigning an ID or a class to a <code>&lt;pre&gt;</code> tag might not have the intended effect because the default CSS styles the code block via the <code>&lt;code&gt;</code>, not the <code>&lt;pre&gt;</code> tag.
+<li><strong><em>MarkAPL</em></strong> will remove any line breaks between <code>&lt;pre&gt;&lt;code&gt;</code> and the first line of your code block and also between <code>&lt;/code&gt;&lt;/pre&gt;</code> and the last line of your code block. If you need an initial (empty) line or an empty line as the last one you must add it as shown here:
+</ul>
+<pre><code>&lt;pre&gt;&lt;code&gt;
+
+Second line
+Last but one line
+
+&lt;/code&gt;&lt;/pre&gt;</code></pre>
+<a id="definition-lists" class="autoheaderlink">
+<h4>3.1.6. Definition lists</h4>
+</a>
+<p>Definition lists are made of terms and definitions of these terms, much like in a dictionary. If there is a blank line between the term and the definition then the definition is enclosed between a &lt;p&gt; tag. However, if there are sub-definitions (see below) then all definitions are enclosed between &lt;p&gt; tags.</p>
+<p>A definition can span more than one paragraph, but they must be indented by as many spaces as there are in front of the &ldquo;:&rdquo; (maximum of three) plus two for the colon itself and the following space to be recognized as being a definition. Such sub-definitions are always enclosed between &lt;p&gt; tags.</p>
+<p>Definition lists break at two consecutive empty lines or anything that is neither a term and not indented according to the rules that define a definition. Having the two empty lines in place to break a definition list is recommended because it's faster.</p>
+<p>Between the left margin and the colon there may be up to 3 spaces. After the colon there must be exactly one space.</p>
+<p>Simple example:</p>
+<pre><code>Term
+: The definition</code></pre>
+<p>This is the result:</p>
+<dl>
+<dt>Term</dt>
+<dd>The definition</dd>
+</dl>
+<p>The resulting HTML:</p>
+<pre><code>&lt;dl&gt;
+&lt;dt&gt;Term&lt;/dt&gt;
+&lt;dd&gt;The definition&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+<p>No &lt;p&gt; tags here because there is no blank line between the term and its definition.</p>
+<p>More complex example:</p>
+<pre><code>Term 1
+
+   : The definition
+
+   : More information
+     that spans over
+     three lines
+
+Term 2
+    : Another definition
+
+    : Additional information</code></pre>
+<p>This is the result:</p>
+<dl>
+<dt>Term 1</dt>
+<dd><p>The definition</p></dd>
+<dd><p>More information that spans over three lines</p></dd>
+<dt>Term 2</dt>
+<dd><p>Another definition</p></dd>
+<dd><p>Additional information</p></dd>
+</dl>
+<p>The resulting HTML:</p>
+<pre><code>&lt;dl&gt;
+&lt;dt&gt;Term 1&lt;/dt&gt;
+&lt;dd&gt;&lt;p&gt;The definition&lt;/p&gt;&lt;/dd&gt;
+&lt;dd&gt;&lt;p&gt;More information that spans over three lines&lt;/p&gt;&lt;/dd&gt;
+&lt;dt&gt;Term 2&lt;/dt&gt;
+&lt;dd&gt;Another definition&lt;/dd&gt;
+&lt;dd&gt;&lt;p&gt;Additional information&lt;/p&gt;&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+<p>Restrictions:</p>
+<ul>
+<li>A term must be exactly one line.
+<li>A definition may not contain anything but paragraphs.
+</ul>
+<a id="footnotes" class="autoheaderlink">
+<h4>3.1.7. Footnotes</h4>
+</a>
+<p>Footnotes can be created by <code>[^1]</code> or <code>[^foo]</code>. The footnote <code>1</code> and <code>foo</code> can be defined anywhere in the document. Footnotes cannot contain anything but paragraphs: no code blocks, lists, blockquotes or tables. In-line mark-up is of course available.</p>
+<p>The format of the definition <code>[^footnote]</code>:</p>
+<pre><code>[^single]: The definition of a single-line footnote.
+
+[^footnote]: A multi-line definition.
+  As long as the following paras are indented by two spaces they are considered part of the footnote.
+  
+  Even empty lines don't interrupt the definition, although two do. In-line formatting **is** of course supported. </code></pre>
+<p>Notes:</p>
+<ul>
+<li>Two empty lines end a footnote.
+<li>As soon as something is not indented a footnote definition ends.
+<li>The footnote identifiers must start with an upper case or lower case ASCII character and may contain any upper case and lower case characters, digits and the underscore (<code>_</code>) but nothing else.
+<li>The footnotes are wrapped in a <code>&lt;div id="footnotes_div"&gt;</code> tag to make them easily style-able with CSS.
+</ul>
+<a id="headers" class="autoheaderlink">
+<h4>3.1.8. Headers</h4>
+</a>
+<p>There are two ways to mark up headers, and both are part of the original Markdown specification:</p>
+<a id="the--and---syntax" class="autoheaderlink">
+<h5>3.1.8.1. The &ldquo;=&rdquo; and &ldquo;-&rdquo; syntax (SeText)</h5>
+</a>
+<p>With this syntax you can only define headers of level 1 and 2.</p>
+<p>A line that looks like this:</p>
+<pre><code>Main caption
+============</code></pre>
+<p>is converted into a header of level 1.</p>
+<p>Note that it does not matter how many <code>=</code> chars are used.</p>
+<p>As long as the first character on a line is a <code>=</code> and there are no other characters or they are all spaces it will be recognized as a level-1 header.</p>
+<p>Similarly a line that looks like this:</p>
+<pre><code>Header of level 2
+-------------------</code></pre>
+<p>is converted into a header of level 2.</p>
+<p>Again it does not matter how many hyphens are used. As long as the first character on a line is a hyphen and there are no other characters or they are all spaces it will be recognized as a level-2 header.</p>
+<p>However, since a single <code>-</code> can also start a bulleted list it is <strong>strongly</strong> recommended to use at least two (<code>--</code>) characters.</p>
+<p>Note that the definition of a header might well span several lines like this:</p>
+<pre><code>This is a 
+level 1
+header
+=====</code></pre>
+<p>Generally no blank line is required either before or after such a header but because a SeText header cannot interrupt a paragraph it is necessary to have a blank line between the end of a paragraph and a SeText header.</p>
+<a id="the-pound-syntax" class="autoheaderlink">
+<h5>3.1.8.2. The &ldquo;pound&rdquo; syntax (ATX)</h5>
+</a>
+<p>A line that looks like this:</p>
+<pre><code># My caption</code></pre>
+<p>is converted into a header of level 1 while a line that looks like this:</p>
+<pre><code>###### My caption</code></pre>
+<p>is converted into a header of level 6. You cannot have headers of level 7 or higher (HTML does not allow this), and it is probably not a good idea to use levels beyond 4 anyway, except perhaps in technical documentation.</p>
+<p>Many Markdown implementations do not require a space between the last <code>#</code> on the left and the content (= the header as such). However, the space was required even by the original Markdown specification. The CommonMark specification points out that this was actually a good idea because with the blank these two lines would be rendered as headers:</p>
+<pre><code>#5 bolt</code></pre>
+<pre><code>#hashtag</code></pre>
+<p>Note that you may have trailing <code>#</code> characters as well; however, they are simply ignored. That's the reason why the number of characters does not even have to match the leading number of <code>#</code>.</p>
+<a id="atx-versus-setext-syntax" class="autoheaderlink">
+<h5>3.1.8.3. ATX versus SeText syntax</h5>
+</a>
+<ul>
+<li>The SeText syntax is contributing to the readability of a document.
+<li>The ATX syntax makes it easier for an author to search for a specific header.
+</ul>
+<a id="headers-and-bookmarks" class="autoheaderlink">
+<h5>3.1.8.4. Headers and bookmarks</h5>
+</a>
+<p>By default <strong><em>MarkAPL</em></strong> automatically embraces headers (&lt;h{number}&gt;) by bookmark anchors. Use <code>parms.bookmarkLink</code> (default: 6 = all levels) to change this: setting this to 0 suppresses this. You can also assign a number lesser than 6. For example, assigning 3 means that all headers of level 1, 2 and 3 are embraced by bookmark anchors but any headers of level 4, 5 and 6 are not.</p>
+<p>The names of the bookmarks are constructed automatically according to this set of rules:</p>
+<ul>
+<li>Remove all formatting, links, etc.
+<li>Remove everything between &lt;&gt;, () and [], including the brackets.
+<li>Remove all punctuation, except underscores, hyphens, and periods.
+<li>Remove all code.
+<li>Remove HTML entities (recursive calls to <strong><em>MarkAPL</em></strong>!)
+<li>Replace all spaces and newlines with hyphens.
+<li>Convert all alphabetic characters to lower case.
+<li>Remove everything from the left until the first digit or ASCII letter or <code>∆</code> or <code>⍙</code> is found (identifiers may not begin with a hyphen).
+<li>If nothing is left by then, use the identifier <code>section</code>.
+</ul>
+<p>Example:</p>
+<p>The caption &ldquo;<code>Second level-2 &rdquo;Header!&ldquo;</code>&rdquo; becomes &ldquo;<code>header-second-level-2-header</code>&rdquo;.</p>
+<p>This is the result with <code>parms.bookmarkLink←1</code>:</p>
+<pre><code>&lt;a id="header-second-level-2-header" class="autoheaderlink" 
+&lt;h1&gt;Second level-2 "Header!"&lt;/h1&gt; 
+&lt;/a&gt;</code></pre>
+<p>Note that the class <code>autoheaderlink</code> is automatically assigned to all bookmark links. This is needed because you probably want to make them invisible via CSS.</p>
+<p>With <code>parms.bookmarkLink←0</code> however it is just this:</p>
+<pre><code>&lt;h1&gt;Second level-2 "Header!"&lt;/h1&gt;</code></pre>
+<a id="headers-and-special-attributes" class="autoheaderlink">
+<h5>3.1.8.5. Headers and special attributes</h5>
+</a>
+<p>Note that assigning <a href="#special-attributes">Special Attributes</a> has special rules:</p>
+<ul>
+<li>If an ID is defined then it is assigned to the anchor (<code>&lt;a&gt;</code>) rather than the &lt;h{number}&gt; tag.
+<li>All other special attributes are assigned to the &lt;h{number}&gt; tag.
+<li>If however automated bookmarks are suppressed (see <a href="#bookmarklink">bookmarkLink</a>) then all special attributes go onto the &lt;h{number}} tag - there is no anchor in those cases.
+</ul>
+<a id="html-blocks" class="autoheaderlink">
+<h4>3.1.9. HTML blocks</h4>
+</a>
+<p>Please note that there are three different HTML blocks:</p>
+<ul>
+<li><code>&lt;script&gt;</code> and <code>&lt;style&gt;</code>
+<p>  They are special because they cannot be nested.</p>
+<li><code>&lt;pre&gt;</code>
+<p>  This one preserves white space. The special features of <code>&lt;pre&gt;</code> blocks are discussed in detail at <a href="#code-the--tag">Code: the &lt;pre&gt; tag</a>.</p>
+<li>Everything else.
+</ul>
+<p>Note that all HTML blocks but <code>&lt;pre&gt;</code>, <code>&lt;script&gt;</code> and <code>&lt;style&gt;</code> <strong>must</strong> be surrounded by blank lines.</p>
+<p>It is perfectly legal to have HTML blocks in a Markdown document but be aware that this is way more complex a topic than it seemed to be at first glance.</p>
+<p>For details refer to <a href="http://spec.commonmark.org/0.24/#html-blocks" target="_blank">http://spec.commonmark.org/0.24/#html-blocks</a>.</p>
+<p>The most important syntax is when you want to have an opening tag like a <code>&lt;div&gt;</code> and a corresponding <code>&lt;/div&gt;</code> around some Markdown stuff. For simplicity let's assume that it is just a paragraph with a single word: &ldquo;foo&rdquo; in bold.</p>
+<p>An HTML block must always start with either <code>&lt;</code> or <code>&lt;/</code>:</p>
+<pre><code># Example demonstrating HTML blocks
+
+&lt;div id="123" class="myClass"&gt;
+
+**foo**
+
+&lt;/div&gt;
+
+Another paragraph.</code></pre>
+<p>Notes:</p>
+<ol start="1">
+<li>This example comprises <strong>two</strong> (!) HTML blocks.
+<li>The beginning of a block is defined by an empty line followed by a line that starts with either  <code>&lt;</code> or <code>&lt;/</code> followed by a tag name. That means that leading white space is important because it prevents a line from being recognized as an HTML block.
+<li>The end of each HTML block (except <code>&lt;pre&gt;</code>, <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code>) is defined by an empty line  which therefore is essential.
+<li>Because <code>**foo**</code> is an ordinary paragraph located <strong>between</strong> two HTML blocks it will be converted  into <code>&lt;strong&gt;foo&lt;/strong&gt;</code>.
+</ol>
+<p>Without the two empty lines around the paragraph it would be just <strong>one</strong> HTML block. As a side effect the paragraph would show <code>**foo**</code> rather than <strong>foo</strong> because within an HTML block no in-line Markdown is recognized.</p>
+<p>The <code>&lt;pre&gt;</code> blocks are different in so far as there is no Markdown styling done to anything between <code>&lt;pre&gt;</code> and <code>&lt;/pre&gt;</code> anyway; therefore you can have just one block without any disadvantages.</p>
+<a id="horizontal-rulers" class="autoheaderlink">
+<h4>3.1.10. Horizontal rulers</h4>
+</a>
+<p>You can create a horizontal ruler by following these rules:</p>
+<ol start="1">
+<li>After an empty line there must be a line with either a hyphen (<code>-</code>) or an asterisk (<code>*</code>) or an underscore (<code>_</code>).
+<li>There must be at least three such characters on the line.
+<li>There might be zero to a maximum of three white space character to the left of the characters defining the ruler.
+<li>There are no other characters but spaces allowed, with the exception of <a href="#special-attributes">Special Attributes</a>.
+</ol>
+<p>So these lines will all create a ruler:</p>
+<pre><code>---
+* * * * * *
+_ _    _
+   ***</code></pre>
+<p>The result:</p>
+<hr>
+<hr>
+<hr>
+<hr>
+<p>A common mistake is to forget the empty line required <strong>before</strong> the definition of a ruler because that might actually define a <a href="#the--and---syntax">SeText header</a>.</p>
+<a id="images" class="autoheaderlink">
+<h4>3.1.11. Images</h4>
+</a>
+<p>Images are implemented so that an image can be included into a paragraph, a list or a table cell. If you want an image outside such an element then you are advised to insert it as <a href="#html-blocks">HTML block</a> with an <code>&lt;img&gt;</code> tag.</p>
+<p>The syntax of Markdown-images is of limited use because you cannot specify either height or width. However, with <a href="#special-attributes">Special attributes</a> one can get around this limitation.</p>
+<p>The full syntax:</p>
+<pre><code>![Alt Text](/url "My title")</code></pre>
+<p>Because the title is optional this is a valid specification as well:</p>
+<pre><code>![Alt Text](/url)</code></pre>
+<p>Finally the &ldquo;alt&rdquo; text is optional as well, so this would do:</p>
+<pre><code>![](/url)</code></pre>
+<p>However if you specify &ldquo;alt&rdquo; but not &ldquo;title&rdquo; or &ldquo;title&rdquo; but not &ldquo;alt&rdquo; then the undefined bit will show the same contents as the defined one.</p>
+<p>In order to add <a href="#special-attributes">special attributes</a> use this syntax:</p>
+<pre><code>![Alt Text](/url "My title"){#foo .myclass style="color:red;"}</code></pre>
+<p>There must not be any white-space between the closing <code>{</code> and the opening <code>{</code>.</p>
+<p>Example:</p>
+<pre><code>![Dots](http://download.aplteam.com/APL_Team_Dots.png "APL Team' dots"){height="70" width="70"}</code></pre>
+<p><img src="http://download.aplteam.com/APL_Team_Dots.png" height="70" width="70" alt="Dots" title="APL Team' dots"/></p>
+<a id="in-line-mark-up" class="autoheaderlink">
+<h4>3.1.12. In-line mark up</h4>
+</a>
+<p>First of all, all in-line mark up does <strong>not</strong> touch code (in-line as well as blocks) and to some extend links: they can be marked as code.</p>
+<nav>
+<p>Topics:</p>
+<ul>
+<li><a href="#emphasize-with">3.1.12.1. Emphasize with <code>&lt;em&gt;</code></a>
+<li><a href="#emphasize-with">3.1.12.2. Emphasize with <code>&lt;strong&gt;</code></a>
+<li><a href="#strike-through-with">3.1.12.3. Strike-through with <code>&lt;del&gt;</code></a>
+<li><a href="#line-breaks">3.1.12.4. Line breaks</a>
+<li><a href="#in-line-code">3.1.12.5. In-line code (verbatim)</a>
+</ul>
+</nav>
+<a id="emphasize-with" class="autoheaderlink">
+<h5>3.1.12.1. Emphasize with <code>&lt;em&gt;</code></h5>
+</a>
+<p>To mark some text as <code>&lt;em&gt;</code> you can enclose that text either with <code>**</code> or with <code>__</code>.</p>
+<p>Therefore the following two lines are equivalent:</p>
+<pre><code>This is an **ordinary** paragraph.
+This is an __ordinary__ paragraph.</code></pre>
+<p>This is the result in any case:</p>
+<p>This is an <strong>ordinary</strong> paragraph.</p>
+<p>Notes:</p>
+<ul>
+<li>Underscores within words are not considered mark-up directives.
+</ul>
+<a id="emphasize-with-1" class="autoheaderlink">
+<h5>3.1.12.2. Emphasize with <code>&lt;strong&gt;</code></h5>
+</a>
+<p>To mark some text as <code>&lt;strong&gt;</code> you can enclose that text either with <code>*</code> or with <code>_</code>.</p>
+<p>Therefore the following two lines are equivalent:</p>
+<pre><code>This is an *ordinary* paragraph.
+This is an _ordinary_ paragraph.</code></pre>
+<p>This is the result in any case:</p>
+<p>This is an <em>ordinary</em> paragraph.</p>
+<p>Notes:</p>
+<ul>
+<li>Underscores within words are not considered mark-up directives.
+</ul>
+<p>If you need a leading underscore as part of a name then you must escape the underscore with a backslash. This:</p>
+<pre><code>\_VarsName</code></pre>
+<p>leads to this:</p>
+<p>_VarsName</p>
+<a id="strike-through-with" class="autoheaderlink">
+<h5>3.1.12.3. Strike-through with <code>&lt;del&gt;</code></h5>
+</a>
+<p>To mark some text with <code>&lt;del&gt;</code> you can enclose that text with <code>~~</code>:</p>
+<pre><code>This ~~is~~ was an ordinary paragraph.</code></pre>
+<p>This is the result:</p>
+<p>This <del>is</del> was an ordinary paragraph.</p>
+<p>Note that to the right of any opening <code>~~</code> and to the left of any closing <code>~~</code> there must be a non-white-space character.</p>
+<a id="line-breaks" class="autoheaderlink">
+<h5>3.1.12.4. Line breaks</h5>
+</a>
+<p>There are two different ways to enforce a line break (= inserting a <code>&lt;br/&gt;</code> tag) into paragraphs, lists, footnotes and table cells:</p>
+<ul>
+<li>Have a backslash character (<code>\</code>) at the end of a line. This is much clearer but has still the disadvantage that you cannot use it in table cells - there is no &ldquo;end of line&rdquo; in those.
+<li>Insert <code>&lt;&lt;br&gt;&gt;</code> and it will become a <code>&lt;br/&gt;</code> tag. This is the recommended way: it is readable and can be used in table cells as well. However, it is a <strong><em>MarkAPL</em></strong>-only feature.
+</ul>
+<p>Having two blanks at the end of a paragraph or list item is according to the Markdown implementation &mdash; and also the early versions of <strong><em>MarkAPL</em></strong> &mdash; designed to inject a line break. This caused bug reports by people who accidentally added two spaces to the end of a line without realizing and then started to wonder where exactly the line break was coming from. It seemed to be a bad idea from the start; therefore this feature was removed from <strong><em>MarkAPL</em></strong> in version 1.3.0.</p>
+<a id="in-line-code" class="autoheaderlink">
+<h5>3.1.12.5. In-line code (verbatim)</h5>
+</a>
+<p>You can insert code samples into paragraphs, blockquotes, lists, cells and footnotes by putting back-ticks around them:</p>
+<pre><code>This: `is code`</code></pre>
+<p>Note that in order to show a back-tick within code you need to double it:</p>
+<pre><code>Enclose in-line code with a back-tick character (````).</code></pre>
+<p>Note also that the number of back-ticks in a paragraph (list, cell,&hellip;) must be even. If that's not the case then a closing back-tick is added to the end. That's why this seems to work:</p>
+<pre><code>This is back-tick: ` ``</code></pre>
+<p>This is back-tick: <code> `</code></p>
+<p>However, adding a dot emphasizes what is really going on here:</p>
+<pre><code>This is back-tick: ` ``.</code></pre>
+<p>This is back-tick: <code> `.</code></p>
+<p>Since the missing back-tick is added to the <strong>end</strong> of the <strong>paragraph</strong> the dot becomes part of the code. That's probably <strong>not</strong> what you want to happen.</p>
+<a id="links" class="autoheaderlink">
+<h4>3.1.13. Links</h4>
+</a>
+<nav>
+<p>Topics:</p>
+<ul>
+<li><a href="#external-links">3.1.13.1. External links</a>
+<li><a href="#autolinks">3.1.13.2. Autolinks</a>
+<li><a href="#internal-links">3.1.13.3. Internal links (bookmarks)</a>
+<li><a href="#link-references">3.1.13.4. Link references</a>
+<li><a href="#links-containing-code">3.1.13.5. Links containing code</a>
+<li><a href="#links-and-special-attributes">3.1.13.6. Links and special attributes</a>
+</ul>
+</nav>
+<a id="external-links" class="autoheaderlink">
+<h5>3.1.13.1. External links</h5>
+</a>
+<p>Generally an external link looks like this:</p>
+<pre><code>[The APL wiki](http://aplwiki.com "Link to the APL wiki")</code></pre>
+<p>The result is a link like this one: <a href="http://aplwiki.com" title="Link to the APL wiki">The APL wiki</a> which brings you to the APL wiki.</p>
+<p>The title (that's the stuff within the double-quotes) is optional, therefore the link can also be written as:</p>
+<pre><code>[The APL wiki](http://aplwiki.com)</code></pre>
+<p>If you want the URL to become the link text then this would suffice:</p>
+<pre><code>[](http://aplwiki.com)</code></pre>
+<p>That would result in <a href="http://aplwiki.com">http://aplwiki.com</a>.</p>
+<p>However, see the next topic (AutoLinks) as well.</p>
+<a id="autolinks" class="autoheaderlink">
+<h5>3.1.13.2. Autolinks</h5>
+</a>
+<p>Because external links are often injected &ldquo;as is&rdquo; &mdash; meaning that they actually have no link text and no link title &mdash; you can also specify a link as:</p>
+<pre><code>&lt;http://aplwiki.com&gt;</code></pre>
+<p>That results is this link: <a href="http://aplwiki.com">http://aplwiki.com</a>: the link text and the URL are identical.</p>
+<a id="internal-links" class="autoheaderlink">
+<h5>3.1.13.3. Internal links (bookmarks)</h5>
+</a>
+<p>Bookmark links are defined by a leading <code>#</code>. This character tells that the link points to a place somewhere in the same document.</p>
+<p>The text of a bookmark link must be compiled of one or more of <code>⎕D,'∆⍙',⎕A,Lowercase ⎕A</code>: All digits, all letters of the ASCII characters set, lowercase or uppercase and the two APL characters <code>∆</code> and <code>⍙</code>.</p>
+<p>Note that in HTML5 an ID may start with a digit. This is the default in <strong><em>MarkAPL</em></strong> as well. However, you can change this by setting <a href="#bookmarkmaystartwithdigit">bookmarkMayStartWithDigit</a> accordingly.</p>
+<p>An example of a bookmark link:</p>
+<pre><code>[Link text](#Anchor)</code></pre>
+<p>The most common internal (or bookmark) link is a link to a header. Since <strong><em>MarkAPL</em></strong> establishes anchors automatically for all headers by default you might expect an easy way to link to them, and you would be right.</p>
+<p>Given this header:</p>
+<pre><code>## This is (really) chapter 5-2</code></pre>
+<p><strong><em>MarkAPL</em></strong> transforms this automatically into</p>
+<pre><code>this-is-really-chapter-5-2</code></pre>
+<p>according to the set of rules explained at <a href="#headers-and-bookmarks">Headers and bookmarks</a>.</p>
+<p>To link to this header you can say:</p>
+<pre><code>[Link to chapter 5-2](#this-is-really-chapter-5-2)</code></pre>
+<p>and that would work indeed.</p>
+<p>However, instead you could use just the chapter title and specify a <code>#</code> in order to let <strong><em>MarkAPL</em></strong> know that this is an internal link:</p>
+<pre><code>[This is (really) chapter 5-2](#)</code></pre>
+<p>That will result in a bookmark link as well.</p>
+<a id="link-references" class="autoheaderlink">
+<h5>3.1.13.4. Link references</h5>
+</a>
+<p>Link references are defined by <code>[ID]: url</code>. Such definitions can appear anywhere in the document. There might be a space between the colon and the URL or not.</p>
+<p>IDs must consist of one or more characters of:</p>
+<ul>
+<li>The US ASCII character set, lower case as well as upper case.
+<li>Digits.
+<li>The underscore (<code>_</code>) character.
+<li>The hyphen (<code>-</code>) character.
+</ul>
+<p>Other characters are not permitted.</p>
+<p>In the document you can refer to a link reference with:</p>
+<pre><code>[The APL wiki][aplwiki]</code></pre>
+<p>The text between the the first pair of square brackets is the link text, the text between the second pair of square brackets is the ID of the link reference in question.</p>
+<p>If the link text is not specified then the URL becomes the link text.</p>
+<pre><code>[][aplwiki]</code></pre>
+<p>Note: in case of a typo &mdash; meaning that <strong><em>MarkAPL</em></strong> cannot find the link reference &mdash; the text will appear &ldquo;as is&rdquo; in the final document but the missing reference will also be reported on <a href="#report"><code>ns.report</code></a>.</p>
+<a id="links-containing-code" class="autoheaderlink">
+<h5>3.1.13.5. Links containing code</h5>
+</a>
+<p>Note that this works:</p>
+<pre><code>[`FunctionName`](#)</code></pre>
+<p>This on the other hand does <strong>not</strong> work:</p>
+<pre><code>`[FunctionName](#)`</code></pre>
+<p>The reason is simple:</p>
+<ul>
+<li>In the first expression the ` are removed before the contents between <code>[</code> and <code>]</code> is converted into a link but it is still marked up with &lt;pre&gt; and &lt;code&gt;.
+<li>The second statement is of course treated like code. No links then.
+</ul>
+<a id="links-and-special-attributes" class="autoheaderlink">
+<h5>3.1.13.6. Links and special attributes</h5>
+</a>
+<p><a href="#special-attributes">Special Attributes</a> can be assigned to all links:</p>
+<ul>
+<li><code>&lt;http://aplwiki.com{#foo1}&gt;</code>    <code>⍝</code>   Note that there must be <strong>no</strong> white-space here!
+<li><code>[BookMark Link](# {#foo2})</code>
+<li><code>[APL wiki](http://aplwiki.com {#foo3})</code>
+<li><code>[](http://aplwiki.com {target="_blank"})</code>
+</ul>
+<a id="lists" class="autoheaderlink">
+<h4>3.1.14. Lists</h4>
+</a>
+<nav>
+<p>Topics:</p>
+<ul>
+<li><a href="#general-rules">3.1.14.1. General rules</a>
+<li><a href="#bulleted-lists">3.1.14.2. Bulleted lists</a>
+<li><a href="#ordered-lists">3.1.14.3. Ordered lists</a>
+<li><a href="#list-item-contents">3.1.14.4. List item contents</a>
+<li><a href="#paragraphs-and-code-blocks-in-list-items">3.1.14.5. Paragraphs and code blocks in list items</a>
+<li><a href="#lists-and-special-attributes">3.1.14.6. Lists and special attributes</a>
+</ul>
+</nav>
+<p>Lists look simple, but when they are nested and/or contain sub-paragraphs and code blocks then things can get quite complicated.</p>
+<p>If your lists comprise just short single sentences then you will find lists easy and intuitive to use; otherwise you are advised to read the list of rules carefully.</p>
+<a id="general-rules" class="autoheaderlink">
+<h5>3.1.14.1. General rules</h5>
+</a>
+<ol start="1">
+<li>Lists start with a blank line, followed by a line were the first non-white-space character is either one of <code>-+*</code>  for a bulleted list or a digit followed either by a dot (<code>.</code>) or a parenthesis (<code>)</code>) for an ordered list. This  is called the list marker.
+<li>If a list follows a paragraph the blank line is not needed.
+<li>A list definition &mdash; including all sub lists &mdash; breaks at two consecutive empty lines.
+<li>A list definition &mdash; including all sub lists &mdash; also breaks when after an empty line something is detected that  does not carry a list marker <strong>and</strong> is not indented at all.
+<li>A change of the list marker for bulleted lists (from <code>+</code> to <code>*</code> for example) starts a new list.
+<li>Lists can be nested.
+<li>The number of leading white-space characters between the left margin and the list marker (in case of a list item itself) or content (in case of a sub-paragraph or a code block) defines the level of nesting.
+<p>That means that any content that is supposed to belong to a particular list item must be indented by the number of     characters of the list marker plus the number of white-space characters to the left and to the right of the list marker.</p>
+<li>Between a list marker and the content there might be any number of white space characters.
+<li>A list item can contain nothing but:
+<ul>
+<li>text (sometimes called initial list item content)
+<li>paragraphs
+<li>code blocks
+<li>sub-lists
+</ul>
+<li>If a list item contains a code block or a paragraph then there <strong>must</strong> be an empty line before the code block / paragraph.
+<li>Generally a code block may have up to three leading spaces. This rule does not apply for code blocks that are part of a list item since spaces are used as the means to work out which level the code block belongs to.
+<li>Single empty lines between list items and sub-paragraphs / code blocks belonging to a list item are ignored.
+<li>There is no concept of &ldquo;loose&rdquo; or &ldquo;tight&rdquo; lists. As a consequence the initial contents of a list item is never wrapped in a <code>&lt;p&gt;</code> tag.
+<li>Neither a code block nor a sub-paragraph can reduce the nesting level. This is only possible with a line carrying a list marker.
+</ol>
+<p>Note that these rules differ from those from the original Markdown (which are inconsistent) and also CommanMark (which are consistent but very complex).</p>
+<p>Originally <strong><em>MarkAPL</em></strong> attempted to implement the CommanMark rules. However, the first bug reports all referred to list problems, and only one was a true bug. Everything else was caused by misunderstanding those very complex rules. Therefore, starting with version 1.3.0, <strong><em>MarkAPL</em></strong> now has its own &mdash; simpler and still consistent &mdash; set of rules. With these easier to understand rules everything can be achieved but wrapping the content of a list item into a <code>&lt;p&gt;</code> tag.</p>
+<p><strong>A word of warning:</strong> getting the number of white-space characters wrong &mdash; in particular for sub-paragraphs or code blocks &mdash; is the most common reason for unwanted result. You are advised to use a monospace font since this makes it much easier to spot such problems, or to avoid them in the first place.</p>
+<a id="bulleted-lists" class="autoheaderlink">
+<h5>3.1.14.2. Bulleted lists</h5>
+</a>
+<p>Bulleted &mdash; or unordered &mdash; lists can be marked by an asterisk (<code>*</code>), a plus (<code>+</code>) or a minus (<code>-</code>). There might by zero to three white-space characters between the left margin and the list marker. There might be any number of white-space characters between the list marker and the beginning of the contents.</p>
+<p>Note that for nesting you need to have at least one more space to the left of the list marker per additional level. Although you can choose the number of spaces freely items that are supposed to end up on the same level must have the same number of leading spaces, otherwise results become unpredictable.</p>
+<p>It is recommended to indent with readability in mind.</p>
+<p>Example:</p>
+<pre><code>* First line
+* Second line
+  * Yellow
+  * Brown 
+    * Light brown
+    * Medium brown
+  * Magenta
+* Third line              
+</code></pre>
+<p>This results in this:</p>
+<ul>
+<li>First line
+<li>Second line
+<ul>
+<li>Yellow
+<li>Brown
+<ul>
+<li>Light brown
+<li>Medium brown
+</ul>
+<li>Magenta
+</ul>
+<li>Third line
+</ul>
+<a id="ordered-lists" class="autoheaderlink">
+<h5>3.1.14.3. Ordered lists</h5>
+</a>
+<p>An ordered list must start with a digit followed by a dot (<code>.</code>) or a parentheses (<code>)</code>) and one or more white-space characters. The digit(s) in the first row define the starting point. For the remaining rows any digit will do. The number of digits is limited to nine because some browser cannot deal with 10.</p>
+<p>There might by zero to three white-space characters between the left margin and the list marker. There might be any number of white-space characters between the list marker and the beginning of the contents.</p>
+<p>Example:</p>
+<pre><code>5. First line
+5. Second line
+   1) Yellow
+   2) Brown 
+   3) Magenta
+1. Third line                          </code></pre>
+<p>This results in this:</p>
+<ol start="5">
+<li>First line
+<li>Second line
+<ol start="1">
+<li>Yellow
+<li>Brown
+<li>Magenta
+</ol>
+<li>Third line
+</ol>
+<a id="list-item-contents" class="autoheaderlink">
+<h5>3.1.14.4. List item contents</h5>
+</a>
+<p>You may want to inject line breaks for readability, or you may not and be lazy, and you may add blanks or not; all has the same effect.</p>
+<p>An example for the lazy approach:</p>
+<pre><code>* This is a list item with plenty of words.  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus. Donec sit amet nisl. Aliquam `(+/⍵)÷⍴,⍵` semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.
+* ...</code></pre>
+<p>The same with some line breaks:</p>
+<pre><code>* This is a list item with plenty of words.  Lorem ipsum dolor sit amet, consectetuer
+adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra
+nec, fringilla in, laoreet vitae, risus. Donec sit amet nisl. Aliquam `(+/⍵)÷⍴,⍵` 
+semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.
+* ...</code></pre>
+<p>The same nicely formatted:</p>
+<pre><code>* This is a list item with plenty of words.  Lorem ipsum dolor sit amet,
+  consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. 
+  Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
+  Donec sit amet nisl. Aliquam `(+/⍵)÷⍴,⍵` semper ipsum sit amet
+  velit. Suspendisse id sem consectetuer libero luctus adipiscing.
+* ...</code></pre>
+<p>However, this would work as well:</p>
+<pre><code>* This is a list item with plenty of words.  Lorem ipsum dolor sit amet,
+ consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
+     Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae,risus.
+  Donec sit amet nisl. Aliquam `(+/⍵)÷⍴,⍵` semper ipsum sit amet
+  velit. Suspendisse id sem
+            consectetuer libero luctus adipiscing.
+* ...</code></pre>
+<p>In all cases this would be the result:</p>
+<hr>
+<ul>
+<li>This is a list item with plenty of words.  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae,risus. Donec sit amet nisl. Aliquam <code>(+/⍵)÷⍴,⍵</code> semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.
+<li>&hellip;
+</ul>
+<hr>
+<p>Notes:</p>
+<ul>
+<li>Line breaks can be injected anywhere, even within links, but not in code (anything between two back-ticks).
+<li>Indentation matters only in the first line of any list item and sub-paragraph as well as for the fencing lines of any code blocks.
+<li>The end of the contents of a list item (not a list!) is defined by one of:
+<ul>
+<li>An empty line (including lines that comprise nothing but spaces)
+<li>A line (with or without any leading white-space) that starts with a list marker.
+</ul>
+</ul>
+<a id="paragraphs-and-code-blocks-in-list-items" class="autoheaderlink">
+<h5>3.1.14.5. Paragraphs and code blocks in list items</h5>
+</a>
+<p>The fencing lines of code blocks as well as the first line of paragraphs that belong to a list item need to be indented by the same number of spaces as the list item they belong to. They <strong>must</strong> be separated from the initial list item contents or any earlier sub-paragraph or code block by a blank line.</p>
+<p>Note that the number of leading white-space characters (indentations) of any paragraphs must match the number of white-space characters from the left margin to the beginning of the content (the list marker characters count as white space here!) of the list item the paragraph or code block is supposed to belong to.</p>
+<pre><code>1. First line
+1. Second line
+   * Yellow
+     This is **not** a paragraph.
+
+     This **is** a paragraph.
+
+     ~~~
+       {+/⍳⍴⍵}
+     ~~~
+
+   This is a paragraph that belongs to "Second line".
+   * Brown 
+   * Magenta
+1. Third line                          </code></pre>
+<p>This results in this:</p>
+<ol start="1">
+<li>First line
+<li>Second line
+<ul>
+<li>Yellow This is <strong>not</strong> a paragraph.
+<p>     This <strong>is</strong> a paragraph.</p>
+<pre><code>  {+/⍳⍴⍵}</code></pre>
+</ul>
+<p>This is a paragraph that belongs to &ldquo;Second line&rdquo;.</p>
+<ul>
+<li>Brown
+<li>Magenta
+</ul>
+<li>Third line
+</ol>
+<p>Note that the code block has two leading spaces <strong>within the fence</strong>. These make it into the output while the leading spaces defining just the indentation don't.</p>
+<a id="lists-and-special-attributes" class="autoheaderlink">
+<h5>3.1.14.6. Lists and special attributes</h5>
+</a>
+<p>When <a href="#special-attributes">Special attributes</a> are assigned to the very first item on any list then that definition is assigned to the <strong>list</strong> (&lt;ul&gt; or &lt;ol&gt;) rather than the list item itself.</p>
+<p>When Special_Attributes are assigned to other items than the first one then they are simply removed from that list item.</p>
+<a id="paragraphs" class="autoheaderlink">
+<h4>3.1.15. Paragraphs</h4>
+</a>
+<p>Any text between two lines that are either empty or are considered special Markdown syntax and that do not have any leading character(s) recognized as Markdown directives will result in a single paragraph. The only exception is a definition list: Although the term part looks like any ordinary paragraph, the <code>: </code> on the next non-empty line makes it rather a definition.</p>
+<p>Within a paragraph you can use in-line mark-up; see there.</p>
+<p>You may insert NewLine characters (by pressing the &lt;return&gt; key) into a long paragraph in order to improve readability. These NewLine characters won't make it into the output. You don't have to worry about space characters at the end of a line (or at the beginning of the next line) because <strong><em>MarkAPL</em></strong> is taking care of this for you.</p>
+<p>If you want to have a line break at the end of a line add a backslash to that line.</p>
+<p>Alternatively you can insert <code>&lt;&lt;br&gt;&gt;</code> <strong>anywhere</strong> into a paragraph in order to enforce a line break; see <a href="#line-breaks">Line breaks</a> for details.</p>
+<p>Note that the original Markdown syntax for line breaks (having two spaces at the end of a line) is <strong>not</strong> supported by <strong><em>MarkAPL</em></strong>, and for good reasons: hard to spot (if at all), likely to be inserted by accident and therefore likely to cause confusion.</p>
+<p>You can assign <a href="#special-attributes">Special attributes</a> to a paragraph. With a multi-line paragraph, the special attribute must go into the <strong>last line</strong> as shown in this example:</p>
+<pre><code>
+ Simple and not multi-line
+ paragraph {#author}
+</code></pre>
+<p>This results in this HTML:</p>
+<pre><code>&lt;p id="author"&gt;Simple and not multi-line paragraph&lt;/p&gt;</code></pre>
+<p>There is of course a small chance that something is interpreted as special attribute that actually is just part of the paragraph. In that case you need to escape the curly brackets with <code>\{</code> and <code>\}</code>.</p>
+<a id="tables" class="autoheaderlink">
+<h4>3.1.16. Tables</h4>
+</a>
+<a id="overview-2" class="autoheaderlink">
+<h5>3.1.16.1. Overview</h5>
+</a>
+<p>Note that table rows are defined by having at least one un-escaped pipe symbol. You may however add a leading as well as a trailing pipe symbol if you wish so. Many consider this to be more readable.</p>
+<p>Note that leading and trailing spaces are removed from every cell.</p>
+<p>In one respect <strong><em>MarkAPL</em></strong> goes beyond the standard: according to the Markdown specification you <strong>must</strong> have a second row with a hyphen (&ldquo;<code>-</code>&rdquo;) and the appropriate number of pipe symbols and zero, one or two colons (<code>:</code>) per column but <strong><em>MarkAPL</em></strong> doesn't require this: if there is no such row it assumes that the first row is not a row with column headers but an ordinary row.</p>
+<a id="constructing-tables" class="autoheaderlink">
+<h5>3.1.16.2. Constructing tables</h5>
+</a>
+<p>So valid table definitions look like this:</p>
+<pre><code>Name | Meaning  {style="margin-left:auto;margin-right:auto;"}
+-|-
+ APL  | Great
+ Cobol| Old
+ PHP| Oh dear</code></pre>
+<p>resulting in this:</p>
+<table style="margin-left:auto;margin-right:auto;">
+<thead>
+<tr>
+<th style="text-align: left;">Name </th>
+<th style="text-align: left;"> Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">APL</td>
+<td style="text-align: left;">Great</td>
+</tr>
+<tr>
+<td style="text-align: left;">Cobol</td>
+<td style="text-align: left;">Old</td>
+</tr>
+<tr>
+<td style="text-align: left;">PHP</td>
+<td style="text-align: left;">Oh dear</td>
+</tr>
+</tbody>
+</table>
+<p>If you wonder about <code>{style="margin-left:auto;margin-right:auto;"}</code>: this is a simplified syntax for assigning IDs, class name(s) and attributes. This is discussed under <a href="#special-attributes">Special attributes</a>.</p>
+<p>Here it is used to style the table with CSS so that it will be centered.</p>
+<p>Another example which you might find more readable:</p>
+<pre><code>| Name  | Meaning |
+|-------|---------|
+| APL   | Great   |
+| Cobol | Old     |
+| PHP   | Oh dear |</code></pre>
+<p>resulting in this:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Name </th>
+<th style="text-align: left;"> Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">APL</td>
+<td style="text-align: left;">Great</td>
+</tr>
+<tr>
+<td style="text-align: left;">Cobol</td>
+<td style="text-align: left;">Old</td>
+</tr>
+<tr>
+<td style="text-align: left;">PHP</td>
+<td style="text-align: left;">Oh dear</td>
+</tr>
+</tbody>
+</table>
+<p>Without the <code>|-----|--------|</code> row:</p>
+<pre><code>|Name | Meaning|
+| APL  | Great |
+| Cobol| Old   |
+| PHP| Oh dear |</code></pre>
+<p>we get this:</p>
+<table>
+<tbody>
+<tr>
+<td>Name</td>
+<td>Meaning</td>
+</tr>
+<tr>
+<td>APL</td>
+<td>Great</td>
+</tr>
+<tr>
+<td>Cobol</td>
+<td>Old</td>
+</tr>
+<tr>
+<td>PHP</td>
+<td>Oh dear</td>
+</tr>
+</tbody>
+</table>
+<a id="column-alignment" class="autoheaderlink">
+<h5>3.1.16.3. Column alignment</h5>
+</a>
+<p>Note the colons in row two of the following example: they define the alignment of all cells in that column.</p>
+<pre><code>|Name | Meaning| Numbers |
+|:-   |:------:|--------:|
+| Left| Center | Right |
+| A   | B      |  1.00 |
+| C   | D      | -99.12 | </code></pre>
+<p>This results in:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Name </th>
+<th style="text-align: center;"> Meaning</th>
+<th style="text-align: right;"> Numbers </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Left</td>
+<td style="text-align: center;">Center</td>
+<td style="text-align: right;">Right</td>
+</tr>
+<tr>
+<td style="text-align: left;">A</td>
+<td style="text-align: center;">B</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr>
+<td style="text-align: left;">C</td>
+<td style="text-align: center;">D</td>
+<td style="text-align: right;">-99.12</td>
+</tr>
+</tbody>
+</table>
+<p>If you want a table without column titles but alignment:</p>
+<pre><code>|:-   |:------:|--------:|
+| Left| Center |   Right |
+| A   | B      |  1.00 |
+| C   | D      | -99.12 |     </code></pre>
+<table>
+<tbody>
+<tr>
+<td style="text-align: left;">Left</td>
+<td style="text-align: center;">Center</td>
+<td style="text-align: right;">Right</td>
+</tr>
+<tr>
+<td style="text-align: left;">A</td>
+<td style="text-align: center;">B</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr>
+<td style="text-align: left;">C</td>
+<td style="text-align: center;">D</td>
+<td style="text-align: right;">-99.12</td>
+</tr>
+</tbody>
+</table>
+<a id="in-line-mark-up-in-cells" class="autoheaderlink">
+<h5>3.1.16.4. In-line mark-up in cells</h5>
+</a>
+<p>Cells can use in-line mark-up as shown here:</p>
+<pre><code>|First name            |Last Name   |No.        |Code                 |
+|:---------------------|:-----------|-------:|:----------------------:|
+|Kai                   | Jaeger     | 1      |`{{⍵/⍨2=+⌿0=⍵∘.|⍵}⍳⍵}` |
+| Johann-Wolfgang      | von Goethe | 1923   |`{(⍴,⍵)÷+/,⍵}`         |
+| &lt;http://aplwiki.com&gt; | **bold**   | 123.23 |  `fns ⍣a=b⊣123`       |
+| _Italic_             | ~~Strike~~ |        |   \|                  |
+| line&lt;&lt;br&gt;&gt;break             | |        |          |
+| Last line |</code></pre>
+<p>This is the result:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">First name            </th>
+<th style="text-align: left;">Last Name   </th>
+<th style="text-align: right;">No.        </th>
+<th style="text-align: center;">Code       </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Kai</td>
+<td style="text-align: left;">Jaeger</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;"><code>{{⍵/⍨2=+⌿0=⍵∘.|⍵}⍳⍵}</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Johann-Wolfgang</td>
+<td style="text-align: left;">von Goethe</td>
+<td style="text-align: right;">1923</td>
+<td style="text-align: center;"><code>{(⍴,⍵)÷+/,⍵}</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="http://aplwiki.com">http://aplwiki.com</a></td>
+<td style="text-align: left;"><strong>bold</strong></td>
+<td style="text-align: right;">123.23</td>
+<td style="text-align: center;"><code>fns ⍣a=b⊣123</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><em>Italic</em></td>
+<td style="text-align: left;"><del>Strike</del></td>
+<td style="text-align: right;"></td>
+<td style="text-align: center;">|</td>
+</tr>
+<tr>
+<td style="text-align: left;">line<br/>break</td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Last line</td>
+<td style="text-align: left;">         </td>
+<td style="text-align: right;">         </td>
+<td style="text-align: center;">         </td>
+</tr>
+</tbody>
+</table>
+<p>Note that one cell contains a pipe symbol (<code>|</code>); normally that would confuse the parser but not in this case because it is escaped with a backslash character: <code>\|</code>.</p>
+<p>You can have a table with just column headers:</p>
+<pre><code>|First name |Last Name|
+|-|-A</code></pre>
+<p>This is the result:</p>
+<table>
+<tbody>
+<tr>
+<td>First name</td>
+<td>Last Name</td>
+</tr>
+<tr>
+<td>-</td>
+<td>-A</td>
+</tr>
+</tbody>
+</table>
+<a id="misc" class="autoheaderlink">
+<h3>3.2. Misc</h3>
+</a>
+<a id="function-calls" class="autoheaderlink">
+<h4>3.2.1. Function calls</h4>
+</a>
+<p>It is possible to embed APL function calls in your Markdown document. The simplest way to call a function <code>#.foo</code> is:</p>
+<pre><code>This: ⍎⍎#.foo⍎⍎ is the result.</code></pre>
+<p>Given a function <code>#.foo←{'FOO'}</code> this will be the result:</p>
+<pre><code>This: FOO is the result.</code></pre>
+<p>The purpose of this features is to either inject simple text or one or more HTML blocks.</p>
+<p>Notes:</p>
+<ul>
+<li>You cannot inject Markdown: it won't be processed any more when the function is called. The function name must always be fully qualified; that means the function cannot live in either a class instance or an unnamed namespace.
+<li>The &ldquo;ns&rdquo; namespace is <strong>always</strong> provided as right argument to the function.
+</ul>
+<p>You may specify something to the right as in this example:</p>
+<pre><code>This: ⍎⍎#.foo 1 2 'hello'⍎⍎ is the result.</code></pre>
+<p>The array <code>1 2 'hello'</code> is however passed as <strong>left</strong> argument since <code>ns</code> is always passed as the right argument.</p>
+<p>The result of such an embedded function must be one of:</p>
+<ul>
+<li>An empty vector.
+<li>Markdown (simple string or nested vector of text vectors).
+<li>An HTML block (nested vector of text vectors).
+</ul>
+<p>However, mixing Markdown and HTML blocks is <strong>not permitted</strong>.</p>
+<p>In case the function returns an HTML block the function call must stand on its own on a line.</p>
+<p>If an HTML block is returned then the function is responsible for the correct formatting. In particular a <code>&lt;pre&gt;</code> block <strong>must</strong> look like this otherwise you might not get the desired result:</p>
+<pre><code>&lt;pre&gt;&lt;code&gt;Line 1
+Line 2
+Last line
+&lt;/code&gt;&lt;/pre&gt;</code></pre>
+<p>Notes:</p>
+<ul>
+<li>If the function returns something that starts with a &lt; and ends with a corresponding tag then it it is recognized as an HTML block. You can prevent that by adding leading white space.
+<li>The <code>&lt;pre&gt;&lt;code&gt;</code> must go onto the same line as the first line of the code; otherwise you end up with a starting empty line.
+<li>If the embedded function returns something with a depth different from 0, 1 and 2 an error is thrown.
+</ul>
+<a id="special-attributes" class="autoheaderlink">
+<h4>3.2.2. Special attributes</h4>
+</a>
+<p>One can add special attributes &mdash; that is an ID, class name(s) and other attributes &mdash; to many elements</p>
+<ul>
+<li>Code blocks
+<li>Definition lists
+<li>Headers
+<li>Horizontal rulers
+<li>Images
+<li>Links
+<li>Lists
+<li>Paragraphs
+<li>Tables
+</ul>
+<p>Notes:</p>
+<ul>
+<li>If you assign an ID to a header the ID is not actually assigned to the header itself but the associated anchor (bookmark link). Since such an anchor embraces the header tag it can be styled via the anchor.
+<li>If an attempted definition of a special attribute fails due to an error like missing <code>=</code> or an odd number of <code>"</code> etc then it's not going to become a special attribute definition but ordinary data.
+</ul>
+<a id="assigning-a-class-name" class="autoheaderlink">
+<h5>3.2.2.1. Assigning a class name</h5>
+</a>
+<p>The name of a class can be assigned by just mentioning the name:</p>
+<pre><code>{.classname}</code></pre>
+<p>The leading dot tells <strong><em>MarkAPL</em></strong> that it is a class name.</p>
+<p>Of course you can specify more than just one class name:</p>
+<pre><code>{.foo .goo}</code></pre>
+<a id="assigning-an-id" class="autoheaderlink">
+<h5>3.2.2.2. Assigning an ID</h5>
+</a>
+<p>An ID can be assigned by just mentioning the name:</p>
+<pre><code>{#id}</code></pre>
+<p>The leading <code>#</code> tells <strong><em>MarkAPL</em></strong> that it is an ID.</p>
+<a id="styling" class="autoheaderlink">
+<h5>3.2.2.3. Styling</h5>
+</a>
+<p>CSS styling directives are possible as well:</p>
+<pre><code>{style="color:red;line-height:1.4;"}</code></pre>
+<a id="quotes-and-special-attributes" class="autoheaderlink">
+<h5>3.2.2.4. Quotes and special attributes</h5>
+</a>
+<p>It is of course possible to put it all together:</p>
+<pre><code>* list item {#myid style="font-family:'APL385 Unicode' .class1 .class2 target="_blank"}'</code></pre>
+<p>Note that you cannot put double-quotes around the name of the font family here because double-quotes are already used to determine the definition of the &ldquo;style&rdquo; attribute. Therefore you <strong>must</strong> use single quotes in this instance.</p>
+<a id="paragraphs-and-special-attributes" class="autoheaderlink">
+<h5>3.2.2.5. Paragraphs and special attributes</h5>
+</a>
+<p>Naturally a multi-line paragraph must define any special attributes at the very end of the paragraph rather than the end of the first line.</p>
+<p>Note that there is a chance for content being mistaken as a special attribute, but this chance is very small indeed. If that happens just escape the curlies with a backslash character:</p>
+<pre><code>
+This is a paragraph with curlies at the end: \{\}.
+</code></pre>
+<a id="data" class="autoheaderlink">
+<h4>3.2.3. Data</h4>
+</a>
+<p>You can define key-value pairs of data with statements like these:</p>
+<pre><code>[Data]:author='Kai Jaeger'
+[DATA]:copies=2
+[data]:sequence=1 2 3
+[data]:company=Dyalog Ltd</code></pre>
+<p>This establishes the key-value pairs as ordinary variables in the namespace <code>ns.data</code>. See <a href="#the-ns-namespace">The "ns" namespace</a> for details.</p>
+<p>The statements shown will create this:</p>
+<pre><code>      Display ⊃ns.data
+┌→────────────────────────┐
+↓ ┌→─────┐   ┌→─────────┐ │
+│ │author│   │Kai Jaeger│ │
+│ └──────┘   └──────────┘ │
+│ ┌→─────┐                │
+│ │copies│   2            │
+│ └──────┘                │
+│ ┌→───────┐ ┌→────┐      │
+│ │sequence│ │1 2 3│      │
+│ └────────┘ └~────┘      │
+│ ┌→──────┐  ┌→─────────┐ │
+│ │company│  │Dyalog Ltd│ │
+│ └───────┘  └──────────┘ │
+└∊────────────────────────┘</code></pre>
+<p>Notes:</p>
+<ul>
+<li>The keyword (&ldquo;data&rdquo;) is case insensitive.
+<li>There may be any number of white-space characters between &ldquo;[data]:&rdquo; and the name.
+<li>The name must consist of nothing but US ASCII or digits.
+<li>If the value is not enclosed by quotes <strong><em>MarkAPL</em></strong> attempts to establish it as numeric value. If that fails however it attempts to establish it as text.
+<li>If an entry is invalid the value is empty. For example, in <code>[data]:invalid='text 1 2 3</code> the closing quote is missing, therefore the expression is invalid.
+<li>Problems are reported on <a href="#report"><code>ns.report</code></a>.
+<li><strong><em>MarkAPL</em></strong> itself does not make use of such variables. It is up to other applications to take advantage of these pieces of data.
+<p>  See <a href="http://aplwiki.com/PresentAPL">http://aplwiki.com/PresentAPL</a> for an example: it uses this features to allow the author to set variables like &ldquo;author&rdquo;, &ldquo;company&rdquo; and &ldquo;title&rdquo; which are then used to populate slides and meta tags.</p>
+</ul>
+<a id="sub-topics" class="autoheaderlink">
+<h4>3.2.4. Sub topics</h4>
+</a>
+<p>By inserting <code>&lt;&lt;SubTopic&gt;&gt;</code> (case insensitive) one can insert a table of contents for a sub topic. This can be useful in order to avoid overloading the main table of contents. This document has several such SubTOCs embedded, for example <a href="#the-ns-namespace-in-detail">The "ns" namespace in detail</a>.</p>
+<a id="methods" class="autoheaderlink">
+<h3>3.3. Methods</h3>
+</a>
+<a id="createparms" class="autoheaderlink">
+<h4>3.3.1. CreateParms</h4>
+</a>
+<p>Niladic function that returns a namespace populated with parameters carrying their default values. <code>CreateParms</code> tries to find for every parameter a value from the command line or environment variables. If it cannot find them it will establish a default value.</p>
+<a id="createhelpparms" class="autoheaderlink">
+<h4>3.3.2. CreateHelpParms</h4>
+</a>
+<p>This function first calls <code>CreateParms</code> and then sets several parameters so that thy meet the special demands of the file Markdown.html which is this very document you are reading. See <a href="#help"><code>Help</code></a> for details.</p>
+<a id="execute" class="autoheaderlink">
+<h4>3.3.3. Execute</h4>
+</a>
+<p>This function is used exclusively by test cases.</p>
+<a id="help" class="autoheaderlink">
+<h4>3.3.4. Help</h4>
+</a>
+<p>Makes your default browser display the file &ldquo;Markdown.html&rdquo;.</p>
+<p>The function takes a Boolean right argument: a 1 forces <strong><em>MarkAPL</em></strong> to recompile the file MarkAPL.md into MarkAPL.html. A 0 just views MarkAPL.html with your default browser.</p>
+<p>You might specify an optional left argument: a parameter space, typically created by calling the <code>CreateParms</code> method. This allows creating a help file with non-default parameters. Of course this has only an effect when the right argument is a 1.</p>
+<p>In order to enable <code>Help</code> to find the file Markdown.html (in case the defaults don't work) you must create a parameter space (see <a href="#createhelpparms"><code>CreateHelpParms</code></a> for details) and then set <a href="#homefolder"><code>homeFolder</code></a> accordingly.</p>
+<a id="init" class="autoheaderlink">
+<h4>3.3.5. Init</h4>
+</a>
+<p>Takes a two-item-vector as right argument:</p>
+<ol start="1">
+<li>A parameter namespace, typically created by calling <code>CreateParms</code>.
+<li>A vector of character vectors: the Markdown.
+</ol>
+<p>Returns <a href="#the-ns-namespace">the "ns" namespace</a>.</p>
+<a id="makehtml_doc" class="autoheaderlink">
+<h4>3.3.6. MakeHTML_Doc</h4>
+</a>
+<p>Takes HTML, typically created by calling <code>Process</code>, and makes it a fully fledged HTML document by adding &lt;body&gt;, &lt;head&gt; &mdash; with &lt;title&gt; &mdash; and &lt;html&gt; with the DocType.</p>
+<a id="markdown2html" class="autoheaderlink">
+<h4>3.3.7. MarkDown2HTML</h4>
+</a>
+<p>This ambivalent function requires some Markdown as right argument.</p>
+<p>It returns (since version 1.7.0) a two-item vector (shy):</p>
+<ul>
+<li>The HTML.
+<li>The <code>ns</code> namespace. This allows you to check <code>ns.report</code> for any problems.
+</ul>
+<p>Without a (optional) left argument it creates just the HTML from the Markdown.</p>
+<p>However, you can also create a parameter space by calling <code>CreateParms</code> and set <code>outputFilename</code>. In that case it will create a fully-fledged HTML page from the Markdown and write it to that file. The generated page is also returned as result.</p>
+<p>Finally one can also set the <code>inputFilesName</code> parameter. This trumps the right argument: it reads the input file, expecting it to be Markdown, creates HTML5 from it and write it to the output file. Again the HTML is also returned as result.</p>
+<p>Internally it calls <code>Init</code> &amp; <code>Process</code> &amp; <code>MakHTML_Doc</code>.</p>
+<a id="process" class="autoheaderlink">
+<h4>3.3.8. Process</h4>
+</a>
+<p>This function takes &mdash; and returns &mdash; an <code>ns</code> namespace which was typically created by calling <code>Init</code>.</p>
+<a id="version" class="autoheaderlink">
+<h4>3.3.9. Version</h4>
+</a>
+<p>Returns the name, the version number and the version date of <strong><em>MarkAPL</em></strong>.</p>
+<a id="parameters" class="autoheaderlink">
+<h3>3.4. Parameters</h3>
+</a>
+<a id="overview-3" class="autoheaderlink">
+<h4>3.4.1. Overview</h4>
+</a>
+<p>In order to specify parameters follow these steps:</p>
+<pre><code>      parms←#.MarkAPL.CreateParms''
+      parms.∆List                                  
+ body                                                  
+ bookmarkLink                                        6 
+ charset                                         utf-8 
+ checkFootnotes                                      1 
+ checkLinks                                          1 
+ compileFunctions                                    1 
+ cssURL                                             ¯1 
+ debug                                               1 
+ head                                                  
+ homefolder                                         ¯1
+ inputFilename                                         
+ linkToCSS                                           0 
+ markdownStrict                                      0 
+ numberHeaders                                       0 
+ outputFilename                                        
+ printCSS                            MarkAPL_print.css 
+ screenCSS                          MarkAPL_screen.css 
+ subTocs                                             1 
+ title                                         MarkAPL 
+ toc                                                 0 
+ tocCaption                          Table of contents 
+ verbose                                             1 </code></pre>
+<p>The function <code>∆List</code> lists the contents of the parameter space with the corresponding values.</p>
+<p>After making amendments the parameter space can be passed as the first argument to the <code>MarkAPL.Init</code> function. See <a href="#how-to">How-to</a> for details.</p>
+<a id="the-parameters-in-detail" class="autoheaderlink">
+<h4>3.4.2. The parameters in detail</h4>
+</a>
+<nav>
+<p>Topics:</p>
+<ul>
+<li><a href="#bookmarklink">3.4.2.1. bookmarkLink</a>
+<li><a href="#bookmarkmaystartwithdigit">3.4.2.2. bookmarkMayStartWithDigit</a>
+<li><a href="#charset">3.4.2.3. charset</a>
+<li><a href="#checklinks">3.4.2.4. checkLinks</a>
+<li><a href="#compilefunctions">3.4.2.5. compileFunctions</a>
+<li><a href="#createfullhtmlpage">3.4.2.6. createFullHtmlPage</a>
+<li><a href="#cssurl">3.4.2.7. cssURL</a>
+<li><a href="#head">3.4.2.8. head</a>
+<li><a href="#homefolder">3.4.2.9. homeFolder</a>
+<li><a href="#inputfilename">3.4.2.10. inputFilename</a>
+<li><a href="#linktocss">3.4.2.11. linkToCSS</a>
+<li><a href="#markdownstrict">3.4.2.12. markdownStrict</a>
+<li><a href="#numberheaders">3.4.2.13. numberHeaders</a>
+<li><a href="#outputfilename">3.4.2.14. outputFilename</a>
+<li><a href="#printcss">3.4.2.15. printCSS</a>
+<li><a href="#screencss">3.4.2.16. screenCSS</a>
+<li><a href="#subtocs">3.4.2.17. subTocs</a>
+<li><a href="#title">3.4.2.18. title</a>
+<li><a href="#toc">3.4.2.19. toc (table of contents)</a>
+<li><a href="#toccaption">3.4.2.20. tocCaption</a>
+<li><a href="#verbose">3.4.2.21. verbose</a>
+</ul>
+</nav>
+<a id="bookmarklink" class="autoheaderlink">
+<h5>3.4.2.1. bookmarkLink</h5>
+</a>
+<p>Defaults to 6. That means that all headers of level 1 to 6 are going to be embraced by anchors (bookmarks). See <a href="#headers-and-bookmarks">Headers and bookmarks</a> for details.</p>
+<p>Set this to 0 to suppress the insertion of automated bookmark links altogether.</p>
+<p>There is not really a good reason for suppressing this except things like <strong><em>MarkAPL</em></strong> calling itself recursively for blockquotes. Those blockquotes might contain headers, but you don't want them anchored - they might interfere with your real headers.</p>
+<a id="bookmarkmaystartwithdigit" class="autoheaderlink">
+<h5>3.4.2.2. bookmarkMayStartWithDigit</h5>
+</a>
+<p>Boolean that defaults to 1: in HTML5 an ID (= bookmark) may indeed start with a digit.</p>
+<p>However, sometimes it might be appropriate to avoid this, for example when <strong><em>MarkAPL</em></strong> creates a Sub-Topic. In such &mdash; quite special &mdash; circumstances it may well be appropriate to set this to 0.</p>
+<a id="charset" class="autoheaderlink">
+<h5>3.4.2.3. charset</h5>
+</a>
+<p>Defaults to &ldquo;utf-8&rdquo;.</p>
+<a id="checklinks" class="autoheaderlink">
+<h5>3.4.2.4. checkLinks</h5>
+</a>
+<p>Boolean. The default depends on <code>debug</code>. If this is 1 the <code>Process</code> method checks the internal (bookmark) links and records any problems on <code>ns.report</code>.</p>
+<a id="compilefunctions" class="autoheaderlink">
+<h5>3.4.2.5. compileFunctions</h5>
+</a>
+<p>Boolean that defaults to 1. There is just one reason to prevent any function from being compiled: performance measurements.</p>
+<p>However, with version 1.8.3 MarkAPL does not compile its functions anymore because this caused trouble under some circumstances while the performance gains are little.</p>
+<a id="createfullhtmlpage" class="autoheaderlink">
+<h5>3.4.2.6. createFullHtmlPage</h5>
+</a>
+<p>This parameter is <code>¯1</code> by default (undefined). That means that the default behaviour of <a href="#markdown2html"><code>Markdown2HTML</code></a> is defined by the setting of <a href="#outputfilename"><code>outputFilename</code></a>: if it is not empty it will default to 1, otherwise to 0.</p>
+<p>It can be set to either 0 or 1:</p>
+<ul>
+<li>A 0 means that the given Markdown is converted into an HTML snippet, no matter whether <code>outputFilename</code> is empty or not.
+<li>A 1 means that the given Markdown is converted into a fully fledged HTML page, no matter whether <code>outputFilename</code> is empty or not.
+</ul>
+<a id="cssurl" class="autoheaderlink">
+<h5>3.4.2.7. cssURL</h5>
+</a>
+<p>Holds the web address or folder that is expected to host the two CSS files needed for screen and print. Is ignored in case <code>linkToCSS</code> is 0.</p>
+<p>Defaults to <code>homeFolder</code>.</p>
+<a id="head" class="autoheaderlink">
+<h5>3.4.2.8. head</h5>
+</a>
+<p>If you want to add additional meta tags to the <code>&lt;head&gt;</code> part of a document (just an example) you can assign them to <code>head</code>. They will then be added to the <code>&lt;head&gt;</code> section. This can be a simple string (representing &lt;title&gt; for example) or a vector of simple text vectors (several meta tags for example).</p>
+<a id="homefolder" class="autoheaderlink">
+<h5>3.4.2.9. homeFolder</h5>
+</a>
+<p>This points to the folder where Markdown.html etc live. If the script was loaded with SALT then it tries to find the <code>Files\</code> folder within the folder the script was loaded from. If it was not loaded with SALT then it tries to find the <code>Files\</code> folder in the current directory. If that fails as well then you must set <code>homeFolders</code> to ensure that it can find, say, the file Markdown.html when you call <code>Markdown.Help 0</code> for example.</p>
+<a id="inputfilename" class="autoheaderlink">
+<h5>3.4.2.10. inputFilename</h5>
+</a>
+<p>If the markdown you want to process lives in a file rather than the workspace then you can pass an empty vector as right argument to the <code>Process</code> method and specify <code>parms.inputFilename</code> instead.</p>
+<a id="linktocss" class="autoheaderlink">
+<h5>3.4.2.11. linkToCSS</h5>
+</a>
+<p>Boolean that defaults to 0. This means that CSS for screen and print is injected into the resulting HTML page. If this is 1 a &lt;link&gt; tag for the CSS file(s) is added to the header. Naturally <code>cssURL</code> must be set accordingly then.</p>
+<a id="markdownstrict" class="autoheaderlink">
+<h5>3.4.2.12. markdownStrict</h5>
+</a>
+<p>Boolean that defaults to 0. Settings this to 1 prevents <strong><em>MarkAPL</em></strong> from executing certain operations:</p>
+<ul>
+<li>It does <strong>not</strong> attempt to create typographically correct output by exchanging:
+<ul>
+<li><code>...</code> by ellipses.
+<li><code>---</code> by em-dashes. You may or you may not have blanks around them.
+<li><code>--</code> by en-dashes. You may or you may not have blanks around them.
+<li>straight quotes against curly quotes.
+</ul>
+<li>It does not replace <code>(c)</code> by the copyright symbol.
+<li>It does not replace <code>(tm)</code> by the trade-mark symbol.
+</ul>
+<a id="numberheaders" class="autoheaderlink">
+<h5>3.4.2.13. numberHeaders</h5>
+</a>
+<p>An integer or integer vector that defaults to 0, meaning that headers are not numbered.</p>
+<ul>
+<li>Setting this to 3 means that all headers of level 1 to 3 will be numbered.
+<li>Setting this to 2 3 4 will number all headers of level 2, 3 and 4.
+</ul>
+<a id="outputfilename" class="autoheaderlink">
+<h5>3.4.2.14. outputFilename</h5>
+</a>
+<p>Defaults to an empty vector. If specified the HTML will be written to this file by the <a href="#markdown2html"><code>Markdown2HTML</code></a> method.</p>
+<p>Note then in case <a href="#createfullhtmlpage"><code>createFullHtmlPage</code></a> is not a Boolean but <code>¯1</code> (that's the default value which stands for &ldquo;undefined&rdquo;) then the setting of <code>outputFilename</code> defines what is created from the Markdown:</p>
+<ul>
+<li>In case <code>outputFilename</code> is empty an HTML snipped is created.
+<li>In case <code>outputFilename</code> is not empty a fully fledged HTML page is created.
+</ul>
+<a id="printcss" class="autoheaderlink">
+<h5>3.4.2.15. printCSS</h5>
+</a>
+<p>The name of the CSS file for printing. Defaults to <code>MarkAPL_print.css</code>. If this is empty no CSS for printing purposes is included or linked to.</p>
+<a id="screencss" class="autoheaderlink">
+<h5>3.4.2.16. screenCSS</h5>
+</a>
+<p>The name of the CSS file for the screen. Defaults to <code>MarkAPL_screen.css</code>. If this is empty no CSS for viewing purposes is included or linked to.</p>
+<a id="subtocs" class="autoheaderlink">
+<h5>3.4.2.17. subTocs</h5>
+</a>
+<p>Boolean that defaults to 1. If you want to suppress sub TOCs no matter whether there are any included in the Markdown or not then set this to 0.</p>
+<p>When set to 0 then any strings <code>&lt;&lt;SubTopic&gt;&gt;</code> are removed from the Markdown before processing it.</p>
+<p>This is mainly needed in order to suppress subTOCs in blockquotes.</p>
+<a id="title" class="autoheaderlink">
+<h5>3.4.2.18. title</h5>
+</a>
+<p>Defaults to &ldquo;MarkAPL&rdquo;. Defines the <code>&lt;title&gt;</code> tag in the <code>&lt;head&gt;</code> section of the resulting HTML page.</p>
+<a id="toc" class="autoheaderlink">
+<h5>3.4.2.19. toc (table of contents)</h5>
+</a>
+<p>An integer or integer vector that defaults to 0, meaning that no table of contents is injected into a document created by <strong><em>MarkAPL</em></strong>.</p>
+<p>You can change this by setting the parameter <code>toc</code> to &hellip;</p>
+<ul>
+<li>a single integer like 3. That is interpreted as &ldquo;up to 3&rdquo;: a TOC is compiled from the headers of level 1, 2 and 3 and injected into the HTML document.
+<li>a vector of integers. For example, 2 3 4 5 would mean that just these levels are used for creating the TOC.
+</ul>
+<p>Note that <code>bookmarkLink</code>must have at least the same value as <code>toc</code>.</p>
+<a id="toccaption" class="autoheaderlink">
+<h5>3.4.2.20. tocCaption</h5>
+</a>
+<p>Defaults to &ldquo;Table of contents&rdquo;. Set this to any character vector you want to appear as header of the TOC. <code>tocCaption</code> will be ignored in case <code>toc</code> is 0.</p>
+<a id="verbose" class="autoheaderlink">
+<h5>3.4.2.21. verbose</h5>
+</a>
+<p>Boolean that defaults to <code>debug</code>. If this is 1 then the <code>Process</code> method will print the contents off <code>ns.report</code> to the session.</p>
+<a id="the-ns-namespace" class="autoheaderlink">
+<h3>3.5. The &ldquo;ns&rdquo; namespace.</h3>
+</a>
+<a id="overview-4" class="autoheaderlink">
+<h4>3.5.1. Overview</h4>
+</a>
+<p>The <code>ns</code> namespace is returned (created) by the <code>Init</code> method and modified by the <code>Process</code> method. It contains both input and output variables.</p>
+<p>Before <code>Process</code> is run the variables emptyLines, leadingChars, markdown, markdownLC and withoutBlanks hold data the is extracted from the markdown. When <code>Process</code> is running block by block is processed and removed from these variables. At the same time the variable <code>parms.html</code> is collecting the resulting html. Other variables (abbreviations, data, footnoteDefs, headers, linkRefs, subToc and toc) may or may not collect data in the process as well.</p>
+<p>The two variables <code>report</code> and <code>lineNumber</code> are special, see there.</p>
+<a id="the-ns-namespace-in-detail" class="autoheaderlink">
+<h4>3.5.2. The &ldquo;ns&rdquo; namespace in detail</h4>
+</a>
+<nav>
+<p>Topics:</p>
+<ul>
+<li><a href="#abbreviations">3.5.2.1. abbreviations</a>
+<li><a href="#emptylines">3.5.2.2. emptyLines</a>
+<li><a href="#footnotedefs">3.5.2.3. footnoteDefs</a>
+<li><a href="#headers">3.5.2.4. headers</a>
+<li><a href="#html">3.5.2.5. html</a>
+<li><a href="#leadingchars">3.5.2.6. leadingChars</a>
+<li><a href="#linenumbers">3.5.2.7. lineNumbers</a>
+<li><a href="#linkrefs">3.5.2.8. linkRefs</a>
+<li><a href="#markdown">3.5.2.9. markdown</a>
+<li><a href="#markdownlc">3.5.2.10. markdownLC</a>
+<li><a href="#noof">3.5.2.11. noOf</a>
+<li><a href="#parms">3.5.2.12. parms</a>
+<li><a href="#report">3.5.2.13. report</a>
+<li><a href="#subtoc">3.5.2.14. subToc</a>
+<li><a href="#toc">3.5.2.15. toc</a>
+<li><a href="#withoutblanks">3.5.2.16. withoutBlanks</a>
+</ul>
+</nav>
+<p>The namespace contains the following variables:</p>
+<a id="abbreviations-1" class="autoheaderlink">
+<h5>3.5.2.1. abbreviations</h5>
+</a>
+<p>A (possibly empty) vector of two-item-vectors. The first item holds the abbreviation, the second item the explanation or comment.</p>
+<a id="emptylines" class="autoheaderlink">
+<h5>3.5.2.2. emptyLines</h5>
+</a>
+<p>A vector of Booleans indicating which lines in <code>markdown</code> are empty. Lines consisting of white-space characters only are considered to be empty.</p>
+<a id="footnotedefs" class="autoheaderlink">
+<h5>3.5.2.3. footnoteDefs</h5>
+</a>
+<p>A matrix that carries all footnote definition found in <code>markdown</code>. The matrix has two columns:</p>
+<ol start="1">
+<li>Running number, starting from 1.
+<li>Bookmark name.
+<li>Caption.
+</ol>
+<a id="headers-1" class="autoheaderlink">
+<h5>3.5.2.4. headers</h5>
+</a>
+<p>A matrix that carries all headers defined in <code>markdown</code>.</p>
+<p>The matrix has three or four columns:</p>
+<ol start="1">
+<li>The level of the header, starting with 0.
+<li>The anchor-ready version of the caption.
+<li>The caption.
+<li>The tiered number of the header.
+</ol>
+<p>Naturally the last column does not exist in case <code>numberHeaders</code> is 0.</p>
+<a id="html" class="autoheaderlink">
+<h5>3.5.2.5. html</h5>
+</a>
+<p>After having created the <code>ns</code> namespace by calling <code>CreateParms</code> this variable is empty. By running the <code>Process</code> method this variable will be filled up.</p>
+<a id="leadingchars" class="autoheaderlink">
+<h5>3.5.2.6. leadingChars</h5>
+</a>
+<p>After having created the <code>ns</code> namespace by calling <code>CreateParms</code> this variable contains a limited number of characters from <code>markdown</code>. Leading white-space is removed. This increases performance for many of the checks to be carried out by <code>Process</code>.</p>
+<a id="linenumbers" class="autoheaderlink">
+<h5>3.5.2.7. lineNumbers</h5>
+</a>
+<p>After having created the <code>ns</code> namespace by calling <code>CreateParms</code> this variable contains a vector of integers representing line numbers in <code>markdown</code>. This allows the line number to be reported. Also, <a href="#function-calls">Function calls</a> can access the line number as well.</p>
+<p>Note that line numbers refer to the MarkDown, <strong>not</strong> the HTML.</p>
+<a id="linkrefs" class="autoheaderlink">
+<h5>3.5.2.8. linkRefs</h5>
+</a>
+<p>A vector of two-item vectors holding the link id &mdash; which you will use within the document to link to the definition &mdash; in the first item and the URL in the second.</p>
+<a id="markdown" class="autoheaderlink">
+<h5>3.5.2.9. markdown</h5>
+</a>
+<p>This variable holds the markdown to be processed by <code>Process</code>.</p>
+<a id="markdownlc" class="autoheaderlink">
+<h5>3.5.2.10. markdownLC</h5>
+</a>
+<p>Same as <code>markdown</code> but all in lower case. That speeds things up at the expense of memory.</p>
+<a id="noof" class="autoheaderlink">
+<h5>3.5.2.11. noOf</h5>
+</a>
+<p>The number of lines processed in the next (or current) step.</p>
+<a id="parms" class="autoheaderlink">
+<h5>3.5.2.12. parms</h5>
+</a>
+<p>The parameters that were passed to <code>Init</code>.</p>
+<a id="report" class="autoheaderlink">
+<h5>3.5.2.13. report</h5>
+</a>
+<p>After having created the <code>ns</code> namespace by calling <code>CreateParms</code> this variable is empty. The <code>Process</code> method might add remarks to this variable in case it finds something to complain about or comment on.</p>
+<p>Some methods print the content of this variable to the session in case <a href="#verbose">verbose</a> is 1.</p>
+<a id="subtoc" class="autoheaderlink">
+<h5>3.5.2.14. subToc</h5>
+</a>
+<p>This is a vector of two-item vectors:</p>
+<ol start="1">
+<li>The level of the header, starting with 1.
+<li>The caption of the header as displayed.
+</ol>
+<a id="toc-1" class="autoheaderlink">
+<h5>3.5.2.15. toc</h5>
+</a>
+<p>This is a vector of <del>three</del> four-item vectors (since version 1.3.3):</p>
+<ol start="1">
+<li>The level of the header, starting with 1.
+<li>The caption of the header as displayed.
+<li>The internal link name.
+<li>The type of the header: 1 = SeText, 2 = ATX.
+</ol>
+<a id="withoutblanks" class="autoheaderlink">
+<h5>3.5.2.16. withoutBlanks</h5>
+</a>
+<p>Same as <code>markdown</code> but without any blanks. This speeds things up at the expense of memory.</p>
+<a id="how-to" class="autoheaderlink">
+<h2>4. How to</h2>
+</a>
+<p>First of all, you can bring the document your are reading right now into view by executing <code>#.MarkAPL.Help 0</code>.</p>
+<p>One way to study how to make use of <strong><em>MarkAPL</em></strong> is to trace through the method <code>MarkAPL.Help</code>. This should clarify the principles.</p>
+<p>Another way is to look at the test cases named <code>Test_Examples_01</code> etc in <code>#.TestCases</code> in the workspace MarkAPL.DWS. You can execute them with</p>
+<pre><code>#.TestCases.RunThese 'Examples'</code></pre>
+<p>You can trace through them with</p>
+<pre><code>#.TestCases.RunThese 'Examples' (-⍳1000)</code></pre>
+<p>The numbers select the test cases of the given group (here &ldquo;Examples&rdquo;) to be executed. 1000 was chosen to make sure all of them are executed.</p>
+<p>Negative numbers tell the test framework to stop right before a particular test function is going to be executed. That gives you the opportunity to trace through that function without tracing through the actual test framework.</p>
+<a id="problems" class="autoheaderlink">
+<h2>5. Problems</h2>
+</a>
+<a id="crashes" class="autoheaderlink">
+<h3>5.1. Crashes</h3>
+</a>
+<p>When <strong><em>MarkAPL</em></strong> crashes the most likely reason is an invalid definition. Check the variable <code>ns.markdown</code>: that tells you how far <strong><em>MarkAPL</em></strong> got in processing the Markdown.</p>
+<p>However, since <strong><em>MarkAPL</em></strong> should not crash and always produce a document it is appreciated when you report any crashes. See the next topic for how to report a crash.</p>
+<a id="bugs" class="autoheaderlink">
+<h3>5.2. Bugs</h3>
+</a>
+<p>Please report any bugs to <a href="mailto:kai@aplteam.com">mailto:kai@aplteam.com</a>. I appreciate:</p>
+<ul>
+<li>The input (Markdown)
+<li>Any non-default settings of parameters
+<li>A short description of the problem (not as short as &ldquo;It did not work&rdquo;&hellip; ;)
+<li>The version number of <strong><em>MarkAPL</em></strong>.
+</ul>
+<a id="unexpected-results" class="autoheaderlink">
+<h3>5.3. Unexpected results</h3>
+</a>
+<p>Before reporting a bug please check carefully your Markdown, in particular when the problem appears in or after complex table or list definitions. More often than not mistakes in the Markdown are causing the problem.</p>
+<p>If you cannot work out why it goes wrong report it to me &ndash; see the previous topic for how to report a problem.</p>
+<hr>
+<p>This document refers to version 1.8.4 of <strong><em>MarkAPL</em></strong>. Kai Jaeger ⋄ APL Team Ltd ⋄ 2016-07-24</p>
+<p>Footnotes</p>
+<hr style="width:30%;margin-left:0;">
+<div id="footnotes_div">
+<ol>
+<li id="fn1"><p>Wikipedia definition of abandonware: <a href="https://www.wikiwand.com/en/Abandonware">https://www.wikiwand.com/en/Abandonware</a></p><a href="#fnref1"></a>
+<li id="fn2"><p>The CommonMark specification: <a href="http://spec.commonmark.org/0.24/">http://spec.commonmark.org/0.24/</a></p><a href="#fnref2"></a>
+</ol>
+</div>
+</body>
+</html>
