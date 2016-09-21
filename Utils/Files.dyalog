@@ -411,6 +411,7 @@
     ⍝ this approach is mindnumbingly simple and probably dangerous
     ⍝ which is why we call unixfix very cautiously
       :If (⊂APLVersion)∊'*nix' 'Mac'
+    ⍝ fails on the unlikely (but possible to create on Windows) '\tmp\ myspace.txt'
           slash←'\'=f
           space←' '=f
           ((slash>1↓space,0)/f)←'/'
