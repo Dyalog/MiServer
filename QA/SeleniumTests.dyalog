@@ -38,7 +38,8 @@
       :EndIf
     ∇
 
-    ∇ r←{stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames;maxlen;⎕USING
+    ∇ r←stopOnError_port Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames;maxlen;⎕USING;stopOnError
+      stopOnError←⊃stopOnError_port
       r←''
       (site filter)←2↑(eis site),'' ''
       :If 0=⍴AppRoot←#.Load site
@@ -69,7 +70,7 @@
           ⎕←'Selected: ',(⍕⍴files),' of ',(⍕n),' tests.'
       :EndIf
       n←⍴files
-      SITE←'http://127.0.0.1:',⍕Config.Port
+      SITE←'http://127.0.0.1:',⍕⊃1↓stopOnError_port,Config.Port
      
 ⍝⍝ Un-comment to play music while testing:
 ⍝      :If site filter≡'MS3' ''
