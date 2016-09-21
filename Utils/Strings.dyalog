@@ -17,8 +17,8 @@
 
     cis←{~0∊⍴(⍺ ⎕S 0 ⎕OPT'IC' 1)⍵} ⍝ Case Insensitive Search
 
-    nocase←{(lc ⍺)⍺⍺ lc ⍵} ⍝ case insensitive operator  
-    
+    nocase←{(lc ⍺)⍺⍺ lc ⍵} ⍝ case insensitive operator
+
     firstCap←('(?<first>\w)(?<remainder>\w*)'⎕R'\u<first>\l<remainder>')
 
     beginsWith←{(,⍺){⍵≡(⍴⍵)↑⍺},⍵}
@@ -30,9 +30,11 @@
 
     dlb←{(+/∧\' '=⍵)↓⍵}               ⍝ Delete Leading Blanks
     dtb←{(-+/∧\' '=⌽⍵)↓⍵}             ⍝ Delete Trailing Blanks
-    deb←{{1↓¯1↓(~'  '⍷⍵)/⍵}' ',⍵,' '} ⍝ Delete extraneous blanks  
-       
+    deb←{{1↓¯1↓(~'  '⍷⍵)/⍵}' ',⍵,' '} ⍝ Delete extraneous blanks
+
     vtv←{{1↓¨(v=n)⊂v←(n←⎕UCS 10),⍵}⍵~⎕UCS 13} ⍝ vector of text vectors
+
+    stringToHex←{⎕IO←0⋄∊⍉(16⍴⎕D,⎕A)[16 16⊤⎕UCS ⍵]}
 
     ∇ str←str subst(from to);m;⎕IO;i
     ⍝ simple string substitution

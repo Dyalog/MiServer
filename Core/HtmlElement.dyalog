@@ -712,9 +712,19 @@
 
     ∇ r←renderIt It
       :Access public shared
-      r←{326=⎕DR⊃⍵:{isInstance⊃⍵:(⊃⍵).Render
-              isClass⊃⍵:(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵)).Render
-              ,⍕⍵}⍵ ⋄ ,⍕⍵}It
+      r←{
+          0∊⍴⍵:''
+          326=⎕DR ⍵:{
+              isString ⍵:∊⍵
+              2≤|≡⊃⍵:{
+                  isClass⊃⊃⍵:((New⊃⍵).Render),renderIt 1↓⍵
+                  ,⍕⍵
+              }⍵
+              isInstance⊃⍵:((⊃⍵).Render),renderIt 1↓⍵
+              isClass⊃⍵:((⎕NEW(⊃⍵)).Render),renderIt 1↓⍵
+              isChar⊃⍵:(⊃⍵),renderIt 1↓⍵
+              (,⍕⊃⍵),renderIt 1↓⍵}⍵
+          ,⍕⍵}It
     ∇
 
     ∇ r←isHtmlElement ao
