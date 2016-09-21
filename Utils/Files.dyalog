@@ -404,11 +404,19 @@
       :EndTrap
     ∇
 
-    ∇ f←unixfix f
-    ⍝ replaces Windows file separator \ with Unix file separator /
+    ∇ f←unixfix f;slash;space
+    ⍝ replaces Windows file separator \ with Unix file separator / 
+    ⍝ '\ ' is denotes an escaped space under Unix - so don't change those \
+    ⍝ escape any spaces that remain
     ⍝ this approach is mindnumbingly simple and probably dangerous
     ⍝ which is why we call unixfix very cautiously
-      :If (⊂APLVersion)∊'*nix' 'Mac' ⋄ ((f='\')/f)←'/' ⋄ :EndIf
+      :If (⊂APLVersion)∊'*nix' 'Mac'
+          slash←'\'=f
+          space←' '=f
+          ((slash>1↓space,0)/f)←'/'
+          ((space>¯1↓0,slash)/f)←⊂'\ '
+          f←∊f
+      :EndIf
     ∇
 
     ∇ r←APLVersion
