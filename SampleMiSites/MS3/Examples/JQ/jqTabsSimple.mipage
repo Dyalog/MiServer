@@ -4,13 +4,6 @@
 
     ∇ Compose;ac
       :Access public
-      
-      Add _.h2'_JQ.jqTabs - jQuery UI Tabs Control'
-
-      Add _.p ScriptFollows
-⍝ The jqTabs control allows you to create a tabbed area. The constructor
-⍝ takes a vector of tab captions and a vector of tab contents.
-      
       'output'Add _.jqTabs('Latin' 'German' 'French' 'English')(WrapFollowing'p')
 ⍝ Neque fieri horum errem ab me eo credo. Hanc sic meo quae ipsa. Fal membrorum existenti conservet
 ⍝ per sapientia dubitavit. Apta gi de et enim gnum data. Id quadratam ut archimede attingere re ne.
