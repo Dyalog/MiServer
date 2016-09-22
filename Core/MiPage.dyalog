@@ -338,42 +338,52 @@
     ∇
 
     ∇ r←sel Css args ⍝ JQuery css cover
+      :Access public
       r←(sel #._JSS.JQuery'css')args
     ∇
 
     ∇ r←sel Val args ⍝ JQuery val cover
+      :Access public
       r←(sel #._JSS.JQuery'val')args
     ∇
 
     ∇ r←sel Prop args ⍝ JQuery prop cover
+      :Access public
       r←(sel #._JSS.JQuery'prop')args
     ∇
 
     ∇ r←sel Attr args ⍝ JQuery attr cover
+      :Access public
       r←(sel #._JSS.JQuery'attr')args
     ∇
 
     ∇ r←sel RemoveAttr args ⍝ JQuery removeAttr cover
+      :Access public
       r←(sel #._JSS.JQuery'removeAttr')args
     ∇
 
     ∇ r←sel Html args ⍝ JQuery html cover
+      :Access public
       r←(sel #._JSS.JQuery'html')args
     ∇
 
     ∇ r←sel Show args ⍝ JQuery show cover
+      :Access public
       r←(sel #._JSS.JQuery'show')args
     ∇
 
     ∇ r←sel Hide args ⍝ JQuery hide cover
+      :Access public
       r←(sel #._JSS.JQuery'hide')args
     ∇
 
     ∇ r←sel Toggle args ⍝ JQuery toggle cover
+      :Access public
       r←(sel #._JSS.JQuery'toggle')args
     ∇
 
     ∇ r←Submit sel ⍝ JQuery submit cover
+      :Access public
       r←(sel #._JSS.JQuery'submit')''
     ∇
 
