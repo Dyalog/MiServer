@@ -67,12 +67,12 @@
 -->
 	<resource>
 		<name>d3</name>
-		<script>/PlugIns/Other/d3/d3.v4.min.js</script>
+		<script>/PlugIns/Other/d3/d3.v3.4.8.min.js</script>
 	</resource>
 	<resource>
 		<name>dimple</name>
 		<uses>d3</uses>
-		<script>/PlugIns/Other/d3/dimple.latest.min.js</script>
+		<script>/PlugIns/Other/d3/dimple.v2.2.0.min.js</script>
 	</resource>
 <!-- 
 **************************

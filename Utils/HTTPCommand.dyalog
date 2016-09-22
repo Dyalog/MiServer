@@ -64,7 +64,19 @@
       r←('GET'HTTPCmd)args
     ∇
 
-    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime;congaCopied
+    ∇ r←{certs}Do args
+      :Access public shared
+    ⍝ args is Command URL Params Headers Cert SSLFlags Priority
+      args←eis args
+      :If 0=⎕NC'certs'
+          r←((⊃args)HTTPCmd)1↓args
+      :Else
+          r←certs((⊃args)HTTPCmd)1↓args
+      :EndIf
+    ∇
+
+
+    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime;congaCopied;peercert
 ⍝ issue an HTTP command
 ⍝ certs - optional [X509Cert [SSLValidation [Priority]]]
 ⍝ args  - [1] URL in format [HTTP[S]://][user:pass@]url[:port][/page]
@@ -243,7 +255,7 @@
       :EndIf
      
       {}LDRC.Close cmd
-
+     
       :If congaCopied
           {}LDRC.Close'.'
           LDRC.(⎕EX¨⍙naedfns)

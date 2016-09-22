@@ -5,7 +5,8 @@
     :Field Public _PageName←'' ⍝ Page file name
     :Field Public _PageDate←'' ⍝ Page saved date
     :field Public _Request     ⍝ HTTPRequest
-    :field Public _PageData    ⍝
+    :field Public _PageData    ⍝ parameters passed in request  
+    :field Public Cacheable←0  ⍝ is this page cacheable?
 
     ∇ Make
       :Access public
