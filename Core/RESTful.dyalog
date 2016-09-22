@@ -118,7 +118,7 @@
 
     ∇ r←_URI
       :Access public
-      r←#.Utils.penclose _Request.RESTfulReq
+      r←'/' #.Utils.penclose _Request.RESTfulReq
     ∇
 
     :endsection

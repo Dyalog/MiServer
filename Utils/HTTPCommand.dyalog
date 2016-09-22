@@ -218,7 +218,6 @@
                   :EndIf
               :ElseIf 100=1⊃rc ⍝ timeout?
                   done←⎕AI[3]>donetime
-                  ⎕←'tick'
               :EndIf
           :Until done
      
