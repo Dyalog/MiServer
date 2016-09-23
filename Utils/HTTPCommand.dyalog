@@ -126,7 +126,7 @@
       :EndIf
      
       parms←URLEncode parms
-      urlparms←{('?'=1↑⍵)↓'?',⍵}URLEncode urlparms
+      urlparms←{0∊⍴⍵:'' ⋄ ('?'=1↑⍵)↓'?',⍵}URLEncode urlparms
      
      GET:
       p←(∨/b)×1+(b←'//'⍷url)⍳1
