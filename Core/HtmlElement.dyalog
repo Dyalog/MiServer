@@ -510,7 +510,7 @@
           :If isInstance⊃e
               r,←e.Render
           :ElseIf isClass⊃e
-              r,←(⎕NEW e).Render
+              r,←(New e).Render
           :Else
               :If 1<⍴⍴t←⍕e
                   t←∊(↓t),¨⊂'<br/>'
