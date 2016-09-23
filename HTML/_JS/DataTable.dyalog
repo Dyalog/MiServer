@@ -53,15 +53,6 @@
       html←⎕BASE.Render
      
      
-⍝ BPB - to be sorted out with Michael
-⍝      ⍝***** the following should be optional!
-⍝      ⍝
-⍝      ⍝ only applied if Options.searchHighlight=#.JSON.true
-⍝      'DataTables_searchHighlight'{6::⍺ ∇ 1↓⍵ ⋄ 0<⍴⍵:(1⊃⍵).Use ⍺}⎕RSI
-⍝      ⍝ only needed when Options.sDom contains 'W'
-⍝      '⍎/DataTables/extras/ColumnFilterWidgets/media/js/ColumnFilterWidgets.js'{6::⍺ ∇ 1↓⍵ ⋄ 0<⍴⍵:(1⊃⍵).Use ⍺}⎕RSI
-⍝      '⍕/DataTables/extras/ColumnFilterWidgets/media/css/ColumnFilterWidgets.css'{6::⍺ ∇ 1↓⍵ ⋄ 0<⍴⍵:(1⊃⍵).Use ⍺}⎕RSI
-     
     ∇
 
 :EndClass
