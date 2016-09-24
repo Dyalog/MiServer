@@ -571,7 +571,7 @@
 
     ∇ r←{a}eis w
       :Access public shared
-      r←((,∘⊂)⍣((isString w)∧2>|≡w))w ⍝ enclose if simple character
+      r←((,∘⊂)⍣(((isNum w)∨isString w)∧2>|≡w))w ⍝ enclose if simple character
       ⍝r← (,∘⊂)⍣((326∊⎕DR w)<2>|≡w)⊢w ⍝ Enclose if simple
     ∇
 
@@ -604,7 +604,7 @@
               :EndIf
               r←args
           :Else
-              r←args
+              (r←⎕NEW HtmlElement).Content←args
           :EndIf
       :EndIf
     ∇
