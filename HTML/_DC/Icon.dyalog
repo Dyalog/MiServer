@@ -42,7 +42,7 @@
       :Access public
       (origSpec origContent origClass)←Spec Content class
       Spec←eis Spec
-      Spec,←eis Content
+      :If ~0∊⍴Content ⋄ Spec,←eis Content ⋄ :EndIf
       Content←⍬
       :If 1=⍴Spec ⍝ Simple icon
           Spec←{⊃⍣(1<≡⍵)⊢⍵}Spec ⍝ Disclose if nested (eis⍣¯1)
