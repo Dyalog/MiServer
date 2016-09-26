@@ -27,11 +27,6 @@
   vertical-align: middle;
 }
 
-.dc-panel {
-  margin-top: 16px;
-}
-
-
 .dc-panel > .dc-panel-icon  + .dc-panel-content {
   border-top-left-radius: .5em;
   border-top-right-radius: .5em;
