@@ -1,12 +1,12 @@
-﻿:Class Licences : MiPageSample
+﻿:Class Licenses : MiPageSample
 ⍝ Controls::
 ⍝ Description:: Licenses for software included with MiServer 3.0
     Cy←{' &copy; ',(⍕⊃⎕TS),' by ',⍵,'. All rights Reserved.'}
 
     ∇ Compose
       :Access Public
-      Add _.h1'Licences for Third-party Components'
-      Add _.p'This page includes licences for the following third-party components:'
+      Add _.h1'Licenses for Third-party Components'
+      Add _.p'This page includes licenses for the following third-party components:'
  
       Add _.List(('Syncfusion Essential JavaScript' 'Eric Meyer''s Reset CSS' 'Selenium WebDriver' 'jQuery & jQuery UI' 'Chosen' 'Dimple' 'D3' 'DataTables' 'ColumnFilterWidgets' 'Font Awesome' 'jBox' 'jsSHA' 'JSZip' 'Material Icons' 'pdfmake' 'jQuery UI Touch Punch')⍬('#',¨'SF' 'RCSS' 'SWD' 'JQ' 'C' 'Dimple' 'D3' 'DT' 'DFW' 'FA' 'JB' 'SHA' 'JSZ' 'MI' 'PDF' 'TP'))
       'SF'Add _.h2(_.A'Syncfusion Essential JavaScript' 'https://www.syncfusion.com/products/javascript'),Cy'Syncfusion Inc'
@@ -19,7 +19,7 @@
 ⍝[licensing@syncfusion.com](licensing@syncfusion.com). Any infringement will be prosecuted under
 ⍝applicable laws.
 ⍝
-⍝See the [full licence agreement](https://www.syncfusion.com/content/downloads/syncfusion_license.pdf).
+⍝See the [full license agreement](https://www.syncfusion.com/content/downloads/syncfusion_license.pdf).
      
       'RCSS'Add _.h2(_.A'Eric Meyer''s Reset CSS v2.0' 'http://meyerweb.com/eric/tools/css/reset/'),Cy'Eric A. and Kathryn S. Meyer'
       Add _.p'License: none (public domain)'
