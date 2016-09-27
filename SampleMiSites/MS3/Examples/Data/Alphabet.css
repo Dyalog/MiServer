@@ -1,0 +1,47 @@
+#output 
+{
+    font-size: xx-large;
+}
+
+.uc,.lc,#score 
+{
+    text-align: center;
+}
+
+.uc,.lc {
+     font-family: 'APL385 Unicode',monospace;
+     display: inline-block;
+     width: 2em;
+     border: 0.1em solid rgba(127,127,127,0.5);
+     border-radius: 40%;
+     margin: 0.4em;
+     font-size: xx-large;
+     font-weight: bold;
+     line-height: 2em;
+     -webkit-user-select: none;
+     -moz-user-select: none;
+     -ms-user-select: none;
+     user-select: none;
+ }
+
+.lc 
+{
+    background: yellow;
+    cursor: pointer;
+}
+
+.uc 
+{
+    background: aqua;
+}
+
+.ok 
+{
+    background: lime;
+}
+
+.ui-draggable-dragging 
+{
+    z-index: 1;
+}
+

@@ -1,65 +1,32 @@
 ﻿:class Alphabet :MiPageSample
-⍝ Control:: _JQ.jqDroppable _JQ.jqDraggable _JQ.jqAddClass
-⍝ Description:: Learn the alphabet's uppercase-lowercase pairs
+⍝ Control:: _JQ.jqDroppable _JQ.jqDraggable _JQ.jqAddClass _DC.Script _DC.StyleSheet
+⍝ Description:: Use external code to style and touch-enable uppercase-lowercase alphabet pairing game
 
-    :Field COUNT←0
+    :Field Public COUNT
+    :Field Public START
 
-    ∇ Compose;lc;uc;⎕RL;drag
+    ∇ Compose
       :Access Public
-      COUNT←0
-     
-      ⎕RL←⍬
-     
-      Add _.style ScriptFollows
-      ⍝ #output {font-size: xx-large;}
-      ⍝ .uc,.lc,#score {text-align: center;}
-      ⍝ .uc,.lc {
-      ⍝     font-family: 'APL385 Unicode',monospace;
-      ⍝     display: inline-block;
-      ⍝     width: 2em;
-      ⍝     border: 0.1em solid rgba(127,127,127,0.5);
-      ⍝     border-radius: 40%;
-      ⍝     margin: 0.4em;
-      ⍝     font-size: xx-large;
-      ⍝     font-weight: bold;
-      ⍝     line-height: 2em;
-      ⍝     -webkit-user-select: none;
-      ⍝     -moz-user-select: none;
-      ⍝     -ms-user-select: none;
-      ⍝     user-select: none;
-      ⍝ }
-      ⍝ .lc {background: yellow; cursor: pointer;}
-      ⍝ .uc {background: aqua;}
-      ⍝ .ok {background: lime;}
-      ⍝ .ui-draggable-dragging {z-index: 1;}
-     
-      '#score'Add _.div,'output'New _.span'Drag the lowercase letters onto their corresponding uppercases'
-      drag←⍬
-      (uc lc)←↓⍉↑{
-          l←#.Strings.lc ⍵
-          drop←Add _.jqDroppable('#',⍵)('#',l)
-          h←drop.On'drop' 'Accept'
-          drag,←Add _.jqDraggable('#',l)
-          (⍵'.uc'New _.div(_.span ⍵))(l'.lc'New _.div(_.span l))
-      }¨⎕A
-      Add _.div({New _.div ⍵}¨lc[?⍨26]uc)
-      drag.Set⊂'revert' 'invalid'
+      ⎕RL←⍬ ⋄ COUNT←0
+      Add _.Script'' '../Data/jquery.ui.touch-punch.min.js' ⍝ External JavaScript to make jQuery UIsupport touch
+      Add _.StyleSheet'../Data/Alphabet.css' ⍝ External style sheet
+      'score'Add _.div,'output'New _.span'Drag the lowercase letters onto their corresponding uppercases'
+      Add _.div,{New _.div ⍵}¨¨{⍺[?⍨≢⍺]⍵}/↓⍉↑Pair¨⎕A
     ∇
 
-    ∇ r←Accept;letter
-      :Access public
-      letter←'#',_target
-      r←'head'Append New _.jqAddClass(letter'ok')
-      r,←Execute(#.Strings.lc letter)Css'visibility' 'hidden'
-      :If 0=COUNT
-          START←#.Dates.Now
-          COUNT←1
-          r,←'#output'Replace'1 pairing done'
-      :ElseIf COUNT=25
-          r,←'#output'Replace'All pairings done in',(2⍕86400×#.Dates.Now-START),' seconds'
-      :Else
-          COUNT+←1
-          r,←'#output'Replace(⍕COUNT),' pairings done in',(2⍕86400×#.Dates.Now-START),' seconds'
-      :EndIf
+    ∇ (lc uc)←Pair L;l
+      (L l)←'#',¨L,#.Strings.lc L
+      (lc uc)←'.lc' '.uc'{⍵ ⍺ New _.div(_.span ⍵)}¨⊢/¨l L
+      (lc.Add _.jqDraggable l).Set'revert' 'invalid'
+      (uc.Add _.jqDroppable L l).On'drop' 'Accept'
+    ∇
+
+    ∇ r←Accept;L
+      :Access Public
+      L←'#',_target
+      r←'head'Append _.jqAddClass(L'ok')
+      r,←Execute(#.Strings.lc L)Css'visibility' 'hidden'
+      :If 1=COUNT←1+COUNT ⋄ START←#.Dates.Now ⋄ :EndIf
+      r,←'#output'Replace{1≡⍵:'1 pairing done' ⋄ ⍵,' pairings done in',(2⍕86400×#.Dates.Now-START),' seconds'}COUNT
     ∇
 :endclass
