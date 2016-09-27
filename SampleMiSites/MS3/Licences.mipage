@@ -1,0 +1,247 @@
+﻿:Class Licences : MiPageSample
+⍝ Controls::
+⍝ Description:: Licenses for software included with MiServer 3.0
+    Cy←{' &copy; ',(⍕⊃⎕TS),' by ',⍵,'. All rights Reserved.'}
+
+    ∇ Compose
+      :Access Public
+      Add _.h1'Licences for Third-party Components'
+      Add _.p'This page includes licences for the following third-party components:'
+ 
+      Add _.List(('Syncfusion Essential JavaScript' 'Eric Meyer''s Reset CSS' 'Selenium WebDriver' 'jQuery & jQuery UI' 'Chosen' 'Dimple' 'D3' 'DataTables' 'ColumnFilterWidgets' 'Font Awesome' 'jBox' 'jsSHA' 'JSZip' 'Material Icons' 'pdfmake' 'jQuery UI Touch Punch')⍬('#',¨'SF' 'RCSS' 'SWD' 'JQ' 'C' 'Dimple' 'D3' 'DT' 'DFW' 'FA' 'JB' 'SHA' 'JSZ' 'MI' 'PDF' 'TP'))
+      'SF'Add _.h2(_.A'Syncfusion Essential JavaScript' 'https://www.syncfusion.com/products/javascript'),Cy'Syncfusion Inc'
+      Add MarkdownFollows         
+⍝Under a licensing agreement with Syncfusion, Dyalog includes the Syncfusion library of JavaScript widgets.
+⍝These may be used by Dyalog APL users to develop applications, and may be distributed with Dyalog APL run-time applications.
+⍝
+⍝Use of this code is subject to the terms of our license.
+⍝A copy of the current license can be obtained at any time by e-mailing
+⍝[licensing@syncfusion.com](licensing@syncfusion.com). Any infringement will be prosecuted under
+⍝applicable laws.
+⍝
+⍝See the [full licence agreement](https://www.syncfusion.com/content/downloads/syncfusion_license.pdf).
+     
+      'RCSS'Add _.h2(_.A'Eric Meyer''s Reset CSS v2.0' 'http://meyerweb.com/eric/tools/css/reset/'),Cy'Eric A. and Kathryn S. Meyer'
+      Add _.p'License: none (public domain)'
+     
+      'SWD'Add _.h2(_.A'Selenium WebDriver' 'http://www.seleniumhq.org/projects/webdriver/'),Cy'Selenium community'
+      Add MarkdownFollows
+⍝Licensed under the Apache License, Version 2.0 (the "License");
+⍝you may not use this file except in compliance with the License.
+⍝You may obtain a copy of the License at [http://www.apache.org/licenses/LICENSE-2.0]('http://www.apache.org/licenses/LICENSE-2.0').
+⍝
+⍝Unless required by applicable law or agreed to in writing, software
+⍝distributed under the License is distributed on an "AS IS" BASIS,
+⍝WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+⍝See the License for the specific language governing permissions and
+⍝limitations under the License.
+     
+      'JQ'Add _.h2(_.A'jQuery' 'http://jquery.com/')' & '(_.A'jQuery UI' 'http://jqueryui.com/'),Cy'jQuery Foundation'
+      Add _.p'jQuery Foundation projects are released under the terms of the license specified in the project''s repository or if not specified, under the MIT license.'
+      Add MarkdownFollows
+⍝Permission is hereby granted, free of charge, to any person obtaining
+⍝a copy of this software and associated documentation files (the
+⍝"Software"), to deal in the Software without restriction, including
+⍝without limitation the rights to use, copy, modify, merge, publish,
+⍝distribute, sublicense, and/or sell copies of the Software, and to
+⍝permit persons to whom the Software is furnished to do so, subject to
+⍝the following conditions:
+⍝
+⍝The above copyright notice and this permission notice shall be
+⍝included in all copies or substantial portions of the Software.
+⍝
+⍝THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+⍝EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+⍝MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+⍝NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+⍝LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+⍝OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+⍝WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+     
+      'C'Add _.h2(_.A'Chosen' 'https://harvesthq.github.io/chosen/'),Cy'Harvest'
+      Add MarkdownFollows
+⍝Available for use under the [MIT License](http://en.wikipedia.org/wiki/MIT_License)
+⍝
+⍝Permission is hereby granted, free of charge, to any person obtaining a copy
+⍝of this software and associated documentation files (the "Software"), to deal
+⍝in the Software without restriction, including without limitation the rights
+⍝to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+⍝copies of the Software, and to permit persons to whom the Software is
+⍝furnished to do so, subject to the following conditions:
+⍝
+⍝The above copyright notice and this permission notice shall be included in
+⍝all copies or substantial portions of the Software.
+⍝
+⍝THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+⍝IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+⍝FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+⍝AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+⍝LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+⍝OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+⍝THE SOFTWARE.
+     
+      'Dimple'Add _.h2(_.A'dimple' 'http://dimplejs.org/'),Cy'Michael Bostock'
+      Add MarkdownFollows
+⍝Redistribution and use in source and binary forms, with or without
+⍝modification, are permitted provided that the following conditions are met:
+⍝
+⍝* Redistributions of source code must retain the above copyright notice, this
+⍝  list of conditions and the following disclaimer.
+⍝
+⍝* Redistributions in binary form must reproduce the above copyright notice,
+⍝  this list of conditions and the following disclaimer in the documentation
+⍝  and/or other materials provided with the distribution.
+⍝
+⍝* The name Michael Bostock may not be used to endorse or promote products
+⍝  derived from this software without specific prior written permission.
+⍝
+⍝THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+⍝AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+⍝IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+⍝DISCLAIMED. IN NO EVENT SHALL MICHAEL BOSTOCK BE LIABLE FOR ANY DIRECT,
+⍝INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+⍝BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+⍝DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+⍝OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+⍝NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+⍝EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+     
+      'D3'Add _.h2(_.A'D3' 'https://d3js.org/'),Cy'Michael Bostock'
+      Add MarkdownFollows
+⍝Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+⍝
+⍝1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+⍝
+⍝2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+⍝
+⍝3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+⍝
+⍝THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+     
+      'DT'Add _.h2(_.A'DataTables' 'http://datatables.net')' & '(_.A'SearchHighlight' 'http://datatables.net/blog/2014-10-22'),Cy'SpryMedia Limited'
+      Add MarkdownFollows
+⍝Permission is hereby granted, free of charge, to any person obtaining a copy
+⍝of this software and associated documentation files (the "Software"), to deal
+⍝in the Software without restriction, including without limitation the rights
+⍝to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+⍝copies of the Software, and to permit persons to whom the Software is
+⍝furnished to do so, subject to the following conditions:
+⍝
+⍝The above copyright notice and this permission notice shall be included in
+⍝all copies or substantial portions of the Software.
+⍝
+⍝THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+⍝IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+⍝FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+⍝AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+⍝LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+⍝OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+⍝THE SOFTWARE.
+     
+      'CWF'Add _.h2(_.A'ColumnFilterWidgets' 'https://github.com/cyberhobo/ColumnFilterWidgets'),Cy'Dylan Kuhn'
+      Add MarkdownFollows
+⍝ColumnFilterWidgets uses the same license as DataTables. DataTables is released with dual licensing, using the GPL v2 (license-gpl2.txt) and an BSD style license (license-bsd.txt). Please see the corresponding license file for details of these licenses. You are free to use, modify and distribute this software, but all copyright information must remain.
+     
+      'FA'Add _.h2(_.A'Font Awesome' 'http://fontawesome.io'),Cy'Dave Gandy'
+      Add MarkdownFollows
+⍝ See [http://fontawesome.io/license/](http://fontawesome.io/license/) for details.
+⍝
+⍝ Desktop and webfont files: [SIL OFL 1.1](http://scripts.sil.org/OFL)
+⍝
+⍝ CSS and LESS files: [MIT License](http://opensource.org/licenses/mit-license.html)
+⍝
+⍝ Font Awesome project files that are not a part of the Font or Code licenses: [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/)
+⍝
+⍝* All brand icons are trademarks of their respective owners.
+⍝* The use of these trademarks does not indicate endorsement of the trademark holder by Font Awesome, nor vice versa.
+⍝* Brand icons should only be used to represent the company or product to which they refer.
+     
+      'JB'Add _.h2(_.A'jBox' 'http://stephanwagner.me/jBox'),Cy'Stephan Wagner'
+      Add MarkdownFollows
+⍝Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+⍝
+⍝The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+⍝
+⍝THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+     
+      'SHA'Add _.h2(_.A'jsSHA' 'http://pajhome.org.uk/crypt/md5/'),Cy'Brian Turek'
+      Add MarkdownFollows
+⍝Redistribution and use in source and binary forms, with or without
+⍝modification, are permitted provided that the following conditions are met:
+⍝
+⍝ * Redistributions of source code must retain the above copyright notice, this
+⍝   list of conditions and the following disclaimer.
+⍝ * Redistributions in binary form must reproduce the above copyright notice,
+⍝   this list of conditions and the following disclaimer in the documentation
+⍝   and/or other materials provided with the distribution.
+⍝ * Neither the name of the the copyright holder nor the names of its
+⍝   contributors may be used to endorse or promote products derived from this
+⍝   software without specific prior written permission.
+⍝
+⍝THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+⍝AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+⍝IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+⍝DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+⍝ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+⍝(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+⍝LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+⍝ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+⍝(INCLUDING NEGLIGENCEOR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+⍝SOFTWARE, EVEN IF ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
+⍝
+⍝--------------------------------------------------------------------------------
+⍝
+⍝Portions of this software are derived from code under the same license and
+⍝
+⍝Copyright (c) 1998 - 2009, Paul Johnston & Contributors
+⍝All rights reserved.
+     
+      'JSZ'Add _.h2(_.A'JSZip' 'http://stuartk.com/jszip'),Cy'Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso'
+      Add MarkdownFollows
+⍝Permission is hereby granted, free of charge, to any person obtaining a copy
+⍝of this software and associated documentation files (the "Software"), to deal
+⍝in the Software without restriction, including without limitation the rights
+⍝to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+⍝copies of the Software, and to permit persons to whom the Software is
+⍝furnished to do so, subject to the following conditions:
+⍝
+⍝The above copyright notice and this permission notice shall be included in
+⍝all copies or substantial portions of the Software.
+⍝
+⍝THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+⍝IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+⍝FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+⍝AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+⍝LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+⍝OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+⍝THE SOFTWARE.
+     
+      'MI'Add _.h2(_.A'Material Icons' 'https://google.github.io/material-design-icons/'),Cy'Google'
+      Add MarkdownFollows
+⍝We have made these icons available for you to incorporate them into your products under the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt). Feel free to remix and re-share these icons and documentation in your products. We'd love attribution in your app's about screen, but it's not required. The only thing we ask is that you not re-sell the icons themselves.
+     
+      'PDF'Add _.h2(_.A'pdfmake' 'https://travis-ci.org/bpampuch/pdfmake'),Cy'bpampuch'
+      Add MarkdownFollows
+⍝Permission is hereby granted, free of charge, to any person obtaining a copy of
+⍝this software and associated documentation files (the "Software"), to deal in
+⍝the Software without restriction, including without limitation the rights to
+⍝use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+⍝the Software, and to permit persons to whom the Software is furnished to do so,
+⍝subject to the following conditions:
+⍝
+⍝The above copyright notice and this permission notice shall be included in all
+⍝copies or substantial portions of the Software.
+⍝
+⍝THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+⍝IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+⍝FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+⍝COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+⍝IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+⍝CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+     
+      'TP'Add _.h2(_.A'jQuery UI Touch Punch' 'http://touchpunch.furf.com/'),Cy'Dave Furfero'
+      Add MarkdownFollows
+⍝This code is dual licensed under the MIT or GPL Version 2 licenses and is therefore free to use, modify and/or distribute, but if you include Touch Punch in other software packages or plugins, please include an attribution to the original software and a link to [this Touch Punch website](http://touchpunch.furf.com/).
+    ∇
+
+:EndClass
