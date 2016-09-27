@@ -1,5 +1,5 @@
 ﻿:Class dimpleSimple : MiPageSample
-⍝ Control:: _.dimple
+⍝ Control:: _JS.dimple
 ⍝ Description:: Dimple line plot chart
 
     ∇ Compose
