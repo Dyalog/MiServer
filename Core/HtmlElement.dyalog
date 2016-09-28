@@ -604,7 +604,7 @@
               :EndIf
               r←args
           :Else
-              (r←⎕NEW HtmlElement).Content←args
+              (r←⎕NEW HtmlElement).Content←⊂args
           :EndIf
       :EndIf
     ∇
@@ -623,7 +623,7 @@
               :EndTrap
               Content←r
           :Else
-              Content,⍨←r
+              Content,⍨←⊂r
           :EndIf
       :EndIf
     ∇
@@ -723,7 +723,7 @@
               isInstance⊃⍵:((⊃⍵).Render),renderIt 1↓⍵
               isClass⊃⍵:((⎕NEW(⊃⍵)).Render),renderIt 1↓⍵
               isChar⊃⍵:(⊃⍵),renderIt 1↓⍵
-              (,⍕⊃⍵),renderIt 1↓⍵}⍵
+              (renderIt⊃⍵),renderIt 1↓⍵}⍵
           ,⍕⍵}It
     ∇
 

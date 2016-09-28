@@ -63,7 +63,7 @@
           :EndFor
      
           'Pages'#.⎕NS'' ⍝ Container Space for loaded classes
-          #.Pages.(MiPage MildPage RESTful)←#.(MiPage MildPage RESTful)
+          #.Pages.(MiPage RESTful)←#.(MiPage RESTful)
      
           'CachedPages'#.⎕NS'' ⍝ Container for cached pages
      

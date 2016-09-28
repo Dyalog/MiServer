@@ -40,9 +40,6 @@
         ⍝ wrap the content of the <body> element in a div
           '.bodyblock'Body.Push _.div
      
-        ⍝ add the footer to the bottom of the page
-          ⍝Add #.Files.GetText server.Config.Root,'Styles\footer.txt'
-     
         ⍝ add the header to the top of the page and wrap the body in a div with id="wrapper"
           Body.Push #.Files.GetText server.Config.Root,'Styles\banner.txt'
      
