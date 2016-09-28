@@ -682,7 +682,7 @@
      
       REQ.Title'Unhandled Execution Error'
       REQ.Style'Styles/error.css'
-      html←'h1'#.HTMLInput.Enclose'Server Error in ''',REQ.Page,'''.<hr width=100% size=1 color=silver>'
+      html←'<h1>Server Error in ''',REQ.Page,'''.<hr width=100% size=1 color=silver></h1>'
       html,←'<h2><i>Unhandled Exception Error</i></h2>'
       html,←'<b>Description:</b> An unhandled exception occurred during the execution of the current web request.'
       :If #.DrA.Mode=2 ⍝ Allows editing
@@ -690,7 +690,7 @@
       :EndIf
       html,←'<br><br><b>Exception Details:</b><br><br>'
       :If (#.DrA.Mode>0)∧0≠⍴#.DrA.LastFile ⋄ html,←#.DrA.(GenHTML LastFile)
-      :Else ⋄ html,←'code'#.HTMLInput.Enclose'<font face="APL385 Unicode">',(⊃,/#.DrA.LastError,¨⊂'<br>'),'</font>'
+      :Else ⋄ html,←'<code><font face="APL385 Unicode">',(⊃,/#.DrA.LastError,¨⊂'<br>'),'</font></code>'
       :EndIf
       REQ.Return html
     ∇

@@ -26,7 +26,7 @@
           'contentblock'Body.Push _.div
      
         ⍝ add a hidden division to the body containing the APL source code
-          (Add _.div(#.HTMLInput.APLToHTMLColour src←⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
+          (Add _.div(#.HtmlUtils.APLToHTMLColor src←⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
      
      
         ⍝ extract the content and re-write it in parallel to the controls info div

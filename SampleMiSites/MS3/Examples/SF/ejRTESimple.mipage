@@ -18,7 +18,7 @@
 
     ∇ r←Display
       :Access public
-      r←'#output'Replace #.HTMLInput.HtmlSafeText Get'doc'
+      r←'#output'Replace #.HtmlUtils.HtmlSafeText Get'doc'
     ∇
 
 :EndClass

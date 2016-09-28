@@ -13,7 +13,7 @@
 ⍝ Theme - name of a jBox-Theme (one of 'ModalBorder','NoticeBorder','TooltipBorder' or 'TooltipDark')
 ⍝
 ⍝ Shared Methods:
-⍝ {optionsORcolour} Notice [message] - displays a popup-msg.
+⍝ {optionsORcolor} Notice [message] - displays a popup-msg.
 ⍝ {options} Modal [message] - modal popup
 ⍝
 ⍝ Notes::

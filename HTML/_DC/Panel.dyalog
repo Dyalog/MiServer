@@ -20,7 +20,7 @@
 
 
     :field public Value←''
-    :field public Type←'info'    ⍝ info | warn | errorr] | success | warnRed (Warning-Symbol with red colour - if you don't like normal "error"-style)
+    :field public Type←'info'    ⍝ info | warn | errorr] | success | warnRed (Warning-Symbol with red color - if you don't like normal "error"-style)
     :field public Title←''
     :field public Icon←''
 

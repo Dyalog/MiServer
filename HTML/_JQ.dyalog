@@ -610,7 +610,7 @@
               :Else
                   r←'$(',(quote selector),').on(',(quote Events),(delegates ine', ',quote delegates),', function(event,ui){',ajax,'});'
                   :If jQueryWrap ⋄ r←'$(function(){',r,'});' ⋄ :EndIf
-                  :If ScriptWrap ⋄ r←#.HTMLInput.JS r ⋄ :EndIf
+                  :If ScriptWrap ⋄ r←'<script>',r,'</script>' ⋄ :EndIf
               :EndIf
           :EndIf
         ∇

@@ -1,4 +1,4 @@
-/* Global: all transitions equally long*/
+﻿/* Global: all transitions equally long*/
 #banner, #about {
     transition: 0.25s;
 }
@@ -620,7 +620,7 @@ figcaption a {
     font-weight: bold;
 }
 
-/* Syntax colouring */
+/* Syntax coloring */
 .i200comment {
     color: darkgreen;
 }

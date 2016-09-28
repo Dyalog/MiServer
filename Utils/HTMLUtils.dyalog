@@ -10,7 +10,7 @@
     iotaz←{(⍴⍺){⍵×⍺≥⍵}⍺⍳⍵}
     innerhtml←{⊃↓/(⍵ iotaz'>')(-(⌽⍵)iotaz'<') ⍵}
     dtlb←{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}
-    tonum←{0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}
+   ⍝ tonum←{0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}
 
 
     ∇ r←atts Enclose innerhtml;i
@@ -103,6 +103,49 @@
           html←APL
       :EndTrap
       html←('pre style="font-family:APL385 Unicode',fontsize,'"')Enclose CRLF,⍨html
+    ∇
+
+    ∇ html←APLToHTMLColor APL;types;colors;class;codes;apply;lines;head;tail;c;ent
+     ⍝ returns APL code formatted for HTML with syntax coloring
+      :Trap 0
+          colors←⍬
+          colors,←⊂'i200comment'(1 26 63)
+          colors,←⊂'i200char'(4 29)
+          colors,←⊂'i200num'(5 30)
+          colors,←⊂'i200local'(10 32 35 53)
+          colors,←⊂'i200global'(7 52 55)
+          colors,←⊂'i200primitive'(19 44 146 To 153 214 To 221)
+          colors,←⊂'i200idiom'(23 48)
+          colors,←⊂'i200control'(58 155 To 179 181 To 213 222 To 248)
+          colors,←⊂'i200space'(8 9 33 34)
+          colors,←⊂'i200quad'(12 To 15 37 To 40)
+     
+          html←({(+/∨\' '≠⌽⍵)↑¨↓⍵}⍣(1≥|≡APL))APL ⍝ Make VTV if matrix
+          lines←∊1↑¨⍨≢¨html
+          types←0,0,⍨∊200⌶html                        ⍝ 200⌶ is color coding
+     
+          :For c ent :InEach '&<'('&amp;' '&lt;')
+              ((c⍷∊html)/∊html)←⊂⊂ent
+          :EndFor
+     
+          html←' ',' ',⍨⊃,/html
+          :For class codes :In colors
+              apply←1 0⍷types∊codes
+              (apply/html)←(apply/html),¨⊂'</span>'
+          :EndFor
+          :For class codes :In colors
+              apply←0 1⍷types∊codes
+              (apply/html)←(apply/html),¨⊂'<span class="',class,'">'
+          :EndFor
+          head←1↓⊃html ⋄ tail←¯1↓⊃⌽html
+          html←lines⊂1↓¯1↓html
+          (⊃html),⍨←head ⋄ (⊃⌽html),←tail
+          html←∊¨html
+          html,⍨¨←,∘'</span>'¨↓↑('<span class="i200line">['∘,,∘']')¨⍕¨¯1+⍳⍴html ⍝ Prepend line numbers
+          html←'pre'Enclose'code'Enclose html
+      :Else
+          html←APLToHTML APL
+      :EndTrap
     ∇
 
       MakeStyle←{

@@ -11,9 +11,9 @@
      
       Add _.h4'Larger image on click'
       Add _.p'Hover over these images and click them for a gallery-view in full size. Notice how you can browse the gallery with the arrow-left/right-keys!'
-      Add _.p'NB: Grey/Colouring is not a jBox-Effect, pure CSS-Styling!'
+      Add _.p'NB: Grey/Coloring is not a jBox-Effect, pure CSS-Styling!'
 
-    ⍝ following css-stuff for gray images that show colours on MouseOver!
+    ⍝ following css-stuff for gray images that show colors on MouseOver!
       Add _.Style ScriptFollows
      ⍝.demo-img1 {
      ⍝   filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */

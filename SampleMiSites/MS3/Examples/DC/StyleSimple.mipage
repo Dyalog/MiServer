@@ -1,6 +1,6 @@
 ﻿:Class StyleSimple : MiPageSample
 ⍝ Control:: _DC.Style
-⍝ Description:: Colour headdings red using an internal style element
+⍝ Description:: Color headings red using an internal style element
 
     ∇ Compose
       :Access Public
@@ -11,7 +11,7 @@
      ⍝ Most of the styling for your page should be done using the default style sheet for your site,
      ⍝ Possibly overriden by other specialised style sheets for groups of pages. However, sometimes
      ⍝ you need a one-off modification which doesn't justify the creation of a new sheet. The _.Style
-     ⍝ object makes it easy to add styles on the fly, for example to colour the following h2 headers
+     ⍝ object makes it easy to add styles on the fly, for example to color the following h2 headers
      ⍝ red on this page.
      
       Add _.Style'h2'('color' 'red')
