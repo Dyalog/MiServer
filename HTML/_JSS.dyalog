@@ -56,6 +56,10 @@
       r←(sel JQuery'toggle')args
     ∇
 
+    ∇ r←sel Trigger args
+      r←(sel JQuery'trigger')args
+    ∇
+
     ∇ r←Submit sel
       r←(sel JQuery'submit')''
     ∇
