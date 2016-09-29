@@ -105,8 +105,9 @@
       html←('pre style="font-family:APL385 Unicode',fontsize,'"')Enclose CRLF,⍨html
     ∇
 
-    ∇ html←APLToHTMLColor APL;types;colors;class;codes;apply;lines;head;tail;c;ent
-     ⍝ returns APL code formatted for HTML with syntax coloring
+    ∇ html←APLToHTMLColor APL;types;colors;class;codes;apply;lines;head;tail;c;ent;to
+     ⍝ returns APL code formatted for HTML with syntax coloring 
+       to←{(¯1↓⍺),((¯1+⊃⌽⍺)+⍳1+(⊃⍵)-(⊃⌽⍺)),1↓⍵}
       :Trap 0
           colors←⍬
           colors,←⊂'i200comment'(1 26 63)
@@ -114,11 +115,11 @@
           colors,←⊂'i200num'(5 30)
           colors,←⊂'i200local'(10 32 35 53)
           colors,←⊂'i200global'(7 52 55)
-          colors,←⊂'i200primitive'(19 44 146 To 153 214 To 221)
+          colors,←⊂'i200primitive'(19 44 146 to 153 214 to 221)
           colors,←⊂'i200idiom'(23 48)
-          colors,←⊂'i200control'(58 155 To 179 181 To 213 222 To 248)
+          colors,←⊂'i200control'(58 155 to 179 181 to 213 222 to 248)
           colors,←⊂'i200space'(8 9 33 34)
-          colors,←⊂'i200quad'(12 To 15 37 To 40)
+          colors,←⊂'i200quad'(12 to 15 37 to 40)
      
           html←({(+/∨\' '≠⌽⍵)↑¨↓⍵}⍣(1≥|≡APL))APL ⍝ Make VTV if matrix
           lines←∊1↑¨⍨≢¨html
