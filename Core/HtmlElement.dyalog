@@ -193,7 +193,9 @@
                   :AndIf 0≠n←eq+.∧nq←~≠\'"'=item
                       :If n=1
                           attr,←⊂split item
-                      :Else
+                      :ElseIf 1=eq+.∧nq←nq>≠\''''=item
+                          attr,←⊂split item
+                      :Else ⍝!!! needs more analysis what about cases like:  onchange=''alert("\"we're here)''
                           attr,←⊃,/1 ParseAttr¨item{⎕ML←3 ⋄ ⍵⊂⍺}nq⍲item=' '
                       :EndIf
                   :ElseIf 3>f←'#.'⍳1↑item
