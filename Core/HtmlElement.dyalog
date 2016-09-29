@@ -508,6 +508,7 @@
       :Access public
     ⍝ do the bulk of the rendering work
       r←''
+      list←{0=⍴⍴⍵:{1<|≡⍵:⊃⍵ ⋄ ⍵}⍵ ⋄ ⍵}list
       :For e :In eis list
           :If isInstance⊃e
               r,←e.Render
