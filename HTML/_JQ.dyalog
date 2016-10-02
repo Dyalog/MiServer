@@ -414,10 +414,10 @@
               force←0
               events←Events
               :If widget←#.HtmlElement.isWidget WidgetRef ⍝ is this a widget handler?
-                  WidgetDef←WidgetRef.WidgetDef
+                  WidgetDef←WidgetRef.WidgetDef                    
                   :If ForceInternal=¯1
-                      :If ','∊Events ⍝ multiple events?
-                          events←','#.Utils.penclose Events~' '
+                      :If ∨/', '∊Events ⍝ multiple events?
+                          events←', '#.Utils.penclose Events
                       :Else
                           events←,⊂Events
                       :EndIf
@@ -544,7 +544,7 @@
                               :If 0∊⍴arg
                                   phrase←'APLstringify(',v,')'
                               :Else
-                                  phrase←v,'.',arg
+                                  phrase←'APLstringify(',v,'.',arg,')'
                               :EndIf
          
                           :CaseList 'model' 'ui' ⍝ widgets only
@@ -553,7 +553,7 @@
                                   :If 0∊⍴arg
                                       phrase←'APLstringify(',syn_model,')'
                                   :Else
-                                      phrase←syn_model,'.',arg
+                                      phrase←'APLstringify(',syn_model,'.',arg,')'
                                   :EndIf
                               :EndIf
          

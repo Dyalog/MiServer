@@ -11,25 +11,29 @@
       r←,('<',day,', >,ZI2,<-',mon,'->,ZI4,< >,ZI2,<:>,ZI2,<:>,ZI2,< GMT>')⎕FMT 1 5⍴(6↑date)[3 1 4 5 6]
     ∇
 
-    ∇ r←{minOffset}HTTPDate ts;sign;day;mon;ver;⎕USING;t
-    ⍝ return RCF 1123/822 compliant date
-    ⍝ minOffset is option number of minutes to offset time with (used for HTTP caching expirations)
-      minOffset←{0::0 ⋄ minOffset}''
-      ts←6↑ts
+    ∇ SetUtcOffset;ver;⎕USING
       :If 0=⎕NC'_UtcOffset'
           :If 'Win'≡ver←3↑1⊃'.'⎕WG'APLVersion'
               :Hold '_UtcOffset'
                   ⎕USING←,⊂''
-                  _UtcOffset←¯60×(System.TimeZone.CurrentTimeZone.GetUtcOffset ⎕NEW System.DateTime(ts)).Hours
+                  _UtcOffset←¯60×(System.TimeZone.CurrentTimeZone.GetUtcOffset ⎕NEW System.DateTime(⎕TS)).Hours
               :EndHold
           :Else
-              :If (⊂ver)∊'Lin' 'AIX' 'Sol'
+              :If (⊂ver)∊'Lin' 'AIX' 'Sol' 'Mac'
                   _UtcOffset←¯60×⍎¯2↓{⍵↑⍨-' '⍳⍨⌽⍵}⊃⎕SH'date -R'
               :Else
                   _UtcOffset←0 ⍝ otherwise, assume GMT
               :EndIf
           :EndIf
       :EndIf
+    ∇
+
+    ∇ r←{minOffset}HTTPDate ts;sign;day;mon;ver;⎕USING;t
+    ⍝ return RCF 1123/822 compliant date
+    ⍝ minOffset is option number of minutes to offset time with (used for HTTP caching expirations)
+      minOffset←{0::0 ⋄ minOffset}''
+      ts←6↑ts
+      SetUtcOffset
       ts←IDNToDate((_UtcOffset+minOffset)÷24×60)+t←DateToIDN ts
       day←(7 3⍴'MonTueWedThuFriSatSun')[1+7|(⌊t)-1;]
       mon←(12 3⍴'JanFebMarAprMayJunJulAugSepOctNovDec')[2⊃ts;]
@@ -166,6 +170,11 @@
      ⍝ Now grab the time
           dt←ymd,tonum⍕'(\d+):(\d+):(\d+)'⎕S'\1 \2 \3'⊢str
       :EndIf
+    ∇
+
+    ∇ ts←ParseISODate str
+      SetUtcOffset
+      ts←IDNToDate(-_UtcOffset÷24×60)+DateToIDN 7↑str{⊃(//)⎕VFI ⍵\⍵/⍺}str∊⎕D
     ∇
 
     ∇ r←{unit}ParseTime string;chunks;units;factors
