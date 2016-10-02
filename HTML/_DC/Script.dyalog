@@ -34,7 +34,6 @@
 
     ∇ html←Render
       :Access public
-      'type'Set'text/javascript'
       :If ~0∊⍴File
       :AndIf 0∊⍴Content ⍝ if inline script, ignore the file
           Set(⊂'src'File)
