@@ -254,6 +254,7 @@
 		<name>ejGrid</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
+		<uses>jquery.validate</uses>
 		<uses>jsrender</uses>
 	</resource>
 	<resource>
