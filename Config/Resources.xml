@@ -116,7 +116,7 @@
 -->
 	<resource>
 		<name>sfTheme</name>
-		<style>/Syncfusion/assets/css/web/gradient-saffron/ej.widgets.all.min.css</style>
+		<style>/Syncfusion/assets/css/web/gradient-saffron/ej.web.all.min.css</style>
 	</resource>
 	<resource>
 		<name>jquery.easing</name>

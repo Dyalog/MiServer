@@ -15,7 +15,7 @@
 
   <directory>
     <alias>Syncfusion</alias>
-    <path>%ServerRoot%/PlugIns/Syncfusion-14.2.0.26/</path>
+    <path>%ServerRoot%/PlugIns/Syncfusion-14.3.0.49/</path>
   </directory>
 
   <directory>
