@@ -1,7 +1,0 @@
-﻿:Class ws : RESTful
-
-    ∇ r←Respond
-      :Access Public
-      r←_Request.RESTfulReq
-    ∇
-:EndClass

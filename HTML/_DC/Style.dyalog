@@ -36,7 +36,7 @@
       html←⎕BASE.Render
     ∇
 
-    ∇ html←parseStyles styles;s;i;n;t;d
+    ∇ html←parseStyles styles;s;i;n;t;d;j
       :Access public shared
       styles←eis,styles
       html←''
@@ -50,7 +50,13 @@
                   t←s←''
               :Else
                   :If 0 1∊⍨≡d←(i+1)⊃styles ⍝ next item is also scalar or vector
-                      html,←t #.HtmlUtils.Styles''
+                      :If (⍴d)>j←¯1+d⍳':'
+                      :AndIf ∧/(#.Strings.uc j⍴d)∊⎕A,'- '
+                          html,←t #.HtmlUtils.Styles d
+                          i+←1
+                      :Else
+                          html,←t #.HtmlUtils.Styles''
+                      :EndIf
                   :ElseIf 2 3∊⍨≡d
                       html,←t #.HtmlUtils.Styles d
                       i+←1
@@ -64,7 +70,7 @@
               html,←parseStyles t
           :EndIf
       :EndWhile
-    ∇                                  
+    ∇
 
     vectify←{0=≡⍵:,⍵ ⋄ 1<|≡⍵: ∇¨⍵ ⋄ ⍵ }
 

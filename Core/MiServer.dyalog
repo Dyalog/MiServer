@@ -561,7 +561,8 @@
       :EndIf
      
     ⍝!!!BPB!!! Finish Me
-      :If inst.Cacheable
+      :If 0≠inst.⎕NC'Cacheable'
+      :AndIf inst.Cacheable
       :AndIf ~0∊⍴inst._cache
           REQ.Response.HTML←inst._cache
           →0

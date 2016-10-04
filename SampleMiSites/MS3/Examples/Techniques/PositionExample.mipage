@@ -23,6 +23,8 @@
       ⍝    position: absolute;
       ⍝ }
      
+      
+      Add _.h2 'Position Examples - examine the APL code!'
       '#target'Add _.div'target'
 
       ('.positioned'Add _.div'my center at target''s center')Position'center' 'center' '#target'

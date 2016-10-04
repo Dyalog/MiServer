@@ -42,12 +42,13 @@
     ∇
 
     ∇ html←Render;cells;rows;ids
-      SetId
       :Access public
+      SetId 
+      Inputs←{isClass ⊃⍵:⎕NEW∘{2<⍴,⍵:(⊃⍵)({eis ⍵}(1↓⍵)) ⋄ ⍵}⍵ ⋄ ⍵}¨Inputs
       ids←Inputs.id
       ((ids≡¨⎕NULL)/ids)←{GenId}¨⍳+/ids≡¨⎕NULL
       Labels←ids{'<label for="',⍺,'">',(renderIt ⍵),'</label>'}¨Labels
-      cells←{⎕NEW #._html.td(⍵)}¨renderIt¨(,Labels),[1.1],Inputs
+      cells←{⎕NEW #._html.td(⍵)}¨(,Labels),[1.1],Inputs
       cells[;1].class←⊂id,'_label'
       cells[;2].class←⊂id,'_input'
       :If Horizontal
@@ -62,6 +63,6 @@
       rows.Add↓cells
       Content←rows.Render
       Set(⊂'border'(⍕Border))
-      html←⎕BASE.Render
+      html←⎕BASE.Render    
     ∇
 :endclass

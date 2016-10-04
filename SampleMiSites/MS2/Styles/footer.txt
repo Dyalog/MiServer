@@ -1,0 +1,5 @@
+<div id="footer">
+<div class="leftalign footertext">MiServer v3.0</div>
+<div class="rightalign footertext">MiServer v2.1 Compatibility MiSite</div>
+<div class="clear"></div>
+</div>

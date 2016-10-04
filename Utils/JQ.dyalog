@@ -174,7 +174,9 @@
 
     :section Position
 
-    ∇ r←selector Position args;inds;mask;parameters;my;at;of;collision;within;q;tmp
+    ∇ r←selector Position args;inds;mask;parameters;my;at;of;collision;within;q;tmp 
+      ⍝ Description:: Cover for jQueryUI Position widget
+      ⍝ Arguments:: 
       ⍝ selector - jQuery selector
       ⍝ args - position information per jQueryUI's Position widget http://api.jqueryui.com/position/
       ⍝        can be in any of the following forms

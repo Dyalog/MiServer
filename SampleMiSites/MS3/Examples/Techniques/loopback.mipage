@@ -1,0 +1,39 @@
+﻿:Class loopback : MiPageSample
+⍝ Control:: _.Handler
+⍝ Description:: Demonstration of tight client-server loopback
+
+    started←0
+
+    ∇ Compose;f;list
+      :Access public
+      Add _.h2'LoopBack Demo'
+      Add'This page demostrates a tight callback loop between the browser and server.'_.br
+     
+    ⍝ add the button and a handler which will invoke Toggle on the callback
+      (Add _.Button'Start/Stop').On'click' 'Toggle'
+     
+    ⍝ add a handler for the "ping" event which will invoke Pong on the callback
+      Add _.Handler'body' 'ping' 'Pong'
+     
+    ⍝ add a container with id "output" to hold the result from the callback
+      '#output'Add _.div
+    ∇
+
+    ∇ r←Toggle
+      :Access public
+      started←~started
+      r←''
+      :If started
+          r←Execute'body'_JSS.Trigger'ping'
+      :EndIf
+    ∇
+
+    ∇ r←Pong
+      :Access public
+      r←''
+      :If started
+          r←'#output'Replace⍕⎕TS
+          r,←Execute'body'_JSS.Trigger'ping'
+      :EndIf
+    ∇
+:EndClass
