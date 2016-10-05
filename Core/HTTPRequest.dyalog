@@ -361,7 +361,7 @@
 
     ∇ r←isAPLJax
       :Access public instance
-      r←'XMLHttpRequest'≡GetHeader'x-requested-with'
+      r←'true'≡GetHeader'isAPLJax'
     ∇
 
     ∇ r←isPost
