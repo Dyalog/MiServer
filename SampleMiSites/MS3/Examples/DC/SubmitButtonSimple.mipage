@@ -33,8 +33,8 @@
       inputs.Inputs←{New _.EditField ⍵}¨('fname'fname)('lname'lname)
      
       Add _.br
-      'Submit'frm.Add _.SubmitButton'Submit'
-      'Reset'frm.Add _.ResetButton'Reset'
+      'Submit'frm.Add _.SubmitButton
+      'Reset'frm.Add _.ResetButton
      
       :If 0≠⍴fname,lname ⋄ hello←' +!'⎕R'!'⊢'Hello, ',fname,' ',lname,'!'
       :Else ⋄ hello←'' ⋄ :EndIf
