@@ -254,6 +254,8 @@
 		<name>ejGrid</name>
 		<uses>Syncfusion</uses>
 		<uses>jquery.easing</uses>
+		<uses>jquery.validate</uses>
+		<uses>ej.unobtrusive</uses>
 		<uses>jsrender</uses>
 	</resource>
 	<resource>
@@ -380,6 +382,7 @@
 		<uses>jquery.globalize</uses>
 		<uses>jsrender</uses>
 		<uses>jquery.validate</uses>
+		<uses>ej.unobtrusive</uses>
 		<uses>jquery.easing</uses>
 	</resource>
 	<resource>
