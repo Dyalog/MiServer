@@ -50,7 +50,7 @@
       :Access public
       Head.Insert #._html.meta''('charset=',⍕Charset)
       :If ''≢OnLoad
-          Use'JQuery'
+          {0:: ⋄ Use'JQuery'}''
       :EndIf
       b←RenderBody
       styles←∪_Styles
@@ -67,6 +67,9 @@
       :EndIf
       :If ''≢OnLoad
           b,←(⎕NEW #._html.script('$(function(){',OnLoad,'});')).Render
+      :EndIf
+      :If 0∊⍴⊃Attrs[⊂'lang'] ⍝ set the language for the page if not already set
+          {0:: ⋄ {Set'lang="',⍵,'" xml:lang="',⍵,'" xmlns="http://www.w3.org/1999/xhtml"'}_Request.Server.Config.Lang}''
       :EndIf
       r←RenderPage b
       :If 0≠⎕NC⊂'_Request.Response'

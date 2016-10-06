@@ -2,12 +2,12 @@
 ⍝ Control:: _DC.Markdown
 ⍝ Description:: Use markdown to generate HTML
 
-    ∇ Compose
+    ∇ Compose;markdown
       :Access public
       Add _.h3'The Markdown widget based on Kai Jaeger''s MarkAPL project'
       Add'The following code produces the output below...'
       Add CodeFollows
-      Add _.Markdown ScriptFollows
+      markdown←('{version}'(#.Strings.deb⍕,'MiServer uses' 'version' 'built on',⍪#.MarkAPL.Version))Subst ScriptFollows
     ⍝#### The Markdown widget processes "markdown"
     ⍝Markdown is a simple way to add formatting like headers, **bold text**, _italicized text_,\
     ⍝* bulleted
@@ -16,8 +16,10 @@
     ⍝
     ⍝ and so on, to plain text without having to use HTML markup.\
     ⍝
-    ⍝ [Click here for more information on The MarkAPL Project](http://aplwiki.com/MarkAPL).
-     
+    ⍝ Click [here](http://aplwiki.com/MarkAPL) for more information on The MarkAPL Project.\
+    ⍝ Click [here](/Examples/Data/MarkAPL.html) to view the MarkAPL documentation.\
+    ⍝ MiServer uses {version}.
+      Add _.Markdown markdown
     ⍝<<end>>
     ∇
 

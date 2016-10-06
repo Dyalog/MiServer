@@ -62,9 +62,6 @@
           ⍝   });
           ⍝ });
      
-        ⍝ set the language for the page
-          lang←server.Config.Lang ⍝ use the language specified in Server.xml
-          Set'lang="',lang,'" xml:lang="',lang,'" xmlns="http://www.w3.org/1999/xhtml"'
       :Else
           Head.Add _.StyleSheet'/Styles/sampleStyles.css'
           Body.class←'bodyblock'

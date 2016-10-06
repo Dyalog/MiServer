@@ -1873,6 +1873,9 @@ header
 <p>is converted into a header of level 1 while a line that looks like this:</p>
 <pre><code>###### My caption</code></pre>
 <p>is converted into a header of level 6. You cannot have headers of level 7 or higher (HTML does not allow this), and it is probably not a good idea to use levels beyond 4 anyway, except perhaps in technical documentation.</p>
+<p>Many Markdown implementations do not require a space between the last <code>#</code> on the left and the content (= the header as such). However, the space was required even by the original Markdown specification. The CommonMark specification points out that this was actually a good idea because with the blank these two lines would be rendered as headers:</p>
+<pre><code>#5 bolt</code></pre>
+<pre><code>#hashtag</code></pre>
 <p>Note that you may have trailing <code>#</code> characters as well; however, they are simply ignored. That's the reason why the number of characters does not even have to match the leading number of <code>#</code>.</p>
 <a id="atx-versus-setext-syntax" class="autoheaderlink">
 <h5>3.1.8.3. ATX versus SeText syntax</h5>
@@ -2578,6 +2581,22 @@ semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipi
 </tbody>
 </table>
 <p>Note that one cell contains a pipe symbol (<code>|</code>); normally that would confuse the parser but not in this case because it is escaped with a backslash character: <code>\|</code>.</p>
+<p>You can have a table with just column headers:</p>
+<pre><code>|First name |Last Name|
+|-|-A</code></pre>
+<p>This is the result:</p>
+<table>
+<tbody>
+<tr>
+<td>First name</td>
+<td>Last Name</td>
+</tr>
+<tr>
+<td>-</td>
+<td>-A</td>
+</tr>
+</tbody>
+</table>
 <a id="misc" class="autoheaderlink">
 <h3>3.2. Misc</h3>
 </a>
@@ -2850,6 +2869,7 @@ This is a paragraph with curlies at the end: \{\}.
 <h5>3.4.2.5. compileFunctions</h5>
 </a>
 <p>Boolean that defaults to 1. There is just one reason to prevent any function from being compiled: performance measurements.</p>
+<p>However, with version 1.8.3 MarkAPL does not compile its functions anymore because this caused trouble under some circumstances while the performance gains are little.</p>
 <a id="createfullhtmlpage" class="autoheaderlink">
 <h5>3.4.2.6. createFullHtmlPage</h5>
 </a>
@@ -3106,7 +3126,7 @@ This is a paragraph with curlies at the end: \{\}.
 <p>Before reporting a bug please check carefully your Markdown, in particular when the problem appears in or after complex table or list definitions. More often than not mistakes in the Markdown are causing the problem.</p>
 <p>If you cannot work out why it goes wrong report it to me &ndash; see the previous topic for how to report a problem.</p>
 <hr>
-<p>This document refers to version 1.8.2 of <strong><em>MarkAPL</em></strong>. Kai Jaeger ⋄ APL Team Ltd ⋄ 2016-07-03</p>
+<p>This document refers to version 1.8.4 of <strong><em>MarkAPL</em></strong>. Kai Jaeger ⋄ APL Team Ltd ⋄ 2016-07-24</p>
 <p>Footnotes</p>
 <hr style="width:30%;margin-left:0;">
 <div id="footnotes_div">

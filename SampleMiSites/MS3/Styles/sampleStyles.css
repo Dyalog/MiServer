@@ -293,7 +293,7 @@ a:visited {
     text-decoration: none;
 }
 
-pre {
+#codeblock > pre {
     font-size: medium;
     overflow-x: auto;
     max-width: 100%;
