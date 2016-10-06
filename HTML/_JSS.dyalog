@@ -7,7 +7,7 @@
     quote←{0∊⍴⍵: '' ⋄ '"',(('"' ⎕R '\\\0')⍕⍵),'"'}
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     fmtSelector←{{'this'≡⍵:⍵ ⋄quote ⍵}¯2↓enlist{⍵,', '}¨eis ⍵}
-    fmtData←{{(326=⍵)<0=2|⍵}⎕DR ⍵:quote ⍵ ⋄ ⍕⍵}
+    fmtData←#.JSON.fromAPL ⍝ {{(326=⍵)<0=2|⍵}⎕DR ⍵:quote ⍵ ⋄ ⍕⍵}
     JAchars←#.JSON.JAchars
 
     ∇ r←Alert txt
