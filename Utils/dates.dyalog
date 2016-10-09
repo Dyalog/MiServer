@@ -20,7 +20,7 @@
               :EndHold
           :Else
               :If (⊂ver)∊'Lin' 'AIX' 'Sol' 'Mac'
-                  _UtcOffset←¯60×⍎¯2↓{⍵↑⍨-' '⍳⍨⌽⍵}⊃⎕SH'date -R'
+                  _UtcOffset←¯60×.01×⍎⊃⎕SH'date +%z'
               :Else
                   _UtcOffset←0 ⍝ otherwise, assume GMT
               :EndIf
