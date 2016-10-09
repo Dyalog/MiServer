@@ -13,19 +13,20 @@
       :Access public
       :Implements constructor
       type←'button'
+      Content←'OK'
     ∇
 
-    ∇ Make args;n;v
+    ∇ Make args
       :Access public
       :Implements constructor
       args←eis⍣(~0∊⍴args)⊢args
-      (Content name value attrs)←args defaultArgs'Okay'UNDEF UNDEF''
+      (Content name value attrs)←args defaultArgs'OK'UNDEF UNDEF''
       type←'button'
     ∇
 
     ∇ r←Render
       :Access public
-      SetId
+      SetInputName
       r←⎕BASE.Render
     ∇
 

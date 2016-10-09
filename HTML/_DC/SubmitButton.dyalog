@@ -11,9 +11,10 @@
       :Access public
       :Implements constructor
       type←'submit'
+      Content←'Submit'
     ∇
 
-    ∇ Make args;n;v
+    ∇ Make args
       :Access public
       :Implements constructor
       args←eis⍣(~0∊⍴args)⊢args

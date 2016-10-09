@@ -11,9 +11,10 @@
       :Access public
       :Implements constructor
       type←'reset'
+      Content←'Reset'
     ∇
 
-    ∇ Make args;n;v
+    ∇ Make args
       :Access public
       :Implements constructor
       args←eis⍣(~0∊⍴args)⊢args
@@ -22,7 +23,7 @@
       type←'reset'
     ∇
 
-    ∇ r←Render;⎕TRAP
+    ∇ r←Render
       :Access public
       SetInputName
       r←⎕BASE.Render
