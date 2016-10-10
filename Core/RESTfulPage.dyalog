@@ -1,4 +1,4 @@
-﻿:Class RESTful
+﻿:Class RESTfulPage
 
 ⍝  Base class for RESTful web service pages
 

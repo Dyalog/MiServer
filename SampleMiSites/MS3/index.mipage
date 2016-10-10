@@ -13,7 +13,7 @@
     ∇
 
 
-    ∇ Compose;cols;tabs;rows
+    ∇ Compose;cols;tabs;rows;div
       :Access Public
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
@@ -22,9 +22,9 @@
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Introduction'Over'getting started/recommendations'
       cols←1 0⍴⍬
-      cols,←'about'New _.div(Read'/Examples/Data/intro.txt')
-      cols,←'slideshow'New _.div(Shuffle Read'Examples/Data/slideshow.txt')
-      cols,←'reading'New _.List(ReadingTree Read'Examples/Data/reading.txt')
+      cols,←'about'New _.div(Read'IndexData/intro.txt')
+      cols,←'slideshow'New _.div(Shuffle Read'IndexData/slideshow.txt')
+      cols,←'reading'New _.List(ReadingTree Read'IndexData/reading.txt')
       tabs.Sections,←'intro'New _.Table cols
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
@@ -33,7 +33,9 @@
       cols,←⊂(⊂'Task demonstrated'),C.tasks
       cols,←⊂(⊂'Type'),C.type
       cols,←⊂(⊂'Main controls used'Over'documentation links'),C.used
-      tabs.Sections,←'eg'New _.DataTable(⍉↑cols)
+      div←New _.div _.br (_.A 'Browse Examples Directory' '/Examples/') _.br
+      div.Add 'eg' New _.DataTable(⍉↑cols)
+      tabs.Sections,←div
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Controls'Over'list of all supported controls/links to samples using them'

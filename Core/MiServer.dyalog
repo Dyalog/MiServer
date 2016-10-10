@@ -474,7 +474,6 @@
 
     ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;MS3;token;mask;resp;t;RESTful;APLJax;flag;path;name;ext;list;fn
     ⍝ Handle a "MiServer Page" request
-     
       path name ext←#.Files.SplitFilename file
      RETRY:
      
@@ -516,8 +515,8 @@
           :If 9=⎕NC'#.HtmlPage'
               :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage ⋄ inst._Request←REQ ⋄ :EndIf
           :EndIf
-          :If 9=⎕NC'#.RESTful'
-              :If ∨/(∊⎕CLASS inst)∊#.RESTful
+          :If 9=⎕NC'#.RESTfulPage'
+              :If RESTful←∨/(∊⎕CLASS inst)∊#.RESTfulPage
                   inst._Request←REQ
               :EndIf
           :EndIf
@@ -535,7 +534,7 @@
           MS3←RESTful←0
           :If 9=⎕NC'#.HtmlPage'
               :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage
-              :OrIf RESTful←∨/(∊⎕CLASS inst)∊#.RESTful
+              :OrIf RESTful←∨/(∊⎕CLASS inst)∊#.RESTfulPage
                   inst.(_Request _PageRef)←REQ inst
                   :If 0≡REQ.RESTfulReq
                       REQ.RESTfulReq←''

@@ -217,7 +217,7 @@
               C.relevant←''
               C.reldocs←''
               C.doclinks←''
-              info←FromCSV Read'Examples/Data/info.csv'
+              info←FromCSV Read'IndexData/info.csv'
               :For control ref src :InEach C.controls refs srcs
                   i←info[;1]⍳⊂control
                   :If i≤≢info
