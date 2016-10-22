@@ -278,12 +278,15 @@
     makeHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:0 2⍴⊂'' ⋄ 2=⍴⍴⍵:⍵ ⋄ ↑2 eis ⍵}
     fmtHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:'' ⋄ ∊{0∊⍴2⊃⍵:'' ⋄ NL,⍨(firstCaps 1⊃⍵),': ',⍕2⊃⍵}¨↓⍵}
     firstCaps←{1↓{(¯1↓0,'-'=⍵) (819⌶)¨ ⍵}'-',⍵}
-      b64Encode←{ ⍝ Base64 Encode
-          raw←⊃,/11∘⎕DR¨⍵
-          cols←6
-          rows←⌈(⊃⍴raw)÷cols
-          mat←rows cols⍴(rows×cols)↑raw
-          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'[⎕IO+2⊥⍉mat],(4|-rows)⍴'='}
+    ∇ r←b64Encode w
+    ⍝ Base64 Encode
+      :Access public shared
+      r←{raw←⊃,/11∘⎕DR¨⍵
+         cols←6
+         rows←⌈(⊃⍴raw)÷cols
+         mat←rows cols⍴(rows×cols)↑raw
+         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'[⎕IO+2⊥⍉mat],(4|-rows)⍴'='}w
+    ∇
 
     ∇ r←DecodeHeader buf;len;d;i
       ⍝ Decode HTTP Header
