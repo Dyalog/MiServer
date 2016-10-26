@@ -41,13 +41,12 @@
       :EndIf
     ∇
 
-    ∇ html←Render;cells;rows;ids
+    ∇ html←Render;cells;rows
       :Access public
       SetId 
       Inputs←{isClass ⊃⍵:⎕NEW∘{2<⍴,⍵:(⊃⍵)({eis ⍵}(1↓⍵)) ⋄ ⍵}⍵ ⋄ ⍵}¨Inputs
-      ids←Inputs.id
-      ((ids≡¨⎕NULL)/ids)←{GenId}¨⍳+/ids≡¨⎕NULL
-      Labels←ids{'<label for="',⍺,'">',(renderIt ⍵),'</label>'}¨Labels
+      {1:⍵.id←GenId⊣⍣(⎕NULL≡⍵.id)⊢⍵.id}¨Inputs ⍝ shyly create ids where missing
+      Labels←Inputs.id{'<label for="',⍺,'">',(renderIt ⍵),'</label>'}¨Labels
       cells←{⎕NEW #._html.td(⍵)}¨(,Labels),[1.1],Inputs
       cells[;1].class←⊂id,'_label'
       cells[;2].class←⊂id,'_input'
