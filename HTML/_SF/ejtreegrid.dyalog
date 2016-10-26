@@ -59,6 +59,7 @@
       :If 0∊Levels ⍝ separate titles
           ColTitles←Items[1;]
           Items←1 0↓Items
+          Levels←1↓Levels
       :EndIf
      
       :If 0≠⍴ColTitles
