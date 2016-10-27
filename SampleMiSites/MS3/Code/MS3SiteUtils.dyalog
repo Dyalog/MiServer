@@ -124,12 +124,14 @@
       }
 
       DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
-          ⍝6::New¨(_.del ⍵)(_.small' deprecated')
-          ns←'ns'ForControl ⍵
-          link←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns,'&widget=',⍵
+          link←DocUrl ⍵
           ctor←'ctor'ForControl ⍵
           0=⍴ctor::Link ⍵ link ⍝ upon fail to retrieve info
           ('Constructor: ',ctor)Link ⍵ link
+      }
+
+      DocUrl←{
+          '/Documentation/DyalogAPIs/WidgetDoc?namespace=_',('ns'ForControl ⍵),'&widget=',⍵
       }
 
       DocTreeLink←{ ⍝ Link to file in doc folder

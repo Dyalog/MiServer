@@ -1,0 +1,53 @@
+﻿:class CommonControlsExample : MiPageSample
+⍝ Control:: WrapFollowing
+⍝ Description:: How to use WrapFollowing
+
+    ∇ Compose;tabs;l;r;sp;fs;ig;colors;rgbs;button
+      :Access public
+      '#p'Add _.p'Here are some common UI elements. Click on each one for more information about it.'
+      tabs←'#Tabs'Add _.Tabs
+      'First tab'tabs.AddSection l←'#div'New _.div
+      button←'#Button'l.Add _.Button'Button'
+      sp←'#StackPanel' '.nl'l.Add _.StackPanel
+      sp.Add _.EditField'EditField' 'EditField'
+      '#Select'sp.Add _.Select
+      l.Add _.br
+      fs←'.Fieldset'l.Add _.Fieldset'CheckBoxs'
+      ig←'#InputGrid'fs.Add _.InputGrid('Checked' 'Unchecked')('.CheckBox'∘New¨_.CheckBox,¨'checked' 'unchecked')
+      ig.Flip←1
+      fs←'.Fieldset'l.Add _.Fieldset'RadioButtonGroup'
+      '#RadioButtonGroup'fs.Add _.RadioButtonGroup('Selected' 'Unselected')1 'right'
+      '#Input'l.Add _.Input'number' 426 ' Number Input: '
+      l.Add _.h5'Progress bar'
+      '#progress' 'value="42.6" max="100"'l.Add _.progress
+      l.Add _.h5'Slider'
+      '#ejSlider'l.Add _.ejSlider(0 99 1)
+      ('#ejTreeGrid' '.grid'l.Add _.ejTreeGrid((⍪'Name' 'cell1' 'cell2' 'cell3' 'cell4')(0 1 2 2 1))).width←⍬
+      colors←'aqua' 'black' 'blue' 'fuchsia' 'gray' 'green' 'lime' 'maroon' 'navy' 'olive' 'purple' 'red' 'silver' 'teal' 'white' 'yellow'
+      rgbs←'#00FFFF' '#000000' '#0000FF' '#FF00FF' '#808080' '#008000' '#00FF00' '#800000' '#000080' '#808000' '#800080' '#FF0000' '#C0C0C0' '#008080' '#FFFFFF' '#FFFF00'
+      'width'('#ejGrid' '.grid'l.Add _.ejGrid(colors,⍪rgbs)('Color' 'RGB')).Set ⍬
+      'Second Tab'tabs.AddSection New _.div
+      Add _.style ScriptFollows
+      ⍝ #Button, .grid {vertical-align: top;}
+      ⍝ #StackPanel, .Fieldset, .grid {display: inline-block;}
+      ⍝ h5 {margin: 1em 0 0.5em 0;}
+      ⍝ #Input {width: 4em;}
+      ⍝ #progress {width: 100%;}
+      ⍝ .grid {margin-top: 1em;}
+      ⍝ #ejTreeGrid {width: 30%; margin-right: 4em;}
+      ⍝ #ejGrid {width: 60%;}
+      ⍝ .jBox-container {background: black; color: darkorange ;}
+     
+      Interactive¨'#p' '#Tabs' '#div' '#Button' '#StackPanel' '#EditField' '#Select' '.Fieldset' '.CheckBox' '#RadioButtonGroup' '#Input' 'h5' '#progress' '#ejSlider' '#ejTreeGrid' '#ejGrid'
+     
+    ∇
+      Interactive←{
+          ctrl←⍵~'#.'
+          js←'window.open("',(⍵ #.MS3SiteUtils.DocUrl ctrl),'","_blank");'
+          handler←Add _.Handler ⍵'click' 0 '' ''js
+          (jb←Add _.jBox('Mouse'('_.',ctrl))).Selector←⍵
+          'width' 'adjustTracker'jb.Set 200 'scroll'
+     
+      }
+
+:endclass
