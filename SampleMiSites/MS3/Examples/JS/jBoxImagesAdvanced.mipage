@@ -1,4 +1,4 @@
-﻿:Class jBoxAdvancedImages : MiPageSample
+﻿:Class jBoxImagesAdvanced : MiPageSample
 ⍝ Control::     _JS.jBox
 ⍝ Description:: Image-galleries with jBox
 

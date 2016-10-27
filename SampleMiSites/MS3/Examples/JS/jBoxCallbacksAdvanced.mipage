@@ -1,6 +1,6 @@
-﻿:Class jBoxAdvancedCallbacks : MiPageSample
+﻿:Class jBoxCallbacksAdvanced : MiPageSample
 ⍝ Control::     _JS.jBox
-⍝ Description:: Using jBox in callback-functionsto display notices or modal popups
+⍝ Description:: Using jBox in callback-functions to display notices or modal popups
 
     ∇ Compose;dd
       :Access public
@@ -11,11 +11,11 @@
       Add _.style'.demo {padding-top:2px; background-color: orange;}'
 
       Add _.h2'jBox Widget - Advanced sample: shared functions for use in your callbacks'
-			Add _.h3 'Disclaimer'
-			Add 'The following examples use '
-			Add _.span 'this style'
-			Add ' to indicate click-sensitive regions that are linked to the documented functionality.'
-			Add 'This styling is only used to facilitate use of these examples and should in no way serve as example for your use-cases! ;-)'
+            Add _.h3 'Disclaimer'
+            Add 'The following examples use '
+            Add _.span 'this style'
+            Add ' to indicate click-sensitive regions that are linked to the documented functionality.'
+            Add 'This styling is only used to facilitate use of these examples and should in no way serve as example for your use-cases! ;-)'
 
       Add _.h3 'Notices'
       

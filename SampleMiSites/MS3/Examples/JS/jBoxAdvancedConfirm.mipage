@@ -1,4 +1,4 @@
-﻿:Class jBoxAdvanceMore : MiPageSample
+﻿:Class jBoxConfirmAdvanced : MiPageSample
 ⍝ Control::     _JS.jBox
 ⍝ Description::confirmations (works, but may need more features...)
 
