@@ -56,7 +56,7 @@
           text←opts
           opts←⍬
           :For i link :InEach (⍳⍴links)links
-              :If ''≡link ⍝ no link
+              :If 0=⍴link ⍝ no link
                   opt←text[i]
               :ElseIf 326=⎕DR link ⍝ Nested array
                   (opt←(⊂'href'(⊃link))New _.a(i⊃text)).Set 1↓link
