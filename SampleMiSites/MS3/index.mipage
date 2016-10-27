@@ -64,7 +64,7 @@
       tut←'#tut'New _.div
       '#p'tut.Add _.p'Here are some common UI elements. Double-click on each one for more information about it.'
       tabs←'#Tabs'tut.Add _.Tabs
-      'First tab'tabs.AddSection l←'#div'New _.div
+      'UI elements'tabs.AddSection l←'#div'New _.div
       button←'#Button'l.Add _.Button'Button'
       sp←'#StackPanel'l.Add _.StackPanel
       sp.Add _.EditField'EditField' 'EditField'
@@ -84,7 +84,7 @@
       colors←'aqua' 'black' 'blue' 'fuchsia' 'gray' 'green' 'lime' 'maroon' 'navy' 'olive' 'purple' 'red' 'silver' 'teal' 'white' 'yellow'
       rgbs←'#00FFFF' '#000000' '#0000FF' '#FF00FF' '#808080' '#008000' '#00FF00' '#800000' '#000080' '#808000' '#800080' '#FF0000' '#C0C0C0' '#008080' '#FFFFFF' '#FFFF00'
       '#Table' '.data'l.Add _.Table('Color' 'RGB'⍪colors,⍪rgbs)'' 1
-      'Second Tab'tabs.AddSection New _.div
+      'Formatting'tabs.AddSection New _.div
       tut.Add _.style ScriptFollows
       ⍝ #tut, #div {max-width: 700px; padding: 10px;}
       ⍝ #Button {vertical-align: top; margin: 5px;}
@@ -98,7 +98,9 @@
       ⍝ #p:hover, #Tabs:hover, #div:hover, #Button:hover, #StackPanel:hover, #EditField:hover, #Select:hover, .Fieldset:hover, .CheckBox:hover, #RadioButtonGroup:hover, .Input:hover, h5:hover, #progress:hover, #List:hover, #Table:hover {
       ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
       ⍝ }
-      Interactive¨⌽'#p' '#Tabs' '#div' '#Button' '#EditField' '#StackPanel' '#Select' '.Fieldset' '.CheckBox' '#RadioButtonGroup' '.Input' 'h5' '#progress' '#List' '#Table'
+      Interactive¨'#p' '#Tabs' '#div' '#Button' '#EditField' '#StackPanel' '#Select' '.Fieldset' '.CheckBox' '#RadioButtonGroup' '.Input' 'h5' '#progress' '#List' '#Table'
+     
+      'Formatting' 'Positioning' 'Embedding' 'Interaction' 'Windows &amp; Popups'tabs.AddSection¨New¨_.div
      
     ∇
       Interactive←{
