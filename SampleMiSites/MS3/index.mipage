@@ -18,7 +18,7 @@
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       (tabs←'bigtabs'Add _.Tabs).Theme←'FF8C00'
-      
+     
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Introduction'Over'getting started/recommendations'
       cols←1 0⍴⍬
@@ -30,7 +30,6 @@
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Tutorial'Over'visual access to/common controls'
       tabs.Sections,←Tutorial
-      ⍝tabs.Sections,←'data="Examples/Techniques/CommonControlsExample.mipage?nowrapper=1"'New _.object
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Samples'Over'pages and mini-apps/each uses just a few controls'
@@ -62,47 +61,49 @@
     ∇
 
     ∇ tut←Tutorial;tabs;l;r;sp;fs;ig;colors;rgbs;button
-      tut←New _.div
+      tut←'#tut'New _.div
       '#p'tut.Add _.p'Here are some common UI elements. Double-click on each one for more information about it.'
       tabs←'#Tabs'tut.Add _.Tabs
       'First tab'tabs.AddSection l←'#div'New _.div
       button←'#Button'l.Add _.Button'Button'
-      sp←'#StackPanel' '.nl'l.Add _.StackPanel
+      sp←'#StackPanel'l.Add _.StackPanel
       sp.Add _.EditField'EditField' 'EditField'
-      '#Select'sp.Add _.Select
+      '#Select'sp.Add _.Select'Red' 'Green' 'Blue'
       l.Add _.br
-      fs←'.Fieldset'l.Add _.Fieldset'CheckBoxs'
+      fs←'.Fieldset'l.Add _.Fieldset'CheckBoxes'
       ig←'#InputGrid'fs.Add _.InputGrid('Checked' 'Unchecked')('.CheckBox'∘New¨_.CheckBox,¨'checked' 'unchecked')
       ig.Flip←1
       fs←'.Fieldset'l.Add _.Fieldset'RadioButtonGroup'
       '#RadioButtonGroup'fs.Add _.RadioButtonGroup('Selected' 'Unselected')1 'right'
-      '#Input'l.Add _.Input'number' 426 ' Number Input: '
+      '.Input'l.Add _.Input'number' 426 ' Number Input: '
       l.Add _.h5'Progress bar'
       '#progress' 'value="42.6" max="100"'l.Add _.progress
       l.Add _.h5'Slider'
-      '#ejSlider'l.Add _.ejSlider(0 99 1)
-      ('#ejTreeGrid' '.grid'l.Add _.ejTreeGrid((⍪'Name' 'cell1' 'cell2' 'cell3' 'cell4')(0 1 2 2 1))).width←300
+      '.Input'l.Add _.Input'range' 1
+      '#List' '.data'l.Add _.List(('Primaries' 'Cyan' 'Magenta' 'Yellow' 'Key' 'Black')(1 2 2 2 1 2))
       colors←'aqua' 'black' 'blue' 'fuchsia' 'gray' 'green' 'lime' 'maroon' 'navy' 'olive' 'purple' 'red' 'silver' 'teal' 'white' 'yellow'
       rgbs←'#00FFFF' '#000000' '#0000FF' '#FF00FF' '#808080' '#008000' '#00FF00' '#800000' '#000080' '#808000' '#800080' '#FF0000' '#C0C0C0' '#008080' '#FFFFFF' '#FFFF00'
-      'width'('#ejGrid' '.grid'l.Add _.ejGrid(colors,⍪rgbs)('Color' 'RGB')).Set ⍬
+      '#Table' '.data'l.Add _.Table('Color' 'RGB'⍪colors,⍪rgbs)'' 1
       'Second Tab'tabs.AddSection New _.div
       tut.Add _.style ScriptFollows
-      ⍝ #Button, .grid {vertical-align: top;}
-      ⍝ #StackPanel, .Fieldset, .grid {display: inline-block;}
+      ⍝ #tut, #div {max-width: 700px; padding: 10px;}
+      ⍝ #Button {vertical-align: top; margin: 5px;}
+      ⍝ #StackPanel, .Fieldset, .data {display: inline-block;}
       ⍝ h5 {margin: 1em 0 0.5em 0;}
-      ⍝ #Input {width: 4em;}
-      ⍝ #progress {width: 100%;}
-      ⍝ .grid {margin-top: 1em;}
-      ⍝ #ejTreeGrid {width: 30%; margin-right: 4em;}
-      ⍝ #ejGrid {width: 60%;}
+      ⍝ .Input {width: 4em;}
+      ⍝ .Input[type="range"], #progress {width: 100%;}
+      ⍝ #List {margin: 1em; padding: 5px;}
+      ⍝ #Table {max-height: 7em; overflow-y: scroll; margin-top: 1em;}
       ⍝ .jBox-container {background: black; color: darkorange; font-size: small; border-radius: 10px !important; box-shadow: none !important;}
-     
-      Interactive¨'#p' '#Tabs' '#div' '#Button' '#StackPanel' '#EditField' '#Select' '.Fieldset' '.CheckBox' '#RadioButtonGroup' '#Input' 'h5' '#progress' '#ejSlider' '#ejTreeGrid' '#ejGrid'
+      ⍝ #p:hover, #Tabs:hover, #div:hover, #Button:hover, #StackPanel:hover, #EditField:hover, #Select:hover, .Fieldset:hover, .CheckBox:hover, #RadioButtonGroup:hover, .Input:hover, h5:hover, #progress:hover, #List:hover, #Table:hover {
+      ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
+      ⍝ }
+      Interactive¨⌽'#p' '#Tabs' '#div' '#Button' '#EditField' '#StackPanel' '#Select' '.Fieldset' '.CheckBox' '#RadioButtonGroup' '.Input' 'h5' '#progress' '#List' '#Table'
      
     ∇
       Interactive←{
           ctrl←⍵~'#.'
-          js←'window.open("',(⍵ #.MS3SiteUtils.DocUrl ctrl),'","_blank");'
+          js←'window.open("',(⍵ DocUrl ctrl),'","_blank");'
           handler←Add _.Handler ⍵'dblclick' 0 '' ''js
           (jb←Add _.jBox('Mouse'('_.',ctrl))).Selector←⍵
           'width' 'adjustTracker'jb.Set 160 'scroll'
