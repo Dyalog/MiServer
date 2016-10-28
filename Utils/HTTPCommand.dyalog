@@ -144,7 +144,7 @@
       :EndIf
      
       :If '@'∊host ⍝ Handle user:password@host...
-          auth←'Authorization: Basic ',(b64Encode(¯1+p←host⍳'@')↑host),NL
+          auth←'Authorization: Basic ',(B64Encode(¯1+p←host⍳'@')↑host),NL
           host←p↓host
       :Else ⋄ auth←''
       :EndIf
@@ -185,11 +185,11 @@
                           (headerlen header)←DecodeHeader data
                           :If 0<headerlen
                               data←headerlen↓data
-                              :If chunked←∨/'chunked'⍷header getHeader'Transfer-Encoding'
+                              :If chunked←∨/'chunked'⍷header GetHeader'Transfer-Encoding'
                                   chunk←data
                                   data←''
                               :Else
-                                  datalen←⊃(toNum header getHeader'Content-Length'),¯1 ⍝ ¯1 if no content length not specified
+                                  datalen←⊃(toNum header GetHeader'Content-Length'),¯1 ⍝ ¯1 if no content length not specified
                               :EndIf
                           :EndIf
                       :EndIf
@@ -223,13 +223,13 @@
      
           :If 0=1⊃rc
               :Trap 0 ⍝ If any errors occur, abandon conversion
-                  :Select header getHeader'content-encoding' ⍝ was the response compressed?
+                  :Select header GetHeader'content-encoding' ⍝ was the response compressed?
                   :Case 'deflate'
                       data←fromutf8 LDRC.flate.Inflate 120 156{(2×⍺≡2↑⍵)↓⍺,⍵}256|83 ⎕DR data ⍝ append 120 156 signature because web servers strip it out due to IE
                   :Case 'gzip'
                       data←fromutf8 256|¯3(219⌶)83 ⎕DR data
                   :Else
-                      :If ∨/'charset=utf-8'⍷header getHeader'content-type'
+                      :If ∨/'charset=utf-8'⍷header GetHeader'content-type'
                           data←'UTF-8'⎕UCS ⎕UCS data ⍝ Convert from UTF-8
                       :EndIf
                   :EndSelect
@@ -271,21 +271,55 @@
     split←{(p↑⍵)((p←¯1+⍵⍳⍺)↓⍵)} ⍝ split ⍵ on first occurrence of ⍺
     h2d←{⎕IO←0 ⋄ 16⊥'0123456789abcdef'⍳lc ⍵} ⍝ hex to decimal
     getchunklen←{¯1=len←¯1+⊃(NL⍷⍵)/⍳⍴⍵:¯1 ¯1 ⋄ chunklen←h2d len↑⍵ ⋄ (⍴⍵)<len+chunklen+4:¯1 ¯1 ⋄ len chunklen}
-    eis←{⍺←1 ⋄ ,(⊂⍣(⍺=|≡⍵))⍵} ⍝ enclose if simple
     toNum←{0∊⍴⍵:⍬ ⋄ 1⊃2⊃⎕VFI ⍕⍵}
-    getHeader←{(⍺[;2],⊂'∘↑∘')⊃⍨(lc ¨⍺[;1])⍳eis lc ⍵}
-    addHeader←{'∘↑∘'≡⍺⍺ getHeader ⍺:⍺⍺⍪⍺ ⍵ ⋄ ⍺⍺} ⍝ add a header unless it's already defined
     makeHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:0 2⍴⊂'' ⋄ 2=⍴⍴⍵:⍵ ⋄ ↑2 eis ⍵}
     fmtHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:'' ⋄ ∊{0∊⍴2⊃⍵:'' ⋄ NL,⍨(firstCaps 1⊃⍵),': ',⍕2⊃⍵}¨↓⍵}
     firstCaps←{1↓{(¯1↓0,'-'=⍵) (819⌶)¨ ⍵}'-',⍵}
-    ∇ r←b64Encode w
+    addHeader←{'∘???∘'≡⍺⍺ GetHeader ⍺:⍺⍺⍪⍺ ⍵ ⋄ ⍺⍺} ⍝ add a header unless it's already defined
+
+    ∇ name AddHeader value
+    ⍝ add a header unless it's already defined
+      :Access public
+      Headers←makeHeaders Headers
+      Headers←name(Headers addHeader)value
+    ∇
+
+    ∇ r←a GetHeader w
+     
+      :Access public shared
+      r←a{(⍺[;2],⊂'∘???∘')⊃⍨(lc¨⍺[;1])⍳eis lc ⍵}w
+    ∇
+
+    ∇ r←{a}eis w;f
+    ⍝ enclose if simple
+      :Access public shared
+      f←{⍺←1 ⋄ ,(⊂⍣(⍺=|≡⍵))⍵}
+      :If 0=⎕NC'a' ⋄ r←f w
+      :Else ⋄ r←a f w
+      :EndIf
+    ∇
+
+    ∇ r←B64Encode w
     ⍝ Base64 Encode
       :Access public shared
-      r←{raw←⊃,/11∘⎕DR¨⍵
-         cols←6
-         rows←⌈(⊃⍴raw)÷cols
-         mat←rows cols⍴(rows×cols)↑raw
-         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'[⎕IO+2⊥⍉mat],(4|-rows)⍴'='}w
+      r←{⎕IO←0
+          raw←⊃,/11∘⎕DR¨⍵
+          cols←6
+          rows←⌈(⊃⍴raw)÷cols
+          mat←rows cols⍴(rows×cols)↑raw
+          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'[⎕IO+2⊥⍉mat],(4|-rows)⍴'='}w
+    ∇
+
+    ∇ r←B64Decode w
+    ⍝ Base64 Encode
+      :Access public shared
+      r←{
+          ⎕IO←0
+          {
+              80=⎕DR' ':⎕UCS ⍵  ⍝ Unicode
+              82 ⎕DR ⍵          ⍝ Classic
+          }2⊥{⍉((⌊(⍴⍵)÷8),8)⍴⍵}(-6×'='+.=⍵)↓,⍉(6⍴2)⊤'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='{⍺⍳⍵∩⍺}⍵
+      }w
     ∇
 
     ∇ r←DecodeHeader buf;len;d;i

@@ -5,6 +5,7 @@
     ∇ Compose;bc
       :Access public
       Add _.h2'ejChart (type:bubble)'
+      Add _.Script('CIAData'_JSS.JSData GetCIAData)
       bc←'bc'Add _.ejChart
      
       'primaryXAxis.title.text'bc.Set'US Dollars'
@@ -23,7 +24,7 @@
       'size.height'bc.Set'600'
       'legend.visible'bc.Set _false
      
-      'series[1].points'bc.Set GetCIAData
+      'series[1].points'bc.Set'⍎CIAData'
       'series[1].enableAnimation'bc.Set _true
       'series[1].tooltip.visible'bc.Set _true
       'series[1].tooltip.format'bc.Set'#point.text#<br/>USD : $#point.x#<br/>%GDP : #point.y#%<br/>Population : #point.size#'
