@@ -1,28 +1,42 @@
- msg←Test dummy;X;O;output;R;C
+﻿ msg←Test dummy;X;O;R;C;At;Next
 
- (X O)←'XO'
- output←Find'output'
+ (X O)←' line' ' circle'
  R←'board_r'∘,
  C←{∊⍕¨⍺,'c',⍵}
+ At←{'Expected symbol did not appear'/⍨0≡'CssSelector'Find'#',⍵,⍺⊣Click ⍵}
+ Next←{'next'WaitFor'Next: ',⍵}
 
- ⍝ Check that X is the first player
- :If 0=⍴msg←'output'WaitFor X
+ :If 1
 
- ⍝ Check that an X is put onto the board
-     Click R 1 C 1
- :AndIf 0=⍴msg←(R 1 C 1)WaitFor X
+ ⍝ Ready?
+ :AndIf 0=⍴msg←'status'WaitFor'Go!'
 
- ⍝ Check that the next player is O
- :AndIf 0=⍴msg←output WaitFor O
+ ⍝ X is the first player?
+ :AndIf 0=⍴msg←Next'X'
 
- ⍝ Check that an X is put onto the board
-     Click R 3 C 3
- :AndIf 0=⍴msg←(R 3 C 3)WaitFor O
+ ⍝ X is put onto the board?
+ :AndIf 0=⍴msg←X At R 2 C 2
 
- ⍝ Check that the re return to the first player
- :AndIf 0=⍴msg←output WaitFor X
+ ⍝ Next player is O?
+ :AndIf 0=⍴msg←Next'O'
+
+ ⍝ O is put onto the board?
+ :AndIf 0=⍴msg←O At R 2 C 3
+
+ ⍝ Return to the first player?
+ :AndIf 0=⍴msg←Next'X'
+
+ ⍝ Keep playing
+ :AndIf 0=⍴msg←X At R 1 C 3
+ :AndIf 0=⍴msg←O At R 3 C 1
+ :AndIf 0=⍴msg←X At R 1 C 1
+ :AndIf 0=⍴msg←O At R 1 C 2
+ :AndIf 0=⍴msg←X At R 3 C 3
+
+ ⍝ X won?
+ :AndIf 0=⍴msg←'status'WaitFor'X wins!'
 
  ⍝ Check that the board is cleared
-     Click'reset'
-     msg←(R 1 C 1)WaitFor'   '
+ :AndIf 0=⍴msg←'status'WaitFor'Board cleared!'⊣Click'reset'
+
  :EndIf

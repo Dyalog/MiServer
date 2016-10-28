@@ -5,7 +5,7 @@
     :field public Head
     :field public Body
     :field public Scripts
-    :field public StylesLinks 
+    :field public StylesLinks
 
     ∇ make
       :Access public
@@ -25,7 +25,7 @@
     ∇
 
     ∇ r←RenderPage b;scr;mask;content
-      :Access public                 
+      :Access public
       content←Content
       :If ~0∊⍴scr←∪Scripts
       :AndIf ∨/mask←{0∊⍴⍵}¨scr.Content
@@ -40,7 +40,7 @@
     ∇
 
     ∇ r←Render;s;b;mask;scr;sty;content;headContent
-      :Access public  
+      :Access public
       content←Content
       headContent←Head.Content
       :If ~0∊⍴scr←∪Scripts

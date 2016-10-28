@@ -30,12 +30,16 @@
 
     :section fromAPL
 
-    ∇ r←{options}fromAPL array;typ;ic;drop;ns;preserve;quote;qp;jqopt;t
-    ⍝ An APL object is either a simple scalar (number, character or ref) or an array
+    ∇ r←{options}fromAPL array;typ;ic;drop;ns;preserve;quote;qp;eval;t
+    ⍝ array is an APL array
+    ⍝ options - formatting options 
+    ⍝     [1] put "quotes" around names? 
+    ⍝     [2] preserve APL shape info?  
+    ⍝     [3] eval? - interpret leading '⍎' as indication to treat as JavaScript rather than as a string 
     ⍝ represented by a list of [rank,shape, if we preserve it, then data]
       :Access public shared
-      :If 0=⎕NC'options' ⋄ options←0 ⋄ :EndIf
-      qp←(quote preserve jqopt)←3↑options  ⍝ do we quote the names and preserve APL shape?
+      :If 0=⎕NC'options' ⋄ options←0 0 1 ⋄ :EndIf
+      qp←(quote preserve eval)←3↑options  ⍝ do we quote the names and preserve APL shape?
       :If isSimple array
           r←fmtNum array ⋄ →0 if 2|typ←⎕DR array ⍝ numbers
           :If ⎕NULL≡array
@@ -53,7 +57,7 @@
               :If ~preserve ⋄ →0⊣r←(1+ic)⊃'[]' '""' ⋄ :EndIf
               r,←qp fromAPL⊃array ⍝ prototype
           :ElseIf ic
-              :If jqopt
+              :If eval
               :AndIf ∨/(array~' ')∘beginsWith¨'function' 'ej.' '$('(,'⍎') ⍝!!! for jQuery (and Syncfusion) options, treat things beginning with function or ej. as literals
                   r←('⍎'=1↑array)↓array
               :Else

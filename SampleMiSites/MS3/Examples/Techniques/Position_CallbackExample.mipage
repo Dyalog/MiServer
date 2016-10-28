@@ -1,0 +1,36 @@
+﻿:Class Position_CallbackExample : MiPageSample
+⍝ Control:: _JSS.Position _html.div
+⍝ Description:: Callback with jQuery UI Position JavaScript snippets to reposition one element relative to another
+
+    ∇ Compose;positioned;positions
+      :Access Public
+      Add _.style ScriptFollows
+      ⍝ #target {
+      ⍝    position: absolute;
+      ⍝    margin: 10vh;
+      ⍝    top: 25%;
+      ⍝    height: 50%;
+      ⍝    width: 75%;
+      ⍝    border: 3px solid Black;
+      ⍝    padding-left: 30vh;
+      ⍝    line-height: 10em;
+      ⍝ }
+      ⍝ #positioned {
+      ⍝    height: 20vh;
+      ⍝    width: 20vh;
+      ⍝    background: rgba(255,140,0,0.75);
+      ⍝    box-shadow: 0 0 5vh 5vh darkorange inset;
+      ⍝    padding: 1vh;
+      ⍝    position: absolute;
+      ⍝ }
+      ⍝ .posbut {text-align: left;}
+     
+      '#target'Add _.div'target'
+      positioned←'#positioned'Add _.div'Press buttons to reposition me!'
+      positioned.Position.of←'#target'
+      positions←('center' 'center')('left top-10' 'top')('center' 'left top')('left bottom' 'left bottom')('center' 'center+25% center+25%')('right' 'right+2.5%')
+      {('.posbut'Add _.Button('my ',(⊃⍵),'<br/>at target''s ',⊃⌽⍵)).On'click' 0 ''('#positioned'_JSS.Position ⍵,⊂'#target')}¨positions
+     
+    ∇
+
+:EndClass

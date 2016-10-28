@@ -1,0 +1,32 @@
+﻿:class Alphabet :MiPageSample
+⍝ Control:: _JQ.jqDroppable _JQ.jqDraggable _JQ.jqAddClass _DC.Script _DC.StyleSheet
+⍝ Description:: Use external code to style and touch-enable uppercase-lowercase alphabet pairing game
+
+    :Field Public COUNT
+    :Field Public START
+
+    ∇ Compose
+      :Access Public
+      ⎕RL←⍬ ⋄ COUNT←0
+      Add _.Script'' '../Data/jquery.ui.touch-punch.min.js' ⍝ External JavaScript to make jQuery UIsupport touch
+      Add _.StyleSheet'../Data/Alphabet.css' ⍝ External style sheet
+      'score'Add _.div,'output'New _.span'Drag the lowercase letters onto their corresponding uppercases'
+      Add _.div,{New _.div ⍵}¨¨{⍺[?⍨≢⍺]⍵}/↓⍉↑Pair¨⎕A
+    ∇
+
+    ∇ (lc uc)←Pair L;l
+      (L l)←'#',¨L,#.Strings.lc L
+      (lc uc)←'.lc' '.uc'{⍵ ⍺ New _.div(_.span ⍵)}¨⊢/¨l L
+      (lc.Add _.jqDraggable l).Set'revert' 'invalid'
+      (uc.Add _.jqDroppable L l).On'drop' 'Accept'
+    ∇
+
+    ∇ r←Accept;L
+      :Access Public
+      L←'#',_target
+      r←'head'Append _.jqAddClass(L'ok')
+      r,←Execute(#.Strings.lc L)Css'visibility' 'hidden'
+      :If 1=COUNT←1+COUNT ⋄ START←#.Dates.Now ⋄ :EndIf
+      r,←'#output'Replace{1≡⍵:'1 pairing done' ⋄ ⍵,' pairings done in',(2⍕86400×#.Dates.Now-START),' seconds'}COUNT
+    ∇
+:endclass

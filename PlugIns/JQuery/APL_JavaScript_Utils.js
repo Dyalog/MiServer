@@ -11,7 +11,8 @@ function APLJaxReturn(obj) {
 
 function APLstringify(obj){
 	if (obj instanceof Date) {return obj.toString()}
-	else {return JSON.stringify(obj)}
+	else if ("object" === typeof obj) {return JSON.stringify(obj)}
+	else {return obj}
 	}
 
 function JSONSubset(model, selectors) {

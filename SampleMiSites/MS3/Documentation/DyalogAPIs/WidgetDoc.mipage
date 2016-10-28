@@ -2,67 +2,86 @@
 
     :include #.MS3SiteUtils
 
-    ∇ Compose;ns;widget;tab;ref;wref;src;mask;chunk;pv;c;c1;c2;samples;files;desc;ctor;h;div;r
+    ∇ Compose;ns;widget;ref;wref;src;chunk;files;r;split;find
       :Access public
+      Add _.style'#view {display: none}'
+      r←'<div class="WidgetDoc">'
       (ns widget)←Get'namespace widget'
-      div←'#widgetdoc'Add _.div
-      r←¯1
       :If 9.1=#.⎕NC⊂ns
           ref←#.⍎ns
-          r←¯2
           :If 9=ref.⎕NC widget
               wref←ref⍎widget
+              r,←'<h3 id="WidgetDocTitle">'
+              :If 0=wref.⎕NC⊂'DocBase'
+              :OrIf 0∊⍴wref.DocBase      ⍝ without link
+                  r,←ns,'.',widget
+              :Else                      ⍝ with link
+                  r,←(ns,'.',widget)External wref.DocBase
+              :EndIf
+     
               src←1↓⎕SRC wref
               src↓⍨←+/∧\''∘≡¨src
               src←#.Strings.dlb¨src
               src←src/⍨∧\'⍝'=⊃¨src
-              src←HtmlSafeText¨#.Strings.dlb¨{1↓¨⍵⊂⍨'¶'=⍵}∊'¶  +'⎕R' '⊢'¶',¨1↓¨src
-              pv←∨/¨'::'∘⍷¨src
-              r←0 2⍴⊂''
-              :For chunk :In pv⊂src
-                  c←⊃chunk
-                  (c1 c2)←{⍵{(1,1↓<\⍵)⊂⍺}'::'⍷⍵}c
-                  c2←#.Strings.deb 2↓c2
-                  c2←c2{0∊⍴⍺:⍵ ⋄ 0∊⍴⍵:⊂⍺ ⋄ (⊂⍺),⍵}1↓chunk
-                  c2←¯2↓∊c2,¨⊂⎕UCS 13 10
-                  r⍪←c1 c2
-              :EndFor
-              :If ns≡'_html'
-                  r⍪←'Description'('Native HTML ',' element',⍨desc←#.Strings.lc 'descr'ForControl widget)
-                  ctor←(1+(New _⍎widget).NoEndTag)⊃'content' 'id'
-                  r⍪←'Constructor'('[',ctor,']<br />',ctor,' - the ',ctor,' of the ',desc)
-                  r⍪←'Public Fields' '(none)'
-                  r⍪←'Notes'('notes'ForControl widget)
-              :EndIf
-              files←'relevant'ForControl widget
-          :EndIf
-      :EndIf
+              src←'¶  +'⎕R' '⊢'¶',¨1↓¨src
+              src←{1↓¨⍵⊂⍨'¶'=⍵}∊src
+              src←HtmlSafeText¨#.Strings.dlb¨src
      
-      :Select r
-      :Case ¯1
-          (div.Add _.h2('Namespace "',ns,'" not found.')).Style'color' 'red'
-      :Case ¯2
-          (div.Add _.h2('Widget "',widget,'" not found in namespace ',ns)).Style'color' 'red'
-      :Else
-          h←div.Add _.h2
-          :If 0≠wref.⎕NC⊂'DocBase'
-          :AndIf ~0∊⍴wref.DocBase ⍝ with link
-              h.Add (ns,'.',widget)External wref.DocBase
-          :Else                   ⍝ without link
-              h.Add ns,'.',widget
-          :EndIf
-          h.Add' ',⊃⌽⊃↓r
-          :If 0∊⍴r
-              div.Add _.h3'No documentation found.'
+              :If 0∊⍴src
+                  r,←'<h3 class="red">No documentation found.</h3>'
+              :Else
+                  :For chunk :In src
+                      ⍝ Section::
+                      ⍝ Section:: text
+                      ⍝ text - text
+                      ⍝  - text
+                      ⍝ code ⍝ text
+                      ⍝ code
+                      :If ∨/'::'⍷chunk ⍝ Section::
+                          :If ∨/find←' - '⍷chunk
+                              split←find⍳1
+                              r,←'<h3>',(chunk↑⍨split-1),'</h3>'
+                              chunk←chunk↓⍨split+2
+                              find←'- '⍷chunk
+                              split←find⍳1
+                              r,←'<p'
+                              :If '-'≠⊃chunk~' '
+                                  r,←' class="hang"'
+                              :EndIf
+                              r,←'>',(chunk↑⍨split-1),'&ndash;',(split↓chunk),'</p>'
+                          :Else
+                              r,←'<h3>',chunk,'</h3>'
+                          :EndIf
+                      :ElseIf ∨/find←'- '⍷chunk
+                          split←find⍳1
+                          r,←'<p'
+                          :If '-'≠⊃chunk~' '
+                              r,←' class="hang"'
+                          :EndIf
+                          r,←'>',(chunk↑⍨split-1),'&ndash;',(split↓chunk),'</p>'
+                      :Else ⍝ [APL code] [⍝ comment]
+                          find←'&#9053;'⍷chunk
+                          split←6+find⍳1
+                          r,←'<p class="hang"><code>',(split↑chunk),'</code>',(split↓chunk),'</p>'
+                      :EndIf
+                  :EndFor
+              :EndIf
+     
+              files←'relevant'ForControl widget
+              :If 0∊⍴files
+                  r,←'<h3 class="red">No relevant sample pages found.</h3>'
+              :Else
+                  r,←'<h3>Relevant Sample Pages:</h3>'
+                  (files←'#samples'New _.Tabs(↓⍉↑{DescrEmbed ⍵}¨files)).Theme←'FF8C00'
+                  r,←files.Render
+              :EndIf
           :Else
-              r[;2]←{New _.pre ⍵}¨r[;2]
-              r[;1]←{New _.h3 ⍵}¨r[;1]
-              div.Add¨1 0↓r
+              r,←'<h3 class="red">Widget "',widget,'" not found in namespace ',ns,'.</h3>'
           :EndIf
-          :If ~0∊⍴files
-              div.Add _.h3'Samples'
-              {div.Add DescrEmbed ⍵}¨files
-          :EndIf
-      :EndSelect
+      :Else
+          r,←'<h3 class="red">Namespace "',ns,'" not found.</h3>'
+      :EndIf
+      r,←'</div>'
+      Add'<h3>Description::' '::'⎕R'' ':'⊢r
     ∇
 :EndClass

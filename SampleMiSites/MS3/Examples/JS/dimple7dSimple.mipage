@@ -1,5 +1,5 @@
 ﻿:Class dimple7dSimple : MiPageSample
-⍝ Control: _.Script _.div
+⍝ Control:: _DC.Script _html.div
 ⍝ Description:: An example of what "dimple" can do
     ∇ Compose;chart;text
       :Access public

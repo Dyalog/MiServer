@@ -64,7 +64,19 @@
       r←('GET'HTTPCmd)args
     ∇
 
-    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime
+    ∇ r←{certs}Do args
+      :Access public shared
+    ⍝ args is Command URL Params Headers Cert SSLFlags Priority
+      args←eis args
+      :If 0=⎕NC'certs'
+          r←((⊃args)HTTPCmd)1↓args
+      :Else
+          r←certs((⊃args)HTTPCmd)1↓args
+      :EndIf
+    ∇
+
+
+    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime;congaCopied;peercert
 ⍝ issue an HTTP command
 ⍝ certs - optional [X509Cert [SSLValidation [Priority]]]
 ⍝ args  - [1] URL in format [HTTP[S]://][user:pass@]url[:port][/page]
@@ -76,6 +88,7 @@
       r←⎕NS''
       (rc httpver httpstatus httpstatusmsg header data peercert)←¯1 '' 400(⊂'bad request')(0 2⍴⊂'')''⍬
      
+      congaCopied←0
       :If 0∊⍴LocalDRC
           :Select ⊃#.⎕NC'DRC'
           :Case 9
@@ -83,12 +96,13 @@
           :Case 0
               FileSep←'/\'[1+'Win'≡3↑1⊃#.⎕WG'APLVersion']
               dyalog←{⍵,(-FileSep=¯1↑⍵)↓FileSep}2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
-              'DRC'#.⎕CY dyalog,'ws/conga' ⍝ runtime needs full workspace path
-              :If 9≠#.⎕NC'DRC'
+              'DRC'⎕CY dyalog,'ws/conga' ⍝ runtime needs full workspace path
+              :If {0::1 ⋄ 0⊣⍎'DRC'}''
                   ⎕←'Conga namespace DRC not found or defined'
                   →0
               :EndIf
-              LDRC←#.DRC
+              LDRC←DRC
+              congaCopied←1
           :Else
               ⎕←'Conga namespace DRC not found or defined'
               →0
@@ -112,7 +126,7 @@
       :EndIf
      
       parms←URLEncode parms
-      urlparms←{('?'=1↑⍵)↓'?',⍵}URLEncode urlparms
+      urlparms←{0∊⍴⍵:'' ⋄ ('?'=1↑⍵)↓'?',⍵}URLEncode urlparms
      
      GET:
       p←(∨/b)×1+(b←'//'⍷url)⍳1
@@ -204,7 +218,6 @@
                   :EndIf
               :ElseIf 100=1⊃rc ⍝ timeout?
                   done←⎕AI[3]>donetime
-                  ⎕←'tick'
               :EndIf
           :Until done
      
@@ -226,7 +239,7 @@
                   :EndIf
      
               :EndTrap
-
+     
               httpver httpstatus httpstatusmsg←{⎕ML←3 ⋄ ⍵⊂⍨{⍵∨2<+\~⍵}⍵≠' '}(⊂1 1)⊃header
               header↓⍨←1
      
@@ -241,6 +254,11 @@
       :EndIf
      
       {}LDRC.Close cmd
+     
+      :If congaCopied
+          {}LDRC.Close'.'
+          LDRC.(⎕EX¨⍙naedfns)
+      :EndIf
     ∇
 
     NL←⎕UCS 13 10
@@ -255,17 +273,20 @@
     getchunklen←{¯1=len←¯1+⊃(NL⍷⍵)/⍳⍴⍵:¯1 ¯1 ⋄ chunklen←h2d len↑⍵ ⋄ (⍴⍵)<len+chunklen+4:¯1 ¯1 ⋄ len chunklen}
     eis←{⍺←1 ⋄ ,(⊂⍣(⍺=|≡⍵))⍵} ⍝ enclose if simple
     toNum←{0∊⍴⍵:⍬ ⋄ 1⊃2⊃⎕VFI ⍕⍵}
-    getHeader←{(⍺[;2],⊂'∘∘∘')⊃⍨(lc ¨⍺[;1])⍳eis lc ⍵}
-    addHeader←{'∘∘∘'≡⍺⍺ getHeader ⍺:⍺⍺⍪⍺ ⍵ ⋄ ⍺⍺} ⍝ add a header unless it's already defined
+    getHeader←{(⍺[;2],⊂'∘↑∘')⊃⍨(lc ¨⍺[;1])⍳eis lc ⍵}
+    addHeader←{'∘↑∘'≡⍺⍺ getHeader ⍺:⍺⍺⍪⍺ ⍵ ⋄ ⍺⍺} ⍝ add a header unless it's already defined
     makeHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:0 2⍴⊂'' ⋄ 2=⍴⍴⍵:⍵ ⋄ ↑2 eis ⍵}
     fmtHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:'' ⋄ ∊{0∊⍴2⊃⍵:'' ⋄ NL,⍨(firstCaps 1⊃⍵),': ',⍕2⊃⍵}¨↓⍵}
     firstCaps←{1↓{(¯1↓0,'-'=⍵) (819⌶)¨ ⍵}'-',⍵}
-      b64Encode←{ ⍝ Base64 Encode
-          raw←⊃,/11∘⎕DR¨⍵
-          cols←6
-          rows←⌈(⊃⍴raw)÷cols
-          mat←rows cols⍴(rows×cols)↑raw
-          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'[⎕IO+2⊥⍉mat],(4|-rows)⍴'='}
+    ∇ r←b64Encode w
+    ⍝ Base64 Encode
+      :Access public shared
+      r←{raw←⊃,/11∘⎕DR¨⍵
+         cols←6
+         rows←⌈(⊃⍴raw)÷cols
+         mat←rows cols⍴(rows×cols)↑raw
+         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'[⎕IO+2⊥⍉mat],(4|-rows)⍴'='}w
+    ∇
 
     ∇ r←DecodeHeader buf;len;d;i
       ⍝ Decode HTTP Header

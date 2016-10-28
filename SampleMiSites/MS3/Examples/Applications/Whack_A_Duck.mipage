@@ -1,6 +1,6 @@
 ﻿:class Whack_A_Duck :MiPageSample
-⍝ Control:: _html.img _html.script _html.img
-⍝ Description:: Shrinking button that jumps away progressively faster you click it
+⍝ Control:: _html.img _html.script _html.img _html.style
+⍝ Description:: Whack-A-Duck: Shrinking button that jumps away progressively faster when you click it
 
     ∇ Compose;duck
       :Access Public

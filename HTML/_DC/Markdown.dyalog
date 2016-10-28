@@ -38,7 +38,7 @@
               {0:: ⋄ 1 #.Boot.ms.Log'Markdown file "',⍵,'" not found'}file
           :EndIf
       :Else
-          Content←#.Strings.vtv Content
+          Content←#.Strings.vtv renderIt Content
       :EndIf
       Content←⊃#.MarkAPL.Markdown2HTML Content
       r←⎕BASE.Render

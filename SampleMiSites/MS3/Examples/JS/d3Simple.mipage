@@ -1,5 +1,5 @@
 ﻿:Class d3Simple : MiPageSample
-⍝ Control:: _.dimple
+⍝ Control:: _JS.dimple
 ⍝ Description:: Dimple data chart
 
     ∇ Compose

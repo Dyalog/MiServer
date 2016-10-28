@@ -276,7 +276,7 @@
 
     ∇ DelCookie ctl;name;path
       :Access Public Instance ⍝ Delete a cookie
-      :If 1=≡ctl ⋄ ctl←,⊂ctl ⋄ :EndIf
+      ctl←eis ctl
       name path←ctl,(⍴ctl)↓'CookieName' '/'
       SetCookie name''path ¯30 ⍝ Expiry 30 days ago
     ∇
@@ -288,6 +288,7 @@
 
     ∇ SetCookie ctl;name;value;path;date;z;keep
       :Access Public Instance ⍝ Set a Cookie
+      ctl←eis ctl
       name value path keep←ctl,(⍴ctl)↓'CookieName' 'CookieValue' '/' 30
       date←#.Dates.IDNToDate keep+#.Dates.DateToIDN 3↑⎕TS ⍝ keep is # of days cookie should be valid
       z←#.Dates.CookieFmt(3↑date),23 59 59
@@ -324,9 +325,9 @@
 
     ∇ {code}Redirect location
       :Access public
-      :If 0=⎕NC'code' ⋄ code←301 ⋄ :EndIf ⍝ default to permanent redirection 
-      Response.(Status StatusText)←code ((SC[;1]⍳code)⊃SC[;2],⊂'')
-      'Location' SetHeader location
+      :If 0=⎕NC'code' ⋄ code←301 ⋄ :EndIf ⍝ default to permanent redirection
+      Response.(Status StatusText)←code((SC[;1]⍳code)⊃SC[;2],⊂'')
+      'Location'SetHeader location
     ∇
 
 
@@ -360,7 +361,7 @@
 
     ∇ r←isAPLJax
       :Access public instance
-      r←'XMLHttpRequest'≡GetHeader'x-requested-with'
+      r←'true'≡GetHeader'isAPLJax'
     ∇
 
     ∇ r←isPost

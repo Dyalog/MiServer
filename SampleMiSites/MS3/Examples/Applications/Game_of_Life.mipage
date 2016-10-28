@@ -10,7 +10,7 @@
       :Access Public
       :Implements Constructor
       INIT←'Acorn'
-      SHAPES←'Plane' 'Cylinder' 'Torus' 'Möbius' 'Klein'
+      SHAPES←'Plane' 'Cylinder' 'Torus' 'Möbius' 'Klein' 'RP2'
       SHAPE←3⊃SHAPES
       LIVE←'.live slot'New _.div
       DEAD←'.dead slot'New _.div
@@ -142,28 +142,42 @@
 
     Life←{↑1 ⍵∨.∧3 4=+/,¯1 0 1∘.(⌽∘⍉)⍣2⊂⍵}
 
-      Plane←{                     ⍝ ┌───┐
-          1 0↓0 1↓⍺⍺ 0,0⍪⍵        ⍝ │   │
-                                  ⍝ └───┘
+      Plane←{                   ⍝ ┌───┐
+          ⍺⍺ cut T cut ⍵        ⍝ │   │
+                                ⍝ └───┘
       }
-      Cylinder←{                  ⍝ ┌───┐
-          1 0↓⍺⍺ 0⍪⍵              ⍝ ⍋   ⍋
-                                  ⍝ └───┘
+      Cylinder←{                ⍝ ┌───┐
+          ⍺⍺ adj T cut ⍵        ⍝ ⍋   ⍋
+                                ⍝ └───┘
       }
-      Torus←{                     ⍝ ┌─→─┐
-          ⍺⍺ ⍵                    ⍝ ⍋   ⍋
-                                  ⍝ └─→─┘
+      Torus←{                   ⍝ ┌─→─┐
+          ⍺⍺ adj T adj ⍵        ⍝ ⍋   ⍋
+                                ⍝ └─→─┘
       }
-      Möbius←{                    ⍝ ┌───┐ möbius strip
-          1 0↓0 2↓¯1⌽⍺⍺ 0⍪Twist ⍵ ⍝ ⍋   ⍒
-                                  ⍝ └───┘
+      Möbius←{                  ⍝ ┌───┐ möbius strip
+          ⍺⍺ cut T rev ⍵        ⍝ ⍋   ⍒
+                                ⍝ └───┘
       }
-      Klein←{                     ⍝ ┌─→─┐ klein bottle
-          0 2↓¯1⌽⍺⍺ Twist ⍵       ⍝ ⍋   ⍒
-                                  ⍝ └─→─┘
+      Klein←{                   ⍝ ┌─→─┐ klein bottle
+          ⍺⍺ adj T rev ⍵        ⍝ ⍋   ⍒
+                                ⍝ └─→─┘
       }
-      Twist←{                     ⍝  ┌───┐    ┌ ┌───┐ ┐
-          ¯1⌽⍵,⌽⊖2↑[1+⎕IO]¯1⌽⍵    ⍝  ⍋   ↑ →  ↓,⍋   ↑,⍒
-                                  ⍝  └───┘    └ └───┘ ┘
+      RP2←{                     ⍝ ┌─→─┐ real projective plane:
+          ⍺⍺ rev T rev ⍵        ⍝ ⍋   ⍒  left and right sides reversed
+                                ⍝ └─←─┘  top and bottom reversed
       }
+      adj←{                     ⍝ ┌─→─┐   ┌─→─┐ top and bottom adjacent
+          ⍺⍺ ⍵                  ⍝  ...  →  ...                 ¯¯¯¯¯¯¯¯
+                                ⍝ └─→─┘   └─→─┘
+      }
+      cut←{                     ⍝ ┌─→─┐   ┌───┐ top and bottom blocked
+          1↓⍺⍺ 0⍪⍵              ⍝  ...  →  ...                 ¯¯¯¯¯¯¯
+                                ⍝ └─→─┘   └───┘
+      }
+      rev←{                     ⍝ ┌─→─┐   ┌─←─┐ top and bottom reversed
+          2↓¯1⊖⍺⍺ ¯1⊖⍵⍪⊖⌽2↑¯1⊖⍵ ⍝  ...  →  ...                 ¯¯¯¯¯¯¯¯
+                                ⍝ └─→─┘   └─→─┘
+      }
+    T←{⍉⍺⍺⍉⍵}                   ⍝ under transpose ⍢⍉
+
 :EndClass

@@ -1,10 +1,60 @@
-﻿:class Callbacks: MiPageSample
-⍝ Control:: Callbacks 
+﻿:class CallbacksExample: MiPageSample
+⍝ Control:: _.Handler
 ⍝ Description:: Various forms of callbacks
 
-    ∇ Compose;p
-      :Access Public 
+    ∇ Compose;fs;p;Print;Place;Code
+      :Access Public
      
-      Add _.p'The default name of the callback function is APLJax.'
+      Add _.style ScriptFollows
+      ⍝ #fs code, #check ~ label {background: buttonface; padding: 2px 6px 3px;}
+      ⍝ #check {transform: scale(1.5);}
+      ⍝ .larger {font-size: 1em;}
+      ⍝ .huge {font-size: x-large; padding: 2px 12px 3px; margin-right: 12px;}
+      p←⍬
+      Print←{p⊢←Add _.p ⍵}
+      Place←{⍺←⊢ ⋄ ⍺'.larger'p.Add ⍵}
+      Code←{⍺←⊢ ⋄ ⍺(New _.code ⍵)}
+     
+      Print'The most basic callback is to the default function, APLJax. Change the checkbox state to run APLJax: '
+      ('#check'Place _.CheckBox'unchecked'(Code'.On ''click''')'right').On'change'
+     
+      Print'You can also specify which callback function to call. Click the button to call MyCallback: '
+      (Place _.Button Code'.On ''click'' ''MyCallback''').On'click' 'MyCallback'
+     
+      Print'Let''s call MyCallback again, but this time with info about the above checkbox''s state: '
+      (Place _.Button Code'.On ''click'' ''MyCallback''(''state'' ''val'' ''#check'')').On'click' 'MyCallback'('state' 'val' '#check')
+     
+      Print'You can also execute JavaScript on the client side, while not calling back to Dyalog at all: '
+      (Place _.Button Code'.On ''click'' 0 '''' ''$("#output").html("By JavaScript.")''').On'click' 0 '' '$("#output").html("By JavaScript.")'
+     
+      fs←'#fs'Add _.Fieldset'Click any button in this Fieldset'
+      fs.Add _.p'Finally, you can attach a single handler to multiple sub-elements, like this Fieldset has a single handler for its buttons.'
+      {⍵'.huge'fs.Add _.Button ⍵}¨⎕D
+      fs.On'click' 'Choice' '' '' 'button'
+      fs.Add _.p('The code to achieve this is: 'Code'.On ''click'' ''Choice'' '''' '''' ''button''')
+     
+     
+      '#output'Add _.h3'Watch this space while you click an input control!'
     ∇
+
+    ∇ r←APLJax
+      :Access public
+      r←'#output'Replace'Hi! I''m APLJax.'
+    ∇
+
+    ∇ r←MyCallback;state
+      :Access public
+      state←Get'state'
+      :If ''≡state
+          r←'#output'Replace'MyCallback says hello.'
+      :Else
+          r←'#output'Replace'MyCallback says the above checkbox is ',state,'.'
+      :EndIf
+    ∇
+
+    ∇ r←Choice
+      :Access public
+      r←'#output'Replace'You clicked button ',_what,'.'
+    ∇
+
 :endclass

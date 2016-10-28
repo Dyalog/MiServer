@@ -1,4 +1,4 @@
-/* CSS for the _DC.dcsections widget */
+﻿/* CSS for the _DC.dcsections widget */
 
 /* Nice rounded border */
 .dc-accordion {
@@ -9,11 +9,11 @@
 /* Configure the radio buttons to be outside the screen */
 .dc-accordion > input[type="radio"] {
     position: absolute;
-    top: -100%;
+    left: -100%;
 }
  
 /* Configure labels to look like sections */
-.dc-accordion > input[type="radio"] + label {
+.dc-accordion > input[type=radio] + label {
     /* inline-block such that the label can be given dimensions */
     display: block;
  
@@ -29,16 +29,13 @@
     text-indent:-21px;
     padding: 5px 10px 5px 28px;
 
-    /* Set the default colours (non-selected section) */
+    /* Set the default colors (non-selected section) */
     background: -webkit-linear-gradient(white,transparent);
     background: linear-gradient(white,transparent);
     font-weight: bold;
-  
-    /* Hand when over the section */
-    cursor: pointer;
 }
 
-.dc-accordion > input[type="radio"]:first-child + label {
+.dc-accordion > input[type=radio]:first-child + label {
     margin-top: 0;
 }
 

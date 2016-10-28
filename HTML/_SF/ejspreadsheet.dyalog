@@ -33,7 +33,7 @@
           :EndFor
           src←id,'_sheets'
           'sheets'Set'⍎',src
-          r,←'script'#.HTMLUtils.Enclose src #._JSS.JSData sheets
+          r,←'script'#.HtmlUtils.Enclose src #._JSS.JSData sheets
       :EndIf
       r,←⎕BASE.Render
     ∇

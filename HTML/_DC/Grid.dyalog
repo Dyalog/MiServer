@@ -1,5 +1,4 @@
 ﻿:Class Grid : #._DC.Table
-⍝∇:require =/Table.dyalog
 ⍝ Description:: Grid - like _.Table but with borders - accepts matrix of data
 ⍝ Constructor:: [Data [CellAttr [HeaderRows [HeaderAttr [MakeCellIds [MakeRowIds]]]]]
 ⍝
@@ -10,6 +9,8 @@
 ⍝ HeaderAttr  - Header attributes
 ⍝ MakeCellIds - 1 to generate IDs      <td id="tableId_r2c3">
 ⍝ MakeRowIds  - 1 to generate Row IDs  <tr id="tableId_row2">
+
+⍝∇:require =/Table.dyalog
 
     ∇ Make0
       :Access public

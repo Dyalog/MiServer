@@ -4,6 +4,7 @@
  
     ∇ Compose;det
       :Access public
+      Add _.p 'Note that the support for summary/details varies.'
       Add _.p 'Click the line below to reveal the details.'
        
       det←Add _.details

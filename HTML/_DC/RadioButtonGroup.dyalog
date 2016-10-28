@@ -48,7 +48,7 @@
       :EndIf
     ∇
 
-    ∇ r←Render;n;inps;tmpname;tmpid;Name
+    ∇ r←Render;n;inps;tmpname;tmpid;Name;nums
       :Access public
       Name←UNDEF
       ⍝ for input element widgets, this will set the name to the id if not already set
@@ -60,19 +60,20 @@
       r←''
       (Labels Values)←Labels{0∊⍴⍵:⍺ ⍺ ⋄ 0∊⍴⍺:⍵ ⍵ ⋄ ⍺ ⍵}Values
       :If ~0∊n←⍴Values
+          nums←(⊂Name,'_'),¨⍕¨⍳n
           :If (,Horizontal)≡,1 ⍝ horizontal layout
               inps←Values{⎕NEW #._DC.Input('radio'⍺ ⍵ LabelPos)}¨Labels
               inps.name←⊂Name
-              inps.id←(⊂Name,'_'),¨⍕¨⍳n
+              inps.id←nums
               :If ⍬≢SelectedIndex ⋄ inps[SelectedIndex].Attrs[⊂'checked']←⊂'checked' ⋄ :EndIf
               Data←(1,⍴inps)⍴inps
           :Else ⍝ vertical layout
               inps←⎕NEW¨n⍴#._html.input
               inps.value←Values
               inps.(name type)←(⊂Name'radio')
-              inps.id←(⊂Name,'_'),¨⍕¨⍳n
+              inps.id←nums
               :If ⍬≢SelectedIndex ⋄ inps[SelectedIndex].Attrs[⊂'checked']←⊂'checked' ⋄ :EndIf
-              Data←Labels,⍪inps
+              Data←(nums{⎕NEW _.label(⍵('for="',⍺,'"'))}¨Labels),⍪inps
               :If LabelPos≡'left'
                   CellAttr←'style=text-align:right;' ''
               :Else
@@ -80,7 +81,7 @@
               :EndIf
           :EndIf
           (tmpname tmpid)←Name id
-          id←Name,'_container'
+          id←Name
           Name←UNDEF
           :If ~0∊⍴⎕THIS.Handlers
               ⎕THIS.Handlers.Selector←⊂1↓∊',#'∘,¨inps.id

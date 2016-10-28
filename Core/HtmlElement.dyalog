@@ -70,6 +70,11 @@
       r←0 2∊⍨10|⎕DR w
     ∇
 
+    ∇ r←isNum w
+      :Access public shared
+      r←2|⎕DR w
+    ∇
+
     ∇ r←isString w
       :Access public shared
       :Select ≡w
@@ -123,7 +128,7 @@
     ∇ SyncAttrs arg
       :Implements Trigger id,name,class,style,title,type,value
       :If ⊃≢/arg.(NewValue OldValue)
-          arg.Name Set arg.NewValue
+          arg.Name Set arg.NewValue~UNDEF
       :EndIf
     ∇
 
@@ -188,7 +193,9 @@
                   :AndIf 0≠n←eq+.∧nq←~≠\'"'=item
                       :If n=1
                           attr,←⊂split item
-                      :Else
+                      :ElseIf 1=eq+.∧nq←nq>≠\''''=item
+                          attr,←⊂split item
+                      :Else ⍝!!! needs more analysis what about cases like:  onchange=''alert("\"we're here)''
                           attr,←⊃,/1 ParseAttr¨item{⎕ML←3 ⋄ ⍵⊂⍺}nq⍲item=' '
                       :EndIf
                   :ElseIf 3>f←'#.'⍳1↑item
@@ -276,6 +283,16 @@
           class←c
       :Else
           class,←' ',c
+      :EndIf
+    ∇
+
+
+    ∇ r←AddStyle s;t
+      :Access public
+      :If style≡UNDEF
+          style←s,(';'=¯1↑s)↓';'
+      :Else
+          style,←(';'=¯1↑style)↓';',s,(';'=¯1↑s)↓';'
       :EndIf
     ∇
 
@@ -423,7 +440,7 @@
       :Access public
       args←eis args
       handler←⎕NEW #._JQ.Handler
-      handler.(Events Callback ClientData JavaScript Delegates jQueryWrap ScriptWrap Hourglass)←args defaultArgs'' 1 '' '' '' 1 1 ¯1
+      handler.(Events Callback ClientData JavaScript Delegates jQueryWrap ScriptWrap Cursor)←args defaultArgs'' 1 '' '' '' 1 1 ¯1
       handler.WidgetRef←⎕THIS
       handler.Page←_PageRef
       :If ¯1=handler.Hourglass ⋄ handler.Hourglass←(,0)≢,handler.Callback ⋄ :EndIf
@@ -491,11 +508,12 @@
       :Access public
     ⍝ do the bulk of the rendering work
       r←''
+      list←{0=⍴⍴⍵:{1<|≡⍵:⊃⍵ ⋄ ⍵}⍵ ⋄ ⍵}list
       :For e :In eis list
           :If isInstance⊃e
               r,←e.Render
           :ElseIf isClass⊃e
-              r,←(⎕NEW e).Render
+              r,←(New e).Render
           :Else
               :If 1<⍴⍴t←⍕e
                   t←∊(↓t),¨⊂'<br/>'
@@ -521,11 +539,10 @@
     ∇ r←RenderPosition
       :Access public
       r←''
-      :If 9=⎕NC'Position'
-      :AndIf ~0∊⍴Position.⎕NL-2
+      :If ~0∊⍴Position.⎕NL-2
           Uses,←⊂'JQueryUI'
           r←#.JQ.JQueryfn'position'('#',SetId)Position
-          Use
+          SetUse
       :EndIf
     ∇
 
@@ -557,7 +574,7 @@
 
     ∇ r←{a}eis w
       :Access public shared
-      r←((,∘⊂)⍣((isString w)∧2>|≡w))w ⍝ enclose if simple character
+      r←((,∘⊂)⍣(((isNum w)∨isString w)∧2>|≡w))w ⍝ enclose if simple character
       ⍝r← (,∘⊂)⍣((326∊⎕DR w)<2>|≡w)⊢w ⍝ Enclose if simple
     ∇
 
@@ -590,7 +607,7 @@
               :EndIf
               r←args
           :Else
-              r←args
+              (r←⎕NEW HtmlElement).Content←⊂args
           :EndIf
       :EndIf
     ∇
@@ -609,7 +626,7 @@
               :EndTrap
               Content←r
           :Else
-              Content,⍨←r
+              Content,⍨←⊂r
           :EndIf
       :EndIf
     ∇
@@ -698,9 +715,19 @@
 
     ∇ r←renderIt It
       :Access public shared
-      r←{326=⎕DR⊃⍵:{isInstance⊃⍵:(⊃⍵).Render
-              isClass⊃⍵:(⎕NEW(⊃⍵)((⊃⍣(2=⊃⍴⍵))1↓⍵)).Render
-              ,⍕⍵}⍵ ⋄ ,⍕⍵}It
+      r←{
+          0∊⍴⍵:''
+          326=⎕DR ⍵:{
+              isString ⍵:∊⍵
+              2≤|≡⊃⍵:{
+                  isClass⊃⊃⍵:((New⊃⍵).Render),renderIt 1↓⍵
+                  ,⍕⍵
+              }⍵
+              isInstance⊃⍵:((⊃⍵).Render),renderIt 1↓⍵
+              isClass⊃⍵:((⎕NEW(⊃⍵)).Render),renderIt 1↓⍵
+              isChar⊃⍵:(⊃⍵),renderIt 1↓⍵
+              (renderIt⊃⍵),renderIt 1↓⍵}⍵
+          ,⍕⍵}It
     ∇
 
     ∇ r←isHtmlElement ao
@@ -754,9 +781,10 @@
       r←⊃#.MarkAPL.Markdown2HTML Follows
     ∇
 
-    ∇ r←CodeFollows
+    ∇ r←CodeFollows;n
       :Access public shared
-      r←2↓∊(⎕UCS 13 10)∘,¨{¯1↓⍵/⍨∨\⌽<\∨/¨'⍝<<end>>'∘⍷¨⍵}(1+2⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
+      n←⎕XSI{1++/∧\⍵∘≡¨(⊃⍴⍵)↑¨⍺}(⍕⎕THIS),'.'
+      r←2↓∊(⎕UCS 13 10)∘,¨{¯1↓⍵/⍨∨\⌽<\∨/¨'⍝<<end>>'∘⍷¨⍵}(1+n⊃⎕LC)↓↓(180⌶)2⊃⎕XSI
       r←'<pre style="font-family:APL385 Unicode">',r,'</pre>'
     ∇
 
@@ -783,7 +811,7 @@
       SplitOnSpaceLines←{1↓¨⍵⊂⍨⍵∧.=¨' '}
       text←(1+2⊃⎕LC)↓↓(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
      
-      r←tag∘#.HTMLUtils.Enclose¨∊¨SplitOnSpaceLines' ',¨⍨' ',⌽¨Trim⌽¨FirstCommentBlock Trim text
+      r←tag∘#.HtmlUtils.Enclose¨∊¨SplitOnSpaceLines' ',¨⍨' ',⌽¨Trim⌽¨FirstCommentBlock Trim text
     ∇
 
     ∇ r←what Subst text;names;gv;i;repl;fixL;fixR

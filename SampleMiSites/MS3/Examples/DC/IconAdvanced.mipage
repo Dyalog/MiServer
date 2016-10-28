@@ -1,0 +1,98 @@
+﻿:Class IconAdvanced : MiPageSample
+⍝ Control:: _DC.Icon
+⍝ Description:: Advanced ways to use icons
+    ∇ Compose;p;i
+      :Access Public
+     
+      Add _.style ScriptFollows
+      ⍝ .inside-icon {
+      ⍝     margin-top: 0.1em;
+      ⍝     font-size: 0.9em;
+      ⍝     color: darkorange;
+      ⍝ }
+      ⍝ .file-ext {
+      ⍝     color:           white;
+      ⍝     margin-left:     0.2em;
+      ⍝     margin-top:      0.3em;
+      ⍝     font-size:         2em;
+      ⍝     font-weight:      bold;
+      ⍝     font-family: Monospace;
+      ⍝ }
+      ⍝ .smile {
+      ⍝     margin:  0.5em 0.9em;
+      ⍝ }
+      ⍝ .bubble {
+      ⍝     margin-left: .6em;
+      ⍝     font-size: medium;
+      ⍝     font-family: "Comic Sans MS", cursive;
+      ⍝ }
+     
+      (Add _.p).Add¨(_.Icon'fa-refresh fa-spin')' A spinning refresh-icon'
+     
+      (Add _.p).Add¨(_.Icon'fa-file-o fa-2x' 'fa-cog inside-icon')' file settings'
+     
+      (Add _.p).Add¨(_.Icon'fa-file-o' 'fa-exclamation inside-icon')' file warning'
+     
+      Add _.p('style="color:green;"'New _.Icon'fa-file fa-4x'(New _.span'XLS' '.file-ext'))
+     
+      Add _.p(New _.Icon'fa-calendar-o fa-2x'('.inside-icon'New _.span'42')),'Calendar'
+     
+      Add _.p,New _.Icon'fa-calendar-o fa-4x'('.smile'New _.img'src="../Data/smiley.gif"')
+     
+      p←Add _.p
+      p.Add _.Icon'fa-camera'
+      p.Add _.Icon'fa-camera fa-2x'
+      p.Add _.Icon'fa-camera fa-3x'
+      p.Add _.Icon'fa-camera fa-4x'
+      p.Add _.Icon'fa-camera fa-5x'
+      p.Add _.Icon'fa-camera-retro fa-5x'
+      p.Add _.Icon'fa-camera-retro fa-4x'
+      p.Add _.Icon'fa-camera-retro fa-3x'
+      p.Add _.Icon'fa-camera-retro fa-2x'
+      p.Add _.Icon'fa-camera-retro'
+      p.Add'Varying Sizes'
+     
+      p←Add _.p
+      i←'.fa-3x'p.Add _.Icon
+      '.fa-lg' 'style=font-weight:bold;'i.Add _.span'&#x2639;' ⍝ Smiley face
+      'style="color: rgba(255,0,0,0.8);"'i.Add _.Icon'fa-ban fa-2x'
+     
+      p.Add'No frowning here!'
+     
+      p←Add _.p
+      i←p.Add _.Icon'fa-4x'
+      i.Add _.Icon'fa-comment-o fa-4x'
+      '.bubble'i.Add _.span'Hello!'
+      'style=margin-left:3em;'p.Add _.span'Friendly greeting'
+     
+      p←'style="margin-left: 25%; margin-right: 25%;"'Add _.p(New _.Icon'fa-quote-left fa-2x fa-pull-left fa-border')
+      p.Add ScriptFollows
+      ⍝ It is paradoxical, yet true, to say, that the more we know, the more ignorant we become in the absolute sense,
+      ⍝ for it is only through enlightenment that we become conscious of our limitations. Precisely one of the most
+      ⍝ gratifying results of intellectual evolution is the continuous opening up of new and greater prospects.
+     
+      p←Add _.p
+      mylist←'.fa-ul'Add _.ul
+      itm←mylist.Add _.li
+      itm.Add _.Icon'fa-li fa fa-check-square'
+      itm.Add'List icons'
+     
+      mylist.Add _.li((New _.Icon'fa-li fa fa-check-square').Render,'can be used')
+      mylist.Add _.li((New _.Icon'fa-li fa fa-spinner fa-spin').Render,'as bullets')
+      (mylist.Add _.li'in lists').Insert _.Icon'fa-li fa fa-square'
+     
+      mylist←'.fa-ul' 'style="line-height:2em;"'Add _.ul
+      (mylist.Add _.li'A double-spaced').Insert _.Icon'md-fingerprint fa-li'
+      (mylist.Add _.li'list that uses').Insert _.Icon'md-android fa-li'
+      (mylist.Add _.li'Google''s').Insert _.Icon'md-shopping_cart fa-li'
+      (mylist.Add _.li'icons').Insert _.Icon'md-thumb_up fa-li'
+     
+      mylist←'.fa-ul'Add _.ul
+     
+      (mylist.Add _.li'Syncfusion image icon').Insert _.Icon'e-image_01 fa-li'
+      (mylist.Add _.li'Syncfusion external link icon').Insert _.Icon'e-external-link_01 fa-li'
+      (mylist.Add _.li'Syncfusion export icon').Insert _.Icon'e-export fa-li'
+     
+    ∇
+
+:EndClass

@@ -1,0 +1,6 @@
+<Server>
+    <Name>MiServer 2 Compatible Sample Site</Name>
+    <ClassName>MiServer</ClassName>
+    <DefaultPage>index.dyalog</DefaultPage>             <!-- default page to load if none is specified in client request -->
+    <DefaultExtension>.dyalog</DefaultExtension>        <!-- default extension(s) for page files -->
+</Server>

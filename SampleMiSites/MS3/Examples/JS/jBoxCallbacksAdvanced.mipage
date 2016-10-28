@@ -1,0 +1,104 @@
+﻿:Class jBoxCallbacksAdvanced : MiPageSample
+⍝ Control::     _JS.jBox
+⍝ Description:: Using jBox in callback-functions to display notices or modal popups
+
+    ∇ Compose;dd
+      :Access public
+    ⍝ make sure required resources are loaded so that
+    ⍝ the JS is available when executed in callbacks:
+      Use'jBox'     
+      Use'dcPanel' 
+      Add _.style'.demo {padding-top:2px; background-color: orange;}'
+
+      Add _.h2'jBox Widget - Advanced sample: shared functions for use in your callbacks'
+            Add _.h3 'Disclaimer'
+            Add 'The following examples use '
+            Add _.span 'this style'
+            Add ' to indicate click-sensitive regions that are linked to the documented functionality.'
+            Add 'This styling is only used to facilitate use of these examples and should in no way serve as example for your use-cases! ;-)'
+
+      Add _.h3 'Notices'
+      
+      dd←Add _.div'Click the following "pseudo sample-links" to trigger notices that will automatically hide after a bit. Also observe the behaviour when you click repeatedly!'
+      ('.demo' '#notice'dd.Add _.span'Simple notice').On'click' 'FireNoticeSimple'
+      dd.Add' and '
+      ('.demo'dd.Add _.span'advanced (green & sliding)').On'click' 'FireNoticeAdvanced1'
+      dd.Add' or '
+      ('.demo'dd.Add _.span'advanced (yellow, sliding & decorated)').On'click' 'FireNoticeAdvanced2'
+      dd.Add'sample.'
+     
+         Add _.h3 'Modal popups'
+      dd←Add _.div'Click here for '
+      ('.demo'dd.Add _.span'simple').On'click' 'FireModalSimple'
+      dd.Add' or '
+      ('.demo'dd.Add _.span'advanced').On'click' 'FireModalAdvanced1'
+      dd.Add'popups.'
+      dd.Add ' They autoclose when you click outside the msg or press &lt;Esc&gt;.'
+      dd←Add _.div 
+      dd.Add _.b 'But...'
+      ('.demo'dd.Add _.span'this box').On'click' 'FireModalAdvanced2'
+      dd.Add 'requires you to click the Close-X (top right) to close the msg!'
+      
+     
+    ∇
+
+    ∇ R←FireNoticeSimple;opts
+      :Access public
+      R←Execute _.jBox.Notice'Hurray! A notice!'
+    ∇
+
+    ∇ R←FireNoticeAdvanced1;opts
+      :Access public
+      opts←⎕NS''
+      opts.animation←'slide'
+      opts.theme←'ModalBorder'
+      opts.color←'green'
+      R←Execute(opts _.jBox.Notice'Hurray! A notice!')
+    ∇
+
+    ∇ R←FireNoticeAdvanced2;opts
+      :Access public
+      opts←⎕NS''
+      opts.animation←'slide'
+      opts.theme←'ModalBorder'
+      opts.color←'yellow'
+      R←Execute(opts _.jBox.Notice((New _.Icon'fa-thumbs-up'),' Hurray! A notice!'))
+    ∇
+
+    ∇ R←FireModalSimple;opts;MyPanel;cnt
+      :Access public
+      R←Execute _.jBox.Modal'Hello from a simple modal popup!'
+    ∇    
+
+    ∇ R←FireModalAdvanced1;opts;MyPanel;cnt
+      :Access public
+      opts←⎕NS''
+      opts.theme←'ModalBorder'
+      cnt←New _.Icon'fa-thumbs-up'
+      cnt,←'You can even use other MiServer-Widgets in jBoxes!'
+     
+      ⍝ let's proove that one can also add links...
+      cnt,←New _.br
+      cnt,←,'Meet the '
+      cnt,←'href="http://www.dyalog.com/meet-team-dyalog.htm"' 'target="blank"'New _.a'Team'
+      MyPanel←New _.Panel
+      MyPanel.Title←'A Panel in a Popup!'
+      MyPanel.Type←'info'
+      MyPanel.Content←cnt
+      R←Execute(opts _.jBox.Modal MyPanel)
+    ∇
+
+    ∇ R←FireModalAdvanced2;opts;MyPanel;cnt
+      :Access public
+      opts←⎕NS''
+      opts.title←'Rather simple modal with a title'
+      opts.content←'Esc disabled use Close-Button to close'
+      opts.theme←'ModalBorder'
+      opts.closeOnEsc←_false
+      opts.closeOnClick←_false ⍝ 'box'
+      opts.closeButton←'box'
+      R←Execute(opts _.jBox.Modal'')
+    ∇
+
+
+:EndClass

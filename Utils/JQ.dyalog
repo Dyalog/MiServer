@@ -37,7 +37,7 @@
       :EndIf
       r←script[3]{⍺:'$(',sel,').',⍵ ⋄ 'new ',⍵}jqfn,'(',jqpars,')',chain
       r←script[2]{⍺:'$(function(){',⍵,'});' ⋄ ⍵}(prejs ine prejs,(';'=¯1↑prejs)↓';'),(oname ine oname,' = '),r
-      r←script[1]{⍺:#.HTMLInput.JS ⍵ ⋄ ⍵}(oname ine'var ',oname,';'),r
+      r←script[1]{⍺:'<script>',⍵,'</script>' ⋄ ⍵}(oname ine'var ',oname,';'),r
     ∇
 
     ∇ r←page On pars;delegate;selector;event;clientdata;response;script;data;cd;name;id;type;what;dtype;success;ajax;useajax;jquerywrap;scriptwrap;hourglass;hg;removehg;status
@@ -169,12 +169,14 @@
       ajax,←useajax/hg,'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,', ',status,'});'
       r←'$(',(quote selector),').on(',(quote event),delegate,', function(event){',ajax,'});'
       :If jquerywrap ⋄ r←'$(function(){',r,'});' ⋄ :EndIf
-      :If scriptwrap ⋄ r←#.HTMLInput.JS r ⋄ :EndIf
+      :If scriptwrap ⋄ r←'<script>',r,'</script>' ⋄ :EndIf
     ∇
 
     :section Position
 
-    ∇ r←selector Position args;inds;mask;parameters;my;at;of;collision;within;q;tmp
+    ∇ r←selector Position args;inds;mask;parameters;my;at;of;collision;within;q;tmp 
+      ⍝ Description:: Cover for jQueryUI Position widget
+      ⍝ Arguments:: 
       ⍝ selector - jQuery selector
       ⍝ args - position information per jQueryUI's Position widget http://api.jqueryui.com/position/
       ⍝        can be in any of the following forms

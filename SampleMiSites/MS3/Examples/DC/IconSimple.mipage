@@ -1,0 +1,41 @@
+﻿:Class IconSimple : MiPageSample
+⍝ Control:: _DC.Icon
+⍝ Description:: Icons from FontAwesome, Syncfusion, and Google
+
+    ∇ Compose;p;i
+      :Access Public
+     
+      Add _.style'.red {color: red;}'
+     
+      p←Add _.p
+      p.Add _.Icon'fa-cloud-upload'
+      p.Add' FontAwesome'
+     
+      p←Add _.p
+      p.Add _.Icon'md-fingerprint'
+      p.Add' Google Material Design'
+     
+      p←Add _.p
+      p.Add _.Icon'e-delete-column_01'
+      p.Add' Syncfusion'
+     
+      p←Add _.p
+      '.fa-spin'p.Add _.Icon'md-track_changes'
+      p.Add' FontAwesome effects'
+     
+      p←Add _.p
+      '.red' 'style="font-size:36px;padding-right:15px"'p.Add _.Icon'e-notification'
+      p.Add' custom styling'
+     
+      p←Add _.p
+      p.Add _.Icon'fa-square fa-2x' 'fa-terminal fa-inverse'
+      p.Add' small on large'
+     
+      p←Add _.p
+      i←p.Add _.Icon
+      i.Add _.Icon'fa-battery-full'
+      'style="font-size: 2em; opacity: 0.7;"'i.Add _.Icon'fa-times red'
+      p.Add' large on small'
+    ∇
+
+:EndClass

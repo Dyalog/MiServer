@@ -1,0 +1,26 @@
+﻿:class PanelAdvanced : MiPageSample
+⍝ Control:: _DC.Panel
+⍝ Description:: Demonstrates options for customization of Panels
+
+    ∇ Compose
+      :Access public
+      Add _.h3'The Dyalog Panel Widget'
+          
+      p←Add _.Panel'' 'info'
+      p.Icon←'fa-certificate fa-3x'
+      p.Add'You can also build panels using the Add method</br>'
+      p.Add'You can assign custom icons by setting the field "Icon"'
+     
+      Add _.style ScriptFollows
+        ⍝ .custom-class {background-color: green;}
+        ⍝ .custom-class.dc-panel-title {background-color: lightgreen;}
+        ⍝ .custom-class.dc-panel-icon {color: white;}
+     
+      p←Add _.Panel('' '.custom-class' 'Custom Class Example Title')
+      p.Icon←'fa-thumbs-up'
+      p.Add'You can assign your own classes and icons as well!'     
+    ∇
+
+
+
+:endclass

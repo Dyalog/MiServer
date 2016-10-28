@@ -29,11 +29,7 @@
 
     ∇ r←myCallback
       :Access public
-      :If _what≡'inp4'
-          r←'#out4'Replace'(that''s a secret)'
-      :Else
-          r←('#out',3↓_what)Replace' Entered: ',_value
-      :EndIf
+      r←('#out',3↓_what)Replace' Entered: ',(1+'4'∊_what)⊃_value'(that''s a secret)'
     ∇
 
 :EndClass

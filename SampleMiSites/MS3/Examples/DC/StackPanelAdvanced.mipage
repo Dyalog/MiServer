@@ -3,7 +3,7 @@
 ⍝ Description:: Nested StackPanels provide flexible layout control.
 
     rect←{r⊣(r←New _.div).style←2↓∊'; height: ' 'px; width: ' 'px; background-color:',⍪⍕¨⍵}
-    ⍝ Create a rectangle ⍵[1] high × ⍵[2] wide with colour ⍵[3]
+    ⍝ Create a rectangle ⍵[1] high × ⍵[2] wide with color ⍵[3]
 
     addstyle←{⍺.style,←'; ',⍵} ⍝ Add style ⍵ to control ⍵
 
@@ -16,7 +16,7 @@
      
       intro←'Below, a horizontal stackpanel with a light grey background contains three '
       intro,←'vertical stackpanels, each containing a varying number of divs which have been '
-      intro,←'styled to have slightly different sizes and colours.'
+      intro,←'styled to have slightly different sizes and colors.'
       Add _.p intro
      
       intro←'Some divs have p elements containing text, with different padding and margins defined.'

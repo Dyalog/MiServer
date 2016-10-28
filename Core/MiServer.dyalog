@@ -474,7 +474,6 @@
 
     ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;MS3;token;mask;resp;t;RESTful;APLJax;flag;path;name;ext;list;fn
     ⍝ Handle a "MiServer Page" request
-     
       path name ext←#.Files.SplitFilename file
      RETRY:
      
@@ -516,8 +515,8 @@
           :If 9=⎕NC'#.HtmlPage'
               :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage ⋄ inst._Request←REQ ⋄ :EndIf
           :EndIf
-          :If 9=⎕NC'#.RESTful'
-              :If ∨/(∊⎕CLASS inst)∊#.RESTful
+          :If 9=⎕NC'#.RESTfulPage'
+              :If RESTful←∨/(∊⎕CLASS inst)∊#.RESTfulPage
                   inst._Request←REQ
               :EndIf
           :EndIf
@@ -535,7 +534,7 @@
           MS3←RESTful←0
           :If 9=⎕NC'#.HtmlPage'
               :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage
-              :OrIf RESTful←∨/(∊⎕CLASS inst)∊#.RESTful
+              :OrIf RESTful←∨/(∊⎕CLASS inst)∊#.RESTfulPage
                   inst.(_Request _PageRef)←REQ inst
                   :If 0≡REQ.RESTfulReq
                       REQ.RESTfulReq←''
@@ -561,7 +560,8 @@
       :EndIf
      
     ⍝!!!BPB!!! Finish Me
-      :If inst.Cacheable
+      :If 0≠inst.⎕NC'Cacheable'
+      :AndIf inst.Cacheable
       :AndIf ~0∊⍴inst._cache
           REQ.Response.HTML←inst._cache
           →0
@@ -682,7 +682,7 @@
      
       REQ.Title'Unhandled Execution Error'
       REQ.Style'Styles/error.css'
-      html←'h1'#.HTMLInput.Enclose'Server Error in ''',REQ.Page,'''.<hr width=100% size=1 color=silver>'
+      html←'<h1>Server Error in ''',REQ.Page,'''.<hr width=100% size=1 color=silver></h1>'
       html,←'<h2><i>Unhandled Exception Error</i></h2>'
       html,←'<b>Description:</b> An unhandled exception occurred during the execution of the current web request.'
       :If #.DrA.Mode=2 ⍝ Allows editing
@@ -690,7 +690,7 @@
       :EndIf
       html,←'<br><br><b>Exception Details:</b><br><br>'
       :If (#.DrA.Mode>0)∧0≠⍴#.DrA.LastFile ⋄ html,←#.DrA.(GenHTML LastFile)
-      :Else ⋄ html,←'code'#.HTMLInput.Enclose'<font face="APL385 Unicode">',(⊃,/#.DrA.LastError,¨⊂'<br>'),'</font>'
+      :Else ⋄ html,←'<code><font face="APL385 Unicode">',(⊃,/#.DrA.LastError,¨⊂'<br>'),'</font></code>'
       :EndIf
       REQ.Return html
     ∇

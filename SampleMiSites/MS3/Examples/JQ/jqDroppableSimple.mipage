@@ -1,21 +1,26 @@
 ﻿:Class jqDroppableSimple : MiPageSample
 ⍝ Control:: _JQ.jqDroppable
-⍝ Description:: Take a div for a drag and drop
+⍝ Description:: Make elements accept draggable content
 
     ∇ Compose;drop;left;right
-      :Access Public                  
+      :Access Public
+      Add _.Markdown ScriptFollows
+      ⍝## jQuery UI jqDraggable and jqDroppable Widgets ##
+      ⍝Luckily these are well documented by jQuery.\
+      ⍝jQuery's API documentation as is complete and accurate.\
+      ⍝We recommend that if you need drag/drop functionality, that you use these.\
      
     ⍝ Add and style the left division
       left←'#dropin'Add _.div'Drop It Here!'
       left.Style('height' '150px')('width' '150px')('margin' '10px')('padding' '10px')('background-color' 'darkkhaki')('float' 'right')
      
-    ⍝ make the element with id 'dropin' (the div we just added) accept things with id 'dragon' to be dropped
-      drop←Add _.jqDroppable'#dropin' '#dragon'
-      drop.On'drop' 'myCallBack'
-     
     ⍝ Add and style the right division
       right←'#dragon'Add _.div'Drag Me!'
       right.Style('height' '150px')('width' '150px')('margin' '10px')('padding' '10px')('background-color' 'aliceblue')('float' 'right')
+     
+    ⍝ make the element with id 'dropin' (the div we just added) accept things with id 'dragon' to be dropped
+      drop←Add _.jqDroppable'#dropin' '#dragon'
+      drop.On'drop' 'myCallBack'
      
     ⍝ Specify that the element with id 'dragon' (the div we just added) is draggable
       Add _.jqDraggable'#dragon'
@@ -29,6 +34,4 @@
       r,←Execute'#dragon'Css'background-color' 'transparent' ⍝ hide it by making it have its parent's background
       r,←Execute'#dropin'Css'background-color' 'gold'        ⍝ change the background of the recipient div
     ∇
-
-
-:EndClass
+ :EndClass

@@ -4,47 +4,20 @@
 ⍝ this list will grow over time as usage patterns are discovered
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     enlist←{⎕ML←1 ⋄ ∊⍵}
-    quote←{0∊⍴⍵: '' ⋄ '"',(('"' ⎕R '\\\0')⍵),'"'}
+    quote←{0∊⍴⍵: '' ⋄ '"',(('"' ⎕R '\\\0')⍕⍵),'"'}
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     fmtSelector←{{'this'≡⍵:⍵ ⋄quote ⍵}¯2↓enlist{⍵,', '}¨eis ⍵}
-    fmtData←{{(326=⍵)<0=2|⍵}⎕DR ⍵:quote ⍵ ⋄ ⍕⍵}
+    fmtData←#.JSON.fromAPL ⍝ {{(326=⍵)<0=2|⍵}⎕DR ⍵:quote ⍵ ⋄ ⍕⍵}
     JAchars←#.JSON.JAchars
 
     ∇ r←Alert txt
+    ⍝ popup alert text
       r←'alert(',(quote txt),');'
     ∇
 
     ∇ r←CloseWindow
+    ⍝ close the browser window
       r←'var w=window.open(window.location,''_self''); w.close();'
-    ∇
-     
-    ∇ r←{val}(sel JQuery fn)args;opt
-    ⍝ construct JavaScript to call a jQuery function - eg val(), html(), css(), prop(), or attr()
-    ⍝ optionally setting a value for
-    ⍝ Get a jQuery parameter:
-    ⍝    ('"#id"' JQuery 'attr') '"data-role"'
-    ⍝ Set a jQuery parameter:
-    ⍝    '"blue"' ('#id' JQuery 'css') 'background-color'
-    ⍝
-      args←eis args
-      :If 0=⎕NC'val'
-          (opt val)←2↑args,(⍴args)↓''⎕NULL
-      :Else
-          opt←⊃args
-      :EndIf
-      :If val≡⎕NULL
-          r←'$(',(fmtSelector sel),').',fn,'(',(quote opt),');'
-      :Else
-          r←'$(',(fmtSelector sel),').',fn,'(',(quote opt),',',(fmtData val),');'
-      :EndIf
-    ∇
-
-    ∇ r←{val}(fn JQueryOpt sel)opt
-      :If 0=⎕NC'val'
-          r←'$(',(fmtSelector sel),').',fn,'("option",',(quote opt),');'
-      :Else
-          r←'$(',(fmtSelector sel),').',fn,'("option",',(quote opt),',',(fmtData val),');'
-      :EndIf
     ∇
 
     ∇ r←sel Css args ⍝ JQuery css cover
@@ -83,13 +56,48 @@
       r←(sel JQuery'toggle')args
     ∇
 
+    ∇ r←sel Trigger args
+      r←(sel JQuery'trigger')args
+    ∇
+
     ∇ r←Submit sel
       r←(sel JQuery'submit')''
     ∇
 
+    ∇ r←sel Position args;Position;inds;parameters;q;mask
+      parameters←'my' 'at' 'of' 'collision' 'within'
+      q←{1⌽'''''',{⍵/⍨1+''''=⍵}⍕⍵}
+      Position←⎕NS ⍬
+      :If 2=⍴⍴args ⍝ matrix
+          args←,args
+      :ElseIf 3=≡args
+          args←⊃,/args
+      :EndIf
+      args←eis args
+      inds←parameters⍳args
+      :If ∨/mask←inds≤⍴parameters
+          :If mask≡(2×+/mask)⍴1 0
+              parameters←mask/args
+              args←(1⌽mask)/args
+          :EndIf
+      :Else
+          parameters←(⍴args)↑parameters
+      :EndIf
+      mask←⍬∘≢¨args
+      args←mask/args
+      parameters←mask/parameters
+      parameters({⍎'Position.',⍺,'←',q ⍵})¨args
+      :If ~0∊⍴Position.⎕NL-2
+          r←0 #.JQ.JQueryfn'position'sel Position
+      :EndIf
+    ∇
+
     ∇ r←{eval}JSDate date
     ⍝ snippet to create a JS date (JavaScript months are 0-11!!!)
-    ⍝ date is in 3↑⎕TS form
+    ⍝ date is in 6↑⎕TS form
+    ⍝ eval is optional Boolean to indicate whether to prepend '⍎' to the snippet (default is 0=do not prepend)
+    ⍝         prepending ⍎ tells MiServer that this is an executable phrase and not simply a string
+     
       :If 0=⎕NC'eval' ⋄ eval←0 ⋄ :EndIf
       :If 0 2∊⍨10|⎕DR date  ⍝ char?
           date←'"',date,'"'
@@ -111,10 +119,39 @@
       r←(((~0∊⍴varname)/'var ',varname,' = '),0 0 1 #.JSON.fromAPL data),';'
     ∇
 
+    ∇ r←{val}(sel JQuery fn)args;opt
+    ⍝ construct JavaScript to call a jQuery function - eg val(), html(), css(), prop(), or attr()
+    ⍝ optionally setting a value for
+    ⍝ Get a jQuery parameter:
+    ⍝    ('"#id"' JQuery 'attr') '"data-role"'
+    ⍝ Set a jQuery parameter:
+    ⍝    '"blue"' ('#id' JQuery 'css') 'background-color'
+    ⍝
+      args←eis args
+      :If 0=⎕NC'val'
+          (opt val)←2↑args,(⍴args)↓''⎕NULL
+      :Else
+          opt←⊃args
+      :EndIf
+      :If val≡⎕NULL
+          r←'$(',(fmtSelector sel),').',fn,'(',(quote opt),');'
+      :Else
+          r←'$(',(fmtSelector sel),').',fn,'(',(quote opt),',',(fmtData val),');'
+      :EndIf
+    ∇
+
+    ∇ r←{val}(fn JQueryOpt sel)opt
+      :If 0=⎕NC'val'
+          r←'$(',(fmtSelector sel),').',fn,'("option",',(quote opt),');'
+      :Else
+          r←'$(',(fmtSelector sel),').',fn,'("option",',(quote opt),',',(fmtData val),');'
+      :EndIf
+    ∇
 
 
 
     :Class StorageObject
+    ⍝ !!!Prototype!!!
 
         ∇ r←{what}Set(type value);name;w;v
           :Access public shared

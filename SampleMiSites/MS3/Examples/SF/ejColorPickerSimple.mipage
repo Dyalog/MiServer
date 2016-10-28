@@ -1,6 +1,6 @@
 ﻿:Class ejColorPickerSimple : MiPageSample
 ⍝ Control:: _SF.ejColorPicker _DC.Select
-⍝ Description:: Insert a basic colour picker with preset palettes
+⍝ Description:: Insert a basic color picker with preset palettes
 
     PRESETS←'[none]' 'Basic' 'Mono Chrome' 'Flat Colors' 'Sea Wolf' 'Web Colors' 'Sandy' 'Pink Shades' 'Misty' 'Citrus' 'Vintage' 'Moon Light' 'Candy Crush'
 
@@ -13,7 +13,7 @@
      
       Add _.h2'Inline'
      
-      Add'Select a "preset" colour scheme: '
+      Add'Select a "preset" color scheme: '
       selpreset←'selpreset'Add _.Select PRESETS
       selpreset.On'change' 'CallbackFn'
       Add¨_.br _.br

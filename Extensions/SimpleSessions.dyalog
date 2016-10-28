@@ -5,7 +5,8 @@
 ⍝ is in the list of valid sessions. If it is, assign the Session property of the request.
 ⍝ If it isn't, create a new session and set the cookie
 
-    :Field Public Sessions ⍝ Should be private, really
+    :Field Public Sessions ⍝ Should be private, really 
+    :Field Public Server
 
     :Class Page
         :Field Public URL←''
@@ -22,16 +23,17 @@
         :Field Public State
         :Field Public New←1
         :Field Public Pages←0⍴⎕NEW Page
+        :Field Public Server←⍬
     :EndClass
 
-    ∇ Start Server;tn;root
+    ∇ Start server;tn;root
       :Access Public
       :Implements Constructor
     ⍝ Initialize Session handler
      
       Sessions←0⍴⎕NEW Session
-      root←Server.Config.Root
-      Timeout←Server.Config.SessionTimeout
+      root←server.Config.Root
+      Timeout←server.Config.SessionTimeout
       timeout←Timeout÷24×60 ⍝ Convert minutes to fractions of a day
      
       :Trap 22
@@ -43,6 +45,7 @@
       tn←(root,'sessions.dcf')⎕FSTIE 0
       NextSession←⎕FREAD tn,1
       ⎕FUNTIE tn
+      Server←server
     ∇
 
     ∇ GetSession req;c;tn;now;session;ns;new;t_out;i;r
@@ -56,7 +59,7 @@
           :If new←(1⊃⍴Sessions)<i←Sessions.Cookie⍳⊂session ⍝ Cookie is not in the table
               c←SessionCookie NextSession
               Sessions←Sessions,r←⎕NEW Session
-              r.(ID User LastActive Cookie State)←NextSession''now c(⎕NS'')
+              r.(ID User LastActive Cookie State Server)←NextSession''now c(⎕NS'')Server
               NextSession←(2*30)|NextSession+1
               tn←(req.Server.Config.Root,'sessions.dcf')⎕FSTIE 0
               NextSession ⎕FREPLACE tn,1
@@ -77,7 +80,7 @@
     ∇ KillSessions ids;mask;i
       :Access Public
       :Hold 'Sessions'
-          :If ∨/mask←Sessions.ID∊id
+          :If ∨/mask←Sessions.ID∊ids
               :For i :In mask/⍳⍴mask
                   Server.onSessionEnd i⊃Sessions
               :EndFor
@@ -119,7 +122,7 @@
 
     ∇ HouseKeeping Server;now;m;i;p
     ⍝ Check to see if any sessions have expired due to inactivity
-    ⍝ Call the application callback if necessary
+    ⍝ Call any page application callbacks (_Close) if necessary
      
       :Access Public
       now←#.Dates.DateToIDN ⎕TS
@@ -127,7 +130,10 @@
           :Hold 'Sessions'
               :For i :In m/⍳⍴m
                   Server.onSessionEnd i⊃Sessions
-                  :If 0≠⍴p←(i⊃Sessions).Pages ⋄ p.Close i⊃Sessions ⋄ :EndIf
+                  :If 0≠⍴p←(i⊃Sessions).Pages
+                  :AndIf 0≠⊃p.⎕NC⊂'_Close'
+                      p._Close i⊃Sessions
+                  :EndIf
               :EndFor
               Sessions←(~m)/Sessions
           :EndHold

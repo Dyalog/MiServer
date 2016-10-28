@@ -10,13 +10,14 @@
       r←{⍵/⍨(1+'/'=1↑⍵)≤+\'/'=⍵}url
     ∇
 
-    ∇ r←Run1Test page;name;ref;Test
+    ∇ r←stop Run1Test page;name;ref;Test
      ⍝ eg MS3Test '/QA/DC/InputGridSimple'
      
       Selenium.GoTo SITE,lopFirst page ⍝ Drop the "QA"
       :If 'Test'≡name←⎕SE.SALT.Load AppRoot,page
-          :Trap stopOnError×9999
-              :If stopOnError∧0≠⍴r←Test ⍬
+          :Trap stop×9999
+              'Test'⎕STOP⍨1/⍨2=stop ⍝ stop on line 1 if stop=2
+              :If stop⌊0≠⍴r←Test ⍬
                   ⎕←'test for ',page,' failed:' ⋄ ⎕←r ⋄ ⎕←'Rerun:' ⋄ '      Test ⍬'
                   ∘∘∘
               :EndIf
@@ -38,7 +39,10 @@
       :EndIf
     ∇
 
-    ∇ r←{stopOnError}Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames;maxlen;⎕USING
+    ∇ r←stop_port Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames;maxlen;⎕USING;stopOnError;stop
+      ⍝ stop: 0 (default) ignore but report errors; 1 stop on error; 2 stop before every test
+     
+      stop←⊃stop_port
       r←''
       (site filter)←2↑(eis site),'' ''
       :If 0=⍴AppRoot←#.Load site
@@ -69,7 +73,7 @@
           ⎕←'Selected: ',(⍕⍴files),' of ',(⍕n),' tests.'
       :EndIf
       n←⍴files
-      SITE←'http://127.0.0.1:',⍕Config.Port
+      SITE←'http://127.0.0.1:',⍕⊃1↓stop_port,Config.Port
      
 ⍝⍝ Un-comment to play music while testing:
 ⍝      :If site filter≡'MS3' ''
@@ -88,7 +92,7 @@
      
       :For i :In ⍳n
           COUNT+←1
-          :If 0=⍴t←Run1Test{⍵⊣⍞←(⎕UCS 13),maxlen↑lopFirst ⍵}z←i⊃files
+          :If 0=⍴t←stop Run1Test{⍵⊣⍞←(⎕UCS 13),maxlen↑lopFirst ⍵}z←i⊃files
               ⍞←'*** PASSED ***'
           :Else
               FAIL+←1

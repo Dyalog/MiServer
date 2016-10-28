@@ -1,7 +1,12 @@
 ﻿:Class Table : #._html.table
 ⍝ Description:: Improved html table - accepts matrix of data
-⍝ Constructor:: [Data [CellAttr [HeaderRows [HeaderAttr [MakeCellIds [MakeRowIds]]]]]
-⍝
+⍝ Constructor:: [data [cellAttr [headerRows [headerAttr [makeCellIds [makeRowIds]]]]]
+⍝ data        - matrix of data to display in the table
+⍝ cellAttr    - Cell Attributes
+⍝ headerRows  - # of header rows
+⍝ headerAttr  - Header attributes
+⍝ makeCellIds - 1 to generate IDs      <td id="tableId_r2c3">
+⍝ makeRowIds  - 1 to generate Row IDs  <tr id="tableId_row2">
 ⍝ Public Fields::
 ⍝ Data        - matrix of data to display in the table
 ⍝ CellAttr    - Cell Attributes
@@ -30,56 +35,59 @@
       (Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)←data defaultArgs Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds
     ∇
 
-    ∇ html←Render;data;tda;tha;hdrrows;cellids;rowids;table;body;head;headids;headattrs;bodyids;bodyattrs;rows;tbody;thead;cols;size;bodyrows
+    ∇ html←Render;data;rows;cols;hdrrows;head;body;headids;size;headattrs;rowids;bodyrows;bodyids;bodyattrs
       :Access public
       SetId
-      data tda tha hdrrows cellids rowids←Data CellAttr HeaderAttr HeaderRows MakeCellIds MakeRowIds
-      hdrrows←⍬⍴hdrrows
+      data←Data
       data←((rows←×/¯1↓⍴data),cols←¯1↑⍴data)⍴data
-      head←body←(0 1×⍴data)⍴⊂table←''
-      :If 0≠hdrrows
+      hdrrows←rows⌊⍬⍴HeaderRows
+      head←body←''
+     
+      :If 0<hdrrows
           headids←headattrs←⊂''
           size←hdrrows,cols
-          :If cellids
+          :If MakeCellIds
               headids←{' id="',(id,'_',∊'rc',¨⍕¨⍵),'"'}¨⍳size
           :EndIf
-          :If ~0∊⍴tha
-              headattrs←size⍴{∊FormatAttr/¨1 ParseAttr ⍵}∘fmtAttr¨eis tha
+          :If ~0∊⍴HeaderAttr
+              headattrs←size⍴{∊FormatAttr/¨1 ParseAttr ⍵}∘fmtAttr¨eis HeaderAttr
           :EndIf
-          head←(eis headids,¨headattrs){'<th',⍺,'>',(renderIt ⍵),'</th>'}¨hdrrows↑data
+          head←(eis headids,¨headattrs){('th',⍺)enc renderIt ⍵}¨hdrrows↑data
+          rowids←⊂''
+          :If MakeRowIds
+              rowids←{' id="',id,'_row',(⍕⍵),'"'}¨⍳hdrrows
+          :EndIf
+          head←∊'thead'enc rowids{('tr',⍺)enc∊⍵}¨↓head
       :EndIf
+     
       :If 0<bodyrows←(⊃⍴data)-hdrrows
           bodyids←bodyattrs←⊂''
           size←bodyrows,cols
-          :If cellids
-              bodyids←{' id="',(id,'_',∊'rc',¨⍕¨⍵),'"'}¨⍳size
+          :If MakeCellIds
+              bodyids←{' id="',(id,'_',∊'rc',¨⍕¨⍵),'"'}¨(⊂hdrrows,0)+¨⍳size
           :EndIf
-          :If ~0∊⍴tda
-              bodyattrs←size⍴{∊FormatAttr/¨1 ParseAttr ⍵}¨fmtAttr¨eis tda
+          :If ~0∊⍴CellAttr
+              bodyattrs←size⍴{∊FormatAttr/¨1 ParseAttr ⍵}¨fmtAttr¨eis CellAttr
           :EndIf
           body←(eis bodyids,¨bodyattrs){'<td',⍺,'>',(renderIt ⍵),'</td>'}¨hdrrows↓data
-      :EndIf
-      :If rows>0
-          (table←⎕NEW¨rows⍴#._html.tr).Add↓head⍪body
-          :If rowids
-              table.id←{id,'_row',⍕⍵}¨⍳rows
+          rowids←⊂''
+          :If MakeRowIds
+              rowids←{' id="',id,'_row',(⍕⍵),'"'}¨hdrrows+⍳bodyrows
           :EndIf
+          body←∊'tbody'enc rowids{('tr',⍺)enc∊⍵}¨↓body
       :EndIf
-      thead←tbody←''
-      :If 0≠hdrrows
-          (thead←⎕NEW #._html.thead).Add hdrrows↑table
-      :EndIf
-      (tbody←⎕NEW #._html.tbody).Add hdrrows↓table
-      Content←thead,tbody
+      Content←head,body
       html←⎕BASE.Render
     ∇
 
-    ∇ attr←fmtAttr attr                                             
+    ∇ attr←fmtAttr attr
       :If 2=⍴,attr  ⍝ 'attr' 'value' is never shorthanded (e.g. given special treatment for id/class)
       :AndIf 1∧.≥≡¨attr
       :AndIf ~∧/'='∊¨attr
           attr←,⊂attr
       :EndIf
     ∇
+
+    enc←{'<',⍺,'>',⍵,'</',(⍺⍴⍨¯1+⍺⍳' '),'>'}
 
 :EndClass

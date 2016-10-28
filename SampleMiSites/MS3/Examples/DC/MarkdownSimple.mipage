@@ -2,12 +2,25 @@
 ⍝ Control:: _DC.Markdown
 ⍝ Description:: Use markdown to generate HTML
 
-    ∇ Compose
+    ∇ Compose;markdown
       :Access public
-      Add #._.Markdown ScriptFollows
-    ⍝## The Markdown widget processes "markdown" 
-    ⍝Markdown is a simple way to add formatting like headers, **bold**, bulleted lists, and so on to plain text.\ 
-    ⍝It was originally designed to be an easy alternative to HTML, and allows people to create web pages with no HTML experience.
+      Add _.h3'The Markdown widget based on Kai Jaeger''s MarkAPL project'
+      Add'The following code produces the output below...'
+      Add CodeFollows
+      markdown←('{version}'(#.Strings.deb⍕,'MiServer uses' 'version' 'built on',⍪#.MarkAPL.Version))Subst ScriptFollows
+    ⍝#### The Markdown widget processes "markdown"
+    ⍝Markdown is a simple way to add formatting like headers, **bold text**, _italicized text_,\
+    ⍝* bulleted
+    ⍝* lists\
+    ⍝
+    ⍝
+    ⍝ and so on, to plain text without having to use HTML markup.\
+    ⍝
+    ⍝ Click [here](http://aplwiki.com/MarkAPL) for more information on The MarkAPL Project.\
+    ⍝ Click [here](/Examples/Data/MarkAPL.html) to view the MarkAPL documentation.\
+    ⍝ MiServer uses {version}.
+      Add _.Markdown markdown
+    ⍝<<end>>
     ∇
 
 :EndClass

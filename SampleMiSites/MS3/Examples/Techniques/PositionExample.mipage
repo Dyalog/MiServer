@@ -1,0 +1,38 @@
+﻿:Class PositionExample : MiPageSample
+⍝ Control:: _html.style _html.div
+⍝ Description:: Use jQuery UI Position to place one element relative to another
+
+    ∇ Compose
+      :Access Public
+      Add _.style ScriptFollows
+      ⍝ #target {
+      ⍝    position: absolute;
+      ⍝    margin: 10vh;
+      ⍝    height: 75%;
+      ⍝    width: 75%;
+      ⍝    border: 3px solid Black;
+      ⍝    padding-left: 30vh;
+      ⍝    line-height: 10em;
+      ⍝ }
+      ⍝ .positioned {
+      ⍝    height: 20vh;
+      ⍝    width: 20vh;
+      ⍝    background: rgba(255,140,0,0.75);
+      ⍝    box-shadow: 0 0 5vh 5vh darkorange inset;
+      ⍝    padding: 1vh;
+      ⍝    position: absolute;
+      ⍝ }
+     
+      
+      Add _.h2 'Position Examples - examine the APL code!'
+      '#target'Add _.div'target'
+
+      ('.positioned'Add _.div'my center at target''s center')Position'center' 'center' '#target'
+      ('.positioned'Add _.div'my left top-10 at target''s top')Position'left top-10' 'top' '#target'
+      ('.positioned'Add _.div'my center at target''s left top')Position'center' 'left top' '#target'
+      ('.positioned'Add _.div'my left bottom at target''s left bottom')Position'left bottom' 'left bottom' '#target'
+      ('.positioned'Add _.div'my center at target''s center+25% center+25%')Position'center' 'center+25% center+25%' '#target'
+      ('.positioned'Add _.div'my right at target''s right+2.5%')Position'right' 'right+2.5%' '#target'
+    ∇
+
+:EndClass

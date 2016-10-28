@@ -109,11 +109,11 @@
       }
 
       DescrEmbed←{ ⍝ Link to and iframed page
-          d←('Description'Section Read ⍵),' (Advanced)' ' (Simple)'⊃⍨1+∨/'Simple'⍷⍵
-       ⍝   l←('target="_blank"'New _.A d('/',⍵))
-          l←'<a target="_blank" href="/',⍵,'">',d,'</a>'
-       ⍝   e←('src="/',⍵,'?nowrapper=1"')New _.iframe
-          e←'<iframe src="/',⍵,'?nowrapper=1"/>'
+          l←('Description'Section Read ⍵),'<br />'
+          l,←'<a target="_blank" href="/',⍵,'">Open this '
+          l,←'simple sample' 'advanced sample' 'mini-app'⊃⍨1⍳⍨∨/¨'Simple' 'Advanced'⍷¨⊂⍵
+          l,←' in a new tab</a>'
+          e←'<iframe src="/',⍵,'?nowrapper=1"></iframe>'
           l e
       }
 
@@ -124,12 +124,14 @@
       }
 
       DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
-          ⍝6::New¨(_.del ⍵)(_.small' deprecated')
-          ns←'ns'ForControl ⍵
-          link←'/Documentation/DyalogAPIs/WidgetDoc?namespace=_',ns,'&widget=',⍵
+          link←DocUrl ⍵
           ctor←'ctor'ForControl ⍵
           0=⍴ctor::Link ⍵ link ⍝ upon fail to retrieve info
           ('Constructor: ',ctor)Link ⍵ link
+      }
+
+      DocUrl←{
+          '/Documentation/DyalogAPIs/WidgetDoc?namespace=_',('ns'ForControl ⍵),'&widget=',⍵
       }
 
       DocTreeLink←{ ⍝ Link to file in doc folder
@@ -217,7 +219,7 @@
               C.relevant←''
               C.reldocs←''
               C.doclinks←''
-              info←FromCSV Read'Examples/Data/info.csv'
+              info←FromCSV Read'IndexData/info.csv'
               :For control ref src :InEach C.controls refs srcs
                   i←info[;1]⍳⊂control
                   :If i≤≢info

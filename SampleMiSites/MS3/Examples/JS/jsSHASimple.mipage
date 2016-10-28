@@ -1,0 +1,31 @@
+﻿:Class jsSHASimple : MiPageSample 
+⍝ Resource::    jsSHA
+⍝ Description:: JavaScript library that implements SHA-based hashing algorithms
+
+    ∇ Compose;ig
+      :Access public
+      Use'jsSHA'
+      Use'JQuery'
+      Add MarkdownFollows
+⍝### jsSHA - JavaScript Hashing Library
+⍝ jsSHA is a JavaScript library that implements several SHA-based hashing algorithms\
+⍝ For more information see [https://github.com/Caligatio/jsSHA](https://github.com/Caligatio/jsSHA)
+⍝
+      ig←('style="max-width:800px"'Add _.Fieldset'Hashing Example').Add _.InputGrid
+      ig.Labels←'Input Text' 'Hashing Algorithm' 'Output Hash (hex)',¨⊂':&nbsp;'
+      ig.Inputs←'inText' 'hashAlg' 'outHash'New¨_.EditField(_.Select('SHA-1' 'SHA-224' 'SHA-256' 'SHA-384' 'SHA-512')1 ⍬'')_.textarea
+      ig.Inputs[1].Set'size=85 class=input'  
+      ig.Inputs[2].Set'class=input'  
+      ig.Inputs[3].Set'readonly=readonly cols=85'
+      Add _.Handler '.input' 'change' 0 '' '' 'calcHash()'
+      Add _.Script ScriptFollows 
+⍝ function calcHash(){
+⍝   var hashInp = $("#inText").val();
+⍝   var hashType = $("#hashAlg").val();
+⍝   var hashObj = new jsSHA(hashType,"TEXT");
+⍝   hashObj.update(hashInp);
+⍝   $("#outHash").val(hashObj.getHash("HEX"));
+⍝ }     
+    ∇
+:EndClass
+

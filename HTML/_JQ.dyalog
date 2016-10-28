@@ -53,27 +53,62 @@
 
         :section APLJax
 
+        ∇ r←renderContent content;c
+          r←''
+          content←eis content
+          :While ~0∊⍴content
+              :Select ≡c←⊃content
+              :Case 0
+                  :If isClass c
+                      :Select ⊃⍴content
+                      :Case 1
+                          r,←(⎕NEW c).Render
+                      :Case 2
+                          r,←(⎕NEW c(2⊃content)).Render
+                      :Else
+                          r,←(⎕NEW c(1↓content)).Render
+                      :EndSelect
+                  :ElseIf isInstance c
+                      r,←c.Render
+                  :Else
+                      r,←(⎕NEW #.HtmlElement(''content)).Render
+                  :EndIf
+                  content←''
+              :Case 1
+                  :If isClass⊃c
+                      r,←(⎕NEW(⊃c)(1↓c)).Render
+                  :ElseIf isInstance⊃c
+                      ∘∘∘ ⍝ should not happen! (I think)
+                  :Else
+                      r,←(⎕NEW #.HtmlElement(''c)).Render
+                  :EndIf
+                  content←1↓content
+              :Else
+                  r,←renderContent c
+                  content←1↓content
+              :EndSelect
+          :EndWhile
+        ∇
+
+
         ∇ r←selector Replace content
           :Access public
-          :If isInstance content ⋄ content←content.Render ⋄ :EndIf
-          :If isClass content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
-          r←⊂('replace'selector)('data'content)
+          r←⊂('replace'selector)('data'(renderContent content))
         ∇
+
         ∇ r←selector Append content
           :Access public
-          :If isInstance content ⋄ content←content.Render ⋄ :EndIf
-          :If isClass content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
-          r←⊂('append'selector)('data'content)
+          r←⊂('append'selector)('data'(renderContent content))
         ∇
+
         ∇ r←selector Prepend content
           :Access public
-          :If isInstance content ⋄ content←content.Render ⋄ :EndIf
-          :If isClass content ⋄ content←(⎕NEW content).Render ⋄ :EndIf
-          r←⊂('prepend'selector)('data'content)
+          r←⊂('prepend'selector)('data'(renderContent content))
         ∇
+
         ∇ r←Execute content
           :Access public
-          r←⊂('execute'content)
+          r←⊂('execute'(renderContent content))
         ∇
 
         ∇ r←name Assign data
@@ -293,72 +328,6 @@
 
     :endclass
 
-    :class _jqUITabbedWidget : _jqUIWidget
-        :field public Titles←''
-        :field public Id←''
-        :field public Tabs←''
-        :field public Widget
-
-        ∇ Make0
-          :Access public
-          :Implements constructor
-          Widget←⎕NS''
-          Widget._function←{}
-        ∇
-
-        ∇ Make1 pars;t
-          :Access public
-          :Implements constructor
-          :Select |≡pars
-          :Case 2
-              :If 2=⍴pars ⍝ could be title/tab or title/title
-                  :If (10|⎕DR t←2⊃pars)∊0 2 ⍝ if the second element is character
-                  :AndIf 1=⍴⍴t ⍝ and it's a vector
-                  :AndIf 20>⍴t ⍝ and it's relatively short
-                      pars←,⊂pars
-                  :Else
-                      pars←#.HtmlElement.eis¨pars
-                  :EndIf
-              :EndIf
-          :Case 0 1
-              pars←#.HtmlElement.eis pars
-          :EndSelect
-          Titles Tabs Options JavaScript Var←5↑pars,(⍴pars)↓'' '' '' '' ''
-          Widget←⎕NS''
-          Widget._function←{}
-        ∇
-
-        ∇ r←Render;opts
-          :Access public
-          'Title and Contents lengths do not match'⎕SIGNAL((⍴Titles)≠⍴Tabs)/5
-          opts←Options
-          :If 2≤|≡Options ⋄ opts←#.JSON.toJQueryParameters Options ⋄ :EndIf
-          r←Widget._function Id Titles(RenderTab¨Tabs)opts JavaScript Var
-          r,←⎕BASE.Render
-        ∇
-
-        ∇ r←RenderTab tab;e;t
-          :Access public
-          :If 326=⎕DR tab
-              r←''
-              :For e :In tab
-                  t←⊃e
-                  :If isInstance t
-                  :AndIf isHtmlElement t
-                      r,←e.Render
-                  :ElseIf isClass t
-                  :AndIf isHtmlElement t
-                      r,←(⎕NEW∘{2<⍴,⍵:(⊃⍵)(1↓⍵) ⋄ ⍵}eis e).Render
-                  :Else
-                      r,←e
-                  :EndIf
-              :EndFor
-          :Else
-              r←,⍕tab
-          :EndIf
-        ∇
-
-    :endclass
     :endsection
 
 ⍝ --- Events ---
@@ -422,7 +391,7 @@
           WidgetDef←'event,ui' 'event' 'ui' '$(event.target)' '.val()'
         ∇
 
-        ∇ r←Render;sel;syn_handler;syn_event;syn_model;syn_this;data;useajax;force;cd;selector;arg;verb;name;phrase;datasel;JQfn;jqfn;hg;removehg;dtype;success;status;ajax;widget;syn_value;delegates;v;events;try;selSelector
+        ∇ r←Render;sel;syn_handler;syn_event;syn_model;syn_this;data;useajax;force;cd;selector;arg;verb;name;phrase;datasel;JQfn;jqfn;hg;removehg;dtype;success;status;ajax;widget;syn_value;delegates;v;events;selSelector
           :Access public
           r←''
           :If ~0∊⍴Events ⍝ skip if no events specified
@@ -445,10 +414,10 @@
               force←0
               events←Events
               :If widget←#.HtmlElement.isWidget WidgetRef ⍝ is this a widget handler?
-                  WidgetDef←WidgetRef.WidgetDef
+                  WidgetDef←WidgetRef.WidgetDef                    
                   :If ForceInternal=¯1
-                      :If ','∊Events ⍝ multiple events?
-                          events←','#.Utils.penclose Events~' '
+                      :If ∨/', '∊Events ⍝ multiple events?
+                          events←', '#.Utils.penclose Events
                       :Else
                           events←,⊂Events
                       :EndIf
@@ -473,13 +442,12 @@
               :EndIf
          
               (syn_handler syn_event syn_model syn_this syn_value)←5↑WidgetDef
-              try←{'(function(){try{return ',⍵,';}catch(e){return "";}})()'}
-              data←'_event: ',(try syn_event,'.type'),', '
-              data,←'_what: ',(try syn_this,'.attr("id")'),', '
-              data,←'_value: ',(try syn_this,syn_value),', '
+              data←'_event: ',syn_event,'.type, '
+              data,←'_what: function(arg){try{return arg.attr("id");}catch(e){return"";}}(',syn_this,'), '
+              data,←'_value: function(arg){try{return arg',syn_value,';}catch(e){return"";}}(',syn_this,'), '
               data,←'_selector: ',(quote selector~'⍎'),', '
-              data,←'_target: ',(try syn_event,'.target.id'),', '
-              data,←'_currentTarget: ',(try syn_event,'.currentTarget.id'),', '
+              data,←'_target: function(arg){try{return arg.target.id;}catch(e){return"";}}(',syn_event,'), '
+              data,←'_currentTarget: function(arg){try{return arg.currentTarget.id;}catch(e){return"";}}(',syn_event,'), '
          
               :If #.HtmlElement.isString Callback ⍝ numeric Callback 1-call APLJax, 0-no callback to server
               :AndIf ~0∊⍴Callback
@@ -576,7 +544,7 @@
                               :If 0∊⍴arg
                                   phrase←'APLstringify(',v,')'
                               :Else
-                                  phrase←v,'.',arg
+                                  phrase←'APLstringify(',v,'.',arg,')'
                               :EndIf
          
                           :CaseList 'model' 'ui' ⍝ widgets only
@@ -585,7 +553,7 @@
                                   :If 0∊⍴arg
                                       phrase←'APLstringify(',syn_model,')'
                                   :Else
-                                      phrase←syn_model,'.',arg
+                                      phrase←'APLstringify(',syn_model,'.',arg,')'
                                   :EndIf
                               :EndIf
          
@@ -631,7 +599,7 @@
               dtype←'"json"'
               success←'success: function(obj){APLJaxReturn(obj);document.body.style.cursor="default";}'
               status←'statusCode:{ 408: function(){alert("Session timed out");',removehg,'}}'
-              ajax←(JavaScript ine JavaScript,(';'=¯1↑JavaScript)↓';'),useajax/hg,'$.ajax({url: ',(quote Page),', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,', ',status,'});'
+              ajax←(JavaScript ine JavaScript,(';'=¯1↑JavaScript)↓';'),useajax/hg,'$.ajax({url: ',(quote Page),', cache: false, type: "POST", dataType: ',dtype,', headers:{"isAPLJax": "true"}, data: {',data,'}, ',success,', ',status,'});'
          
               :If widget
                   :If force
@@ -642,7 +610,7 @@
               :Else
                   r←'$(',(quote selector),').on(',(quote Events),(delegates ine', ',quote delegates),', function(event,ui){',ajax,'});'
                   :If jQueryWrap ⋄ r←'$(function(){',r,'});' ⋄ :EndIf
-                  :If ScriptWrap ⋄ r←#.HTMLInput.JS r ⋄ :EndIf
+                  :If ScriptWrap ⋄ r←'<script>',r,'</script>' ⋄ :EndIf
               :EndIf
           :EndIf
         ∇

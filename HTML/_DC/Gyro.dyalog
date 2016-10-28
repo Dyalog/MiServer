@@ -16,7 +16,7 @@
 
     ⍝∇:require =\Script.dyalog
 
-    :include #.HTMLUtils
+    :include #.HtmlUtils
 
     :field public Page←''
     :field public Interval←250

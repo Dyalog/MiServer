@@ -50,7 +50,7 @@
       :Access public
       Head.Insert #._html.meta''('charset=',⍕Charset)
       :If ''≢OnLoad
-          Use'JQuery'
+          {0:: ⋄ Use'JQuery'}''
       :EndIf
       b←RenderBody
       styles←∪_Styles
@@ -67,6 +67,9 @@
       :EndIf
       :If ''≢OnLoad
           b,←(⎕NEW #._html.script('$(function(){',OnLoad,'});')).Render
+      :EndIf
+      :If 0∊⍴⊃Attrs[⊂'lang'] ⍝ set the language for the page if not already set
+          {0:: ⋄ {Set'lang="',⍵,'" xml:lang="',⍵,'" xmlns="http://www.w3.org/1999/xhtml"'}_Request.Server.Config.Lang}''
       :EndIf
       r←RenderPage b
       :If 0≠⎕NC⊂'_Request.Response'
@@ -196,7 +199,8 @@
       :EndIf
     ∇
 
-    ∇ Close session ⍝ Called when the session ends
+    ∇ _Close session ⍝ Called when the session ends
+    ⍝ this method is specific to #.SimpleSessions and is called when a
       :Access Public Overridable
     ∇
 
@@ -271,7 +275,7 @@
     ∇
     ∇ r←Execute content
       :Access public
-      r←⊂('execute'content)
+      r←⊂('execute'(renderContent content))
     ∇
 
     ∇ r←name Assign data
@@ -282,8 +286,9 @@
     :endsection
 
     :section Position
+
     ∇ ref Position args;inds;mask;parameters;my;at;of;collision;within;q
-      :Access public shared
+      :Access public
       ⍝ ref  - a reference to an instance of anything based on HtmlElement
       ⍝ args - position information per jQueryUI's Position widget http://api.jqueryui.com/position/
       ⍝        can be in any of the following forms
@@ -314,9 +319,12 @@
           :Else
               parameters←(⍴args)↑parameters
           :EndIf
+          mask←⍬∘≢¨args
+          args←mask/args
+          parameters←mask/parameters
           parameters(ref{⍺⍺⍎'Position.',⍺,'←',q ⍵})¨args
           ref.Uses,←⊂'JQueryUI'
-          ref.Use
+          SetUse
       :EndIf
     ∇
     :endsection
@@ -342,6 +350,11 @@
       r←(sel #._JSS.JQuery'val')args
     ∇
 
+    ∇ r←sel Prop args ⍝ JQuery prop cover
+      :Access public
+      r←(sel #._JSS.JQuery'prop')args
+    ∇
+
     ∇ r←sel Attr args ⍝ JQuery attr cover
       :Access public
       r←(sel #._JSS.JQuery'attr')args
@@ -355,6 +368,26 @@
     ∇ r←sel Html args ⍝ JQuery html cover
       :Access public
       r←(sel #._JSS.JQuery'html')args
+    ∇
+
+    ∇ r←sel Show args ⍝ JQuery show cover
+      :Access public
+      r←(sel #._JSS.JQuery'show')args
+    ∇
+
+    ∇ r←sel Hide args ⍝ JQuery hide cover
+      :Access public
+      r←(sel #._JSS.JQuery'hide')args
+    ∇
+
+    ∇ r←sel Toggle args ⍝ JQuery toggle cover
+      :Access public
+      r←(sel #._JSS.JQuery'toggle')args
+    ∇
+
+    ∇ r←Submit sel ⍝ JQuery submit cover
+      :Access public
+      r←(sel #._JSS.JQuery'submit')''
     ∇
 
     :endsection

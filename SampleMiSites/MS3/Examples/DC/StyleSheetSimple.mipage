@@ -1,6 +1,6 @@
 ﻿:Class StyleSheetSimple : MiPageSample
 ⍝ Control:: _DC.StyleSheet
-⍝ Description:: Colour headdings red using an external style sheet
+⍝ Description:: Color headings red using an external style sheet
 
     ∇ Compose
       :Access Public

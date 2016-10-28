@@ -21,7 +21,7 @@
 	</table>
 	<input id="hamburger" type="checkbox" class="hide"/>
 	<label id="banner-dyalog" for="hamburger">
-		 Resources
+		Resources
 	</label>
 	<div id="banner-resources">
 		<ul>
@@ -41,6 +41,9 @@
 					</li>
 					<li>
 						<a target="_blank" href="http://www.dyalog.com/">Dyalog's website</a>
+					</li>
+					<li>
+						<a target="_blank" href="/Licenses">3rd-party licenses</a>
 					</li>
 				</ul>
 			</li>

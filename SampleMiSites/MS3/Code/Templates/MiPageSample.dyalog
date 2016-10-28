@@ -26,7 +26,7 @@
           'contentblock'Body.Push _.div
      
         ⍝ add a hidden division to the body containing the APL source code
-          (Add _.div(#.HTMLInput.APLToHTMLColour src←⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
+          (Add _.div(#.HtmlUtils.APLToHTMLColor src←⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock"' 'style="display: none;"'
      
      
         ⍝ extract the content and re-write it in parallel to the controls info div
@@ -39,9 +39,6 @@
      
         ⍝ wrap the content of the <body> element in a div
           '.bodyblock'Body.Push _.div
-     
-        ⍝ add the footer to the bottom of the page
-          ⍝Add #.Files.GetText server.Config.Root,'Styles\footer.txt'
      
         ⍝ add the header to the top of the page and wrap the body in a div with id="wrapper"
           Body.Push #.Files.GetText server.Config.Root,'Styles\banner.txt'
@@ -65,9 +62,6 @@
           ⍝   });
           ⍝ });
      
-        ⍝ set the language for the page
-          lang←server.Config.Lang ⍝ use the language specified in Server.xml
-          Set'lang="',lang,'" xml:lang="',lang,'" xmlns="http://www.w3.org/1999/xhtml"'
       :Else
           Head.Add _.StyleSheet'/Styles/sampleStyles.css'
           Body.class←'bodyblock'

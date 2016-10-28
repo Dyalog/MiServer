@@ -22,7 +22,7 @@
       Body.Push _html.div'id="contentblock"'
      
     ⍝ add a hidden division to the body containing the APL source code
-      (Add _html.div(#.HTMLInput.APLToHTMLColour ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock" style="display: none;"'
+      (Add _html.div(#.HtmlUtils.APLToHTMLColor ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock" style="display: none;"'
      
     ⍝ add a JQuery event handler to toggle the web page/APL source code
       Add _DC.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock").toggle("slow");});});'

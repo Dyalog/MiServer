@@ -1,0 +1,29 @@
+﻿:Class callback : MiPage
+⍝ Control:: _.Handler
+⍝ Description:: Simple callback example using On and APLJax
+
+    ∇ Compose
+      :Access public
+      Add _.h2'Simple callback example using APLJax'
+     
+    ⍝ add a text input field
+      '#name'Add _.Input'text' '' 'Enter your name: '
+     
+    ⍝ add a line break
+      Add _.br
+     
+    ⍝ add a button with a click handler that returns the value of the name field
+    ⍝     and returns it in the variable named 'yourname'
+      ('btn'Add _.Button'Click Me').On'click' 1('yourname' 'val' '#name')
+     
+    ⍝ add a container (a div) to hold the result from the callback function
+      '#result'Add _.div
+    ∇
+
+    ∇ r←APLJax
+      :Access public
+    ⍝ replace the container contents
+      r←'#result'Replace'Hi ',(Get'yourname'),', you ',_event,'''ed ',_what
+    ∇
+
+:EndClass

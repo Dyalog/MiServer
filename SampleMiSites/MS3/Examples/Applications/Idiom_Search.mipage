@@ -25,7 +25,7 @@
  
       idioms←⎕SE.SALT.Load #.Boot.AppRoot,'Examples\Data\idioms -noname -nolink'
       idioms[;4]←'FinnAPL' 'Dyalog' 'APL2'[1+idioms[;4]]
-      idioms⍪⍨←'Description' ('Expression'(New _.br)(New _.small 'click to copy to clipboard')) 'Requirements' 'Library'
+      idioms⍪⍨←'Description' ('Expression'(_.br)(_.small 'click to copy to clipboard')) 'Requirements' 'Library'
       'output'Add _.DataTable(idioms('.a333' '.a385 copy' '.a385' '.a333'))
     
     Add _.style ScriptFollows

@@ -63,7 +63,7 @@
           :EndFor
      
           'Pages'#.⎕NS'' ⍝ Container Space for loaded classes
-          #.Pages.(MiPage MildPage RESTful)←#.(MiPage MildPage RESTful)
+          #.Pages.(MiPage RESTfulPage)←#.(MiPage RESTfulPage)
      
           'CachedPages'#.⎕NS'' ⍝ Container for cached pages
      
@@ -495,7 +495,7 @@
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     isRef←{(0∊⍴⍴⍵)∧326=⎕DR ⍵}
     folderize←{⍺←0 ⋄ ⍺∧0∊⍴⍵:⍵ ⋄ ¯1↑⍵∊'/\':⍵ ⋄ ⍵,fileSep} ⍝ append trailing file separator unless empty and left arg←1
-    makeSitePath←{⍺{((isRelPath ⍵)/⍺),⍵},folderize ⍵}
+    makeSitePath←{⍺{((isRelPath ⍵)/⍺),⍵},folderize (2×'./'≡2↑⍵)↓⍵}
     Log←{⎕←⍵}
 
     ∇ {r}←AutoStatus setting

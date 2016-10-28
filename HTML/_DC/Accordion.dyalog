@@ -8,11 +8,13 @@
 ⍝ Public Fields::
 ⍝ Titles          - vector of char vectors containing titles to appear on sections
 ⍝ Sections        - vector of vectors containing HTML content for each sectino
+⍝ Theme           - base color for the color theme (default '#808080')
 ⍝ Examples::
 ⍝ Accordion 'Title1' 'Title2'
 ⍝ Accordion ('Title1' 'Title2')('Section1' 'Section2')
 ⍝ Accordion 2 2⍴'Title1' 'Section1' 'Title2' 'Section2'
-⍝ Notes::  This control is implemented in HTML+CSS without any JavaScript and is therefore
+⍝ Notes::
+⍝  - This control is implemented in HTML+CSS without any JavaScript and is therefore
 ⍝          extremely lightwight, resulting in faster load times. However, this comes at the
 ⍝          cost of fewer features compared to competing controls. Use it if you just need
 ⍝          a basic Accordion.
@@ -71,7 +73,7 @@
      
       r←⎕BASE.Render
      
-      ⍝ Create colour scheme based on the Theme colour
+      ⍝ Create color scheme based on the Theme color
       Theme←Mix⊂Theme
       bg←Mix'#FFFFFF'Theme
       mix←Mix'#FFFFFF' '#FFFFFF' Theme
@@ -85,7 +87,7 @@
       r,←'{display:block;}</style>'
     ∇
 
-      Mix←{ ⍝ Arithmetic mean of multiple hex colours
+      Mix←{ ⍝ Arithmetic mean of multiple hex colors
           ⎕IO←0
           h←⎕D,6↑⎕A
           '#',,⍉h[16 16⊤⌊0.5+(⊃+/÷≢){16⊥⍉h⍳3 2⍴⍵/⍨6÷≢⍵}¨#.Strings.uc ⍵~¨⊂' #']

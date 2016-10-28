@@ -1,4 +1,4 @@
-/* Global: all transitions equally long*/
+﻿/* Global: all transitions equally long*/
 #banner, #about {
     transition: 0.25s;
 }
@@ -293,7 +293,7 @@ a:visited {
     text-decoration: none;
 }
 
-pre {
+#codeblock > pre {
     font-size: medium;
     overflow-x: auto;
     max-width: 100%;
@@ -498,18 +498,33 @@ heading1 {
     width: 33.3%;
 }
 
-iframe {
-    width: calc(100% - 35px);
-    background-color: wheat;
-    margin-top: 10px;
-    margin-bottom: 30px;
-    padding: 5px;
-    border: 2px solid black;
+#WidgetDocTitle {
+    font-size: x-large;
 }
 
-#widgetdoc {
-    margin-left: 20px;
-    margin-right: 20px;
+.hang {
+    padding-left: 4em;
+    text-indent: -4em;
+}
+
+.red {
+    color: red;
+}
+
+#samples>label {
+    font-size: small;
+}
+
+#samples>div {
+    padding: 0;
+}
+
+#samples iframe {
+    padding-left: 5px;
+    border: none;
+    width: calc(100% - 5px);
+    margin-bottom: -3px;
+    height: calc(100vh - 200px);
 }
 
 #bigtabs {
@@ -605,7 +620,7 @@ figcaption a {
     font-weight: bold;
 }
 
-/* Syntax colouring */
+/* Syntax coloring */
 .i200comment {
     color: darkgreen;
 }

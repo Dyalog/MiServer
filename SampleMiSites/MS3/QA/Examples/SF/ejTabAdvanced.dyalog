@@ -1,18 +1,9 @@
-﻿ msg←Test dummy;tabs;i;section;tabids
- :If 0=⍴tabs←⌷'CssSelectors'Find'#tab1 li'
-     msg←'Tab control not found' ⋄ →0
+﻿ msg←Test dummy;Has
+
+ Has←{(~∨/⍵⍷∊(⌷'CssSelectors'Find'#tab1 div').Text⊣Wait 200⊣'LinkText'Click ⍺)/⍺,' text not visible'}
+
+ :If 0=⍴msg←'Tab One'Has'Lorem ipsum'
+ :AndIf 0=⍴msg←'Another'Has'Ut sed'
+ :AndIf 0=⍴msg←'Fourth Tab'Has'Vivamus'
+ :AndIf 0=⍴msg←'Third Tab'Has'Donec'
  :EndIf
- tabids←(⌷'CssSelectors'Find'#tab1 div').GetAttribute⊂⊂'id'
- :For i :In ⍳⍴tabs
-     tabs[i].Click
-     section←Find i⊃tabids
-     :If i=1 ⍝ 1st tab loads external content
-         msg←section WaitFor'Lorem ipsum'
-     :Else
-         msg←section WaitFor tabs[i].Text ⍝ Text on tab should appear
-     :EndIf
-     :If 0≠⍴msg
-         msg←msg,' (tab #',(⍕i),')' ⋄ →0
-     :EndIf
- :EndFor
- msg←''
