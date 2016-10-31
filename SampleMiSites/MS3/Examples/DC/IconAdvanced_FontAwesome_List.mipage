@@ -1,0 +1,48 @@
+﻿:Class IconAdvanced_FontAwesome_List : MiPageSample
+⍝ Control:: _DC.Icon
+⍝ Description:: Icon-Finder for FontAwesome-Icons
+
+    ∇ Compose;p;matches;tab;Columns;css;fa;dt
+      :Access Public
+      Use'faIcons'
+      Add _.p ScriptFollows
+   ⍝ This page offers a tool to easily browse FontAwesome-Icons even when you're offline and have no access to the
+   ⍝ excellent Search-Tool on FontAwesome's <a href="http://fontawesome.io/icons/">site</a>.
+   ⍝ Unfortunately information on categories as well as synonyms are missing atm, but
+   ⍝ we're trying to make that possible, too :-)
+     
+     
+      fa←#.Boot.ms.Config.Virtual{(⍺.alias⍳⊂⍵)⊃⍺.path,⊂''}'FontAwesome' ⍝ get path
+      css←#.Files.GetVTV fa,'css/Font-awesome.css'                      ⍝ to the .css-file
+     
+   ⍝ A bit of CSS to emphasize the search-input more:
+      Add _.style ScriptFollows
+      ⍝ .dataTables_filter , input {
+      ⍝ font-size: 1.5em;
+      ⍝ border-radius: .2em;
+      ⍝ }
+      ⍝ .dataTables_filter {
+      ⍝ float: left !important;
+      ⍝ margin-top: 2em;
+      ⍝ margin-bottom: 2em;
+      ⍝ margin-left: 20%;
+      ⍝ clear: both;
+      ⍝ }
+      ⍝ .nofloat {
+      ⍝ clear: both;
+      ⍝ width: 80%;
+      ⍝ margin: auto;
+      ⍝ }
+     
+     
+      matches←('\.(fa-[a-z\-]*):before\s*{\s*content:\s*\"([\\[0-9a-f]*)"'⎕S'\1\2'⍠'Mode' 'D')css
+      tab←↑{i←⍵⍳'\' ⋄ {⍵[1 2 1]}((i-1)↑⍵)(i↓⍵)}¨matches
+      dt←Add _.DataTable tab
+      Columns←⎕NS¨3⍴⊂''
+      Columns[⍳3].title←'Icon' 'Unicode' 'Sample (regular, -lg, -2x, -3x)'
+      Columns[3].render←'⍎function ( data, type, full, meta ) {return ''<i class="fa ''+data+''"></i>&nbsp;<i class="fa-lg fa ''+data+''"></i>&nbsp;<i class="fa-2x fa ''+data+''"></i>&nbsp;<i class="fa-3x fa ''+data+''"></i>&nbsp;'';}'
+      dt.Options.columns←Columns
+      dt.Options.dom←'f<"nofloat"ltipr>'
+    ∇
+
+:EndClass
