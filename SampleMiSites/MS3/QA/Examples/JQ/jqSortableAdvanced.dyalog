@@ -1,38 +1,24 @@
-﻿ msg←Test dummy;locs;loc;Fi;i;offset;lis;imgs;X;order;orderedlis;li;adj;t;output;repetition
+﻿ msg←Test dummy;locs;Fi;i;offset;imgs;order;orderedlis;output;repetition;repetitions;orderedimgs;next
  Fi←{⍎(⍕⍵)∩⎕D,','}    ⍝ Fix input
- adj←0                ⍝ are we to adjust by ¯80 pixels?
  output←Find'output'
- t←3⊃⎕AI              ⍝ current time
- :For repetition :In ⍳3
-     lis←⌷'CssSelectors'Find'#sort li'
+ repetitions←3
+ :For repetition :In ⍳repetitions
      imgs←⌷'CssSelectors'Find'#sort img'
-
      order←(⊃⌽)¨imgs.GetAttribute⊂,⊂'id' ⍝ the <img> tags have ids DuckX
-     locs←{1+Fi ⍵}¨lis.Location          ⍝ adjusted 1 pixel for border thickness
-     orderedlis←lis[⍋order]
-
-     :For i :In ⍳11
-         :If ∨/'You succeeded'⍷output.Text ⍝ finished?
-             :Leave
-         :EndIf
-
-         X←i⊃⎕A ⍝ next tile to be considered
-         ⍝ Do we need to move it significantly?
-         :While ∨/5<|offset←(loc←i⊃locs)-Fi(Find'Duck',X).Location
-           ⍝  :If ⎕AI[3]≥10000+t ⍝ catch infinite looping
-           ⍝      msg←'Timed out'
-           ⍝      →0
-           ⍝  :EndIf
-             ⍝ We may need to adjust by ¯80 pixels if we are moving a tile to the last column
-             offset[1]-←adj×80×(⊃loc)=⌈/⊃¨locs
-             adj←~adj                                ⍝ if we adjusted, try not adjusting and vice versa
-             orderedlis[i]DragAndDropToOffset offset ⍝ do it!
+     locs←Fi¨imgs.Location
+     orderedimgs←imgs[⍋order]
+     :For i :In ⍳12
+         :If ∨/'You succeeded'⍷output.Text ⋄ :Leave ⋄ :EndIf ⍝ finished?
+         :While ∨/5<|offset←(i⊃locs)-Fi(Find'Duck',i⊃⎕A).Location ⍝ Do we need to move it significantly?
+             orderedimgs[i]DragAndDropToOffset offset ⍝ do it!
+             :If i∊4 8 ⍝ Last img in row will not move there, so we have it slide in place by moving...
+                 next←i⌷'CssSelectors'Find'#sort img' ⍝ ... the one that is occupying the desired position
+                 i←⎕A⍳⊃⌽next.GetAttribute,⊂'id'
+             :EndIf
          :EndWhile
      :EndFor
-     :If 3=repetition
-         :Leave
-     :Else
-         Click'shuffle' ⋄ ⎕DL 0.1
+     :If repetition=repetitions ⋄ :Leave ⋄ :Else
+         Click'shuffle' ⋄ ⎕DL 0.2
      :EndIf
  :EndFor
-msg←output WaitFor'You succeeded'
+ msg←output WaitFor'You succeeded'
