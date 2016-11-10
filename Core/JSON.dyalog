@@ -25,17 +25,50 @@
     strip←{⍺←'{}' ⋄ ∧/⍺=(1↑⍵),¯1↑⍵:1↓¯1↓⍵ ⋄ ⍵}
     validName←{('.'∊⍵)<0≤⎕NC ⍵}
     beginsWith←{⍵≡(⍴⍵)↑⍺}
-    :field public shared true←{⍵⊣⍵.⎕DF'true'}⎕NS ''
-    :field public shared false←{⍵⊣⍵.⎕DF'false'}⎕NS ''
+    :field public shared true←⊂'true'
+    :field public shared false←⊂'false'
+    :field public shared null←⊂'null'
 
     :section fromAPL
 
     ∇ r←{options}fromAPL array;typ;ic;drop;ns;preserve;quote;qp;eval;t
     ⍝ array is an APL array
-    ⍝ options - formatting options 
-    ⍝     [1] put "quotes" around names? 
-    ⍝     [2] preserve APL shape info?  
-    ⍝     [3] eval? - interpret leading '⍎' as indication to treat as JavaScript rather than as a string 
+      :Access public shared
+      ⎕SIGNAL(1<⍴⍴array)/⊂('EN' 11)('Message' 'Array rank > 1')
+      :If isSimple array
+          r←fmtNum array ⋄ →0 if 2|typ←⎕DR array ⍝ numbers
+          :If (⎕NC⊂'array')∊9.4 9.2
+              ⎕SIGNAL(⎕THIS≡array)/⊂('EN' 11)('Message' 'Array cannot be a class')
+          :ElseIf 326=typ
+              r←1 0 APLObject array
+          :Else
+              r←1⌽'""',JAchars array
+          :EndIf
+      :Else ⍝ is not simple (array)
+          r←'['↓⍨ic←isChar array
+          :If 0∊⍴array
+              r←(1+ic)⊃'[]' '""'
+              →0
+          :ElseIf ic
+              r,←1⌽'""',JAchars,array ⍝ strings are displayed as such
+          :ElseIf 2=≡array
+          :AndIf 0=≢⍴array
+          :AndIf isChar⊃array
+              r←⊃array
+              →0
+          :Else
+              r,←1↓∊',',¨fromAPL¨,array
+          :EndIf
+          r,←ic↓']'
+      :EndIf
+    ∇
+
+    ∇ r←{options}SerializeAPL array;typ;ic;drop;ns;preserve;quote;qp;eval;t
+    ⍝ array is an APL array
+    ⍝ options - formatting options
+    ⍝     [1] put "quotes" around names?
+    ⍝     [2] preserve APL shape info?
+    ⍝     [3] eval? - interpret leading '⍎' as indication to treat as JavaScript rather than as a string
     ⍝ represented by a list of [rank,shape, if we preserve it, then data]
       :Access public shared
       :If 0=⎕NC'options' ⋄ options←0 0 1 ⋄ :EndIf
@@ -65,7 +98,7 @@
               :EndIf
           :Else
               ns←⍬⍴(~preserve)×0⌈¯1+⍴⍴array
-              r,←1↓∊',',¨qp∘fromAPL¨,↓⍣ns⊢array
+              r,←1↓∊',',¨qp∘SerializeAPL¨,↓⍣ns⊢array
           :EndIf
           r,←drop↓']'
       :EndIf
@@ -132,6 +165,34 @@
     :section toAPL
 
     ∇ obj←{options}toAPL str;c1;b
+     ⍝ This fn takes a JSON string and turns it into an APL object
+     ⍝ The string must follow specific rules in order to be accepted
+      :Access public shared
+      str←,str
+      ⎕SIGNAL(⊂('EN' 11)('Message' 'Argument is not a simple character vector'))if~isChar str
+      :If 0=⎕NC'options' ⋄ options←0 ⋄ :EndIf       ⍝ do we preserve APL shape?
+      :If '{'=c1←1↑str←trim str~⎕UCS 8 9 10 13 ⍝ is this a ns?
+          ⎕SIGNAL(⊂('EN' 2)('Message' 'Invalid JSON - expected }'))if'}'≠¯1↑str
+          obj←options parseNS strip str
+      :ElseIf '['=c1                           ⍝ an array maybe?
+          ⎕SIGNAL(⊂('EN' 2)('Message' 'Invalid JSON - expected ]'))if']'≠¯1↑str
+          obj←,⍣(~options)⊢options parseAPLArray 1↓¯1↓str
+      :ElseIf '"'=c1
+          obj←AJchars 1↓¯1↓str                 ⍝ a string?
+      :ElseIf (,1)≡⎕IO⊃b←⎕VFI fixNum str       ⍝ a single number
+          obj←⊃⊃⌽b
+      :ElseIf 'null'≡str
+          obj←⎕NULL
+      :ElseIf 'true'≡str
+          obj←true
+      :ElseIf 'false'≡str
+          obj←false
+      :Else
+          obj←str
+      :EndIf
+    ∇
+
+    ∇ obj←{options}deserializeAPL str;c1;b
      ⍝ This fn takes a JSON string and turns it into an APL object
      ⍝ The string must follow specific rules in order to be accepted
       :Access public shared
@@ -335,7 +396,7 @@
       :If 0=⎕NC'a' ⋄ a←,1↑w ⋄ w↓⍨←1 ⋄ :EndIf
       :If (80 82∊⍨⎕DR a) ⋄ :AndIf (⍴,a)=2⊃⍴w ⋄ a←,¨a ⋄ :EndIf
       :If ~0∊⍴r←⎕NS¨(⊃⍴w)⍴⊂''
-          r(a{⍺.⍎'(',(⍕makeName¨ ⍺⍺),')←⍵'})¨{1=⍴⍵:⊃⍵ ⋄ ⍵}¨↓w
+          r(a{⍺.⍎'(',(⍕makeName¨⍺⍺),')←⍵'})¨{1=⍴⍵:⊃⍵ ⋄ ⍵}¨↓w
       :EndIf
     ∇
 
