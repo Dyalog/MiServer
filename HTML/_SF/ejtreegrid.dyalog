@@ -90,12 +90,12 @@
           :If ''≡GetOption'sizeSettings.width' ⋄ 'sizeSettings.width'Set⍕width ⋄ :EndIf
           :If ''≡GetOption'sizeSettings.height' ⋄ :AndIf ~0∊⍴height ⋄ 'sizeSettings.height'Set⍕height ⋄ :EndIf
      
-          'columns'Set'⍎',coldefs
+          'columns'Set⊂,coldefs
           'childMapping'Set'subItems'
           'allowColumnResize'Set _true
           'enableResize'Set _true
           src←id,'_data'
-          'dataSource'Set'⍎',src
+          'dataSource'Set⊂,src
           lev←1⌈(⊃⍴Items)↑Levels
           r←(⎕NEW #._DC.Script('var ',src,' = ',#.JSON.fromAPL lev #.JSON.nestObjects ColNames #.JSON.fromTable Items)).Render
       :EndIf

@@ -1,0 +1,13 @@
+﻿:Class ejListBoxAdvanced : MiPageSample
+⍝ Control:: _SF.ejListBox
+⍝ Description:: Listbox of reorderable options for selection
+
+    ∇ Compose;right;left
+      :Access Public
+      right←'#right'Add _.ejListBox,⊂'ejListBox' 'allows' 'easy' 'overview' 'and' 'reordering' 'of' 'choices'
+      left←'left'right.Insert _.ejListBox(3,/⎕D)
+      {'allowDragAndDrop'⍵.Set _true}¨left right
+      
+    ∇
+
+:EndClass
