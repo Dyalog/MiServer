@@ -1,0 +1,7 @@
+﻿:Class Support : MiPageTemplate
+ ∇ Compose
+   :Access public
+   Add _.h3'Send us a message'
+   Add _.A'Click here to open your default email client' 'mailto:email@example.com'
+ ∇
+:EndClass

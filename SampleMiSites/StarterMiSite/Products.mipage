@@ -1,0 +1,7 @@
+﻿:Class Products : MiPageTemplate
+ ∇ Compose
+   :Access public
+   Add _.h3'This is the list of our products'
+   Add _.List('Item '∘,¨⍕¨⍳100)
+ ∇
+:EndClass
