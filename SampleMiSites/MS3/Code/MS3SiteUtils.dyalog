@@ -173,10 +173,11 @@
 
     ∇ tut←Tutorial;tabs;l;r;sp;fs;ig;colors;rgbs;button;p;cbs
       tut←'#tut'New _.div
+      tut.Add _.p'In the tabs below, you will find categorized examples of webpage content. Click any element for more information.'
       tabs←'#Tabs'tut.Add _.Tabs ⍝ #Tabs
       l←'#div'New _.div ⍝ #div
       'Common elements'tabs.AddSection l ⍝ #Tabs
-      p←'#p'l.Add _.p'Here are some common UI elements. Click any element for more information. ' ⍝ #p
+      p←'#p'l.Add _.p'This is a paragraph.' ⍝ #p
       button←'#Button'l.Add _.Button'Button' ⍝ #Button
       sp←'#StackPanel'l.Add _.StackPanel ⍝ #StackPanel
       '#EditField'sp.Add _.EditField'EditField' 'EditField' ⍝ #EditField
@@ -189,9 +190,7 @@
       ig.Flip←1 ⍝ #InputGrid
       fs←'#Fieldset2'l.Add _.Fieldset'RadioButtonGroup' ⍝ #Fieldset2
       '#RadioButtonGroup'fs.Add _.RadioButtonGroup('Selected' 'Unselected')1 'right' ⍝ #RadioButtonGroup
-      '#h51'l.Add _.h5'Progress bar' ⍝#h51
-      '#progress' 'value="42.6" max="100"'l.Add _.progress ⍝ #progress
-      '#h52'l.Add _.h5'Slider' ⍝ #h52
+      '#h5'l.Add _.h5'Slider' ⍝ #h52
       '#Input2'l.Add _.Input'range' 1 ⍝ #Input2
       '#List'l.Add _.List('Primaries' 'Cyan' 'Magenta' 'Yellow' 'Key' 'Black')(1 2 2 2 1 2) ⍝ #List
       colors←'aqua' 'black' 'blue' 'fuchsia' 'gray' 'green' 'lime' 'maroon' ⍝ #Table
@@ -210,18 +209,16 @@
       ⍝ #StackPanel {display: inline-block;}
       ⍝ #Fieldset1 {display: inline-block;}
       ⍝ #Fieldset2 {display: inline-block;}
-      ⍝ #h51 {margin: 1em 0 0.5em 0;}
-      ⍝ #h52 {margin: 1em 0 0.5em 0;}
+      ⍝ #h5 {margin: 1em 0 0.5em 0;}
       ⍝ #Input1 {width: 4em;}
       ⍝ #Input2 {width: 100%;}
-      ⍝ #progress {width: 100%;}
       ⍝ #List {display: inline-block; margin: 1em; padding: 5px;}
       ⍝ #Table {display: inline-block; max-height: 7em; overflow-y: scroll; margin-top: 1em;}
       ⍝
       ⍝ /**/#p:hover, #Tabs:hover, #div:hover, #Button:hover, #StackPanel:hover, #EditField:hover, #Select:hover, #Fieldset1:hover, #Fieldset2:hover, .CheckBox:hover, #RadioButtonGroup:hover, #Input1:hover, #Input2:hover, #h51:hover, #h52:hover, #progress:hover, #List:hover, #Table:hover {
       ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
       ⍝ }
-      Interactive¨'#p' '#Tabs' '#div' '#Button' '#EditField' '#StackPanel' '#Select' '#Fieldset1' '#Fieldset2' '.CheckBox' '#RadioButtonGroup' '#Input1' '#h51' '#Input2' '#h52' '#progress' '#List' '#Table'
+      Interactive¨'#p' '#Tabs' '#div' '#Button' '#EditField' '#StackPanel' '#Select' '#Fieldset1' '#Fieldset2' '.CheckBox' '#RadioButtonGroup' '#Input1' '#h5' '#Input2' '#progress' '#List' '#Table'
      
       {⍵ tabs.AddSection New _.div}¨'Formatting' 'Positioning' 'Embedding' 'Interaction' 'Windows &amp; Popups'
      
@@ -235,15 +232,16 @@
       :Access Public
       ctrl←_selector~'#.12'
       r←'#info'Replace'<h2>_.',ctrl,'</h2>'
+      r,←'#info'Append'<p>',('descr'ForControl ctrl)'</p>'
       r,←'#info'Append'<h3>Constructor</h3><p>',(Link('ctor'ForControl ctrl)(DocUrl ctrl)),'</p>'
       nr←⎕NR'Tutorial'
       tag←'⍝ ',_selector
       code←nr/⍨tag∘(∨/⍷)¨nr
       (css lines)←↓⍉↑Prep¨code
       r,←'#info'Append'<h3>Compose</h3>',Ps lines/⍨~css
-      :If ∨/css
-          r,←'#info'Append'<h3>CSS</h3>',Ps css/lines
-      :EndIf
+      ⍝:If ∨/css
+      ⍝    r,←'#info'Append'<h3>CSS</h3>',Ps css/lines
+      ⍝:EndIf
     ∇
 
       Prep←{
