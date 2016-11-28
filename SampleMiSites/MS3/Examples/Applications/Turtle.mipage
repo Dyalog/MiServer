@@ -1,0 +1,51 @@
+﻿:class Turtle: MiPageSample
+⍝ Control:: _html.svg _html.line _DC.Input
+⍝ Description:: SVG turtle graphics
+
+    :Field TURTLE←250 250
+    :Field SVG
+
+    ∇ Compose;form
+      :Access public
+      form←Add _.Form
+      {⍵ form.Add _.Button ⍵}¨'Add' 'Undo'
+      '#length' 'step="10"'form.Add _.Input'number' 50 'Length: ' 'left'
+      '#width' 'max="20"'form.Add _.Input'range' 10 'Width: ' 'left'
+      '#angle' 'step="15"'form.Add _.Input'number' 0 'Angle: ' 'left'
+      '#arrow'form.Add _.div'↑'
+      '#color'form.Add _.Input'color' '#000000',(RgbLabel'#000000')'left'
+      '#pic'Add _.div,SVG←New _.svg
+      'button' 'input'{Add _.Handler ⍺ ⍵'Handler'}¨'click' 'change'
+      Add _.style ScriptFollows
+      ⍝ svg {width: 100%; height: calc(100vh - 5em - 75px);}
+      ⍝ line {stroke-linecap: round;}
+      ⍝ input, button {width: 50px; margin-right: 1em;}
+      ⍝ #arrow {display: inline-block; margin-right: 1em; font-size: large; transition: 0.5s;}
+      ⍝ #color {height: 20px; transition: 0.5s;}
+      ⍝ form {height: 2.5em; border-bottom: 1px solid black;}
+      ⍝ form * {vertical-align: middle;}
+    ∇
+
+    ∇ r←Handler;new;attrs
+      :Access Public
+      :Select _what
+      :Case 'Add'
+          new←TURTLE+9 11○(Get'length')×¯12○○180÷⍨¯90+Get'angle'            ⍝ new turtle position
+          attrs←'x1' 'y1' 'x2' 'y2'{⍺,'=',⍕⍵}¨TURTLE,new                    ⍝ line coordinates
+          attrs,←⊂'style=stroke:',(Get'color'),';stroke-width:',⍕Get'width' ⍝ line attributes
+          attrs SVG.Add _.line                                              ⍝ server state
+          TURTLE←new                                                        ⍝ turtle position
+          r←'#pic'Replace SVG                                               ⍝ client display
+      :Case 'Undo'
+          TURTLE-←9 11○(Get'length')×¯12○○180÷⍨¯90+Get'angle' ⍝ turtle position
+          SVG.Content↓⍨←¯1                                    ⍝ server state
+          r←Execute'$("svg>line").last().remove()'            ⍝ client display
+      :Case 'length' ⋄ r←Execute'$("#color").css("width","',(⍕Get'length'),'px");'
+      :Case 'angle' ⋄ r←Execute'$("#arrow").css("transform","rotate(',(#.JSON.fromAPL Get'angle'),'deg)");'
+      :Case 'width' ⋄ r←Execute'$("#color").css("height","',(⍕10+Get'width'),'px");'
+      :Case 'color' ⋄ r←'[for=''color'']'Replace RgbLabel Get'color'
+      :EndSelect
+    ∇
+
+    RgbLabel←{'Color: rgb(',') ',⍨1↓∊(',',3↓3⍕0.001×#.Utils.fromhex)¨⍵⊂⍨7⍴0 1}
+:endclass
