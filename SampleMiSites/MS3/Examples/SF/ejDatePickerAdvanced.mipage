@@ -36,7 +36,7 @@
       TO.Set'minDate'minto
     ∇
 
-    newDate←{'⍎new Date("',(⍕⍵),'")'}
+    newDate←{⊂'new Date("',(⍕⍵),'")'}
     dateToIDN←{2 ⎕NQ'.' 'datetoidn'⍵}
     IDNToDate←{3↑ 2 ⎕NQ'.' 'idntodate'⍵}
 
