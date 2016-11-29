@@ -2,11 +2,21 @@
 ⍝ Control:: _html.svg _html.line _DC.Input
 ⍝ Description:: SVG turtle graphics
 
-    :Field TURTLE←250 250
+    :Field Public Shared START←250 250
+    :Field TURTLE
     :Field SVG
 
     ∇ Compose;form
       :Access public
+      Add _.style ScriptFollows
+      ⍝ svg {width: 100%; height: calc(100vh - 5em - 75px);}
+      ⍝ line {stroke-linecap: round;}
+      ⍝ input, button {width: 50px; margin-right: 1em;}
+      ⍝ #arrow {display: inline-block; margin-right: 1em; font-size: large; transition: 0.5s;}
+      ⍝ #color {height: 20px; transition: 0.5s;}
+      ⍝ form {height: 2.5em; border-bottom: 1px solid black;}
+      ⍝ form * {vertical-align: middle;}
+      TURTLE←START
       form←Add _.Form
       {⍵ form.Add _.Button ⍵}¨'Add' 'Undo'
       '#length' 'step="10"'form.Add _.Input'number' 50 'Length: ' 'left'
@@ -16,25 +26,17 @@
       '#color'form.Add _.Input'color' '#000000',(RgbLabel'#000000')'left'
       '#pic'Add _.div,SVG←New _.svg
       'button' 'input'{Add _.Handler ⍺ ⍵'Handler'}¨'click' 'change'
-      Add _.style ScriptFollows
-      ⍝ svg {width: 100%; height: calc(100vh - 5em - 75px);}
-      ⍝ line {stroke-linecap: round;}
-      ⍝ input, button {width: 50px; margin-right: 1em;}
-      ⍝ #arrow {display: inline-block; margin-right: 1em; font-size: large; transition: 0.5s;}
-      ⍝ #color {height: 20px; transition: 0.5s;}
-      ⍝ form {height: 2.5em; border-bottom: 1px solid black;}
-      ⍝ form * {vertical-align: middle;}
     ∇
 
     ∇ r←Handler;new;coords;attrs
       :Access Public
       :Select _what
       :Case 'Add'
-          TURTLE,←(¯2↑TURTLE)+9 11○(Get'length')×¯12○○180÷⍨¯90+Get'angle' ⍝ add new leg
-          coords←'x1' 'y1' 'x2' 'y2'{⍺,'=',⍕⍵}¨¯4↑TURTLE                  ⍝ line coordinates
-          attrs←∊'style=stroke:' ';stroke-width:',¨Get'color width'       ⍝ line attributes
-          (coords,⊂attrs)SVG.Add _.line                                   ⍝ server state
-          r←'#pic'Replace SVG                                             ⍝ client display
+          TURTLE,←(¯2↑START,TURTLE)+9 11○(Get'length')×¯12○○180÷⍨¯90+Get'angle' ⍝ add new leg
+          coords←'x1' 'y1' 'x2' 'y2'{⍺,'=',⍕⍵}¨¯4↑START,TURTLE                  ⍝ line coordinates
+          attrs←∊'style=stroke:' ';stroke-width:',¨Get'color width'             ⍝ line attributes
+          (coords,⊂attrs)SVG.Add _.line                                         ⍝ server state
+          r←'#pic'Replace SVG                                                   ⍝ client display
       :Case 'Undo'
           TURTLE↓⍨←¯2                                         ⍝ remove last leg
           SVG.Content↓⍨←¯1                                    ⍝ server state
