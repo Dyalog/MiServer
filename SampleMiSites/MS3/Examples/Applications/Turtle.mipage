@@ -26,18 +26,17 @@
       ⍝ form * {vertical-align: middle;}
     ∇
 
-    ∇ r←Handler;new;attrs
+    ∇ r←Handler;new;coords;attrs
       :Access Public
       :Select _what
       :Case 'Add'
-          new←TURTLE+9 11○(Get'length')×¯12○○180÷⍨¯90+Get'angle'            ⍝ new turtle position
-          attrs←'x1' 'y1' 'x2' 'y2'{⍺,'=',⍕⍵}¨TURTLE,new                    ⍝ line coordinates
-          attrs,←⊂'style=stroke:',(Get'color'),';stroke-width:',⍕Get'width' ⍝ line attributes
-          attrs SVG.Add _.line                                              ⍝ server state
-          TURTLE←new                                                        ⍝ turtle position
-          r←'#pic'Replace SVG                                               ⍝ client display
+          TURTLE,←(¯2↑TURTLE)+9 11○(Get'length')×¯12○○180÷⍨¯90+Get'angle' ⍝ add new leg
+          coords←'x1' 'y1' 'x2' 'y2'{⍺,'=',⍕⍵}¨¯4↑TURTLE                  ⍝ line coordinates
+          attrs←∊'style=stroke:' ';stroke-width:',¨Get'color width'       ⍝ line attributes
+          (coords,⊂attrs)SVG.Add _.line                                   ⍝ server state
+          r←'#pic'Replace SVG                                             ⍝ client display
       :Case 'Undo'
-          TURTLE-←9 11○(Get'length')×¯12○○180÷⍨¯90+Get'angle' ⍝ turtle position
+          TURTLE↓⍨←¯2                                         ⍝ remove last leg
           SVG.Content↓⍨←¯1                                    ⍝ server state
           r←Execute'$("svg>line").last().remove()'            ⍝ client display
       :Case 'length' ⋄ r←Execute'$("#color").css("width","',(⍕Get'length'),'px");'
