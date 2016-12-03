@@ -6,7 +6,7 @@
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     quote←{0∊⍴⍵: '' ⋄ '⍎"'∊⍨⍬⍴⍵:⍵ ⋄ '"',(('"' ⎕R '\\\0')⍕⍵),'"'}
     fmtSelector←{{'this'≡⍵:⍵ ⋄quote ⍵}¯2↓∊{⍵,', '}¨eis ⍵}
-    fmtValue←{(2=≡⍵)∧0=≢⍴⍵:⍵ ⋄ #.JSON.fromAPL ⍵}
+    fmtValue←{(2=≡⍵)∧0=≢⍴⍵:⊃⍵ ⋄ #.JSON.fromAPL ⍵}
 
     ∇ r←opt(sel Update jqfn)val
     ⍝ update an option for a widget
