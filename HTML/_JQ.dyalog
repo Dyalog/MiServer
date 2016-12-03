@@ -603,7 +603,7 @@
          
               :If widget
                   :If force
-                      (eis events)(WidgetRef.Options{⍺⍺⍎⍺,'←⍵'})¨⊂'function(',syn_handler,'){',ajax,'}'
+                      (eis events)(WidgetRef.Options{⍺⍺⍎⍺,'←⍵'})¨⊂⊂'function(',syn_handler,'){',ajax,'}'
                   :Else
                       r←'.on(',(quote Events),', function(event,ui){',ajax,'});'
                   :EndIf
