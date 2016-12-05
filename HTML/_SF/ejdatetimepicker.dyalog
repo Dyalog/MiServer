@@ -47,7 +47,7 @@
       :If (0 2∊⍨10|⎕DR DateTime) ⋄ dt←'"',DateTime,'"'
       :Else ⋄ dt←1↓∊','∘,∘⍕¨DateTime-(⍴,DateTime)↑0 1 ⍝ adjust for JavaScript having 0-origin months (Jan-Dec = 0-11)
       :EndIf
-      ('value' 'dateTimeFormat')Set(('⍎new Date(',dt,')')Format)
+      ('value' 'dateTimeFormat')Set((⊂'new Date(',dt,')')Format)
       r←⎕BASE.Render
     ∇
 :EndClass

@@ -29,7 +29,7 @@
 
     ∇ r←Render
       :Access public
-      'helper'SetIfNotSet'⍎function(evt){return $(evt.element);}'
+      'helper'SetIfNotSet⊂'function(evt){return $(evt.element);}'
       r←⎕BASE.Render
     ∇
 
