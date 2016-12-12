@@ -22,7 +22,6 @@
 /* The section content */
 .dc-accordion > div {
     display: none;
-    overflow: auto;
     margin-right: 3ex;
 }
 
