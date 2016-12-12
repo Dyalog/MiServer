@@ -257,7 +257,7 @@
       ⍝ }
       ⍝ /**/#bluebox:hover {box-shadow:0 0 5px 1px orange, 0 0 5px orange inset, 0.25em 0.5em 1em gray;}
      
-      'ShowFormatting'∘AddHandler¨'#formatting' '#boldin' '#huge' '#expund' '#bluebox' '#centshad' '#whimg' 'serif' 'sans' 'mono' '#border' '#img' '#narrow'
+      'ShowFormatting'∘AddHandler¨'#formatting' '#boldin' '#huge' '#expund' '#bluebox' '#centshad' '#whimg' '#serif' '#sans' '#mono' '#border' '#img' '#narrow'
      
       {⍵ tabs.AddSection New _.div}¨'Positioning' 'Embedding' 'Interaction' 'Windows &amp; Popups'
      
