@@ -63,7 +63,7 @@
       :EndIf
     ∇
 
-    ∇ r←{options}SerializeAPL array;typ;ic;drop;ns;preserve;quote;qp;eval;t
+    ∇ r←{options}serializeAPL array;typ;ic;drop;ns;preserve;quote;qp;eval;t
     ⍝ array is an APL array
     ⍝ options - formatting options
     ⍝     [1] put "quotes" around names?
@@ -98,7 +98,7 @@
               :EndIf
           :Else
               ns←⍬⍴(~preserve)×0⌈¯1+⍴⍴array
-              r,←1↓∊',',¨qp∘SerializeAPL¨,↓⍣ns⊢array
+              r,←1↓∊',',¨qp∘serializeAPL¨,↓⍣ns⊢array
           :EndIf
           r,←drop↓']'
       :EndIf
