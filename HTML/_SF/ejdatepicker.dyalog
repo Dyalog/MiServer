@@ -36,7 +36,7 @@
       :Implements Constructor
       args←(⊂⍣(3=10|⎕DR args))args
       (val fmt)←args defaultArgs(3↑⎕TS)'yyyy/MM/dd'
-      ('value' 'dateFormat')Set(('⍎new Date("',(⍕val),'")')fmt)
+      ('value' 'dateFormat')Set((⊂'new Date("',(⍕val),'")')fmt)
       Container.type←'text'
       InternalEvents←IntEvt
     ∇

@@ -1,17 +1,20 @@
 ﻿:Class InputAdvanced : MiPageSample
 ⍝ Control:: _DC.Input _DC.InputSubmit
-⍝ Description:: Some more unusual and advanced Input elements
+⍝ Description:: Date/time, email, URL, file, and submit Input elements
     
     ∇ Compose;frm;tab
       :Access Public
      
-      Add ScriptFollows
-      ⍝ <p>The Dyalog Control Input enhances the base HTML input element in a number of ways.</p>
-      ⍝ <p>The first argument specifies the type of input field. Here are some of the more unusual, but
+      Add MarkdownFollows
+      ⍝ The Dyalog Control Input enhances the base HTML input element in a number of ways.
+      ⍝
+      ⍝ The first argument specifies the type of input field. Here are some of the more unusual, but
       ⍝ powerful input types; however different browsers vary in their support for these. E.g. Firefox
-      ⍝ and Internet Explorer do not provide the interactive date & time picker.</p>
-      ⍝ <p>The second argument specifies the initial value for the input field.</p>
-      ⍝ <p>The third and fourth arguments specify the label and label position for the input field.</p>
+      ⍝ and Internet Explorer do not provide the interactive date & time picker.
+      ⍝
+      ⍝ The second argument specifies the initial value for the input field.
+      ⍝
+      ⍝ The third and fourth arguments specify the label and label position for the input field.
      
       labels←'Date & time (interactive picker)' 'E-mail (has validation)' 'URL (has validation)' 'File (dialogue pop-up)' 'Submit button (POST)'
      
@@ -24,7 +27,7 @@
           tab.Data[3;2]←'inp2'New _.Input'email' '' 'E-mail address:'
           tab.Data[4;2]←'inp3'New _.Input'url' '' 'Homepage: '
           tab.Data[5;2]←'inp4'New _.Input'file' '' 'Photo: '
-          tab.Data[6;2]←'inp5'New _.InputSubmit'Done'
+          tab.Data[6;2]←'inp5'New _.Input'submit' 'Done'
       :Else
           tab.Data[1↓⍳6;2]←({⍵ New _.em,Get ⍵}¨'inp'∘,¨'1234'),'output'New _.strong'Input accepted'
           tab.Data[6;1]←⊂''

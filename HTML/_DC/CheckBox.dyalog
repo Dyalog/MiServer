@@ -1,5 +1,5 @@
 ﻿:class CheckBox : #._html.input
-⍝ Description:: Dyalog checkbox widget - support tristate
+⍝ Description:: Dyalog checkbox widget with tristate support
 ⍝ Constructor:: [value [label [labelpos [tristate]]]]
 ⍝ tristate - Boolean indicating whether the checkbox allows 3 states ('indeterminate' 'false' (default) or 'true')
 ⍝ value    - initial value for the checkbox either 'checked', 'unchecked', or 'indeterminate' if tristate

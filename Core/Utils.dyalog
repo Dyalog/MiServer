@@ -73,6 +73,8 @@
     tohex←1∘hex
     fromhex←0∘hex
     vectorize←{1≥|≡⍵:,⍵ ⋄ ∇¨⍵} ⍝ turn scalars into vectors
+    
+    rank2depth←{S←↓⍣(¯1+≢⍴⍵) ⋄ 1<|≡⍵:S ∇¨⍵ ⋄ S ⍵}
 
     WSRoot←{⍵↓⍨-⊥⍨('/\'⊃⍨1+'Win'≡3↑⊃'.'⎕WG'APLVersion')≠⍵}⎕WSID
 

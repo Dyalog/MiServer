@@ -1,22 +1,18 @@
 ﻿:Class InputFileSimple : MiPageSample
-⍝ Control:: _DC.InputFile
-⍝ Description:: input-control to handle file-uploads
+⍝ Control:: _DC.InputFile _.DC.Input
+⍝ Description:: Input-control to handle file-uploads
 
     ∇ Compose;out;fname;fdata;frm
       :Access Public
      
-      Add ScriptFollows
-      ⍝ <p>The Dyalog InputFile control enhances the native HTML input element.</p>
-      ⍝ <p>The type attribute is automatically set to "file"</p>
-      ⍝ <p>The arguments specify the label and label position for the input field.</p>
-      ⍝ <p>If a file is uploaded, the data linked to the name of the input control is
-      ⍝ 2 element vector of vectors.<br/>
-      ⍝ The first vector is the file name.<br/>
-      ⍝ The second vector is an integer vector (datatype 83) of the uploaded file's data</p>
+      Add MarkdownFollows
+      ⍝ The Dyalog `InputFile` control is deprecated. Use `Input'file'` instread, like in this example. 
+      ⍝ If a file is uploaded, the data linked to the name of the input control is a 2 element vector of vectors.
+      ⍝ The first vector is the file name, the second vector is an integer vector (datatype 83) of the uploaded file's data
      
       out←'output'Add _.div
       :If _Request.isPost  ⍝ anything uploaded
-      :AndIf 0≠_PageData.⎕NC'ipfl'
+      :AndIf ×≢Get'ipfl'
      
       ⍝ At this point _PageData.ipfl is a 2-element vector containing
       ⍝   [1] the file name
@@ -25,20 +21,16 @@
       ⍝ we'll just calculate a simple checksum and display that.
      
           (fname fdata)←Get'ipfl'
-          ⍝ MBaas: "output" should only contain the filename..
-          out.Add _.strong fname,' received with ',(⍕⍴fdata),' bytes and a checksum of ',⍕255|+/fdata
-          {out.Add ⍵}¨2⍴_.br
-          :If 0=⍴fdata
-              ..
-          :EndIf
+          out.Add _.strong fname,' received with ',(⍕⍴fdata),' bytes and a checksum of ',⍕(255|+)/fdata
+          out.Add¨2⍴_.br
       :EndIf
      
       frm←Add _.Form  ⍝ dialog is always shown so that we can upload again after having sent a file!
      
-      'ipfl'frm.Add _.InputFile'Select a file to upload: '
+      'ipfl'frm.Add _.Input'file' 'Select a file to upload: '
      
       frm.Add _.br
-      'submit'frm.Add _.InputSubmit
+      'submit'frm.Add _.Input'submit' 'Submit'
      
       ⍝↓↓↓ this is only so that the page will render properly in the MS3 MiSite's index page
       ⍝    after the form is submitted.  It normally would not be needed in most applications.

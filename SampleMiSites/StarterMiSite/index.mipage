@@ -1,6 +1,7 @@
 ﻿:Class index : MiPageTemplate
-    ∇ Compose
-      :Access public
-      Add _.h3'Hello World!'
-    ∇
+ ∇ Compose
+   :Access public
+   Add _.h3'Hello World!'
+   Add _.p'[insert content here]'
+ ∇
 :EndClass

@@ -1,6 +1,6 @@
 ﻿:Class InputSimple : MiPageSample
 ⍝ Control:: _DC.Input _DC.Table
-⍝ Description:: Five different usages of the Input element
+⍝ Description:: Text, number, password, and range Input elements
 
     ∇ Compose;tab
       :Access Public

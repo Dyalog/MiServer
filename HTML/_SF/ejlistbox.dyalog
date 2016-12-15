@@ -81,16 +81,16 @@
           items←(⊂'text')⍪⍪items
       :EndIf
       :If 0∊⍴GetOption'fields'
-          'fields'Set'⍎',{'{',⍵,'}'}¯1↓∊{⍵,':"',⍵,'",'}¨items[1;]
+          'fields'Set⊂{'{',⍵,'}'}¯1↓∊{⍵,':"',⍵,'",'}¨items[1;]
       :EndIf
       flds←(('[{,].*:'⎕S{1↓¯1↓⍵.Match})GetOption'fields')
       :If ~(⊂'id')∊flds ⍝ if no id field - make one
           items,←(⊂'id'),{id,'_item_',⍕⍵}¨⍳numItems
-          'fields'Set'⍎',{'{',⍵,'}'}¯1↓∊{⍵,':"',⍵,'",'}¨items[1;]
+          'fields'Set⊂,{'{',⍵,'}'}¯1↓∊{⍵,':"',⍵,'",'}¨items[1;]
           flds←(('[{,].*:'⎕S{1↓¯1↓⍵.Match})GetOption'fields')
       :EndIf
       src←id,'_datasrc'
-      'dataSource'Set'⍎',src
+      'dataSource'Set⊂,src
       :If ~0∊⍴Selected
           sel←¯1+Selected{11=⎕DR ⍺:{⍵/⍳⍴⍵}⍵↑⍺ ⋄ (⍳⍵)∩⍺}numItems ⍝ adjust for JavaScript origin 0
           'selectedItemlist'Set sel
@@ -112,7 +112,7 @@
           :AndIf 1=2⊃⍴Items ⋄ ri←⍴⍴items←⍪items ⋄ :EndIf
           :If 2∧.=ri,rI
           :AndIf (2⊃⍴items)=2⊃⍴Items
-              src←('⍎'=⊃src)↓src
+              ⍝src←('⍎'=⊃src)↓src    ⍝ We now use ⊂'string' to avoid quotes
               Items←(fields←Items[1;])⍪items
               r,←Selector Replace''
               script←';',src,' = ',#.JSON.fromAPL fields #.JSON.fromTable 1↓Items
@@ -130,7 +130,7 @@
       ⍝ get the current items in the list
       ⍝ x is one of '' (return text), 'text', or 'id'
       SetId
-      js←id{'⍎(function(){var tmp={items:[]};$.each($("#',⍺,'").ejListBox("getSelectedItems"),function(i,obj){tmp.items.push($(obj[0]).',⍵,')}; return tmp.items;})()'}(1+x≡'id')⊃'text()' 'attr("id")'
+      js←⊂id{'(function(){var tmp={items:[]};$.each($("#',⍺,'").ejListBox("getSelectedItems"),function(i,obj){tmp.items.push($(obj[0]).',⍵,')}; return tmp.items;})()'}(1+x≡'id')⊃'text()' 'attr("id")'
       r←name js
     ∇
 
@@ -143,7 +143,7 @@
       :Else
           id←⎕THIS.##.id,Side⊃'_left' '_right'
       :EndIf
-      js←id{'⍎(function(){var tmp=[]; $("#',⍺,' li").each(function(){tmp.push($(this).',⍵,')}); return JSON.stringify(tmp);})()'}(1+x≡'id')⊃'text()' 'attr("id")'
+      js←⊂id{'(function(){var tmp=[]; $("#',⍺,' li").each(function(){tmp.push($(this).',⍵,')}); return JSON.stringify(tmp);})()'}(1+x≡'id')⊃'text()' 'attr("id")'
       r←name js
     ∇
 

@@ -44,7 +44,7 @@
           :If 1=2⊃⍴d ⋄ d,←1 ⋄ :EndIf
           n←2⊃⍴d
           src←id,'_data'
-          'dataSource'Set'⍎',src
+          'dataSource'Set⊂,src
           r←(⎕NEW #._DC.Script('var ',src,' = ',#.JSON.fromAPL⊃#.JSON.fromTable/(n↑'text' 'frequency' 'url' 'htmlAttributes')d)).Render
       :EndIf
       r,←⎕BASE.Render

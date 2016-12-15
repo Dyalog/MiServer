@@ -30,8 +30,8 @@
       :Access public
       ⍝:If ''≢t←Attrs[⊂'template']
       :If 0≠Options.⎕NC'template'
-      :AndIf '⍎'≢⊃t←Options.template
-          'template'Set'⍎$("',t,'")'
+      :AndIf 2>≡t←Options.template
+          'template'Set⊂'$("',t,'")'
       :EndIf
       :If ~0∊⍴Text
           'text'Set Text

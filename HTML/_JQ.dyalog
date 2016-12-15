@@ -6,7 +6,7 @@
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     quote←{0∊⍴⍵: '' ⋄ '⍎"'∊⍨⍬⍴⍵:⍵ ⋄ '"',(('"' ⎕R '\\\0')⍕⍵),'"'}
     fmtSelector←{{'this'≡⍵:⍵ ⋄quote ⍵}¯2↓∊{⍵,', '}¨eis ⍵}
-    fmtValue←{'⍎'=⊃,⍵:⍵ ⋄ #.JSON.fromAPL ⍵}
+    fmtValue←{(2=≡⍵)∧0=≢⍴⍵:⊃⍵ ⋄ #.JSON.fromAPL ⍵}
 
     ∇ r←opt(sel Update jqfn)val
     ⍝ update an option for a widget
@@ -414,7 +414,7 @@
               force←0
               events←Events
               :If widget←#.HtmlElement.isWidget WidgetRef ⍝ is this a widget handler?
-                  WidgetDef←WidgetRef.WidgetDef                    
+                  WidgetDef←WidgetRef.WidgetDef
                   :If ForceInternal=¯1
                       :If ∨/', '∊Events ⍝ multiple events?
                           events←', '#.Utils.penclose Events
@@ -603,7 +603,7 @@
          
               :If widget
                   :If force
-                      (eis events)(WidgetRef.Options{⍺⍺⍎⍺,'←⍵'})¨⊂'function(',syn_handler,'){',ajax,'}'
+                      (eis events)(WidgetRef.Options{⍺⍺⍎⍺,'←⍵'})¨⊂⊂'function(',syn_handler,'){',ajax,'}'
                   :Else
                       r←'.on(',(quote Events),', function(event,ui){',ajax,'});'
                   :EndIf

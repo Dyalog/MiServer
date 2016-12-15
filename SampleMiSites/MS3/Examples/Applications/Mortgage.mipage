@@ -1,0 +1,54 @@
+﻿:Class Mortgage : MiPageSample
+⍝ Control:: _DC.EditField _DC.Form _DC.InputGrid
+⍝ Description:: Simple mortgage calculation application
+
+  ⍝ ↓ calculate payment based on principal, rate, and term
+    calcpmt←{0::'Error' ⋄ p r n←⍵÷1 1200 (÷12) ⋄ .01×⌈100×p×r÷1-(1+r)*-n}
+
+  ⍝ ↓ calculate how much you can borrow based on rate, term, and payment
+    calcprin←{0::'Error' ⋄ r n m←⍵÷1200 (÷12) 1 ⋄ .01×⌈100×m÷r÷1-(1+r)*-n}
+
+    ∇ Compose;f;inputs;labels;h ⍝ render the initial page
+      :Access Public
+
+      (prin rate term)←100000 4.5 30
+      pmt←calcpmt prin rate term ⍝ First calculation
+     
+      Add _.h2'Mortgage Calculator'
+      Add'Modify principal, rate or term to recalculate payment.'
+      Add¨_.br,(⊂'Change payment to recalculate the principal'),2⍴_.br
+     
+      (frm←Add _.Form).id←'mtg'
+      (ig←frm.Add _.InputGrid).Border←0
+      ig.Labels←'Principal' 'Interest Rate' 'Term (years)' 'Payment'
+      ig.Inputs←{_.EditField,⊂⍵(⍎⍵)}¨'prin' 'rate' 'term' 'pmt'
+     
+      h←Add _.Handler                           ⍝ add an event handler
+      h.Callback←'Calc'                         ⍝ specify the callback function to run
+      h.Events←'change'                         ⍝ listen for the "change" event
+      h.Selectors←'#mtg input'                  ⍝ on the input elements within the form with id "mtg"
+    ∇
+
+    ∇ resp←Calc;p;r;n;m    ⍝ callback function for the handler defined in Render
+      :Access public
+      (p r n m)←⍬ Get 'prin rate term pmt' ⍝ convert input fields to numbers
+      resp←''
+     
+      :Select _what ⍝ what field changed?
+     
+      :CaseList 'prin' 'rate' 'term' ⍝ one of prin rate or term changed, calculate payment
+          :If ~0∊≢¨p r n ⍝ if we have values for all inputs...
+          ⍝ ... calculate the payment and replace the value attribute in the input element
+              resp←Execute'#pmt'Val calcpmt p r n
+          :EndIf
+     
+      :Case 'pmt' ⍝ payment changed, calculate principal
+          :If ~0∊≢¨r n m ⍝ if we have values for all inputs...
+          ⍝ ... calculate the principal and replace the value attribute in the input element
+              resp←Execute'#prin'Val calcprin r n m
+          :EndIf
+     
+      :EndSelect
+    ∇
+
+:EndClass

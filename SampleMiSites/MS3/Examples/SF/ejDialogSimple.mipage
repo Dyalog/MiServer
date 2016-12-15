@@ -16,7 +16,7 @@
       'showOnInit' 'position.Y' 'width'dlg.Set _false 100 300
      
       ⍝ to center the dialog, we must use JavaScript's arithmetics, so / means ÷
-      'position.X'dlg.Set'⍎screen.width/2-150'
+      'position.X'dlg.Set⊂'screen.width/2-150'
     ∇
 
 :EndClass

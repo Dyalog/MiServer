@@ -17,12 +17,12 @@
 ⍝    - This control is implemented in HTML+CSS without any JavaScript and is therefore
 ⍝   extremely lightwight, resulting in faster load times. However, this comes at the
 ⍝   cost of fewer features compared to competing controls. Use it if you just need
-⍝   basic Tabs. 
+⍝   basic Tabs.
 
     :field public shared readonly ApiLevel←3
     :Field public Titles←0⍴⊂''
     :Field public Sections←0⍴⊂''
-    :Field public Theme←'#808080' ⍝ "Grey"
+    :Field public Theme←'#000000' ⍝ "Black"
 
     ∇ Make
       :Access public
@@ -53,7 +53,7 @@
       Sections,←⊂content
     ∇
 
-    ∇ r←Render;title;section;numbers;n;mix;bg
+    ∇ r←Render;title;section;numbers;n
       :Access public
       SetId
       SetUse
@@ -75,14 +75,16 @@
       :EndFor
      
       r←⎕BASE.Render
-             
+     
       ⍝ Create color scheme based on the Theme color
-      Theme←Mix⊂Theme
-      bg←Mix'#FFFFFF' Theme
-      mix←Mix '#FFFFFF' '#FFFFFF' Theme
      
       ⍝ Specific CSS
-      r,←'<style scoped="scoped">#',id,'{background:',bg,';}'
+      r,←'<style scoped="scoped">'
+      r,←'#',id,' > input[type="radio"] + label {color: ',(Mix⊂Theme),';}'
+      r,←'#',id,' > input[type="radio"] + label:hover, '
+      r,←'#',id,' > input[type="radio"]:checked + label {border-color: ',(Mix⊂Theme),';}'
+      r,←'#',id,' > input[type="radio"]:focus + label {background:',(0.1 Mix⊂Theme),'}'
+      r,←'#',id,' > div {border-top: solid 1px ',(0.7 Mix⊂Theme),'; margin-top: -1px;}'
       :For n :In numbers
           r,←'#',n,'t:checked~#',n,'s,'
       :EndFor
@@ -90,10 +92,12 @@
       r,←'{display:block;}</style>'
     ∇
 
-      Mix←{ ⍝ Arithmetic mean of multiple hex colors
+      Mix←{ ⍝ Arithmetic mean of multiple hex colors with optional ⍺
           ⎕IO←0
           h←⎕D,6↑⎕A
-          '#',,⍉h[16 16⊤⌊0.5+(⊃+/÷≢){16⊥⍉h⍳3 2⍴⍵/⍨6÷≢⍵}¨#.Strings.uc ⍵~¨⊂' #']
+          rgb←⌊0.5+(⊃+/÷≢){16⊥⍉h⍳3 2⍴⍵/⍨6÷≢⍵}¨#.Strings.uc ⍵~¨⊂' #'
+          ⍺←1
+          'rgba(',(1↓∊(',',⍕)¨rgb,⍺),')'
       }
 
 :endclass

@@ -1,0 +1,98 @@
+﻿:Class Syntax : MiPageSample
+⍝ Control:: _html.span
+⍝ Description:: APL syntax explained visually
+
+    ∇ Compose;f;inputs;labels;h ⍝ render the initial page
+      :Access Public
+      Add MarkdownFollows
+      ⍝ Enter an APL expression
+      ⍝ ---
+      ⍝
+      ⍝ Notes:
+      ⍝ * Supports arbitrary nesting of parens and braces
+      ⍝ * Handles most primitive functions
+      ⍝ * Operators may only be applied to primitives and derived functions
+      ⍝ * HTML problematic functions (`<=>`) are not supported
+      ⍝ * Only handles simple strings with no special characters
+      
+      'apl'Add _.EditField 'apl' '''RGB to CMYK: '',{1-(⊢(÷,{255-⍨⍵})⌈/)⍵}'
+      (Add _.Button'Explain').On'click' 'Explain'('apl' 'val' '#apl')
+      '#output'Add _.div
+      Add _.style ScriptFollows
+      ⍝ #apl {width: 80%;}
+      ⍝ .paren {
+      ⍝     display: inline-block;
+      ⍝     border-left: 0.2ex solid black;
+      ⍝     border-right: 0.2ex solid black;
+      ⍝     border-radius: 0.5em;
+      ⍝     padding: 0.4em;
+      ⍝     margin: 0.5ex;
+      ⍝ }
+      ⍝ .brace {
+      ⍝     display: inline-block;
+      ⍝     border-left: 0.2ex solid blue;
+      ⍝     border-right: 0.2ex solid blue;
+      ⍝     border-radius: 0.33em;
+      ⍝     background: rgba(0,0,255,0.1);
+      ⍝     padding: 0.2em;
+      ⍝     margin: 0.5ex 1ex 0.5ex 1ex;
+      ⍝ }
+      ⍝ .brace::before {
+      ⍝    content: "-";
+      ⍝    position: relative;
+      ⍝    left: -1.5ex;
+      ⍝    color: blue;
+      ⍝ }
+      ⍝ .brace::after {
+      ⍝    content: "-";
+      ⍝    position: relative;
+      ⍝    left: 1.5ex;
+      ⍝    color: blue;
+      ⍝ }
+      ⍝ .fn {color: blue;}
+      ⍝ .op {
+      ⍝     background-color: green;
+      ⍝     color: white;
+      ⍝     border: 0.2ex solid green;
+      ⍝ }
+      ⍝ .opbox {
+      ⍝     border: 0.2ex solid green;
+      ⍝     background: rgba(0,255,0,0.1);
+      ⍝ }                                        
+      ⍝ .text {
+      ⍝     font-family: serif; 
+      ⍝     color: gray; 
+      ⍝     font-style: italic;
+      ⍝     background: Gainsboro;
+      ⍝     border-radius: 1em 0;
+      ⍝ }
+     
+    ∇
+
+    MONOP←'[/⌿\\⍀¨⍨⌸]'
+    DYAOP←'[\.∘⍣⍤]'
+    FN←'[\+\-×÷|⌈⌊*⍟○!\?~∧∨⍲⍱≤≥≠≡≢⍴,⍪⌽⊖⍉↑↓⊂⊃∊⍷∩∪⍳⌷⍋⍒⍎⍕⊥⊤⊣⊢⌹]'
+
+    ∇ r←Explain
+      :Access public
+      #.APL←''Get'apl'
+
+      #.APL←(FN,DYAOP,FN)⎕R'<span class="opbox">\0</span>'⊢#.APL
+      #.APL←('∘\.',FN)⎕R'<span class="opbox">\0</span>'⊢#.APL
+      #.APL←(FN,MONOP)⎕R'<span class="opbox">\0</span>'⊢#.APL
+      #.APL←'''[\w :;]+?'''⎕R'<span class="text">\&nbsp;\0\&nbsp;</span>'⊢#.APL
+      #.APL←('(∘\.)(',FN,')')⎕R'<span class="op">\1</span>\2'⊢#.APL
+      #.APL←('(',FN,')(',DYAOP,')(',FN,')')⎕R'\1<span class="op">\2</span>\3'⊢#.APL
+      #.APL←('(',FN,')(',MONOP,')')⎕R'\1<span class="op">\2</span>'⊢#.APL
+      
+      #.APL←('>(',DYAOP,')')⎕R'><span class="op">\1</span>'⊢#.APL
+      #.APL←'∘\.'⎕R'<span class="op">\0</span>'⊢#.APL
+      #.APL←('>(',MONOP,')')⎕R'><span class="op">\1</span>'⊢#.APL
+      #.APL←FN ⎕R'<span class="fn">\0</span>'⊢#.APL
+      #.APL←'\(' '\)'⎕R'<span class="paren">' '</span>'⊢#.APL
+      #.APL←'\{' '\}'⎕R'<span class="brace">' '</span>'⊢#.APL
+      r←'#output'Replace'<code>',#.APL,'</code>'
+     
+    ∇
+
+:EndClass

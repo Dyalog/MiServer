@@ -60,10 +60,10 @@
           :EndIf
           coldefs←#.JSON.fromAPL coldefs
      
-          'columns'Set'⍎',coldefs
+          'columns'Set⊂,coldefs
      
           src←id,'_data'
-          'dataSource'Set'⍎',src
+          'dataSource'Set⊂,src
           r←(⎕NEW #._DC.Script('var ',src,' = ',#.JSON.fromAPL ColNames #.JSON.fromTable Values)).Render
       :EndIf
       r,←⎕BASE.Render
@@ -75,13 +75,13 @@
       items←eis items
       :If 0∊⍴src←GetOption'dataSource'
           r,←Selector Replace∊{'<li>',⍵,'</li>'}¨Items←items
-          r,←Execute'$("',Selector,'").',JQueryFn,'({dataSource:',src,'});'
+          r,←Execute'$("',Selector,'").',JQueryFn,'({dataSource:',src,'});' ⍝ Do we really need this when 0∊⍴src?
       :Else
           :If (1=ri←⍴⍴items)∧(2=rI←⍴⍴Items)
           :AndIf 1=2⊃⍴Items ⋄ ri←⍴⍴items←⍪items ⋄ :EndIf
           :If 2∧.=ri,rI
           :AndIf (2⊃⍴items)=2⊃⍴Items
-              src←('⍎'=⊃src)↓src
+              ⍝src←('⍎'=⊃src)↓src            ⍝ We now use ⊂'string' to avoid quotes
               Items←(fields←Items[1;])⍪items
               r,←Selector Replace''
               script←';',src,' = ',#.JSON.fromAPL fields #.JSON.fromTable 1↓Items
