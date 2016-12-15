@@ -1,0 +1,28 @@
+﻿:Class DataTableAdvanced_mark : MiPageSample
+⍝ Control::     _JS.DataTable
+⍝ Description:: Simple Example slightly advanced with zebra-striping and highlighted search-terms
+
+    ∇ Compose;data;dt
+      :Access Public
+     
+      Add _.p MarkdownFollows
+			⍝## DataTable      
+			⍝ The DataTable widget uses the JS-Library [DataTables](http://datatables.net/)
+			⍝ which provides a very powerful and comprehensive rendering tool for tabular data.
+			⍝ * Uses the "mark"-Option to highlight any strings matching the search-terms.
+			⍝ * Assigning the `display`-class will generate "zebra-striping" in the table
+			⍝   to enhance readability.
+			⍝					
+			⍝## Health Care Spending by Country
+			⍝ Data on this page was taken from the [CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/rankorder/2225rank.html).
+     
+      ⍝  [;1] country [;2] % GDP [;3] population [;4] GDP [;5] $/capita
+      data←1 #.Files.FREAD #.Boot.AppRoot,'Examples/Data/stats.DCF'
+      data[;3 4 5]←0.01×⌊0.5+100×data[;3 4 5]÷[2]1000 1000000 1  ⍝ scale the data a bit
+      data⍪⍨←'Country' '% GDP' 'Population (thousands)' 'GDP ($Millions)' '$/Capita'
+      dt←'#sample' '.display'Add _.DataTable data
+      'mark'dt.Set _true
+    ∇
+
+:EndClass
+                        

@@ -1,7 +1,7 @@
 ﻿:Class index : MiPage
-    ∇ Render;fn;data
+    ∇ Compose
       :Access public
-      Add h2'MiPage Sample - Static Page'
-      (Add p).Add¨'This is a sample page with some static text.'br'Sadly it''s not very interesting.'
+      Add _.h2'MiPage Sample - Static Page'
+      (Add _.p).Add¨'This is a sample page with some static text.'_.br'Sadly it''s not very interesting.'
     ∇
 :EndClass

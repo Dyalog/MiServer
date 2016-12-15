@@ -1,0 +1,91 @@
+﻿:Class IconAdvanced_FontAwesome_List : MiPageSample
+⍝ Control:: _DC.Icon
+⍝ Description:: Icon-Finder for FontAwesome-Icons
+
+
+    ∇ Compose;p;matches;tab;Columns;css;fa;dt;yml
+      :Access Public
+      Use'faIcons'
+      Add _.p ScriptFollows
+   ⍝ This page offers a tool to easily browse FontAwesome-Icons even when you're offline and have no access to the
+   ⍝ excellent Search-Tool on FontAwesome's <a href="http://fontawesome.io/icons/">site</a>.
+   ⍝ Please note that the search also operates on the aliases that are not shown in the table.
+     
+     
+      fa←#.Boot.ms.Config.Virtual{(⍺.alias⍳⊂⍵)⊃⍺.path,⊂''}'FontAwesome' ⍝ get path
+      yml←#.Files.GetVTV fa,'icons.yml'                                 ⍝ to the .yml-file that has names, categories etc.
+     
+   ⍝ A bit of CSS to emphasize the search-input more:
+      Add _.style ScriptFollows
+      ⍝ .dataTables_filter , input {
+      ⍝ font-size: 1.5em;
+      ⍝ border-radius: .2em;
+      ⍝ }
+      ⍝ .dataTables_filter {
+      ⍝ float: left !important;
+      ⍝ margin-top: 2em;
+      ⍝ margin-bottom: 2em;
+      ⍝ margin-left: 20%;
+      ⍝ clear: both;
+      ⍝ }
+      ⍝ .nofloat {
+      ⍝ clear: both;
+      ⍝ width: 80%;
+      ⍝ margin: auto;
+      ⍝ }
+     
+    ⍝ would have been nice to do this with a regex, but I could not get one together (within reasonable time)
+    ⍝      matches←↑↑('\A\h*\-((([\h\w]*):\h*([\w\h]*\R))*)'⎕S{GetRxGroups¨⍵}⍠('Mode' 'D')('Greedy' 1)('DotAll' 0)('IC' 1))yml
+      matches←ProcYml 1↓yml
+      dt←Add _.DataTable matches
+      Columns←⎕NS¨7⍴⊂''
+      Columns.title←'Title' 'Sample (regular, -lg, -2x, -3x)' 'Unicode' 'Released' 'Alias' 'Category' 'URL'
+      Columns[2].render←'⍎function ( data, type, full, meta ) {return ''<i class="fa fa-''+data+''"></i>&nbsp;<i class="fa-lg fa fa-''+data+''"></i>&nbsp;<i class="fa-2x fa fa-''+data+''"></i>&nbsp;<i class="fa-3x fa fa-''+data+''"></i>&nbsp;'';}'
+      Columns[5].visible←_false  ⍝ alias-column not shown, but considered in search!
+      Columns[7].visible←_false  ⍝ URL not shown, maybe we should use it to link the title?
+      dt.Options.columns←Columns
+      dt.Options.dom←'f<"nofloat"ltipr>'
+    ∇
+
+
+
+    ∇ R←ProcYml yml;row;i;yi;id;val;mode
+     ⍝ [1]=Title
+     ⍝ [2]=id
+     ⍝ [3]=Unicode
+     ⍝ [4]=Release
+     ⍝ [5]=Alias / Filter  (multiple terms comma-separated)
+     ⍝ [6]=Categories      (multiple terms comma-separated)
+     ⍝ [7]=url
+     
+      R←0 7⍴''
+      row←'' '' '' ''(⊂'')(⊂'')'' ⋄ mode←0
+      :For i :In ⍳⍴yml
+          :If 0<⍴yi←i⊃yml
+              (id val)←{j←⍵⍳':' ⋄ j>⍴⍵:⍵ ⍬ ⋄ #.Strings.deb¨((j-1)↑⍵)(j↓⍵)}yi
+              :Select id
+              :Case '- name' ⋄ :If 0<1↑⍴1⊃row ⋄ R←R⍪row ⋄ :EndIf ⋄ row←(val)'' '' ''(⊂'')(⊂'')'' ⋄ mode←0
+              :Case 'id' ⋄ row[2]←⊂val
+              :Case 'unicode' ⋄ row[3]←⊂val
+              :Case 'created' ⋄ row[4]←⊂val
+              :Case 'url' ⋄ row[7]←⊂val
+              :CaseList 'filter' 'aliases' 'code' ⋄ mode←5
+              :Case 'categories' ⋄ mode←6
+              :Else
+                  :If mode>0 ⋄ :AndIf id≢'' ⋄ row[mode]←⊂(mode⊃row){0=1↑⍴⍺:⍵ ⋄ ⍺,',',⍵},{#.Strings.dlb(⍵⍳'-')↓⍵}id
+                  :ElseIf id≢'' ⋄ 'Unknown id=',id
+                  :EndIf
+              :EndSelect
+          :EndIf
+      :EndFor
+    ∇
+
+
+   ⍝ little tool to build nested vector with matches of subpatterns.
+   ⍝ Would be nice to have a more APL-ish approach for this in the transf-patterns... ;-)
+    ∇ R←GetRxGroups r
+      R←r.Block{{#.Strings.(dlb dtb)⍵~⎕UCS 10 13}¨(⊂⍺){⍺[∪(⍴⍺)⌊⍵]}¨(0⌈1⊃⍵)+⍳¨0⌈2⊃⍵}1↓¨r.(Offsets Lengths)
+    ∇
+
+
+:EndClass

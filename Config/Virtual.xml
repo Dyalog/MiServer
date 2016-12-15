@@ -25,7 +25,7 @@
 
   <directory>
     <alias>FontAwesome</alias>
-    <path>%ServerRoot%/PlugIns/Other/font-awesome-4.6.2/</path>
+    <path>%ServerRoot%/PlugIns/Other/font-awesome-4.7.0/</path>
   </directory>
 
   <directory>
@@ -40,7 +40,7 @@
 
   <directory>
     <alias>DataTables</alias>  
-    <path>%ServerRoot%/PlugIns/Other/DataTables-1.10.10/</path>
+    <path>%ServerRoot%/PlugIns/Other/DataTables-1.10.12/</path>
   </directory>
 
   <directory>
