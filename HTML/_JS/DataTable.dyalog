@@ -24,6 +24,7 @@
     :field public MakeCellIds←0
     :field public MakeRowIds←0
 
+    :field public Plugins←''     ⍝ comma delimited list of "official" plugins to use
     ∇ Make0
       :Access public
       JQueryFn←Uses←'DataTable'
@@ -44,15 +45,43 @@
 
     ∇ html←Render;tab
       :Access public
-      :If 'true'≡⍕GetOption'searchHighlight'
-          Use'jquery.Highlight'
-          Use'⍎/DataTables/extras/searchHighlight/DataTables.searchHighlight.min.js'
-          Use'⍕/DataTables/extras/searchHighlight/DataTables.searchHighlight.css'
+   
+      :If _true≡GetOption'mark' 
+       Use'DataTable_mark' 
+       SetUse
       :EndIf
+      opts←Options
+      JavaScript,←RenderPlugins
+      Options←opts
       Container.(Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)←(Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)
       html←⎕BASE.Render
      
-     
     ∇
+
+    ∇ js←RenderPlugins;plugin
+    ⍝ might also update Options
+      js←''
+      :For plugin :In ','#.Utils.penclose Plugins
+          :Select plugin
+          :Case 'yadcf'
+              js,←yadcfRender
+              Options.⎕EX'yadcf'
+          :EndSelect
+      :EndFor
+    ∇
+
+
+    :section yadcf Plugin
+    ∇ js←yadcfRender;flt
+      js←''
+      :If 0<Options.⎕NC'yadcf.Filters'
+      :AndIf 0<⍴Options.yadcf.Filters
+          Uses←'DataTable_yadcf'
+          flt←#.JSON.fromAPL Options.yadcf.Filters
+          :If ∨/'"chosen"'⍷flt ⋄ Use'chosen' ⋄ :EndIf     ⍝ load Chosen-Plugin for yadcf-Filters
+          js←';yadcf.init($("#',id,'").DataTable(),',flt,');'
+      :EndIf
+    ∇
+    :endsection
 
 :EndClass

@@ -463,13 +463,22 @@
 		<style>/DataTables/extensions/Responsive/css/responsive.dataTables.min.css</style>
 		<script>/DataTables/extensions/Responsive/js/DataTables.responsive.min.js</script>
 	</resource>
-<resource>
+	<resource>
+		<name>DataTable_mark</name>
+		<uses>JQuery</uses>
+    <script>/DataTables/extras/mark-8.4.2/jquery.mark.min.js</script>
+    <script>/DataTables/extras/mark-8.4.2/datatables.mark.min.js</script>
+    <style>/DataTables/extras/mark-8.4.2/datatables.mark.min.css</style>
+	</resource>
+
+
 
 <!--
 *********************************
 *      chosen resources         *
 *********************************
 -->
+<resource>
 	<name>chosen</name>
 	<uses>JQuery</uses>
 	<script>/chosen/chosen.jquery.min.js</script>
