@@ -21,7 +21,8 @@
     :Field Public Instance Arguments
     :Field Public Instance PeerAddr
     :Field Public Instance PeerCert
-    :Field Public Instance Data
+    :Field Public Instance Data 
+    :Field Public Instance Content←''
     :Field Public Instance Cookies
     :field Public Instance MSec
     :field Public Instance Bytes
@@ -88,7 +89,8 @@
       :ElseIf 'text/plain'begins z
           Data←1 2⍴'Data'('UTF-8'⎕UCS data) ⍝ if text, create artificial "Data" entry
       :Else
-          Data←0 2⍴⊂''
+          Data←0 2⍴⊂'' 
+          Content←'UTF-8'⎕UCS data
       :EndIf
      
       Cookies←0 2⍴⊂''
