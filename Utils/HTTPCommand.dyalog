@@ -272,8 +272,8 @@
     h2d←{⎕IO←0 ⋄ 16⊥'0123456789abcdef'⍳lc ⍵} ⍝ hex to decimal
     getchunklen←{¯1=len←¯1+⊃(NL⍷⍵)/⍳⍴⍵:¯1 ¯1 ⋄ chunklen←h2d len↑⍵ ⋄ (⍴⍵)<len+chunklen+4:¯1 ¯1 ⋄ len chunklen}
     toNum←{0∊⍴⍵:⍬ ⋄ 1⊃2⊃⎕VFI ⍕⍵}
-    makeHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:0 2⍴⊂'' ⋄ 2=⍴⍴⍵:⍵ ⋄ ↑2 eis ⍵}
-    fmtHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:'' ⋄ ∊{0∊⍴2⊃⍵:'' ⋄ NL,⍨(firstCaps 1⊃⍵),': ',⍕2⊃⍵}¨↓⍵}
+    makeHeaders←{0∊⍴⍵:0 2⍴⊂'' ⋄ 2=⍴⍴⍵:⍵ ⋄ ↑2 eis ⍵}
+    fmtHeaders←{0∊⍴⍵:'' ⋄ ∊{0∊⍴2⊃⍵:'' ⋄ NL,⍨(firstCaps 1⊃⍵),': ',⍕2⊃⍵}¨↓⍵}
     firstCaps←{1↓{(¯1↓0,'-'=⍵) (819⌶)¨ ⍵}'-',⍵}
     addHeader←{'∘???∘'≡⍺⍺ GetHeader ⍺:⍺⍺⍪⍺ ⍵ ⋄ ⍺⍺} ⍝ add a header unless it's already defined
 
@@ -335,8 +335,16 @@
       :EndIf
     ∇
 
-    ∇ r←{name}URLEncode data;⎕IO;z;ok;nul;m;enlist;noname
+    ∇ r←{name}URLEncode data;⎕IO;z;ok;nul;m;noname
+      ⍝ data is one of:
+      ⍝      - a character vector to be encoded
+      ⍝      - two character vectors of [name] [data to be encoded]
+      ⍝      - a namespace containing variable to be encoded
+      ⍝ name is the optional name
+      ⍝ r    is a character vector of the URLEncoded data
+     
       :Access Public Shared
+      ⎕IO←0
       noname←0
       :If 9.1=⎕NC⊂'data'
           data←{0∊⍴t←⍵.⎕NL ¯2:'' ⋄ ↑⍵{⍵(⍕,⍺⍎⍵)}¨t}data
@@ -346,17 +354,34 @@
               data←name data
           :EndIf
       :EndIf
-      nul←⎕UCS ⎕IO←0
-      enlist←{⎕ML←1 ⋄ ∊⍵}
-      ok←nul,enlist ⎕UCS¨(⎕UCS'aA0')+⍳¨26 26 10
+      nul←⎕UCS 0
+      ok←nul,∊⎕UCS¨(⎕UCS'aA0')+⍳¨26 26 10
      
-      z←⎕UCS'UTF-8'⎕UCS enlist nul,¨,data
+      z←⎕UCS'UTF-8'⎕UCS∊nul,¨,data
       :If ∨/m←~z∊ok
           (m/z)←↓'%',(⎕D,⎕A)[⍉16 16⊤⎕UCS m/z]
-          data←(⍴data)⍴1↓¨{(⍵=nul)⊂⍵}enlist z
+          data←(⍴data)⍴1↓¨{(⍵=nul)⊂⍵}∊z
       :EndIf
      
-      r←noname↓¯1↓enlist data,¨(⍴data)⍴'=&'
+      r←noname↓¯1↓∊data,¨(⍴data)⍴'=&'
     ∇
 
+    ∇ r←URLDecode r;rgx;rgxu;i;j;z;t;m;⎕IO;lens;fill
+      :Access public shared
+      ⎕IO←0
+      ((r='+')/r)←' '
+      rgx←'[0-9a-fA-F]'
+      rgxu←'%[uU]',(4×⍴rgx)⍴rgx ⍝ 4 characters
+      r←(rgxu ⎕R{{⎕UCS 16⊥⍉16|'0123456789ABCDEF0123456789abcdef'⍳⍵}2↓⍵.Match})r
+      :If 0≠⍴i←(r='%')/⍳⍴r
+      :AndIf 0≠⍴i←(i≤¯2+⍴r)/i
+          z←r[j←i∘.+1 2]
+          t←'UTF-8'⎕UCS 16⊥⍉16|'0123456789ABCDEF0123456789abcdef'⍳z
+          lens←⊃∘⍴¨'UTF-8'∘⎕UCS¨t  ⍝ UTF-8 is variable length encoding
+          fill←i[¯1↓+\0,lens]
+          r[fill]←t
+          m←(⍴r)⍴1 ⋄ m[(,j),i~fill]←0
+          r←m/r
+      :EndIf
+    ∇
 :EndClass
