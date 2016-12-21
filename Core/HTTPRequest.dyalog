@@ -80,7 +80,7 @@
       :ElseIf 'text/plain'begins z
           Data←1 2⍴'Data'('UTF-8'⎕UCS data) ⍝ if text, create artificial "Data" entry
       :Else
-          Content←data
+          Content←'UTF-8'⎕UCS data
           Data←0 2⍴⊂''
       :EndIf
      
