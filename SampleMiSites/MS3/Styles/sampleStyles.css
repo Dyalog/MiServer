@@ -498,6 +498,29 @@ heading1 {
     width: 33.3%;
 }
 
+#tut {
+    padding: 10px;
+}
+
+#Tabs {
+	width: calc(50% - 15px); 
+	display: inline-block; 
+	margin-right: 10px;
+}
+
+#info {
+	display: inline-block;
+	width: calc(50% - 15px); 
+	vertical-align: top; 
+	padding: 5px;
+}
+
+#info h3 ~ p {
+	text-indent:-4em;
+	padding-left: 4em;
+	font-family: APL385 Unicode;
+}
+
 #WidgetDocTitle {
     font-size: x-large;
 }

@@ -28,7 +28,11 @@
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Tutorial'Over'visual approach to/common tasks'
-      tabs.Sections,←Tutorial
+      div←'tut'New _.div
+      div.Add _.p'In the tabs below, you will find categorized examples of webpage content. Click any element for more information.'
+      'Tabs'div.Add _.Tabs (↓⍉↑Elements Formatting Positioning Embedding Interaction Windows)
+      'info'div.Add _.div
+      tabs.Sections,←div
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Samples'Over'pages and mini-apps/each uses just a few controls'
@@ -37,7 +41,7 @@
       cols,←⊂(⊂'Type'),C.type
       cols,←⊂(⊂'Main controls used'Over'documentation links'),C.used
       div←New _.div _.br(_.A'Browse Examples Directory' '/Examples/')_.br
-      div.Add'eg'New _.DataTable(⍉↑cols)
+      div.Add'eg' '.display'New _.DataTable(⍉↑cols)
       tabs.Sections,←div
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
@@ -46,17 +50,14 @@
       cols,←⊂('Control'Over'documentation link'),C.doclink
       cols,←⊂(⊂'Description'),C.descr
       cols,←⊂(⊂'Relevant samples'),C.reldocs
-      tabs.Sections,←'ctrl'New _.DataTable(¯1 0↓⍉↑cols)
+      tabs.Sections,←'ctrl' '.display'New _.DataTable(¯1 0↓⍉↑cols)
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Reference'Over'general information/technique descriptions'
       rows←⍬
       rows,←'pdf'FormatList'Documentation'
       rows,←FormatList'Examples/Techniques'
-      tabs.Sections,←'doc'New _.DataTable('Category' 'Subject'⍪↑rows)
-     
-     ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-      tabs.Sections[2 3 4].class←⊂'display'
-    ∇
+      tabs.Sections,←'doc' '.display'New _.DataTable('Category' 'Subject'⍪↑rows)
+   ∇
 
 :EndClass
