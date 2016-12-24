@@ -76,7 +76,7 @@
     ∇
 
 
-    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime;congaCopied;peercert
+    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime;congaCopied;peercert;formContentType
 ⍝ issue an HTTP command
 ⍝ certs - optional [X509Cert [SSLValidation [Priority]]]
 ⍝ args  - [1] URL in format [HTTP[S]://][user:pass@]url[:port][/page]
@@ -120,12 +120,11 @@
       urlparms←''
       cmd←uc,cmd
      
-      :If 'GET'≡cmd
+      :If 'GET'≡cmd   ⍝ if HTTP command is GET, all parameters are passed via the URL
           urlparms←parms
           parms←''
       :EndIf
      
-      parms←URLEncode parms
       urlparms←{0∊⍴⍵:'' ⋄ ('?'=1↑⍵)↓'?',⍵}URLEncode urlparms
      
      GET:
@@ -155,10 +154,14 @@
       hdrs←'User-Agent'(hdrs addHeader)'Dyalog/Conga'
       hdrs←'Accept'(hdrs addHeader)'*/*'
      
-      :If ~0∊⍴parms
-          :If cmd≡'POST'
+      :If ~0∊⍴parms          ⍝ if we have any parameters
+          :If cmd≡'POST'     ⍝ and a POST command                                                    
+              ⍝↓↓↓ specify the default content type (if not already specified)
+              hdrs←'Content-Type'(hdrs addHeader)formContentType←'application/x-www-form-urlencoded' 
+              :If formContentType≡hdrs GetHeader'Content-Type'
+                  parms←URLEncode parms
+              :EndIf
               hdrs←'Content-Length'(hdrs addHeader)⍴parms
-              hdrs←'Content-Type'(hdrs addHeader)'application/x-www-form-urlencoded'
           :EndIf
       :EndIf
      
@@ -285,7 +288,6 @@
     ∇
 
     ∇ r←a GetHeader w
-     
       :Access public shared
       r←a{(⍺[;2],⊂'∘???∘')⊃⍨(lc¨⍺[;1])⍳eis lc ⍵}w
     ∇
