@@ -21,7 +21,7 @@
     :Field Public Instance Arguments
     :Field Public Instance PeerAddr
     :Field Public Instance PeerCert
-    :Field Public Instance Data 
+    :Field Public Instance Data
     :Field Public Instance Content←''
     :Field Public Instance Cookies
     :field Public Instance MSec
@@ -89,7 +89,7 @@
       :ElseIf 'text/plain'begins z
           Data←1 2⍴'Data'('UTF-8'⎕UCS data) ⍝ if text, create artificial "Data" entry
       :Else
-          Data←0 2⍴⊂'' 
+          Data←0 2⍴⊂''
           Content←'UTF-8'⎕UCS data
       :EndIf
      
@@ -102,23 +102,21 @@
       :EndIf
      
      
-      :If ∨/mask←Data[;1]{⍵≡(-⍴⍵)↑⍺}¨⊂'_serialized' ⍝ do we have any serialized form data from AJAX?
+      :If ∨/mask←Data[;1]#.Strings.beginsWith¨⊂'_serialized_' ⍝ do we have any serialized form data from AJAX?
           new←0 2⍴⊂''
           :For s :In mask/Data[;2]
               new⍪←URLDecodeArgs s
           :EndFor
           Data←((~(⊃⍴Data)↑mask)⌿Data)⍪new
           Data←{0 1∊⍨⊃⍴⍵:⊃⍵ ⋄ ⍵}¨⊃{⍺ ⍵}#.Utils.∆key/↓[1]Data
-      :EndIf 
+      :EndIf
       
-      Data[;2]←#.JSON.toAPL¨Data[;2]
-     
-⍝      :If ∨/mask←Data[;1]{⍵≡(-⍴⍵)↑⍺}¨⊂'_ejModel' ⍝ do we have any Syncfusion model data?
-⍝          :For s :In mask/⍳⍴mask
-⍝              Data[s;1]←⊂'_ejModel'{⍵≡⍺:1↓⍺ ⋄ (-⍴⍺)↓⍵}⊃Data[s;1]
-⍝              Data[s;2]←#.JSON.toAPL⊃Data[s;2]
-⍝          :EndFor
-⍝      :EndIf
+      :If ∨/mask←Data[;1]#.Strings.beginsWith¨⊂'_json_' ⍝ do we have any Syncfusion model data?
+          :For s :In mask/⍳⍴mask
+              Data[s;1]↓⍨←6
+              Data[s;2]←#.JSON.toAPL⊃Data[s;2]
+          :EndFor
+      :EndIf
     ∇
 
     ∇ Wipe
