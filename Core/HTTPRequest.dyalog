@@ -109,14 +109,16 @@
           :EndFor
           Data←((~(⊃⍴Data)↑mask)⌿Data)⍪new
           Data←{0 1∊⍨⊃⍴⍵:⊃⍵ ⋄ ⍵}¨⊃{⍺ ⍵}#.Utils.∆key/↓[1]Data
-      :EndIf
+      :EndIf 
+      
+      Data[;2]←#.JSON.toAPL¨Data[;2]
      
-      :If ∨/mask←Data[;1]{⍵≡(-⍴⍵)↑⍺}¨⊂'_ejModel' ⍝ do we have any Syncfusion model data?
-          :For s :In mask/⍳⍴mask
-              Data[s;1]←⊂'_ejModel'{⍵≡⍺:1↓⍺ ⋄ (-⍴⍺)↓⍵}⊃Data[s;1]
-              Data[s;2]←#.JSON.toAPL⊃Data[s;2]
-          :EndFor
-      :EndIf
+⍝      :If ∨/mask←Data[;1]{⍵≡(-⍴⍵)↑⍺}¨⊂'_ejModel' ⍝ do we have any Syncfusion model data?
+⍝          :For s :In mask/⍳⍴mask
+⍝              Data[s;1]←⊂'_ejModel'{⍵≡⍺:1↓⍺ ⋄ (-⍴⍺)↓⍵}⊃Data[s;1]
+⍝              Data[s;2]←#.JSON.toAPL⊃Data[s;2]
+⍝          :EndFor
+⍝      :EndIf
     ∇
 
     ∇ Wipe
