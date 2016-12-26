@@ -114,7 +114,7 @@
       :If ∨/mask←Data[;1]#.Strings.beginsWith¨⊂'_json_' ⍝ do we have any Syncfusion model data?
           :For s :In mask/⍳⍴mask
               Data[s;1]↓⍨←6
-              Data[s;2]←#.JSON.toAPL⊃Data[s;2]
+              Data[s;2]←eis #.JSON.toAPL⊃Data[s;2]
           :EndFor
       :EndIf
     ∇
