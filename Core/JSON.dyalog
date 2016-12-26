@@ -43,32 +43,37 @@
     ⍝ array is an APL array
       :Access public shared
       ⎕SIGNAL(1<⍴⍴array)/⊂('EN' 11)('Message' 'Array rank > 1')
-      :If isSimple array
-          r←fmtNum array ⋄ →0 if 2|typ←⎕DR array ⍝ numbers
-          :If (⎕NC⊂'array')∊9.4 9.2
-              ⎕SIGNAL(⎕THIS≡array)/⊂('EN' 11)('Message' 'Array cannot be a class')
-          :ElseIf 326=typ
-              r←1 0 APLObject array
-          :Else
-              r←1⌽'""',JAchars array
+      :Trap 0
+          :If isSimple array
+              r←fmtNum array ⋄ →0 if 2|typ←⎕DR array ⍝ numbers
+              :Select ⎕NC⊂'array'
+              :CaseList 9.4 9.2
+                  ⎕SIGNAL(⎕THIS≡array)/⊂('EN' 11)('Message' 'Array cannot be a class')
+              :Case 9.1
+                  r←1 0 APLObject array
+              :Else
+                  r←1⌽'""',JAchars array
+              :EndSelect
+          :Else ⍝ is not simple (array)
+              r←'['↓⍨ic←isChar array
+              :If 0∊⍴array
+                  r←(1+ic)⊃'[]' '""'
+                  →0
+              :ElseIf ic
+                  r,←1⌽'""',JAchars,array ⍝ strings are displayed as such
+              :ElseIf 2=≡array
+              :AndIf 0=≢⍴array
+              :AndIf isChar⊃array
+                  r←⊃array
+                  →0
+              :Else
+                  r,←1↓∊',',¨fromAPL¨,array
+              :EndIf
+              r,←ic↓']'
           :EndIf
-      :Else ⍝ is not simple (array)
-          r←'['↓⍨ic←isChar array
-          :If 0∊⍴array
-              r←(1+ic)⊃'[]' '""'
-              →0
-          :ElseIf ic
-              r,←1⌽'""',JAchars,array ⍝ strings are displayed as such
-          :ElseIf 2=≡array
-          :AndIf 0=≢⍴array
-          :AndIf isChar⊃array
-              r←⊃array
-              →0
-          :Else
-              r,←1↓∊',',¨fromAPL¨,array
-          :EndIf
-          r,←ic↓']'
-      :EndIf
+      :Else ⍝ :Trap 0
+          (⎕SIGNAL/)⎕DMX.(EM EN)
+      :EndTrap
     ∇
 
     ∇ r←{options}serializeAPL array;typ;ic;drop;ns;preserve;quote;qp;eval;t
@@ -191,6 +196,7 @@
                   obj←,⊂⊂⊃obj
               :EndIf
           :ElseIf '"'=c1
+              ⎕SIGNAL(⊂('EN' 2)('Message' 'Invalid JSON - expected closing "'))if'"'≠¯1↑str
               obj←AJchars 1↓¯1↓str                 ⍝ a string?
           :ElseIf (,1)≡⎕IO⊃b←⎕VFI fixNum str       ⍝ a single number
               obj←⊃⊃⌽b
