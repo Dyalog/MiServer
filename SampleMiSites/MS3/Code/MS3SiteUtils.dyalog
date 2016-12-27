@@ -21,8 +21,8 @@
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :SECTION A_GENERAL ⍝ UTILITY FUNCTIONS THAT ARE NOT SPECIFIC TO THE "MS3" SITE
-
-    Ⓒ←{⊂⍣(1=≡,⍵)⊢⍵} ⍝ enclose if simple     Mnemonic for the ⊆ glyph
+                   
+    ç←{⊂⍣(1=≡,⍵)⊢⍵} ⍝ enclose if simple     Mnemonic for the V16 glyph
 
     FwSl←'[\\/]+'⎕R'/' ⍝ Make all slash-block into single forward-slashes
 
@@ -313,7 +313,7 @@
           1(2↓c)
       }
 
-    P←{∊('<p>',,∘'</p>')¨Ⓒ⍵}
+    P←{∊('<p>',,∘'</p>')¨ç⍵}
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
@@ -352,13 +352,13 @@
               C.read.(keys←data←⍬) ⍝ init keys and data
      
               C.controls←(#._.⎕NL ¯9)~⊂'Handler'                       ⍝ cache all controls
-              C.controlsoi←C.controls∘⍳Ⓒ ⋄ C.eocontrols←∊∘C.controls Ⓒ ⍝ hash tables
+              C.controlsoi←C.controls∘⍳ç ⋄ C.eocontrols←∊∘C.controls ç ⍝ hash tables
               refs←#._⍎¨C.controls                                     ⍝ refs of all controls
               C.ns←3↓¨⍕¨refs.##                                        ⍝ ns of each control
               srcs←⎕SRC¨refs                                           ⍝ all sources
      
               C.files←⊃⍪/{List'Examples/',⍵}¨NSS,⊂'Applications' ⍝ sample filenames
-              C.filesoi←C.files∘⍳Ⓒ                               ⍝ hash table
+              C.filesoi←C.files∘⍳ç                               ⍝ hash table
               C.filedescr←('Description'Section Read)¨C.files    ⍝ Description:: for all files
               C.demos←Controls¨C.files                           ⍝ controls demoed in each
               scores←C.controls∘.Score↓⍉↑C.files C.demos         ⍝ controls vs files
