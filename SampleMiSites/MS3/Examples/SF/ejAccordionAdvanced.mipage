@@ -22,7 +22,7 @@
 
     ∇ r←myCallback
       :Access public
-      r←'#output'Replace'You ',#.Strings.lc _event,'d section ',''Get'opened closed'
+      r←'#output'Replace'You ',#.Strings.lc _event,'d section ',∊⍕¨''Get'opened closed'
     ∇
 
 :EndClass

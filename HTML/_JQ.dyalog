@@ -455,7 +455,7 @@
               :EndIf
          
               :If 0∊⍴ClientData ⍝ if you don't specify any clientdata, we serialize any forms on the page
-                  data,←'_serialized: $("form").serialize(), '
+                  data,←'_serialized_: $("form").serialize(), '
               :EndIf
          
               data←¯2↓data
@@ -582,10 +582,12 @@
                               phrase←'$(',(quote sel),').serialize()'
                               name,⍨←'_serialized_'
                           :Else
-                              :If '⍎'=⊃verb
+                              :If 1<≡verb
                                   sel←''
-                                  phrase←1↓verb
-         
+                                  phrase←⊃verb
+                              :ElseIf '⍎'=⊃verb
+                                  sel←''
+                                  phrase←1↓verb         
                               :Else
                                   #.Boot.Log'Unknown event handler verb: "',verb,'"',{0::'' ⋄ ' on page ',##._PageRef._PageName}⍬
                                   phrase←quote phrase
