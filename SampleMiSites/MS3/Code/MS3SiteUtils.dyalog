@@ -216,7 +216,7 @@
     ∇
 
     ∇ t←Formatting
-      t←'#margrad'New _.div'This div has inner padding and gradient backround' ⍝ #formatting
+      t←'#margrad'New _.div'This div has inner padding and gradient backround' ⍝ #margrad
       '#boldin't.Add _.p'Bold indented text which has to be extremely long in order to show that only the first line is being indented.' ⍝ #boldin
       '#huge't.Add _.span'Huge text with outer margin' ⍝ #huge
       '#expund't.Add _.span'Expanded and underlined' ⍝ #expund
@@ -235,7 +235,7 @@
       ⍝ #huge {font-size: x-large; margin: 2em;}
       ⍝ #expund {text-decoration: underline; letter-spacing: 0.5ex;}
       ⍝ #bluebox {background-color: SkyBlue; box-shadow: 0.25em 0.5em 1em Gray;}
-      ⍝ #centshad {text-align: center; text-shadow: 0.1em 0.3em 0.2em blue;}
+      ⍝ #centshad {text-align: center; text-shadow: 0.1em 0.3em 0.2em Blue;}
       ⍝ #whimg {color: white; background-image: url(Examples/Data/pic3.png);}
       ⍝ #serif {font-family: "Times New Roman", Times, serif; font-size: 150%;}
       ⍝ #sans {font-family: Arial, Helvetica, sans-serif; font-size: 150%;}
@@ -247,11 +247,11 @@
       ⍝ /**/#boldin:hover, #huge:hover, #expund:hover, #centshad:hover, #serif:hover, #sans:hover, #mono:hover, #narrow:hover {
       ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
       ⍝ }
-      ⍝ /**/#margrad:hover {box-shadow: 0 0 5px 2px orange inset;}
-      ⍝ /**/#whimg:hover {box-shadow: 0 0 5px 2px orange;}
-      ⍝ /**/#border:hover {box-shadow: 0 0 5px 2px orange, 0 0 5px 2px orange inset;}
-      ⍝ /**/#img:hover {box-shadow: 0 0 5px 3px orange,0 0 5px 3px orange;}
-      ⍝ /**/#bluebox:hover {box-shadow:0 0 5px 1px orange, 0 0 5px 1px orange inset, 0.25em 0.5em 1em gray;}
+      ⍝ /**/#margrad:hover {box-shadow: 0 0 5px 2px Orange inset;}
+      ⍝ /**/#whimg:hover {box-shadow: 0 0 5px 2px Orange;}
+      ⍝ /**/#border:hover {box-shadow: 0 0 5px 2px Orange, 0 0 5px 2px Orange inset;}
+      ⍝ /**/#img:hover {box-shadow: 0 0 5px 3px Orange,0 0 5px 3px Orange;}
+      ⍝ /**/#bluebox:hover {box-shadow:0 0 5px 1px Orange, 0 0 5px 1px Orange inset, 0.25em 0.5em 1em Gray;}
       'ShowFormatting'∘AddHandler¨'#margrad' '#boldin' '#huge' '#expund' '#bluebox' '#centshad' '#whimg' '#serif' '#sans' '#mono' '#border' '#img' '#narrow'
       t←'Formatting't
     ∇
@@ -283,7 +283,7 @@
 
     ∇ r←ShowElement;code;ctrl;info
       :Access Public
-      ctrl←_selector~'#'
+      ctrl←_selector~'#12'
       info←'<h2>This element is called <code>_.',ctrl,'</code></h2>'
       info,←P'descr'ForControl ctrl
       info,←'<h3>Constructor (what goes to the right of <code>Add _.',ctrl,'</code>)</h3>'
