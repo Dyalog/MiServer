@@ -76,6 +76,11 @@
       Page args←'?'split ¯1↓buf
       Page←ArgXLT Page
      
+      :If '/'≠⊃Page  ⍝!!! need to update this to deal with absolute URI's, see Section 5.1.2 of the HTTP/1.1 spec
+          1 Fail 400
+          →0
+      :EndIf
+     
       Arguments←URLDecodeArgs args
      
 ⍝ PeerCert←conns.PeerCert
@@ -110,7 +115,7 @@
           Data←((~(⊃⍴Data)↑mask)⌿Data)⍪new
           Data←{0 1∊⍨⊃⍴⍵:⊃⍵ ⋄ ⍵}¨⊃{⍺ ⍵}#.Utils.∆key/↓[1]Data
       :EndIf
-      
+     
       :If ∨/mask←Data[;1]#.Strings.beginsWith¨⊂'_json_' ⍝ do we have any Syncfusion model data?
           :For s :In mask/⍳⍴mask
               Data[s;1]↓⍨←6
@@ -302,8 +307,9 @@
 
     :section Request/Response Content Handling
 
-    ∇ Fail x;i;root;f;t
+    ∇ {flag}Fail x;i;root;f;t
       :Access Public Instance
+      :If 0=⎕NC'flag' ⋄ flag←0 ⋄ :EndIf
       :If 3=10|⎕DR x ⍝ Just a status code
           Response.Status←x
           :If (1↑⍴SC[;1])≥i←SC[;1]⍳x
@@ -312,7 +318,7 @@
       :Else
           Response.(Status StatusText)←x
       :EndIf
-      :If 0≡RESTfulReq
+      :If flag<0≡RESTfulReq
           :For root :In Server.Config.(Root MSRoot) ⍝ try site root, then server root
               :If #.Files.Exists f←root,'CommonPages\',(⍕x),'.htm'
                   :If ~0∊⍴(⎕UCS 13 10)~⍨t←#.Files.GetText f
