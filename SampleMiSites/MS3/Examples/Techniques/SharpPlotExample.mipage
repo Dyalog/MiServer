@@ -1,0 +1,20 @@
+﻿:Class SharpPlotExample : MiPageSample
+⍝ Control:: SharpPlot
+⍝ Description:: Insert a chart using SharpPlot
+
+    ∇ Compose;chart;x
+      :Access public
+      :If 'Win'≡3↑⊃# ⎕WG'APLVersion'
+          ⎕USING←'' ',system.drawing.dll' ',sharpplot.dll'
+      :Else   ⍝ Not Windows, so no DLLs
+          (System.Drawing←System←Causeway←⎕NS ⍬).⎕CY'sharpplot.dws'
+      :EndIf
+     
+      chart←⎕NEW Causeway.SharpPlot(1000 400)
+      x←○250÷⍨⍳1000
+      chart.DrawLineGraph(1○x)x
+      chart.DrawLineGraph(2○x)x
+      Add chart.RenderSvg Causeway.SvgMode.FixedAspect
+    ∇
+
+:EndClass
