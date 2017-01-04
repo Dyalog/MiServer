@@ -11,6 +11,7 @@
       :EndIf
      
       chart←⎕NEW Causeway.SharpPlot(1000 400)
+      chart.SetColors⊂System.Drawing.Color.(Red Blue)
       x←○250÷⍨⍳1000
       chart.DrawLineGraph(1○x)x
       chart.DrawLineGraph(2○x)x
