@@ -50,13 +50,15 @@
           ⍝ $(function(){
           ⍝   $("#tocode").click(function(){
           ⍝     $("#contentblock").hide();
-          ⍝     $("#codeblock,#widgethelp").show();
+          ⍝     $("#codeblock").show();
+          ⍝     $("#widgethelp").addClass("sliddown");
           ⍝     $("#topage").removeClass("activetab");
           ⍝     $("#tocode").addClass("activetab");
           ⍝   });
           ⍝   $("#topage").click(function(){
           ⍝     $("#contentblock").show();
-          ⍝     $("#codeblock,#widgethelp").hide();
+          ⍝     $("#codeblock").hide();
+          ⍝     $("#widgethelp").removeClass("sliddown");
           ⍝     $("#topage").addClass("activetab");
           ⍝     $("#tocode").removeClass("activetab");
           ⍝   });

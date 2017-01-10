@@ -1,5 +1,5 @@
 /* Global: all transitions equally long*/
-#banner, #about {
+#banner, #about, #banner-resources, #banner-dyalog::before {
     transition: 0.25s;
 }
 
@@ -109,39 +109,30 @@ body {
 
 #view caption {
     padding-bottom: 2px;
-    text-transform: uppercase;
     font-weight: bold;
 }
 
 .viewtab {
-    /* background: linear-gradient(grey,white); */
     color: #ffae4c;
-    /* border-radius: 5px 5px 0 0; */
     width: 5em;
     text-align: center;
     padding: 0 5px 5px 5px;
     cursor: default;
-    /* box-shadow: 0 0px 10px 2px rgba(255,255,255,0.5) inset; */
     font-weight: bold;
     border-bottom: 5px solid transparent;
-    /* opacity: 0.7; */
 }
 
 .viewtab:hover {
-    /* background: linear-gradient(#C0C0C0,white); */
     border-bottom-color: #ffae4c;
 }
 
 .activetab {
-    /* background: white; */
     color: darkorange;
     border-bottom-color: darkorange;
     opacity: 1;
 }
 
 .activetab:hover {
-    /* color: darkorange; */
-    /* background: white; */
     border-bottom-color: rgb(255, 140, 0);
 }
 
@@ -175,9 +166,7 @@ body {
     background-color: black;
     position: fixed;
     width: 185px;
-    /* border-radius: 10px; */
     right: 23px;
-    transition: 0.25s;
     top: -100%;
     box-shadow: 0px 0.5em 2em 0px rgba(0,0,0,0.5);
 }
@@ -189,11 +178,9 @@ body {
 #banner-dyalog::before {
     content: "\25BA";
     display: inline-block;
-    transition: 0.25s;
 }
 
 #hamburger:checked ~ #banner-dyalog:before {
-    /* content: "\25BC"; */
     transform: rotate(90deg);
 }
 
@@ -205,16 +192,12 @@ body {
 #widgethelp {
     padding: 10px;
     color: white;
-    display: none;
     background-color: black;
     box-shadow: 0px 0.5em 2em 0px rgba(0,0,0,0.25);
     transition: 0.25s;
     position: fixed;
-    /* width: 100%; */
     top: -100px;
     margin: 5px;
-    /* border-radius: 10px; */
-    /* right: 0; */
 }
 
 #widgethelp.sliddown {
@@ -231,10 +214,6 @@ body {
 
 .hide {
     display: none;
-}
-
-#banner-dyalog:hover {
-    color: white;
 }
 
 /*Template Footer*/
@@ -303,7 +282,6 @@ a:link {
 
 a:visited {
     color: darkorange;
-    /* font-weight: bold; */
     text-decoration: none;
 }
 
@@ -451,7 +429,6 @@ heading1 {
 }
 
 .external {
-    /* font-weight: normal !important; */
     display: inline-block;
 }
 
@@ -548,7 +525,6 @@ heading1 {
 #bigtabs table {
     font-family: Verdana, Geneva, sans-serif;
     margin: 0 20px;
-    /* text-indent: -15px; */
 }
 
 #ctrl p {
