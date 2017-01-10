@@ -176,7 +176,7 @@ body {
 }
 
 #banner-dyalog::before {
-    content: "\25BA";
+    content: ">" /*"\25BA"*/;
     display: inline-block;
 }
 
@@ -538,11 +538,12 @@ heading1 {
 /* SLIDESHOW CSS */
 #slideshow {
     width: 495px;
-    height: 370px;
+    height: 375px;
     margin: 20px;
-    border-radius: 10px;
-    border: 5px solid #FFC680;
-    padding: 5px;
+    border-radius: 2px;
+    /* border: 1px solid darkorange; */
+    /* padding: 5px; */
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
 }
 
 #slideshow figure {
@@ -597,13 +598,13 @@ heading1 {
 }
 
 #slideshow figcaption {
-    padding: 5px 10px 10px 10px;
-    background: rgba(0,0,0,0.9);
+    padding: 10px;
+    background: white;
     position: relative;
     bottom: 55px;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     min-height: 38px;
-    color: white;
+    /* color: white; */
 }
 
 figcaption a {
