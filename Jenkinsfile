@@ -10,11 +10,11 @@ node ('Docker') {
 		}
 		stage ('Publish Docker image') {
 			if (env.BRANCH_NAME.contains('JR-Test')) {
-				sh 'docker push registry.dyalog.com:5000/dyalog/statsite:latest'
+				sh 'docker push registry.dyalog.com:5000/dyalog/miserver:latest'
 			}
 			if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
-				sh 'docker tag registry.dyalog.com:5000/dyalog/statsite:latest registry.dyalog.com:5000/dyalog/statsite:live'
-				sh 'docker push registry.dyalog.com:5000/dyalog/statsite:live'
+				sh 'docker tag registry.dyalog.com:5000/dyalog/miserver:latest registry.dyalog.com:5000/dyalog/miserver:live'
+				sh 'docker push registry.dyalog.com:5000/dyalog/miserver:live'
 			}
 			
 		}
