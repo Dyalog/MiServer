@@ -31,12 +31,12 @@ node ('Docker') {
 
 	stage ('Cleanup') {
 			if (env.BRANCH_NAME.contains('master')) {
-				sh 'docker rmi registry.dyalog.com:5000/dyalog/miserver:latest'
 				sh 'docker rmi registry.dyalog.com:5000/dyalog/miserver:ms3'
 			}
 			if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
 				sh 'docker rmi registry.dyalog.com:5000/dyalog/miserver:live'
 			}
+			sh 'docker rmi registry.dyalog.com:5000/dyalog/miserver:latest'
 	}
 
 }
