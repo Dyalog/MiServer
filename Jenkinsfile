@@ -11,6 +11,8 @@ node ('Docker') {
 		stage ('Publish Docker image') {
 			if (env.BRANCH_NAME.contains('master')) {
 				sh 'docker push registry.dyalog.com:5000/dyalog/miserver:latest'
+				sh 'docker tag registry.dyalog.com:5000/dyalog/miserver:latest registry.dyalog.com:5000/dyalog/miserver:ms3'
+				sh 'docker push registry.dyalog.com:5000/dyalog/miserver:ms3'
 			}
 			if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
 				sh 'docker tag registry.dyalog.com:5000/dyalog/miserver:latest registry.dyalog.com:5000/dyalog/miserver:live'
@@ -25,6 +27,16 @@ node ('Docker') {
 				sh '/usr/local/bin/rancher-compose --access-key $ACCESSKEY --secret-key $SECRETKEY --url http://rancher.dyalog.com:8080/v2-beta/projects/1a5/stacks/1st3 -p MiServer up --force-upgrade --confirm-upgrade --pull -d'
 			}
 		}
+	}
+
+	stage ('Cleanup') {
+			if (env.BRANCH_NAME.contains('master')) {
+				sh 'docker rmi registry.dyalog.com:5000/dyalog/miserver:latest'
+				sh 'docker rmi registry.dyalog.com:5000/dyalog/miserver:ms3'
+			}
+			if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
+				sh 'docker rmi registry.dyalog.com:5000/dyalog/miserver:live'
+			}
 	}
 
 }
