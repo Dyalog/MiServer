@@ -9,7 +9,7 @@ node ('Docker') {
 			DockerApp = docker.build 'registry.dyalog.com:5000/dyalog/miserver'
 		}
 		stage ('Publish Docker image') {
-			if (env.BRANCH_NAME.contains('JR-Test')) {
+			if (env.BRANCH_NAME.contains('master')) {
 				sh 'docker push registry.dyalog.com:5000/dyalog/miserver:latest'
 			}
 			if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
