@@ -19,5 +19,13 @@ node ('Docker') {
 			
 		}
 	}
+	if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
+		withCredentials([usernamePassword(credentialsId: 'f776da40-9d48-4f58-a6fe-d1888b7af35f', passwordVariable: 'SECRETKEY', usernameVariable: 'ACCESSKEY')]) {
+			stage('Deploying with Rancher') {
+				sh '/usr/local/bin/rancher-compose --access-key $ACCESSKEY --secret-key $SECRETKEY --url http://rancher.dyalog.com:8080/v2-beta/projects/1a5/stacks/1st3 -p MiServer up --force-upgrade --confirm-upgrade --pull -d'
+			}
+		}
+	}
+
 }
 

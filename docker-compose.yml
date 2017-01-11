@@ -1,0 +1,19 @@
+version: '2'
+services:
+  web:
+    image: registry.dyalog.com:5000/dyalog/miserver:live
+    ports:
+    - 4502:4502/tcp
+    labels:
+      io.rancher.container.pull_image: always
+  lb:
+    image: rancher/lb-service-haproxy:v0.4.9
+    stdin_open: true
+    tty: true
+    links:
+    - web:web
+    expose:
+    - 80:80
+    labels:
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.container.create_agent: 'true'
