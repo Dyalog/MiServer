@@ -355,92 +355,95 @@
      
       REQ←⎕NEW #.HTTPRequest conns.(Req Buffer)
       REQ.Server←⎕THIS ⍝ Request will also contain reference to the Server
-     
-      :If 2=conns.⎕NC'PeerAddr' ⋄ REQ.PeerAddr←conns.PeerAddr ⋄ :EndIf       ⍝ Add Client Address Information
-      8 Log REQ.(PeerAddr Command Page)
-     
-      :If 2=conns.⎕NC'PeerCert' ⋄ REQ.PeerCert←conns.PeerCert ⋄ :EndIf       ⍝ Add Client Cert Information
-     
-      REQ.OrigPage←REQ.Page ⍝ capture the original page
-      REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page ⍝ no page specified? use the default
-      REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension ⍝ no extension specified? use the default
-      ext←⊃¯1↑#.Files.SplitFilename filename←Config Virtual REQ.Page
-     
-      SessionHandler.GetSession REQ
-      Authentication.Authenticate REQ
-      :If REQ.Response.Status≠401 ⍝ Authentication did not fail
-          :If Config.AllowedHTTPCommands∊⍨⊂REQ.Command
-              onHandleRequest REQ ⍝ overridable
-              :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
-                  filename HandleMSP REQ
-              :Else
-                  :If REQ.Command≡'get'
-                      REQ.ReturnFile filename
-                  :Else
-                      REQ.Fail 501 ⍝ Service Not Implemented
-                  :EndIf
-              :EndIf
-          :Else
-              REQ.Fail 501 ⍝ Service Not Implemented
-          :EndIf
-      :EndIf
-     
       res←REQ.Response
+      startsize←length←0
+
+      :If 200=res.Status     
+          :If 2=conns.⎕NC'PeerAddr' ⋄ REQ.PeerAddr←conns.PeerAddr ⋄ :EndIf       ⍝ Add Client Address Information
+          8 Log REQ.(PeerAddr Command Page)
      
-      enc←','#.Utils.penclose' '~⍨REQ.GetHeader'accept-encoding' ⍝ check if client supports encoding
-      encodeMe←(0<⍴enc)∧conns.Handler<Config.UseContentEncoding  ⍝ initialize a flag whether to encode this response, don't compresss if running as a handler
-      encodeMe>←(⊂ext)∊'png' 'gif' 'jpg' ⍝ don't try to compress compressed graphics, should probably add zip files, etc
-      cacheMe←0
+          :If 2=conns.⎕NC'PeerCert' ⋄ REQ.PeerCert←conns.PeerCert ⋄ :EndIf       ⍝ Add Client Cert Information
      
-      :If 1=res.File ⍝ See HTTPRequest.ReturnFile
-          :If 83=⎕DR file←res.HTML ⍝ if we returned a byte stream, just use it
-              length←⍴file ⋄ tn←0
-          :Else
-              :Trap 22
-                  tn←file ⎕NTIE 0
-                  :If encodeMe ⋄ length←⎕NSIZE tn ⍝ if using compression, read the entire file
-                  :Else ⋄ length←BlockSize        ⍝ otherwise send it a block at a time
+          REQ.OrigPage←REQ.Page ⍝ capture the original page
+          REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page ⍝ no page specified? use the default
+          REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension ⍝ no extension specified? use the default
+          ext←⊃¯1↑#.Files.SplitFilename filename←Config Virtual REQ.Page
+     
+          SessionHandler.GetSession REQ
+          Authentication.Authenticate REQ
+          :If REQ.Response.Status≠401 ⍝ Authentication did not fail
+              :If Config.AllowedHTTPCommands∊⍨⊂REQ.Command
+                  onHandleRequest REQ ⍝ overridable
+                  :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
+                      filename HandleMSP REQ
+                  :Else
+                      :If REQ.Command≡'get'
+                          REQ.ReturnFile filename
+                      :Else
+                          REQ.Fail 501 ⍝ Service Not Implemented
+                      :EndIf
                   :EndIf
-                  res.HTML←⎕NREAD tn 83 length 0
-                  cacheMe←0≠Config.HTTPCacheTime ⍝ for now, cache all files if set to use caching
               :Else
-                  res.HTML←⍬
-                  REQ.Fail 404
-                  length←⍴res.HTML
-                  res.File←0
-              :EndTrap
+                  REQ.Fail 501 ⍝ Service Not Implemented
+              :EndIf
           :EndIf
-          startsize←length
-      :EndIf
      
-      :If (200=res.Status)∧encodeMe ⍝ if our HTTP status is 200 (OK) and we're okay to encode
-      :AndIf 1024<⍴res.HTML ⍝ don't bother compressing less than 1K
-      :AndIf 0≠which←⊃Encoders.Encoding{(⍴⍺){(⍺≥⍵)/⍵}⍺⍳⍵}enc ⍝ try to match what encodings they accept to those we provide
-          (encoderc html)←Encoders[which].Compress res.HTML
-          :If 0=encoderc
-              length←startsize←⍴res.HTML
-              :If startsize>⍴html ⍝ did we save anything by compressing
-                  length←⍴res.HTML←html ⍝ use it
-                  res.Headers⍪←'Content-Encoding'(enctype←Encoders[which].Encoding)
-                  4 Log'Used ',enctype,' compression on "',REQ.Page,'", transmitted% = ',2⍕length{⎕DIV←1 ⋄ ⍺÷⍵}startsize
+          enc←','#.Utils.penclose' '~⍨REQ.GetHeader'accept-encoding' ⍝ check if client supports encoding
+          encodeMe←(0<⍴enc)∧conns.Handler<Config.UseContentEncoding  ⍝ initialize a flag whether to encode this response, don't compresss if running as a handler
+          encodeMe>←(⊂ext)∊'png' 'gif' 'jpg' ⍝ don't try to compress compressed graphics, should probably add zip files, etc
+          cacheMe←0
+     
+          :If 1=res.File ⍝ See HTTPRequest.ReturnFile
+              :If 83=⎕DR file←res.HTML ⍝ if we returned a byte stream, just use it
+                  length←⍴file ⋄ tn←0
               :Else
-                  4 Log'Compression not used on "',REQ.Page,'", startsize = ',(⍕startsize),', compressed length = ',⍕length
-                  :If 83≠⎕DR res.HTML
-                      res.HTML←toutf8 res.HTML
+                  :Trap 22
+                      tn←file ⎕NTIE 0
+                      :If encodeMe ⋄ length←⎕NSIZE tn ⍝ if using compression, read the entire file
+                      :Else ⋄ length←BlockSize        ⍝ otherwise send it a block at a time
+                      :EndIf
+                      res.HTML←⎕NREAD tn 83 length 0
+                      cacheMe←0≠Config.HTTPCacheTime ⍝ for now, cache all files if set to use caching
+                  :Else
+                      res.HTML←⍬
+                      REQ.Fail 404
+                      length←⍴res.HTML
+                      res.File←0
+                  :EndTrap
+              :EndIf
+              startsize←length
+          :EndIf
+     
+          :If (200=res.Status)∧encodeMe ⍝ if our HTTP status is 200 (OK) and we're okay to encode
+          :AndIf 1024<⍴res.HTML ⍝ don't bother compressing less than 1K
+          :AndIf 0≠which←⊃Encoders.Encoding{(⍴⍺){(⍺≥⍵)/⍵}⍺⍳⍵}enc ⍝ try to match what encodings they accept to those we provide
+              (encoderc html)←Encoders[which].Compress res.HTML
+              :If 0=encoderc
+                  length←startsize←⍴res.HTML
+                  :If startsize>⍴html ⍝ did we save anything by compressing
+                      length←⍴res.HTML←html ⍝ use it
+                      res.Headers⍪←'Content-Encoding'(enctype←Encoders[which].Encoding)
+                      4 Log'Used ',enctype,' compression on "',REQ.Page,'", transmitted% = ',2⍕length{⎕DIV←1 ⋄ ⍺÷⍵}startsize
+                  :Else
+                      4 Log'Compression not used on "',REQ.Page,'", startsize = ',(⍕startsize),', compressed length = ',⍕length
+                      :If 83≠⎕DR res.HTML
+                          res.HTML←toutf8 res.HTML
+                      :EndIf
                   :EndIf
+              :ElseIf 0=res.File
+                  2 Log'Compression failed'
+                  length←⍴res.HTML←toutf8 res.HTML ⍝ otherwise, send uncompressed
               :EndIf
           :ElseIf 0=res.File
-              2 Log'Compression failed'
-              length←⍴res.HTML←toutf8 res.HTML ⍝ otherwise, send uncompressed
+              startsize←length←⍴res.HTML←toutf8∊res.HTML
           :EndIf
-      :ElseIf 0=res.File
-          startsize←length←⍴res.HTML←toutf8∊res.HTML
+     
+          :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires
+          :AndIf 0<Config.HTTPCacheTime
+              res.Headers⍪←'Expires'(Config.HTTPCacheTime #.Dates.HTTPDate ⎕TS)
+          :EndIf
       :EndIf
      
-      :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires
-      :AndIf 0<Config.HTTPCacheTime
-          res.Headers⍪←'Expires'(Config.HTTPCacheTime #.Dates.HTTPDate ⎕TS)
-      :EndIf
       res.Headers⍪←{0∊⍴⍵:'' '' ⋄ 'Server'⍵}Config.Server
       status←res.((⍕Status),' ',StatusText)
       hdr←enlist{⍺,': ',⍵,NL}/res.Headers
@@ -448,6 +451,7 @@
       done←length≤offset←⍴res.HTML
       REQ.MSec-⍨←⎕AI[3]
       res.Bytes←startsize length
+     
       :If 0≠1⊃z←#.DRC.Send obj Answer(0=offset) ⍝ Send headers
           (1+(1⊃z)∊1008 1119)Log'"Handlerequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
       :ElseIf 0≠offset

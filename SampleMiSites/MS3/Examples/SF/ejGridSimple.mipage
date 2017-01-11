@@ -24,7 +24,9 @@
       mygrid.CellAlign←CELLALIGN
      
       'allowPaging' 'allowSorting' 'allowResizing' 'showStackedHeader'mygrid.Set¨_true
-      'stackedHeaderRows'mygrid.Set'⍎[{stackedHeaderColumns:[{headerText:"Country Facts",column:"Country,Population,GDPAmt"},{headerText:"Health Care Spending",column:"GDPPct,PerCap"}]}]'
+      'stackedHeaderRows'mygrid.Set⊂ScriptFollows
+      ⍝[{stackedHeaderColumns:[{headerText:"Country Facts",        column:"Country,Population,GDPAmt"},
+      ⍝                        {headerText:"Health Care Spending", column:"GDPPct,PerCap"            }]}]
     ∇
  
 :EndClass

@@ -53,7 +53,7 @@
       Sections,←⊂content
     ∇
 
-    ∇ r←Render;title;section;numbers;n;mix;bg
+    ∇ r←Render;title;section;numbers;n
       :Access public
       SetId
       SetUse
@@ -74,12 +74,14 @@
       r←⎕BASE.Render
      
       ⍝ Create color scheme based on the Theme color
-      Theme←Mix⊂Theme
-      bg←Mix'#FFFFFF'Theme
-      mix←Mix'#FFFFFF' '#FFFFFF' Theme
-     
+
       ⍝ Specific CSS
-      r,←'<style scoped="scoped">#',id,'{background:',bg,';}'
+      r,←'<style scoped="scoped">'
+      r,←'#',id,' {border-bottom: 1px solid ',(0.7 Mix⊂Theme),';}'
+      r,←'#',id,' > input[type=radio] + label {color: ',(Mix⊂Theme),'; '
+      r,←'border-top: 1px solid ',(Mix⊂Theme),'; }'
+      r,←'#',id,' > input[type="radio"]:focus + label {background:',(0.1 Mix⊂Theme),'}'
+      r,←'#',id,' > input[type="radio"]:checked + label {border-top: 1px solid ',(0.7 Mix⊂Theme),'}'
       :For n :In numbers
           r,←'#',n,'t:checked~#',n,'s,'
       :EndFor
@@ -87,10 +89,12 @@
       r,←'{display:block;}</style>'
     ∇
 
-      Mix←{ ⍝ Arithmetic mean of multiple hex colors
+      Mix←{ ⍝ Arithmetic mean of multiple hex colors with optional ⍺
           ⎕IO←0
           h←⎕D,6↑⎕A
-          '#',,⍉h[16 16⊤⌊0.5+(⊃+/÷≢){16⊥⍉h⍳3 2⍴⍵/⍨6÷≢⍵}¨#.Strings.uc ⍵~¨⊂' #']
+          rgb←⌊0.5+(⊃+/÷≢){16⊥⍉h⍳3 2⍴⍵/⍨6÷≢⍵}¨#.Strings.uc ⍵~¨⊂' #'
+          ⍺←1
+          'rgba(',(1↓∊(',',⍕)¨rgb,⍺),')'
       }
 
 :endclass

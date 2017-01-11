@@ -49,7 +49,7 @@
       dd←Add _.jBox'Modal'
       dd.Selector←'.tooltip3'
       'title'dd.Set'Content for popup is taken from a div on the page'
-      'content'dd.Set'⍎$("#NiceDiv")'
+      'content'dd.Set⊂'$("#NiceDiv")'
       'closeOnEsc'dd.Set _true
       'closeOnClick'dd.Set _true
       

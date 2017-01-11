@@ -19,7 +19,6 @@
       :Implements constructor
       args←eis⍣(~0∊⍴args)⊢args
       (Content name value attrs)←args defaultArgs'Reset'UNDEF UNDEF''
-      Content←''
       type←'reset'
     ∇
 

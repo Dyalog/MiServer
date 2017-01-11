@@ -5,16 +5,19 @@
     ∇ Compose;data;dt
       :Access Public
      
-      Add _.h2'Health Care Spending by Country'
-      Add MarkdownFollows
-⍝ Data on this page was taken from the [CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/rankorder/2225rank.html).
-     
+     Add _.p MarkdownFollows
+			⍝## DataTable      
+			⍝ The DataTable widget uses the JS-Library [DataTables](http://datatables.net/)
+			⍝ which provides a very powerful and comprehensive rendering tool for tabular data.
+			⍝					
+			⍝## Health Care Spending by Country
+			⍝ Data on this page was taken from the [CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/rankorder/2225rank.html).
+       
       ⍝  [;1] country [;2] % GDP [;3] population [;4] GDP [;5] $/capita
       data←1 #.Files.FREAD #.Boot.AppRoot,'Examples/Data/stats.DCF'
       data[;3 4 5]←0.01×⌊0.5+100×data[;3 4 5]÷[2]1000 1000000 1  ⍝ scale the data a bit
       data⍪⍨←'Country' '% GDP' 'Population (thousands)' 'GDP ($Millions)' '$/Capita'
       dt←'#sample'Add _.DataTable data
-      'searchHighlight'dt.Set _true
     ∇
 
 :EndClass

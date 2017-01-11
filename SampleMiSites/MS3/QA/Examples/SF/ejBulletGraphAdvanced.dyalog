@@ -4,7 +4,7 @@
  :For i :In ¯1+⍳4
      comp←Find'output_svg_FeatureMeasure_',⍕i
      MoveToElement comp
-     tooltip←'ClassName'Find'tooltipDiv'
+     tooltip←'ClassName'Find'tooltipDivoutput'
      sums+←Nums tooltip.Text
  :EndFor
  msg←'wrong tooltip values'/⍨≠/sums

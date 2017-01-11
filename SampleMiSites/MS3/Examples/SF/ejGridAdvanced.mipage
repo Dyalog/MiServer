@@ -9,11 +9,11 @@
       frm.Add _.h2'Editable Grid'
       mygrid←frm.Add _.ejGrid(VALUES COLUMNS)
       (mygrid.Options.editSettings←⎕NS'').(allowEditing allowAdding allowDeleting)←_true
-      ⍝ Alternative: 'editSettings' mygrid.Set '⍎{allowEditing: true, allowAdding: true, allowDeleting: true}'
+      ⍝ Alternative: 'editSettings' mygrid.Set⊂'{allowEditing: true, allowAdding: true, allowDeleting: true}'
       mygrid.Options.editSettings.editMode←'Normal'
      
       tbi←2↓∊', ej.Grid.ToolBarItems.'∘,¨'Add' 'Edit' 'Delete' 'Update' 'Cancel'
-      'toolbarSettings'mygrid.Set'⍎{ showToolbar: true, toolbarItems: [',tbi,']}'
+      'toolbarSettings'mygrid.Set⊂'{ showToolbar: true, toolbarItems: [',tbi,']}'
      
       mygrid.On'endAdd' 'CallbackFn'('editcell' 'argument' 'data')
       mygrid.On'endDelete' 'CallbackFn'('editcell' 'argument' 'data')

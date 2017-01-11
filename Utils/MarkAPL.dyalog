@@ -1921,7 +1921,7 @@
           html←bbt'---'⎕R'\0' '\&mdash;'⍠('Mode' 'D')('DotAll' 1)⊣html
           html←bbt'--'⎕R'\0' '\&ndash;'⍠('Mode' 'D')('DotAll' 1)⊣html
           html←bbt'\.\.\.'⎕R'\0' '\&hellip;'⍠('Mode' 'D')('DotAll' 1)⊣html
-          bbt'\B\(c\)\B' '\B\(tm\)\B'⎕R'\0' '©' '™'⊣html
+          bbt'\B\(c\)\B' '\B\(tm\)\B'⎕R'\0' '&copy;' '&trade;'⊣html
       }
 
       SmartQuotes←{

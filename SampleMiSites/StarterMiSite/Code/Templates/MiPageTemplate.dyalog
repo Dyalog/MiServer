@@ -1,47 +1,30 @@
 ﻿:Class MiPageTemplate : #.MiPage
-⍝ This is a template that "wraps" the page content by
-⍝ - adding a header and footer
-⍝ - adding a handler that will toggle the display of the web page and its APL source code
+⍝ This is a template that adds a consistent header to all pages based on it
 
-    ∇ {r}←Wrap;lang
+    ∇ {r}←Wrap;lang;header;home;menu
       :Access Public
      
-    ⍝ we use JQuery to set up the handler, so we tell the page to include JQuery resources
-      Use'JQuery' ⍝ "JQuery" is a resource defined in Config/Resources.xml
+   ⍝ set the tab/window title to the name of the application defined in Config/Server.xml
+      Add _.title _Request.Server.Config.Name
      
-    ⍝ set the title display in the browser to the name of the application defined in Config/Server.xml
-      Add _html.title _Request.Server.Config.Name
-     
-    ⍝ add a link to our CSS stylesheet
+   ⍝ add a link to our CSS stylesheet
       _CssOverride←'/Styles/style.css'
      
-    ⍝ set a meta tag to make it explicitly UTF-8
-      (Add _html.meta).Set'http-equiv="content-type" content="text/html;charset=UTF-8"'
+   ⍝ wrap the content of the body element in two divs
+      '#contentblock'Body.Push _.div
+      ⍝'#bodyblock'Body.Push _.div
      
-    ⍝ wrap the content of the <body> element in a div
-      Body.Push _html.div'id="contentblock"'
+   ⍝ add the header to the top of the page
+      header←'#banner'Insert _.header
+      home←header.Add _.A'[insert the name of your site here]' '/' ⍝ click to go home
+      'src="/Styles/Images/duck.png"'home.Insert _.img ⍝ logo
+      menu←'#menu'header.Add _.nav
+      {menu.Add _.A ⍵('/',⍵)}¨'Products' 'Support' 'Corporate'
      
-    ⍝ add a hidden division to the body containing the APL source code
-      (Add _html.div(#.HtmlUtils.APLToHTMLColor ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock" style="display: none;"'
+   ⍝ Add a bar under the menu item that is currently open
+      Add _.style('#menu a[href="',_Request.OrigPage,'"] {border-bottom: 0.25em solid;}')
      
-    ⍝ add a JQuery event handler to toggle the web page/APL source code
-      Add _DC.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock").toggle("slow");});});'
-     
-    ⍝ wrap the content of the <body> element in a div
-      Body.Push _.div'class="bodyblock"'
-     
-    ⍝ add the footer to the bottom of the page
-      Add #.Files.GetText _Request.Server.Config.Root,'Styles\footer.txt'
-     
-    ⍝ add the header to the top of the page and wrap the body in a div with id="wrapper"
-      Body.Push #.Files.GetText _Request.Server.Config.Root,'Styles\banner.txt'
-      Body.Push _html.div'id="wrapper"'
-     
-    ⍝ set the language for the page
-      lang←_Request.Server.Config.Lang ⍝ use the language specified in Server.xml
-      Set'lang="',lang,'" xml:lang="',lang,'" xmlns="http://www.w3.org/1999/xhtml"'
-     
-    ⍝ call the base class Wrap function
+   ⍝ call the base class Wrap function
       r←⎕BASE.Wrap
     ∇
 

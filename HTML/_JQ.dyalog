@@ -6,7 +6,7 @@
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     quote←{0∊⍴⍵: '' ⋄ '⍎"'∊⍨⍬⍴⍵:⍵ ⋄ '"',(('"' ⎕R '\\\0')⍕⍵),'"'}
     fmtSelector←{{'this'≡⍵:⍵ ⋄quote ⍵}¯2↓∊{⍵,', '}¨eis ⍵}
-    fmtValue←{'⍎'=⊃,⍵:⍵ ⋄ #.JSON.fromAPL ⍵}
+    fmtValue←{(2=≡⍵)∧0=≢⍴⍵:⊃⍵ ⋄ #.JSON.fromAPL ⍵}
 
     ∇ r←opt(sel Update jqfn)val
     ⍝ update an option for a widget
@@ -414,7 +414,7 @@
               force←0
               events←Events
               :If widget←#.HtmlElement.isWidget WidgetRef ⍝ is this a widget handler?
-                  WidgetDef←WidgetRef.WidgetDef                    
+                  WidgetDef←WidgetRef.WidgetDef
                   :If ForceInternal=¯1
                       :If ∨/', '∊Events ⍝ multiple events?
                           events←', '#.Utils.penclose Events
@@ -455,7 +455,7 @@
               :EndIf
          
               :If 0∊⍴ClientData ⍝ if you don't specify any clientdata, we serialize any forms on the page
-                  data,←'_serialized: $("form").serialize(), '
+                  data,←'_serialized_: $("form").serialize(), '
               :EndIf
          
               data←¯2↓data
@@ -526,6 +526,7 @@
                               phrase←datasel,verb,'()'
          
                           :Case 'option' ⍝ jQueryUI and Syncfusion widgets
+                              name,⍨←'_json_'
                               :If 0∊⍴arg
                                   phrase←'APLstringify(',datasel,'("option"))'
                               :Else
@@ -541,6 +542,7 @@
          
                           :CaseList 'event' 'this' 'argument'
                               v←('event' 'argument' 'this'⍳⊂verb)⊃syn_event syn_event syn_this
+                              name,⍨←'_json_'
                               :If 0∊⍴arg
                                   phrase←'APLstringify(',v,')'
                               :Else
@@ -550,6 +552,7 @@
                           :CaseList 'model' 'ui' ⍝ widgets only
                               :If ~0∊⍴jqfn
                                   datasel,←'().'
+                                  name,⍨←'_json_'
                                   :If 0∊⍴arg
                                       phrase←'APLstringify(',syn_model,')'
                                   :Else
@@ -577,12 +580,14 @@
                                   :EndIf
                               :EndIf
                               phrase←'$(',(quote sel),').serialize()'
-                              name,←'_serialized'
+                              name,⍨←'_serialized_'
                           :Else
-                              :If '⍎'=⊃verb
+                              :If 1<≡verb
                                   sel←''
-                                  phrase←1↓verb
-         
+                                  phrase←⊃verb
+                              :ElseIf '⍎'=⊃verb
+                                  sel←''
+                                  phrase←1↓verb         
                               :Else
                                   #.Boot.Log'Unknown event handler verb: "',verb,'"',{0::'' ⋄ ' on page ',##._PageRef._PageName}⍬
                                   phrase←quote phrase
@@ -603,7 +608,7 @@
          
               :If widget
                   :If force
-                      (eis events)(WidgetRef.Options{⍺⍺⍎⍺,'←⍵'})¨⊂'function(',syn_handler,'){',ajax,'}'
+                      (eis events)(WidgetRef.Options{⍺⍺⍎⍺,'←⍵'})¨⊂⊂'function(',syn_handler,'){',ajax,'}'
                   :Else
                       r←'.on(',(quote Events),', function(event,ui){',ajax,'});'
                   :EndIf

@@ -1,6 +1,6 @@
 ﻿:Class ejListBoxSimple : MiPageSample
 ⍝ Control:: _SF.ejListBox
-⍝ Description:: Display a listbox of options for selection
+⍝ Description:: Listbox of options for selection
 
     ∇ Compose
       :Access Public

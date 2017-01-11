@@ -122,6 +122,7 @@
           colors,←⊂'i200quad'(12 to 15 37 to 40)
      
           html←({(+/∨\' '≠⌽⍵)↑¨↓⍵}⍣(1≥|≡APL))APL ⍝ Make VTV if matrix
+          html,¨←' '
           lines←∊1↑¨⍨≢¨html
           types←0,0,⍨∊200⌶html                        ⍝ 200⌶ is color coding
      

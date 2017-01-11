@@ -13,14 +13,16 @@
 ⍝ │                                                                                             │ ⍝
 ⍝ │     ∘ D_ELEMENTS aids to create elements for the HTML Document Object Model                 │ ⍝
 ⍝ │                                                                                             │ ⍝
+⍝ │     ∘ E_TUTORIAL has subroutines for the Tutorial tab on the index page                     │ ⍝
+⍝ │                                                                                             │ ⍝
 ⍝ │     ∘ F_CONSTANTS niladic functions that return unchanging values and cache                 │ ⍝
 ⍝ │                                                                                             │ ⍝
 ⍝ └─────────────────────────────────────────────────────────────────────────────────────────────┘ ⍝
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :SECTION A_GENERAL ⍝ UTILITY FUNCTIONS THAT ARE NOT SPECIFIC TO THE "MS3" SITE
-
-    Ⓒ←{⊂⍣(1=≡,⍵)⊢⍵} ⍝ enclose if simple     Mnemonic for the ⊆ glyph
+                   
+    ç←{⊂⍣(1=≡,⍵)⊢⍵} ⍝ enclose if simple     Mnemonic for the V16 glyph
 
     FwSl←'[\\/]+'⎕R'/' ⍝ Make all slash-block into single forward-slashes
 
@@ -167,6 +169,155 @@
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
+    :SECTION E_TUTORIAL ⍝ FUNCTIONS USED BY THE index PAGE'S Tutorial TAB
+
+    ∇ t←Elements;tabs;r;sp;fs;ig;colors;rgbs;button;p;cbs;t2;g
+      t←'#div'New _.div'This div is the main container of this tab. ' ⍝ #div
+      p←'#p't.Add _.p'This is the beginning of a paragraph, ' ⍝ #p
+      '#span'p.Add _.span'but this phrase is a separate piece of text inside the paragraph. ' ⍝ #span
+      button←'#Button't.Add _.Button'Button' ⍝ #Button
+      sp←'#StackPanel't.Add _.StackPanel ⍝ #StackPanel
+      sp.Add'StackPanel'
+      '#EditField'sp.Add _.EditField'EditField' 'EditField' ⍝ #EditField
+      '#Select'sp.Add _.Select'Red' 'Green' 'Blue' ⍝ #Select
+      '#Input1't.Add _.Input'number' 426 ' Number Input: ' ⍝ #Input1
+      t.Add _.br
+      fs←'#Fieldset1't.Add _.Fieldset'CheckBoxes' ⍝ #Fieldset1
+      cbs←{'.CheckBox'New _.CheckBox ⍵}¨'checked' 'unchecked' ⍝ .CheckBox
+      ig←'#InputGrid'fs.Add _.InputGrid('Checked' 'Unchecked')cbs ⍝ #InputGrid
+      ig.Flip←1 ⍝ #InputGrid
+      fs←'#Fieldset2't.Add _.Fieldset'RadioButtonGroup' ⍝ #Fieldset2
+      '#RadioButtonGroup'fs.Add _.RadioButtonGroup('Selected' 'Unselected')1 'right' ⍝ #RadioButtonGroup
+      '#h5't.Add _.h5'Slider' ⍝ #h52
+      '#Input2't.Add _.Input'range' 1 ⍝ #Input2
+      '#List't.Add _.List('Primaries' 'Cyan' 'Magenta' 'Yellow' 'Key' 'Black')(1 2 2 2 1 2) ⍝ #List
+      colors←'aqua' 'black' 'blue' 'fuchsia' 'gray' 'green' 'lime' 'maroon' ⍝ #Table
+      rgbs←'#00FFFF' '#000000' '#0000FF' '#FF00FF' '#808080' '#008000' '#00FF00' '#800000' ⍝ #Table
+      colors,←'navy' 'olive' 'purple' 'red' 'silver' 'teal' 'white' 'yellow' ⍝ #Table
+      rgbs,←'#000080' '#808000' '#800080' '#FF0000' '#C0C0C0' '#008080' '#FFFFFF' '#FFFF00' ⍝ #Table
+      '#Table't.Add _.Table('Color' 'RGB'⍪colors,⍪rgbs)'' 1 ⍝ #Table
+      t.Add _.style ScriptFollows
+      ⍝ #div {padding: 10px; margin: 10px;}
+      ⍝ #Button {vertical-align: top; margin: 5px;}
+      ⍝ #StackPanel {display: inline-block; padding: 5px;}
+      ⍝ #Fieldset1 {display: inline-block;}
+      ⍝ #Fieldset2 {display: inline-block;}
+      ⍝ #h5 {margin: 1em 0 0.5em 0;}
+      ⍝ #Input1 {width: 4em;}
+      ⍝ #Input2 {width: 100%;}
+      ⍝ #List {display: inline-block; margin: 1em; padding: 5px 5px 5px 25px;}
+      ⍝ #Table {display: inline-block; max-height: 7em; overflow-y: scroll; margin-top: 1em;}
+      ⍝
+      ⍝ /**/#span:hover, #p:hover, #div:hover, #Button:hover, #StackPanel:hover, #EditField:hover, #Select:hover, #Fieldset1:hover, #Fieldset2:hover, .CheckBox:hover, #RadioButtonGroup:hover, #Input1:hover, #Input2:hover, #h5:hover, #progress:hover, #List:hover, #Table:hover {
+      ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
+      ⍝ }
+      'ShowElement'∘AddHandler¨'#div' '#p' '#span' '#Button' '#EditField' '#StackPanel' '#Select' '#Fieldset1' '#Fieldset2' '.CheckBox' '#RadioButtonGroup' '#Input1' '#h5' '#Input2' '#progress' '#List' '#Table'
+      t←'Common elements't
+    ∇
+
+    ∇ t←Formatting
+      t←'#margrad'New _.div'This div has inner padding and gradient backround' ⍝ #margrad
+      '#boldin't.Add _.p'Bold indented text which has to be extremely long in order to show that only the first line is being indented.' ⍝ #boldin
+      '#huge't.Add _.span'Huge text with outer margin' ⍝ #huge
+      '#expund't.Add _.span'Expanded and underlined' ⍝ #expund
+      '#bluebox't.Add _.p'Blue box with shadow' ⍝ #bluebox
+      '#centshad't.Add _.p'Centered text with shadow' ⍝ #centshad
+      '#whimg't.Add _.p'White text on image background' ⍝ #whimg
+      '#border't.Add _.p'Surrounded by borders and top-right corner is round' ⍝ #border
+      '#img' 'src="Examples/Data/4lines.png"' 'alt="Image"' 'title="Four lines high"'t.Add _.img ⍝ #img
+      '#narrow't.Add _.p'Inline paragraph with limited width and single line height.' ⍝ #narrow
+      '#mono't.Add _.span'Monospace, ' ⍝ #mono
+      '#sans't.Add _.span'Sans-Serif, ' ⍝ #sans
+      '#serif't.Add _.span'and Serif.' ⍝ #serif
+      t.Add _.style ScriptFollows
+      ⍝ #margrad {padding: 2em; background: linear-gradient(White, SkyBlue);}
+      ⍝ #boldin {font-weight: bold; text-indent: 2em;}
+      ⍝ #huge {font-size: x-large; margin: 2em;}
+      ⍝ #expund {text-decoration: underline; letter-spacing: 0.5ex;}
+      ⍝ #bluebox {background-color: SkyBlue; box-shadow: 0.25em 0.5em 1em Gray;}
+      ⍝ #centshad {text-align: center; text-shadow: 0.1em 0.3em 0.2em Blue;}
+      ⍝ #whimg {color: white; background-image: url(Examples/Data/pic3.png);}
+      ⍝ #serif {font-family: "Times New Roman", Times, serif; font-size: 150%;}
+      ⍝ #sans {font-family: Arial, Helvetica, sans-serif; font-size: 150%;}
+      ⍝ #mono {font-family: "Courier New", Courier, monospace; font-size: 150%;}
+      ⍝ #border {border: 0.25em solid Blue; border-top-right-radius: 1.5em;}
+      ⍝ #img {height: 4em; opacity: 0.5;}
+      ⍝ #narrow {width: 20%; display: inline-block; line-height: 1;}
+      ⍝
+      ⍝ /**/#boldin:hover, #huge:hover, #expund:hover, #centshad:hover, #serif:hover, #sans:hover, #mono:hover, #narrow:hover {
+      ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
+      ⍝ }
+      ⍝ /**/#margrad:hover {box-shadow: 0 0 5px 2px Orange inset;}
+      ⍝ /**/#whimg:hover {box-shadow: 0 0 5px 2px Orange;}
+      ⍝ /**/#border:hover {box-shadow: 0 0 5px 2px Orange, 0 0 5px 2px Orange inset;}
+      ⍝ /**/#img:hover {box-shadow: 0 0 5px 3px Orange,0 0 5px 3px Orange;}
+      ⍝ /**/#bluebox:hover {box-shadow:0 0 5px 1px Orange, 0 0 5px 1px Orange inset, 0.25em 0.5em 1em Gray;}
+      'ShowFormatting'∘AddHandler¨'#margrad' '#boldin' '#huge' '#expund' '#bluebox' '#centshad' '#whimg' '#serif' '#sans' '#mono' '#border' '#img' '#narrow'
+      t←'Formatting't
+    ∇
+
+    ∇ t←Positioning
+      t←'#position'New _.div'This div has its default positioning'
+      t←'Positioning't
+    ∇
+
+    ∇ t←Embedding
+      t←'#embed'New _.div'This div contains embedded items'
+      t←'Embedding't
+    ∇
+
+    ∇ t←Interaction
+      t←'#ui'New _.div'This div shows user interaction'
+      t←'Interaction't
+    ∇
+
+    ∇ t←Windows
+      t←'#win'New _.div'This div shows floating GUI elements'
+      t←'Windows &amp; Popups't
+    ∇
+
+    ∇ {ctrl}←callbackfn AddHandler sel
+      ctrl←sel~'#.12'
+      Add _.Handler sel'click'callbackfn'' '' 'event.stopPropagation()'
+    ∇
+
+    ∇ r←ShowElement;code;ctrl;info
+      :Access Public
+      ctrl←_selector~'#12'
+      info←'<h2>This element is called <code>_.',ctrl,'</code></h2>'
+      info,←P'descr'ForControl ctrl
+      info,←'<h3>Constructor (what goes to the right of <code>Add _.',ctrl,'</code>)</h3>'
+      info,←P Link('ctor'ForControl ctrl)(DocUrl ctrl)
+      code←⊃_selector CodeFrom'Elements'
+      info,←'<h3>Put this in the <code>Compose</code> function</h3>',P code
+      r←'#info'Replace info
+    ∇
+
+    ∇ r←ShowFormatting;css;info;code
+      :Access Public
+      (code css)←_selector CodeFrom'Formatting'
+      info←'<h3>Put this in the <code>Compose</code> function</h3>',P code
+      info,←'<h3>Put <code>Add _.style''&#8230;''</code> in <code>Compose</code> or add  this to the stylesheet</h3>',P css
+      r←'#info'Replace info
+    ∇
+
+      CodeFrom←{
+          nr←⎕NR ⍵
+          (css lines)←↓⍉↑('⍝ ',⍺)∘Prep¨nr/⍨('⍝ ',⍺)∘(∨/⍷)¨nr
+          (lines/⍨~css)(css/lines)
+      }
+
+      Prep←{
+          c←#.Strings.dlb ⍵
+          ⍺≡c↑⍨-l←≢⍺:0('\w+\.Add'⎕R'Add'⊢c↓⍨¯1-l)
+          1(2↓c)
+      }
+
+    P←{∊('<p>',,∘'</p>')¨ç⍵}
+
+    :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
+⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
+
     :SECTION F_CONSTANTS ⍝ NILADIC FUNCTIONS THAT ACT LIKE :include'ABLE CONSTANTS
 
     ∇ r←NSS
@@ -201,13 +352,13 @@
               C.read.(keys←data←⍬) ⍝ init keys and data
      
               C.controls←(#._.⎕NL ¯9)~⊂'Handler'                       ⍝ cache all controls
-              C.controlsoi←C.controls∘⍳Ⓒ ⋄ C.eocontrols←∊∘C.controls Ⓒ ⍝ hash tables
+              C.controlsoi←C.controls∘⍳ç ⋄ C.eocontrols←∊∘C.controls ç ⍝ hash tables
               refs←#._⍎¨C.controls                                     ⍝ refs of all controls
               C.ns←3↓¨⍕¨refs.##                                        ⍝ ns of each control
               srcs←⎕SRC¨refs                                           ⍝ all sources
      
               C.files←⊃⍪/{List'Examples/',⍵}¨NSS,⊂'Applications' ⍝ sample filenames
-              C.filesoi←C.files∘⍳Ⓒ                               ⍝ hash table
+              C.filesoi←C.files∘⍳ç                               ⍝ hash table
               C.filedescr←('Description'Section Read)¨C.files    ⍝ Description:: for all files
               C.demos←Controls¨C.files                           ⍝ controls demoed in each
               scores←C.controls∘.Score↓⍉↑C.files C.demos         ⍝ controls vs files

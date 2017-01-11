@@ -1,11 +1,5 @@
 ﻿/* CSS for the _DC.dcTabs widget */
 
-/* Nice rounded border */
-.dc-tabs {
-    border-radius: 10px;
-    padding: 5px;
-}
-
 /* Configure the radio buttons to be outside the screen */
 .dc-tabs > input[type="radio"] {
     position: absolute;
@@ -17,49 +11,24 @@
     /* inline-block such that the label can be given dimensions */
     display: inline-block;
  
-    /* A nice curved border around the tab */
-    border-radius: 5px 5px 0 0;
-    -moz-border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 5px 5px 0 0;
-     
-    /* Margin to next tab */
-    margin-right: 5px;
-		
     /* Padding around centered tab text */
-    padding: 5px 10px;
+    padding: 0.5em 0.75em;
     text-align: center;
 
     /* Set the default colors (non-selected tab) */
-    background: -webkit-linear-gradient(white,transparent);
-    background: linear-gradient(white,transparent);
-    font-weight: bold;
+    border-bottom: 0.25em solid transparent;
+		font-weight: bold;
+		opacity: 0.7;
 }
 
-/* Hovered tabs need to be highlighted as such */
-.dc-tabs > input[type="radio"] + label:hover{
-  background: -webkit-linear-gradient(white, rgba(255,255,255,0.5));
-  background: linear-gradient(white, rgba(255,255,255,0.5));
-}
-
-/* Checked tabs must be white with the bottom border removed */
+/* Checked tabs must be clear */
 .dc-tabs > input[type="radio"]:checked + label {
-    background: white;
-    cursor: default;
-}
-
-/* Show focus for keyboard navigation */
-.dc-tabs > input[type="radio"]:focus + label {
-    outline: #5B9DD9 auto;
+    opacity: 1;
 }
  
-/* The tab content must fill the widgets size and have a nice border */
+/* The tab content must fill the widgets size */
 .dc-tabs > div {
     display: none;
-    padding: 5px 5px;
     height: 100%;
     overflow: auto;
-    border-radius: 0 0 5px 5px;
-    -moz-border-radius: 0 0 5px 5px;
-    -webkit-border-radius: 0 0 5px 5px;
-    background-color: white;
 }

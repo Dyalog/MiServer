@@ -42,7 +42,7 @@
       r←''
       :If ~0∊⍴Data
           src←id,'_data'
-          'fields.dataSource'Set'⍎',src
+          'fields.dataSource'Set⊂,src
           :If 2>⍴⍴Data ⋄ Data←⍉⍪Data ⋄ :EndIf
           flds←(2⊃⍴Data)↑'featureMeasures' 'comparativeMeasure' 'category'
           {('fields.',⍵)Set ⍵}¨flds

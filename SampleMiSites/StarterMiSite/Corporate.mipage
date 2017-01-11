@@ -1,0 +1,7 @@
+﻿:Class Corporate : MiPageTemplate
+ ∇ Compose
+   :Access public
+   Add _.h3'Some information'
+   Add _.p'content'
+ ∇
+:EndClass

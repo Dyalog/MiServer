@@ -47,7 +47,7 @@
       :EndIf
       Data⍪⍨←'Name' 'Size' 'Timestamp'
       'autoWidth'Set _true
-      'columns'Set'⍎[{"type":"html","className":"db-left"},{"type":"num-fmt","className":"db-right"},{"type":"date","className":"db-left"}]'
+      'columns'Set⊂'[{"type":"html","className":"db-left"},{"type":"num-fmt","className":"db-right"},{"type":"date","className":"db-left"}]'
       AddClass'display'
       r←(⎕NEW #._DC.Style((('.db-left')('text-align' 'left'))(('.db-center')('text-align' 'center'))(('.db-right')('text-align' 'right')))).Render
       r,←⎕BASE.Render

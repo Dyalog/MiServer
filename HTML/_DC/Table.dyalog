@@ -14,6 +14,7 @@
 ⍝ HeaderAttr  - Header attributes
 ⍝ MakeCellIds - 1 to generate IDs      <td id="tableId_r2c3">
 ⍝ MakeRowIds  - 1 to generate Row IDs  <tr id="tableId_row2">
+⍝ Caption     - caption to be inserted at the top of the table <caption id="tableId_caption">
 
     :field public Data←0 0⍴⊂''
     :field public CellAttr←''
@@ -21,6 +22,7 @@
     :field public HeaderAttr←''
     :field public MakeCellIds←0
     :field public MakeRowIds←0
+    :Field public Caption←⍬
 
     ∇ Make0
       :Access public
@@ -35,13 +37,17 @@
       (Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)←data defaultArgs Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds
     ∇
 
-    ∇ html←Render;data;rows;cols;hdrrows;head;body;headids;size;headattrs;rowids;bodyrows;bodyids;bodyattrs
+    ∇ html←Render;data;rows;cols;hdrrows;head;body;headids;size;headattrs;rowids;bodyrows;bodyids;bodyattrs;caption
       :Access public
       SetId
       data←Data
       data←((rows←×/¯1↓⍴data),cols←¯1↑⍴data)⍴data
       hdrrows←rows⌊⍬⍴HeaderRows
-      head←body←''
+      caption←head←body←''
+     
+      :If ⍬≢Caption
+          caption←'<caption id="',id,'_caption">',(renderIt Caption),'</caption>'
+      :EndIf
      
       :If 0<hdrrows
           headids←headattrs←⊂''
@@ -76,7 +82,7 @@
           :EndIf
           body←∊'tbody'enc rowids{('tr',⍺)enc∊⍵}¨↓body
       :EndIf
-      Content←head,body
+      Content←caption,head,body
       html←⎕BASE.Render
     ∇
 

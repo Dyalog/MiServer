@@ -1,80 +1,39 @@
-﻿/* CSS for the _DC.dcsections widget */
-
-/* Nice rounded border */
-.dc-accordion {
-    border-radius: 10px;
-    padding: 5px;
-}
-
+/* CSS for the _DC.Accordion widget */
 /* Configure the radio buttons to be outside the screen */
 .dc-accordion > input[type="radio"] {
     position: absolute;
     left: -100%;
 }
- 
+
 /* Configure labels to look like sections */
 .dc-accordion > input[type=radio] + label {
-    /* inline-block such that the label can be given dimensions */
     display: block;
- 
-    /* A nice curved border around the section */
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-     
-    /* Margin to previous tab */
-    margin-top: 5px;
-		
-    /* Padding and hanging indent for section text */
-    text-indent:-21px;
-    padding: 5px 10px 5px 28px;
-
-    /* Set the default colors (non-selected section) */
-    background: -webkit-linear-gradient(white,transparent);
-    background: linear-gradient(white,transparent);
+    padding: 1ex 0;
     font-weight: bold;
+    opacity: 0.7;
+    cursor: pointer;
 }
 
-.dc-accordion > input[type=radio]:first-child + label {
-    margin-top: 0;
-}
-
-/* Hovered sections need to be highlighted as such */
-.dc-accordion > input[type="radio"] + label:hover{
-  background: -webkit-linear-gradient(white, rgba(255,255,255,0.5));
-  background: linear-gradient(white, rgba(255,255,255,0.5));
-}
-
-/* Checked sections must be white with the bottom border removed */
+/* Checked sections must be unfaded */
 .dc-accordion > input[type="radio"]:checked + label {
-    background: white;
-    cursor: default;
-    border-radius: 5px 5px 0 0;
-    -moz-border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 5px 5px 0 0;
+    opacity: 1;
 }
 
-/* Configure the radio buttons to be outside the screen */
-.dc-accordion > input[type="radio"] {
-    position: absolute;
-    top: -100%;
-}
-
-/* The section content must fill the widgets size and have a nice border */
+/* The section content */
 .dc-accordion > div {
     display: none;
-    padding: 5px;
-    overflow: auto;
-    border-radius: 0 0 5px 5px;
-    -moz-border-radius: 0 0 5px 5px;
-    -webkit-border-radius: 0 0 5px 5px;
-    background-color: white;
+    margin-right: 3ex;
 }
 
 .dc-accordion > input[type="radio"] + label:before {
-    content: "\25BA  ";
+    position: relative;
+    content: "\2C5";
+    float: right;
+    width: 3ex;
+    text-align: center;
+    transition: 0.5s;
 }
 
 .dc-accordion > input[type="radio"]:checked + label:before {
-    content: "\25BC  ";
+    transform: rotate(180deg);
 }

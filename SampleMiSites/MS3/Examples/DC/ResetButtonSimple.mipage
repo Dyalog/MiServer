@@ -1,6 +1,7 @@
 ﻿:Class ResetButtonSimple : MiPageSample
 ⍝ Control:: _DC.ResetButton _DC.SubmitButton _DC.Fieldset
 ⍝ Description:: Clear a form with a ResetButton
+
     :Field Public fname←''
     :Field Public lname←''
 
@@ -8,7 +9,7 @@
       :Access Public
      
       Add _.style'#Reset {font-weight: bold; font-size: large;}'
-      
+     
       :If _Request.Command≡'get' ⍝ Reset names on a GET
           fname←lname←''
       :EndIf
@@ -22,7 +23,7 @@
       fieldset←frm.Add _.Fieldset'Personalia:' ⍝ The fieldset will surround our input fields
       inputs←fieldset.Add _.InputGrid
       inputs.Labels←'First Name:' 'Last Name:'
-      inputs.Inputs←{New _.EditField ⍵}¨('fname'fname)('lname'lname)
+      inputs.Inputs←{⍵ New _.EditField ⍵(⍎⍵)}¨'fname' 'lname'
      
       Add _.br
       'Submit'frm.Add _.SubmitButton'Submit'

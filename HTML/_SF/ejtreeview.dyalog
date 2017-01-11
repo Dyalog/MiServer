@@ -79,7 +79,7 @@
           On'nodeSelect'onNodeSelect('node' 'eval' 'JSON.stringify(argument.id)')
       :EndIf
       r←'<script>',(id FormatItems mat),'</script>'
-      'fields'Set'⍎{dataSource: ',(id,'_data'),',id:"id",parentId:"pid",text:"name",hasChild:"hasChild",linkAttribute:"link"}'
+      'fields'Set⊂'{dataSource: ',(id,'_data'),',id:"id",parentId:"pid",text:"name",hasChild:"hasChild",linkAttribute:"link"}'
       r,←⎕BASE.Render
     ∇
 

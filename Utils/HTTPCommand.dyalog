@@ -76,7 +76,7 @@
     ∇
 
 
-    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime;congaCopied;peercert
+    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime;congaCopied;peercert;formContentType
 ⍝ issue an HTTP command
 ⍝ certs - optional [X509Cert [SSLValidation [Priority]]]
 ⍝ args  - [1] URL in format [HTTP[S]://][user:pass@]url[:port][/page]
@@ -120,12 +120,11 @@
       urlparms←''
       cmd←uc,cmd
      
-      :If 'GET'≡cmd
+      :If 'GET'≡cmd   ⍝ if HTTP command is GET, all parameters are passed via the URL
           urlparms←parms
           parms←''
       :EndIf
      
-      parms←URLEncode parms
       urlparms←{0∊⍴⍵:'' ⋄ ('?'=1↑⍵)↓'?',⍵}URLEncode urlparms
      
      GET:
@@ -144,7 +143,7 @@
       :EndIf
      
       :If '@'∊host ⍝ Handle user:password@host...
-          auth←'Authorization: Basic ',(b64Encode(¯1+p←host⍳'@')↑host),NL
+          auth←'Authorization: Basic ',(B64Encode(¯1+p←host⍳'@')↑host),NL
           host←p↓host
       :Else ⋄ auth←''
       :EndIf
@@ -155,10 +154,14 @@
       hdrs←'User-Agent'(hdrs addHeader)'Dyalog/Conga'
       hdrs←'Accept'(hdrs addHeader)'*/*'
      
-      :If ~0∊⍴parms
-          :If cmd≡'POST'
+      :If ~0∊⍴parms          ⍝ if we have any parameters
+          :If cmd≡'POST'     ⍝ and a POST command                                                    
+              ⍝↓↓↓ specify the default content type (if not already specified)
+              hdrs←'Content-Type'(hdrs addHeader)formContentType←'application/x-www-form-urlencoded' 
+              :If formContentType≡hdrs GetHeader'Content-Type'
+                  parms←URLEncode parms
+              :EndIf
               hdrs←'Content-Length'(hdrs addHeader)⍴parms
-              hdrs←'Content-Type'(hdrs addHeader)'application/x-www-form-urlencoded'
           :EndIf
       :EndIf
      
@@ -185,11 +188,11 @@
                           (headerlen header)←DecodeHeader data
                           :If 0<headerlen
                               data←headerlen↓data
-                              :If chunked←∨/'chunked'⍷header getHeader'Transfer-Encoding'
+                              :If chunked←∨/'chunked'⍷header GetHeader'Transfer-Encoding'
                                   chunk←data
                                   data←''
                               :Else
-                                  datalen←⊃(toNum header getHeader'Content-Length'),¯1 ⍝ ¯1 if no content length not specified
+                                  datalen←⊃(toNum header GetHeader'Content-Length'),¯1 ⍝ ¯1 if no content length not specified
                               :EndIf
                           :EndIf
                       :EndIf
@@ -223,13 +226,13 @@
      
           :If 0=1⊃rc
               :Trap 0 ⍝ If any errors occur, abandon conversion
-                  :Select header getHeader'content-encoding' ⍝ was the response compressed?
+                  :Select header GetHeader'content-encoding' ⍝ was the response compressed?
                   :Case 'deflate'
                       data←fromutf8 LDRC.flate.Inflate 120 156{(2×⍺≡2↑⍵)↓⍺,⍵}256|83 ⎕DR data ⍝ append 120 156 signature because web servers strip it out due to IE
                   :Case 'gzip'
                       data←fromutf8 256|¯3(219⌶)83 ⎕DR data
                   :Else
-                      :If ∨/'charset=utf-8'⍷header getHeader'content-type'
+                      :If ∨/'charset=utf-8'⍷header GetHeader'content-type'
                           data←'UTF-8'⎕UCS ⎕UCS data ⍝ Convert from UTF-8
                       :EndIf
                   :EndSelect
@@ -271,21 +274,54 @@
     split←{(p↑⍵)((p←¯1+⍵⍳⍺)↓⍵)} ⍝ split ⍵ on first occurrence of ⍺
     h2d←{⎕IO←0 ⋄ 16⊥'0123456789abcdef'⍳lc ⍵} ⍝ hex to decimal
     getchunklen←{¯1=len←¯1+⊃(NL⍷⍵)/⍳⍴⍵:¯1 ¯1 ⋄ chunklen←h2d len↑⍵ ⋄ (⍴⍵)<len+chunklen+4:¯1 ¯1 ⋄ len chunklen}
-    eis←{⍺←1 ⋄ ,(⊂⍣(⍺=|≡⍵))⍵} ⍝ enclose if simple
     toNum←{0∊⍴⍵:⍬ ⋄ 1⊃2⊃⎕VFI ⍕⍵}
-    getHeader←{(⍺[;2],⊂'∘↑∘')⊃⍨(lc ¨⍺[;1])⍳eis lc ⍵}
-    addHeader←{'∘↑∘'≡⍺⍺ getHeader ⍺:⍺⍺⍪⍺ ⍵ ⋄ ⍺⍺} ⍝ add a header unless it's already defined
-    makeHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:0 2⍴⊂'' ⋄ 2=⍴⍴⍵:⍵ ⋄ ↑2 eis ⍵}
-    fmtHeaders←{⎕ML←1 ⋄ 0∊⍴⍵:'' ⋄ ∊{0∊⍴2⊃⍵:'' ⋄ NL,⍨(firstCaps 1⊃⍵),': ',⍕2⊃⍵}¨↓⍵}
+    makeHeaders←{0∊⍴⍵:0 2⍴⊂'' ⋄ 2=⍴⍴⍵:⍵ ⋄ ↑2 eis ⍵}
+    fmtHeaders←{0∊⍴⍵:'' ⋄ ∊{0∊⍴2⊃⍵:'' ⋄ NL,⍨(firstCaps 1⊃⍵),': ',⍕2⊃⍵}¨↓⍵}
     firstCaps←{1↓{(¯1↓0,'-'=⍵) (819⌶)¨ ⍵}'-',⍵}
-    ∇ r←b64Encode w
+    addHeader←{'∘???∘'≡⍺⍺ GetHeader ⍺:⍺⍺⍪⍺ ⍵ ⋄ ⍺⍺} ⍝ add a header unless it's already defined
+
+    ∇ name AddHeader value
+    ⍝ add a header unless it's already defined
+      :Access public
+      Headers←makeHeaders Headers
+      Headers←name(Headers addHeader)value
+    ∇
+
+    ∇ r←a GetHeader w
+      :Access public shared
+      r←a{(⍺[;2],⊂'∘???∘')⊃⍨(lc¨⍺[;1])⍳eis lc ⍵}w
+    ∇
+
+    ∇ r←{a}eis w;f
+    ⍝ enclose if simple
+      :Access public shared
+      f←{⍺←1 ⋄ ,(⊂⍣(⍺=|≡⍵))⍵}
+      :If 0=⎕NC'a' ⋄ r←f w
+      :Else ⋄ r←a f w
+      :EndIf
+    ∇
+
+    ∇ r←B64Encode w
     ⍝ Base64 Encode
       :Access public shared
-      r←{raw←⊃,/11∘⎕DR¨⍵
-         cols←6
-         rows←⌈(⊃⍴raw)÷cols
-         mat←rows cols⍴(rows×cols)↑raw
-         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'[⎕IO+2⊥⍉mat],(4|-rows)⍴'='}w
+      r←{⎕IO←0
+          raw←⊃,/11∘⎕DR¨⍵
+          cols←6
+          rows←⌈(⊃⍴raw)÷cols
+          mat←rows cols⍴(rows×cols)↑raw
+          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'[⎕IO+2⊥⍉mat],(4|-rows)⍴'='}w
+    ∇
+
+    ∇ r←B64Decode w
+    ⍝ Base64 Encode
+      :Access public shared
+      r←{
+          ⎕IO←0
+          {
+              80=⎕DR' ':⎕UCS ⍵  ⍝ Unicode
+              82 ⎕DR ⍵          ⍝ Classic
+          }2⊥{⍉((⌊(⍴⍵)÷8),8)⍴⍵}(-6×'='+.=⍵)↓,⍉(6⍴2)⊤'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='{⍺⍳⍵∩⍺}⍵
+      }w
     ∇
 
     ∇ r←DecodeHeader buf;len;d;i
@@ -301,8 +337,16 @@
       :EndIf
     ∇
 
-    ∇ r←{name}URLEncode data;⎕IO;z;ok;nul;m;enlist;noname
+    ∇ r←{name}URLEncode data;⎕IO;z;ok;nul;m;noname
+      ⍝ data is one of:
+      ⍝      - a character vector to be encoded
+      ⍝      - two character vectors of [name] [data to be encoded]
+      ⍝      - a namespace containing variable to be encoded
+      ⍝ name is the optional name
+      ⍝ r    is a character vector of the URLEncoded data
+     
       :Access Public Shared
+      ⎕IO←0
       noname←0
       :If 9.1=⎕NC⊂'data'
           data←{0∊⍴t←⍵.⎕NL ¯2:'' ⋄ ↑⍵{⍵(⍕,⍺⍎⍵)}¨t}data
@@ -312,17 +356,34 @@
               data←name data
           :EndIf
       :EndIf
-      nul←⎕UCS ⎕IO←0
-      enlist←{⎕ML←1 ⋄ ∊⍵}
-      ok←nul,enlist ⎕UCS¨(⎕UCS'aA0')+⍳¨26 26 10
+      nul←⎕UCS 0
+      ok←nul,∊⎕UCS¨(⎕UCS'aA0')+⍳¨26 26 10
      
-      z←⎕UCS'UTF-8'⎕UCS enlist nul,¨,data
+      z←⎕UCS'UTF-8'⎕UCS∊nul,¨,data
       :If ∨/m←~z∊ok
           (m/z)←↓'%',(⎕D,⎕A)[⍉16 16⊤⎕UCS m/z]
-          data←(⍴data)⍴1↓¨{(⍵=nul)⊂⍵}enlist z
+          data←(⍴data)⍴1↓¨{(⍵=nul)⊂⍵}∊z
       :EndIf
      
-      r←noname↓¯1↓enlist data,¨(⍴data)⍴'=&'
+      r←noname↓¯1↓∊data,¨(⍴data)⍴'=&'
     ∇
 
+    ∇ r←URLDecode r;rgx;rgxu;i;j;z;t;m;⎕IO;lens;fill
+      :Access public shared
+      ⎕IO←0
+      ((r='+')/r)←' '
+      rgx←'[0-9a-fA-F]'
+      rgxu←'%[uU]',(4×⍴rgx)⍴rgx ⍝ 4 characters
+      r←(rgxu ⎕R{{⎕UCS 16⊥⍉16|'0123456789ABCDEF0123456789abcdef'⍳⍵}2↓⍵.Match})r
+      :If 0≠⍴i←(r='%')/⍳⍴r
+      :AndIf 0≠⍴i←(i≤¯2+⍴r)/i
+          z←r[j←i∘.+1 2]
+          t←'UTF-8'⎕UCS 16⊥⍉16|'0123456789ABCDEF0123456789abcdef'⍳z
+          lens←⊃∘⍴¨'UTF-8'∘⎕UCS¨t  ⍝ UTF-8 is variable length encoding
+          fill←i[¯1↓+\0,lens]
+          r[fill]←t
+          m←(⍴r)⍴1 ⋄ m[(,j),i~fill]←0
+          r←m/r
+      :EndIf
+    ∇
 :EndClass

@@ -1,5 +1,5 @@
-﻿/* Global: all transitions equally long*/
-#banner, #about {
+/* Global: all transitions equally long*/
+#banner, #about, #banner-resources, #banner-dyalog::before {
     transition: 0.25s;
 }
 
@@ -109,34 +109,31 @@ body {
 
 #view caption {
     padding-bottom: 2px;
-    text-transform: uppercase;
     font-weight: bold;
 }
 
 .viewtab {
-    background: linear-gradient(grey,white);
-    color: black;
-    border-radius: 5px 5px 0 0;
+    color: #ffae4c;
     width: 5em;
     text-align: center;
-    padding: 5px;
-    cursor: pointer;
-    /* box-shadow: 0 0px 10px 2px rgba(255,255,255,0.5) inset; */
+    padding: 0 5px 5px 5px;
+    cursor: default;
     font-weight: bold;
+    border-bottom: 5px solid transparent;
 }
 
 .viewtab:hover {
-    background: linear-gradient(#C0C0C0,white);
+    border-bottom-color: #ffae4c;
 }
 
 .activetab {
-    background: white;
-    cursor: default;
+    color: darkorange;
+    border-bottom-color: darkorange;
+    opacity: 1;
 }
 
 .activetab:hover {
-    /* color: darkorange; */
-    background: white;
+    border-bottom-color: rgb(255, 140, 0);
 }
 
 #toggle {
@@ -166,13 +163,12 @@ body {
 
 #hamburger ~ #banner-resources {
     color: white;
-    background-color: rgba(0,0,0,0.9);
+    background-color: black;
     position: fixed;
     width: 185px;
-    border-radius: 10px;
     right: 23px;
-    transition: 0.25s;
     top: -100%;
+    box-shadow: 0px 0.5em 2em 0px rgba(0,0,0,0.5);
 }
 
 #hamburger:checked ~ #banner-resources {
@@ -180,11 +176,12 @@ body {
 }
 
 #banner-dyalog::before {
-    content: "\25BA";
+    content: ">" /*"\25BA"*/;
+    display: inline-block;
 }
 
 #hamburger:checked ~ #banner-dyalog:before {
-    content: "\25BC";
+    transform: rotate(90deg);
 }
 
 #banner-resources a:hover {
@@ -195,16 +192,16 @@ body {
 #widgethelp {
     padding: 10px;
     color: white;
-    display: none;
-    background-color: rgba(0,0,0,0.9);
-    /* box-shadow: 0px 0px 4px 4px black; */
-    transition: none;
+    background-color: black;
+    box-shadow: 0px 0.5em 2em 0px rgba(0,0,0,0.25);
+    transition: 0.25s;
     position: fixed;
-    /* width: 100%; */
-    top: 75px;
+    top: -100px;
     margin: 5px;
-    border-radius: 10px;
-    /* right: 0; */
+}
+
+#widgethelp.sliddown {
+    top: 75px
 }
 
 #widgethelp a:hover {
@@ -217,10 +214,6 @@ body {
 
 .hide {
     display: none;
-}
-
-#banner-dyalog:hover {
-    color: white;
 }
 
 /*Template Footer*/
@@ -289,7 +282,6 @@ a:link {
 
 a:visited {
     color: darkorange;
-    /* font-weight: bold; */
     text-decoration: none;
 }
 
@@ -437,7 +429,6 @@ heading1 {
 }
 
 .external {
-    /* font-weight: normal !important; */
     display: inline-block;
 }
 
@@ -534,7 +525,6 @@ heading1 {
 #bigtabs table {
     font-family: Verdana, Geneva, sans-serif;
     margin: 0 20px;
-    /* text-indent: -15px; */
 }
 
 #ctrl p {
@@ -548,11 +538,12 @@ heading1 {
 /* SLIDESHOW CSS */
 #slideshow {
     width: 495px;
-    height: 370px;
+    height: 375px;
     margin: 20px;
-    border-radius: 10px;
-    border: 5px solid #FFC680;
-    padding: 5px;
+    border-radius: 2px;
+    /* border: 1px solid darkorange; */
+    /* padding: 5px; */
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
 }
 
 #slideshow figure {
@@ -607,13 +598,13 @@ heading1 {
 }
 
 #slideshow figcaption {
-    padding: 5px 10px 10px 10px;
-    background: rgba(0,0,0,0.9);
+    padding: 10px;
+    background: white;
     position: relative;
     bottom: 55px;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     min-height: 38px;
-    color: white;
+    /* color: white; */
 }
 
 figcaption a {

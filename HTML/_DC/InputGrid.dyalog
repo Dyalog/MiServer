@@ -43,9 +43,9 @@
 
     ∇ html←Render;cells;rows
       :Access public
-      SetId 
-      Inputs←{isClass ⊃⍵:⎕NEW∘{2<⍴,⍵:(⊃⍵)({eis ⍵}(1↓⍵)) ⋄ ⍵}⍵ ⋄ ⍵}¨Inputs
-      {1:⍵.id←GenId⊣⍣(⎕NULL≡⍵.id)⊢⍵.id}¨Inputs ⍝ shyly create ids where missing
+      SetId
+      Inputs←{isClass⊃⍵:⎕NEW∘{2<⍴,⍵:(⊃⍵)({eis ⍵}(1↓⍵)) ⋄ ⍵}⍵ ⋄ ⍵}¨Inputs
+      Inputs.SetInputName
       Labels←Inputs.id{'<label for="',⍺,'">',(renderIt ⍵),'</label>'}¨Labels
       cells←{⎕NEW #._html.td(⍵)}¨(,Labels),[1.1],Inputs
       cells[;1].class←⊂id,'_label'
@@ -62,6 +62,6 @@
       rows.Add↓cells
       Content←rows.Render
       Set(⊂'border'(⍕Border))
-      html←⎕BASE.Render    
+      html←⎕BASE.Render
     ∇
 :endclass
