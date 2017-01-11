@@ -11,7 +11,7 @@
     <UserID>miserver</UserID>
    
 <!-- Communications Settings -->
-    <Port>80</Port>                                <!-- Preferred port that MiServer listens on -->
+    <Port>8080</Port>                                <!-- Preferred port that MiServer listens on -->
     <IPVersion>IP</IPVersion>                      <!-- TCP/IP version, IPv4, IPv6, or IP to let Conga decide -->
     <UseContentEncoding>1</UseContentEncoding>       <!-- for HTTP compression -->
     <SupportedEncodings>gzip,deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->

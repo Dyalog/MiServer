@@ -15,7 +15,7 @@ services:
         protocol: http
         service: web
         source_port: 80
-        target_port: 80
+        target_port: 8080
     load_balancer_config:
       haproxy_config: {}
     health_check:
