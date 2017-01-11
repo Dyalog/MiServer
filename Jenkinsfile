@@ -14,7 +14,7 @@ node ('Docker') {
 			}
 			if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
 				sh 'docker tag registry.dyalog.com:5000/dyalog/statsite:latest registry.dyalog.com:5000/dyalog/statsite:live'
-				sh 'docker push registry.dyalog.com:5000/dyalog/statsite:live
+				sh 'docker push registry.dyalog.com:5000/dyalog/statsite:live'
 			}
 			
 		}
