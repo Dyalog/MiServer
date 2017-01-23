@@ -22,8 +22,7 @@
       ⍝ #status {position: fixed; text-align: center; top: 75px; bottom: 0; left: 0; right: 0;
       ⍝      color: darkorange; font-size: 2em; line-height: calc(100vh - 2em); cursor: pointer;}
       ⍝ #keys {font-size: medium; width: 2em; white-space: nowrap; color: darkorange;}
-      ⍝ #name {width: 2em; color: darkorange; font-size: 200%;}
-      ⍝ #score {width: 2em; direction: rtl;}
+      ⍝ #name {width: 0; color: darkorange; font-size: 200%;}
      
       help←'#help' 'target="_blank"'New _.A'&nbsp;?&nbsp;' 'https://en.wikipedia.org/wiki/2048_(video_game)#Gameplay'
       keys←'#keys'New _.div'Use keyboard''s arrow keys'
