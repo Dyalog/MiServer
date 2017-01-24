@@ -138,7 +138,7 @@
 
       DocTreeLink←{ ⍝ Link to file in doc folder
           '/'=⊃⌽⍵:''
-          ('/Documentation/',⍵)'target="_blank"'
+          ('/Documentation',⍵)'target="_blank"'
       }
 
       ReadingTree←{ ⍝ Create tree of documentation links
