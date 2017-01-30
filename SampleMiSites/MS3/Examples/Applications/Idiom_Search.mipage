@@ -16,10 +16,10 @@
 ⍝
 ⍝ The lists differ a bit:
 ⍝ The Dyalog entries are optimized in interpreter. The FinnAPL entries represent the traditional
-⍝ original APL way of doing things – without nested arrays and other modern features. The APL2
-⍝ entries do use nested arrays, but may not take advantage of Dyalog's newest addistions, like
-⍝ dfns, <code class="a385">⌸, ⍤ ⍨ ∪ ∩ ≢</code>, etc. Note that the glyph <code class="a385">⊆</code>
-⍝ stands for APL2's partition: <code class="a385">{⎕ML←3 ⋄ ⍺⊂⍵}</code>.
+⍝ APL way of doing things – without nested arrays and other modern features. The APL2 entries 
+⍝ do use nested arrays, but may not take advantage of Dyalog's newest additions, e.g. dfns, 
+⍝ trains, and primitives like <code class="a385">⍣ ⌸ ⍤ ⍨ ∪ ∩ ≢ ⊆ ⍸ @ ⌺</code> etc. Note that all 
+⍝ idioms, including those from APL2, assume <code class="a385">⎕ML←1</code>.
 ⍝
 ⍝ If you click on an APL expression it will be copied to the clipboard.
  
