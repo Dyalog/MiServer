@@ -8,6 +8,7 @@
 
     ∇ Compose;form
       :Access public
+      Add _.title'Turtle'
       Add _.style ScriptFollows
       ⍝ svg {width: 100%; height: calc(100vh - 5em - 75px);}
       ⍝ line {stroke-linecap: round;}

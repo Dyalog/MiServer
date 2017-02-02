@@ -4,7 +4,9 @@
 
     ∇ Compose;duck
       :Access Public
-     
+      
+      Add _.title'Whack A Duck
+
       '.nosel' 'align="center"'Add _.h1'Click the duck to make it shrink!'
       '#clicks' '.nosel' 'align="center"'Add _.div
       duck←'#duck' '.nosel' 'src="/Examples/Data/duck.png" alt="Duck"'Add _.img

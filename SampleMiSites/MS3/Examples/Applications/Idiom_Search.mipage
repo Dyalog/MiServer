@@ -10,7 +10,8 @@
 
     ∇ Compose;idioms
       :Access Public
-     
+      Add _.title'Idioms'
+
       Add¨WrapFollowing 'p'
 ⍝ This is a collection of the Dyalog, FinnAPL, and APL2 idiom lists.
 ⍝

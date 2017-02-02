@@ -1,4 +1,4 @@
-﻿:Class SNL : MiPageSample
+﻿:Class Snakes_And_Ladders : MiPageSample
 ⍝ Control:: _html.svg _DC.StackPanel
 ⍝ Description:: Classic Snakes and Ladders Game
 ⍝ Notes::
@@ -23,7 +23,9 @@
     :section Main Rendering
     ∇ Compose;frm;sp;businessLogic
       :Access public
-     
+      
+      Add _.title'S & L'
+
       Use'JQueryUI'
      
       Add _.Style'#output table' 'border: 1px solid black;border-collapse:collapse;font-size:.8em;'

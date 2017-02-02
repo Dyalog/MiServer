@@ -23,7 +23,7 @@
 
     ∇ Compose;row
       :Access Public
-     
+      Add _.title'Life'
       Add _.style ScriptFollows
       ⍝ .slot {height: 10px; width: 10px;}
       ⍝ .live, .dead, .surv {border-radius: 33%; position: absolute; z-index: -1;}

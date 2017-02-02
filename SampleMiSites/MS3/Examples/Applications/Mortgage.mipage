@@ -10,6 +10,8 @@
 
     ∇ Compose;f;inputs;labels;h ⍝ render the initial page
       :Access Public
+      
+      Add _.title'Mortgage'
 
       (prin rate term)←100000 4.5 30
       pmt←calcpmt prin rate term ⍝ First calculation

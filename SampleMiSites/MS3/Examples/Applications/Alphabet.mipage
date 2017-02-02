@@ -8,6 +8,7 @@
     ∇ Compose
       :Access Public
       ⎕RL←⍬ ⋄ COUNT←0
+      Add _.title'ABC'
       Add _.Script'' '../Data/jquery.ui.touch-punch.min.js' ⍝ External JavaScript to make jQuery UIsupport touch
       Add _.StyleSheet'../Data/Alphabet.css' ⍝ External style sheet
       'score'Add _.div,'output'New _.span'Drag the lowercase letters onto their corresponding uppercases'
