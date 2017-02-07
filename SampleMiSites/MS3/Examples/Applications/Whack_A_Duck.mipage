@@ -5,7 +5,7 @@
     ∇ Compose;duck
       :Access Public
       
-      Add _.title'Whack A Duck
+      Add _.title'Whack A Duck'
 
       '.nosel' 'align="center"'Add _.h1'Click the duck to make it shrink!'
       '#clicks' '.nosel' 'align="center"'Add _.div
