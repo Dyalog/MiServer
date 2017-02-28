@@ -453,6 +453,12 @@
       :EndIf
     ∇
 
+    ∇ {handler}←One args
+      :Access public
+      handler←On args
+      handler.Method←'one'
+    ∇
+
     ∇ r←RenderHandlers;myid;h
       :Access public ⍝!!! remove this after testing
       r←''

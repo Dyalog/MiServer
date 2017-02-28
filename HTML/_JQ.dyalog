@@ -341,6 +341,7 @@
         :Field public Callback←1         ⍝ execute AJAX callback to server?  or the name of the server-side callback function
         :Field public JavaScript←''      ⍝ JavaScript to execute prior to server callback
         :Field public Page←''            ⍝ server URL to request for an AJAX callback
+        :Field public Method←'on'        ⍝ by default use jQuery .on(), but can also be set to 'one' for a handler that fires only once
         :Field public jQueryWrap←1       ⍝ wrap handler in $(function(){...});
         :Field public ScriptWrap←1       ⍝ wrap handler in <script>...</script>
         :Field public WidgetDef←''       ⍝ widget definitions (e.g. jQuery or Syncfusion, others libraries may different)
@@ -610,10 +611,10 @@
                   :If force
                       (eis events)(WidgetRef.Options{⍺⍺⍎⍺,'←⍵'})¨⊂⊂'function(',syn_handler,'){',ajax,'}'
                   :Else
-                      r←'.on(',(quote Events),', function(event,ui){',ajax,'});'
+                      r←'.',Method,'(',(quote Events),', function(event,ui){',ajax,'});'
                   :EndIf
               :Else
-                  r←'$(',(quote selector),').on(',(quote Events),(delegates ine', ',quote delegates),', function(event,ui){',ajax,'});'
+                  r←'$(',(quote selector),').',Method,'(',(quote Events),(delegates ine', ',quote delegates),', function(event,ui){',ajax,'});'
                   :If jQueryWrap ⋄ r←'$(function(){',r,'});' ⋄ :EndIf
                   :If ScriptWrap ⋄ r←'<script>',r,'</script>' ⋄ :EndIf
               :EndIf
