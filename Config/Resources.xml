@@ -89,6 +89,10 @@
 		<script>/JQuery/APL_JavaScript_Utils.js</script>
 	</resource>
 	<resource>
+		<name>jQuery</name> <!-- define an alias for jQuery using its proper name -->
+		<uses>JQuery</uses>
+	</resource>
+	<resource>
 		<name>JQueryUI</name>
 		<uses>JQuery</uses>
 		<uses>jqTheme</uses>

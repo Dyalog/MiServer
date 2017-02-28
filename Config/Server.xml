@@ -6,13 +6,14 @@
     <ClassName>MiServer</ClassName>      <!-- class name for the core server component -->
     <LogMessageLevel>1</LogMessageLevel> <!-- 0-none -1-all 1-error/important 2-warning 4-informational 8-Transactional -->
     <Rest>0</Rest>                       <!-- running RESTful web service? -->
-    <Production>1</Production>           <!-- 1-running in production mode, 0-development mode (enable debugging framework) --> 
+    <Production>0</Production>           <!-- 1-running in production mode, 0-development mode (enable debugging framework) --> 
     <IdleTimeout>0</IdleTimeout>         <!-- seconds between calls to onIdle server event - 0 means don't call onIdle -->
     <UserID>miserver</UserID>
    
 <!-- Communications Settings -->
-    <Port>8080</Port>                                <!-- Preferred port that MiServer listens on -->
-    <IPVersion>IP</IPVersion>                      <!-- TCP/IP version, IPv4, IPv6, or IP to let Conga decide -->
+    <Port>8080</Port>                                <!-- Preferred port that MiServer listens on --> 
+    <Ports>8080-8090</Ports>                         <!-- List of ports that we can listen on (when running multiple MiServers -->
+    <IPVersion>IP</IPVersion>                        <!-- TCP/IP version, IPv4, IPv6, or IP to let Conga decide -->
     <UseContentEncoding>1</UseContentEncoding>       <!-- for HTTP compression -->
     <SupportedEncodings>gzip,deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->
     <Secure>0</Secure>                               <!-- Running secure? (SSL) if 0, remaining settings below have no meaning -->
@@ -36,7 +37,7 @@
     <Logger>Logger</Logger>                             <!-- name of class to perform HTTP request loggin -->
 
 <!-- Error Handling (DrA) Settings -->
-    <TrapErrors>1</TrapErrors>    <!-- Valid: 0=Crash, 1=Trap and Log errors -->
+    <TrapErrors>0</TrapErrors>    <!-- Valid: 0=Crash, 1=Trap and Log errors -->
     <Debug>0</Debug>              <!-- Valid: 0=No Debug Info, 1=Debug Info, 2=Allow Editing -->
     <MailMethod>NONE</MailMethod> <!-- Valid: SMTP|NET|NONE -->
     <MailRecipient></MailRecipient>

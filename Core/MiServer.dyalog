@@ -125,14 +125,13 @@
     ∇
     :endsection
 
-    ∇ r←RunServer arg;RESUME;⎕TRAP;Common;cmd;name;port;wres;ref;nspc;sink;Stop;secure;certpath;flags;z;rc;rate;ErrorCount;idletime;msg;uid;ts;CMTid
+    ∇ r←RunServer arg;RESUME;⎕TRAP;Common;cmd;name;port;wres;ref;nspc;sink;Stop;secure;certpath;flags;z;rc;rate;ErrorCount;idletime;msg;uid;ts
       ⍝ Simple HTTP (Web) Server framework
       ⍝ Assumes Conga available in #.DRC and uses #.HTTPRequest
       ⍝ arg: dummy
       ⍝ certs: RootCertDir, ServerCert, ServerKey (optional: runs Secure server)
      
       Common←⎕NS'' ⋄ Stop←0 ⋄ WAITING←0
-      CMTid←ConnectionMonitor&ServerName
       StartTime←⎕TS
      
       :If Config.TrapErrors>0
@@ -180,7 +179,7 @@
                   :EndIf
      
                   :If 0≠⎕NC nspc
-                      {}(⍎nspc){⎕EX nspc/⍨('BlockLast'≡3⊃⍵)∧⍺ HandleRequest(2↑⍵)}&wres[2 4 3] ⍝ Run page handler in new thread
+                      {}(⍎nspc){t←⍺ HandleRequest ⍵ ⋄ ⎕EX t/nspc⊣⎕DL 1}&wres[2 4]
                   :EndIf
               :Case 'Connect' ⍝ Ignore
      
@@ -198,7 +197,6 @@
      
           :Case 1010 ⍝ Object Not found
               1 Log'Object ''',ServerName,''' has been closed - Web Server shutting down'
-              ⎕TKILL CMTid
               →0
      
           :Else
@@ -209,7 +207,6 @@
       :EndWhile
      
      RESUME: ⍝ Error Trapped and logged
-      ⎕TKILL CMTid
       {}#.DRC.Close ServerName
       1 Log r←'Web server ''',ServerName,''' stopped '
       →0
@@ -334,14 +331,14 @@
               conns.Pos←pos
               conns.Req←fromutf8 conns.(Pos↑Buffer)
           :Else
-              :Return ⍝ haven't found end of header yet, go back for more
+              →r←0 ⍝ haven't found end of header yet, go back for more
           :EndIf
       :EndIf
      
       :If 0<⍴conns.Req
           :If conns.Pos>i←(z←LF,'content-length:')FindFirst hdr←#.Strings.lc conns.Req
           :AndIf (⍴conns.Buffer)<conns.Pos+conns.ContentLength←⊃2⊃⎕VFI(¯1+z⍳CR)↑z←(¯1+i+⍴z)↓hdr
-              :Return  ⍝ a content-length was specified but we haven't yet gotten what it says to ==> go back for more
+              →r←0  ⍝ a content-length was specified but we haven't yet gotten what it says to ==> go back for more
           :EndIf
       :EndIf
      
@@ -357,8 +354,8 @@
       REQ.Server←⎕THIS ⍝ Request will also contain reference to the Server
       res←REQ.Response
       startsize←length←0
-
-      :If 200=res.Status     
+     
+      :If 200=res.Status
           :If 2=conns.⎕NC'PeerAddr' ⋄ REQ.PeerAddr←conns.PeerAddr ⋄ :EndIf       ⍝ Add Client Address Information
           8 Log REQ.(PeerAddr Command Page)
      
@@ -772,18 +769,6 @@
     :endsection
 
     :section Misc
-
-    ∇ ConnectionMonitor server
-    ⍝ Because AJAX calls don't send a "BlockLast" packet, we need to clean up connection namespaces that didn't get erased
-      :While 1
-          ⎕DL 30
-          :Trap 6
-              {}Common.{⎕EX(⎕NL ¯9)~'C',¨#.DRC.Names ⍵}server
-          :Else
-              →0
-          :EndTrap
-      :EndWhile
-    ∇
 
     ∇ r←flag Debugger w
       :If flag
