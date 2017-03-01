@@ -12,15 +12,15 @@
       :Access Public
       Add _.title'Idioms'
 
-      Add¨WrapFollowing 'p'
+      Add MarkdownFollows
 ⍝ This is a collection of the Dyalog, FinnAPL, and APL2 idiom lists.
 ⍝
 ⍝ The lists differ a bit:
 ⍝ The Dyalog entries are optimized in interpreter. The FinnAPL entries represent the traditional
 ⍝ APL way of doing things – without nested arrays and other modern features. The APL2 entries 
 ⍝ do use nested arrays, but may not take advantage of Dyalog's newest additions, e.g. dfns, 
-⍝ trains, and primitives like <code class="a385">⍣ ⌸ ⍤ ⍨ ∪ ∩ ≢ ⊆ ⍸ @ ⌺</code> etc. Note that all 
-⍝ idioms, including those from APL2, assume <code class="a385">⎕ML←1</code>.
+⍝ trains, and primitives like `⍣ ⌸ ⍤ ⍨ ∪ ∩ ≢` etc. Note that all 
+⍝ idioms, including those from APL2, assume `⎕ML←1`, while `⊆` is use to denote `{⎕ML←3 ⋄ ⍺⊂⍵}`.
 ⍝
 ⍝ If you click on an APL expression it will be copied to the clipboard.
  
