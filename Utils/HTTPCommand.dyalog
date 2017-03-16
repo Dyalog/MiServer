@@ -1,18 +1,56 @@
 ﻿:Class HTTPCommand
-⍝ Issue an HTTP Command
-⍝ Public Fields are:
-⍝   Command  - the HTTP command to issue, typically 'GET' 'POST' 'PUT etc
+⍝ Description::
+⍝ HTTPCommand is a stand alone utility to issue HTTP commands and return their results.
+⍝ HTTPCommand can be used to retrieve the contents of web pages, issue calls to web services,
+⍝ and communicate with any service which uses the HTTP protocol for communications.
+⍝
+⍝ Overview::
+⍝ HTTPCommand can be used in two ways:
+⍝   1) Using ⎕NEW - this allows you to specify the command's parameters without having to 
+⍝                   cram them into a single function or constructor invocation. 
+⍝        h←⎕NEW HTTPCommand                            ⍝ create a new instance 
+⍝        h.(Command URL)←'get' 'www.dyalog.com'        ⍝ set the command parameters
+⍝        r←h.Run                                       ⍝ run the command
+⍝   2) Using the shared "Get" or "Do" shortcut methods
+⍝        r←HTTPCommand.Get 'www.dyalog.com'           
+⍝        r←HTTPCommand.Do 'get' 'www.dyalog.com'           
+⍝
+⍝ Constructor::
+⍝       cmd←⎕NEW HTTPCommand [(Command [URL [Params [Headers [Cert [SSLFlags [Priority]]]]]])]
+⍝
+⍝ Where:
+⍝   Command  - the case-insensitive HTTP command to issue
+⍝              typically one of 'GET' 'POST' 'PUT' 'OPTIONS' 'DELETE' 'HEAD'
 ⍝   URL      - the URL to direct the command at
 ⍝              format is:  [HTTP[S]://][user:pass@]url[:port][/page[?params]]
 ⍝   Params   - the parameters to pass with the command
 ⍝              this can either be a URLEncoded character vector, or a namespace containing the named parameters
-⍝              for 'GET' you can pass parameters either in the URL or in Params (they will be appended to the URL)
 ⍝   Headers  - any additional HTTP headers to send with the request (all the obvious headers like 'content-length' are precomputed)
 ⍝              a vector of 2-element (header-name value) vectors or a matrix of [;1] header-name [;2] values
-⍝   Cert     - if using a SSL, this is an instance of the X509Cert class
+⍝   Cert     - if using a SSL, this is an instance of the X509Cert class (see Conga SSL documentation)
 ⍝   SSLFlags - if using SSL, these are the SSL flags as described in the Conga documentation
 ⍝   Priority - if using SSL, this is the GNU TLS priority string (generally you won't change this from the default)
-⍝   LocalDRC - if set, this is a reference to the DRC namespace from Conga - otherwise, we look for DRC in the workspace root
+⍝
+⍝ Shared Methods::                      
+⍝   result←HTTPCommand.Get URL [Params [Headers [Cert [SSLFlags [Priority]]]]]
+⍝   result←HTTPCommand.Do  Command URL [Params [Headers [Cert [SSLFlags [Priority]]]]]
+⍝
+⍝  Where the arguments are as described above.
+⍝  Get and Do are shortcut methods to make it easy to execute an HTTP request on the fly.
+⍝
+⍝ Example Use Cases::
+⍝
+⍝ Retrieve the contents of a web page
+⍝      result←HTTPCommand.Get 'www.dyalog.com'
+⍝
+⍝ Update a record in a web service
+⍝      cmd←⎕NEW HTTPCommand                        ⍝ create an instance   
+⍝      cmd.(Command URL)←'PUT' 'www.somewhere.com' ⍝ set a couple of fields
+⍝      (cmd.Params←⎕NS '').(id name)←123 'Fred'    ⍝ set the parameters for the "PUT" command
+⍝      result←cmd.Run                              ⍝ and run it
+⍝
+⍝ Public Fields::
+⍝   LocalDRC - if set, this is a reference to the DRC namespace from Conga - otherwise, we look for DRC in the workspace root\
 ⍝   WaitTime - time (in seconds) to wait for the response (default 30)
 ⍝
 ⍝   Methods Run and Get return a namespace containing the variables:
@@ -24,17 +62,19 @@
 ⍝   peercert      - the server (peer) certificate if running secure
 ⍝   rc            - the Conga return code (0 means no error)
 
+
     ⎕ML←⎕IO←1
 
-    :field public Command←'GET'
+    :field public Command←'GET' ⍝ the case-insensitive HTTP command to use - typically one of 'GET' 'PUT' 'OPTIONS' 'POST' or 'DELETE'
+⍝ this is some follow on text
     :field public Cert←⍬
     :field public SSLFlags←32
     :field public shared LocalDRC←''
-    :field public URL←''
+    :field public URL←'' ⍝ the URL to direct the command at<<br>>format is:  [HTTP[S]://][user:pass@]url[:port][/page[?params]]
     :field public Params←''
     :field public Headers←''
     :field public Priority←'NORMAL:!CTYPE-OPENPGP'
-    :field public shared WaitTime←30
+    :field public WaitTime←30
 
 
     ∇ make
@@ -61,22 +101,17 @@
 
     ∇ r←Get args
       :Access public shared
-      r←('GET'HTTPCmd)args
+      r←(⎕NEW ⎕THIS((⊂'GET'),eis args)).Run
     ∇
 
-    ∇ r←{certs}Do args
+    ∇ r←Do args;cmd
       :Access public shared
-    ⍝ args is Command URL Params Headers Cert SSLFlags Priority
-      args←eis args
-      :If 0=⎕NC'certs'
-          r←((⊃args)HTTPCmd)1↓args
-      :Else
-          r←certs((⊃args)HTTPCmd)1↓args
-      :EndIf
+      ⍝ args - [Command URL Params Headers Cert SSLFlags Priority]
+      r←(⎕NEW ⎕THIS(eis args)).Run
     ∇
 
 
-    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime;congaCopied;peercert;formContentType
+    ∇ r←{certs}(cmd HTTPCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;status;httpver;httpstatus;httpstatusmsg;rc;dyalog;FileSep;donetime;congaCopied;peercert;formContentType;ind
 ⍝ issue an HTTP command
 ⍝ certs - optional [X509Cert [SSLValidation [Priority]]]
 ⍝ args  - [1] URL in format [HTTP[S]://][user:pass@]url[:port][/page]
@@ -87,6 +122,10 @@
 ⍝ Result: (conga return code) (HTTP Status) (HTTP headers) (HTTP body) [PeerCert if secure]
       r←⎕NS''
       (rc httpver httpstatus httpstatusmsg header data peercert)←¯1 '' 400(⊂'bad request')(0 2⍴⊂'')''⍬
+     
+      args←eis args
+      (url parms hdrs)←args,(⍴args)↓''(⎕NS'')''
+      →0⍴⍨0∊⍴url ⍝ exit early if no URL
      
       congaCopied←0
       :If 0∊⍴LocalDRC
@@ -114,18 +153,18 @@
       :EndIf
      
       {}LDRC.Init''
-      args←eis args
      
-      (url parms hdrs)←args,(⍴args)↓''(⎕NS'')''
-      urlparms←''
+      url←,url
       cmd←uc,cmd
      
+      (url urlparms)←{⍵{((¯1+⍵)↑⍺)(⍵↓⍺)}⍵⍳'?'}url
+     
       :If 'GET'≡cmd   ⍝ if HTTP command is GET, all parameters are passed via the URL
-          urlparms←parms
+          urlparms,←{0∊⍴⍵:⍵ ⋄ '&',⍵}URLEncode parms
           parms←''
       :EndIf
      
-      urlparms←{0∊⍴⍵:'' ⋄ ('?'=1↑⍵)↓'?',⍵}URLEncode urlparms
+      urlparms←{0∊⍴⍵:'' ⋄ ('?'=1↑⍵)↓'?',⍵}{⍵↓⍨'&'=⊃⍵}urlparms
      
      GET:
       p←(∨/b)×1+(b←'//'⍷url)⍳1
@@ -155,9 +194,9 @@
       hdrs←'Accept'(hdrs addHeader)'*/*'
      
       :If ~0∊⍴parms          ⍝ if we have any parameters
-          :If cmd≡'POST'     ⍝ and a POST command                                                    
+          :If cmd≡'POST'     ⍝ and a POST command
               ⍝↓↓↓ specify the default content type (if not already specified)
-              hdrs←'Content-Type'(hdrs addHeader)formContentType←'application/x-www-form-urlencoded' 
+              hdrs←'Content-Type'(hdrs addHeader)formContentType←'application/x-www-form-urlencoded'
               :If formContentType≡hdrs GetHeader'Content-Type'
                   parms←URLEncode parms
               :EndIf
