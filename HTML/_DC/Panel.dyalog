@@ -19,10 +19,12 @@
 ⍝ See the Advanced Example for a practical example.
 
 
-    :field public Value←''
+    :field public Message←''
     :field public Type←'info'    ⍝ info | warn | errorr] | success | warnRed (Warning-Symbol with red color - if you don't like normal "error"-style)
     :field public Title←''
     :field public Icon←''
+    :field public Round←1   ⍝ Round corners (=1) or Square (=0)?
+
 
     ∇ make0
       :Access public
@@ -33,7 +35,7 @@
     ∇ make1 arg
       :Access public
       :Implements constructor :base
-      (Value Type Title)←(eis arg)defaultArgs Value Type Title
+      (Message Type Title)←(eis arg)defaultArgs Message Type Title
       Uses←'dcPanel'
     ∇
 
@@ -42,7 +44,7 @@
       cclass←'dc-panel-dfltStyle'
       SetId
       SetUse
-      AddClass'dc-panel'
+      AddClass'dc-panel','SR'[1+Round]
       :Select 4↑Type
       :Case 'info' ⋄ icon←'info-circle' ⋄ class←'dc-panel-info'
       :Case 'warn'
@@ -71,10 +73,11 @@
       :EndIf
      
       c,←ic.Render
-      d←('class="',class,' ',cclass,' dc-panel-content" id="',id,'_content"')New _.div Value
-      d.Add Content
+      d←('class="',class,' ',cclass,' dc-panel-content" id="',id,'_content"')New _.div Message
+      d.Add savedContent←Content   ⍝ save original content 
       Content←c,d
-      r←⎕BASE.Render
+      r←⎕BASE.Render       ⍝ restore original content to avoid issues
+      Content←savedContent ⍝ when re-rendering (as in MetaControl)
     ∇
 
 

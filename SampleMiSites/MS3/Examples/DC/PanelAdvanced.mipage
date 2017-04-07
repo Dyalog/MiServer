@@ -8,7 +8,7 @@
           
       p←Add _.Panel'' 'info'
       p.Icon←'fa-certificate fa-3x'
-      p.Add'You can also build panels using the Add method</br>'
+      p.Add'You can also build panels using the Add method<br/>'
       p.Add'You can assign custom icons by setting the field "Icon"'
      
       Add _.style ScriptFollows
@@ -19,6 +19,9 @@
       p←Add _.Panel('' '.custom-class' 'Custom Class Example Title')
       p.Icon←'fa-thumbs-up'
       p.Add'You can assign your own classes and icons as well!'     
+      
+		  (Add _.Panel'Notice that square panels are also possible! Simply use the "Round"-Attribute (and assign a value of 0).' 'warn').Round←0
+       
     ∇
 
 
