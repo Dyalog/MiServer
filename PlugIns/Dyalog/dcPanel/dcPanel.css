@@ -1,4 +1,4 @@
-.dc-panel {
+.dc-panelR,.dc-panelS {
   padding: 5px 5px 0px 5px;
   min-height: 40px;
 }
@@ -19,7 +19,8 @@
   color: #D8000C;
 }
 
-.dc-panel > .dc-panel-icon {
+.dc-panelR > .dc-panel-icon , .dc-panelS > .dc-panel-icon
+ {
   font-size: 2em;
   width: 30px;
   float: left;
@@ -27,7 +28,8 @@
   vertical-align: middle;
 }
 
-.dc-panel > .dc-panel-icon  + .dc-panel-content {
+.dc-panelR > .dc-panel-icon  + .dc-panel-content  
+{
   border-top-left-radius: .5em;
   border-top-right-radius: .5em;
   border-bottom-left-radius: .5em;
@@ -37,7 +39,18 @@
   min-height: 40px;
 }
 
-.dc-panel > .dc-panel-title {
+.dc-panelS > .dc-panel-icon  + .dc-panel-content 
+{
+  border-top-left-radius: 0em;
+  border-top-right-radius: 0em;
+  border-bottom-left-radius: 0em;
+  border-bottom-right-radius: 0em;
+  border: 1px solid;
+  margin-top: 0px;
+  min-height: 40px;
+}
+
+.dc-panelR > .dc-panel-title {
   border-top-left-radius: .5em;
   border-top-right-radius: .5em;
   border-bottom: 2px solid red;
@@ -47,15 +60,34 @@
   color: black;
 }
 
-.dc-panel > .dc-panel-title +.dc-panel-icon +.dc-panel-dfltStyle {
+.dc-panelS > .dc-panel-title {
+  border-top-left-radius: 0em;
+  border-top-right-radius: 0em;
+  border-bottom: 2px solid red;
+  border: 1px solid;
+  padding: 3px 0px 3px 3px;
+  font-weight: 800;
+  color: black;
+}
+
+.dc-panelR > .dc-panel-title +.dc-panel-icon +.dc-panel-dfltStyle , .dc-panelS > .dc-panel-title +.dc-panel-icon +.dc-panel-dfltStyle {
   background-color: transparent;
 }
-.dc-panel > .dc-panel-title +.dc-panel-icon +.dc-panel-content {
+.dc-panelS > .dc-panel-title +.dc-panel-icon +.dc-panel-content {
+  border-top-left-radius: 0em;
+  border-top-right-radius: 0em;
+  border-bottom-left-radius: 0em;
+  border-bottom-right-radius: 0em;
+}
+.dc-panelR > .dc-panel-title +.dc-panel-icon +.dc-panel-content {
   border-top-left-radius: 0em;
   border-top-right-radius: 0em;
   border-bottom-left-radius: .5em;
   border-bottom-right-radius: .5em;
 }
+
+
+
 
 .dc-panel-error.dc-panel-title , .dc-panel-content {
   background-color: #FF9EA3;

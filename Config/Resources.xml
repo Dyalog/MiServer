@@ -468,6 +468,13 @@
 		<script>/DataTables/extensions/Responsive/js/DataTables.responsive.min.js</script>
 	</resource>
 	<resource>
+		<name>DataTable_yadcf</name>
+		<uses>DataTable</uses>
+		<uses>JQueryUI</uses>
+		<style>/DataTables/extras/yadcf-0.9.1/jquery.dataTables.yadcf.css</style>
+		<script>/DataTables/extras/yadcf-0.9.1/jquery.dataTables.yadcf.js</script>
+	</resource>
+	<resource>
 		<name>DataTable_mark</name>
 		<uses>JQuery</uses>
     <script>/DataTables/extras/mark-8.4.2/jquery.mark.min.js</script>
