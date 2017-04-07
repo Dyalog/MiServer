@@ -89,6 +89,10 @@
 		<script>/JQuery/APL_JavaScript_Utils.js</script>
 	</resource>
 	<resource>
+		<name>jQuery</name> <!-- define an alias for jQuery using its proper name -->
+		<uses>JQuery</uses>
+	</resource>
+	<resource>
 		<name>JQueryUI</name>
 		<uses>JQuery</uses>
 		<uses>jqTheme</uses>
@@ -462,6 +466,13 @@
 		<name>DataTables_responsive</name>
 		<style>/DataTables/extensions/Responsive/css/responsive.dataTables.min.css</style>
 		<script>/DataTables/extensions/Responsive/js/DataTables.responsive.min.js</script>
+	</resource>
+	<resource>
+		<name>DataTable_yadcf</name>
+		<uses>DataTable</uses>
+		<uses>JQueryUI</uses>
+		<style>/DataTables/extras/yadcf-0.9.1/jquery.dataTables.yadcf.css</style>
+		<script>/DataTables/extras/yadcf-0.9.1/jquery.dataTables.yadcf.js</script>
 	</resource>
 	<resource>
 		<name>DataTable_mark</name>
