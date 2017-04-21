@@ -13,7 +13,7 @@
       Add _.h2'Please pick some <span id="title">fruits</span>'
       (frm←Add _.Form).id←'myform'
      
-      mult←'multi'frm.Add _.Chosen(FRUITS(2 5)(3 4)) ⍝ preselect 2nd and 5th fruit
+      mult←'multi'frm.Add _.Chosen(FRUITS(2 5)(3 4)) ⍝ preselect 2nd and 5th fruit, 3&4 disabled.
       mult.Container.Set'multiple' 1               ⍝ Allow multiple selections
       'width'mult.Set'200px'         ⍝ Make room for all the items
       mult.On'change' 'onPick'

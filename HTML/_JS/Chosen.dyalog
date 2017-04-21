@@ -1,8 +1,9 @@
 ﻿:class Chosen : #._JQ._jqWidget
 ⍝ Description:: Enhanced HTML selects with search-box and improved multi-select
-⍝ Constructor:: [options [[selected] [prompt]]]
+⍝ Constructor:: [options [[selected] [[ disabled] [prompt]]]]
 ⍝ options   - vector of options or 2 column matrix of displayed[;1] and returned[;2] values
 ⍝ selected  - Boolean or integer array indicating pre-selected options(s)
+⍝ disabled  - Boolean or integer array indicating disableded options(s)
 ⍝ prompt      - first item to display (has no value) (default '[Select]')
 ⍝
 ⍝ Public Fields::
@@ -22,10 +23,11 @@
 
     :field public shared readonly DocBase←'https://harvesthq.github.io/chosen/options.html'
 
- ⍝   :field public Options←0 2⍴⊂''     ⍝ vector or matrix [;1] display, [;2] value
- ⍝   :field public Selected←⍬          ⍝ either Boolean integer vector indicating
- ⍝   :field public Prompt←'[Select]'   ⍝ character vector "Prompt" choice - the first choice on the list and does not have a value
- ⍝   :field public options←⎕ns''
+    :field public Options←0 2⍴⊂''     ⍝ vector or matrix [;1] display, [;2] value
+    :field public Selected←⍬          ⍝ either Boolean integer vector indicating
+    :field public Disabled←⍬          ⍝ either Boolean integer vector indicating
+    :field public Prompt←'[Select]'   ⍝ character vector "Prompt" choice - the first choice on the list and does not have a value
+ 
 
     ∇ make
       :Access public
@@ -39,20 +41,18 @@
       :Access public
       :Implements constructor
       ContainerTag←'select'
-      Container←⎕NEW #._DC.Select args
+
+            (Options Selected Disabled Prompt)←args defaultArgs Options Selected Disabled Prompt
+      Container←⎕NEW #._DC.Select (Options Selected Disabled Prompt)
       JQueryFn←Uses←'chosen'
     ∇
 
-    ∇ make2(arg1 arg2)
-      :Access public
-      :Implements constructor
-      ContainerTag←'select'
-      Container←⎕NEW #._DC.Select(arg1 arg2)
-      JQueryFn←Uses←'chosen'
-    ∇
+
 
     ∇ r←Render
-      :Access public
+      :Access public   
+      Container.Options←Options 
+      ⎕shadow'Options' ⋄ Options←''   ⍝ avoid clashes with JQueryFn that uses "Options", too - but differently...
       r←⎕BASE.Render
     ∇
 
