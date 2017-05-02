@@ -25,6 +25,8 @@
     :field public MakeRowIds←0
 
     :field public Plugins←''     ⍝ comma delimited list of "official" plugins to use
+    :field private JSON_Data←''   ⍝ supporting JSON-Data transparently ("Data" can be JSON)
+
     ∇ Make0
       :Access public
       JQueryFn←Uses←'DataTable'
@@ -39,20 +41,26 @@
       :Implements Constructor
       :If 2=⍴⍴args ⋄ args←,⊂args ⋄ :EndIf
       Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds←args defaultArgs Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds
+      :If 2≠⍴⍴Data
+      :AndIf #.HtmlElement.isChar Data
+          JSON_Data←Data ⋄ Data←0 0⍴0
+      :EndIf
       Container←⎕NEW #._DC.Table
       ContainerTag←'table'
     ∇
 
     ∇ html←Render;tab
       :Access public
-   
+⍝∘∘∘     
       :If _true≡GetOption'mark' 
        Use'DataTable_mark' 
        SetUse
-      :EndIf
+        :EndIf
+     
       opts←Options
       JavaScript,←RenderPlugins
       Options←opts
+      :If 0<⍴JSON_Data ⋄ 'data'Set⊂JSON_Data ⋄ :EndIf
       Container.(Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)←(Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)
       html←⎕BASE.Render
      

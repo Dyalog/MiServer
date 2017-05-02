@@ -1,0 +1,150 @@
+﻿:Class DataTableAdvanced_yadcf2 : MiPageSample
+⍝ Control::     _JS.DataTable
+⍝ Description:: DataTable showing an analysis about presendential endorsements of top 100 US Newspapers (yadcf, custom rendering)
+
+    :field private Datafile←'endorsements.csv'
+    :field private Democrats
+    :field private Republicans
+    :field private Others
+
+    ∇ Compose;button;frm;dyalog;dPath;dat
+      :Access Public
+     
+      Add _.div MarkdownFollows
+⍝## Advanced use of Datatables
+⍝### Description
+⍝ This sample uses data about US-Newspapers and their endorsements in the presedential elections.
+⍝ It was collected by Noah Veltman, he described the process on his [homepage](http://noahveltman.com/endorsements/).
+⍝ Data available on [GitHub](https://github.com/veltman/endorsements/).
+⍝### Techniques used
+⍝
+⍝* JSON-Datasource: in this example the data is provided as a JSON-Object.
+⍝  This has performance-advantages when rendering the table, as Datatables can fetch the required portion of data
+⍝  (according to pagination etc.) and then just render that small amount of data.
+⍝* yadcf-Filtering
+⍝   * Notice the "Party"-Filter which uses data from a column that is not shown in the table.
+⍝     As the column is not visible, the filter needs to be rendered in a separate container.
+⍝   * This filter also uses a custom filter-function that translates the internal values "`D`", "`R`"
+⍝      and "`O`" to their legible equivalents.
+⍝* The "Endorsed"-Column uses a custom event-handler for the "CreatedCell"-event to assign a
+⍝  background-color based on the party.
+⍝* The "Source(s)"-column uses a custom Render-Function that checks if the data is a URL
+⍝  (in which case an HTML-Anchor is generated) or just a verbal reference/explanation which
+⍝  is then shown.
+⍝* try to search for a word like "Chronicle". As you type, the list will be reduced to all matching records
+⍝  and - thanks to the "mark"-Option, the matching strings will be highlighted.
+⍝* minor usability-detail: the "Source(s)"-Column is excluded from searches
+     
+     
+     
+      dPath←_Request.Server.Config.AppRoot,'examples/data/'
+      :If 0=⎕NC'#.LoadData'
+          dyalog←2 ⎕NQ'.' 'GetEnvironment' 'dyalog'
+          #.⎕CY dyalog,'/ws/loaddata'                ⍝ must be copied to root because of absolute reference #.fileUtilities
+      :EndIf
+      Add _.Style'#fltcnt' 'width:50%;'              ⍝ limit width of Filter-Container
+      '#fltcnt'Add _.div
+      dat←#.LoadTEXT(dPath,Datafile)','              ⍝ get Data from CSV
+      dat←1 0↓dat  ⍝ drop titles
+      dat,←{
+          e←{1↓¨(⍵='/')⊂⍵}'/',⍵
+          ((∨/e∊Democrats)/'D'),((∨/e∊Republicans)/'R'),((∨/e∊Others)/'O')
+      }¨dat[;3]
+      dat←#.JSON.serializeAPL dat  ⍝ JSON
+     
+      dt←'#sample'Add _.DataTable dat
+      dt.Plugins←'yadcf'                            ⍝ enable yadcf (see 'yadcf.Filters'Set.. at the end)
+      dt.Options.mark←_true                         ⍝ highlight search-terms
+      dt.Options.columns←⎕NS¨7⍴⊂''
+      dt.Options.columns[⍳4].visible←⊂_true
+      dt.Options.columns[5 6 7].visible←⊂_false
+      dt.Options.columns[1 2 3 4].title←'Publication' 'Year' 'Endorsed' 'Source(s)'
+      dt.Options.columns[4 5].searchable←_false
+     
+     
+      dt.Options.columns[3].createdCell←⊂ScriptFollows
+      ⍝ function (td, cellData, rowData, row, col) {
+      ⍝if ( -1 < rowData[6].indexOf('D') ) {
+      ⍝  $(td).css('background-color', 'blue');
+      ⍝} else if ( -1 < rowData[6].indexOf('R') ) {
+      ⍝  $(td).css('background-color', 'red');
+      ⍝}
+      ⍝}
+     
+      ⍝ Column 4 (Sources) and 5 (additional sources)
+      dt.Options.columns[4].render←⊂ScriptFollows
+      ⍝ function ( data, type, row, meta )
+      ⍝ {
+      ⍝  var ret="";
+      ⍝  if ('http' == data.slice(0,4))
+            ⍝  {
+      ⍝            ret = '<a href="' + data + '">1</a>';
+      ⍝  }
+      ⍝  else if (0 < data.length) {
+      ⍝        ret = '<span title="' + htmlEntities(data) + '">1</span>';
+      ⍝ }
+      ⍝ if ('http:' == row[4].slice(0,4)) {
+      ⍝     ret += ' <a href="' + row[4] + '">2</a>';
+      ⍝ } else if (0 < row[4].length) {// nb: JS-Indices assume IO=0, so this refers to col5!
+      ⍝                ret += ' <span title="' + htmlEntities(row[4]) + '">2</span>';
+      ⍝      }
+      ⍝ return ret;
+      ⍝ }
+     
+     
+     
+     
+      Add _.Script ScriptFollows
+      ⍝ function myCustomFilterFunction(filterVal,columnVal)
+      ⍝ {
+      ⍝ var found=-1;
+      ⍝ if (columnVal === '') { return true;}
+      ⍝ return -1 < columnVal.search(filterVal);
+      ⍝ }
+      ⍝ function htmlEntities(str) {
+      ⍝     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      ⍝ }
+     
+      'yadcf.Filters[1].(column_number  select_type filter_container_id filter_default_label text_data_delimiter)'dt.Set 6  'chosen' 'fltcnt' 'Select Party' ','
+      'yadcf.Filters[1].(filter_type custom_func select_type_options)'dt.Set'custom_func'(⊂'myCustomFilterFunction')  (⊂'{width:"200px;"}')
+      'yadcf.Filters[1].data'dt.Set⊂#.JSON.fromAPL #.JSON.fromTable'value' 'label'⍪3 2⍴'O' 'Other' 'D' 'Democrats' 'R' 'Republican'
+      'yadcf.Filters[2].column_number'dt.Set 1
+    ∇
+
+
+
+    ∇ make
+      :Access public
+      :Implements constructor
+     
+⍝ the blue guys
+      Democrats←{((1,1↓⍵=⎕UCS 13)⊂⍵)~¨⊂⎕UCS 13 10 32}ScriptFollows
+⍝ Carter
+⍝ Mondale
+⍝ Clinton
+⍝ Gore
+⍝ Kerry
+⍝ Obama
+⍝ Dukakis
+⍝ Kerry
+     
+     
+⍝ Reds:
+      Republicans←{((1,1↓⍵=⎕UCS 13)⊂⍵)~¨⊂⎕UCS 13 10 32}ScriptFollows
+⍝ Reagan
+⍝ Bush
+⍝ McCain
+⍝ Romney
+⍝ Dole
+⍝ Trump
+     
+     
+      Others←{((1,1↓⍵=⎕UCS 13)⊂⍵)~¨⊂⎕UCS 13 10 32}ScriptFollows
+⍝ Johnson
+⍝ Perot
+     
+    ∇
+
+
+
+:EndClass
