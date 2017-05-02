@@ -364,12 +364,7 @@
               scores←C.controls∘.Score↓⍉↑C.files C.demos         ⍝ controls vs files
               C.rankings←(+/0<scores)↑¨↓⍒#.Utils.∆rank 1⊢scores  ⍝ cache all rankings
      
-              C.descr←''
-              C.ctor←''
-              C.notes←''
-              C.relevant←''
-              C.reldocs←''
-              C.doclinks←''
+              C.(descr ctor notes relevant reldocs doclinks)←Ø
               info←FromCSV Read'IndexData/info.csv'
               :For control ref src :InEach C.controls refs srcs
                   i←info[;1]⍳⊂control
@@ -394,9 +389,9 @@
                       C.relevant,←Ø
                   :EndIf
      
-     
               :EndFor
-     
+              C.cats←GROUPS['' 'ej' 'jq' 'js'⍳'(^\p{Ll}*)\p{Lu}?'⎕S'\1'⊢C.controls]
+
               C.reldocs←(RelDocs¨C.controls),Ø
               C.doclink←(DocLink¨C.controls),Ø
               C.used←{⊂2↓∊', '∘,¨C.doclink[C.controlsoi¨⍵]}¨C.demos
@@ -404,15 +399,9 @@
               C.tasks←{Link('Description'Section Read ⍵)⍵}¨C.files
      
               C.type←'simple' 'advanced' 'mini-app'[1⍳⍨¨↓⍉∨/¨'Simple' 'Advanced'∘.⍷C.files]
-     
-              C.filedescr,←Ø ⍝ These cause an empty result if looked-up is not found
-              C.demos,←Ø
-              C.rankings,←Ø
-              C.descr,←Ø
-              C.ctor,←Ø
-              C.notes,←Ø
-              C.notes,←Ø
-              C.ns,←Ø
+
+              ⍝ These cause an empty result if looked-up is not found
+              C.(filedescr demos rankings descr ctor notes notes ns),←Ø
      
           :Else
               C←⍎CACHE ⍝ establish shortcut

@@ -50,6 +50,7 @@
       cols,←⊂('Control'Over'documentation link'),C.doclink
       cols,←⊂(⊂'Description'),C.descr
       cols,←⊂(⊂'Relevant samples'),C.reldocs
+      cols,←⊂(⊂'Library'),C.cats
       tabs.Sections,←'ctrl' '.display'New _.DataTable(¯1 0↓⍉↑cols)
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
