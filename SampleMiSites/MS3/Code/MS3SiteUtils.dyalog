@@ -21,7 +21,7 @@
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝
 
     :SECTION A_GENERAL ⍝ UTILITY FUNCTIONS THAT ARE NOT SPECIFIC TO THE "MS3" SITE
-                   
+
     ç←{⊂⍣(1=≡,⍵)⊢⍵} ⍝ enclose if simple     Mnemonic for the V16 glyph
 
     FwSl←'[\\/]+'⎕R'/' ⍝ Make all slash-block into single forward-slashes
@@ -164,6 +164,21 @@
           cat←2 LastSeg ⍵
           cat←'General' 'Mini App'cat['Documentation' 'Applications'⍳⊂cat]
           cat(Link((NoExt LastSeg)⍣(~⍺)('Description'Section Read)⍣⍺⊢⍵)⍵)
+      }
+
+      FilterTable←{
+          dt←⍺ New _.DataTable ⍵
+          dt.Options.mark←_true                ⍝ highlight search-terms
+          dt.Options.columns←⎕NS¨4⍴⊂⍬          ⍝ options per column
+          dt.Options.columns[4].visible←_false ⍝ hide column4
+          dt.Options.dom←'l<"#fltcnt">ftpr'    ⍝ insert div with id "fltcnt" into table header
+          dt.Plugins←'yadcf'
+          dt.Options.yadcf←⎕NS ⍬
+          dt.Options.yadcf.Filters←⎕NS ⍬
+          dt.Options.yadcf.Filters.(column_number select_type filter_container_id)←3 'chosen' 'fltcnt'
+          dt.Options.yadcf.Filters.(filter_type select_type_options filter_default_label)←'multi_select'(⊂'{width:"30em"}')'Filter by library'
+          dt.Options.yadcf.Filters/⍨←1 ⍝ needs array of namespaces
+          dt
       }
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
@@ -391,7 +406,7 @@
      
               :EndFor
               C.cats←GROUPS['' 'ej' 'jq' 'js'⍳'(^\p{Ll}*)\p{Lu}?'⎕S'\1'⊢C.controls]
-
+     
               C.reldocs←(RelDocs¨C.controls),Ø
               C.doclink←(DocLink¨C.controls),Ø
               C.used←{⊂2↓∊', '∘,¨C.doclink[C.controlsoi¨⍵]}¨C.demos
@@ -399,7 +414,7 @@
               C.tasks←{Link('Description'Section Read ⍵)⍵}¨C.files
      
               C.type←'simple' 'advanced' 'mini-app'[1⍳⍨¨↓⍉∨/¨'Simple' 'Advanced'∘.⍷C.files]
-
+     
               ⍝ These cause an empty result if looked-up is not found
               C.(filedescr demos rankings descr ctor notes notes ns),←Ø
      

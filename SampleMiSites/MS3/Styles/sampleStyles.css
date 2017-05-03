@@ -531,8 +531,21 @@ heading1 {
     margin: auto;
 }
 
+#bigtabs>div {
+    padding-top: 1em;
+}
+
 #bigtabs>div>div {
     width: calc(100% - 20px);
+}
+
+#samples>p {
+    margin: 0;
+    float: right;
+    width: 33em;
+    position: absolute;
+    right: 0;
+    z-index: 1;
 }
 
 /* SLIDESHOW CSS */
@@ -602,13 +615,27 @@ heading1 {
     background: white;
     position: relative;
     bottom: 55px;
-    /* border-radius: 10px; */
     min-height: 38px;
-    /* color: white; */
 }
 
 figcaption a {
     font-weight: bold;
+}
+
+#fltcnt {
+    display: inline-block;
+    width: calc(100% - 27em);
+}
+
+#fltcnt>div>div {
+    display: inline-block;
+    float: right;
+    position: relative;
+}
+
+yadcf-filter-wrapper--ctrl-3 {
+    position: relative;
+    right:0;
 }
 
 /* Syntax coloring */
