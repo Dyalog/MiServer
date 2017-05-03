@@ -83,7 +83,7 @@
     ∇ js←yadcfRender;flt
       js←''
       :If 0<Options.⎕NC'yadcf.Filters'
-      :AndIf 0<⍴Options.yadcf.Filters
+      :AndIf ×≢Options.yadcf.Filters
           Uses←'DataTable_yadcf'
           flt←#.JSON.fromAPL Options.yadcf.Filters
           :If ∨/'"chosen"'⍷flt ⋄ Use'chosen' ⋄ :EndIf     ⍝ load Chosen-Plugin for yadcf-Filters
