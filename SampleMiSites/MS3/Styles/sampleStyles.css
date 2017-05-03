@@ -522,8 +522,7 @@ heading1 {
     margin: calc(5px - 1em);
 }
 
-#bigtabs table {
-    font-family: Verdana, Geneva, sans-serif;
+#intro {
     margin: 0 20px;
 }
 

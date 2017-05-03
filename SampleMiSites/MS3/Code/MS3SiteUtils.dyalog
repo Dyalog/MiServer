@@ -405,7 +405,7 @@
                   :EndIf
      
               :EndFor
-              C.cats←GROUPS['' 'ej' 'jq' 'js'⍳'(^\p{Ll}*)\p{Lu}?'⎕S'\1'⊢C.controls]
+              C.cats←GROUPS[NSS⍳3↓¨⍕¨('#._'∘⍎¨C.controls).##]
      
               C.reldocs←(RelDocs¨C.controls),Ø
               C.doclink←(DocLink¨C.controls),Ø
