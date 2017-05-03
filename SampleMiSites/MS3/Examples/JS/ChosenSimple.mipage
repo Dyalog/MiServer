@@ -11,7 +11,7 @@
       Add _.h2'Please pick a fruit'
       Add _.p'Notice the Search-Box within the Dropdown! That is a standard-feature from Chosen. All parameters etc, are the same as for Select-Elements.'
       frm←'myform'Add _.Form
-      'fruit'frm.Add _.Chosen FRUITS
+      'fruit'frm.Add _.Chosen (,⊂FRUITS)
       btn←'btnPressMe'frm.Add _.Button'Pick'
       btn.On'click' 'onPick'
       'output'Add _.div

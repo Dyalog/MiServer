@@ -51,7 +51,16 @@
       cols,←⊂(⊂'Description'),C.descr
       cols,←⊂(⊂'Relevant samples'),C.reldocs
       cols,←⊂(⊂'Library'),C.cats
-      tabs.Sections,←'ctrl' '.display'New _.DataTable(¯1 0↓⍉↑cols)
+      tabs.Sections,←DT←'ctrl' '.display'New _.DataTable(¯1 0↓⍉↑cols)
+      DT.Options.mark←_true                         ⍝ highlight search-terms
+      DT.Options.columns←⎕NS¨4⍴⊂''             ⍝ options per column
+      DT.Options.columns[4].visible←_false     ⍝ hide column4
+      DT.Options.dom←'l<"#fltcnt">ftpr'        ⍝ insert the div with id "fltcnt" into the header to the table
+
+      DT.Plugins←'yadcf'                            ⍝ enable yadcf (see 'yadcf.Filters'Set.. at the end)
+      'yadcf.Filters[1].(column_number  select_type filter_container_id)'DT.Set 3  'chosen'   'fltcnt'
+      'yadcf.Filters[1].(filter_type select_type_options filter_default_label)'DT.Set'multi_select'   (⊂'{width:"200px;"}')'Filter by library'
+
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
       tabs.Titles,←'Reference'Over'general information/technique descriptions'
