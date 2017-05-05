@@ -3,7 +3,7 @@
 ⍝ Constructor:: [titles [sections]] | [titles_sections]
 ⍝ titles          - vector of char vectors containing titles to appear on accordion sections
 ⍝ sections        - vector of vectors containing HTML content for each section
-⍝ titles_sections - 2-column matrix of titles [;1] and sections [;2] as above
+⍝ titles_sections - 2-row matrix of titles [1;] and sections [2;] as above
 ⍝                   or vector of 2 element title/section vectors
 ⍝ Public Fields::
 ⍝ Titles          - vector of char vectors containing titles to appear on accordion sections
