@@ -11,6 +11,10 @@
 ⍝ Selected  - Boolean or integer array indicating pre-selected options(s)
 ⍝ Disabled  - Boolean or integer array indicating disabled options(s)
 ⍝ Prompt      - first item to display (has no value) (default '[Select]')
+⍝ 
+⍝ Public Methods::
+⍝ ReplaceOptions options [[selected] [disabled]]
+⍝ Arguments as discussed above
 ⍝
 ⍝ Examples::
 ⍝ Select  ('Choice 1' 'Choice 2' 'Choice 3')
