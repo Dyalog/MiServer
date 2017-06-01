@@ -42,4 +42,5 @@
     <MailMethod>NONE</MailMethod> <!-- Valid: SMTP|NET|NONE -->
     <MailRecipient></MailRecipient>
     <SMTP_Gateway></SMTP_Gateway>
+    <UseHTTP>1</UseHTTP>          <!-- Valid: 0=use DrA generated HTML, 1=report HTTP 500 status -->
 </Server>

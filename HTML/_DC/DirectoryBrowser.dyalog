@@ -1,5 +1,7 @@
-﻿:Class DirectoryBrowser : #._JS.DataTable
-
+﻿:Class DirectoryBrowser : #._JS.DataTable 
+     
+    ⍝∇:require =/../_JS/DataTable.dyalog
+     
     :field public Folder←''
     :field public Filter←''
     :field public Down←0

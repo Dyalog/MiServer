@@ -344,6 +344,7 @@
         :Field public Method←'on'        ⍝ by default use jQuery .on(), but can also be set to 'one' for a handler that fires only once
         :Field public jQueryWrap←1       ⍝ wrap handler in $(function(){...});
         :Field public ScriptWrap←1       ⍝ wrap handler in <script>...</script>
+        :Field public StatusHandlers     ⍝
         :Field public WidgetDef←''       ⍝ widget definitions (e.g. jQuery or Syncfusion, others libraries may different)
                                          ⍝                                          jQuery            Syncfusion
                                          ⍝ [1] event handler syntax:                'event,ui'        'argument'
@@ -375,7 +376,7 @@
           :Access public
           :Implements constructor
           params←#.HtmlElement.eis params
-          (Selector Events Callback ClientData Delegates JavaScript Page)←7↑params,(⍴params)↓7⍴⊂''
+          (Selector Events Callback ClientData JavaScript Delegates Page)←7↑params,(⍴params)↓7⍴⊂''
           :If #.HtmlPage #.HtmlElement.isInstance Page ⋄ Page←Page.Page ⋄ :EndIf ⍝ if request object passed
           CommonSetup
         ∇
@@ -390,9 +391,17 @@
               :EndIf
           :EndTrap
           WidgetDef←'event,ui' 'event' 'ui' '$(event.target)' '.val()'
+          StatusHandlers←408 500,⍪'alert("Session timed out")' 'alert("Internal Server Error")'
         ∇
 
-        ∇ r←Render;sel;syn_handler;syn_event;syn_model;syn_this;data;useajax;force;cd;selector;arg;verb;name;phrase;datasel;JQfn;jqfn;hg;removehg;dtype;success;status;ajax;widget;syn_value;delegates;v;events;selSelector
+        ∇ r←code OnStatus javascript;ind
+          :Access public
+          ind←StatusHandlers[;1]⍳code
+          StatusHandlers↑⍨←ind⌈≢StatusHandlers
+          StatusHandlers[ind;]←code javascript
+        ∇
+
+        ∇ r←Render;sel;syn_handler;syn_event;syn_model;syn_this;data;useajax;force;cd;selector;arg;verb;name;phrase;datasel;JQfn;jqfn;hg;removehg;dtype;success;status;ajax;widget;syn_value;delegates;v;events;selSelector;statjs;statcode
           :Access public
           r←''
           :If ~0∊⍴Events ⍝ skip if no events specified
@@ -588,7 +597,7 @@
                                   phrase←⊃verb
                               :ElseIf '⍎'=⊃verb
                                   sel←''
-                                  phrase←1↓verb         
+                                  phrase←1↓verb
                               :Else
                                   #.Boot.Log'Unknown event handler verb: "',verb,'"',{0::'' ⋄ ' on page ',##._PageRef._PageName}⍬
                                   phrase←quote phrase
@@ -600,11 +609,18 @@
                   :EndFor
               :EndIf
          
-              (hg removehg)←((1+Hourglass=¯1)⊃Hourglass useajax)∘{⍺:'document.body.style.cursor="',⍵,'";' ⋄ ''}¨'wait' 'default'
+              (hg removehg)←((1+Hourglass=¯1)⊃Hourglass useajax)∘{⍺:';document.body.style.cursor="',⍵,'";' ⋄ ''}¨'wait' 'default'
          
               dtype←'"json"'
-              success←'success: function(obj){APLJaxReturn(obj);document.body.style.cursor="default";}'
-              status←'statusCode:{ 408: function(){alert("Session timed out");',removehg,'}}'
+              success←'success: function(obj){APLJaxReturn(obj)',removehg,'}'
+              status←'statusCode:{ '
+              :For (statcode statjs) :In ↓StatusHandlers
+                  :If ~0∊⍴statjs
+                      status,←(⍕statcode),': function(p1, p2, p3){',statjs,removehg,'},' ⍝ use generic p1, p2, p3 because jQuery has different parameters for error and success
+                  :EndIf
+              :EndFor
+              status←(¯1↓status),'}'
+              ⍝status←'statusCode:{ 408: function(){alert("Session timed out")',removehg,'}}'
               ajax←(JavaScript ine JavaScript,(';'=¯1↑JavaScript)↓';'),useajax/hg,'$.ajax({url: ',(quote Page),', cache: false, type: "POST", dataType: ',dtype,', headers:{"isAPLJax": "true"}, data: {',data,'}, ',success,', ',status,'});'
          
               :If widget

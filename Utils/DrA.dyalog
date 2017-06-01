@@ -307,10 +307,7 @@
           #.Files.MkDir Dir
       :EndIf
      
-      D←((⍴D)⌈0,⍴F)↑D←(0,⍴Dir)↓⎕FLIB Dir
-     
-      :If ∨/D∧.=(¯1↑⍴D)↑F                      ⍝ Is there already a file for this error from today?
-          TN←(Dir,F)⎕FSTIE 0
+      :If 0≠TN←{0::0 ⋄ ⍵ ⎕FSTIE 0}Dir,F        ⍝ Is there already a file for this error from today?
           TS←(⎕FREAD TN,1)get'TimeStamps'
           ((2,(1⊃Info)⍳⊂'TimeStamps')⊃Info)←TS,Info get'TimeStamps'
           ⎕FDROP TN,-/2↑⎕FSIZE TN              ⍝ We will overwrite it
