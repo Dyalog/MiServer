@@ -1,4 +1,4 @@
-﻿:Class jBoxConfirmAdvanced : MiPageSample
+﻿:Class jBoxAdvancedConfirm : MiPageSample
 ⍝ Control::     _JS.jBox
 ⍝ Description::confirmations (works, but may need more features...)
 
@@ -22,7 +22,8 @@
 
       Add _.div ScriptFollows
      ⍝ This example currently does not have much practical use, as you may want to respond differently to the choices (from your APL-Fn.)
-     ⍝ This is on our ToDo-List and a future update will provide features to enable that!
+     ⍝ Pls. see the <a href="./jboxAdvancedConfOnLoad">example with a Confirm-Box appreaing on PageLoad</a> for more
+     ⍝ insight on integration/interaction between APL and JS.
 
 
       '#output'Add _.p 'Please take a decision!'
