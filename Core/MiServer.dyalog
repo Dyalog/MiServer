@@ -667,6 +667,8 @@
               :Else
                   inst.Wrap REQ
               :EndIf
+          :ElseIf MS3>APLJax
+              inst.Render
           :EndIf
       :EndHold
       →0
