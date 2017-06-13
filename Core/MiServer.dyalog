@@ -209,6 +209,9 @@
      RESUME: ⍝ Error Trapped and logged
       {}#.DRC.Close ServerName
       1 Log r←'Web server ''',ServerName,''' stopped '
+      :If Config.CloseOnCrash
+          ⎕OFF
+      :EndIf
       →0
      
     ∇

@@ -244,6 +244,7 @@
       Config.Authentication←Config Setting'Authentication' 0 'SimpleAuth'
       Config.CertFile←Config Setting'CertFile' 0 ''
       Config.ClassName←Config Setting'ClassName' 0 'MiServer'
+      Config.CloseOnCrash←Config Setting'CloseOnCrash' 1 0
       Config.Debug←Config Setting'Debug' 1 0
       Config.DefaultExtension←Config Setting'DefaultExtension' 0 '.mipage'
       Config.DefaultPage←Config Setting'DefaultPage' 0 'index.mipage'
