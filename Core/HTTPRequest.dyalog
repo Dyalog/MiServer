@@ -15,7 +15,8 @@
     :Field Public Instance Input
     :Field Public Instance Headers
     :Field Public Instance Command
-    :Field Public Instance Page
+    :Field Public Instance Page 
+    :Field Public Instance Host←''
     :Field Public Instance Filename
     :Field Public Instance RESTfulReq←0      ⍝ RESTful Request (set to charvec if request is RESTful)
     :Field Public Instance Arguments
@@ -68,7 +69,9 @@
       Input←input
       hdrs←{(0≠⊃∘⍴¨⍵[;1])⌿⍵}1 0↓req
       Headers←hdrs
-     
+      
+      Host←GetHeader 'host'
+
       Command buf←' 'split input
       Command←#.Strings.lc Command
      
@@ -82,7 +85,7 @@
       :EndIf
      
       Arguments←URLDecodeArgs args
-     
+
 ⍝ PeerCert←conns.PeerCert
      
       :If (1↑⍴hdrs)≥i←hdrs[;1]⍳⊂'content-type'

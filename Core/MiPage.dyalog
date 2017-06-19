@@ -24,7 +24,6 @@
     :field Public _TimedOut←0
     :field Public _cache←''       ⍝ cached content if page is marked cacheable
     :field Public OnLoad←''       ⍝ page equivalent to ⎕LX
-    :field Public Charset←'UTF-8' ⍝ default charset
     :field Public Cacheable←0     ⍝ is the page cacheable?
 
     _used←'' ⍝ keep track of what's been used
@@ -46,21 +45,25 @@
       _PageData←⎕NS''
     ∇
 
-    ∇ {r}←Render;b;styles
+    ∇ {r}←Render;b;styles;_head;_body;_styles;_scripts;host
       :Access public
-      Head.Insert #._html.meta''('charset=',⍕Charset)
+   ⍝  Capture the current Head and Body content so that we can reset it after rendering
+   ⍝  This is so we can re-render and still get the same result
+      (_head _body)←(Head Body).Content
+      (_styles _scripts)←_Styles _Scripts
+      host←{6::⍵ ⋄ '//',_Request.Host}''
       :If ''≢OnLoad
           {0:: ⋄ Use'JQuery'}''
       :EndIf
       b←RenderBody
+      :If ~0∊⍴_Scripts
+          {(Insert _html.script).Set('src=',⍵)}¨host∘AddHost¨⌽∪_Scripts
+      :EndIf
       styles←∪_Styles
       styles←styles,⍨{0∊⍴⍵:⍵ ⋄ ⊂⍵}_CssReset
       styles←styles,{0∊⍴⍵:⍵ ⋄ ⊂⍵}_CssOverride
       :If ~0∊⍴styles
-          {Insert #._DC.StyleSheet ⍵}¨⌽∪styles
-      :EndIf
-      :If ~0∊⍴_Scripts
-          {(Insert _html.script).Set('src=',⍵)}¨⌽∪_Scripts
+          {Insert #._DC.StyleSheet ⍵}¨host∘AddHost¨⌽∪styles
       :EndIf
       :If ~0∊⍴Handlers
           b,←∊Handlers.Render
@@ -75,6 +78,9 @@
       :If 0≠⎕NC⊂'_Request.Response'
           _Request.Response.HTML←r
       :EndIf
+      (Head Body).Content←_head _body
+      _Styles←_styles
+      _Scripts←_scripts
     ∇
 
     ∇ {r}←Wrap
@@ -199,8 +205,19 @@
       :EndIf
     ∇
 
+    ∇ url←{host}AddHost url
+      ⍝ adds the request host name to the URL if it's not already there
+      :Access public shared
+      :If 0=⎕NC'host' ⋄ host←{6::⍵ ⋄ _Request.Host}'' ⋄ :EndIf
+      :If ''≢host
+      :AndIf ~∨/((⊃⍷#.Strings.nocase)∘url)¨'//' 'http:' 'https:'
+          url,⍨←host
+      :EndIf
+    ∇
+
+
     ∇ _Close session ⍝ Called when the session ends
-    ⍝ this method is specific to #.SimpleSessions and is called when a
+    ⍝ this method is specific to #.SimpleSessions and is called when a session is terminated
       :Access Public Overridable
     ∇
 
@@ -262,24 +279,24 @@
     ∇
 
     ∇ r←selector Replace content
-      :Access public
+      :Access public shared
       r←⊂('replace'selector)('data'(renderContent content))
     ∇
     ∇ r←selector Append content
-      :Access public
+      :Access public shared
       r←⊂('append'selector)('data'(renderContent content))
     ∇
     ∇ r←selector Prepend content
-      :Access public
+      :Access public shared
       r←⊂('prepend'selector)('data'(renderContent content))
     ∇
     ∇ r←Execute content
-      :Access public
+      :Access public shared
       r←⊂('execute'(renderContent content))
     ∇
 
     ∇ r←name Assign data
-      :Access public
+      :Access public shared
       r←⊂('assign'name)('data'data)
     ∇
 
