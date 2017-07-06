@@ -5,20 +5,36 @@
     ∇ Compose
       :Access public
       Add _.h3'The Dyalog Panel Widget'
-          
-      p←Add _.Panel'' 'info'
-      p.Icon←'fa-certificate fa-3x'
-      p.Add'You can also build panels using the Add method</br>'
-      p.Add'You can assign custom icons by setting the field "Icon"'
+     
+      p1←Add _.Panel'' 'info'
+      p1.Icon←'fa-certificate fa-3x'
+      p1.Add'You can also build panels using the Add method</br>'
+      p1.Add'You can assign custom icons by setting the field "Icon"'
      
       Add _.style ScriptFollows
         ⍝ .custom-class {background-color: green;}
         ⍝ .custom-class.dc-panel-title {background-color: lightgreen;}
         ⍝ .custom-class.dc-panel-icon {color: white;}
      
-      p←Add _.Panel('' '.custom-class' 'Custom Class Example Title')
-      p.Icon←'fa-thumbs-up'
-      p.Add'You can assign your own classes and icons as well!'     
+      Add _.br
+     
+      p2←Add _.Panel('' '.custom-class' 'Custom Class Example Title')
+      p2.Icon←'fa-thumbs-up'
+      p2.Radius←0
+      p2.Add'You can assign your own classes and icons as well!'
+     
+      Add _.br
+      p2←Add _.Panel('Use "Radius" and "RadiusUnit" to control the radius' 'info' 'Rounded or not')
+      p2.Radius←5 1 0.5 0.3
+      p2.RadiusUnit←'em'
+     
+      Add _.br
+      p3←Add _.Panel'' 'info'
+      p3.Add'Simple info-panel w/o title and with varying radius for every corner!'
+      p3.Add'The focus of these excercises is not really beauty, but more to show what can be done...and also to check that it actually works ;-)'
+      p3.Radius←0.5 1 1.5 2
+      p3.RadiusUnit←'em'
+     
     ∇
 
 

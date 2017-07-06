@@ -1,25 +1,15 @@
-.dc-panel {
+.dc-panel-r,.dc-panel-s,.dc-panel-c {
   padding: 5px 5px 0px 5px;
   min-height: 40px;
 }
 
-.dc-panel-info.dc-panel-icon {
-  color: #00529B;
-}
+.dc-panel-info.dc-panel-icon {  color: #00529B;}
+.dc-panel-success.dc-panel-icon {  color: #4F8A10;}
+.dc-panel-warning.dc-panel-icon {  color: #9F6000;}
+.dc-panel-error.dc-panel-icon{  color: #D8000C;}
 
-.dc-panel-success.dc-panel-icon {
-  color: #4F8A10;
-}
-
-.dc-panel-warning.dc-panel-icon {
-  color: #9F6000;
-}
-
-.dc-panel-error.dc-panel-icon{
-  color: #D8000C;
-}
-
-.dc-panel > .dc-panel-icon {
+.dc-panel > .dc-panel-icon
+ {
   font-size: 2em;
   width: 30px;
   float: left;
@@ -27,19 +17,31 @@
   vertical-align: middle;
 }
 
-.dc-panel > .dc-panel-icon  + .dc-panel-content {
-  border-top-left-radius: .5em;
-  border-top-right-radius: .5em;
-  border-bottom-left-radius: .5em;
-  border-bottom-right-radius: .5em;
+.dc-panel-r > .dc-panel-icon  + .dc-panel-content  
+{ border-radius: .5em;}
+
+.dc-panel-s > .dc-panel-icon  + .dc-panel-content 
+{ border-radius: 0em; }
+
+.dc-panel > .dc-panel-icon  + .dc-panel-content 
+{
   border: 1px solid;
   margin-top: 0px;
   min-height: 40px;
 }
 
-.dc-panel > .dc-panel-title {
+.dc-panel-r > .dc-panel-title {
   border-top-left-radius: .5em;
   border-top-right-radius: .5em;
+}
+
+.dc-panel-s > .dc-panel-title {
+  border-top-left-radius: 0em;
+  border-top-right-radius: 0em;
+}
+
+.dc-panel > .dc-panel-title
+{
   border-bottom: 2px solid red;
   border: 1px solid;
   padding: 3px 0px 3px 3px;
@@ -47,28 +49,27 @@
   color: black;
 }
 
-.dc-panel > .dc-panel-title +.dc-panel-icon +.dc-panel-dfltStyle {
+.dc-panel > .dc-panel-title +.dc-panel-icon +.dc-panel-dfltStyle  {
   background-color: transparent;
 }
-.dc-panel > .dc-panel-title +.dc-panel-icon +.dc-panel-content {
+.dc-panel-s > .dc-panel-title +.dc-panel-icon +.dc-panel-content {
+  border-top-left-radius: 0em;
+  border-top-right-radius: 0em;
+  border-bottom-left-radius: 0em;
+  border-bottom-right-radius: 0em;
+}
+.dc-panel-r > .dc-panel-title +.dc-panel-icon +.dc-panel-content {
   border-top-left-radius: 0em;
   border-top-right-radius: 0em;
   border-bottom-left-radius: .5em;
   border-bottom-right-radius: .5em;
 }
 
-.dc-panel-error.dc-panel-title , .dc-panel-content {
-  background-color: #FF9EA3;
-}
+.dc-panel-error.dc-panel-title , .dc-panel-content {  background-color: #FF9EA3;}
+.dc-panel-info.dc-panel-title , .dc-panel-content {  background-color: #BDE5F8;}
+.dc-panel-success.dc-panel-title , .dc-panel-success.dc-panel-content { background-color: #DFF2BF;}
+.dc-panel-warning.dc-panel-title , .dc-panel-warning.dc-panel-content {  background-color: #FEEFB3;}
 
-.dc-panel-info.dc-panel-title , .dc-panel-content {
-  background-color: #BDE5F8;
+.dc-panel-icon + .dc-panel-content {
+	padding-left: 1.2em;
 }
-.dc-panel-success.dc-panel-title , .dc-panel-success.dc-panel-content {
-  background-color: #DFF2BF;
-}
-
-.dc-panel-warning.dc-panel-title , .dc-panel-warning.dc-panel-content {
-  background-color: #FEEFB3;
-}
-
