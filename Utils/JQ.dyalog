@@ -102,7 +102,7 @@
       clientdata←eis clientdata ⍝ :If 2=|≡clientdata ⋄ clientdata←,⊂clientdata ⋄ :EndIf
       :If 0∊⍴clientdata
       :OrIf (1=⍴clientdata)∧'_callback'≡⊃⊃clientdata
-          data,←',_serialized: $("form").serialize()'
+          data,←',_serialized_: $("form").serialize()'
       :EndIf
       :For cd :In clientdata
           cd←eis cd
@@ -145,7 +145,7 @@
                   type←what
               :Else
                   :If type≡'serialize'
-                      name,←'_serialized'
+                      name,←'_serialized_'
                   :EndIf
                   type←type,'(',(what ine quote what),')'
               :EndSelect
@@ -166,7 +166,7 @@
       status←'statusCode:{ 408: function(){alert("Session timed out");',removehg,'}}'
      
       ajax←script ine script,';'
-      ajax,←useajax/hg,'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', data: {',data,'}, ',success,', ',status,'});'
+      ajax,←useajax/hg,'$.ajax({url: ',page,', cache: false, type: "POST", dataType: ',dtype,', headers:{"isAPLJax": "true"}, data: {',data,'}, ',success,', ',status,'});'
       r←'$(',(quote selector),').on(',(quote event),delegate,', function(event){',ajax,'});'
       :If jquerywrap ⋄ r←'$(function(){',r,'});' ⋄ :EndIf
       :If scriptwrap ⋄ r←'<script>',r,'</script>' ⋄ :EndIf

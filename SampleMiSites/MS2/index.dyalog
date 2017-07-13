@@ -13,5 +13,6 @@
       items,←⊂'Change any references to Server.Root to Server.Config.AppRoot'
       html,←List items
       html,←BR Anchor'Mortgage calculation sample page' '/mortgagems2'
+      html,←BR Anchor'What''s your sign?' '/zodiacsign'
     ∇
 :EndClass
