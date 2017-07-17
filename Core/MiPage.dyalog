@@ -25,8 +25,8 @@
     :field Public _cache←''       ⍝ cached content if page is marked cacheable
     :field Public OnLoad←''       ⍝ page equivalent to ⎕LX
     :field Public Cacheable←0     ⍝ is the page cacheable?
-
-    _used←'' ⍝ keep track of what's been used
+    
+    _used←'' ⍝ track what's been Use'd
 
     ∇ Make
       :Access public
@@ -49,6 +49,7 @@
       :Access public
    ⍝  Capture the current Head and Body content so that we can reset it after rendering
    ⍝  This is so we can re-render and still get the same result
+  
       (_head _body)←(Head Body).Content
       (_styles _scripts)←_Styles _Scripts
       host←{6::⍵ ⋄ '//',_Request.Host}''
@@ -80,7 +81,8 @@
       :EndIf
       (Head Body).Content←_head _body
       _Styles←_styles
-      _Scripts←_scripts
+      _Scripts←_scripts 
+      _used←''
     ∇
 
     ∇ {r}←Wrap
