@@ -23,9 +23,12 @@
     :field public HeaderAttr←''
     :field public MakeCellIds←0
     :field public MakeRowIds←0
+    
+    :field public InitFilterWith←''
 
     :field public Plugins←''     ⍝ comma delimited list of "official" plugins to use
     :field private JSON_Data←''   ⍝ supporting JSON-Data transparently ("Data" can be JSON)
+   
 
     ∇ Make0
       :Access public
@@ -51,11 +54,13 @@
 
     ∇ html←Render;tab
       :Access public
-⍝∘∘∘     
       :If _true≡GetOption'mark' 
-       Use'DataTable_mark' 
-       SetUse
-        :EndIf
+         Use'DataTable_mark' 
+         SetUse
+      :EndIf
+      :if 0<≢InitFilterWith
+        'search.search'Set InitFilterWith
+      :endif
      
       opts←Options
       JavaScript,←RenderPlugins

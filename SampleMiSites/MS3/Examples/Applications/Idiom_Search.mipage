@@ -8,7 +8,7 @@
       Cacheable←1 ⍝ Cache page
     ∇
 
-    ∇ Compose;idioms
+    ∇ Compose;idioms;dt
       :Access Public
       Add _.title'Idioms'
 
@@ -27,7 +27,8 @@
       idioms←⎕SE.SALT.Load #.Boot.AppRoot,'Examples\Data\idioms -noname -nolink'
       idioms[;4]←'FinnAPL' 'Dyalog' 'APL2'[1+idioms[;4]]
       idioms⍪⍨←'Description' ('Expression'(_.br)(_.small 'click to copy to clipboard')) 'Requirements' 'Library'
-      'output'Add _.DataTable(idioms('.a333' '.a385 copy' '.a385' '.a333'))
+      dt←'output'Add _.DataTable(idioms('.a333' '.a385 copy' '.a385' '.a333'))
+      dt.InitFilterWith←Get'search'
     
     Add _.style ScriptFollows
 ⍝.copy {
