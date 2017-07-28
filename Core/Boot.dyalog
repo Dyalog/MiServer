@@ -59,7 +59,7 @@
           :EndFor
           AutoStatus stat ⍝ restore show status state
           :For (f file) :In failed
-              disperror ⎕SE.SALT.Load file,' -target=#.',f
+              disperror ⎕SE.SALT.Load ∊'"',file,'" -target=#.',f
           :EndFor
      
           'Pages'#.⎕NS'' ⍝ Container Space for loaded classes
