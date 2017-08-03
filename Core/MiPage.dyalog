@@ -25,7 +25,8 @@
     :field Public _cache←''       ⍝ cached content if page is marked cacheable
     :field Public OnLoad←''       ⍝ page equivalent to ⎕LX
     :field Public Cacheable←0     ⍝ is the page cacheable?
-    
+    :field Public Charset←'UTF-8' ⍝ charset for page
+
     _used←'' ⍝ track what's been Use'd
 
     ∇ Make
@@ -49,39 +50,54 @@
       :Access public
    ⍝  Capture the current Head and Body content so that we can reset it after rendering
    ⍝  This is so we can re-render and still get the same result
-  
+     
       (_head _body)←(Head Body).Content
       (_styles _scripts)←_Styles _Scripts
       host←{6::⍵ ⋄ '//',_Request.Host}''
+     
       :If ''≢OnLoad
           {0:: ⋄ Use'JQuery'}''
       :EndIf
+     
       b←RenderBody
+     
       :If ~0∊⍴_Scripts
           {(Insert _html.script).Set('src=',⍵)}¨host∘AddHost¨⌽∪_Scripts
       :EndIf
+     
       styles←∪_Styles
       styles←styles,⍨{0∊⍴⍵:⍵ ⋄ ⊂⍵}_CssReset
       styles←styles,{0∊⍴⍵:⍵ ⋄ ⊂⍵}_CssOverride
+     
       :If ~0∊⍴styles
           {Insert #._DC.StyleSheet ⍵}¨host∘AddHost¨⌽∪styles
       :EndIf
+     
       :If ~0∊⍴Handlers
           b,←∊Handlers.Render
       :EndIf
+     
       :If ''≢OnLoad
           b,←(⎕NEW #._html.script('$(function(){',OnLoad,'});')).Render
       :EndIf
+     
       :If 0∊⍴⊃Attrs[⊂'lang'] ⍝ set the language for the page if not already set
           {0:: ⋄ {Set'lang="',⍵,'" xml:lang="',⍵,'" xmlns="http://www.w3.org/1999/xhtml"'}_Request.Server.Config.Lang}''
       :EndIf
+     
+      :If ~0∊⍴Charset
+          Insert _html.meta''('charset="',Charset,'"')
+      :EndIf
+     
       r←RenderPage b
+
       :If 0≠⎕NC⊂'_Request.Response'
           _Request.Response.HTML←r
       :EndIf
+
       (Head Body).Content←_head _body
       _Styles←_styles
-      _Scripts←_scripts 
+      _Scripts←_scripts
       _used←''
     ∇
 
