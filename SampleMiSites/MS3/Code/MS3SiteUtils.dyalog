@@ -293,7 +293,7 @@
 
     ∇ {ctrl}←callbackfn AddHandler sel
       ctrl←sel~'#.12'
-      Add _.Handler sel'click'callbackfn'' '' 'event.stopPropagation()'
+      Add _.Handler sel'click'callbackfn'' 'event.stopPropagation()'
     ∇
 
     ∇ r←ShowElement;code;ctrl;info
