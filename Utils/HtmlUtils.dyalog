@@ -105,9 +105,9 @@
       html←('pre style="font-family:APL385 Unicode',fontsize,'"')Enclose CRLF,⍨html
     ∇
 
-    ∇ html←APLToHTMLColor APL;types;colors;class;codes;apply;lines;head;tail;c;ent;to
-     ⍝ returns APL code formatted for HTML with syntax coloring 
-       to←{(¯1↓⍺),((¯1+⊃⌽⍺)+⍳1+(⊃⍵)-(⊃⌽⍺)),1↓⍵}
+    ∇ html←APLToHTMLColor APL;types;colors;class;codes;apply;lines;head;tail;c;ent;to;style;nums
+     ⍝ returns APL code formatted for HTML with syntax coloring
+      to←{(¯1↓⍺),((¯1+⊃⌽⍺)+⍳1+(⊃⍵)-(⊃⌽⍺)),1↓⍵}
       :Trap 0
           colors←⍬
           colors,←⊂'i200comment'(1 26 63)
@@ -143,8 +143,12 @@
           html←lines⊂1↓¯1↓html
           (⊃html),⍨←head ⋄ (⊃⌽html),←tail
           html←∊¨html
-          html,⍨¨←,∘'</span>'¨↓↑('<span class="i200line">['∘,,∘']')¨⍕¨¯1+⍳⍴html ⍝ Prepend line numbers
-          html←'pre'Enclose'code'Enclose html
+          nums←⍕¨¯1+⍳≢html
+          style←'<style>' ⍝ speudo
+          style,←∊(1+≢⊃⌽nums){'.i200line.l',⍵,'::after{content:"[','"}',⍨⍺↑⍵,']'}¨nums
+          style,←'</style>'
+          html,¨⍨←'<span class="i200line l'∘,¨nums,¨⊂'"></span>' ⍝ Prepend line numbers
+          html←style,'pre'Enclose'code'Enclose html
       :Else
           html←APLToHTML APL
       :EndTrap
