@@ -446,6 +446,7 @@ heading1 {
     border-radius: 10px;
     background: black;
     font-size: small;
+    z-index: 2;
 }
 
 #reading, #reading ul, #reading ul li {
@@ -538,12 +539,24 @@ heading1 {
     width: calc(100% - 20px);
 }
 
+#Tabs, #info {
+    margin: 0 0.5em;
+    vertical-align: top;
+}
+
+@media (min-width: 1024px) {
+    #Tabs, #info {
+        width: calc(50% - 1em);
+        display: inline-block;
+    }
+}
+
 #samples>p {
     margin: 0;
     float: right;
-    width: 33em;
+    width: 16em;
     position: absolute;
-    right: 0;
+    right: 16em;
     z-index: 1;
 }
 
@@ -627,14 +640,17 @@ figcaption a {
 }
 
 #fltcnt>div>div {
-    display: inline-block;
     float: right;
     position: relative;
 }
 
+#fltcnt button {
+    margin-left: 1ex;
+}
+
 yadcf-filter-wrapper--ctrl-3 {
     position: relative;
-    right:0;
+    right: 0;
 }
 
 /* Syntax coloring */
