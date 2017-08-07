@@ -274,8 +274,8 @@
     ∇ t←Positioning
       Add _.style ScriptFollows
       ⍝ #parent {position: relative; height: 26em; margin: 1em;}
-      ⍝ /**/#parent, #parent div {border: 1px solid black; margin-top: 1em; margin-bottom: 1em; padding: 1ex;}
-      ⍝ /**/#parent div {width: 50%;}
+      ⍝ /**/#parent, #parent div {margin-top: 1em; margin-bottom: 1em; padding: 1ex;}
+      ⍝ /**/#parent div {width: 50%; border: 1px solid black; }
       ⍝ #default {/* nothing to see here */}
       ⍝ #textcenter {text-align: center;}
       ⍝ #textright {text-align: right;}
@@ -298,7 +298,22 @@
     ∇
 
     ∇ t←Embedding
+      Add _.style ScriptFollows
+      ⍝ #embed * {margin: 1ex;}
+      ⍝ #quack {filter: hue-rotate(-205deg); padding: 2em;}
+      ⍝ #quack:hover {filter:  hue-rotate(0deg);}
+      ⍝ #bear {display: block; padding: 0.2em; border: 1px solid silver; margin: 1ex;}
+      ⍝ #duck {height: 12em; transform: rotate(-15deg);}
+      ⍝
+      ⍝ /**/#embed *:hover {
+      ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
+      ⍝ }
       t←'#embed'New _.div'This div contains embedded items'
+      t.Add _.br
+      '#quack' 'controls='t.Add _.Audio'Examples/Data/quack.mp3' ⍝ #quack
+      '#duck' 'src=Examples/Data/duck.png' 'alt="Silly Duck"'t.Add _.img'No img support!' ⍝ #duck
+      '#bear' 'src=Examples/Data/bear.mp4' 'autoplay=' 'loop=' 'muted='t.Add _.video'No video support!' ⍝ #bear
+      'ShowEmbedding'∘AddHandler¨'#bear' '#duck' '#quack'
       t←'Embedding't
     ∇
 
@@ -329,20 +344,26 @@
       r←'#info'Replace info
     ∇
 
-    ∇ r←ShowFormatting;css;info;code
-      :Access Public
-      (code css)←_selector CodeFrom'Formatting'
+    ∇ r←ShowHtmlAndCss fn;css;info;code
+      (code css)←_selector CodeFrom fn
       info←'<h3>Put this in the <code>Compose</code> function</h3>',P code
       info,←'<h3>Put <code>Add _.style''&#8230;''</code> in <code>Compose</code> or add  this to the stylesheet</h3>',P css
       r←'#info'Replace info
     ∇
 
-    ∇ r←ShowPositioning;css;info;code
+    ∇ r←ShowFormatting
       :Access Public
-      (code css)←_selector CodeFrom'Positioning'
-      info←'<h3>Put this in the <code>Compose</code> function</h3>',P code
-      info,←'<h3>Put <code>Add _.style''&#8230;''</code> in <code>Compose</code> or add  this to the stylesheet</h3>',P css
-      r←'#info'Replace info
+      r←ShowHtmlAndCss'Formatting'
+    ∇
+
+    ∇ r←ShowPositioning
+      :Access Public
+      r←ShowHtmlAndCss'Positioning'
+    ∇
+
+    ∇ r←ShowEmbedding
+      :Access Public
+      r←ShowHtmlAndCss'Embedding'
     ∇
 
       CodeFrom←{
