@@ -272,7 +272,28 @@
     ∇
 
     ∇ t←Positioning
-      t←'#position'New _.div'This div has its default positioning'
+      Add _.style ScriptFollows
+      ⍝ #parent {position: relative; height: 26em; margin: 1em;}
+      ⍝ /**/#parent, #parent div {border: 1px solid black; margin-top: 1em; margin-bottom: 1em; padding: 1ex;}
+      ⍝ /**/#parent div {width: 50%;}
+      ⍝ #default {/* nothing to see here */}
+      ⍝ #textcenter {text-align: center;}
+      ⍝ #textright {text-align: right;}
+      ⍝ #boxright {margin-left: auto; margin-right: 0;}
+      ⍝ #boxcenter {margin-left: auto; margin-right: auto;}
+      ⍝ #bottom {position: absolute; bottom: 0;}
+      ⍝
+      ⍝ /**/#parent, #parent div:hover {
+      ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
+      ⍝ }
+      t←'#parent'New _.div'Parent element with "relative" position so we can align vertically' ⍝ #parent
+      '#default't.Add _.div'Default position and text alignment' ⍝ #default
+      '#textcenter't.Add _.div'Centered text' ⍝ #textcenter
+      '#textright't.Add _.div'Right-aligned text' ⍝ #textright
+      '#boxcenter't.Add _.div'Centered element' ⍝ #boxcenter
+      '#boxright't.Add _.div'Right-aligned element' ⍝ #boxright
+      '#bottom't.Add _.div'Bottom-aligned element'
+      'ShowPositioning'∘AddHandler¨'#parent' '#default' '#textcenter' '#textright' '#boxcenter' '#boxright' '#middle' '#bottom'
       t←'Positioning't
     ∇
 
@@ -311,6 +332,14 @@
     ∇ r←ShowFormatting;css;info;code
       :Access Public
       (code css)←_selector CodeFrom'Formatting'
+      info←'<h3>Put this in the <code>Compose</code> function</h3>',P code
+      info,←'<h3>Put <code>Add _.style''&#8230;''</code> in <code>Compose</code> or add  this to the stylesheet</h3>',P css
+      r←'#info'Replace info
+    ∇
+
+    ∇ r←ShowPositioning;css;info;code
+      :Access Public
+      (code css)←_selector CodeFrom'Positioning'
       info←'<h3>Put this in the <code>Compose</code> function</h3>',P code
       info,←'<h3>Put <code>Add _.style''&#8230;''</code> in <code>Compose</code> or add  this to the stylesheet</h3>',P css
       r←'#info'Replace info
