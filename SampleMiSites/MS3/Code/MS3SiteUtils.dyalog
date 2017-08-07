@@ -283,7 +283,7 @@
       ⍝ #boxcenter {margin-left: auto; margin-right: auto;}
       ⍝ #bottom {position: absolute; bottom: 0;}
       ⍝
-      ⍝ /**/#parent, #parent div:hover {
+      ⍝ /**/#parent:hover, #parent div:hover {
       ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
       ⍝ }
       t←'#parent'New _.div'Parent element with "relative" position so we can align vertically' ⍝ #parent
