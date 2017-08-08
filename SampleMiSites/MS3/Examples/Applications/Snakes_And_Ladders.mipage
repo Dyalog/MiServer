@@ -1,5 +1,5 @@
 ﻿:Class Snakes_And_Ladders : MiPageSample
-⍝ Control:: _html.svg _DC.StackPanel
+⍝ Control:: _html.svg _DC.StackPanel _html.style
 ⍝ Description:: Classic Snakes and Ladders Game
 ⍝ Notes::
 ⍝ Demonstrates using JQ.Position to manipulate svg elements
@@ -28,12 +28,16 @@
      
       Use'JQueryUI'
      
-      Add _.Style'#output table' 'border: 1px solid black;border-collapse:collapse;font-size:.8em;'
-      Add _.Style'#output th' 'border: 1px solid black'
-      Add _.Style'#output td' 'border: 1px solid black'
-      Add _.Style'.snlbutton' 'width:100px;margin-left:25px;'
-      Add _.Style'.snltab td' 'width:100px;text-align:center'
-      Add _.Style'svg' 'display:none;z-index:2;transition:0.8s'  ⍝ hide the player tokens
+      Add _.style ScriptFollows
+      ⍝ #output table {border: 1px solid black;border-collapse:collapse;font-size:.8em;}
+      ⍝ #output th {border: 1px solid black}
+      ⍝ #output td {border: 1px solid black}
+      ⍝ .snlbutton {width:100px;margin-left:25px;}
+      ⍝ .snltab td {width:100px;text-align:center}
+      ⍝ svg {display:none;z-index:2;transition:0.5s}  /* hide the player tokens */
+      ⍝ #player2 {transition-delay:0.5s}
+      ⍝ #player3 {transition-delay:1.5s}
+      ⍝ #player4 {transition-delay:2s}
      
       :If 0=#.⎕NC'SNLMS3' ⍝ load the "business logic" if not already loaded
           businessLogic←(_Request.Server.Config.AppRoot,1↓⊃#.Files.SplitFilename _PageName),'SNLMS3'
@@ -99,7 +103,7 @@
       r,←N{Execute ⍺ moveToken ⍵}¨|Positions
       :If (_what≡'single')<~∨/mask
           r,←Execute'$("body").trigger("play")'
-          {}⎕DL 0.8
+          {}⎕DL Players×1<Turn
       :EndIf
     ∇
 
