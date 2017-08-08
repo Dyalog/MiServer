@@ -311,7 +311,7 @@
       ⍝ #poly polygon {fill: orange; stroke: purple; stroke-width: 1ex;}
       ⍝ #pdf {height: 240px; width:400px}
       ⍝
-      ⍝ /**/#bear:hover, #quack:hover, #duck:hover, #poly:hover, #embed>div>div:hover{
+      ⍝ /*#bear:hover, #quack:hover, #duck:hover, #poly:hover, #embed>div>div:hover*/ #embed *:hover{
       ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
       ⍝ }
       t←'#embed'New _.div'This div contains embedded items'
@@ -321,10 +321,14 @@
       '#duck' 'src=Examples/Data/duck.png' 'alt="Silly Duck"'t.Add _.img'No img support!' ⍝ #duck
       '#poly't.Add _.svg,'points=20,20 50,120 120,190 180,80'New _.polygon ⍝ #poly
       c←'style=display:inline-block;position:relative;'t.Add _.div
-      '#pdf' 'style=position:absolute;height:100%;width:100%;top:0;'c.Add _.div
+      '#pdf' 'style=position:absolute;height:100%;width:100%;top:0;' 'onclick="$(this).hide();"'c.Add _.div
       '#pdf' 'data=Examples/Data/licence.pdf'c.Add _.object ⍝ #pdf
       'ShowEmbedding'∘AddHandler¨'#bear' '#duck' '#quack' '#poly' '#pdf'
       t←'Embedding't
+    ∇
+
+    ∇ r←ShowPdf
+      r←(_selector≢'#pdf')/Execute'$("#pdf").show();'
     ∇
 
     ∇ t←Interaction
@@ -354,6 +358,7 @@
       code←⊃_selector CodeFrom'Elements'
       info,←'<h3>Put this in the <code>Compose</code> function</h3>',P code
       r←'#info'Replace info
+      r,←ShowPdf
     ∇
 
     ∇ r←ShowHtmlAndCss fn;css;info;code
@@ -361,6 +366,7 @@
       info←'<h3>Put this in the <code>Compose</code> function</h3>',P code
       info,←'<h3>Put <code>Add _.style''&#8230;''</code> in <code>Compose</code> or add  this to the stylesheet</h3>',P css
       r←'#info'Replace info
+      r,←ShowPdf
     ∇
 
     ∇ r←ShowFormatting
