@@ -273,7 +273,7 @@
 
     ∇ t←Positioning
       Add _.style ScriptFollows
-      ⍝ #parent {position: relative; height: 26em; margin: 1em;}
+      ⍝ #parent {position: relative; height: 32em; margin: 1em;}
       ⍝ /**/#parent, #parent div {margin-top: 1em; margin-bottom: 1em; padding: 1ex;}
       ⍝ /**/#parent div {width: 50%; border: 1px solid black; }
       ⍝ #default {/* nothing to see here */}
@@ -281,7 +281,9 @@
       ⍝ #textright {text-align: right;}
       ⍝ #boxright {margin-left: auto; margin-right: 0;}
       ⍝ #boxcenter {margin-left: auto; margin-right: auto;}
-      ⍝ #bottom {position: absolute; bottom: 0;}
+      ⍝ #textbottom {position: relative; height: 4em;}
+      ⍝ #textbottom span {position: absolute; bottom: 1ex;}
+      ⍝ #boxbottom {position: absolute; bottom: 0;}
       ⍝
       ⍝ /**/#parent:hover, #parent div:hover {
       ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
@@ -292,34 +294,44 @@
       '#textright't.Add _.div'Right-aligned text' ⍝ #textright
       '#boxcenter't.Add _.div'Centered element' ⍝ #boxcenter
       '#boxright't.Add _.div'Right-aligned element' ⍝ #boxright
-      '#bottom't.Add _.div'Bottom-aligned element'
-      'ShowPositioning'∘AddHandler¨'#parent' '#default' '#textcenter' '#textright' '#boxcenter' '#boxright' '#middle' '#bottom'
+      '#textbottom't.Add _.div,New _.span'Bottom-aligned text' ⍝ #textbottom
+      '#boxbottom't.Add _.div'Bottom-aligned element' ⍝ #boxbottom
+      'ShowPositioning'∘AddHandler¨'#parent' '#default' '#textcenter' '#textright' '#boxcenter' '#boxright' '#textbottom' '#boxbottom'
       t←'Positioning't
     ∇
 
-    ∇ t←Embedding
+    ∇ t←Embedding;c
       Add _.style ScriptFollows
-      ⍝ #embed * {margin: 1ex;}
+      ⍝ #embed>* {margin: 1ex;}
       ⍝ #quack {filter: hue-rotate(-205deg); padding: 2em;}
       ⍝ #quack:hover {filter:  hue-rotate(0deg);}
-      ⍝ #bear {display: block; padding: 0.2em; border: 1px solid silver; margin: 1ex;}
+      ⍝ #bear {padding: 0.2em; border: 1px solid silver; margin: 1ex;}
       ⍝ #duck {height: 12em; transform: rotate(-15deg);}
+      ⍝ #poly {height: 240px; width: 200px}
+      ⍝ #poly polygon {fill: orange; stroke: purple; stroke-width: 1ex;}
+      ⍝ #pdf {height: 240px; width:400px}
       ⍝
-      ⍝ /**/#embed *:hover {
+      ⍝ /**/#bear:hover, #quack:hover, #duck:hover, #poly:hover, #embed>div>div:hover{
       ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
       ⍝ }
       t←'#embed'New _.div'This div contains embedded items'
       t.Add _.br
+      '#bear' 'src=Examples/Data/bear.mp4' 'autoplay=' 'loop=' 'muted='t.Add _.video'No video support!' ⍝ #bear
       '#quack' 'controls='t.Add _.Audio'Examples/Data/quack.mp3' ⍝ #quack
       '#duck' 'src=Examples/Data/duck.png' 'alt="Silly Duck"'t.Add _.img'No img support!' ⍝ #duck
-      '#bear' 'src=Examples/Data/bear.mp4' 'autoplay=' 'loop=' 'muted='t.Add _.video'No video support!' ⍝ #bear
-      'ShowEmbedding'∘AddHandler¨'#bear' '#duck' '#quack'
+      '#poly't.Add _.svg,'points=20,20 50,120 120,190 180,80'New _.polygon ⍝ #poly
+      c←'style=display:inline-block;position:relative;'t.Add _.div
+      '#pdf' 'style=position:absolute;height:100%;width:100%;top:0;'c.Add _.div
+      '#pdf' 'data=Examples/Data/licence.pdf'c.Add _.object ⍝ #pdf
+      'ShowEmbedding'∘AddHandler¨'#bear' '#duck' '#quack' '#poly' '#pdf'
       t←'Embedding't
     ∇
 
     ∇ t←Interaction
       t←'#ui'New _.div'This div shows user interaction'
       t←'Interaction't
+     
+     
     ∇
 
     ∇ t←Windows
