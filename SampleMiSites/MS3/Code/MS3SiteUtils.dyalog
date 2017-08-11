@@ -226,8 +226,21 @@
       ⍝ /**/#span:hover, #p:hover, #div:hover, #Button:hover, #StackPanel:hover, #EditField:hover, #Select:hover, #Fieldset1:hover, #Fieldset2:hover, .CheckBox:hover, #RadioButtonGroup:hover, #Input1:hover, #Input2:hover, #h5:hover, #progress:hover, #List:hover, #Table:hover {
       ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
       ⍝ }
-      'ShowElement'∘AddHandler¨'#div' '#p' '#span' '#Button' '#EditField' '#StackPanel' '#Select' '#Fieldset1' '#Fieldset2' '.CheckBox' '#RadioButtonGroup' '#Input1' '#h5' '#Input2' '#progress' '#List' '#Table'
+      'ShowElementInfo'∘AddHandler¨'#div' '#p' '#span' '#Button' '#EditField' '#StackPanel' '#Select' '#Fieldset1' '#Fieldset2' '.CheckBox' '#RadioButtonGroup' '#Input1' '#h5' '#Input2' '#progress' '#List' '#Table'
       t←'Common elements't
+    ∇
+
+    ∇ r←ShowElementInfo;code;ctrl;info
+      :Access Public
+      ctrl←_selector~'#.12'
+      info←'<h2>This element is called <code>_.',ctrl,'</code></h2>'
+      info,←P'descr'ForControl ctrl
+      info,←'<h3>Constructor (what goes to the right of <code>Add _.',ctrl,'</code>)</h3>'
+      info,←P Link('ctor'ForControl ctrl)(DocUrl ctrl)
+      code←⊃_selector CodeFrom ⎕NR'Elements'
+      info,←'<h3>Put this in the <code>Compose</code> function</h3>',P code
+      r←'#info'Replace info
+      r,←ShowPdf
     ∇
 
     ∇ t←Formatting
@@ -267,7 +280,7 @@
       ⍝ /**/#border:hover {box-shadow: 0 0 5px 2px Orange, 0 0 5px 2px Orange inset;}
       ⍝ /**/#img:hover {box-shadow: 0 0 5px 3px Orange,0 0 5px 3px Orange;}
       ⍝ /**/#bluebox:hover {box-shadow:0 0 5px 1px Orange, 0 0 5px 1px Orange inset, 0.25em 0.5em 1em Gray;}
-      'ShowFormatting'∘AddHandler¨'#margrad' '#boldin' '#huge' '#expund' '#bluebox' '#centshad' '#whimg' '#serif' '#sans' '#mono' '#border' '#img' '#narrow'
+      'ShowInfo'∘AddHandler¨'#margrad' '#boldin' '#huge' '#expund' '#bluebox' '#centshad' '#whimg' '#serif' '#sans' '#mono' '#border' '#img' '#narrow'
       t←'Formatting't
     ∇
 
@@ -296,7 +309,7 @@
       '#boxright't.Add _.div'Right-aligned element' ⍝ #boxright
       '#textbottom't.Add _.div,New _.span'Bottom-aligned text' ⍝ #textbottom
       '#boxbottom't.Add _.div'Bottom-aligned element' ⍝ #boxbottom
-      'ShowPositioning'∘AddHandler¨'#parent' '#default' '#textcenter' '#textright' '#boxcenter' '#boxright' '#textbottom' '#boxbottom'
+      'ShowInfo'∘AddHandler¨'#parent' '#default' '#textcenter' '#textright' '#boxcenter' '#boxright' '#textbottom' '#boxbottom'
       t←'Positioning't
     ∇
 
@@ -314,7 +327,7 @@
       ⍝ /*#bear:hover, #quack:hover, #duck:hover, #poly:hover, #embed>div>div:hover*/ #embed *:hover{
       ⍝     box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;
       ⍝ }
-      t←'#embed'New _.div'This div contains embedded items'
+      t←'#embed'New _.div
       t.Add _.br
       '#bear' 'src=Examples/Data/bear.mp4' 'autoplay=' 'loop=' 'muted='t.Add _.video'No video support!' ⍝ #bear
       '#quack' 'controls='t.Add _.Audio'Examples/Data/quack.mp3' ⍝ #quack
@@ -323,7 +336,7 @@
       c←'style=display:inline-block;position:relative;'t.Add _.div
       '#pdf' 'style=position:absolute;height:100%;width:100%;top:0;' 'onclick="$(this).hide();"'c.Add _.div
       '#pdf' 'data=Examples/Data/licence.pdf'c.Add _.object ⍝ #pdf
-      'ShowEmbedding'∘AddHandler¨'#bear' '#duck' '#quack' '#poly' '#pdf'
+      'ShowInfo'∘AddHandler¨'#bear' '#duck' '#quack' '#poly' '#pdf'
       t←'Embedding't
     ∇
 
@@ -331,72 +344,94 @@
       r←(_selector≢'#pdf')/Execute'$("#pdf").show();'
     ∇
 
-    ∇ t←Interaction
-      t←'#ui'New _.div'This div shows user interaction'
+    ∇ t←Interaction;cb;m
+      Add _.style ScriptFollows
+      ⍝ #ui>* {margin: 1ex;}
+      ⍝ #adjust {width: 8em;}
+      ⍝ #adjust:hover {text-align: justify;}
+      ⍝ #adjust:active {text-align: right;}
+      ⍝ #callback {width: 8em;}
+      ⍝ #move {height: 6em; width: 12em; border: 1px solid black;}
+      ⍝ #move div {height: 3em; width: 6em; cursor: move; background: silver;}
+      ⍝ /**/ #ui>*:hover {box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;}
+      t←'#ui'New _.div
+      '#adjust't.Add _.Button'Styling for reaction to hover and click' ⍝ #adjust
+      cb←'#callback't.Add _.Button('Update with callback click ',#.Dates.(TSFmt ⎕TS)) ⍝ #callback
+      cb.On'click' 'CallbackFn' ⍝ #callback
+      '#move't.Add _.div,New _.div'Movable (drag me!)' ⍝ #move
+      m←Add _.jqDraggable'#move div' ⍝ #move
+      m.Set'containment' 'parent' ⍝ #move
+     
+      'ShowInfo'∘AddHandler¨'#adjust' '#callback' '#move'
       t←'Interaction't
-     
-     
     ∇
 
-    ∇ t←Windows
-      t←'#win'New _.div'This div shows floating GUI elements'
+    ∇ r←CallbackFn ⍝ #callback
+      :Access Public ⍝ #callback
+      r←'#callback'Replace'Update with callback click ',#.Dates.(TSFmt ⎕TS) ⍝ #callback
+    ∇ ⍝ #callback     
+
+    ∇ t←Windows;c;p;d
+      Add _.style ScriptFollows
+      ⍝ #win {margin: 1em; padding: 1ex;}
+      ⍝ #win>div {display: inline-block;}
+      ⍝ #win>div:hover {box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;}
+      t←'#win'New _.div
+      t.Add _.p 'Choose a color to get a matching notification:'
+      d←'#color't.Add _.div
+      d.On'mousedown' 'ShowInfo'
+      c←d.Add _.ejColorPicker'#ffff00' ⍝ #color
+      c.On'close' 'ColorFn'('chosenColor' 'model' 'value') ⍝ #color
       t←'Windows &amp; Popups't
+    ∇
+
+    ∇ r←ColorFn;chosen;all;options ⍝ #color
+      :Access public ⍝ #color
+      chosen←0 #.Utils.hex⍕↓3 2⍴1↓Get'chosenColor' ⍝ #color
+      all←(0 0 0)(255 0 0)(0 255 0)(0 0 255)(319 319 0)(255 255 255) ⍝ #color
+      (options←⎕NS ⍬).color←'black' 'red' 'green' 'blue' 'yellow' 'black'⊃⍨(⊢⍳⌊/)+/¨2*⍨all-⊂chosen ⍝ #color
+      r←Execute options _.jBox.Notice('You chose ',Get'chosenColor') ⍝ #color
+    ∇ ⍝ #color     
+
+    ∇ r←ShowInfo;info;css;code;fns
+      :Access Public
+      (code css)←_selector CodeFrom ⎕SRC⍎NoExt⊃⎕XSI ⍝ this ns
+      code←SplitFns code
+      info←'<h3>Put this in the <code>Compose</code> function</h3>',P Break⊃code
+      fns←1↓code
+      :If ×≢css
+          info,←'<h3>Put <code>Add _.style''&#8230;''</code> in <code>Compose</code> or add  this to the stylesheet</h3>'
+          info,←P Break css
+      :EndIf
+      :If ×≢fns
+          info,←'<h3>Add ','this funtion' 'these functions'⊃⍨2⌊≢fns
+          info,←' to the MiPage</h3>',P Break¨fns
+      :EndIf
+      r←'#info'Replace info
+      r,←ShowPdf
     ∇
 
     ∇ {ctrl}←callbackfn AddHandler sel
       ctrl←sel~'#.12'
-      Add _.Handler sel'click'callbackfn'' 'event.stopPropagation()'
+      Add _.Handler sel'mousedown'callbackfn'' 'event.stopPropagation()'
     ∇
 
-    ∇ r←ShowElement;code;ctrl;info
-      :Access Public
-      ctrl←_selector~'#12'
-      info←'<h2>This element is called <code>_.',ctrl,'</code></h2>'
-      info,←P'descr'ForControl ctrl
-      info,←'<h3>Constructor (what goes to the right of <code>Add _.',ctrl,'</code>)</h3>'
-      info,←P Link('ctor'ForControl ctrl)(DocUrl ctrl)
-      code←⊃_selector CodeFrom'Elements'
-      info,←'<h3>Put this in the <code>Compose</code> function</h3>',P code
-      r←'#info'Replace info
-      r,←ShowPdf
-    ∇
-
-    ∇ r←ShowHtmlAndCss fn;css;info;code
-      (code css)←_selector CodeFrom fn
-      info←'<h3>Put this in the <code>Compose</code> function</h3>',P code
-      info,←'<h3>Put <code>Add _.style''&#8230;''</code> in <code>Compose</code> or add  this to the stylesheet</h3>',P css
-      r←'#info'Replace info
-      r,←ShowPdf
-    ∇
-
-    ∇ r←ShowFormatting
-      :Access Public
-      r←ShowHtmlAndCss'Formatting'
-    ∇
-
-    ∇ r←ShowPositioning
-      :Access Public
-      r←ShowHtmlAndCss'Positioning'
-    ∇
-
-    ∇ r←ShowEmbedding
-      :Access Public
-      r←ShowHtmlAndCss'Embedding'
-    ∇
+    Break←{4↓∊'<br>'∘,¨⍵}
 
       CodeFrom←{
-          nr←⎕NR ⍵
-          (css lines)←↓⍉↑('⍝ ',⍺)∘Prep¨nr/⍨('⍝ ',⍺)∘(∨/⍷)¨nr
+          (css lines)←↓⍉↑('⍝ ',⍺)∘Prep¨⍵/⍨('⍝ ',⍺)∘(∨/⍷)¨⍵
           (lines/⍨~css)(css/lines)
       }
 
       Prep←{
-          c←#.Strings.dlb ⍵
+          c←#.Strings.deb ⍵
           ⍺≡c↑⍨-l←≢⍺:0('\w+\.Add'⎕R'Add'⊢c↓⍨¯1-l)
           1(2↓c)
       }
 
     P←{∊('<p>',,∘'</p>')¨ç⍵}
+
+    SplitFns←{⍵⊂⍨1,2</≠\'∇'=⊃¨⍵}
 
     :ENDSECTION ⍝ ─────────────────────────────────────────────────────────────────────────────────
 ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝ ⍝

@@ -544,6 +544,8 @@ heading1 {
     vertical-align: top;
 }
 
+#info p {font-family: "APL385 Unicode"}
+
 @media (min-width: 1024px) {
     #Tabs, #info {
         width: calc(50% - 1em);
