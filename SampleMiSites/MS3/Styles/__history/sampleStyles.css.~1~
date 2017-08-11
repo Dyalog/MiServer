@@ -636,17 +636,17 @@ figcaption a {
     font-weight: bold;
 }
 
-.fltcnt {
+#fltcnt {
     display: inline-block;
     width: calc(100% - 27em);
 }
 
-.fltcnt>div>div {
+#fltcnt>div>div {
     float: right;
     position: relative;
 }
 
-.fltcnt button {
+#fltcnt button {
     margin-left: 1ex;
 }
 

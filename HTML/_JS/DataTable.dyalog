@@ -15,6 +15,7 @@
 ⍝ HeaderAttr  - Header attributes
 ⍝ MakeCellIds - 1 to generate IDs      <td id="tableId_r2c3">
 ⍝ MakeRowIds  - 1 to generate Row IDs  <tr id="tableId_row2">
+⍝ Width       - (string) width of the table
 
     :Field public shared readonly DocBase←'https://www.datatables.net/'
     :field public Data←0 0⍴⊂''
@@ -23,6 +24,7 @@
     :field public HeaderAttr←''
     :field public MakeCellIds←0
     :field public MakeRowIds←0
+    :field public Width←''
     
     :field public InitFilterWith←''
 
@@ -67,6 +69,9 @@
       Options←opts
       :If 0<⍴JSON_Data ⋄ 'data'Set⊂JSON_Data ⋄ :EndIf
       Container.(Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)←(Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds)
+      :if 0<≢Width
+      	'width'Container.Set Width
+      :endif
       html←⎕BASE.Render
      
     ∇

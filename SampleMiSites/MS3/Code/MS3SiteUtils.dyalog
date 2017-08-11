@@ -168,14 +168,16 @@
 
       FilterTable←{
           dt←⍺ New _.DataTable ⍵
+          dt.Width←'100%'
+          dt.Options.autoWidth←_true
           dt.Options.mark←_true                ⍝ highlight search-terms
           dt.Options.columns←⎕NS¨4⍴⊂⍬          ⍝ options per column
           dt.Options.columns[4].visible←_false ⍝ hide column4
-          dt.Options.dom←'l<"#fltcnt">ftpr'    ⍝ insert div with id "fltcnt" into table header
+          dt.Options.dom←'l<"#fltcnt_',(1⊃⍺),'.fltcnt">ftpr'    ⍝ insert div with id "fltcnt_{id}" into table header
           dt.Plugins←'yadcf'
           dt.Options.yadcf←⎕NS ⍬
           dt.Options.yadcf.Filters←⎕NS ⍬
-          dt.Options.yadcf.Filters.(column_number select_type filter_container_id)←3 'chosen' 'fltcnt'
+          dt.Options.yadcf.Filters.(column_number select_type filter_container_id)←3 'chosen' ('fltcnt_',1⊃⍺)
           dt.Options.yadcf.Filters.(filter_type select_type_options filter_default_label)←'multi_select'(⊂'{width:"30em"}')'Filter by library'
           dt.Options.yadcf.Filters/⍨←1 ⍝ needs array of namespaces
           dt
