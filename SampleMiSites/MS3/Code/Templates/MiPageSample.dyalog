@@ -73,14 +73,15 @@
       r←⎕BASE.Wrap
     ∇
 
-    ∇ r←CtrlsDiv source;control;controls;ns
+    ∇ r←CtrlsDiv source;control;controls;ns;pattern
      ⍝ Creates a div with info on the controls used in source
      
      ⍝ First we extract proper lists of controls
       controls←5/⊂''
       source←(⍳∘'⍝'↑⊢)¨source      ⍝ remove comments
       source←{⍵/⍨~≠\''''=⍵}¨source ⍝ remove strings but leaves one ' as separator
-      :For control :In 'Handler' 'Position'~⍨∪('_(DC|SF|JQ|JS|html|)\.(\w+)'⎕S'\2')source ⍝ find controls
+      pattern←8⌽')\.(\w+)_(',∊#.MS3SiteUtils.NSS,¨'|'
+      :For control :In 'Handler' 'Position'~⍨∪(pattern⎕S'\2')source ⍝ find controls
           :Trap 6 ⍝ unknown
               ns←(#.MS3SiteUtils.NSS(∨/⍷)¨⊂⍕⍎'#._.',control)/⍳⍴#.MS3SiteUtils.NSS ⍝ add to right list
           :Else

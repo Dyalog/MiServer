@@ -1,4 +1,4 @@
-﻿:Namespace _SF
+﻿:Namespace _SF ⍝ Syncfusion
     ⍝∇:require =\_JQ.dyalog
 
     :section CommonCode

@@ -377,7 +377,7 @@
       ⍝ #win>div {display: inline-block;}
       ⍝ #win>div:hover {box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;}
       t←'#win'New _.div
-      t.Add _.p 'Choose a color to get a matching notification:'
+      t.Add _.p'Choose a color to get a matching notification:'
       d←'#color't.Add _.div
       d.On'mousedown' 'ShowInfo'
       c←d.Add _.ejColorPicker'#ffff00' ⍝ #color
@@ -438,14 +438,22 @@
 
     :SECTION F_CONSTANTS ⍝ NILADIC FUNCTIONS THAT ACT LIKE :include'ABLE CONSTANTS
 
-    ∇ r←NSS
+    ∇ r←NSS;types;names
       :Access public
-      r←'DC' 'SF' 'JQ' 'JS' 'html'
+      :If 0=C.⎕NC'NSS'
+          C.NSS←1↓¨1↓'_'#.⎕NL ¯9
+          names types←0 1⎕NINFO⍠1⊢#.Boot.AppRoot,'Examples/*'
+          C.NSS∩←LastSeg¨names/⍨1=types
+      :EndIf
+      r←C.NSS
     ∇
 
     ∇ r←GROUPS
       :Access public
-      r←'Dyalog' 'Syncfusion' 'jQueryUI' 'JavaScript' 'Base&nbsp;HTML'
+      :If 0=C.⎕NC'GROUPS'
+          C.GROUPS←{#.Strings.deb(⍳∘'⍝'↓⊢)⊃⎕SRC#⍎⍵}¨'_',¨NSS
+      :EndIf
+      r←C.GROUPS
     ∇
 
     ∇ r←CACHE

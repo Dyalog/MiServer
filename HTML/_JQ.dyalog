@@ -1,4 +1,4 @@
-﻿:Namespace _JQ
+﻿:Namespace _JQ ⍝ jQueryUI
     (⎕IO ⎕ML)←1
 
     :section Common Code

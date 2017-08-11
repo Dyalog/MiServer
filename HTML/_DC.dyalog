@@ -1,4 +1,4 @@
-﻿:Namespace _DC ⍝ Dyalog Controls
+﻿:Namespace _DC ⍝ Dyalog
 ⍝ Populated from \HTML\_DC\
 ⍝∇:require =\_JQ.dyalog
 

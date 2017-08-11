@@ -1,4 +1,4 @@
-﻿:Namespace _JS ⍝ Miscellaneous JavaScript Controls
+﻿:Namespace _JS ⍝ JavaScript
 ⍝ Populated from \HTML\_JS\
 
 :EndNamespace
