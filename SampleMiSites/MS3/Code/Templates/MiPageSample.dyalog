@@ -41,7 +41,7 @@
           '.bodyblock'Body.Push _.div
      
         ⍝ add the header to the top of the page and wrap the body in a div with id="wrapper"
-          Body.Push #.Files.GetText server.Config.Root,'Styles\banner.txt'
+          Body.Push #.Files.ReadText server.Config.Root,'Styles\banner.txt'
      
           'wrapper'Body.Push _.div
      

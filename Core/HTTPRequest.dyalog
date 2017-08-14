@@ -324,7 +324,7 @@
       :If flag<0≡RESTfulReq
           :For root :In Server.Config.(Root MSRoot) ⍝ try site root, then server root
               :If #.Files.Exists f←root,'CommonPages\',(⍕x),'.htm'
-                  :If ~0∊⍴(⎕UCS 13 10)~⍨t←#.Files.GetText f
+                  :If ~0∊⍴(⎕UCS 13 10)~⍨t←#.Files.ReadText f
                       Response.HTML,⍨←t,'<br/>'
                       Response.Headers⍪←'content-type' 'text/html; charset=utf-8'
                   :EndIf
@@ -388,7 +388,7 @@
     ∇ r←JSPlugIn file;root ⍝ Retrieve a JavaScript PlugIn
       :Access Public Instance
       root←{(1-⌊/'/\'⍳⍨⌽⍵)↓⍵}⎕WSID
-      r←#.Files.GetText root,'PlugIns\',file
+      r←#.Files.ReadText root,'PlugIns\',file
     ∇
 
     ∇ Meta attrs ⍝ add a meta tag to the head element

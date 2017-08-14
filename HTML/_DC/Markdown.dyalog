@@ -33,7 +33,7 @@
               file,⍨←#.Boot.AppRoot
           :EndIf
           :If #.Files.Exists file
-              Content←⊃,/('b'≠1↑#.Strings.lc ContentPosition)⌽(#.Strings.vtv Content)(#.Files.GetVTV file)
+              Content←⊃,/('b'≠1↑#.Strings.lc ContentPosition)⌽(#.Strings.vtv Content)(1 #.Files.ReadText file)
           :Else
               {0:: ⋄ 1 #.Boot.ms.Log'Markdown file "',⍵,'" not found'}file
           :EndIf

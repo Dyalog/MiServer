@@ -66,7 +66,7 @@
           :If (≢C.read.keys)≥i←C.read.keys⍳⊂page ⍝ is it cached, and if so, save position
               r←i⊃C.read.data                     ⍝ extract
           :Else
-              C.read.data,←⊂r←#.Files.GetVTV #.Boot.AppRoot,page,(~'.'∊page)/FILEEXT
+              C.read.data,←⊂r←1 #.Files.ReadText #.Boot.AppRoot,page,(~'.'∊page)/FILEEXT
               C.read.keys,←⊂page
           :EndIf
       :Else
@@ -471,7 +471,7 @@
     ∇ C←C;scores;list;refs;srcs;control;i;info;ref;src;ctor;Read;Ø;demo
      ⍝ Return ref to cache (initialize cache if nonexistant)
       :Access public
-      Read←#.Files.GetVTV #.Boot.AppRoot∘, ⍝ no-cache reading
+      Read←1 #.Files.ReadText #.Boot.AppRoot∘, ⍝ no-cache reading
       :Hold CACHE                          ⍝ prevent clashes
           :If 9≠⎕NC CACHE                  ⍝ if cache is empty:
               Ø←⊂''

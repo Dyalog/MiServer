@@ -22,11 +22,11 @@
      
     ⍝ The design for this template implements a structure for the content within the body of the HMTL file
     ⍝ The <body> element encloses three <div> elements containing: a banner, the content, a footer
-      banner←#.Files.GetText req.Server.Config.AppRoot,'Styles\banner.txt'
+      banner←#.Files.ReadText req.Server.Config.AppRoot,'Styles\banner.txt'
       content←'div id="contentblock"'Enclose req.Response.HTML
       content,←'div id="codeblock" style="display: none;"'Enclose APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS
       content,←JS'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock").toggle();});});'
-      footer←#.Files.GetText req.Server.Config.AppRoot,'Styles\footer.txt'
+      footer←#.Files.ReadText req.Server.Config.AppRoot,'Styles\footer.txt'
      
     ⍝↓↓↓ We enclose the banner/content/footer with a "wrapper" div so that the visible content of the page can be sized, aligned, floated, etc.
     ⍝    <body> serves as the background and overall container (not to mention being required!)

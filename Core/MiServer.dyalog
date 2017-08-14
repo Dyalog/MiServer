@@ -509,7 +509,7 @@
       :AndIf (n←⍴REQ.Session.Pages)≥i←REQ.Session.Pages._PageName⍳⊂REQ.Page
           inst←i⊃REQ.Session.Pages ⍝ Get existing instance
           :If expired←inst._PageDate≢date  ⍝ Timestamp unchanged?
-          :AndIf expired←(⎕SRC⊃⊃⎕CLASS inst)≢(#.Files.GetVTV file)~⊂''
+          :AndIf expired←(⎕SRC⊃⊃⎕CLASS inst)≢(1 #.Files.ReadText file)~⊂''
               oldinst←inst
               REQ.Session.Pages~←inst
               4 Log'Page: ',REQ.Page,' ... has been updated ...'
@@ -813,7 +813,7 @@
           ind←Config.Virtual.alias⍳⊂t←{(¯1+⍵⍳'/')⍴⍵}page
           :If ind≤⍴Config.Virtual.alias
               path←ind⊃Config.Virtual.path
-              file←#.Files.unixfix path,('/\'∊⍨¯1↑path)↓(⍴t)↓page
+              file←#.Files.Normalize path,('/\'∊⍨¯1↑path)↓(⍴t)↓page
           :EndIf
       :EndIf
     ∇

@@ -16,11 +16,10 @@
 
     ⍝∇:require =\Script.dyalog
 
-    :include #.HtmlUtils
-
     :field public Page←''
     :field public Interval←250
     :field public Callback←'APLJax'
+    :field public JavaScript←''
 
     ∇ Make0
       :Access public
@@ -32,19 +31,20 @@
       :Access public
       :Implements constructor
       arg←eis arg
-      (Callback Interval Page)←⍕¨arg defaultArgs Callback Interval Page
+      (Callback Interval JavaScript Page)←⍕¨arg defaultArgs Callback Interval JavaScript Page
       Uses←'JQuery'
     ∇
 
     ∇ r←Render;code;params
       :Access public
+      SetUse
       :If 0∊⍴Page
           :If {6::0 ⋄ ''≢c∘←##.context ⍵}'_Request'
               Page←c._Request.Page
           :EndIf
       :EndIf
      
-      (params←⎕NS'').(∆interval ∆page ∆callback)←Interval Page Callback
+      (params←⎕NS'').(∆interval ∆page ∆callback ∆script)←Interval Page Callback JavaScript
      
       Code←params Subst ScriptFollows
 ⍝     if (window.DeviceOrientationEvent) {
@@ -54,11 +54,13 @@
 ⍝             newtime = new Date().getTime();
 ⍝             if (∆interval < (newtime - time)) {
 ⍝                 time = newtime;
+⍝                 ∆script;
 ⍝                 $.ajax({
 ⍝                     url: "∆page",
 ⍝                     cache: false,
 ⍝                     type: "POST",
 ⍝                     dataType: "json",
+⍝                     headers: {"isAPLJax": "true"},
 ⍝                     data: {
 ⍝                         _event: evt.type,
 ⍝                         _callback: "∆callback",

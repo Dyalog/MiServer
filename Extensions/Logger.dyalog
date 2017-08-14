@@ -20,7 +20,7 @@
       Active←0
       EOL←⎕UCS 13 10↓⍨~#.Boot.isWin
       :If #.Files.Exists file←ms.Config.Root,'Config/Logger.xml'
-      :AndIf ~0∊⍴log←(#.XML.ToNS #.Files.GetText file).Logger
+      :AndIf ~0∊⍴log←(#.XML.ToNS #.Files.ReadText file).Logger
           Active←log #.Boot.Setting'active' 1 0
           Prefix←log #.Boot.Setting'prefix' 0 ''
           Interval←log #.Boot.Setting'interval' 1 10
@@ -74,7 +74,7 @@
     ∇ r←Open;fn
       r←0
       :Trap 6
-          fn←#.Files.unixfix Directory,Prefix,(⍕100⊥3↑⎕TS),'.log'
+          fn←#.Files.Normalize Directory,Prefix,(⍕100⊥3↑⎕TS),'.log'
       :Else
           →0
       :EndTrap

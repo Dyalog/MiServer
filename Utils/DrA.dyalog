@@ -36,7 +36,7 @@
      
       :If 0=⍴_PATH
           _PATH←Path
-          _PATH←#.Files.unixfix _PATH,(('/\'∊⍨¯1↑_PATH)/'\'),'DrA'
+          _PATH←#.Files.Normalize _PATH,(('/\'∊⍨¯1↑_PATH)/'\'),'DrA'
       :EndIf
      
       :Trap 0
@@ -296,7 +296,7 @@
    ⍝ Create a DrA Error Log file under the installation directory
      
       ⎕TRAP←0 'C' '→ELSE'
-      Dir←#.Files.unixfix Dir,((~'/\'∊⍨¯1↑Dir)/'\'),'DrA\'
+      Dir←#.Files.Normalize Dir,((~'/\'∊⍨¯1↑Dir)/'\'),'DrA\'
       get←{(2,(1⊃⍺)⍳⊂⍵)⊃⍺}                     ⍝ Info retrieval function
       F←,'ZI4,ZI2,ZI2'⎕FMT 1 3⍴⎕TS             ⍝ Todays date
       F←F,'_'{(0≠⍴⍵)/⍺,⍵},'[]#'~⍨{(1-(⌽⍵)⍳'.')↑⍵},Info get'⎕THIS' ⍝ Class

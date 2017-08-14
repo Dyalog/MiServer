@@ -1,155 +1,269 @@
 ﻿:Namespace Files
-
-⍝ Provides cover functions for many file operations
-⍝ Eventually all will be implemented for both Windows and *nix
+⍝ Description::
+⍝ The Files library provides cross-platform tools for use with native files.
+⍝ It is the successor to the Files workspace that was distributed with Dyalog APL up to version 15.0
+⍝
+⍝ Overview::
+⍝ This namespace is completely stand-alone and requires no other code to run
+⍝
+⍝ Functions::
+⍝
+⍝ data Append filename              - appends data to existing file
+⍝ text AppendText filename          - appends (single-byte) text to filename
+⍝ text AppendTextU filename         - appends unicode text to filename (NB: no validation or transformation of encodings, use responsibly!)
+⍝ t←Nopen filename                  - create/open native file
+⍝ data Put filename                 - Put data into filename
+⍝ text PutText filename             - write (single-byte) text to filename
+⍝ text PutTextU filename            - writes unicode text to filename, encoding might be specified as 2nd right arg (UTF-8 is dflt)
+⍝ (tn name)←{dcf}CreateTemp pattern - create a temporary-file in specified dir and return tie-number
+⍝                                     (if dcf=1, create a dcf-file, otherwise native)
+⍝ R←GetBom Filename                 - returns the "byte order mark" of a file
+⍝ R←{nul}ReadAllLines filename      - returns vtv with content of file
+⍝ R←{vtv}ReadAllText filename       - returns content of file (vtv=1: as a vtv of lines, otherwise simple vector)
+⍝
+⍝ {protect}Copy (from to)           - copies a file, optionally failing if "protect" is set and "to" exists
+⍝ R←Exists path                     - check if file or directory exists
+⍝ {z}←Delete path                   - delete file or directory
+⍝ Move (from to)                    - move a file from "from" to "to"
+⍝
+⍝ MkDir path                        - make a directory
+⍝ RmDir path                        - remove directory
+⍝ R←{types}Dir pattern              - a ⎕NINFO-compatible replacement of the "Dir"-fn which was moved to WinFiles (types matches ⍺ of ⎕NINFO)
+⍝ R←{pattern} List path             - a cover for "Dir", compatible with MiServer's Files.List
+⍝
+⍝ Functions to deal with component files:
+⍝ c←idx FREAD filename              - read specified component from file (
+⍝ t←RDCIFromTS ts                   - convert ⎕TS style data into ⎕FRDCI timestamp form
+⍝ ts←TSFromRDCI ts                  - Convert ⎕FRDCI timestamps to ⎕TS form
+⍝ ts←TSOfComp tn                    - Find timestamp of component tie,n
+⍝ r←filename Fopen tieno            - opens component file (creating it if necessary) and returns tieno. Optional tieno[2] controls exclusive access.
+⍝
+⍝ Migrating from MiServer/Utils/Files.dyalog::
+⍝ MiServer also included an early version of Files.dyalog, but the focus on this re-implementation was compatibility with Files.dws,
+⍝ so a few fns were changed and some taken away. Here's a list of differences to consider when migrating to this new class:
+⍝
+⍝    * Changed:
+⍝        * DirExists w -> 1 Exists w
+⍝        * GetText w -> 0 ReadAllText w
+⍝        * GetVTV w -> 1 ReadAllText w
+⍝        * {pattern}List path
+⍝            * previously would return '.' and '..' - no longer does!
+⍝            * List '/dir' will (as it did before) return info about the DirName, but the casing of the name will be the one from the argument, not "normalized", as used to be (maybe even ⎕NINFO should do this?)
+⍝
+⍝    * Removed
+⍝        * GetCurrentDirectory & SetCurrentDirectory
+⍝        * LikelyURL
+⍝        * SplitFilename - use ⎕NPARTS instead
+⍝        * _Filetime_to_TS -->use  WinFiles._Filetime_to_TS
+⍝        * _CMD, _SH
+⍝        * isWin
+⍝        * unixfix
+⍝        * APLVersion
 
     (⎕IO ⎕ML)←1
 
+    Normalize←∊1∘⎕NPARTS ⍝ normalize a file name
+    SplitFilename←1∘⎕NPARTS ⍝ splits a file name
+    Filename←{∊1↓1⎕NPARTS ⍵} ⍝ return file name only
+    eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
+
     ∇ r←data Append name
-     ⍝ Append data to existing file
-      r←{(⎕NUNTIE ⍵)⊢data ⎕NAPPEND ⍵}Nopen name
+    ⍝ Append "data" to file specified by "name", creating the file if needed
+    ⍝ r - number of bytes written
+      r←data{(⎕NUNTIE ⍵)⊢⍺ ⎕NAPPEND ⍵}Nopen name
     ∇
 
     ∇ r←text AppendText name;tn
-     ⍝ Append text to existing file (must be single byte text)
-      tn←Nopen name
-      r←text ⎕NAPPEND tn(⎕DR' ')
+    ⍝ Append single-byte "text" to file specified by "name", creating the file if needed
+    ⍝ r - number of bytes written
+      r←text{(⎕NUNTIE ⍵)⊢⍺ ⎕NAPPEND ⍵(⎕DR' ')}Nopen name
+    ∇
+
+    ∇ {r}←text PutText name_encoding;name;encoding;nl
+    ⍝ Write text to file (single byte)
+    ⍝ name_encoding - filename [encoding]
+    ⍝ text - character scalar, vector, matrix or vtv
+    ⍝ r - number of bytes written
+      :If 1<≡name_encoding
+          (name encoding)←name_encoding
+      :Else
+          name←name_encoding
+          encoding←(1+127∨.<⎕UCS text)⊃'ANSI' 'ASCII'
+      :EndIf
+      :If 1<⍴⍴text
+          text←,text,⎕UCS nl←10
+      :Else
+          nl←(<\(⎕UCS 10 13)∊text)/10 13
+      :EndIf
+      r←(text encoding nl)⎕NPUT name
+    ∇
+
+    ∇ {r}←text PutTextU name_encoding;name;encoding;nl
+    ⍝ Write text to file (unicode)
+    ⍝ name_encoding - filename [encoding]
+    ⍝ text - character scalar, vector, matrix or vtv
+    ⍝ r - number of bytes written
+      :If 1<≡name_encoding
+          (name encoding)←name_encoding
+      :Else
+          name←name_encoding
+          encoding←'UTF-8'
+      :EndIf
+      :If 1<⍴⍴text
+          text←,text,⎕UCS nl←10
+      :Else
+          nl←(<\(⎕UCS 10 13)∊text)/10 13
+      :EndIf
+      r←(text encoding nl)⎕NPUT name
+    ∇
+
+    ∇ r←{vtv}ReadText name
+    ⍝ Return the contents of a text file (single byte or Unicode)
+    ⍝ name - the name of the file
+    ⍝ vtv - (optional, default = 0) if 1, return contents as a vector of text vectors
+    ⍝ r - the contents of the file as specified by vtv
+      vtv←{0::⍵ ⋄ vtv}0
+      r←⊃⎕NGET name vtv
+    ∇
+
+    ∇ {r}←text AppendTextU name;tn;bom;bytes;num;le;int
+    ⍝ Append text to existing file. This will transform the data into the current encoding of the file
+    ⍝ but will not modify the file's encoding, i.e. you cannot append unicode to an ASCII-File. (Will throw error)
+    ⍝ r=number of bytes written
+      int←{¯128+256|128+⍵}
+      bom←GetBom name ⋄ bytes←2+2×∨/'32'⍷bom ⋄ le←∨/'LE'⍷bom
+      tn←name ⎕NTIE 0
+      :Select bom
+      :CaseList 'UTF-8' 'UTF-8-NOBOM' ⋄ r←(int'UTF-8'⎕UCS text)⎕NAPPEND tn 83
+      :CaseList 'UTF-16BE' 'UTF-16LE' 'UTF-32BE' 'UTF-32LE' 'UTF-16' 'UTF-32'
+          num←(bytes⍴256)⊤(6↑bom)⎕UCS text
+          num←int,⍉le{⍺:⊖⍵ ⋄ ⍵}num
+          {}num ⎕NAPPEND tn 83
+      :Else
+          ('Unrecognized bom: ',bom)⎕SIGNAL 11 ⍝ issue DOMAIN ERROR if file's bom not recogized
+      :EndSelect
       ⎕NUNTIE tn
     ∇
 
-    ∇ (tn name)←{ext}CreateTemp folder;cnt
-     ⍝ Create a temp file
-     ⍝ folder - folder to create temp file in
-     ⍝ ext - file extension
-      :If 0=⎕NC'ext' ⋄ ext←'tmp' ⋄ :EndIf
-      :If 0∊⍴ext ⋄ ext←'tmp' ⋄ :EndIf
-      cnt←tn←0
-      :Repeat
-          name←folder,('/\'∊⍨¯1↑folder)↓'/',⎕A[?8⍴⍴⎕A],'.',ext
-          :Trap 22 ⋄ tn←name ⎕NCREATE 0 ⋄ :EndTrap
-          cnt+←1
-      :Until (cnt>20)∨tn≠0
-      'Unable to create temporary file'⎕SIGNAL tn↓22
-    ∇
-
-    ∇ {protect}Copy FmTo;CopyFileX;GetLastError ⍝ Copy file Fm -> To
-      :Select APLVersion
-      :Case '*nix'
-          ∘
-      :Case 'Win'
-          :If 0=⎕NC'protect'     ⍝ Copy fails if <protect> and 'To' exists.
-              protect←0          ⍝ Default unprotected copy.
-          :EndIf
-          'CopyFileX'⎕NA'I kernel32.C32∣CopyFile* <0T <0T I'
-          :If 0=CopyFileX FmTo,protect
-              ⎕NA'I4 kernel32.C32|GetLastError'
-              11 ⎕SIGNAL⍨'CopyFile error:',⍕GetLastError
-          :EndIf
-      :EndSelect
-    ∇
-
-    ∇ Delete name;DeleteFileX;GetLastError;FindFirstFile;FindNextFile;FindClose;handle;rslt;ok;next;⎕IO;path
-      ⎕IO←0
-      :Select APLVersion
-      :CaseList '*nix' 'Mac'
-          _SH'rm -f ',unixfix name
-      :Case 'Win'
-          'DeleteFileX'⎕NA'I kernel32.C32∣DeleteFile* <0T'
-          ⎕NA'I4 kernel32.C32|GetLastError'
-          :If ∨/'*?'∊name ⍝ wildcards?
-              path←{(⌽∨\⌽⍵∊'\/')/⍵}name
-              _FindDefine
-              handle rslt←_FindFirstFile name
-              :If 0=handle
-                  :Return ⍝ ('ntdir error:',⍕rslt)⎕SIGNAL 102      ⍝ file not found
-              :EndIf
-              :If '.'≠⊃6⊃rslt
-                  {}DeleteFileX⊂path,6⊃rslt
-              :EndIf
-              :While 1=0⊃ok next←_FindNextFile handle
-                  :If '.'≠⊃6⊃next
-                      {}DeleteFileX⊂path,6⊃next
-                  :EndIf
-              :EndWhile
-              :If 0 18∨.≠ok next
-                  ('ntdir error:',⍕next)⎕SIGNAL 11   ⍝ DOMAIN
-              :EndIf
-              {}FindClose handle
-          :Else
-              :If 0=DeleteFileX⊂name
-                  11 ⎕SIGNAL⍨'DeleteFile error:',⍕GetLastError
-              :EndIf
-          :EndIf
-      :EndSelect
-    ∇
-
-    ∇ r←DirExists path
-      r←0
-      :Select APLVersion
-      :CaseList '*nix' 'Mac'
-          :Trap 11
-              r←0<⍴_SH'ls -adl ',unixfix path
-          :EndTrap
-      :Case 'Win'
-          r←{1≠⊃⍴⍵:0 ⋄ ⍵[1;4]}'.'List path
-      :EndSelect
-    ∇
-
-    ∇ r←Exists name
-     ⍝ Does file exist?
-      r←1
+    ∇ r←filename Fopen tn
+    ⍝ Ties a component file (creates if not found) and returns tieno.
+    ⍝ tn[1] is the tie number (0 to get next available)
+    ⍝ tn[2] is optional (default=0) where a value of 1 indicates to tie exclusively
+      tn←2↑tn ⍝ default to shared tie
       :Trap 22
-          :Trap 19 ⍝ file access error means file exists
-              ⎕NUNTIE(unixfix name)⎕NTIE 0
-          :EndTrap
+          r←filename{⍵[2]:⍺ ⎕FTIE ⍵[1] ⋄ ⍺ ⎕FSTIE ⍵[1]}tn
       :Else
-          r←0
+          r←filename{⍵[2]:⍵[3] ⋄ ⍺ ⎕FSTIE ⍵[1]⊣⎕FUNTIE ⍵[3]}tn,filename ⎕FCREATE tn[1]
       :EndTrap
     ∇
 
-    ∇ r←GetCurrentDirectory;GCD;GetLastError
-     ⍝ Get Current Directory
-      :Select APLVersion
-      :CaseList '*nix' 'Mac'
-          r←⊃_SH'pwd'
-      :Case 'Win'
-          'GCD'⎕NA'I kernel32.C32∣GetCurrentDirectory* I4 >0T'
-          :If 0≠1⊃r←GCD 256 256
-              r←2⊃r
-          :Else
-              ⎕NA'I4 kernel32.C32|GetLastError'
-              11 ⎕SIGNAL⍨'GetCurrentDirectory error:',⍕GetLastError
-          :EndIf
-      :EndSelect
+    ∇ r←comp FREAD filename
+    ⍝ Read component comp from file named filename
+    ⍝ FREAD ties, reads the component, and unties
+      r←comp{⍺{(⎕FUNTIE ⍵)⊢⎕FREAD ⍵ ⍺}⍵ ⎕FSTIE 0}filename
     ∇
 
-    ∇ Chars←GetText name;nid;signature;nums;sz;b
-     ⍝ Read ANSI or Unicode character file
-      sz←⎕NSIZE nid←(unixfix name)⎕NTIE 0
-      signature←⎕NREAD nid 83 3 0
-      :If signature≡¯17 ¯69 ¯65 ⍝ UTF-8?
-          nums←⎕NREAD nid 83 sz
-          Chars←'UTF-8'⎕UCS 256|nums ⍝ Signed ints
-      :ElseIf ∨/b←(2↑signature)∧.=2 2⍴¯1 ¯2 ¯2 ⍝ Unicode (UTF-16)
-          Chars←{,⌽(2,⍨2÷⍨⍴⍵)⍴⍵}⍣(⊣/b)⎕NREAD nid 83 sz 2
-          Chars←'UTF-16'⎕UCS(2*16)|163 ⎕DR Chars
-      :Else ⍝ ANSI or UTF-8
-          Chars←{11::⎕UCS ⍵ ⋄ 'UTF-8'⎕UCS ⍵}256|⎕NREAD nid 83 sz 0
+    ∇ r←filename Nopen tn
+    ⍝ Opens (ties) a native file (creates if not found) and returns tieno.
+    ⍝ tn[1] is the tie number (0 to get next available)
+    ⍝ tn[2] is optional (default=0) where a value of 1 indicates to create the file only and fail (returning 0) if it already exists
+      tn←2↑tn
+      :Trap 0
+          r←filename ⎕NCREATE tn[1]
+      :Else
+          →tn[2]⍴r←0
+          r←filename ⎕NTIE tn[1]
+      :EndTrap
+    ∇
+
+    ∇ {r}←data Put args;name;tn;dontOverwrite
+    ⍝ Puts data to a native file, either creating the file or overwriting it if it exists
+    ⍝ data - the data to be written
+    ⍝ args[1] - the name of the file to write to
+    ⍝ args[2] - (optional) is 1 to indicate NOT to overwrite an existing file,
+    ⍝           otherwise 0 (or no second argument will cause an existing file to be overwritten
+    ⍝ r - number of bytes written or ¯1 if the file exists and was not to be overwritten
+      args←eis args
+      (name dontOverwrite)←args,(⍴args)↓'' 0
+      :If 0≠tn←dontOverwrite Nopen name
+          r←data{(⎕NUNTIE ⍵)⊢⍺ ⎕NAPPEND(0 ⎕NRESIZE ⍵)(⎕DR ⍺)}tn
+      :Else
+          r←¯1
       :EndIf
-      ⎕NUNTIE nid
     ∇
 
-    ∇ vtv←GetVTV name
-     ⍝ Read ANSI or Unicode character file as vector of text vectors
-      vtv←{1↓¨(v=n)⊂v←(n←⎕UCS 10),⍵}(GetText name)~⎕UCS 13
+    ∇ r←GetBom Filename;nu;bin2hex
+    ⍝ returns the BOM of specified file (matching the file-encodings documented @ http://help.dyalog.com/16.0/Content/Language/System%20Functions/nget.htm#Encodings )
+      bin2hex←{(⎕D,⎕A)[1+2⊥⍉((0.25×⍴⍵),4)⍴⍵]}  ⍝ may have a small impact on performance, but improves readability
+      nu←Filename ⎕NTIE 0 64  ⍝ asking for the BOM of a non-existent file will cause an error
+    ⍝ look at the first bytes and try to determine encoding
+      :Select 1
+      :Case 'EFBBBF'≡bin2hex ⎕NREAD nu,11 3 0 ⋄ r←'UTF-8'
+      :Case '0000FEFF'≡bin2hex ⎕NREAD nu,11 4 0 ⋄ r←'UTF-32BE' ⍝ Big Endian
+      :Case 'FFFE0000'≡bin2hex ⎕NREAD nu,11 4 0 ⋄ r←'UTF-32LE' ⍝ Little Endian
+      :Case 'FEFF'≡bin2hex ⎕NREAD nu,11 2 0 ⋄ r←'UTF-16BE'     ⍝ Big Endian
+      :Case 'FFFE'≡bin2hex ⎕NREAD nu,11 2 0 ⋄ r←'UTF-16LE'     ⍝ Little Endian
+      :Else  ⍝ if the file had no BOM
+          ⎕NUNTIE nu
+          r←2⊃⎕NGET Filename   ⍝ read it with ⎕NGET and get the encoding from its result...
+      :EndSelect
+      ⎕NUNTIE nu
     ∇
 
-    ∇ r←LikelyURL w
-      →0↓⍨r←(⎕DR w)∊80 82
-      r←{(0∊⍴⍵)<∧/⍵∊'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%-._~:/?#[]@!$&''()*+,;='}w ⍝ identify likely URIs
+    ∇ {protect}Copy FmTo;nu1;nu2;seg;fSize1;pos
+    ⍝ Copies a file
+    ⍝ FmTo - 2 element vector of [1] the source file name, [2] the destination file name
+    ⍝ protect - optional flag indicating whether to fail if destination file (protect=1) exists, default is 0
+      protect←{6::⍵ ⋄ protect}0
+      nu1←nu2←0
+      ⎕SIGNAL(protect∧Exists 2⊃FmTo)/⊂('EN' 22)('Message' 'Destination file exists')
+      :Trap 0
+          Delete 2⊃FmTo
+          nu1←(1⊃FmTo)⎕NTIE 0
+          nu2←(2⊃FmTo)⎕NCREATE 0
+          seg←(fSize1←⎕NSIZE nu1)⌊0.2×⎕WA  ⍝ length of segments per pass: use 20% of the free ws
+          pos←0  ⍝ start at position 0
+          :Repeat
+              (⎕NREAD nu1,83,seg,pos)⎕NAPPEND nu2,83
+              pos+←seg
+          :Until pos≥fSize1
+          ⎕NUNTIE nu1,nu2
+      :Else
+          ⎕NUNTIE nu1,nu2
+          ⎕SIGNAL⊂'EN' 'EM' 'Message'{⍺(⍵⍎⍺)}¨⎕DMX
+      :EndTrap
     ∇
 
-    ∇ r←{pattern}List path;z;rslt;handle;next;ok;attrs;⎕IO;FindFirstFileX;FindNextFileX;FindClose;FileTimeToLocalFileTime;FileTimeToSystemTime;GetLastError;isFile;filter;isFolder
+    ∇ {r}←{x}Delete name
+    ⍝ Delete specified file or directory
+    ⍝ name - the file or directory name
+    ⍝ x - optional Boolean to indicate to NOT signal an error if the file does not exist
+    ⍝ r - 1 if a file/directory was deleted, 0 otherwise (file/directory didn't exist)
+      x←{6::⍵ ⋄ x}0
+      :Trap 0
+          r←x ⎕NDELETE name
+      :Else
+          ⎕SIGNAL⊂'EN' 'EM' 'Message'{⍺(⍵⍎⍺)}¨⎕DMX
+      :EndTrap
+    ∇
+
+    ∇ r←{types}Dir path;dir
+    ⍝ Cover for ⎕NINFO wildcarded file search
+    ⍝ path - character vector file path to search (may include wildcards)
+    ⍝ types - (optional) the types of information to return, if omitted, just return the matching filenames
+    ⍝ r - a vector of vectors, with each element corresponding to an element in types
+    ⍝
+    ⍝ Note: this function differs in syntax from the Dir utility found in the files workspace in versions of Dyalog old than v16
+    ⍝       The old version is available in WinFiles for Windows-only
+     
+      :If 0=⎕NC'types'
+          types←⊢
+      :EndIf
+      r←,types(⎕NINFO⍠1)path
+    ∇
+
+
+    ∇ r←{pattern}List path;hasPattern;isFolder
     ⍝ path and pattern are related.
     ⍝ If there is no pattern (or pattern is empty)
     ⍝   If path ends with '/' or '\' then return information for the contents of the folder, otherwise, return information about the folder (or file) itself
@@ -159,292 +273,170 @@
     ⍝   List '/dir/foo/' ⍝ returns information about the contents of /dir/foo/
     ⍝   '*.dyalog' List '/dir/foo'  ⍝ returns information about the .dyalog files in /dir/foo/
     ⍝   List '/dir/foo/*.dyalog'    ⍝ also returns information about the .dyalog files in /dir/foo/
-     
     ⍝ Information returned is:
     ⍝ [;0] Name [;1] Length [;2] LastAccessTime [;3] IsDirectory
-      ⎕IO←0
-      :If 0=⎕NC'pattern' ⋄ pattern←'' ⋄ :EndIf
-      isFolder←'/\'∊⍨¯1↑path
-      filter←''
-      :If isFile←~0∊⍴pattern
-          filter←isFolder↓'/',pattern
+    ⍝ (cover for MiServer's Files.List)
+     
+      path←Normalize path
+      hasPattern←~0∊⍴pattern←{6::⍵ ⋄ pattern}''
+      isFolder←'/'=¯1↑path
+      :If isFolder≠hasPattern
+          pattern←'/',pattern,hasPattern↓'*'
       :EndIf
      
-      r←0 4⍴'' 0 0 0
-     
-      :Select APLVersion
-      :Case '*nix'
-          →(0∊⍴rslt←1 _SH'ls -al',isFolder↓'d --time-style=full-iso ',unixfix path,filter)⍴0
-          rslt←↑rslt
-          rslt←' ',('total '≡6⍴rslt)↓[0]rslt
-          r←((1↑⍴rslt),4)⍴0
-          z←∧⌿' '=rslt ⍝ entirely blank columns
-          z←z∧10>+\z    ⍝ Do not split file names
-          rslt←z⊂rslt
-          r[;3]←'d'=(0⊃rslt)[;1]                 ⍝ IsDirectory
-          r[;1]←(~r[;3])×1⊃⎕VFI,4⊃rslt ⍝ Size
-          z←,(5⊃rslt),6⊃rslt ⋄ ((z∊'-:')/z)←' ' ⋄ z←((1↑⍴r),6)⍴1⊃⎕VFI z
-          r[;2]←↓⌊z,1000×1|z[;5]                ⍝ Add msec to Timestamp
-          r[;0]←{(⌽~∨\⌽⍵='/')/⍵}¨{(-+/∧\' '=⌽⍵)↓¨↓⍵}0 1↓8⊃rslt    ⍝ Name
-     
-      :Case 'Mac'
-          →(0∊⍴rslt←1 _SH'stat -lt "%F %T %z" ',unixfix path,isFolder{0∊⍴⍵:⍺/'*' ⋄ ⍵}filter)⍴0
-          r←((1↑⍴rslt),4)⍴0
-          rslt←↑{⎕ML←3 ⋄ ⍵⊂⍨~{⍵∧9>+\⍵}' '=⍵}¨rslt
-          r[;3]←'d'=0⊃¨rslt[;1]                         ⍝ IsDirectory
-          r[;1]←(~r[;3])×1⊃¨⎕VFI¨rslt[;4]               ⍝ Size
-          z←↑∊¨↓{w←⍵ ⋄ ((w∊'-:')/w)←' ' ⋄ 1⊃⎕VFI w}¨rslt[;5 6] ⍝
-          r[;2]←↓z,0                                    ⍝ 0 msec for MacOS to Timestamp
-          r[;0]←path∘{⍺((⍴⍺){⍵↓⍨⍺⍺×⍺≡⍺⍺⍴⍵})⍵}¨rslt[;8]  ⍝ Name
-     
-      :Case 'Win'
-      ⍝ See DirX for explanations of results of _FindNextFile etc
-          _FindDefine
-          handle rslt←_FindFirstFile path,isFolder{0∊⍴⍵:⍺/'*' ⋄ ⍵}filter
-          :If 0=handle
-              :Return ⍝ ('ntdir error:',⍕rslt)⎕SIGNAL 102      ⍝ file not found
-          :EndIf
-          rslt←,⊂rslt
-          :While 1=0⊃ok next←_FindNextFile handle
-              rslt,←⊂next
-          :EndWhile
-          :If 0 18∨.≠ok next
-              ('ntdir error:',⍕next)⎕SIGNAL 11   ⍝ DOMAIN
-          :EndIf
-          ok←FindClose handle
-          →(0∊⍴rslt←↓[0]↑rslt)⍴0
-          r←((1↑⍴0⊃rslt),4)⍴0
-          (0⊃rslt)←⍉attrs←(32⍴2)⊤0⊃rslt    ⍝ Get attributes into bits
-          r[;3]←(0⊃rslt)[;27]              ⍝ IsDirectory?
-          r[;1]←0(2*32)⊥⍉↑4⊃rslt           ⍝ combine size elements
-          r[;2]←_Filetime_to_TS¨3⊃rslt     ⍝ As ⎕TS vector
-          r[;0]←6⊃rslt                     ⍝ Name
-      :EndSelect
-      r←r[⍋↑r[;0];]
+      r←⍉↑0 2 3 1(⎕NINFO⍠1)path,pattern
+      r[;4]←r[;4]=1           ⍝ flag directories
+      r[;1]←Filename¨r[;1]  ⍝ remove paths
     ∇
 
-    ∇ MkDir path;CreateDirectory;GetLastError;err
-      ⍝ Create a folder
-      :Select APLVersion
-      :CaseList '*nix' 'Mac'
-          :If ~DirExists path
-              1 _SH'mkdir ',unixfix path
-              ('mkdir error on ',path)⎕SIGNAL 11/⍨~DirExists path
-          :EndIf
-      :Case 'Win'
-          ⎕NA'I kernel32.C32∣CreateDirectory* <0T I4' ⍝ Try for best function
-          →(0≠CreateDirectory path 0)⍴0 ⍝ 0 means "default security attributes"
-          ⎕NA'I4 kernel32.C32|GetLastError'
-          err ⎕SIGNAL⍨'CreateDirectory error:',⍕err←GetLastError
-      :EndSelect
+
+      Exists←{
+      ⍝ test for existence of file or folder
+      ⍝ ⍺ - optional flag where 1 indicates test for folder (default is 0)
+          ⍺←0 ⋄ ⎕NEXISTS ⍵,⍺/'/'}
+
+    DirExists←1∘Exists
+
+      MkDir←{
+      ⍝ create a directory (cover for ⎕MKDIR)
+          ⍺←⊢ ⋄ ⍺ ⎕MKDIR ⍵}
+
+    ∇ Move filenames
+    ⍝ move/rename file
+    ⍝ filenames - [1] source file name [2] destination file name
+      :Trap 0
+          ⎕NUNTIE(2⊃filenames)⎕NRENAME((1⊃filenames)⎕NTIE 0)
+      :Else
+          ⎕SIGNAL⊂'EN' 'EM' 'Message'{⍺(⍵⍎⍺)}¨⎕DMX
+      :EndTrap
     ∇
 
-    ∇ Move filenames;MoveFileX;MoveFileExA;GetLastError;err
-    ⍝ Move (from to) - move/rename file
-      :Select APLVersion
-      :Case '*nix' 'Mac'
-          ∘
-      :Case 'Win'
-          ⎕NA'I kernel32.C32∣MoveFileEx* <0T <0T I4' ⍝ Try for best function
-          :If 0≠MoveFileExA filenames,3 ⍝ REPLACE_EXISTING (1) + COPY_ALLOWED (2)
-              :Return
+
+    ∇ RmDir path
+    ⍝ removes directory specified in path.
+    ⍝ path - directory name to remove
+      :If 1 Exists path
+          :Trap 0
+              ⎕NDELETE path
+          :Else
+              ⎕SIGNAL⊂'EN' 'EM' 'Message'{⍺(⍵⍎⍺)}¨⎕DMX
+          :EndTrap
+      :Else
+          ⎕SIGNAL⊂('EN' 22)('Message' 'Directory does not exist')
+      :EndIf
+    ∇
+
+    ∇ t←RDCIFromTS ts;s;⎕IO
+    ⍝ Accepts a numeric vector or array in ⎕TS format with 7≥¯1↑⍴argument
+    ⍝ Returns time and date in ⎕FRDCI format with shape ¯1↓⍴argument
+     
+      ⎕IO←0 ⋄ s←¯1↓⍴ts ⋄ ts←((1⌈×/s),¯1↑⍴ts)⍴ts
+      ts←((1↑⍴ts),7)↑ts ⍝ years<100 are in window 1950-2049
+      ts[;0]+←(ts[;0]≤99)×(50/2000 1900)[100|ts[;0]]
+      ts[;6]×←6÷100     ⍝ turn milisecs into 1/60th units
+      t←¯60 ¯29 ¯1 30 60 91 121 152 183 213 244 274[ts[;1]-1]
+      t-←(4|ts[;0])<2≥ts[;1]
+      t←(t+⌊365.25×¯60+1900|ts[;0]),0 2↓ts
+      t←¯18626112000+s⍴1 1 24 60 60 60⊥⍉t
+    ∇
+
+    ∇ ts←TSFromRDCI ts;md;s;sm;yr;z;⎕IO
+    ⍝ Returns ⎕TS style timestamps (shape (⍴argument),7) - note that RDCI is UTC, so some Timezone-Conversion might be required...
+     
+      ⎕IO←0 ⋄ s←⍴ts ⋄ ts←,ts+18626112000
+      md←365.2501|1+1461|yr←⌊ts÷5184000
+      sm←31 61 92 122 153 184 214 245 275 306 337 366
+      z←(,⍉<⍀sm∘.≥md)/,((⍴md),12)⍴⍳12
+      md←(1+12|z+2),[0.1]⌈md-(0,sm)[z]
+      ts←(1960+⌊(yr+60)÷365.25),md,⍉24 60 60 60⊤ts
+      ts[;6]←⌊0.5+ts[;6]×100÷6
+      ts←(s,7)⍴ts
+    ∇
+
+    ∇ ts←ComponentTS tncomp
+    ⍝ Returns ⎕TS-style component timestamp
+    ⍝ tncomp - [1] tie number, [2] component number
+      ts←TSFromRDCI(2+⎕IO)⊃⎕FRDCI tncomp
+    ∇
+
+
+    ∇ (tn name)←{dcf}CreateTemp pattern;folder;i;cnt;z
+    ⍝ Create a temporary file based on pattern e.g. c:\folder\*.ext
+    ⍝ pattern - the local
+    ⍝ Will create the file as .DCF if dcf=1, native file otherwise.
+      dcf←{6::⍵ ⋄ dcf}0
+      pattern←Normalize pattern
+      ⎕SIGNAL(1≠'*'+.=pattern)/⊂('EN' 11)('Message' 'pattern must contain exactly 1 *')
+      folder←⊃SplitFilename pattern
+      i←pattern⍳'*'
+     
+      tn←cnt←0 ⋄ z←⊂''
+      :Trap 102 ⋄ z←folder∘,¨Dir pattern ⋄ :EndTrap
+     
+      :Repeat ⍝ Avoid race conditions
+          name←1⊃((⊂((i-1)↑pattern),'temp_',(⍕cnt),'_'),¨(⍕¨⍳1+⍴z),¨⊂i↓pattern)~z
+          :If dcf
+              :Trap 22 ⋄ tn←name ⎕FCREATE 0 ⋄ :EndTrap
+          :Else
+              :Trap 22 ⋄ tn←name ⎕NCREATE 0 ⋄ :EndTrap
           :EndIf
-          ⎕NA'I4 kernel32.C32|GetLastError'
-          :Select err←GetLastError
-          :Case 120                     ⍝ ERROR_CALL_NOT_IMPLIMENTED
-              'MoveFileX'⎕NA'I Kernel32.C32∣MoveFile* <0T <0T' ⍝ accept 2nd best - win 95
-              :If 0≠MoveFileX filenames
-                  :Return
+          cnt←cnt+1
+      :Until (cnt>20)∨tn≠0
+      ⎕SIGNAL tn↓⊂('EN' 22)('Message' 'Unable to create temporary file')
+    ∇
+
+    :Section Documentation Utilities
+    ⍝ these are generic utilities used for documentation
+
+    ∇ docn←ExtractDocumentationSections describeOnly;⎕IO;box;CR;sections;showMe;tit;z;docn∆
+    ⍝ internal utility function
+      ⎕IO←1
+      CR←⎕UCS 13
+      box←{{⍵{⎕AV[(1,⍵,1)/223 226 222],CR,⎕AV[231],⍺,⎕AV[231],CR,⎕AV[(1,⍵,1)/224 226 221]}⍴⍵}(⍵~CR),' '}
+      docn←1↓⎕SRC ⎕THIS
+      docn←1↓¨docn/⍨∧\'⍝'=⊃¨docn ⍝ keep all contiguous comments
+      docn←docn/⍨'⍝'≠⊃¨docn     ⍝ remove any lines beginning with ⍝⍝
+      sections←{∨/'::'⍷⍵}¨docn
+      :If 11=⎕DR'describeOnly'
+      :AndIf describeOnly
+          (sections docn)←((2>+\sections)∘/¨sections docn)
+      :ElseIf (⎕DR' ')=⎕DR'describeOnly'   ⍝ alternate usage: pass a string containing name of sections to show  (or a vtv of names)
+          describeOnly←(819⌶)describeOnly
+          tit←(819⌶)sections/docn
+          docn∆←⍬
+          :For showMe :In ,{1=≡⍵:⊂⍵ ⋄ ⍵}describeOnly
+              :If ∨/z←∨/¨showMe∘⍷¨tit
+                  docn∆,←((z⍳1)=+\sections)/docn
               :EndIf
-              err←GetLastError
-          :EndSelect
-          11 ⎕SIGNAL⍨'MoveFile error:',⍕err
-      :EndSelect
-    ∇
-
-    ∇ tn←Nopen name
-      :Trap 0
-          tn←name ⎕NCREATE 0
-      :Else
-          tn←name ⎕NTIE 0
-      :EndTrap
-    ∇
-
-    ∇ r←data Put name
-     ⍝ Write data to file
-      r←{(⎕NUNTIE ⍵)⊢data ⎕NAPPEND(0 ⎕NRESIZE ⍵)(⎕DR data)}Nopen name
-    ∇
-
-    ∇ r←text PutText name;tn
-     ⍝ Write text to file (must be single byte text)
-      tn←Nopen name
-      0 ⎕NRESIZE tn
-      r←text ⎕NAPPEND tn(⎕DR' ')
-      ⎕NUNTIE tn
-    ∇
-
-    ∇ RmDir path;RemoveDirectoryA;GetLastError
-     ⍝ Remove folder/directory
-      :Select APLVersion
-      :CaseList '*nix' 'Mac'
-          ∘
-      :Case 'Win'
-          ⎕NA'I kernel32.C32∣RemoveDirectory* <0T'
-          →(0≠RemoveDirectory,⊂path)⍴0
-          ⎕NA'I4 kernel32.C32|GetLastError'
-          11 ⎕SIGNAL⍨'RemoveDirectory error:',⍕GetLastError
-      :EndSelect
-    ∇
-
-    ∇ SetCurrentDirectory path;SCD;GetLastError
-     ⍝ Set Current Directory
-      :Select APLVersion
-      :CaseList '*nix' 'Mac'
-          ∘
-      :Case 'Win'
-          'SCD'⎕NA'I kernel32.C32∣SetCurrentDirectory* <0T'
-          →(0≠SCD,⊂path)⍴0
-          ⎕NA'I4 kernel32.C32|GetLastError'
-          11 ⎕SIGNAL⍨'SetCurrentDirectory error:',⍕GetLastError
-      :EndSelect
-    ∇
-
-    ∇ r←{noext}SplitFilename filename;filesep;mask;path;file;ext
-    ⍝ splits a filename into: path name ext
-      noext←{6::0 ⋄ noext}''
-      filesep←(~isWin)↓'\/'
-      mask←⌽∨\⌽filename∊filesep
-      path←mask/filename
-      file←(~mask)/filename
-      :If noext
-          r←path file
-      :Else
-          mask←∨\⌽<\⌽'.'=file
-          ext←mask/file
-          file←(~mask)/file
-          r←path file ext
+          :EndFor
+          sections←{∨/'::'⍷⍵}¨docn←docn∆
       :EndIf
+      (sections/docn)←box¨sections/docn
+      docn←∊docn,¨CR
     ∇
 
-
-    :Section Windows
-    ∇ rslt←_Filetime_to_TS filetime;⎕IO
-      :If 1≠0⊃rslt←FileTimeToLocalFileTime filetime(⎕IO←0)
-      :OrIf 1≠0⊃rslt←FileTimeToSystemTime(1⊃rslt)0
-          rslt←0 0                   ⍝ if either call failed then zero the time elements
-      :EndIf
-      rslt←1 1 0 1 1 1 1 1/1⊃rslt    ⍝ remove day of week
+    ∇ r←Documentation
+    ⍝ return full documentation
+      :Access public shared
+      r←ExtractDocumentationSections 0
     ∇
 
-    ∇ _FindDefine;WIN32_FIND_DATA
-      :If 0=⎕NC'FindFirstFileX'
-          WIN32_FIND_DATA←'{I4 {I4 I4} {I4 I4} {I4 I4} {U4 U4} {I4 I4} T[260] T[14]}'
-          'FindFirstFileX'⎕NA'I4 kernel32.C32|FindFirstFile* <0T >',WIN32_FIND_DATA
-          'FindNextFileX'⎕NA'U4 kernel32.C32|FindNextFile* I4 >',WIN32_FIND_DATA
-          ⎕NA'kernel32.C32|FindClose I4'
-          ⎕NA'I4 kernel32.C32|FileTimeToLocalFileTime <{I4 I4} >{I4 I4}'
-          ⎕NA'I4 kernel32.C32|FileTimeToSystemTime <{I4 I4} >{I2 I2 I2 I2 I2 I2 I2 I2}'
-          ⎕NA'I4 kernel32.C32∣GetLastError'
-      :EndIf
+    ∇ r←Describe
+    ⍝ return description only
+      :Access public shared
+      r←ExtractDocumentationSections 1
     ∇
 
-    ∇ rslt←_FindFirstFile name;⎕IO
-      rslt←FindFirstFileX name(⎕IO←0)
-      :If ¯1=0⊃rslt                   ⍝ INVALID_HANDLE_VALUE
-          rslt←0 GetLastError
-      :Else
-          (1 6⊃rslt)_FindTrim←0        ⍝ shorten the file name at the null delimiter
-          (1 7⊃rslt)_FindTrim←0        ⍝ and for the alternate name
-      :EndIf
+    ∇ r←ShowDoc look4
+    ⍝ only show section that contain argument in their title
+      :Access public shared
+      r←ExtractDocumentationSections look4
     ∇
 
-    ∇ rslt←_FindNextFile handle;⎕IO
-      rslt←FindNextFileX handle(⎕IO←0)
-      :If 1≠0⊃rslt
-          rslt←0 GetLastError
-      :Else
-          (1 6⊃rslt)_FindTrim←0             ⍝ shorten the filename
-          (1 7⊃rslt)_FindTrim←0             ⍝ shorten the alternate name
-      :EndIf
+    ∇ R←Version
+      :Access public shared
+      R←'Files' '1.0.0' '2017-08-08'
     ∇
 
-    ∇ name←name _FindTrim ignored;⎕IO
-     ⍝ Truncates a character vector at the null delimiting byte.
-     ⍝ The null is not included in the result.
-      ⎕IO←0
-      name↑⍨←name⍳⎕UCS 0
-    ∇
-
-    ∇ {r}←{suppress}_CMD cmd
-      :If 0=⎕NC'suppress' ⋄ suppress←0 ⋄ :EndIf
-      r←''
-      :Trap 0
-          r←⎕CMD cmd
-      :Else
-          ('shell command failed: ',cmd)⎕SIGNAL 11/⍨~suppress
-      :EndTrap
-    ∇
-
-    ∇ r←isWin
-      r←'Win'≡APLVersion
-    ∇
-
-    :endsection
-
-    :section *nix
-    ∇ {r}←{suppress}_SH cmd
-    ⍝ SH cover to suppress any error messages
-    ⍝ suppress will suppress error from being signaled
-      :If 0=⎕NC'suppress' ⋄ suppress←0 ⋄ :EndIf
-      r←''
-      :Trap 0
-          r←⎕SH cmd,' 2>/dev/null'
-      :Else
-          ('shell command failed: ',cmd)⎕SIGNAL 11/⍨~suppress
-      :EndTrap
-    ∇
-
-    ∇ f←unixfix f;slash;space
-    ⍝ replaces Windows file separator \ with Unix file separator / 
-    ⍝ '\ ' is denotes an escaped space under Unix - so don't change those \
-    ⍝ escape any spaces that remain
-    ⍝ this approach is mindnumbingly simple and probably dangerous
-    ⍝ which is why we call unixfix very cautiously
-      :If (⊂APLVersion)∊'*nix' 'Mac'
-    ⍝ fails on the unlikely (but possible to create on Windows) '\tmp\ myspace.txt'
-          slash←'\'=f
-          space←' '=f
-          ((slash>1↓space,0)/f)←'/'
-          ((space>¯1↓0,slash)/f)←⊂'\ '
-          f←∊f
-      :EndIf
-    ∇
-
-    ∇ r←APLVersion
-      :Select 3↑⊃'.'⎕WG'APLVersion'
-      :CaseList 'Lin' 'AIX' 'Sol'
-          r←'*nix'
-      :Case 'Win'
-          r←'Win'
-      :Case 'Mac'
-          r←'Mac'
-      :Else
-          ∘∘∘ ⍝ unknown version
-      :EndSelect
-    ∇
-    :endsection
-
-    ∇ r←a FREAD w;t
-      r←a{⍺{(⎕FUNTIE ⍵)⊢⎕FREAD ⍵ ⍺}w ⎕FSTIE 0}w
-    ∇
-
-    ∇ r←filename Fopen tieno
-    ⍝ tieno is tie number and optionally 1 to tie exclusively
-      tieno←2↑tieno ⍝ default to shares tie
-      :Trap 22
-          r←filename{⍵[2]:⍺ ⎕FTIE ⍵[1] ⋄ ⍺ ⎕FSTIE ⍵}tieno
-      :Else
-          r←filename{⍵[2]:⍵[3] ⋄ ⍺ ⎕FSTIE ⍵[2]⊣⎕FUNTIE ⍵[3]}tieno,filename ⎕FCREATE tieno[1]
-      :EndTrap
-    ∇
+    :EndSection
 :EndNamespace

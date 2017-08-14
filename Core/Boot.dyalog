@@ -59,7 +59,7 @@
           :EndFor
           AutoStatus stat ⍝ restore show status state
           :For (f file) :In failed
-              disperror ⎕SE.SALT.Load ∊'"',file,'" -target=#.',f
+              disperror ⎕SE.SALT.Load∊'"',file,'" -target=#.',f
           :EndFor
      
           'Pages'#.⎕NS'' ⍝ Container Space for loaded classes
@@ -208,10 +208,10 @@
     ⍝ merging the two if they both exist - site settings overrule server settings
       config←''
       :If #.Files.Exists file←MSRoot,'Config/',type,'.xml'
-          config←serverconfig←(#.XML.ToNS #.Files.GetText file)⍎type
+          config←serverconfig←(#.XML.ToNS #.Files.ReadText file)⍎type
       :EndIf
       :If #.Files.Exists file←AppRoot,'Config/',type,'.xml'
-          siteconfig←(#.XML.ToNS #.Files.GetText file)⍎type
+          siteconfig←(#.XML.ToNS #.Files.ReadText file)⍎type
           :If 0∊⍴config
               config←siteconfig
           :ElseIf 0=⎕NC'element'
@@ -416,7 +416,7 @@
         ∇ make filename;ns;n
           :Access public
           :Implements constructor
-          ns←#.XML.ToNS #.Files.GetText filename
+          ns←#.XML.ToNS #.Files.ReadText filename
           'Config file needs a single root node'⎕SIGNAL 11/⍨1≠⍴n←ns.⎕NL ¯9
           config←ns⍎⊃n
         ∇
@@ -495,8 +495,8 @@
     notEmpty←~∘empty
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     isRef←{(0∊⍴⍴⍵)∧326=⎕DR ⍵}
-    folderize←{⍺←0 ⋄ ⍺∧0∊⍴⍵:⍵ ⋄ ¯1↑⍵∊'/\':⍵ ⋄ ⍵,fileSep} ⍝ append trailing file separator unless empty and left arg←1
-    makeSitePath←{⍺{((isRelPath ⍵)/⍺),⍵},folderize (2×'./'≡2↑⍵)↓⍵}
+    folderize←{19 22::⍵,'/'↓⍨'/\'∊⍨¯1↑⍵ ⋄ ∊1 ⎕NPARTS⊃{⍺,(⍵=1)/'/'}/0 1 ⎕NINFO ⍵} ⍝ append trailing file separator unless empty and left arg←1
+    makeSitePath←{folderize ⍺{((isRelPath ⍵)/⍺),⍵},(2×'./'≡2↑⍵)↓⍵}
     Log←{⎕←⍵}
 
     ∇ {r}←AutoStatus setting
