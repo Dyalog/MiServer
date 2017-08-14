@@ -277,23 +277,25 @@
       :EndIf
     ∇
 
-    ∇ r←AddClass c
+    ∇ {r}←AddClass c
       :Access public
       :If class≡UNDEF
           class←c
       :Else
           class,←' ',c
       :EndIf
+      r←⎕THIS
     ∇
 
 
-    ∇ r←AddStyle s;t
+    ∇ {r}←AddStyle s;t
       :Access public
       :If style≡UNDEF
           style←s,(';'=¯1↑s)↓';'
       :Else
           style,←(';'=¯1↑style)↓';',s,(';'=¯1↑s)↓';'
       :EndIf
+      r←⎕THIS
     ∇
 
     :EndSection
