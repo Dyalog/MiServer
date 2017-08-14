@@ -9,7 +9,7 @@
     <Production>0</Production>           <!-- 1-running in production mode, 0-development mode (enable debugging framework) --> 
     <IdleTimeout>0</IdleTimeout>         <!-- seconds between calls to onIdle server event - 0 means don't call onIdle -->
     <CloseOnCrash>0</CloseOnCrash>       <!-- Set to 1 to force []OFF on an unhandled server error -->
-    <UserID>miserver</UserID>            <!-- Unix only!! userid to switch to after allocating a port number below 1024 -->
+    <UserID></UserID>                    <!-- Unix only!! userid to switch to after allocating a port number below 1024 -->
    
 <!-- Communications Settings -->
     <Port>8080</Port>                                <!-- Preferred port that MiServer listens on --> 
