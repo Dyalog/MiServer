@@ -154,8 +154,9 @@
                   :If ServerName≡2⊃wres
                       Stop←1
                   :EndIf
-                  (1+(4⊃wres)∊1008 1105 1119)Log'RunServer: DRC.Wait reported error ',(⍕#.DRC.Error 4⊃wres),' on ',2⊃wres
-     
+                  :If 0≠4⊃wres
+                      (1+(4⊃wres)∊1008 1105 1119)Log'RunServer: DRC.Wait reported error ',(⍕#.DRC.Error 4⊃wres),' on ',2⊃wres
+                  :EndIf
                   ⎕EX SpaceName 2⊃wres
      
               :CaseList 'Block' 'BlockLast'
