@@ -177,7 +177,7 @@
           dt.Plugins←'yadcf'
           dt.Options.yadcf←⎕NS ⍬
           dt.Options.yadcf.Filters←⎕NS ⍬
-          dt.Options.yadcf.Filters.(column_number select_type filter_container_id)←3 'chosen' ('fltcnt_',1⊃⍺)
+          dt.Options.yadcf.Filters.(column_number select_type filter_container_id)←3 'chosen'('fltcnt_',1⊃⍺)
           dt.Options.yadcf.Filters.(filter_type select_type_options filter_default_label)←'multi_select'(⊂'{width:"30em"}')'Filter by library'
           dt.Options.yadcf.Filters/⍨←1 ⍝ needs array of namespaces
           dt
@@ -376,14 +376,28 @@
     ∇ t←Windows;c;p;d
       Add _.style ScriptFollows
       ⍝ #win {margin: 1em; padding: 1ex;}
-      ⍝ #win>div {display: inline-block;}
-      ⍝ #win>div:hover {box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;}
+      ⍝ #win button {margin: 1em;}
+      ⍝ #win #color {display: inline-block;}
+      ⍝ #win #color:hover {box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;}
+      ⍝ #css {width: 6em; padding: 1ex; background: silver; border-radius: 0.5ex; box-shadow: 0.25em 0.5em 2em grey;}
+      ⍝ #dialog {display: none;}
+      ⍝ /**/ #css:hover {width: 6em; background: silver; box-shadow: 0 0 5px 1px orange,0 0 5px orange inset,0.25em 0.5em 2em grey;}
+      ⍝ /**/ #win>button:hover {box-shadow: 0 0 5px 1px orange,0 0 5px orange inset;}
       t←'#win'New _.div
       t.Add _.p'Choose a color to get a matching notification:'
       d←'#color't.Add _.div
       d.On'mousedown' 'ShowInfo'
       c←d.Add _.ejColorPicker'#ffff00' ⍝ #color
       c.On'close' 'ColorFn'('chosenColor' 'model' 'value') ⍝ #color
+      '#css't.Add _.div'CSS to give floating impression' ⍝ #css
+     
+      '#dialog't.Add _.div'Content of dialog box widget' ⍝ #dialog
+      d←t.Add _.ejDialog'#dialog' 'Syncfusion Dialog' ⍝ #dialog
+      'showOnInit'd.Set _false ⍝ #dialog
+      'onclick="$(''#dialog'').ejDialog(''open'')"'t.Add _.Button'Open dialog' ⍝ #dialog
+      Add _.Handler'#win button' 'click' 'DialogFn'
+     
+      'ShowInfo' AddHandler '#css'
       t←'Windows &amp; Popups't
     ∇
 
@@ -394,6 +408,12 @@
       (options←⎕NS ⍬).color←'black' 'red' 'green' 'blue' 'yellow' 'black'⊃⍨(⊢⍳⌊/)+/¨2*⍨all-⊂chosen ⍝ #color
       r←Execute options _.jBox.Notice('You chose ',Get'chosenColor') ⍝ #color
     ∇ ⍝ #color     
+
+    ∇ r←ShowDialog
+      :Access public
+      _selector←'#dialog'
+      r←ShowInfo
+    ∇
 
     ∇ r←ShowInfo;info;css;code;fns
       :Access Public
@@ -444,7 +464,7 @@
       :Access public
       :If 0=C.⎕NC'NSS'
           C.NSS←1↓¨1↓'_'#.⎕NL ¯9
-          names types←0 1⎕NINFO⍠1⊢#.Boot.AppRoot,'Examples/*'
+          names types←0 1 ⎕NINFO⍠1⊢#.Boot.AppRoot,'Examples/*'
           C.NSS∩←LastSeg¨names/⍨1=types
       :EndIf
       r←C.NSS
@@ -453,7 +473,7 @@
     ∇ r←GROUPS
       :Access public
       :If 0=C.⎕NC'GROUPS'
-          C.GROUPS←{#.Strings.deb(⍳∘'⍝'↓⊢)⊃⎕SRC#⍎⍵}¨'_',¨NSS
+          C.GROUPS←{#.Strings.deb(⍳∘'⍝'↓⊢)⊃⎕SRC #⍎⍵}¨'_',¨NSS
       :EndIf
       r←C.GROUPS
     ∇
@@ -471,7 +491,7 @@
     ∇ C←C;scores;list;refs;srcs;control;i;info;ref;src;ctor;Read;Ø;demo
      ⍝ Return ref to cache (initialize cache if nonexistant)
       :Access public
-      Read←1 #.Files.ReadText #.Boot.AppRoot∘, ⍝ no-cache reading
+      Read←#.Files.GetVTV #.Boot.AppRoot∘, ⍝ no-cache reading
       :Hold CACHE                          ⍝ prevent clashes
           :If 9≠⎕NC CACHE                  ⍝ if cache is empty:
               Ø←⊂''
