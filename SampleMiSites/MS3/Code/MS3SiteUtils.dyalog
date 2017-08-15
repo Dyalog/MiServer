@@ -491,7 +491,7 @@
     ∇ C←C;scores;list;refs;srcs;control;i;info;ref;src;ctor;Read;Ø;demo
      ⍝ Return ref to cache (initialize cache if nonexistant)
       :Access public
-      Read←#.Files.GetVTV #.Boot.AppRoot∘, ⍝ no-cache reading
+      Read←1 #.Files.GetText #.Boot.AppRoot∘, ⍝ no-cache reading
       :Hold CACHE                          ⍝ prevent clashes
           :If 9≠⎕NC CACHE                  ⍝ if cache is empty:
               Ø←⊂''
