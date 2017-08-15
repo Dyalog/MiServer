@@ -50,14 +50,15 @@
           ⍝    So we attempt to load everything, and keep track of what failed
           ⍝    and then go back and try to load the failed controls again their
           failed←''
-          stat←AutoStatus 0 ⍝ turn off show status on error
-          :For f :In HTML
+         ⍝ stat←AutoStatus 0 ⍝ turn off show status on error 
+
+          :For f :In ∪'_JQ' '_JS',HTML
               disperror ⎕SE.SALT.Load MSRoot,'HTML/',f,' -target=#'
               :If (⊂f)∊HTMLsubdirs
                   f∘{326=⎕DR ⍵: ⋄ '***'≡3↑⍵:failed,←⊂⍺(('<.+>'⎕S{1↓¯1↓⍵.Match})⍵)}¨⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
               :EndIf
           :EndFor
-          AutoStatus stat ⍝ restore show status state
+         ⍝ AutoStatus stat ⍝ restore show status state
           :For (f file) :In failed
               disperror ⎕SE.SALT.Load∊'"',file,'" -target=#.',f
           :EndFor
