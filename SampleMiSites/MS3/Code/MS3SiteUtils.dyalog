@@ -397,7 +397,7 @@
       'onclick="$(''#dialog'').ejDialog(''open'')"'t.Add _.Button'Open dialog' ⍝ #dialog
       Add _.Handler'#win button' 'click' 'DialogFn'
      
-      'ShowInfo' AddHandler '#css'
+      'ShowInfo'AddHandler'#css'
       t←'Windows &amp; Popups't
     ∇
 
@@ -491,7 +491,7 @@
     ∇ C←C;scores;list;refs;srcs;control;i;info;ref;src;ctor;Read;Ø;demo
      ⍝ Return ref to cache (initialize cache if nonexistant)
       :Access public
-      Read←1 #.Files.GetText #.Boot.AppRoot∘, ⍝ no-cache reading
+      Read←1 #.Files.ReadText #.Boot.AppRoot∘, ⍝ no-cache reading
       :Hold CACHE                          ⍝ prevent clashes
           :If 9≠⎕NC CACHE                  ⍝ if cache is empty:
               Ø←⊂''
