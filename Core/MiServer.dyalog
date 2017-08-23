@@ -180,7 +180,7 @@
                   :EndIf
      
                   :If 0≠⎕NC nspc
-                      {}(⍎nspc){t←⍺ HandleRequest ⍵ ⋄ ⎕EX t/nspc⊣⎕DL 1}&wres[2 4]
+                      {}(⍎nspc){t←⍺ HandleRequest ⍵ ⋄ ⎕EX t/nspc}&wres[2 4]
                   :EndIf
               :Case 'Connect' ⍝ Ignore
      
