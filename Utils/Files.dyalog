@@ -122,11 +122,6 @@
     ⍝ vtv - (optional, default = 0) if 1, return contents as a vector of text vectors
     ⍝ r - the contents of the file as specified by vtv
       vtv←{0::⍵ ⋄ vtv}0
-      :If (∨/'CONFREG'⍷1(819⌶)#.Boot.AppRoot)⍝ temporary to fix ConfReg-Issue
-          ⎕←#.Strings.deb'Reading ',name,' @ ',,' ',⍕⎕XSI,[1.5]⎕LC
-          ⎕←' '
-      :EndIf
-     
       r←⊃⎕NGET name vtv
     ∇
 
