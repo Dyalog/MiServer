@@ -50,8 +50,8 @@
           ⍝    So we attempt to load everything, and keep track of what failed
           ⍝    and then go back and try to load the failed controls again their
           failed←''
-         ⍝ stat←AutoStatus 0 ⍝ turn off show status on error 
-
+         ⍝ stat←AutoStatus 0 ⍝ turn off show status on error
+     
           :For f :In ∪'_JQ' '_JS',HTML
               disperror ⎕SE.SALT.Load MSRoot,'HTML/',f,' -target=#'
               :If (⊂f)∊HTMLsubdirs
@@ -82,19 +82,13 @@
               disperror ⎕SE.SALT.Load AppRoot,'/Code/Templates/* -target=#.Pages'
           :EndIf
      
-      :Else ⍝ Cleanup
-          #.⎕EX¨classes
-          #.⎕EX¨utils
-          #.⎕EX'Pages'
-          #.⎕EX'CachedPages'
-          #.⎕EX¨'MiServer' 'HTTPRequest'
-      :EndIf
-    ∇
-
-    ∇ LoadHTML f
-    ⍝ Utility to reload an HTML content-generating namespace
-      disperror ⎕SE.SALT.Load MSRoot,'HTML/',f,' -target=#'
-      disperror¨⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
+          :Else ⍝ Cleanup
+              #.⎕EX¨classes
+              #.⎕EX¨utils
+              #.⎕EX'Pages'
+              #.⎕EX'CachedPages'
+              #.⎕EX¨'MiServer' 'HTTPRequest'
+          :EndIf
     ∇
 
     ∇ ms←Init Config;path;class;classes;e;res;mask
