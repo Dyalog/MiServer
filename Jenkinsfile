@@ -6,12 +6,17 @@ node ('Docker') {
         }
         withDockerRegistry([credentialsId: 'da63d34a-9b75-4c86-ba25-8eae68384001', url: 'http://registry.dyalog.com:5000']) {
                 stage ('Build Docker Image') {
-                        DockerApp = docker.build 'registry.dyalog.com:5000/dyalog/miserver'
+                        DockerApp = docker.build 'registry.dyalog.com:5000/dyalog/miserver:latest'
                 }
                 stage ('Test website') {
-                        def MiServer = DockerApp.run ('-p 8888:8080')
+                        def MiServer = DockerApp.run ()
                         try {
-                                sh 'sleep 5 && curl -s -q http://localhost:8888/ |grep "Dyalog MiServer 3.0 Sample Site" >/dev/null'
+				//Get the IP of the container
+				def DOCKER_MS = sh (
+					script: "docker inspect ${MiServer.id} | jq .[0].NetworkSettings.IPAddress | sed 's/\"//g'",
+					returnStdout: true
+				).trim()
+                                sh "sleep 5; curl -s --retry 5 --retry-delay 5 -q http://${DOCKER_MS}:8080/ | grep \"Dyalog MiServer 3.0 Sample Site\" >/dev/null"
                                 MiServer.stop()
                         } catch (Exception e) {
                                 println 'Failed to find string "Dyalog MiServer 3.0 Sample Site" cleaning up.'
