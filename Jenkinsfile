@@ -20,6 +20,12 @@ node ('Docker') {
                                 MiServer.stop()
                         } catch (Exception e) {
                                 println 'Failed to find string "Dyalog MiServer 3.0 Sample Site" cleaning up.'
+				sh "docker logs ${MiServer.id}"
+                                sh "git rev-parse --short HEAD > .git/commit-id"
+                                withCredentials([usernamePassword(credentialsId: '9f5481da-1a4d-4c5d-b400-cc2ee3a3ac2c', passwordVariable: 'GHTOKEN', usernameVariable: 'API')]) {
+                                        commit_id = readFile('.git/commit-id')
+                                        sh "./githubComment.sh ${MiServer.id} ${commit_id}"
+                                }
                                 MiServer.stop()
                                 sh 'docker rmi registry.dyalog.com:5000/dyalog/miserver:latest'
                                 throw e;
@@ -57,6 +63,14 @@ node ('Docker') {
                         }
                         sh 'docker rmi registry.dyalog.com:5000/dyalog/miserver:latest'
         }
+	
+	stage ('Github Upload') {
+		withCredentials([usernamePassword(credentialsId: '9f5481da-1a4d-4c5d-b400-cc2ee3a3ac2c', passwordVariable: 'GHTOKEN', usernameVariable: 'API')]) {
+			sh './GH-Release.sh'
+		}
+
+        }
+
 
 }
 
