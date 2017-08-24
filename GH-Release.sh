@@ -96,7 +96,7 @@ cat $TMP_JSON
 
 # Create ZIP downloads
 
-zip ./MiServer-${VERSION}.zip . -r -x docker-compose.yml Dockerfile GH-Release.sh Jenkinsfile rancher-compose.yml docker\* SampleMiSites\* .git\* QA\*
+zip ./MiServer-${VERSION}.zip . -r -x docker-compose.yml Dockerfile GH-Release.sh githubComment.sh Jenkinsfile rancher-compose.yml docker\* SampleMiSites\* .git\* QA\*
 zip ./MiServer-Samples-${VERSION}.zip SampleMiSites -r 
 
 ## Copy files to Dyalog Devt
