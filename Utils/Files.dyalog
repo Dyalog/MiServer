@@ -18,8 +18,7 @@
 ⍝ (tn name)←{dcf}CreateTemp pattern - create a temporary-file in specified dir and return tie-number
 ⍝                                     (if dcf=1, create a dcf-file, otherwise native)
 ⍝ R←GetBom Filename                 - returns the "byte order mark" of a file
-⍝ R←{nul}ReadAllLines filename      - returns vtv with content of file
-⍝ R←{vtv}ReadAllText filename       - returns content of file (vtv=1: as a vtv of lines, otherwise simple vector)
+⍝ R←{vtv}ReadText filename       - returns content of file (vtv=1: as a vtv of lines, otherwise simple vector)
 ⍝
 ⍝ {protect}Copy (from to)           - copies a file, optionally failing if "protect" is set and "to" exists
 ⍝ R←Exists path                     - check if file or directory exists
@@ -44,8 +43,8 @@
 ⍝
 ⍝    * Changed:
 ⍝        * DirExists w -> 1 Exists w
-⍝        * GetText w -> 0 ReadAllText w
-⍝        * GetVTV w -> 1 ReadAllText w
+⍝        * GetText w -> 0 ReadText w
+⍝        * GetVTV w -> 1 ReadText w
 ⍝        * {pattern}List path
 ⍝            * previously would return '.' and '..' - no longer does!
 ⍝            * List '/dir' will (as it did before) return info about the DirName, but the casing of the name will be the one from the argument, not "normalized", as used to be (maybe even ⎕NINFO should do this?)
@@ -122,7 +121,8 @@
     ⍝ name - the name of the file
     ⍝ vtv - (optional, default = 0) if 1, return contents as a vector of text vectors
     ⍝ r - the contents of the file as specified by vtv
-      vtv←{0::⍵ ⋄ vtv}0
+      vtv←{0::⍵ ⋄ vtv}0    
+      ⎕←'Reading ',name', @ ',,' ',⍕⎕xsi,⎕lc ⍝ temporary to fix ConfReg-Issue
       r←⊃⎕NGET name vtv
     ∇
 
