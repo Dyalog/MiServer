@@ -18,7 +18,7 @@
 ⍝ (tn name)←{dcf}CreateTemp pattern - create a temporary-file in specified dir and return tie-number
 ⍝                                     (if dcf=1, create a dcf-file, otherwise native)
 ⍝ R←GetBom Filename                 - returns the "byte order mark" of a file
-⍝ R←{vtv}ReadText filename       - returns content of file (vtv=1: as a vtv of lines, otherwise simple vector)
+⍝ R←{vtv}ReadText filename          - returns content of file (vtv=1: as a vtv of lines, otherwise simple vector)
 ⍝
 ⍝ {protect}Copy (from to)           - copies a file, optionally failing if "protect" is set and "to" exists
 ⍝ R←Exists path                     - check if file or directory exists
@@ -37,7 +37,9 @@
 ⍝ ts←TSOfComp tn                    - Find timestamp of component tie,n
 ⍝ r←filename Fopen tieno            - opens component file (creating it if necessary) and returns tieno. Optional tieno[2] controls exclusive access.
 ⍝
-⍝ Migrating from MiServer/Utils/Files.dyalog::
+⍝
+⍝ Notes::
+⍝ When migrating from MiServer/Utils/Files.dyalog...
 ⍝ MiServer also included an early version of Files.dyalog, but the focus on this re-implementation was compatibility with Files.dws,
 ⍝ so a few fns were changed and some taken away. Here's a list of differences to consider when migrating to this new class:
 ⍝
@@ -60,6 +62,11 @@
 ⍝        * APLVersion
 
     (⎕IO ⎕ML)←1
+
+    ∇ R←Version
+      :Access public shared
+      R←'Files' '1.0.1' '2017-08-26'
+    ∇
 
     Normalize←∊1∘⎕NPARTS ⍝ normalize a file name
     SplitFilename←1∘⎕NPARTS ⍝ splits a file name
@@ -387,28 +394,19 @@
     :Section Documentation Utilities
     ⍝ these are generic utilities used for documentation
 
-    ∇ docn←ExtractDocumentationSections describeOnly;⎕IO;box;CR;sections;showMe;tit;z;docn∆
+    ∇ docn←ExtractDocumentationSections what;⎕IO;box;CR;sections;eis;matches
     ⍝ internal utility function
       ⎕IO←1
+      eis←{(,∘⊂∘,⍣(1=≡,⍵))⍵}
       CR←⎕UCS 13
       box←{{⍵{⎕AV[(1,⍵,1)/223 226 222],CR,⎕AV[231],⍺,⎕AV[231],CR,⎕AV[(1,⍵,1)/224 226 221]}⍴⍵}(⍵~CR),' '}
       docn←1↓⎕SRC ⎕THIS
       docn←1↓¨docn/⍨∧\'⍝'=⊃¨docn ⍝ keep all contiguous comments
       docn←docn/⍨'⍝'≠⊃¨docn     ⍝ remove any lines beginning with ⍝⍝
       sections←{∨/'::'⍷⍵}¨docn
-      :If 11=⎕DR'describeOnly'
-      :AndIf describeOnly
-          (sections docn)←((2>+\sections)∘/¨sections docn)
-      :ElseIf (⎕DR' ')=⎕DR'describeOnly'   ⍝ alternate usage: pass a string containing name of sections to show  (or a vtv of names)
-          describeOnly←(819⌶)describeOnly
-          tit←(819⌶)sections/docn
-          docn∆←⍬
-          :For showMe :In ,{1=≡⍵:⊂⍵ ⋄ ⍵}describeOnly
-              :If ∨/z←∨/¨showMe∘⍷¨tit
-                  docn∆,←((z⍳1)=+\sections)/docn
-              :EndIf
-          :EndFor
-          sections←{∨/'::'⍷⍵}¨docn←docn∆
+      :If ~0∊⍴what
+          matches←∨⌿∨/¨(eis(819⌶what))∘.⍷(819⌶)sections/docn
+          (sections docn)←((+\sections)∊matches/⍳≢matches)∘/¨sections docn
       :EndIf
       (sections/docn)←box¨sections/docn
       docn←∊docn,¨CR
@@ -417,24 +415,20 @@
     ∇ r←Documentation
     ⍝ return full documentation
       :Access public shared
-      r←ExtractDocumentationSections 0
+      r←ExtractDocumentationSections''
     ∇
 
     ∇ r←Describe
     ⍝ return description only
       :Access public shared
-      r←ExtractDocumentationSections 1
+      r←ExtractDocumentationSections'Description::'
     ∇
 
-    ∇ r←ShowDoc look4
-    ⍝ only show section that contain argument in their title
+    ∇ r←ShowDoc what
+    ⍝ return documentation sections that contain what in their title
+    ⍝ what can be a character scalar, vector, or vector of vectors
       :Access public shared
-      r←ExtractDocumentationSections look4
-    ∇
-
-    ∇ R←Version
-      :Access public shared
-      R←'Files' '1.0.0' '2017-08-08'
+      r←ExtractDocumentationSections what
     ∇
 
     :EndSection
