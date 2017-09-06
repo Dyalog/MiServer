@@ -510,7 +510,7 @@
               C.filedescr←('Description'Section Read)¨C.files    ⍝ Description:: for all files
               C.demos←Controls¨C.files                           ⍝ controls demoed in each
               scores←C.controls∘.Score↓⍉↑C.files C.demos         ⍝ controls vs files
-              C.rankings←(+/0<scores)↑¨↓⍒#.Utils.∆rank 1⊢scores  ⍝ cache all rankings
+              C.rankings←(+/0<scores)↑¨↓⍒⍤ 1⊢scores  ⍝ cache all rankings
      
               C.(descr ctor notes relevant reldocs doclinks)←Ø
               info←FromCSV Read'IndexData/info.csv'

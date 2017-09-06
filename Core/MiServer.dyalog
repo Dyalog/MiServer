@@ -321,6 +321,31 @@
       :EndIf
     ∇
 
+    ∇ inst MoveRequestData REQ;data;m;i;lcp;props;args;mask
+      :Access public shared
+      inst._PageData←⎕NS''
+      :If 0≠1↑⍴data←{⍵[⍋↑⍵[;1];]}REQ.Arguments⍪REQ.Data
+          :If 0∊m←1,2≢/data[;1]
+              data←(m/data[;1]),[1.5]m⊂data[;2]
+          :EndIf
+          i←{⍵/⍳⍴⍵}1=⊃∘⍴¨data[;2]
+          data[i;2]←⊃¨data[i;2]
+          :If 0≠⍴lcp←props←('_'≠1⊃¨props)/props←(inst.⎕NL-2) ⍝ Get list of public properties (those beginning with '_' are excluded)
+          :AndIf 0≠1↑⍴args←(data[;1]∊lcp)⌿data
+              args←(2⌈⍴args)⍴args
+              i←lcp⍳args[;1]
+              ⍎'inst.(',(⍕props[i]),')←args[;2]'
+          :EndIf
+          :If ∨/mask←'_'≠1⊃¨data[;1]
+              args←mask⌿data
+              :Trap 0
+                  args[;1]←inst._PageData PrepareJSONTargets args[;1]
+                  ⍎'inst._PageData.(',(⍕args[;1]),')←(⊃⍣(1=⍬⍴⍴args))args[;2]'
+              :EndTrap
+          :EndIf
+      :EndIf
+    ∇
+
     ∇ r←conns HandleRequest arg;buf;m;Answer;obj;CMD;pos;req;Data;z;r;hdr;REQ;status;file;tn;length;done;offset;res;closed;sess;chartype;raw;enc;which;html;encoderc;encodeMe;startsize;cacheMe;root;page;filename;eoh;n;i;ext;enctype
       ⍝ Handle a Web Server Request
       r←0
@@ -580,27 +605,7 @@
           :EndIf
      
      ⍝ Move arguments / parameters into Public Properties
-          inst._PageData←⎕NS''
-          :If 0≠1↑⍴data←{⍵[⍋↑⍵[;1];]}REQ.Arguments⍪REQ.Data
-              :If 0∊m←1,2≢/data[;1]
-                  data←(m/data[;1]),[1.5]m⊂data[;2]
-              :EndIf
-              i←{⍵/⍳⍴⍵}1=⊃∘⍴¨data[;2]
-              data[i;2]←⊃¨data[i;2]
-              :If 0≠⍴lcp←props←('_'≠1⊃¨props)/props←(inst.⎕NL-2) ⍝ Get list of public properties (those beginning with '_' are excluded)
-              :AndIf 0≠1↑⍴args←(data[;1]∊lcp)⌿data
-                  args←(2⌈⍴args)⍴args
-                  i←lcp⍳args[;1]
-                  ⍎'inst.(',(⍕props[i]),')←args[;2]'
-              :EndIf
-              :If ∨/mask←'_'≠1⊃¨data[;1]
-                  args←mask⌿data
-                  :Trap 0
-                      args[;1]←inst._PageData PrepareJSONTargets args[;1]
-                      ⍎'inst._PageData.(',(⍕args[;1]),')←(⊃⍣(1=⍬⍴⍴args))args[;2]'
-                  :EndTrap
-              :EndIf
-          :EndIf
+          inst MoveRequestData REQ
      
           fn←'Render'
           :If APLJax>RESTful ⍝ if it's an APLJax (XmlHttpRequest) request (but not web service)
@@ -880,3 +885,5 @@
     :endsection
 
 :EndClass
+⍝)(!MoveRequestData!!0 0 0 0 0 0 0!0
+⍝)(!Virtual!!0 0 0 0 0 0 0!0

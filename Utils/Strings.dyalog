@@ -2,18 +2,8 @@
 
     (⎕IO ⎕ML)←1
 
-    ∇ r←lowerAlphabet ⍝ made a function so it can be :Include'd
-      r←'abcdefghijklmnopqrstuvwxyzáâãçèêëìíîïðòóôõùúûýàäåæéñöøü'
-    ∇
-
-    ∇ r←upperAlphabet ⍝ made a function so it can be :Include'd
-      r←'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÂÃÇÈÊËÌÍÎÏÐÒÓÔÕÙÚÛÝÀÄÅÆÉÑÖØÜ'
-    ∇
-
-    fromto←{n←⍴1⊃(t f)←⍺ ⋄ ~∨/b←n≥i←f⍳s←,⍵:s ⋄ (b/s)←t[b/i] ⋄ (⍴⍵)⍴s} ⍝ from-to casing fn
-⍝!!! N.B.: in MiServer #.Utils.SetupCompatibility will overwrite these with (819⌶) if the interpreter supports it
-    lc←lowerAlphabet upperAlphabet∘fromto ⍝ :Includable Lower-casification of simple array
-    uc←upperAlphabet lowerAlphabet∘fromto ⍝ Ditto Upper-casification
+    lc←(819⌶) ⍝ :Includable Lower-casification of simple array
+    uc←1∘(819⌶) ⍝ Ditto Upper-casification
 
     cis←{~0∊⍴(⍺ ⎕S 0 ⎕OPT'IC' 1)⍵} ⍝ Case Insensitive Search
 
@@ -67,3 +57,5 @@
 
 
 :EndNamespace
+⍝)(!commaFmt!brian!2017 9 3 10 58 15 0!0
+⍝)(!subst!brian!2017 9 3 10 58 15 0!0

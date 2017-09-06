@@ -7,122 +7,129 @@
     ∇ {msroot}Run root
       :If 0≠⎕NC'msroot' ⋄ MSRoot←msroot ⋄ :EndIf
       AppRoot←folderize root  ⍝ application (website) root
-      AppRoot Load 1 ⍝ load essential objects
-      #.Utils.SetupCompatibility
+      Load AppRoot ⍝ load essential objects
       ms←Init ConfigureServer AppRoot ⍝ read configuration and create server instance
-      ConfigureDatasources ms
-      ConfigureVirtual ms
-      ConfigureResources ms
-      ConfigureContentTypes ms
-      ConfigureLogger ms
-     
+      Configure ms
       ms.Run
     ∇
 
-    ∇ {AppRoot}Load yes;files;f;classes;class;utils;t;core;HTML;extensions;HTMLsubdirs;failed;file;stat
+    ∇ {msroot}RunWC2 root
+      :If 0≠⎕NC'msroot' ⋄ MSRoot←msroot ⋄ :EndIf
+      AppRoot←folderize root  ⍝ application (website) root
+      Load AppRoot ⍝ load essential objects
+      !!!ms←1 Init ConfigureServer AppRoot ⍝ read configuration and create server instance
+      Configure ms
+      {ms.Run}
+    ∇
+
+    ∇ Load AppRoot;filterOut;files;HTML;f;failed;dir;name;file;folder
       ⍝ Load required objects for MiServer
-      ⍝ Note: DRC namespace is not SALTed
-      ⍝ yes - 1 to perform load, 0 to clean up
      
-      classes←''
-      :If 0≠⎕NC'AppRoot'
-          classes←(⎕SE.SALT.List AppRoot,'Code -raw')[;1 2] ⍝ Classes in application folder
-          classes←(empty¨classes[;1])/classes[;2] ⍝ remove directory entries (have <DIR> in [;1])
-      :EndIf
-      utils←(⎕SE.SALT.List MSRoot,'Utils -raw')[;2]   ⍝ find utility libraries
-      core←(⊂'Boot')~⍨(⎕SE.SALT.List MSRoot,'Core -raw')[;2]
-      extensions←(⎕SE.SALT.List MSRoot,'Extensions -raw')[;2]
-      HTML←∪(⎕SE.SALT.List MSRoot,'HTML -raw')[;2] ⍝ force to be loaded first
-      HTMLsubdirs←HTML∩,⎕SE.SALT.List MSRoot,'HTML -folder'
-      :If yes
+      HtmlRenderer←{0::⍵ ⋄ HtmlRenderer}0
      
-          files←'Core/'∘,¨core
-          files,←'Utils/'∘,¨utils
-          files,←'Extensions/'∘,¨extensions
+      :If 0=#.⎕NC'Files' ⋄ ⎕SE.SALT.Load MSRoot,'Utils/Files -target=#' ⋄ :EndIf
      
-          :For f :In files
-              disperror ⎕SE.SALT.Load MSRoot,f,' -target=#' ⍝ do not reload already loaded spaces
-          :EndFor
+      filterOut←{⍺←'' ⋄ ⍺{0∊⍴⍺:⍵ ⋄ ⍺{∊¨↓⍵⌿⍨~⍵[;2]∊eis ⍺}↑⎕NPARTS¨⍵}⊃#.Files.Dir ⍵,'/*.dyalog'}
      
-          #.SupportedHtml5Elements.Build_html_namespace
+      files←'Boot'filterOut MSRoot,'Core'
+      files,←'Files'filterOut MSRoot,'Utils' ⍝ find utility libraries
+      files,←filterOut MSRoot,'Extensions'
      
-          ⍝↓↓↓ Some controls may require controls in other folders.
-          ⍝    So we attempt to load everything, and keep track of what failed
-          ⍝    and then go back and try to load the failed controls again their
-          failed←''
-         ⍝ stat←AutoStatus 0 ⍝ turn off show status on error
+      :For f :In files
+          disperror ⎕SE.SALT.Load f,' -target=#' ⍝ do not reload already loaded spaces
+      :EndFor
      
-          :For f :In ∪'_JQ' '_JS',HTML
-              disperror ⎕SE.SALT.Load MSRoot,'HTML/',f,' -target=#'
-              :If (⊂f)∊HTMLsubdirs
-                  f∘{326=⎕DR ⍵: ⋄ '***'≡3↑⍵:failed,←⊂⍺(('<.+>'⎕S{1↓¯1↓⍵.Match})⍵)}¨⎕SE.SALT.Load MSRoot,'HTML/',f,'/* -target=#.',f
-              :EndIf
-          :EndFor
-         ⍝ AutoStatus stat ⍝ restore show status state
-          :For (f file) :In failed
-              disperror ⎕SE.SALT.Load∊'"',file,'" -target=#.',f
-          :EndFor
+      HTML←'_JQ' '_JS'{⍵[⍋⍺⍳(↑⎕NPARTS¨⍵)[;2]]}filterOut MSRoot,'HTML' ⍝ prioritize loading of _JQ and _JS
      
-          'Pages'#.⎕NS'' ⍝ Container Space for loaded classes
-          #.Pages.(MiPage RESTfulPage)←#.(MiPage RESTfulPage)
+      #.SupportedHtml5Elements.Build_html_namespace
      
-          'CachedPages'#.⎕NS'' ⍝ Container for cached pages
+      ⍝↓↓↓ Some controls may require controls in other folders.
+      ⍝    So we attempt to load everything, and keep track of what failed
+      ⍝    and then go back and try to load the failed controls again their
+      failed←''
      
-          BuildEAWC ⍝ build the Easy As ⎕WC namespace
+      :For f :In HTML
+          (folder name)←2↑⎕NPARTS f
+          :If name≢'WC2'
+          :OrIf 0=#.⎕NC'WC2'   ⍝ don't define WC2 if it already exists
+              disperror ⎕SE.SALT.Load f,' -target=#'
+          :EndIf
+          :If #.Files.DirExists dir←folder,name,'/'
+              dir∘{326=⎕DR ⍵: ⋄ '***'≡3↑⍵:failed,←⊂⍺(('<.+>'⎕S{1↓¯1↓⍵.Match})⍵)}¨⎕SE.SALT.Load dir,'* -target=#.',name
+          :EndIf
+      :EndFor
+     
+      :For (f file) :In failed
+          disperror ⎕SE.SALT.Load∊'"',file,'" -target=#.',f
+      :EndFor
+     
+      'Pages'#.⎕NS'' ⍝ Container Space for loaded classes
+      #.Pages.(MiPage RESTfulPage)←#.(MiPage RESTfulPage)
+     
+      'CachedPages'#.⎕NS'' ⍝ Container for cached pages
+     
+      BuildEAWC ⍝ build the Easy As ⎕WC namespace
      
 ⍝ Now load any code from the MiSite
      
-          :If 0≠⍴classes
-              :For class :In classes
-                  disperror ⎕SE.SALT.Load AppRoot,'Code/',class,' -target=#'
-              :EndFor
-          :EndIf
+      :If ~0∊⍴AppRoot
+          :For class :In filterOut AppRoot,'Code' ⍝ Classes in application folder
+              disperror ⎕SE.SALT.Load class,' -target=#'
+          :EndFor
      
           :If #.Files.DirExists AppRoot,'/Code/Templates/'
               disperror ⎕SE.SALT.Load AppRoot,'/Code/Templates/* -target=#.Pages'
           :EndIf
-     
-          :Else ⍝ Cleanup
-              #.⎕EX¨classes
-              #.⎕EX¨utils
-              #.⎕EX'Pages'
-              #.⎕EX'CachedPages'
-              #.⎕EX¨'MiServer' 'HTTPRequest'
-          :EndIf
+      :EndIf
     ∇
 
-    ∇ ms←Init Config;path;class;classes;e;res;mask
+    ∇ Cleanup
+      #.⎕EX¨classes
+      #.⎕EX¨utils
+      #.⎕EX'Pages'
+      #.⎕EX'CachedPages'
+      #.⎕EX¨'MiServer' 'HTTPRequest'
+    ∇
+
+    ∇ ms←{HtmlRenderer}Init Config;path;class;classes;e;res;mask
      ⍝ Create instances of MiServer, Session and Authentication Handlers
      
-      ms←⎕NEW(#⍎Config.ClassName)Config
-      path←MSRoot,'Extensions/'
+      HtmlRenderer←{0::⍵ ⋄ HtmlRenderer}0  ⍝ using HTMLRenderer?
      
-      :If 0≠⍴Config.SessionHandler
-          class←⎕SE.SALT.Load path,Config.SessionHandler
-          ms.SessionHandler←⎕NEW class ms
-      :EndIf
+      :If 0≠HtmlRenderer
+          ms←⎕NS''
+          ms.Config←Config
+      :Else
+          ms←⎕NEW(#⍎Config.ClassName)Config
+          path←MSRoot,'Extensions/'
      
-      :If 0≠⍴Config.Authentication
-          class←⎕SE.SALT.Load path,Config.Authentication
-          ms.Authentication←⎕NEW class ms
-      :EndIf
-     
-      :If 0≠⍴Config.SupportedEncodings
-          {}⎕SE.SALT.Load path,'ContentEncoder'
-          :For e :In Config.SupportedEncodings
-              class←⎕SE.SALT.Load path,e
-              ms.Encoders,←⎕NEW class
-          :EndFor
-          :If ∨/mask←0≠1⊃¨res←ms.Encoders.Init
-              2 ms.Log'Content Encoding Initialization failed for:',∊' ',¨mask/ms.Encoders.Encoding
-              ms.Encoders←(~mask)/ms.Encoders
+          :If 0≠⍴Config.SessionHandler
+              class←⎕SE.SALT.Load path,Config.SessionHandler
+              ms.SessionHandler←⎕NEW class ms
           :EndIf
-      :EndIf
-      Config.UseContentEncoding∧←0≠⍴ms.Encoders
      
-      :If 0≠⍴Config.Logger
-          class←⎕SE.SALT.Load path,Config.Logger
-          ms.Logger←⎕NEW class ms
+          :If 0≠⍴Config.Authentication
+              class←⎕SE.SALT.Load path,Config.Authentication
+              ms.Authentication←⎕NEW class ms
+          :EndIf
+     
+          :If 0≠⍴Config.SupportedEncodings
+              {}⎕SE.SALT.Load path,'ContentEncoder'
+              :For e :In Config.SupportedEncodings
+                  class←⎕SE.SALT.Load path,e
+                  ms.Encoders,←⎕NEW class
+              :EndFor
+              :If ∨/mask←0≠1⊃¨res←ms.Encoders.Init
+                  2 ms.Log'Content Encoding Initialization failed for:',∊' ',¨mask/ms.Encoders.Encoding
+                  ms.Encoders←(~mask)/ms.Encoders
+              :EndIf
+          :EndIf
+          Config.UseContentEncoding∧←0≠⍴ms.Encoders
+     
+          :If 0≠⍴Config.Logger
+              class←⎕SE.SALT.Load path,Config.Logger
+              ms.Logger←⎕NEW class ms
+          :EndIf
       :EndIf
     ∇
 
@@ -152,7 +159,6 @@
           #.⎕EX↑⍕¨classes ⍝ Erase loaded classes
       :EndIf
      
-      Load 0
       ⎕EX'#.MiPage'
       ⎕EX'AppRoot'
       {}try'#.DRC.Close ''.'''
@@ -176,6 +182,14 @@
     :endsection
 
     :section Configuration
+
+    ∇ Configure ms
+      ConfigureDatasources ms
+      ConfigureVirtual ms
+      ConfigureResources ms
+      ConfigureContentTypes ms
+      ConfigureLogger ms
+    ∇
 
     ∇ r←ns Setting pars;name;num;default;mask
     ⍝ returns setting from a config style namespace or provides a default if it doesn't exist
@@ -492,6 +506,7 @@
     isRef←{(0∊⍴⍴⍵)∧326=⎕DR ⍵}
     folderize←{19 22::⍵,'/'↓⍨'/\'∊⍨¯1↑⍵ ⋄ ∊1 ⎕NPARTS⊃{⍺,(⍵=1)/'/'}/0 1 ⎕NINFO ⍵} ⍝ append trailing file separator unless empty and left arg←1
     makeSitePath←{folderize ⍺{((isRelPath ⍵)/⍺),⍵},(2×'./'≡2↑⍵)↓⍵}
+    subdirs←{⊃{(⍵=1)/⍺}/0 1(⎕NINFO⍠1)⍵,'/*'}
     Log←{⎕←⍵}
 
     ∇ {r}←AutoStatus setting
@@ -587,3 +602,25 @@
     :endsection
 
 :EndNamespace
+⍝)(!AutoStatus!brian!2017 9 4 16 0 44 0!0
+⍝)(!BuildEAWC!brian!2017 9 4 16 0 44 0!0
+⍝)(!Cleanup!brian!2017 9 4 16 0 44 0!0
+⍝)(!Configure!brian!2017 9 4 16 0 44 0!0
+⍝)(!ConfigureContentTypes!brian!2017 9 4 16 0 44 0!0
+⍝)(!ConfigureDatasources!brian!2017 9 4 16 0 44 0!0
+⍝)(!ConfigureLogger!brian!2017 9 4 16 0 44 0!0
+⍝)(!ConfigureResources!brian!2017 9 4 16 0 44 0!0
+⍝)(!ConfigureServer!brian!2017 9 4 16 0 44 0!0
+⍝)(!ConfigureVirtual!brian!2017 9 4 16 0 44 0!0
+⍝)(!End!brian!2017 9 4 16 0 44 0!0
+⍝)(!Init!brian!2017 9 4 16 0 44 0!0
+⍝)(!Load!brian!2017 9 4 16 0 44 0!0
+⍝)(!Oops!brian!2017 9 4 16 0 44 0!0
+⍝)(!OrderResources!brian!2017 9 4 16 0 44 0!0
+⍝)(!ReadConfiguration!brian!2017 9 4 16 0 44 0!0
+⍝)(!Run!brian!2017 9 4 16 0 44 0!0
+⍝)(!RunWC2!brian!2017 9 4 16 0 44 0!0
+⍝)(!Setting!brian!2017 9 4 16 0 44 0!0
+⍝)(!SubstPath!brian!2017 9 4 16 0 44 0!0
+⍝)(!isRunning!brian!2017 9 4 16 0 44 0!0
+⍝)(!tonumvec!brian!2017 9 4 16 0 44 0!0

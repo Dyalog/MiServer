@@ -31,8 +31,9 @@
       InternalEvents←,⊂'create'
     ∇
 
-    ∇ r←Render;type
-      :Access public
+    ∇ r←Render;type;content
+      :Access public       
+      content←Container.Content
       :Select #.Strings.lc Type
       :CaseList 'button' 'submit' 'reset' 'checkbox' 'radio'
           ContainerTag←'input'
@@ -50,6 +51,7 @@
           :If ~0∊⍴Text
               r,←(⎕NEW #._html.label(Text('for'Container.id))).Render
           :EndIf
-      :EndIf
+      :EndIf                   
+      Container.Content←content
     ∇
 :EndClass

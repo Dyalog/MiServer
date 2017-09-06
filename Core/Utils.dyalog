@@ -9,50 +9,6 @@
     levels2nodes←0{(⌽⍵↑1)+⍵↑⍺}backscan ⊢
     levels2ids←{(⍺,(∊('_',⍕)¨))¨levels2nodes ⍵}
 
-    ∇ SetupCompatibility;z
-    ⍝ create covers for primitives that may not exist in earlier versions of Dyalog
-     
-    ⍝ key operator
-      :Trap 2
-          ∆key←⌸
-      :Else
-          ∆key←{
-              0=⎕NC'⍺':⍵ ∇⍳⍬⍴⍴⍵
-              ⍺ ⍺⍺{⍺ ⍺⍺ ⍵}{⎕ML←1
-                  j←⍋i←{1<⍴⍴⍵:∇↓⍵ ⋄ (∪⍵)⍳⍵}⍺
-                  ↑(⊂[1↓⍳⍴⍴⍺]((⍳⍴i)=i⍳i)⌿⍺)⍺⍺¨(2≠/¯1,i[j])⊂[⎕IO]⍵⌷⍨⊂j
-              }⍵
-          }
-      :EndTrap
-     
-    ⍝ tally
-      :Trap 2
-          z←≢1
-          ∆tally←≢
-      :Else
-          ∆tally←{⍬⍴(⍴⍵),1}
-      :EndTrap
-     
-    ⍝ rank
-      :Trap 2
-          ∆rank←⍤
-      :Else
-          ∆rank←{ ⍝ apply ⍺⍺ to/between rank ⍵⍵ cells of ⍺ and/or ⍵
-              mlr←⌽3⍴⌽⍵⍵,⍳(aa←⍺⍺)/m←0
-              ⍺←(aa←⊢∘aa)/m←1
-              l r←-1↓r⌊|{⍵+r×0>⍵}(mlr⌊r←3⍴(⍴⍴⍵),⍴⍴⍺)[⍒m×⍳3]
-              ↑aa⌿(⊂[l↑⍳⍴⍴⍺]⍺),[-0.1-⍳1]⊂[r↑⍳⍴⍴⍵]⍵
-          }
-      :EndTrap
-     
-    ⍝ upper/lowercase - !!! modifies #.String !!!
-      :Trap 11
-          {}(819⌶)'ABC' ⍝ are we in a version where the IBeam is implemented?
-          #.Strings.lc←(819⌶)
-          #.Strings.uc←1∘(819⌶)
-      :EndTrap
-    ∇
-
     ∇ r←tox hex num;HEX;⎕IO;⎕ML;b
      ⍝ Turn a 32 bit integer into HEX format or the other way around if la is 0
       →(num∨.≠' ')↓⍴r←⍬
@@ -87,3 +43,5 @@
       :EndIf
     ∇
 :EndNamespace
+⍝)(!Platform!brian!2017 9 3 10 59 26 0!0
+⍝)(!hex!brian!2017 9 3 10 59 26 0!0

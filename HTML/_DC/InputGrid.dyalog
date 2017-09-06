@@ -44,23 +44,25 @@
     ∇ html←Render;cells;rows
       :Access public
       SetId
-      Inputs←{isClass⊃⍵:⎕NEW∘{2<⍴,⍵:(⊃⍵)({eis ⍵}(1↓⍵)) ⋄ ⍵}⍵ ⋄ ⍵}¨Inputs
-      Inputs.SetInputName
-      Labels←Inputs.id{'<label for="',⍺,'">',(renderIt ⍵),'</label>'}¨Labels
-      cells←{⎕NEW #._html.td(⍵)}¨(,Labels),[1.1],Inputs
-      cells[;1].class←⊂id,'_label'
-      cells[;2].class←⊂id,'_input'
-      :If Horizontal
-          cells←(⌽⍣Flip)cells
-          cells←⍉cells
-      :ElseIf Flip
-          cells←⌽cells
-      :Else
-          cells[;1].style←⊂'text-align:right'
+      :If ~0∊⍴Inputs
+          Inputs←{isClass⊃⍵:⎕NEW∘{2<⍴,⍵:(⊃⍵)({eis ⍵}(1↓⍵)) ⋄ ⍵}⍵ ⋄ ⍵}¨Inputs
+          Inputs.SetInputName
+          Labels←Inputs.id{'<label for="',⍺,'">',(renderIt ⍵),'</label>'}¨Labels
+          cells←{⎕NEW #._html.td(⍵)}¨(,Labels),[1.1],Inputs
+          cells[;1].class←⊂id,'_label'
+          cells[;2].class←⊂id,'_input'
+          :If Horizontal
+              cells←(⌽⍣Flip)cells
+              cells←⍉cells
+          :ElseIf Flip
+              cells←⌽cells
+          :Else
+              cells[;1].style←⊂'text-align:right'
+          :EndIf
+          rows←⎕NEW¨(⊃⍴cells)⍴#._html.tr
+          rows.Add↓cells
+          Content←rows.Render
       :EndIf
-      rows←⎕NEW¨(⊃⍴cells)⍴#._html.tr
-      rows.Add↓cells
-      Content←rows.Render
       Set(⊂'border'(⍕Border))
       html←⎕BASE.Render
     ∇
