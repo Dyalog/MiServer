@@ -1,4 +1,4 @@
-﻿:Namespace WC2 ⍝ Web Content Contruction for use with HTMLRenderer
+﻿:Namespace WC2 ⍝ Web Content Construction for use with HTMLRenderer
 ⍝ Populated from /HTML/WC2/
 
     Initialized←0
