@@ -22,7 +22,7 @@
       {ms.Run}
     ∇
 
-    ∇ Load AppRoot;filterOut;files;HTML;f;failed;dir;name;file;folder
+    ∇ Load AppRoot;filterOut;files;HTML;f;failed;dir;name;file;folder;callingEnv
       ⍝ Load required objects for MiServer
      
       HtmlRenderer←{0::⍵ ⋄ HtmlRenderer}0
@@ -47,13 +47,9 @@
       ⍝    So we attempt to load everything, and keep track of what failed
       ⍝    and then go back and try to load the failed controls again their
       failed←''
-     
       :For f :In HTML
           (folder name)←2↑⎕NPARTS f
-          :If name≢'WC2'
-          :OrIf 0=#.⎕NC'WC2'   ⍝ don't define WC2 if it already exists
-              disperror ⎕SE.SALT.Load f,' -target=#'
-          :EndIf
+          disperror ⎕SE.SALT.Load f,' -target=#'
           :If #.Files.DirExists dir←folder,name,'/'
               dir∘{326=⎕DR ⍵: ⋄ '***'≡3↑⍵:failed,←⊂⍺(('<.+>'⎕S{1↓¯1↓⍵.Match})⍵)}¨⎕SE.SALT.Load dir,'* -target=#.',name
           :EndIf
@@ -62,6 +58,8 @@
       :For (f file) :In failed
           disperror ⎕SE.SALT.Load∊'"',file,'" -target=#.',f
       :EndFor
+     
+      LoadFromFolder MSRoot,'Loadable'
      
       'Pages'#.⎕NS'' ⍝ Container Space for loaded classes
       #.Pages.(MiPage RESTfulPage)←#.(MiPage RESTfulPage)
@@ -179,6 +177,26 @@
       :EndFor
     ∇
 
+    ∇ {root}LoadFromFolder path;type;name;nsName;parts;ns
+    ⍝ Loads an APL "project" folder
+      root←{6::⍵ ⋄ root}#
+      :For name type :In ↓{⍵[⍒⍵[;2];]}⍉↑0 1 #.Files.Dir path,'/*'
+          nsName←∊1↓parts←1 ⎕NPARTS name
+          :If 1=type ⍝ directory?
+              :Select ⊃root.⎕NC nsName
+              :Case 9 ⋄ ns←⍕root⍎nsName
+              :Case 0 ⋄ ns←nsName root.⎕NS''
+              :Else ⋄ Log'"',name,'" is not a namespace'
+              :EndSelect
+              ⎕SE.SALT.Load name,'/* -target=',⍕ns
+          :Else
+              :If ~∨/∊(⎕NSI,¨'.')⍷⍨¨⊂'.',(2⊃1 ⎕NPARTS name),'.' ⍝ don't load it if we're being called from it
+                  ⎕SE.SALT.Load name,' -target=',⍕root
+              :EndIf
+          :EndIf
+      :EndFor
+    ∇
+
     :endsection
 
     :section Configuration
@@ -189,6 +207,12 @@
       ConfigureResources ms
       ConfigureContentTypes ms
       ConfigureLogger ms
+      ms AddConfiguration'MappingHandlers'
+    ∇
+
+    ∇ ms AddConfiguration name;conf
+      conf←ReadConfiguration name
+      {ms.Config⍎name,'←⍵'}conf
     ∇
 
     ∇ r←ns Setting pars;name;num;default;mask

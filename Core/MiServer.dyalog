@@ -26,7 +26,6 @@
     toutf8←{'UTF-8' ⎕UCS ⍵}                          ⍝ Turn text into UTF-8 byte stream
     setting←{0=⎕NC ⍵:⍺ ⋄ ⍎⍵}
     endswith←{(,⍺){⍵≡⍺↑⍨-⍴⍵},⍵}
-    I85←{}
 
       bit←{⎕IO←0  ⍝ used by Log
           0=⍺:0 ⍝ all bits turned off
@@ -180,7 +179,7 @@
                   :EndIf
      
                   :If 0≠⎕NC nspc
-                      {}(⍎nspc){t←⍺ HandleRequest ⍵ ⋄ ⎕EX t/nspc}&wres[2 4]
+                      {}(⍎nspc){t←⍺ HandleRequest ⍵ ⋄ ⎕EX t/⍕⍺}&wres[2 4]
                   :EndIf
               :Case 'Connect' ⍝ Ignore
      
@@ -229,13 +228,8 @@
       Logger.Log←{}
       Logger.Stop←{}
       Logger.Start←{}
-      :If {0::1 ⋄ 85⌶'0'}'' ⍝ Need a left arg?
-          i85←1∘(85⌶)
-      :Else
-          i85←85⌶
-      :EndIf
-      ⎕FX'r←I85 w;⎕TRAP' 'r←i85 w'
       Config←config
+     
       :If 0≠⊃rc←¯1 #.DRC.Init''
           ('Unable to initialize Conga. rc=',,⍕rc)⎕SIGNAL 11
       :EndIf
@@ -352,7 +346,6 @@
       obj buf←arg
       conns.Buffer,←buf
       conns.Handler←{6::conns.Handler←(⎕UCS'<env>')≡5↑conns.Buffer ⋄ conns.Handler}⍬ ⍝ are we serving as a mapping handler?
-     
       :If 0=conns.Pos ⍝ is we haven't found the end of the header yet...
           eoh←⎕UCS(1+conns.Handler)⊃(NL,NL)('</env>') ⍝ end of header marker
           pos←(¯1+⍴eoh)+eoh FindFirst conns.Buffer
@@ -787,7 +780,7 @@
           Debug ⎕STOP'Debugger'
       :EndIf
       :Trap 85
-     Debug:r←I85 w
+     Debug:r←1(85⌶)w
       :Else
           :If flag ⋄ ⍬ ⎕STOP'Debugger' ⋄ :EndIf
           ⎕SIGNAL 85

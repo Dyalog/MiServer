@@ -1,5 +1,5 @@
-﻿:Namespace WC2 ⍝ Web Content Construction for use with HTMLRenderer
-⍝ Populated from /HTML/WC2/
+﻿:Namespace WC2 ⍝ Web Content Contruction for use with HTMLRenderer
+⍝ Populated from /Loadable/WC2/
 
     Initialized←0
 
@@ -20,7 +20,7 @@
      
       :If 0∊⍴msPath ⍝ if no MiServer path specified, try looking at source path
       :AndIf ~0∊⍴t←SourceFile ⍬
-          msPath←⊃1 ⎕NPARTS t,'/../../'
+          msPath←⊃1 ⎕NPARTS (⊃1 ⎕NPARTS t),'/../'
       :EndIf
      
       :If ~⎕NEXISTS path←∊1 ⎕NPARTS msPath,'/'
@@ -45,4 +45,17 @@
       r←0 'WC2 initialized'
     ∇
 
+    ∇ r←Run arg
+      arg←,⊆arg
+      (appPath msPath)←2↑arg,(⍴arg)↓'' ''
+      :If 0∊⍴appPath
+          →0⊣r←1 'No application path provided'
+      :EndIf
+      →0⍴⍨0<⊃r←Init msPath appPath
+     
+    ∇
+
+
 :EndNamespace
+⍝)(!Init!brian!2017 9 8 15 20 50 0!0
+⍝)(!Run!brian!2017 9 8 15 20 50 0!0

@@ -8,6 +8,8 @@
     :field public Cookies←0 2⍴⊂''
     :field public Arguments←0 2⍴⊂''
     :field public Content←''
+    :field public EventArgs←''
+    :field URLRoot←'dyalog_root'
 
     begins←{⍺≡(⍴⍺)↑⍵}
     tableLookup←{(⍺[;1]⍳⊂,⍵)⊃⍺[;2],⊂''}
@@ -17,9 +19,12 @@
     dlb←{⍵↓⍨+/∧\⍵=' '}
     CookieSplit←{{{⌽dlb⌽dlb ⍵}¨⍵⊆⍨~<\'='=⍵}¨⍵⊆⍨⍵≠';'}
 
-    ∇ make args
+    ∇ make(args pg)
       :Implements constructor
       :Access public
+      EventArgs←args
+      URLRoot←(1+0∊⍴pg)⊃pg URLRoot
+      URLRoot,←('/'=¯1↑URLRoot)↓'/'
       (Page Arguments)←ParseUrl 8⊃args
       Headers←ParseHeaders 9⊃args
       Cookies←ParseCookies Headers
@@ -30,7 +35,7 @@
         ⍝ Parse the URL
       (page arguments)←'?'splitFirst u
       page←XlateArgs{3↓⍵/⍨∨\'://'⍷⍵}page ⍝ drop off http{s}://
-      page↓⍨←12×'dyalog_root/'begins page
+      page↓⍨←(≢URLRoot)×URLRoot begins page
       arguments←DecodeUrlArgs arguments
     ∇
 
@@ -74,7 +79,8 @@
     ∇
 
     ∇ r←GetHeader name
-      r←Headers tableLookup name
+      :Access public
+      r←Headers tableLookup lc name
     ∇
 
     ∇ r←GetData name

@@ -1,0 +1,6 @@
+<MappingHandlers>
+  <MappingHandler>
+    <ext>.md</ext>
+    <handler>MarkdownHandler</handler>
+  </MappingHandler>
+</MappingHandlers>
