@@ -77,7 +77,7 @@
      ⍝ Creates a div with info on the controls used in source
      
      ⍝ First we extract proper lists of controls
-      controls←5/⊂''
+      controls←(⍴#.MS3SiteUtils.NSS)/⊂''
       source←(⍳∘'⍝'↑⊢)¨source      ⍝ remove comments
       source←{⍵/⍨~≠\''''=⍵}¨source ⍝ remove strings but leaves one ' as separator
       pattern←8⌽')\.(\w+)_(',∊#.MS3SiteUtils.NSS,¨'|'
