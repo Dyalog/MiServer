@@ -46,16 +46,10 @@
     ∇
 
     ∇ r←Run arg
-      arg←,⊆arg
-      (appPath msPath)←2↑arg,(⍴arg)↓'' ''
-      :If 0∊⍴appPath
-          →0⊣r←1 'No application path provided'
-      :EndIf
-      →0⍴⍨0<⊃r←Init msPath appPath
-     
+      →0⍴⍨0<⊃r←1 Init arg
+
+
     ∇
 
 
 :EndNamespace
-⍝)(!Init!brian!2017 9 8 15 20 50 0!0
-⍝)(!Run!brian!2017 9 8 15 20 50 0!0

@@ -98,7 +98,7 @@
       request←⎕NEW #.WC2.HtmlRenderRequest(args(819⌶_PageName))
       :If 0∊⍴request.Page ⍝ initialization
           r[4 5 6 7]←1 200 'OK' 'text/html'
-          r[10]←⊂⎕BASE.Render
+          r[10]←⊂UnicodeToHtml ⎕BASE.Render
           r[9]←⊂NL,⍨∊NL,⍨¨'Content-Type: ' 'Content-Length: ',⍕¨r[7 10]
       :ElseIf ~0∊⍴ext←(819⌶)1↓⊃¯1↑1 ⎕NPARTS request.Page  ⍝ need to handle case where another MiPage is requested
           :If #.Files.Exists filename←∊1 ⎕NPARTS _Config #.MiServer.Virtual request.Page
@@ -164,7 +164,7 @@
     ∇ r←UnicodeToHtml txt;u;ucs
       :Access public shared
     ⍝ converts chars ⎕UCS >127 to HTML safe format
-      r←,⎕FMT txt
+      r←,⍕txt
       u←127<ucs←⎕UCS r
       (u/r)←(~∘' ')¨↓'G<&#ZZZ9;>'⎕FMT u/ucs
       r←∊r

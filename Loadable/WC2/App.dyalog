@@ -4,7 +4,6 @@
 
     :field public _Renderer←''
     :field public _Url←''
-    :field public _CallbackFn←'Callback'
     :field public _Config
     :field public _Request
     :field public _Args
@@ -38,17 +37,6 @@
           {_Renderer⍎⍺,'←⍵'}/¨{⍵(Props⍎⍵)}¨props
       :EndIf
       _Renderer.Wait
-    ∇
-
-    ∇ Render
-      :Access public
-      _Renderer.HTML←⎕BASE.Render
-    ∇
-
-    ∇ {r}←{args}Add content
-      :Access public
-      :If 0=⎕NC'args' ⋄ args←⊢ ⋄ :EndIf
-      r←args ⎕BASE.Add content
     ∇
 
     ∇ r←__CallbackFn args;ext;mimeType;filename;url;mask;cbdata;request;int;handler;content
@@ -280,28 +268,6 @@
       :EndHold
     ∇
 
-
-    ∇ r←Callback;_context;_found;_valence
-      :Access public overridable
-      r←''
-      :If ''≢_callback
-          _context←''
-          :While ~_found←3=⎕NC _context,_callback
-              :If ~0∊⍴_context
-                  :If (,'#')≡⍕⍎_context ⍝ popped up to root and still not found?
-                      :Leave
-                  :EndIf
-              :EndIf
-              _context,←'##.'
-          :EndWhile
-          :If _found
-              _valence←|1 2⊃⎕AT _context,_callback
-              r←⍎('_Args '/⍨_valence=2),_context,_callback,' _Request'/⍨_valence>0
-          :Else
-              ⎕←'Callback function not found: ',_callback
-          :EndIf
-      :EndIf
-    ∇
 
     ∇ r←UnicodeToHtml txt;u;ucs
       :Access public shared

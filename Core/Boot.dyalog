@@ -71,13 +71,15 @@
 ⍝ Now load any code from the MiSite
      
       :If ~0∊⍴AppRoot
-          :For class :In filterOut AppRoot,'Code' ⍝ Classes in application folder
-              disperror ⎕SE.SALT.Load class,' -target=#'
-          :EndFor
+          :Trap 22
+              :For class :In filterOut AppRoot,'Code' ⍝ Classes in application folder
+                  disperror ⎕SE.SALT.Load class,' -target=#'
+              :EndFor
      
-          :If #.Files.DirExists AppRoot,'/Code/Templates/'
-              disperror ⎕SE.SALT.Load AppRoot,'/Code/Templates/* -target=#.Pages'
-          :EndIf
+              :If #.Files.DirExists AppRoot,'/Code/Templates/'
+                  disperror ⎕SE.SALT.Load AppRoot,'/Code/Templates/* -target=#.Pages'
+              :EndIf
+          :EndTrap
       :EndIf
     ∇
 
@@ -626,25 +628,3 @@
     :endsection
 
 :EndNamespace
-⍝)(!AutoStatus!brian!2017 9 4 16 0 44 0!0
-⍝)(!BuildEAWC!brian!2017 9 4 16 0 44 0!0
-⍝)(!Cleanup!brian!2017 9 4 16 0 44 0!0
-⍝)(!Configure!brian!2017 9 4 16 0 44 0!0
-⍝)(!ConfigureContentTypes!brian!2017 9 4 16 0 44 0!0
-⍝)(!ConfigureDatasources!brian!2017 9 4 16 0 44 0!0
-⍝)(!ConfigureLogger!brian!2017 9 4 16 0 44 0!0
-⍝)(!ConfigureResources!brian!2017 9 4 16 0 44 0!0
-⍝)(!ConfigureServer!brian!2017 9 4 16 0 44 0!0
-⍝)(!ConfigureVirtual!brian!2017 9 4 16 0 44 0!0
-⍝)(!End!brian!2017 9 4 16 0 44 0!0
-⍝)(!Init!brian!2017 9 4 16 0 44 0!0
-⍝)(!Load!brian!2017 9 4 16 0 44 0!0
-⍝)(!Oops!brian!2017 9 4 16 0 44 0!0
-⍝)(!OrderResources!brian!2017 9 4 16 0 44 0!0
-⍝)(!ReadConfiguration!brian!2017 9 4 16 0 44 0!0
-⍝)(!Run!brian!2017 9 4 16 0 44 0!0
-⍝)(!RunWC2!brian!2017 9 4 16 0 44 0!0
-⍝)(!Setting!brian!2017 9 4 16 0 44 0!0
-⍝)(!SubstPath!brian!2017 9 4 16 0 44 0!0
-⍝)(!isRunning!brian!2017 9 4 16 0 44 0!0
-⍝)(!tonumvec!brian!2017 9 4 16 0 44 0!0
