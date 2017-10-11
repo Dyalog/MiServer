@@ -2,20 +2,18 @@
 
     (⎕IO ⎕ML)←1
     ⎕FX 'r←CRLF' 'r←⎕UCS 13 10' ⍝ So it will be :Included
-    enlist←{⎕ML←1 ⋄ ∊⍵} ⍝ APL2 enlist
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     ischar←{0 2∊⍨10|⎕DR⍵}
-    quote←{0∊⍴⍵:'' ⋄ '"',({w←⍵⋄((w='"')/w)←⊂'\"'⋄enlist w}⍵),'"'}
+    quote←{0∊⍴⍵:'' ⋄ '"',({w←⍵⋄((w='"')/w)←⊂'\"'⋄∊ w}⍵),'"'}
     iotaz←{(⍴⍺){⍵×⍺≥⍵}⍺⍳⍵}
     innerhtml←{⊃↓/(⍵ iotaz'>')(-(⌽⍵)iotaz'<') ⍵}
     dtlb←{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}
-   ⍝ tonum←{0∊⍴⍵:⍬ ⋄ w←⍵ ⋄ ((w='-')/w)←'¯' ⋄ ⊃(//)⎕VFI w}
 
 
     ∇ r←atts Enclose innerhtml;i
     ⍝ Put an HTML tag around some HTML
-      :If 1<|≡innerhtml ⋄ innerhtml←CRLF,enlist innerhtml,¨⊂CRLF ⋄ :EndIf
+      :If 1<|≡innerhtml ⋄ innerhtml←CRLF,∊innerhtml,¨⊂CRLF ⋄ :EndIf
       :If 0∊⍴atts
           r←innerhtml
       :Else
@@ -38,7 +36,7 @@
       ⍝ ('name1' 'value1') [('name2' 'value2')]
           0∊⍴⍵:''
           {
-              enlist{(×⍴⍺)/' ',⍺,(×⍴⍵)/'=',quote ⍵}/,∘⍕¨⊃⍵
+              ∊{(×⍴⍺)/' ',⍺,(×⍴⍵)/'=',quote ⍵}/,∘⍕¨⊃⍵
           }_pifn¨,2 _box _pifn{
               1=|≡⍵:⍵
               2=|≡⍵:{1=⍴⍴⍵:(⌽2,0.5×⍴⍵)⍴⍵ ⋄ ⍵}⍵
@@ -64,7 +62,7 @@
           ⍺←''
           0∊⍴⍵:⍺,'{}'
           (0∊⍴⍺)↓⍺,{'{',({';'=¯1↑⍵:⍵ ⋄ ⍵,';'}⍵),'}'}{
-              enlist{(×⍴⍺)/⍺,(×⍴⍵)/':',⍵,';'}/,∘⍕¨⊃⍵
+              ∊{(×⍴⍺)/⍺,(×⍴⍵)/':',⍵,';'}/,∘⍕¨⊃⍵
           }_pifn¨,2 _box _pifn{
               1=|≡⍵:⍵
               2=|≡⍵:{1=⍴⍴⍵:(⌽2,0.5×⍴⍵)⍴⍵ ⋄ ⍵}⍵
@@ -87,7 +85,7 @@
       :If ~0∊⍴html
           :If ∨/mask←html=CR←''⍴CRLF
               (mask/html)←⊂'<br/>',CR
-              html←enlist html
+              html←∊html
           :EndIf
           html,←(~∨/¯2↑mask)/'<br/>',CRLF
       :EndIf
@@ -96,7 +94,7 @@
     ∇ html←{fontsize}APLToHTML APL
     ⍝ returns APL code formatted for HTML
       fontsize←{6::'' ⋄ ';fontsize:',⍎⍵}'fontsize'
-      :If 1<|≡APL ⋄ APL←enlist,∘CRLF¨APL ⋄ :EndIf
+      :If 1<|≡APL ⋄ APL←∊,∘CRLF¨APL ⋄ :EndIf
       :Trap 0
           html←3↓¯4↓'whitespace' 'preserve'⎕XML 1 3⍴0 'x'APL
       :Else
@@ -157,7 +155,7 @@
       MakeStyle←{
           ⍺←''
           0∊⍴⍵:''
-          (' ',⍨¯2↓enlist(eis ⍺),¨⊂', '),Styles ⍵
+          (' ',⍨¯2↓∊(eis ⍺),¨⊂', '),Styles ⍵
       }
 
     ∇ r←HtmlSafeText txt;i;m;u;ucs;s
@@ -171,7 +169,7 @@
       (s/r)←⊂'&nbsp;'
       (m/r)←('&amp;' '&lt;' '&gt;' '&quot;')[m/i]
       (u/r)←(~∘' ')¨↓'G<&#ZZZ9;>'⎕FMT u/ucs
-      r←enlist r
+      r←∊r
     ∇
 
 :EndNamespace

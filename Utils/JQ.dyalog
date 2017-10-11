@@ -7,7 +7,6 @@
     CRLF←⎕UCS 13 10
 
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
-    enlist←{⎕ML←1 ⋄ ∊⍵} ⍝ APL2 style enlist
     quote←{'⍎'=1↑⍵:⍵ ⋄ '"'∊⍵:⍵ ⋄ '"',⍵,'"'}
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
 
@@ -26,7 +25,7 @@
       pars←eis pars
       jqfn sel jqpars chain oname prejs option←pars,(⍴pars)↓'' '' '' '' '' '' ''
       chain,←(';'=¯1↑chain)↓';'
-      sel←quote ¯2↓enlist{⍵,', '}¨eis sel
+      sel←quote ¯2↓∊{⍵,', '}¨eis sel
       :If 9=|⎕NC'jqpars'
           jqpars←#.JSON.toJQueryParameters jqpars
       :ElseIf '{'≠1↑(+/∧\jqpars∊' ',CRLF)↓jqpars

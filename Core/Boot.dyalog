@@ -143,7 +143,7 @@
           {}try'⎕EX⍕⊃⊃⎕CLASS ms.SessionHandler'
           {}try'⎕EX⍕⊃⊃⎕CLASS ms.Authentication'
           {}try'⎕EX⍕⊃⊃⎕CLASS ms.Logger'
-          {}try'⎕EX⍕¨∪enlist ⎕CLASS¨ms.Encoders'
+          {}try'⎕EX⍕¨∪∊ ⎕CLASS¨ms.Encoders'
           ⎕EX⍕⊃⊃⎕CLASS ms
           ⎕EX'ms'
       :EndIf
@@ -353,7 +353,7 @@
       ms.Config.Virtual←''
       :If ~0∊⍴virtual←'alias'ReadConfiguration'Virtual'
           :If 0∊mask←{⍵=⍳⍴⍵}inds←{⍵⍳⍵}virtual.alias ⍝ check for duplicate aliases, keep first
-              1 ms.Log'Duplicate virtual aliases defined (first occurrence will be used): ',1↓enlist',',¨(~mask)/virtual.alias
+              1 ms.Log'Duplicate virtual aliases defined (first occurrence will be used): ',1↓∊',',¨(~mask)/virtual.alias
               virtual←mask/virtual
           :EndIf
           ⍝ substitute server and site root if found
@@ -377,7 +377,7 @@
       ms.Config.Resources←0 3⍴⊂''
       :If ~0∊⍴res←'name'ReadConfiguration'Resources'
           :If 0∊mask←{⍵=⍳⍴⍵}inds←{⍵⍳⍵}names←res.name ⍝ check for duplicate aliases, keep first
-              1 ms.Log'Duplicate resources defined (first occurence will be used): ',1↓enlist',',¨(~mask)/res.name
+              1 ms.Log'Duplicate resources defined (first occurence will be used): ',1↓∊',',¨(~mask)/res.name
               res←mask/res
           :EndIf
           ⍝ build the dependency map
@@ -385,14 +385,14 @@
           inds←res.name∘⍳¨uses
           n←⊃⍴res
           :If ∨/mask←∨/¨missing←n<inds
-              1 ms.Log'Invalid resource dependency found for:',enlist' ',¨mask/res.name
+              1 ms.Log'Invalid resource dependency found for:',∊' ',¨mask/res.name
               inds←(~missing)/¨inds
           :EndIf
           order←OrderResources inds
           inds←(order∘⍳¨inds)[order]
           res←res[order]
           map←,(2⍴n)⍴(1+n)↑1 ⍝ identity matrix
-          map[enlist(n×¯1+⍳n)+¨inds]←1
+          map[∊(n×¯1+⍳n)+¨inds]←1
           map←(2⍴n)⍴map
           map←↓{({⍺∨⍺∨.∧⍵}⍣≡)⍨⍵}map
           ⍝ ms.Config.Resources[;1] resource name, [;2] scripts used [;3] styles used
@@ -420,12 +420,12 @@
       :If ~0∊⍴ct←ReadConfiguration'ContentTypes'
           exts←#.Strings.lc¨ct Setting'ext'
           types←ct Setting'type'
-          :If ~0∊⍴inds←{⍵/⍳⍴⍵}enlist','∊¨exts
+          :If ~0∊⍴inds←{⍵/⍳⍴⍵}∊','∊¨exts
               mask←(⍴exts)⍴1
               exp←{⎕ML←3 ⋄ (⍵≠',')⊂⍵}¨exts[inds]
               mask[inds]←n←⍬∘⍴∘⍴¨exp
               (exts types)←mask∘/¨exts types
-              exts[(n/inds)++\~enlist n↑¨1]←⊃,/exp
+              exts[(n/inds)++\~∊n↑¨1]←⊃,/exp
           :EndIf
           ms.Config.ContentTypes←exts,[1.1]types
       :Else
@@ -520,7 +520,6 @@
     fileSep←'/\'[1+isWin]
     isRelPath←{{~'/\'∊⍨(⎕IO+2×isWin∧':'∊⍵)⊃⍵}3↑⍵}
     MSRoot←{('.'=⊃⍵)∨isRelPath ⍵:'.',fileSep,⍵ ⋄ ⍵}{(1-⌊/'/\'⍳⍨⌽⍵)↓⍵}⎕WSID
-    enlist←{⎕ML←1⋄∊⍵}
       tonum←{⍺←0
           1∊⍺:tonumvec ⍵
           w←⍵ ⋄ ((w='-')/w)←'¯'

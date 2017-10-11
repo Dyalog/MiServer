@@ -1,11 +1,6 @@
 <Server>
-    <Name>MiServer 3.0</Name>
-    <AllowedHttpCommands>get,post</AllowedHttpCommands>
-    <UserID>miserver</UserID>               <!-- UserID to switch to after allocating port 80 under Unix -->
-    <Port>80</Port>                         <!-- port to listen on - change this if you're already running IIS or Apache -->
-    <TrapErrors>1</TrapErrors>              <!-- Valid: 0=Crash, 1=Trap and Log errors -->
-    <Debug>0</Debug>                        <!-- Valid: 0=No Debug Info, 1=Debug Info, 2=Allow Editing -->
-    <SessionTimeOut>10</SessionTimeOut>     <!-- session timeout, in minutes -->
-    <Production>1</Production>              <!-- Production disables the development debugging framework -->
-    <ClassName>MS3Server</ClassName>        <!-- name of the customized MiServer class for this site, located in the Code folder -->
+    <Name>MS3 Sample Site</Name>
+    <ClassName>MS3Server</ClassName>
+    <RESTful>1</RESTful>
+    <AllowedHTTPCommands>get,put,delete,post</AllowedHTTPCommands>
 </Server>

@@ -21,7 +21,6 @@
     unicode←80=⎕DR 'A'
     NL←(CR LF)←⎕UCS 13 10
     FindFirst←{(⍺⍷⍵)⍳1}
-    enlist←{⎕ML←1 ⋄ ∊⍵}
     fromutf8←{0::(⎕AV,'?')[⎕AVU⍳⍵] ⋄ 'UTF-8' ⎕UCS ⍵} ⍝ Turn raw UTF-8 input into text
     toutf8←{'UTF-8' ⎕UCS ⍵}                          ⍝ Turn text into UTF-8 byte stream
     setting←{0=⎕NC ⍵:⍺ ⋄ ⍎⍵}
@@ -465,7 +464,7 @@
      
       res.Headers⍪←{0∊⍴⍵:'' '' ⋄ 'Server'⍵}Config.Server
       status←res.((⍕Status),' ',StatusText)
-      hdr←enlist{⍺,': ',⍵,NL}/res.Headers
+      hdr←∊{⍺,': ',⍵,NL}/res.Headers
       Answer←(toutf8((1+conns.Handler)⊃'HTTP/1.0 ' 'Status: '),status,NL,'Content-Length: ',(⍕length),NL,hdr,NL)
       done←length≤offset←⍴res.HTML
       REQ.MSec-⍨←⎕AI[3]
@@ -878,5 +877,3 @@
     :endsection
 
 :EndClass
-⍝)(!MoveRequestData!!0 0 0 0 0 0 0!0
-⍝)(!Virtual!!0 0 0 0 0 0 0!0
