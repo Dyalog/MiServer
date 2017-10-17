@@ -21,6 +21,24 @@
 
 <!-- 
 *******************************
+*      Bootstrap resources    *
+*******************************
+-->
+	<resource>
+		<name>Bootstrap3</name>
+		<uses>JQuery</uses>
+		<style>/Bootstrap3/css/bootstrap.min.css</style>
+		<script>/Bootstrap3/js/bootstrap.min.js</script>
+	</resource>
+
+	<resource>
+		<name>Bootstrap4</name>
+		<uses>JQuery</uses>
+		<style>/Bootstrap4/css/bootstrap.min.css</style>
+		<script>/Bootstrap4/js/bootstrap.min.js</script>
+	</resource>
+<!--
+*******************************
 *      FontAwesome Icons      *
 *******************************
 -->
@@ -61,18 +79,18 @@
 		<style>/jBox/jBox.css</style>
 	</resource>
 <!-- 
-**************************
-*      d3 resources      *
-**************************
+*********************************
+*      d3/dimple resources      *
+*********************************
 -->
 	<resource>
 		<name>d3</name>
-		<script>/PlugIns/Other/d3/d3.v3.4.8.min.js</script>
+		<script>/PlugIns/Other/d3/d3.min.js</script>
 	</resource>
 	<resource>
 		<name>dimple</name>
 		<uses>d3</uses>
-		<script>/PlugIns/Other/d3/dimple.v2.2.0.min.js</script>
+		<script>/PlugIns/Other/dimple/dimple.v2.3.0.min.js</script>
 	</resource>
 <!-- 
 **************************

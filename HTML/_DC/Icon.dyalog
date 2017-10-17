@@ -12,14 +12,31 @@
 ⍝         when two strings are used, it represents a "stacked" icon, with second icon overlayed on the first
 ⍝         "stacked" icons are a feature of FontAwesome icons - using other icons may or may not have the desired visual effect
 ⍝
+⍝ Usage Notes::
+⍝ Icon currently supports 4 different libraries of icons:
+⍝   Library                  Prefix
+⍝   -----------------------  ---------
+⍝   FontAwesome              fa-
+⍝   Syncfusion               e-  or ej-
+⍝   Google Material Design   md-
+⍝   Bootstrap                bs- or glyphicon-
+⍝
+⍝ While you may, in theory, mix and match icons from different libraries, it is recommended that you use a single library if possible.
+⍝
+⍝ If you use a Bootstrap glyphicon, it will force the Bootstrap stylesheet to be used which may affect
+⍝ the appearance of other elements in your page.
+⍝
+⍝
 ⍝ Examples::
-⍝ Add _.Icon 'fa-cloud-upload'    ⍝ FontAwesome: http://fontawesome.io/icons/
-⍝ Add _.Icon 'md-fingerprint'     ⍝ Google Material Design: https://design.google.com/icons/
-⍝ Add _.Icon 'e-delete-column_01' ⍝ Syncfusion Essential JavaScript: http://js.syncfusion.com/demos/web/#!/azure/icon/EJIcons
-⍝ '.fa-spin' Add _.Icon 'md-track_changes' ⍝ FontAwesome effects (works on non-FA icons too)
+⍝ Add _.Icon 'fa-cloud-upload'              ⍝ FontAwesome: http://fontawesome.io/icons/
+⍝ Add _.Icon 'md-fingerprint'               ⍝ Google Material Design: https://design.google.com/icons/
+⍝ Add _.Icon 'e-delete-column_01'           ⍝ Syncfusion Essential JavaScript: http://js.syncfusion.com/demos/web/#!/azure/icon/EJIcons
+⍝ Add _.Icon 'bs-music'                     ⍝ Bootstrap glyphicon: https://getbootstrap.com/docs/3.3/components/
+⍝
+⍝ '.fa-spin' Add _.Icon 'md-track_changes'  ⍝ FontAwesome effects (works on non-FA icons too)
 ⍝ 'style="color: red;"' Add _.Icon 'e-stop' ⍝ Applying own styling
 ⍝ Add _.Icon 'fa-square fa-2x' 'fa-terminal fa-inverse' ⍝ Stacking inverse small on large
-⍝ Add _.Icon 'fa-camera' 'fa-ban fa-2x'  ⍝ Stacking large on small
+⍝ Add _.Icon 'fa-camera' 'fa-ban fa-2x'     ⍝ Stacking large on small
 
     :field public shared readonly ApiLevel←3
     :Field public Spec←⍬
@@ -65,6 +82,11 @@
               Use'ejIcons'
               AddClass'e-icon e-',spec
               AddStyle'display: inline-block'  ⍝ add this because default Syncfusion is "block"
+     
+          :CaseList 'bs' 'glyphicon'
+              Use'Bootstrap'
+              AddClass'glyphicon glyphicon-',spec
+     
           :Else
               Content←Spec
      

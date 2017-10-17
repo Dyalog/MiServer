@@ -47,4 +47,14 @@
     <alias>chosen</alias>
     <path>%ServerRoot%/PlugIns/Other/chosen-1.6.2/</path>
   </directory>
+
+  <directory>
+    <alias>Bootstrap3</alias>
+    <path>%ServerRoot%/PlugIns/Bootstrap-3.3.7/</path>
+  </directory>
+
+  <directory>
+    <alias>Bootstrap4</alias>
+    <path>%ServerRoot%/PlugIns/Bootstrap-4.0.0-beta/</path>
+  </directory>
 </Virtual>
