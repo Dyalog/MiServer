@@ -19,12 +19,9 @@
 ⍝   FontAwesome              fa-
 ⍝   Syncfusion               e-  or ej-
 ⍝   Google Material Design   md-
-⍝   Bootstrap                bs- or glyphicon-
 ⍝
 ⍝ While you may, in theory, mix and match icons from different libraries, it is recommended that you use a single library if possible.
 ⍝
-⍝ If you use a Bootstrap glyphicon, it will force the Bootstrap stylesheet to be used which may affect
-⍝ the appearance of other elements in your page.
 ⍝
 ⍝
 ⍝ Examples::
@@ -82,10 +79,6 @@
               Use'ejIcons'
               AddClass'e-icon e-',spec
               AddStyle'display: inline-block'  ⍝ add this because default Syncfusion is "block"
-     
-          :CaseList 'bs' 'glyphicon'
-              Use'Bootstrap'
-              AddClass'glyphicon glyphicon-',spec
      
           :Else
               Content←Spec
