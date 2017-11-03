@@ -32,10 +32,10 @@
 	</resource>
 
 	<resource>
-		<name>Bootstrap4</name>
-		<uses>JQuery</uses>
-		<style>/Bootstrap4/css/bootstrap.min.css</style>
-		<script>/Bootstrap4/js/bootstrap.min.js</script>
+	  	<name>Bootstrap4</name>
+	  	<uses>JQuery</uses>
+	    <script>/Bootstrap4/js/bootstrap.bundle.min.js</script>
+	    <style>/Bootstrap4/css/bootstrap.min.css</style>
 	</resource>
 <!--
 *******************************
