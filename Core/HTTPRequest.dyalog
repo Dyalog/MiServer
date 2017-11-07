@@ -150,9 +150,9 @@
 
     :Section Argument and Data Handling
 
-    ∇ r←ArgXLT r;rgx;rgxu;i;j;z;t;m;⎕IO;lens;fill
+    ∇ r←PercentDecode r;rgx;rgxu;i;j;z;t;m;⎕IO;lens;fill
       :Access public shared
-     ⍝ Translate HTTP command line arguments
+    ⍝ Decode a Percent Encoded string https://en.wikipedia.org/wiki/Percent-encoding
       ⎕IO←0
       ((r='+')/r)←' '
       rgx←'[0-9a-fA-F]'
@@ -189,10 +189,11 @@
 
     ∇ r←{cs}URLDecodeArgs args
       :Access Public Shared
+    ⍝ Decode arguments passed in the URI
       cs←{6::⍵ ⋄ cs}1 ⍝ default to case sensitive
       r←(args∨.≠' ')⌿↑'='∘split¨{1↓¨(⍵='&')⊂⍵}'&',args ⍝ Cut on '&'
       r[;1]←{⍵↓⍨¯6×'%5B%5D'≡¯6↑⍵}¨r[;1] ⍝ remove [] from array args
-      r[;2]←ArgXLT¨r[;2]
+      r[;2]←PercentDecode¨r[;2]
       :If ~cs ⋄ r[;1]←#.Strings.lc¨r[;1] ⋄ :EndIf
     ∇
 
@@ -413,13 +414,21 @@
       :EndIf
     ∇
 
-    ∇ {hdrs}ReturnFile x
+    ∇ {hdrs}ReturnFile filename
+    ⍝ Queues a file to be returned to client
+    ⍝ filename - physical name of the file
+    ⍝ {hdrs}   - optional 2-column header name/value pairs
+    ⍝ if hdrs is not supplied, we attempt to set the content type of file response based on the file extension
       :Access Public Instance
-      Response.(HTML File)←x 1
+      :If #.Files.Exists filename
+          Response.(HTML File)←filename 1
       :If 2=⎕NC'hdrs'
           Response.Headers⍪←hdrs
       :Else
-          SetContentType x
+              SetContentType filename
+          :EndIf
+      :Else
+          Fail 404  ⍝ file not found
       :EndIf
     ∇
 

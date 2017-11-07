@@ -398,6 +398,31 @@
           ⍝ ms.Config.Resources[;1] resource name, [;2] scripts used [;3] styles used
           f←{SubstPath¨{⍵~⊂''}∘∪¨⊃¨,/¨map/¨⊂eis¨⍵}
           ms.Config.Resources←res.name,(f res Setting'script'),[1.1]f res Setting'style'
+          resources←∪⊃,/,0 1↓ms.Config.Resources
+          files←ms.Config Virtual¨resources
+          :If ∨/missing←~#.Files.Exists∘{⍵/⍨∧\⍵≠'?'}¨files
+              which←(0 1↓ms.Config.Resources)∊¨⊂missing/resources
+              mask←∨/∨/¨which
+              1 ms.Log'Resource files not found:'
+              1 ms.Log¨↓⍕(1,mask⌿which)/¨mask⌿ms.Config.Resources
+              (mask⌿ms.Config.Resources)←(mask⌿ms.Config.Resources)~¨⊂missing/resources
+          :EndIf
+      :EndIf
+    ∇
+
+
+    ∇ file←Config Virtual page;mask;f;ind;t;path;root
+      :Access public shared
+    ⍝ checks for virtual directory
+      root←(-'/\'∊⍨¯1↑root)↓root←Config.Root
+      page←('/\'∊⍨1↑page)↓page
+      file←root,'/',page
+      :If 0<⍴Config.Virtual
+          ind←Config.Virtual.alias⍳⊂t←{(¯1+⍵⍳'/')⍴⍵}page
+          :If ind≤⍴Config.Virtual.alias
+              path←ind⊃Config.Virtual.path
+              file←#.Files.Normalize path,('/\'∊⍨¯1↑path)↓(⍴t)↓page
+          :EndIf
       :EndIf
     ∇
 

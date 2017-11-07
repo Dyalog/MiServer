@@ -62,7 +62,7 @@
       b←RenderBody
      
       :If ~0∊⍴_Scripts
-          {(Insert _html.script).Set('src=',⍵)}¨host∘AddHost¨⌽∪_Scripts
+          {(Insert _html.script).Set('src' ⍵)}¨host∘AddHost¨⌽∪_Scripts
       :EndIf
      
       styles←∪_Styles
@@ -427,4 +427,4 @@
 
     :endsection
 
-:EndClass
+:EndClass                         
