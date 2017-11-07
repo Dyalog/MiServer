@@ -76,7 +76,7 @@
      
       buf z←'HTTP/'split buf
       Page args←'?'split ¯1↓buf
-      Page←ArgXLT Page
+      Page←PercentDecode Page
      
       :If '/'≠⊃Page  ⍝!!! need to update this to deal with absolute URI's, see Section 5.1.2 of the HTTP/1.1 spec
           1 Fail 400
@@ -539,3 +539,9 @@
     ∇
 
 :EndClass
+⍝)(!DecodeHeader!!0 0 0 0 0 0 0!0
+⍝)(!HttpStatus!!0 0 0 0 0 0 0!0
+⍝)(!PercentDecode!!0 0 0 0 0 0 0!0
+⍝)(!URLDecodeArgs!!0 0 0 0 0 0 0!0
+⍝)(!URLEncode!!0 0 0 0 0 0 0!0
+⍝)(!eis!!0 0 0 0 0 0 0!0
