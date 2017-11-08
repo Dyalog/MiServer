@@ -15,14 +15,14 @@
     :Field Public Encoders←⍬  ⍝ pointers to instances of content encoders
     :Field Public Datasources←⍬
     :Field Public StartTime←⍬
+    :field Public Connections←⍬ ⍝ list of connections
+    :Field ServerName
 
     ⎕TRAP←0/⎕TRAP ⋄ (⎕ML ⎕IO)←1 1
 
     unicode←80=⎕DR 'A'
     NL←(CR LF)←⎕UCS 13 10
     FindFirst←{(⍺⍷⍵)⍳1}
-    fromutf8←{0::(⎕AV,'?')[⎕AVU⍳⍵] ⋄ 'UTF-8' ⎕UCS ⍵} ⍝ Turn raw UTF-8 input into text
-    toutf8←{'UTF-8' ⎕UCS ⍵}                          ⍝ Turn text into UTF-8 byte stream
     setting←{0=⎕NC ⍵:⍺ ⋄ ⍎⍵}
     endswith←{(,⍺){⍵≡⍺↑⍨-⍴⍵},⍵}
 
@@ -98,6 +98,7 @@
 
 ⍝ ↓↓↓--- Begin MildServer Core Code
     :section Start/Stop
+
     ∇ Run
       :Access Public
       ('Already Running on Thread',⍕TID)⎕SIGNAL(TID∊⎕TNUMS)/11
@@ -108,10 +109,8 @@
     ∇ End
     ⍝ Called by destructor
       :Access Public
-      Logger.Stop ⍬
-      :If 0=⎕NC'ServerName'
-         ⍝!!! {}1 #.DRC.Init''
-      :Else
+      {0:: ⋄ Logger.Stop ⍬}⍬
+      :If 0≠⎕NC'ServerName'
           'Not running'⎕SIGNAL(#.DRC.Exists ServerName)↓11
           {}#.DRC.Close ServerName
           :Trap 6 ⍝ ⎕TSYNC may not return a value if the thread doesn't, so handle the possible VALUE ERROR
@@ -123,13 +122,13 @@
     ∇
     :endsection
 
-    ∇ r←RunServer arg;RESUME;⎕TRAP;Common;cmd;name;port;wres;ref;nspc;sink;Stop;secure;certpath;flags;z;rc;rate;ErrorCount;idletime;msg;uid;ts
+    ∇ r←RunServer arg;Stop;StartTime;⎕TRAP;idletime;wres;rc;obj;evt;data;conx;ts
       ⍝ Simple HTTP (Web) Server framework
       ⍝ Assumes Conga available in #.DRC and uses #.HTTPRequest
       ⍝ arg: dummy
       ⍝ certs: RootCertDir, ServerCert, ServerKey (optional: runs Secure server)
      
-      Common←⎕NS'' ⋄ Stop←0 ⋄ WAITING←0
+      Stop←0
       StartTime←⎕TS
      
       :If Config.TrapErrors>0
@@ -140,68 +139,58 @@
       onServerStart ⍝ meant to be overridden
      
       idletime←#.Dates.DateToIDN ⎕TS
+     
       :While ~Stop
           wres←#.DRC.Wait ServerName Config.WaitTimeout ⍝ Wait for WaitTimeout before timing out
           ⍝ wres: (return code) (object name) (command) (data)
-     
-          :Select 1⊃wres
+          (rc obj evt data)←4↑wres
+          :Select rc
           :Case 0 ⍝ Good data from RPC.Wait
-              :Select 3⊃wres
+              :Select evt
      
               :Case 'Error'
-                  :If ServerName≡2⊃wres
+                  :If ServerName≡obj
                       Stop←1
+                  :Else
+                      ConnectionDelete obj
                   :EndIf
                   :If 0≠4⊃wres
                       (1+(4⊃wres)∊1008 1105 1119)Log'RunServer: DRC.Wait reported error ',(⍕#.DRC.Error 4⊃wres),' on ',2⊃wres
                   :EndIf
-                  ⎕EX SpaceName 2⊃wres
      
-              :CaseList 'Block' 'BlockLast'
-                  nspc←SpaceName 2⊃wres
-                  :If 0=⎕NC nspc
-                      :Trap 6 ⍝ VALUE ERROR - nspc could be erased if page goes away
-                          nspc ⎕NS''
-                          (⍎nspc).(Pos Buffer ContentLength Req)←0 '' 0 ''
-                          :If 0=1⊃z←#.DRC.GetProp(2⊃wres)'PeerAddr' ⋄ (⍎nspc).PeerAddr←2⊃z
-                          :Else ⋄ (⍎nspc).PeerAddr←'Unknown'
-                          :EndIf
-                          :If Config.Secure
-                              rc z←#.DRC.GetProp(2⊃wres)'PeerCert'
-                              :If rc=0 ⋄ (⍎nspc).PeerCert←z
-                              :Else
-                                  1 Log'Unable to obtain peer certificate over secure connection - request ignored'
-                                  ⎕EX nspc
-                              :EndIf
-                          :EndIf
-                      :EndTrap
+              :Case 'Connect'
+                  ConnectionNew obj
+     
+              :CaseList 'HTTPHeader' 'HTTPTrailer' 'HTTPChunk' 'HTTPBody'
+                  :If 0≢conx←1 ConnectionUpdate obj
+                      {}conx{{}⍺ HandleRequest ⍵}&wres
+                  :Else
+                      ∘∘∘ ⍝!!! debug !!!
                   :EndIf
      
-                  :If 0≠⎕NC nspc
-                      {}(⍎nspc){t←⍺ HandleRequest ⍵ ⋄ ⎕EX t/⍕⍺}&wres[2 4]
+              :Case 'Timeout'
+                  SessionHandler.HouseKeeping ⎕THIS
+                  :If 0<Config.IdleTimeout ⍝ if an idle timeout (in seconds) has been specified
+                  :AndIf Config.IdleTimeout<86400×-/(ts←#.Dates.DateToIDN ⎕TS)idletime ⍝ has it passed?
+                      onIdle
+                      idletime←ts
                   :EndIf
-              :Case 'Connect' ⍝ Ignore
      
-              :Else
-                  2 Log'Error ',⍕wres
+              :Else ⍝ unhandled event
+                  2 Log'Unhandled Conga event:'
+                  2 Log wres
               :EndSelect
-     
-          :Case 100 ⍝ Time out - put "housekeeping" code here
-              SessionHandler.HouseKeeping ⎕THIS
-              :If 0<Config.IdleTimeout ⍝ if an idle timeout (in seconds) has been specified
-              :AndIf Config.IdleTimeout<86400×-/(ts←#.Dates.DateToIDN ⎕TS)idletime ⍝ has it passed?
-                  onIdle
-                  idletime←ts
-              :EndIf
      
           :Case 1010 ⍝ Object Not found
               1 Log'Object ''',ServerName,''' has been closed - Web Server shutting down'
               →0
      
           :Else
-              1 Log'#.DRC.Wait failed:'
+              1 Log'Conga wait failed:'
               1 Log wres
           :EndSelect
+     
+          ConnectionCleanup
      
       :EndWhile
      
@@ -212,12 +201,79 @@
           ⎕OFF
       :EndIf
       →0
+    ∇
+
+⍝ --- Connection management ---
+
+    ∇ ConnectionNew objname;z;rc
+      :Hold 'Connections'
+          Connections,⍨←conx←⎕NS''
+          conx.(CongaObjectName PeerCert)←objname''
+          conx.(Active LastActive)←1(3⊃⎕AI)
+          :If 0=1⊃z←#.DRC.GetProp conx.CongaObjectName'PeerAddr'
+              conx.PeerAddr←2⊃z
+          :Else
+              conx.PeerAddr←'Unknown'
+          :EndIf
      
+          :If Config.Secure
+              (rc z)←2↑#.DRC.GetProp conx.CongaObjectName'PeerCert'
+              :If rc=0
+                  conx.PeerCert←z
+              :Else
+                  1 Log'Unable to obtain peer certificate over secure connection - request ignored'
+                  conx←0
+              :EndIf
+          :EndIf
+      :EndHold
+    ∇
+
+    ∇ conx←ConnectionGet objname;n;i
+    ⍝ needs to be called within a "held" environment
+      conx←0
+      :If 0≠n←⍴Connections
+      :AndIf n≥i←Connections.CongaObjectName⍳⊂objname
+          conx←i⊃Connections
+      :EndIf
+    ∇
+
+    ∇ conx←state ConnectionUpdate objname;n;i
+      :Hold 'Connections'
+          :If 0≢conx←ConnectionGet objname
+              conx.(Active LastActive)←state(3⊃⎕AI)
+          :EndIf
+      :EndHold
+    ∇
+
+    ∇ ConnectionDelete con
+    ⍝ assumes Conga connection is closed elsewhere
+      :Hold 'Connections'
+          :If 9=⎕NC'con'
+              #.DRC.Close con.CongaObjectName
+              Connections~←con
+          :Else
+              #.DRC.Close con
+              :If ~0∊⍴Connections
+                  Connections/⍨←Connections.CongaObjectName≢¨⊂con
+              :EndIf
+          :EndIf
+      :EndHold
+    ∇
+
+    ∇ ConnectionCleanup;mask
+      →0
+      :Hold 'Connections'
+          :If ~0∊⍴Connections
+          :AndIf 0≠+/mask←Connections.Active<10000<⎕AI[3]-Connections.LastActive
+              #.DRC.Close¨mask/Connections.CongaObjectName
+              Connections/←~mask
+          :EndIf
+      :EndHold
     ∇
 
     :section Constructor/Destructor
 
-    ∇ Make config;CongaVersion;rc;allocated;port
+    ∇ Make config;CongaVersion;rc;allocated;port;ports
       :Access Public
       :Implements Constructor
      
@@ -229,15 +285,6 @@
       Logger.Start←{}
       Config←config
      
-      :If 0≠⊃rc←¯1 #.DRC.Init''
-          ('Unable to initialize Conga. rc=',,⍕rc)⎕SIGNAL 11
-      :EndIf
-     
-      CongaVersion←{0::0 ⋄ ⊃⊃//⎕VFI ⍵}{(2>+\'.'=⍵)/⍵}⊃{⍵/⍨{∧/⍵∊'0123456789.'}¨⍵}(⊂'')~⍨{1↓¨(⍵=⍬⍴⍵)⊂⍵}' ',2 2⊃#.DRC.Describe'.'
-      :If 2.2>CongaVersion
-          'MiServer 3.0 requires Conga 2.2 or later'⎕SIGNAL 11
-      :EndIf
-     
       PageTemplates←#.Pages.⎕NL ¯9.4
      
       allocated←0
@@ -248,6 +295,9 @@
           :EndIf
       :EndFor
       ('Unable to allocate any TCP/IP port in ',1↓∊⍕¨',',¨ports)⎕SIGNAL(~allocated)/11
+      {}#.DRC.SetProp'.' 'EventMode' 1 ⍝ report Close/Timeout as events
+      {}#.DRC.SetProp ServerName'FIFOMode' 1
+      {}#.DRC.SetProp ServerName'DecodeBuffers' 1
     ∇
 
     ∇ UnMake
@@ -255,16 +305,16 @@
       :Trap 0 ⋄ End ⋄ :EndTrap
     ∇
 
-    ∇ r←AllocatePort port;ipv;server
-    ⍝ Starts Conga, allocates TCP/IP port
-      ipv←'Protocol'Config.IPVersion
+    ∇ r←AllocatePort port;ipv;server;msg
+    ⍝ Starts Conga server, allocates TCP/IP port
+     
       :If Config.Secure
           :If ∧/(~0∊⍴)¨Config.(CertFile KeyFile)
           :AndIf ⊃∧/#.Files.Exists¨Config.(CertFile KeyFile)
               {}#.DRC.SetProp'.' 'RootCertDir'Config.RootCertDir
               server←1⊃#.DRC.X509Cert.ReadCertFromFile Config.CertFile
               server.KeyOrigin←'DER'Config.KeyFile
-              →(0≠1⊃r←#.DRC.Srv'' ''port'Raw' 10000('X509'server)('SSLValidation'Config.SSLFlags)ipv)⍴0 ⍝ Must have Conga v2.1
+              →(0≠1⊃r←#.DRC.Srv'' ''port'http' 10000('X509'server)('SSLValidation'Config.SSLFlags))⍴0 ⍝ Must have Conga v2.1
               1 Log'Starting secure server using certificate ',Config.CertFile
           :Else
               1 Log'Invalid certificate parameters'
@@ -272,7 +322,7 @@
               →0
           :EndIf
       :Else
-          →(0≠1⊃r←#.DRC.Srv'' ''port'Raw' 10000 ipv)⍴0
+          →(0≠1⊃r←#.DRC.Srv'' ''port'http' 10000)⍴0
       :EndIf
      
       ServerName←2⊃r
@@ -339,46 +389,33 @@
       :EndIf
     ∇
 
-    ∇ r←conns HandleRequest arg;buf;m;Answer;obj;CMD;pos;req;Data;z;r;hdr;REQ;status;file;tn;length;done;offset;res;closed;sess;chartype;raw;enc;which;html;encoderc;encodeMe;startsize;cacheMe;root;page;filename;eoh;n;i;ext;enctype
-      ⍝ Handle a Web Server Request
+    ∇ r←conns HandleRequest arg;rc;obj;evt;data;REQ;res;startsize;length;ext;filename;enc;encodeMe;cacheMe;which;encoderc;html;enctype;status;response;hdr;done;offset;z
+    ⍝ conns - connection namespace
+    ⍝ arg [1] conga rc [2] object name [3] event [4] data
       r←0
-      obj buf←arg
-      conns.Buffer,←buf
-      conns.Handler←{6::conns.Handler←(⎕UCS'<env>')≡5↑conns.Buffer ⋄ conns.Handler}⍬ ⍝ are we serving as a mapping handler?
-      :If 0=conns.Pos ⍝ is we haven't found the end of the header yet...
-          eoh←⎕UCS(1+conns.Handler)⊃(NL,NL)('</env>') ⍝ end of header marker
-          pos←(¯1+⍴eoh)+eoh FindFirst conns.Buffer
-          :If pos≤⍴conns.Buffer ⍝ found the end of header
-              conns.Pos←pos
-              conns.Req←fromutf8 conns.(Pos↑Buffer)
-          :Else
-              →r←0 ⍝ haven't found end of header yet, go back for more
-          :EndIf
-      :EndIf
+      arg←,⊆arg
+      (rc obj evt data)←4↑arg,(⍴arg)↓0 '' '' ''
+      :Select evt
+      :Case 'HTTPHeader'
+          conns.Req←⎕NEW #.HTTPRequest data
+      :Case 'HTTPBody'
+          conns.Req.ProcessBody data
+      :Case 'HTTPChunk'
+          conns.Req.ProcessChunk data
+      :Case 'HTTPTrailer'
+          conns.Req.ProcessTrailer data
+      :EndSelect
      
-      :If 0<⍴conns.Req
-          :If conns.Pos>i←(z←LF,'content-length:')FindFirst hdr←#.Strings.lc conns.Req
-          :AndIf (⍴conns.Buffer)<conns.Pos+conns.ContentLength←⊃2⊃⎕VFI(¯1+z⍳CR)↑z←(¯1+i+⍴z)↓hdr
-              →r←0  ⍝ a content-length was specified but we haven't yet gotten what it says to ==> go back for more
-          :EndIf
-      :EndIf
-     
-      conns.Buffer←conns.(Pos↓Buffer)
-     
-      :If conns.Handler  ⍝ if we're running as a mapping handler
-          conns.(Req Buffer)←MakeHTTPRequest conns.Req ⍝ fake MiServer out by building an HTTP request from what we've got
-      :EndIf
-     
-⍝      :Hold 'Request'
-     
-      REQ←⎕NEW #.HTTPRequest conns.(Req Buffer)
+      →0↓⍨conns.Req.Complete ⍝ exit if request is not complete
+
+      REQ←conns.Req
       REQ.Server←⎕THIS ⍝ Request will also contain reference to the Server
       res←REQ.Response
       startsize←length←0
      
       :If 200=res.Status
           :If 2=conns.⎕NC'PeerAddr' ⋄ REQ.PeerAddr←conns.PeerAddr ⋄ :EndIf       ⍝ Add Client Address Information
-          8 Log REQ.(PeerAddr Command Page)
+          8 Log REQ.(PeerAddr Method Page)
      
           :If 2=conns.⎕NC'PeerCert' ⋄ REQ.PeerCert←conns.PeerCert ⋄ :EndIf       ⍝ Add Client Cert Information
      
@@ -390,12 +427,12 @@
           SessionHandler.GetSession REQ
           Authentication.Authenticate REQ
           :If REQ.Response.Status≠401 ⍝ Authentication did not fail
-              :If Config.AllowedHTTPCommands∊⍨⊂REQ.Command
+              :If Config.AllowedHTTPMethods∊⍨⊂REQ.Method
                   onHandleRequest REQ ⍝ overridable
                   :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
                       filename HandleMSP REQ
                   :Else
-                      :If REQ.Command≡'get'
+                      :If REQ.Method≡'get'
                           REQ.ReturnFile filename
                       :Else
                           REQ.Fail 501 ⍝ Service Not Implemented
@@ -407,29 +444,13 @@
           :EndIf
      
           enc←','#.Utils.penclose' '~⍨REQ.GetHeader'accept-encoding' ⍝ check if client supports encoding
-          encodeMe←(0<⍴enc)∧conns.Handler<Config.UseContentEncoding  ⍝ initialize a flag whether to encode this response, don't compresss if running as a handler
+          encodeMe←(~0∊⍴enc)∧Config.UseContentEncoding  ⍝ initialize a flag whether to encode this response, don't compresss if running as a handler
           encodeMe>←(⊂ext)∊'png' 'gif' 'jpg' ⍝ don't try to compress compressed graphics, should probably add zip files, etc
           cacheMe←0
      
           :If 1=res.File ⍝ See HTTPRequest.ReturnFile
-              :If 83=⎕DR file←res.HTML ⍝ if we returned a byte stream, just use it
-                  length←⍴file ⋄ tn←0
-              :Else
-                  :Trap 22
-                      tn←file ⎕NTIE 0
-                      :If encodeMe ⋄ length←⎕NSIZE tn ⍝ if using compression, read the entire file
-                      :Else ⋄ length←BlockSize        ⍝ otherwise send it a block at a time
-                      :EndIf
-                      res.HTML←⎕NREAD tn 83 length 0
-                      cacheMe←0≠Config.HTTPCacheTime ⍝ for now, cache all files if set to use caching
-                  :Else
-                      res.HTML←⍬
-                      REQ.Fail 404
-                      length←⍴res.HTML
-                      res.File←0
-                  :EndTrap
-              :EndIf
-              startsize←length
+              (startsize length)←0,2 ⎕NINFO res.HTML
+              encodeMe←0
           :EndIf
      
           :If (200=res.Status)∧encodeMe ⍝ if our HTTP status is 200 (OK) and we're okay to encode
@@ -444,16 +465,13 @@
                       4 Log'Used ',enctype,' compression on "',REQ.Page,'", transmitted% = ',2⍕length{⎕DIV←1 ⋄ ⍺÷⍵}startsize
                   :Else
                       4 Log'Compression not used on "',REQ.Page,'", startsize = ',(⍕startsize),', compressed length = ',⍕length
-                      :If 83≠⎕DR res.HTML
-                          res.HTML←toutf8 res.HTML
-                      :EndIf
                   :EndIf
               :ElseIf 0=res.File
                   2 Log'Compression failed'
-                  length←⍴res.HTML←toutf8 res.HTML ⍝ otherwise, send uncompressed
+                  length←⍴res.HTML ⍝ otherwise, send uncompressed
               :EndIf
           :ElseIf 0=res.File
-              startsize←length←⍴res.HTML←toutf8∊res.HTML
+              startsize←length←⍴res.HTML←∊res.HTML
           :EndIf
      
           :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires
@@ -463,38 +481,34 @@
       :EndIf
      
       res.Headers⍪←{0∊⍴⍵:'' '' ⋄ 'Server'⍵}Config.Server
-      status←res.((⍕Status),' ',StatusText)
-      hdr←∊{⍺,': ',⍵,NL}/res.Headers
-      Answer←(toutf8((1+conns.Handler)⊃'HTTP/1.0 ' 'Status: '),status,NL,'Content-Length: ',(⍕length),NL,hdr,NL)
+      status←(⊂'HTTP/1.1'),res.((⍕Status)StatusText)
+      :If res.File
+          response←''res.HTML
+      :Else
+          res.Headers⍪←'Content-Length'length
+          response←res.HTML
+      :EndIf
       done←length≤offset←⍴res.HTML
-      REQ.MSec-⍨←⎕AI[3]
+      res.MSec-⍨←⎕AI[3]
       res.Bytes←startsize length
      
-      :If 0≠1⊃z←#.DRC.Send obj Answer(0=offset) ⍝ Send headers
-          (1+(1⊃z)∊1008 1119)Log'"Handlerequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
-      :ElseIf 0≠offset
-          Answer←res.HTML
-          :Repeat
-              :If 0≠1⊃z←#.DRC.Send obj Answer done ⍝ Send response and
-                  (1+(1⊃z)∊1008 1119)Log'"Handlerequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
-                  done←1
-              :EndIf
-              closed←done
-              :If ~done
-                  done←BlockSize>⍴Answer←⎕NREAD tn 83,BlockSize,offset
-                  offset+←⍴Answer
-              :EndIf
-          :Until closed ⍝ Everything sent
+      :If 0≠1⊃z←#.DRC.Send obj(status,res.Headers response)
+          (1+(1⊃z)∊1008 1119)Log'"HandleRequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
       :EndIf
      
-      :If res.File ⋄ ⎕NUNTIE tn ⋄ :EndIf
+      conns.(LastActive Active)←0
+     
+      :If REQ.CloseConnection
+          ConnectDelete conns
+      :Else
+          conns.Active←0
+      :EndIf
+     
       8 Log REQ.PeerAddr status
       Logger.Log REQ
-      r←1
- ⍝     :EndHold
     ∇
 
-    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;MS3;token;mask;resp;t;RESTful;APLJax;flag;path;name;ext;list;fn
+    ∇ file HandleMSP REQ;⎕TRAP;inst;class;z;props;lcp;args;i;ts;date;n;expired;data;m;oldinst;names;html;sessioned;page;root;MS3;token;mask;resp;t;RESTful;APLJax;flag;path;name;ext;list;fn;msg
     ⍝ Handle a "MiServer Page" request
       path name ext←#.Files.SplitFilename file
      RETRY:
@@ -622,8 +636,8 @@
           :EndIf
      
           :If 3≠⌊|inst.⎕NC⊂fn            ⍝ and is it a public method?
-              1 Log'Method "',fn,'" not found (or not public) in page "',REQ.Page,'"'
-              REQ.Fail 500
+              1 Log msg←'Method "',fn,'" not found (or not public) in page "',REQ.Page,'"'
+              REQ.Fail 500 msg
               →0
           :EndIf
      
@@ -719,6 +733,8 @@
     ∇
 
     ∇ ns←root NamespaceForMSP file;path;name;ext;rpath;tree;created;n;level;node;mask
+    ⍝ because a MiSite can have a folder structure where files in different folders may have the same name
+    ⍝ we construct a namespace hierarchy which mimics the folder hierarchy to contain MiPage instances
       path name ext←#.Files.SplitFilename file
       rpath←(⍴root)↓path
       ns←#.Pages
@@ -750,29 +766,6 @@
       :EndFor
     ∇
 
-    ∇ (req buffer)←MakeHTTPRequest req;x;v;s;p;l;m;n;i;c;h
-⍝ kludge to get by ampersands in a POST - will be fixed when we build proper requests from MiServerCGI
-      buffer←c←''
-      :If (⍴req)≥i←1⍳⍨'>tsop<'⍷⌽req
-          i←(⍴req)-i+5
-          c←¯13↓(i+6)↓req
-          req←(i↑req),'</env>'
-      :EndIf
-     
-      :Trap 11
-          x←⎕XML req
-      :Else
-          ∘∘∘ ⍝ !! Intentional !!
-      :EndTrap
-      v←'var'∘≡¨x[;2]
-      v←{⎕ML←3 ⋄ (~<\'='=⍵)⊂⍵}¨v/x[;3]
-      v←(∊2=⍴¨v)/v
-      h←∊{0∊⍴⍵:'' ⋄ (#.Strings.lc{'HTTP_'≡5↑⍵:5↓⍵ ⋄ 'HTTPS_'≡6↑⍵:6↓⍵ ⋄ ⍵}⍺){('-',⍺)[('_',⍺)⍳⍺],': ',⍵,NL}⍵}/¨v
-      ⍝ pull out special fields
-      m p s n←(↑v)∘{3::2⊃⍵ ⋄ ⍺[;2]⊃⍨⍺[;1]⍳⊂1⊃⍵}¨↓'REQUEST_METHOD' 'PATH_INFO' 'SERVER_PROTOCOL' 'SERVER_NAME',[1.1]'GET' '' 'HTTP/1.0' 'localhost'
-      (req buffer)←(m,' ',p,' ',s,NL,'Host: ',n,h,NL)c
-    ∇
-
     :endsection
 
     :section Misc
@@ -789,11 +782,6 @@
           ⎕SIGNAL 85
       :EndTrap
       :If flag ⋄ ⍬ ⎕STOP'Debugger' ⋄ :EndIf
-    ∇
-
-    ∇ r←SpaceName cmd
-     ⍝ Generate namespace name from command name
-      r←'Common.C',Subst(2⊃{1↓¨('.'=⍵)⊂⍵}'.',cmd)'-=' '_∆'
     ∇
 
     ∇ r←Subst arg;i;m;str;c;rep

@@ -183,6 +183,4 @@
     ∇
 
 
-:EndClass
-⍝)(!DecodeUrlArgs!!0 0 0 0 0 0 0!0
-⍝)(!XlateArgs!!0 0 0 0 0 0 0!0
+:EndClass                     

@@ -111,9 +111,9 @@
       _Request.SetContentType x
     ∇
 
-    ∇ r←_Command
+    ∇ r←_Method
       :Access public
-      r←_Request.Command
+      r←_Request.Method
     ∇
 
     ∇ r←_URI
@@ -128,4 +128,4 @@
       r←2↓∊(⎕UCS 13 10)∘,¨{⍵/⍨'⍝'≠⊃¨⍵}{1↓¨⍵/⍨∧\'⍝'=⊃¨⍵}{⍵{((∨\⍵)∧⌽∨\⌽⍵)/⍺}' '≠⍵}¨(1+2⊃⎕LC)↓↓(⊃⊃⎕CLASS 1⊃⎕RSI).(180⌶)2⊃⎕SI
     ∇
 
-:EndClass
+:EndClass                    

@@ -97,7 +97,7 @@
       :Access public
       :If Active
           :Hold 'Lumberjack'
-              Cache,←((missing 2⊃req.PeerAddr),' ',(missing req.Session.User),#.Dates.LogFmtNow,'"',req.Command,' ',req.Page,'"',∊' '∘,∘⍕¨req.(Response.Status MSec Response.Bytes)),EOL
+              Cache,←((missing 2⊃req.PeerAddr),' ',(missing req.Session.User),#.Dates.LogFmtNow,'"',req.Method,' ',req.Page,'"',∊' '∘,∘⍕¨req.Response.(Status MSec Bytes)),EOL
           :EndHold
       :EndIf
     ∇

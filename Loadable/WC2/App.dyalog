@@ -280,5 +280,4 @@
 
     tableLookup←{(⍺[;2],⊂'')[⍺[;1]⍳⊆,⍵]}
 
-:EndClass
-⍝)(!UnicodeToHtml!!0 0 0 0 0 0 0!0
+:EndClass                         
