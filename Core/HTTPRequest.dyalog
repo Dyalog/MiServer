@@ -422,9 +422,9 @@
       :Access Public Instance
       :If #.Files.Exists filename
           Response.(HTML File)←filename 1
-      :If 2=⎕NC'hdrs'
-          Response.Headers⍪←hdrs
-      :Else
+          :If 2=⎕NC'hdrs'
+              Response.Headers⍪←hdrs
+          :Else
               SetContentType filename
           :EndIf
       :Else
@@ -437,7 +437,7 @@
       'content-type'SetHeader'application/binary'(Server.Config.ContentTypes GetFromTableDefault)#.Strings.lc{(1-(⌽⍵)⍳'.')↑⍵}x
     ∇
 
-    ∇ {hdr}SetHeader value;val;mask
+    ∇ {hdr}SetHeaderIfNotSet value;val;mask
       :Access public instance
     ⍝ accepts value in forms
     ⍝ ('hdr1' 'val1')[('hdr2' 'val2')]
@@ -447,7 +447,7 @@
           :If 3≡|≡value ⍝ pairs of strings
               val←↑value
           :ElseIf 2≡|≡value
-              :If ':'∊¨value
+              :If ∧/':'∊¨value
                   val←↑':'split¨value
               :Else
                   val←((0.5×⍴value),2)⍴value
@@ -459,11 +459,34 @@
           (hdr value)←eis¨hdr value
           val←hdr,⍪value
       :EndIf
-      :If ∨/mask←<\Response.Headers[;1](≡#.Strings.nocase)¨hdr
-          (mask⌿Response.Headers)←val
-      :Else
-          Response.Headers⍪←val
+      :If ∨/mask←~hdr(∊#.Strings.nocase)Response.Headers[;1]
+          Response.Headers⍪←mask⌿val
       :EndIf
+    ∇
+
+    ∇ {hdr}SetHeader value;val;mask
+      :Access public instance
+    ⍝ accepts value in forms
+    ⍝ ('hdr1' 'val1')[('hdr2' 'val2')]
+    ⍝ 'hdr1:val1' ['hdr2:val2']
+    ⍝ 'hdr1' 'val1' ['hdr2' 'val2']
+      :If 0=⎕NC'hdr'
+          :If 3≡|≡value ⍝ pairs of strings
+              val←↑value
+          :ElseIf 2≡|≡value
+              :If ∧/':'∊¨value
+                  val←↑':'split¨value
+              :Else
+                  val←((0.5×⍴value),2)⍴value
+              :EndIf
+          :Else
+              val←1 2⍴':'split value
+          :EndIf
+      :Else
+          (hdr value)←eis¨hdr value
+          val←hdr,⍪value
+      :EndIf
+      Response.Headers⍪←val
     ∇
 
     ∇ {tags}Script x

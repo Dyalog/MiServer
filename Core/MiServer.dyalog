@@ -649,7 +649,7 @@
               inst._TimedOut←0
      
               :If RESTful
-                  :If ~∨/(⊂'content-type')(≡#.Strings.nocase)¨REQ.Response.Headers[;1]
+                  :If (⊂'content-type')(∊#.Strings.nocase)REQ.Response.Headers[;1]
                       'Content-Type'REQ.SetHeader'application/json'
                       resp←1 #.JSON.fromAPL resp
                   :EndIf
@@ -661,6 +661,10 @@
                   REQ.Return''
               :EndIf
           :EndTrap
+     
+          :If APLJax⍱RESTful
+              'Content-Type'REQ.SetHeaderIfNotSet'text/html;charset=utf-8'
+          :EndIf
      
           :If ~REQ.Response.NoWrap
               :If MS3∨RESTful
@@ -877,3 +881,5 @@
     :endsection
 
 :EndClass
+⍝)(!MoveRequestData!!0 0 0 0 0 0 0!0
+⍝)(!Virtual!!0 0 0 0 0 0 0!0
