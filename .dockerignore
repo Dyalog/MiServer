@@ -1,0 +1,5 @@
+GH-Release.sh
+githubComment.sh
+Dockerfile
+docker-compose.yml
+rancher-compose.yml
