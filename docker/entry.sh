@@ -6,5 +6,5 @@
 #tail -f /dev/null > /tmp/aplfifo &
 
 export MiServer=${MiServer-/MiServer/MS3}
-dyalog -ride +s -q /MiServer/miserver.dws 0<&- 2>/dev/null
+dyalog -rt /MiServer/miserver.dws
 
