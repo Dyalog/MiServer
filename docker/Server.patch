@@ -1,0 +1,8 @@
+41c41
+<     <TrapErrors>0</TrapErrors>    <!-- Valid: 0=Crash, 1=Trap and Log errors -->
+---
+>     <TrapErrors>1</TrapErrors>    <!-- Valid: 0=Crash, 1=Trap and Log errors -->
+46c46
+<     <UseHTTP>1</UseHTTP>          <!-- Valid: 0=use DrA generated HTML, 1=report HTTP 500 status -->
+---
+>     <UseHTTP>0</UseHTTP>          <!-- Valid: 0=use DrA generated HTML, 1=report HTTP 500 status -->
