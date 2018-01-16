@@ -41,7 +41,7 @@
       cols,←⊂(⊂'Type'),C.type
       cols,←⊂(⊂'Main controls used'Over'documentation links'),C.used
       div←'samples'New _.div
-      div.Add _.p _.A'Browse Examples Directory' '/Examples/'
+      div.Add _.div _.A'Browse Examples Directory' '/Examples/'
       div.Add'eg' '.display'New _.DataTable(⍉↑cols)
       tabs.Sections,←div
      

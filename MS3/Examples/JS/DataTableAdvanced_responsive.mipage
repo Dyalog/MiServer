@@ -1,15 +1,21 @@
-﻿:Class DataTableAdvanced_yadcf : MiPageSample
+﻿:Class DataTableAdvanced_responsive : MiPageSample
 ⍝ Control::     _JS.DataTable
-⍝ Description:: A DataTable with the "yadcf"-Filters enabled
+⍝ Description:: A DataTable with the a responsive layout
 
     ∇ Compose;data;dt
       :Access Public
      
       Add _.p MarkdownFollows
-   ⍝## DataTable with yadcf-Filtering
+   ⍝## Responsive DataTable
    ⍝ The DataTable widget uses the JS-Library [DataTables](http://datatables.net/)
    ⍝ which provides a very powerful and comprehensive rendering tool for tabular data.
-   ⍝ * this example uses the "yadcf"-Plugin for filtering of data
+   ⍝ * this example uses the "Responsive" extension that provides a responsive layout.
+   ⍝   Compare this page to its [non-responsive counterpart](./DataTableSimple.mipage)
+   ⍝   Responsiveness will be effective as you resize the browser-window
+   ⍝   and the visible columns will adjust accordingly. (Hidden columns are
+   ⍝   shown when in a details-view for individual records.)
+   ⍝   Please note that a wealth of [options](https://datatables.net/extensions/responsive/) is available
+   ⍝   to fine-tune this behaviour.
    ⍝ * numeric colums right-aligned by assigning specific CSS-Class
    ⍝					
    ⍝## Health Care Spending by Country
@@ -19,21 +25,15 @@
       data←1 #.Files.FREAD #.Boot.AppRoot,'Examples/Data/stats.DCF'
       data[;3 4 5]←0.01×⌊0.5+100×data[;3 4 5]÷[2]1000 1000000 1  ⍝ scale the data a bit
       data⍪⍨←'Country' '% GDP' 'Population (thousands)' 'GDP ($Millions)' '$/Capita'
-      dt←'#sample' '.display'Add _.DataTable data
-      'mark'dt.Set _true                ⍝ mark search-terms
+      dt←'#sample'Add _.DataTable data
      
       ⍝ make sure numeric columns are right-aligned
-      ⍝ (currently Set can work with one index only, Brian may extend it...)
       'columns[2].className'dt.Set'dt-right'
       'columns[3].className'dt.Set'dt-right'
       'columns[4].className'dt.Set'dt-right'
       'columns[5].className'dt.Set'dt-right'
      
-      dt.Plugins←'yadcf'
-      'yadcf.Filters[1].(column_number filter_type)'dt.Set 1 'range_number_slider'
-      'yadcf.Filters[2].(column_number filter_type)'dt.Set 2 'range_number_slider'
-      'yadcf.Filters[3].(column_number filter_type)'dt.Set 3 'range_number_slider'
-      'yadcf.Filters[4].(column_number filter_type)'dt.Set 4 'range_number_slider'
+      dt.Plugins←'responsive,mark'  ⍝ that's all we need to do to make the table responsive!
     ∇
 
 :EndClass

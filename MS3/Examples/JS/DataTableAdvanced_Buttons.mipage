@@ -1,0 +1,62 @@
+﻿:Class DataTableAdvanced_Buttons : MiPageSample
+⍝ Control::     _JS.DataTable
+⍝ Description:: A DataTable enhanced with the "buttons"-Plugin
+
+    ∇ Compose;data;dt;ns7
+      :Access Public
+     
+      Add _.p MarkdownFollows
+   ⍝## DataTable
+   ⍝ The DataTable widget uses the JS-Library [DataTables](http://datatables.net/)
+   ⍝ which provides a very powerful and comprehensive rendering tool for tabular data.
+   ⍝ * using `Options.dom` to control placement of controls (including B-Option for Buttons!)
+   ⍝ * buttons to control column-visiblity and provide options for CSV/PDF/Excel-Export, Printing and Clipboard-Copy
+   ⍝ * also page-length is controlled via Buttons for a more consistent layout
+   ⍝ * PDF-Export enhanced with special JS-Code to right-align numeric columns
+   ⍝					
+   ⍝## Health Care Spending by Country
+   ⍝ Data on this page was taken from the [CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/rankorder/2225rank.html).
+     
+      ⍝  [;1] country [;2] % GDP [;3] population [;4] GDP [;5] $/capita
+      data←1 #.Files.FREAD #.Boot.AppRoot,'Examples/Data/stats.DCF'
+      data[;3 4 5]←0.01×⌊0.5+100×data[;3 4 5]÷[2]1000 1000000 1  ⍝ scale the data a bit
+      data⍪⍨←'Country' '% GDP' 'Population (thousands)' 'GDP ($Millions)' '$/Capita'
+      dt←'#sample' '.display'Add _.DataTable data
+      'mark'dt.Set _true                ⍝ mark search-terms
+     
+      ⍝ make sure numeric columns are right-aligned
+      ⍝ (currently Set can work with one index only, Brian may extend it...)
+      'columns[2].className'dt.Set'dt-right'
+      'columns[3].className'dt.Set'dt-right'
+      'columns[4].className'dt.Set'dt-right'
+      'columns[5].className'dt.Set'dt-right'
+     
+      dt.Options.dom←'Bfrtip'  ⍝ note "B" to control placing of buttons
+      dt.Options.lengthMenu←(10 25 50 ¯1)('10 rows' '25 rows' '50 rows' 'Show all')
+      ns7←⎕NS¨7⍴⊂''
+      ns7.extend←'colvis' 'pageLength' 'excel' 'copy' 'csv' 'print' 'pdf'
+⍝ this is a bit tricky as the PDF-Export currently needs separate formatting
+⍝ to right-align the numeric columns.
+      ns7[7].customize←⊂ScriptFollows
+⍝ function (doc) {
+⍝    var rowCount = $("#sample").DataTable().rows().count();
+⍝    for (i = 0; i < rowCount; i++) {
+⍝            doc.content[1].table.body[i][1].alignment = 'right';
+⍝            doc.content[1].table.body[i][2].alignment = 'right';
+⍝            doc.content[1].table.body[i][3].alignment = 'right';
+⍝            doc.content[1].table.body[i][4].alignment = 'right';
+⍝    };
+⍝}
+     
+     
+      dt.Options.buttons←,⊂'excelHtml5' ⍝ ns7
+     
+⍝ NB: no need to explicitely specify dt.Plugins - they were auto-detected 
+⍝     (even those triggered through Options.buttons.extend - though this mechanism
+⍝      is not guaranteed to work in all possibly combinations of tricky ideas.
+⍝      Should something not be loaded, dt.Plugins should come to rescue -
+⍝      and it would be nice if you'd send a msg to miserver@dyalog.com and let us 
+⍝      know what happened!)
+    ∇
+
+:EndClass

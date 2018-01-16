@@ -29,6 +29,7 @@
       idioms⍪⍨←'Description' ('Expression'(_.br)(_.small 'click to copy to clipboard')) 'Requirements' 'Library'
       dt←'output'Add _.DataTable(idioms('.a333' '.a385 copy' '.a385' '.a333'))
       dt.InitFilterWith←Get'search'
+      'yadcf.Filters[1].(column_number filter_type)'dt.Set 3 'select'
     
     Add _.style ScriptFollows
 ⍝.copy {

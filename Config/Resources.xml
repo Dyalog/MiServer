@@ -39,7 +39,7 @@
 	</resource>
 <!--
 *******************************
-*      FontAwesome Icons      *
+*      FontAwesome5 Resources *
 *******************************
 -->
 	<resource>
@@ -121,11 +121,7 @@
 		<uses>JQuery</uses>
 		<script>/JQuery/PlugIns/jqueryCookie/jquery.cookie.js</script>
 	</resource>
-	<resource>
-		<name>jquery.Highlight</name>
-		<uses>JQuery</uses>
-		<script>/JQuery/PlugIns/jqueryHighlight/jquery.highlight.js</script>
-	</resource>
+
 	<!-- 
 **************************
 *  Syncfusion resources  *
@@ -422,39 +418,6 @@
 		<name>ejWaitingPopup</name>
 		<uses>Syncfusion</uses>
 	</resource>
-
-<!-- 
-*********************************
-*  Datatables resources         *
-*********************************
--->
-	<resource>
-		<name>DataTable</name>
-		<uses>JQuery</uses>
-		<script>/DataTables/media/js/jquery.dataTables.js</script>
-		<style>/DataTables/media/css/jquery.dataTables.min.css</style>
-	</resource>
-	<resource>
-		<name>DataTables_responsive</name>
-		<style>/DataTables/extensions/Responsive/css/responsive.dataTables.min.css</style>
-		<script>/DataTables/extensions/Responsive/js/DataTables.responsive.min.js</script>
-	</resource>
-	<resource>
-		<name>DataTable_yadcf</name>
-		<uses>DataTable</uses>
-		<uses>JQueryUI</uses>
-		<style>/DataTables/extras/yadcf-0.9.1/jquery.dataTables.yadcf.css</style>
-		<script>/DataTables/extras/yadcf-0.9.1/jquery.dataTables.yadcf.js</script>
-	</resource>
-	<resource>
-		<name>DataTable_mark</name>
-		<uses>JQuery</uses>
-    <script>/DataTables/extras/mark-8.4.2/jquery.mark.min.js</script>
-    <script>/DataTables/extras/mark-8.4.2/datatables.mark.min.js</script>
-    <style>/DataTables/extras/mark-8.4.2/datatables.mark.min.css</style>
-	</resource>
-
-
 
 <!--
 *********************************

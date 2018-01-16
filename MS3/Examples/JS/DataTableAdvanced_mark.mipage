@@ -2,27 +2,33 @@
 ⍝ Control::     _JS.DataTable
 ⍝ Description:: Simple Example slightly advanced with zebra-striping and highlighted search-terms
 
-    ∇ Compose;data;dt
+    ∇ Compose;data;dt;cd
       :Access Public
      
       Add _.p MarkdownFollows
-			⍝## DataTable      
-			⍝ The DataTable widget uses the JS-Library [DataTables](http://datatables.net/)
-			⍝ which provides a very powerful and comprehensive rendering tool for tabular data.
-			⍝ * Uses the "mark"-Option to highlight any strings matching the search-terms.
-			⍝ * Assigning the `display`-class will generate "zebra-striping" in the table
-			⍝   to enhance readability.
-			⍝					
-			⍝## Health Care Spending by Country
-			⍝ Data on this page was taken from the [CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/rankorder/2225rank.html).
+            ⍝## DataTable using mark-plugin and zebra-stripes
+            ⍝ The DataTable widget uses the JS-Library [DataTables](http://datatables.net/)
+            ⍝ which provides a very powerful and comprehensive rendering tool for tabular data.
+            ⍝ This example demonstrates a few enhanced features:
+            ⍝ * Uses the "mark"-Option to highlight any strings matching the search-terms.
+            ⍝ * Assigning the `stripe`-class 
+            ⍝   will generate "zebra-striping" in the table to enhance readability.
+            ⍝ * Setting "`columnDefs`" to assign a class the right-aligns cell-content.
+            ⍝   (This is a standard DataTables-Option that is documented [here](https://datatables.net/reference/option/columns.className))
+            ⍝
+            ⍝## Health Care Spending by Country
+            ⍝ Data on this page was taken from the [CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/rankorder/2225rank.html).
      
       ⍝  [;1] country [;2] % GDP [;3] population [;4] GDP [;5] $/capita
       data←1 #.Files.FREAD #.Boot.AppRoot,'Examples/Data/stats.DCF'
       data[;3 4 5]←0.01×⌊0.5+100×data[;3 4 5]÷[2]1000 1000000 1  ⍝ scale the data a bit
       data⍪⍨←'Country' '% GDP' 'Population (thousands)' 'GDP ($Millions)' '$/Capita'
-      dt←'#sample' '.display'Add _.DataTable data
+      dt←'#sample' '.stripe'Add _.DataTable data
       'mark'dt.Set _true
+      cd←⎕NS¨⊂''
+      cd.className←'dt-body-right'
+      cd.targets←1 2 3 4
+      'columnDefs'dt.Set (,cd)
     ∇
 
 :EndClass
-                        
