@@ -48,7 +48,7 @@
 
     ∇ Make0
       :Access public
-      JQueryFn←Uses←'DataTable'
+      JQueryFn←'DataTable'
       :Implements constructor
       Container←⎕NEW #._DC.Table
       ContainerTag←'table'
