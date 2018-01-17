@@ -29,6 +29,7 @@
       idioms⍪⍨←'Description' ('Expression'(_.br)(_.small 'click to copy to clipboard')) 'Requirements' 'Library'
       dt←'output'Add _.DataTable(idioms('.a333' '.a385 copy' '.a385' '.a333'))
       dt.InitFilterWith←Get'search'
+      dt.FocusFilter←1                              ⍝ set focus to Filter-Control
       'yadcf.Filters[1].(column_number filter_type)'dt.Set 3 'select'
     
     Add _.style ScriptFollows
@@ -50,10 +51,6 @@
 ⍝    border-radius: 10px;
 ⍝}
 
-    Add _.script ScriptFollows
-⍝// Put focus on the Search field
-⍝$(function(){document.querySelector("input[type='search']").focus();})
-⍝
 ⍝// Copies a string to the clipboard. Must be called from within an event handler such as click.
 ⍝// May return false if it failed, but this is not always
 ⍝// possible. Browser support for Chrome 43+, Firefox 42+, Edge and IE 10+.

@@ -55,8 +55,10 @@
           ((∨/e∊Democrats)/'D'),((∨/e∊Republicans)/'R'),((∨/e∊Others)/'O')
       }¨dat[;3]
       dat←#.JSON.serializeAPL dat  ⍝ JSON
-     
+       dat←{w←⍵ ⋄((',['⍷w)/w)←⊂',',⎕ucs 13 ⋄ ∊⍵}dat
+
       dt←'#sample'Add _.DataTable dat
+      dt.FocusFilter←1                              ⍝ set focus to Filter-Control
       dt.Plugins←'yadcf'                            ⍝ enable yadcf (see 'yadcf.Filters'Set.. at the end)
       dt.Options.mark←_true                         ⍝ highlight search-terms
       dt.Options.columns←⎕NS¨7⍴⊂''
