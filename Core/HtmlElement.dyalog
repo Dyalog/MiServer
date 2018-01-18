@@ -154,11 +154,11 @@
         ∇
     :endproperty
 
-    ∇ attr←{plain}ParseAttr arg;split;item;t;f;i;eq;nq;items;n
+    ∇ attr←{plain}ParseAttr arg;split;item;t;f;i;eq;nq;items;n;ind;inds;firstToken;token;name;value;q
       :Access public shared
      
 ⍝ Parse html sttributes
-⍝ {plain} - Boolean indicating whether to not interpret a plain first token as an if
+⍝ {plain} - Boolean indicating whether to not interpret a plain first token as an id
 ⍝ args    - vector of tokens to parse
 ⍝
 ⍝     1)    In only the first token, a simple string (i.e. not in the form 'abc=def') without a leading '#' or '.' is treated as an id
@@ -184,28 +184,44 @@
       :If 0=⎕NC'plain' ⋄ plain←0 ⋄ :EndIf
       arg←eis,arg
       attr←⍬
-      split←{0=⊢/v←∨\(≠\'"'=⍵)<'='=⍵:⍵ ⋄ ((~v)/⍵)({'"'∧.=∊1 ¯1↑¨⊂⍵:¯1↓1↓⍵ ⋄ ⍵}1↓v/⍵)}
+      firstToken←1
       :For i :In ⍳⍴arg
           :Select |≡item←,i⊃arg
           :Case 1
-              :If ~0∊⍴item
-                  :If ∨/eq←'='=item              ⍝ any '=' (i.e.
-                  :AndIf 0≠n←eq+.∧nq←~≠\'"'=item
-                      :If n=1
-                          attr,←⊂split item
-                      :ElseIf 1=eq+.∧nq←nq>≠\''''=item
-                          attr,←⊂split item
-                      :Else ⍝!!! needs more analysis what about cases like:  onchange=''alert("\"we're here)''
-                          attr,←⊃,/1 ParseAttr¨item{⎕ML←3 ⋄ ⍵⊂⍺}nq⍲item=' '
-                      :EndIf
-                  :ElseIf 3>f←'#.'⍳1↑item
-                      attr,←⊂((f⊃'id' 'class')(1↓item))
-                  :ElseIf plain<i=1
-                      attr,←⊂'id'item
-                  :Else
-                      attr,←⊂2⍴⊂item
+              :While ~0∊⍴item
+                  ind←⌊/inds←item⍳' ='
+                  :If ind>1
+                      :Select ind⊃item,' '
+                      :Case ' ' ⍝ we have a single token
+                          :Select ⊃token←(ind-1)⍴item
+                          :Case '.'  ⍝ class shorthand?
+                              attr,←⊂'class'(1↓token)
+                          :Case '#'  ⍝ id shorthand?
+                              attr,←⊂'id'(1↓token)
+                          :Else
+                              :If plain<firstToken ⍝ first token?
+                                  attr,←⊂'id'token
+                              :Else
+                                  attr,←⊂2⍴⊂token
+                              :EndIf
+                          :EndSelect
+                      :Case '='
+                          name←(ind-1)⍴item
+                          value←''
+                          item↓⍨←ind
+                          :If '''"'∊⍨q←⊃item
+                              ind←1⍳⍨(q=item)>¯1↓1,item='\'
+                              value←1↓¯1↓ind⍴item
+                          :Else
+                              ind←item⍳' '
+                              value←(ind-1)⍴item
+                          :EndIf
+                          attr,←⊂name value
+                      :EndSelect
                   :EndIf
-              :EndIf
+                  item↓⍨←ind
+                  firstToken←0
+              :EndWhile
           :Case 2
               attr,←⊂item
           :Else
