@@ -1,44 +1,58 @@
-﻿:Class jBoxAdvancedConfirm : MiPageSample
+﻿:Class jBoxSimpleConfirm : MiPageSample
 ⍝ Control::     _JS.jBox
-⍝ Description::confirmations (works, but may need more features...)
+⍝ Description:: simple Confirmation-Dialogs with limited interaction
 
     ∇ Compose;dd
       :Access public
-			On'MyCancel' 'Callback_MyCancel'
-			On'MyConfirm' 'Callback_MyConfirm'
+      On'MyCancel' 'Callback_MyCancel'
+      On'MyConfirm' 'Callback_MyConfirm'
       Add _.style'.demo {border:2px dotted darkorange}'
      
       Add _.h2'jBox Widget - Advanced sample: Confirmations'
       '.demo'Add _.span'Click this text to get a prompt...' 'data-confirm="Are you sure?"'
-      Add _.br
-
+     
+      :With Add _.div
+          Add _.p
+          Add'Your reply: '
+          '#output'Add _.span'---waiting---'
+          Add _.p
+      :EndWith
+     
       dd←Add _.jBox'Confirm'
-      dd.ScriptOptions←1 0 0 ⍝[1] Wrap in <script>? [2] wrap in $(function(){});? [3] use jQuery Selector syntax (1) or JavaScript new (0)
+      dd.ScriptOptions←1 1 0 ⍝[1] Wrap in <script>? [2] wrap in $(function(){});? [3] use jQuery Selector syntax (1) or JavaScript new (0)
       'confirmButton'dd.Set'Yes, please!'
       'cancelButton'dd.Set'Absolutely not!'
-       'cancel'dd.Set⊂'function(){$(document).trigger("MyCancel");}'
+      'cancel'dd.Set⊂'function(){$(document).trigger("MyCancel");}'
       'confirm'dd.Set⊂'function(){$(document).trigger("MyConfirm");}'
      ⍝ NB: the dialog will automatically attach itself to all elements with a data-confirm-Attribute!
-
+     
       Add _.div ScriptFollows
-     ⍝ This example currently does not have much practical use, as you may want to respond differently to the choices (from your APL-Fn.)
-     ⍝ Pls. see the <a href="./jboxAdvancedConfOnLoad">example with a Confirm-Box appreaing on PageLoad</a> for more
-     ⍝ insight on integration/interaction between APL and JS.
-
-
-      '#output'Add _.p 'Please take a decision!'
+     ⍝ Study the code to see how the user's response (Confirm or Cancel) triggers a custom JS-Event ("My...")
+     ⍝ for which we defined "listeners" in APL (the My...-Event in JS fires the "Callback_My..."-fn in APL).
+     ⍝ The example, however, is a bit simplistic because we assume that the confirmation is
+     ⍝ triggered as the users clicks some text. Often you may want to execute some JS
+     ⍝ and THEN have the user confirm something. Such advanced usage is illustrated in other examples:
+     ⍝ <ul>
+     ⍝  <li><a href="./jBoxAdvancedConfOnLoad.mipage">jBoxAdvancedConfOnLoad</a> shows how to
+     ⍝      create and fire a confirmation on PageLoad</li>
+     ⍝  <li><a href="./jBoxAdvancedConfFromAPL.mipage">jBoxAdvancedConfFromAPL</a> execute some
+     ⍝      APL-Code which then asks for confirmation and returns selection to APL.</li>
+     ⍝ </ul>
+     
+     
     ∇
-    
-    
+
+
     ∇ R←Callback_MyConfirm
-    :access public
-    R←'#output'Replace 'Thank you for confirming!'
+      :Access public
+      R←'#output'Replace'Thank you for confirming!'
+      R,←Execute'$("#output").css("background-color","#7d0");'
     ∇
-    
-    
-    
+
+
     ∇ R←Callback_MyCancel
-    :access public
-    R←'#output'Replace 'You decided to cancel.'
+      :Access public
+      R←'#output'Replace'You decided to cancel.'
+      R,←Execute'$("#output").css("background-color","#ddd");'
     ∇
 :EndClass

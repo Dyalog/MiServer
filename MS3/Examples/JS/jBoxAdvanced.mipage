@@ -5,7 +5,7 @@
     ∇ Compose;tab;jTab;dt;columns;ocw;dd;daSpan;NiceDiv;t3
       :Access public
 
-      Use'faIcons'
+      Use'faIcons5css'
       Use'dcPanel'  ⍝ required by Panel that is used in callback function
        Add _.style'.demo {padding-top:2px; background-color: orange;}'
     
@@ -27,7 +27,7 @@
       t1←Add _.span 'This texts''s tooltip will appear (and disappear) when you click on the text!'
      ⍝ Following declarations (in combination with the dd-jBox assigned before) are sufficient to create the tooltips. All clickable ttips
      ⍝ can then be created just using the attributes data-jbox-content (and optionally data-jbox-title) on elements with class "tooltipclicked"
-      t1.Set'data-jbox-content="Not that I''d have to say anything...!" class="demo tooltipclicked" data-jbox-title="Important title!"'
+      t1.Set'data-jbox-content="Not that I''d have to say anything...!"' 'class="demo tooltipclicked"' 'data-jbox-title="Important title!"'
      
       (dd←Add _.jBox).Selector←'.tooltip2'
       'getTitle'dd.Set'data-jbox-title'           ⍝ the following applies to all items with class="tooltip2", all set up with this one instance!

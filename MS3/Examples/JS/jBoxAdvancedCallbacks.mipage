@@ -1,4 +1,4 @@
-﻿:Class jBoxCallbacksAdvanced : MiPageSample
+﻿:Class jBoxAdvancedCallbacks : MiPageSample
 ⍝ Control::     _JS.jBox
 ⍝ Description:: Using jBox in callback-functions to display notices or modal popups
 
@@ -13,31 +13,31 @@
       Add _.h2'jBox Widget - Advanced sample: shared functions for use in your callbacks'
             Add _.h3 'Disclaimer'
             Add 'The following examples use '
-            Add _.span 'this style'
+            '.demo'Add _.span 'this style'
             Add ' to indicate click-sensitive regions that are linked to the documented functionality.'
             Add 'This styling is only used to facilitate use of these examples and should in no way serve as example for your use-cases! ;-)'
 
       Add _.h3 'Notices'
       
-      dd←Add _.div'Click the following "pseudo sample-links" to trigger notices that will automatically hide after a bit. Also observe the behaviour when you click repeatedly!'
+      dd←Add _.div'Click the following "pseudo sample-links" to trigger notices that will automatically hide after a bit. Also observe the behaviour when you click repeatedly! '
       ('.demo' '#notice'dd.Add _.span'Simple notice').On'click' 'FireNoticeSimple'
       dd.Add' and '
       ('.demo'dd.Add _.span'advanced (green & sliding)').On'click' 'FireNoticeAdvanced1'
       dd.Add' or '
       ('.demo'dd.Add _.span'advanced (yellow, sliding & decorated)').On'click' 'FireNoticeAdvanced2'
-      dd.Add'sample.'
+      dd.Add' sample.'
      
          Add _.h3 'Modal popups'
       dd←Add _.div'Click here for '
       ('.demo'dd.Add _.span'simple').On'click' 'FireModalSimple'
       dd.Add' or '
       ('.demo'dd.Add _.span'advanced').On'click' 'FireModalAdvanced1'
-      dd.Add'popups.'
+      dd.Add' popups.'
       dd.Add ' They autoclose when you click outside the msg or press &lt;Esc&gt;.'
       dd←Add _.div 
-      dd.Add _.b 'But...'
+      dd.Add _.b 'But... '
       ('.demo'dd.Add _.span'this box').On'click' 'FireModalAdvanced2'
-      dd.Add 'requires you to click the Close-X (top right) to close the msg!'
+      dd.Add ' requires you to click the Close-X (top right) to close the msg!'
       
      
     ∇
@@ -67,6 +67,7 @@
 
     ∇ R←FireModalSimple;opts;MyPanel;cnt
       :Access public
+      ⎕←'FMS!'
       R←Execute _.jBox.Modal'Hello from a simple modal popup!'
     ∇    
 

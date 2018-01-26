@@ -68,15 +68,21 @@
 	</resource>
 
 <!-- 
-****************************
-*      jBox resources      *
-****************************
+*********************************************
+*      jBox resources (including plugins)   *
+*********************************************
 -->
 	<resource>
 		<name>jBox</name>
 		<uses>JQuery</uses>
 		<script>/jBox/jBox.min.js</script>
 		<style>/jBox/jBox.css</style>
+		<style>/jBox/plugins\Confirm\jBox.Confirm.css</style>
+		<script>/jBox/plugins\Confirm\jBox.Confirm.min.js</script>
+		<style>/jBox/plugins\Notice\jBox.Notice.css</style>
+		<script>/jBox/plugins\Notice\jBox.Notice.min.js</script>
+		<style>/jBox/plugins\Image\jBox.Image.css</style>
+		<script>/jBox/plugins\Image\jBox.Image.min.js</script>
 	</resource>
 <!-- 
 *********************************

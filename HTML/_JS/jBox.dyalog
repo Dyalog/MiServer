@@ -29,6 +29,14 @@
     :field public Message←''
     :field public Theme←''
 
+
+      VarExists←{
+        ⍝ ⎕NC might be 0, but the var (field of parent class) was assigned a value
+        ⍝ so we're using this check to check whether it was used or not.
+          0::0
+          0<≢0,⍎⍵
+      }
+
     ∇ make
       :Access public
       JQueryFn←Uses←'jBox'
@@ -52,10 +60,18 @@
       'Invalid jBox Type'⎕SIGNAL(ind>⍴Types)/11
       Type←ind⊃Types
       Container.Content←Content
-      :If ~0∊⍴Message  ⍝ do not overwrite content if Message is empty!
-          'content'Set renderIt New _.span Message       
+      :If 0<≢Message  ⍝ do not overwrite content if Message is empty!
+          'content'Set renderIt New _.span Message
       :EndIf
-      BuildHTML←~0∊⍴Content
+      BuildHTML←0<≢Content
+      :If ind∊4 6 ⍝ Confirm & Image
+      :AndIf 0=VarExists'ScriptOptions'
+         ⍝===ScriptOptions===
+         ⍝[1] Wrap in <script>?
+         ⍝[2] wrap in $(function(){});?
+         ⍝[3] use jQuery Selector syntax (1) or JavaScript new (0)
+          ScriptOptions←1 1 0
+      :EndIf
       :If 0<⍴Theme
           'theme'Set Theme
           Use'⍕/jBox/themes/',Theme,'.css'
@@ -85,10 +101,11 @@
       :If 9=⎕NC'opts'
           jb.Options←opts
       :EndIf
-      'onInit'jb.Set'function() { this.open(); }'
+      'onInit'jb.Set⊂'function() { this.open(); }'
       r←jb.Render
     ∇
 
 
 
 :EndClass
+

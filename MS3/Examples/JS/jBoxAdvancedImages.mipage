@@ -1,4 +1,4 @@
-﻿:Class jBoxImagesAdvanced : MiPageSample
+﻿:Class jBoxAdvancedImages : MiPageSample
 ⍝ Control::     _JS.jBox
 ⍝ Description:: Image-galleries with jBox
 
@@ -42,6 +42,6 @@
      ⍝<a href="../Data/pic3.png" data-jbox-image="gallery1" class="demo-img1" title="Creating RNA to match a DNA is easier in APL than in the lab!">
      ⍝<img src="../Data/pic3_thumb.png" alt=""></a>
       dd←'#imgs'Add _.jBox'Image'
-      dd.ScriptOptions←1 0 0
+      dd.ScriptOptions←1 1 0
     ∇
 :EndClass

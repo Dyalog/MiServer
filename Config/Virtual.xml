@@ -35,7 +35,7 @@
 
   <directory>
     <alias>jBox</alias>
-    <path>%ServerRoot%/PlugIns/Other/jBox/</path>
+    <path>%ServerRoot%/PlugIns/Other/jBox-0.4.9/</path>
   </directory>
 
   <directory>
