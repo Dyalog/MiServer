@@ -47,9 +47,7 @@
 ⍝            doc.content[1].table.body[i][4].alignment = 'right';
 ⍝    };
 ⍝}
-     
-     
-      dt.Options.buttons←,⊂'excelHtml5' ⍝ ns7
+       dt.Options.buttons←ns7
      
 ⍝ NB: no need to explicitely specify dt.Plugins - they were auto-detected 
 ⍝     (even those triggered through Options.buttons.extend - though this mechanism
