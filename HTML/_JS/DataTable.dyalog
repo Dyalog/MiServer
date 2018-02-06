@@ -15,10 +15,14 @@
 ⍝ HeaderAttr     - Header attributes
 ⍝ MakeCellIds    - 1 to generate IDs      <td id="tableId_r2c3">
 ⍝ MakeRowIds     - 1 to generate Row IDs  <tr id="tableId_row2">
+⍝                  Warning: this ids are generated, but if you need them in order to provide
+⍝                  meaningful tools for interaction with the table, it is recommended
+⍝                  to use DataTable's features instead which may be more useful!
 ⍝ Width          - (string) width of the table
 ⍝ InitFilterWith - initalize "Search"-field with this string
-⍝ PlugIns        - comma delimited list of "official" plugins to use
 ⍝ FocusFilter    - put initial focus on Filter-Control (boolean, default=0)
+⍝ Bootstrap      - integer (use Boostrap-styling. 0=no, 1 or 4=BS4, 3=BS3)
+⍝ PlugIns        - comma delimited list of "official" plugins to use
 ⍝
 ⍝  currently supported plugins are:
 ⍝    yadcf (yet another datatable column filter) - needs to be explicitely referenced
@@ -27,7 +31,6 @@
 ⍝    buttons -provides options to copy data to Excel, print and toggle columns
 ⍝    NB: this mechanism currently supports a subset of Datatable's plugins/extensions.
 ⍝        Please let us know (miserver@dyalog.com) if your favourite Plugin is missing!
-⍝ Bootstrap      - integer (use Boostrap-styling. 0=no, 1 or 4=BS4, 3=BS3)
 
     :Field public shared readonly DocBase←'https://www.datatables.net/'
     :field public Data←0 0⍴⊂''
@@ -99,6 +102,7 @@
               Plugins,←∊(⊂',buttons.'),¨⊆btn.extend
           :ElseIf 2=⎕NC'btn'
               Plugins,←∊(⊂',buttons.'),¨⊆btn
+              'buttons'Set,⊂∊btn ⍝ ensure it is nested
           :EndIf
       :EndIf
       :If 0<≢InitFilterWith
