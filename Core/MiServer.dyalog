@@ -155,7 +155,7 @@
                       ConnectionDelete obj
                   :EndIf
                   :If 0≠4⊃wres
-                      (1+(4⊃wres)∊1008 1105 1119)Log'RunServer: DRC.Wait reported error ',(⍕#.DRC.Error 4⊃wres),' on ',2⊃wres
+                      (1+(4⊃wres)∊1008 1105 1119)Log'RunServer: DRC.Wait reported error ',(⍕#.Conga.Error 4⊃wres),' on ',2⊃wres
                   :EndIf
      
               :Case 'Connect'
@@ -407,7 +407,7 @@
       :EndSelect
      
       →0↓⍨conns.Req.Complete ⍝ exit if request is not complete
-
+     
       REQ←conns.Req
       REQ.Server←⎕THIS ⍝ Request will also contain reference to the Server
       res←REQ.Response
@@ -869,5 +869,3 @@
     :endsection
 
 :EndClass
-⍝)(!MoveRequestData!!0 0 0 0 0 0 0!0
-⍝)(!Virtual!!0 0 0 0 0 0 0!0
