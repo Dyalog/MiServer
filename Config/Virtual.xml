@@ -45,7 +45,7 @@
 
   <directory>
     <alias>chosen</alias>
-    <path>%ServerRoot%/PlugIns/Other/chosen-1.6.2/</path>
+    <path>%ServerRoot%/PlugIns/Other/chosen-1.8.3/</path>
   </directory>
 
   <directory>
