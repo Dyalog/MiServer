@@ -5,30 +5,30 @@
     ∇ Compose;data;dt
       :Access Public
      
-     Add _.p MarkdownFollows
-			⍝## DataTable      
-			⍝ The DataTable widget uses the JS-Library [DataTables](http://datatables.net/)
-			⍝ which provides a very powerful and comprehensive rendering tool for tabular data.
-			⍝ * this example uses the "yadcf"-Plugin for filtering of data
-			⍝ * numeric colums right-aligned by assigning specific CSS-Class
-			⍝					
-			⍝## Health Care Spending by Country
-			⍝ Data on this page was taken from the [CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/rankorder/2225rank.html).
-        
+      Add _.p MarkdownFollows
+   ⍝## DataTable with yadcf-Filtering
+   ⍝ The DataTable widget uses the JS-Library [DataTables](http://datatables.net/)
+   ⍝ which provides a very powerful and comprehensive rendering tool for tabular data.
+   ⍝ * this example uses the "yadcf"-Plugin for filtering of data
+   ⍝ * numeric colums right-aligned by assigning specific CSS-Class
+   ⍝					
+   ⍝## Health Care Spending by Country
+   ⍝ Data on this page was taken from the [CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/rankorder/2225rank.html).
+     
       ⍝  [;1] country [;2] % GDP [;3] population [;4] GDP [;5] $/capita
       data←1 #.Files.FREAD #.Boot.AppRoot,'Examples/Data/stats.DCF'
       data[;3 4 5]←0.01×⌊0.5+100×data[;3 4 5]÷[2]1000 1000000 1  ⍝ scale the data a bit
       data⍪⍨←'Country' '% GDP' 'Population (thousands)' 'GDP ($Millions)' '$/Capita'
       dt←'#sample' '.display'Add _.DataTable data
       'mark'dt.Set _true                ⍝ mark search-terms
-      
+     
       ⍝ make sure numeric columns are right-aligned
       ⍝ (currently Set can work with one index only, Brian may extend it...)
       'columns[2].className'dt.Set'dt-right'
       'columns[3].className'dt.Set'dt-right'
       'columns[4].className'dt.Set'dt-right'
       'columns[5].className'dt.Set'dt-right'
-
+     
       dt.Plugins←'yadcf'
       'yadcf.Filters[1].(column_number filter_type)'dt.Set 1 'range_number_slider'
       'yadcf.Filters[2].(column_number filter_type)'dt.Set 2 'range_number_slider'
@@ -37,4 +37,3 @@
     ∇
 
 :EndClass
-                        

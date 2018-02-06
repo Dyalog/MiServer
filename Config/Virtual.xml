@@ -35,12 +35,12 @@
 
   <directory>
     <alias>jBox</alias>
-    <path>%ServerRoot%/PlugIns/Other/jBox/</path>
+    <path>%ServerRoot%/PlugIns/Other/jBox-0.4.9/</path>
   </directory>
 
   <directory>
     <alias>DataTables</alias>  
-    <path>%ServerRoot%/PlugIns/Other/DataTables-1.10.12/</path>
+    <path>%ServerRoot%/PlugIns/Other/DataTables-1.10.16/</path>
   </directory>
 
   <directory>

@@ -1,0 +1,4 @@
+77c77
+<  	$DYALOG/dyalog.rt $OPTS 0<&- 1>&- 2>&- &
+---
+>  	$DYALOG/dyalog.rt $OPTS 0<&- 1>&- 2>&-

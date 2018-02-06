@@ -12,7 +12,7 @@
       Cacheable←1
     ∇
 
-    ∇ Compose;cols;tabs;rows;div
+    ∇ Compose;cols;tabs;rows;div;dt
       :Access Public
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
@@ -41,8 +41,10 @@
       cols,←⊂(⊂'Type'),C.type
       cols,←⊂(⊂'Main controls used'Over'documentation links'),C.used
       div←'samples'New _.div
-      div.Add _.p _.A'Browse Examples Directory' '/Examples/'
-      div.Add'eg' '.display'New _.DataTable(⍉↑cols)
+      div.Add _.div _.A'Browse Examples Directory' '/Examples/'
+      dt←div.Add'eg' '.display'New _.DataTable(⍉↑cols)
+      'yadcf.Filters[1].(select_type column_number)'dt.Set'select' 1
+      'lengthMenu'dt.Set(10 25 50 ¯1)(10 25 50 'All')  ⍝ also allow "All"
       tabs.Sections,←div
      
      ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝

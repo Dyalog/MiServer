@@ -373,7 +373,7 @@
       :EndIf
     ∇
 
-    ∇ ConfigureResources ms;file;mask;inds;names;uses;map;n;res;f;missing;order;files;resources;which
+    ∇ ConfigureResources ms;file;mask;inds;names;uses;map;n;res;f;missing;order;resources;files;which
       ⍝ load resource definitions if any
       ms.Config.Resources←0 3⍴⊂''
       :If ~0∊⍴res←'name'ReadConfiguration'Resources'

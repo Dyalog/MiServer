@@ -16,6 +16,10 @@
 ⍝ This sample uses data about US-Newspapers and their endorsements in the presedential elections.
 ⍝ It was collected by Noah Veltman, he described the process on his [homepage](http://noahveltman.com/endorsements/).
 ⍝ Data available on [GitHub](https://github.com/veltman/endorsements/).
+⍝### HEALTH WARNING
+⍝ This example is intentionally complex - just to illustrate the flexibility
+⍝ Datatables provides to customize and filter its output. Knowledge of JS 
+⍝ will be beneficial to understand it.
 ⍝### Techniques used
 ⍝
 ⍝* JSON-Datasource: in this example the data is provided as a JSON-Object.
@@ -51,15 +55,17 @@
           ((∨/e∊Democrats)/'D'),((∨/e∊Republicans)/'R'),((∨/e∊Others)/'O')
       }¨dat[;3]
       dat←#.JSON.serializeAPL dat  ⍝ JSON
-     
+       dat←{w←⍵ ⋄((',['⍷w)/w)←⊂',',⎕ucs 13 ⋄ ∊⍵}dat
+
       dt←'#sample'Add _.DataTable dat
+      dt.FocusFilter←1                              ⍝ set focus to Filter-Control
       dt.Plugins←'yadcf'                            ⍝ enable yadcf (see 'yadcf.Filters'Set.. at the end)
       dt.Options.mark←_true                         ⍝ highlight search-terms
       dt.Options.columns←⎕NS¨7⍴⊂''
-      dt.Options.columns[⍳4].visible←⊂_true
-      dt.Options.columns[5 6 7].visible←⊂_false
-      dt.Options.columns[1 2 3 4].title←'Publication' 'Year' 'Endorsed' 'Source(s)'
-      dt.Options.columns[4 5].searchable←_false
+      dt.Options.columns[].visible←⊂_true
+      dt.Options.columns[5 6 ].visible←⊂_false
+      dt.Options.columns[1 2 3 4 7].title←'Publication' 'Year' 'Endorsed' 'Source(s)' 'Party (Shortcode)'
+      dt.Options.columns[4 5 6].searchable←⊂_false
      
      
       dt.Options.columns[3].createdCell←⊂ScriptFollows
@@ -95,8 +101,10 @@
      
      
       Add _.Script ScriptFollows
-      ⍝ function myCustomFilterFunction(filterVal,columnVal)
-      ⍝ {
+      ⍝ function myCustomFilterFunction(filterVal,columnVal,rowValues,stateVal)
+      ⍝ {                     
+      ⍝ console.log(rowValues);
+      ⍝ console.log(filterVal+'/'+columnVal);
       ⍝ var found=-1;
       ⍝ if (columnVal === '') { return true;}
       ⍝ return -1 < columnVal.search(filterVal);

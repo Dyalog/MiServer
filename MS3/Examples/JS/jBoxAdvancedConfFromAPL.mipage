@@ -1,0 +1,75 @@
+﻿:Class jBoxAdvancedConfirmFromAPL : MiPageSample
+⍝ Control::     _JS.jBox
+⍝ Description:: jBox-confirmations triggered from APL-Callback (tight integration of APL and JS-Callbacks)
+
+    ∇ Compose;dd;inp
+      :Access public
+      Add _.style'.demo {border:2px dotted darkorange}'
+     
+      Add _.h2'jBox Widget - Advanced sample: Confirmations triggered from APL'
+     
+     ⍝ NB: this code will create an object with the dialog already!
+     ⍝ We assign the jBox-Object to var "objConfirm" and will
+     ⍝ later refer to it in the APLJax-Function.
+      dd←Add _.jBox'Confirm' ⍝ initialised w/o a prompt!
+      dd.Var←'objConfirm'    ⍝ assign to variable "objConfirm"
+     
+      ⍝ the selection of cancel or confirm in the dialog will
+      ⍝ trigger different JS-Events:
+      'cancel'dd.Set⊂'function(){$(document).trigger("MyCancel");}'
+      'confirm'dd.Set⊂'function(){$(document).trigger("MyConfirm");}'
+      'confirmButton'dd.Set'Confirm'
+      'cancelButton'dd.Set'Nah, don''t touch!'
+     
+     ⍝ We're asking APL to respond to these events by executing
+     ⍝ different callback-functions:
+     
+      On'MyCancel' 'Callback_MyCancel'
+      On'MyConfirm' 'Callback_MyConfirm'('myNum' 'val' '#myNum')
+      ⍝ this callbacks gets additional input that can be retrieved using "Get"
+     
+     
+      Add _.div ScriptFollows
+     ⍝ <p>Study the code to see APL and JS interact: user enters a number which triggers
+     ⍝ APLJax. It then evaluates the input and asks a prompt (JS using jBox)
+     ⍝ and user's response is fed back to APL which executes different functions
+     ⍝ depending on user's choice.
+     ⍝ Note that the jBox-Dialog is prepared (created) by APL-Statements and then
+     ⍝ opened when it is needed using the open-Command in JS.</p>
+     ⍝ <p>Admittedly this is poor functionality, but the sample is supposed to illustrate the pricinples
+     ⍝ of working with callbacks in JS and APL to achive best user-experience.</p>
+     
+      Add('Please enter a number'(inp←'#myNum'New _.input'' 'type=number'))
+      inp.On'change' 1('myNum' 'val' '#myNum')⍝ execute fn APLJax (see below!)
+     
+      '#output'(Add _.p).Add _.span
+    ∇
+
+    ∇ R←APLJax;num;txt
+      :Access public
+      num←Get'myNum'
+      txt←'Should we multiply your input (the number ',(⍕num),') with a factor of 2?'
+      txt,←'<br/><b>Hint:</b> expect a result somewhere between ',{⍵[1],' and ',⍵[2]}(⍕¨num×1.88776 2.23748)
+      R←Execute'objConfirm.setContent("',txt,'");'    ⍝ change text of jBox-Prompt
+      R,←Execute'objConfirm.open();'                  ⍝ open dialog
+    ∇
+
+
+
+    ∇ R←Callback_MyConfirm;myNum
+      :Access public
+      myNum←Get'myNum'
+      R←'#output'Replace('Thank you for confirming! The result of multiplying ',(⍕myNum),' by 2 is ',(⍕2×myNum),'.')
+      R,←Execute'$("#output").css("background-color","#7d0");'
+    ∇
+
+
+    ∇ R←Callback_MyCancel
+      :Access public
+      R←'#output'Replace'You decided to cancel. We''re not multiplying your data!'
+      R,←Execute'$("#output").css("background-color","#ddd");'
+    ∇
+
+
+
+:EndClass

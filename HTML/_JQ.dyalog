@@ -199,6 +199,7 @@
 
         ∇ {r}←{name}Set value
           :Access public
+          r←⎕THIS
           →(0∊⍴value)⍴0
           :If 326≠⎕DR Options ⋄ Options←⎕NS'' ⋄ :EndIf
           :If 0=⎕NC'name'
@@ -209,7 +210,6 @@
               :EndTrap
           :EndIf
           name(Options SetOption)value
-          r←⎕THIS
         ∇
 
         ∇ {r}←name SetIfNotSet value
