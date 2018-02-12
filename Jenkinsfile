@@ -9,7 +9,7 @@ node ('Docker') {
                         DockerApp = docker.build 'registry.dyalog.com:5000/dyalog/miserver:latest'
                 }
                 stage ('Test website') {
-                        def MiServer = DockerApp.run ()
+                        def MiServer = DockerApp.run ('-e USE_DEVMODE=true')
                         try {
 				//Get the IP of the container
 				def DOCKER_MS = sh (
