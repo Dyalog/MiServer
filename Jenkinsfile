@@ -16,7 +16,7 @@ node ('Docker') {
 					script: "docker inspect ${MiServer.id} | jq .[0].NetworkSettings.IPAddress | sed 's/\"//g'",
 					returnStdout: true
 				).trim()
-                                sh "sleep 5; curl -s --retry 5 --retry-delay 5 -q http://${DOCKER_MS}:8080/ | grep \"Dyalog MiServer 3.0 Sample Site\" >/dev/null"
+                                sh "sleep 5; curl --connect-timeout 10 -m 10 -s --retry 5 --retry-delay 5 -q http://${DOCKER_MS}:8080/ | grep \"Dyalog MiServer 3.0 Sample Site\" >/dev/null"
                                 MiServer.stop()
                         } catch (Exception e) {
                                 println 'Failed to find string "Dyalog MiServer 3.0 Sample Site" cleaning up.'
