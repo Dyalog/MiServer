@@ -63,7 +63,7 @@
       Host←GetHeader'host'
       Page query←'?'split Input
       Page←PercentDecode Page
-          
+     
       :If '/'≠⊃Page  ⍝!!! need to update this to deal with absolute URI's, see https://tools.ietf.org/html/rfc7230#section-5.3.2
           1 Fail 400
           →0
@@ -72,8 +72,9 @@
       Arguments←URLDecodeArgs query
      
       :If ~0∊⍴cookies←GetHeader'cookie'
+          cookies←CookieSplit cookies
           :If ~0∊⍴cookies←(2=⊃∘⍴¨cookies)/cookies
-              Cookies←↑{((#.Strings.lc(1⊃⍵)~' '))(DeCode 2⊃⍵)}¨cookies
+              Cookies←↑{(' '~⍨1⊃⍵)(DeCode 2⊃⍵)}¨cookies
           :EndIf
       :EndIf
       :If 'get'≡Method
@@ -563,9 +564,3 @@
     ∇
 
 :EndClass
-⍝)(!DecodeHeader!!0 0 0 0 0 0 0!0
-⍝)(!HttpStatus!!0 0 0 0 0 0 0!0
-⍝)(!PercentDecode!!0 0 0 0 0 0 0!0
-⍝)(!URLDecodeArgs!!0 0 0 0 0 0 0!0
-⍝)(!URLEncode!!0 0 0 0 0 0 0!0
-⍝)(!eis!!0 0 0 0 0 0 0!0
