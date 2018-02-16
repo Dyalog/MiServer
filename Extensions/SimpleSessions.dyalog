@@ -64,7 +64,7 @@
               tn←(req.Server.Config.Root,'sessions.dcf')⎕FSTIE 0
               NextSession ⎕FREPLACE tn,1
               ⎕FUNTIE tn
-              req.SetCookie'Session'c
+              req.SetCookie'Session'c '/' 30 'HttpOnly'
               req.Session←r
               req.Server.onSessionStart req
      

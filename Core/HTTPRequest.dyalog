@@ -297,14 +297,25 @@
       r←name GetFromTableCS Cookies ⍝ cookie names are case sensitive
     ∇
 
-    ∇ SetCookie ctl;name;value;path;date;z;keep
+    ∇ SetCookie ctl;name;value;path;date;z;keep;other
       :Access Public Instance ⍝ Set a Cookie
+      ⍝  ctl [1] cookie name, [2] value, [3] path that cookie applies to,
+      ⍝      [4] expires - can be a single number of days to offset from today
+      ⍝                    a character vector of a properly formatted timestamp (see #.Dates.CookieFmt)
+      ⍝                    an integer vector of 3-6 elements in ⎕TS format
+      ⍝      [5] a character vector of any other cookie parameters - e.g. HttpOnly
       ctl←eis ctl
-      name value path keep←ctl,(⍴ctl)↓'CookieName' 'CookieValue' '/' 30
-      date←#.Dates.IDNToDate keep+#.Dates.DateToIDN 3↑⎕TS ⍝ keep is # of days cookie should be valid
-      z←#.Dates.CookieFmt(3↑date),23 59 59
-      z←name,'=',(⍕value),'; path=',path,'; expires="',z,'"'
-      Response.Headers⍪←'set-cookie'z
+      name value path keep other←ctl,(⍴ctl)↓'CookieName' 'CookieValue' '/' 30 ''
+      :If ~0∊⍴date←keep
+          :If 2|⎕DR keep
+              :If 1=⍴,keep
+                  date←#.Dates.IDNToDate keep+#.Dates.DateToIDN ⎕TS ⍝ keep is # of days cookie should be valid
+              :EndIf
+              date←#.Dates.CookieFmt 6↑date
+          :EndIf
+      :EndIf
+      z←name,'=',(⍕value),(path ine'; Path=',path),(date ine'; Expires=',date),other ine('; '≡2↑other)↓'; ',other
+      Response.Headers⍪←'Set-Cookie' z
     ∇
 
     :endsection
