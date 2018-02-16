@@ -294,7 +294,7 @@
 
     ∇ r←GetCookie name
       :Access Public Instance
-      r←name GetFromTable Cookies
+      r←name GetFromTableCS Cookies ⍝ cookie names are case sensitive
     ∇
 
     ∇ SetCookie ctl;name;value;path;date;z;keep
