@@ -79,7 +79,7 @@
         ∇
         ∇ r←names
           :Access public
-          :If 0∊⍴value ⋄ r←⍬ ⋄ →0 :EndIf
+          :If 0∊⍴value ⋄ r←⍬ ⋄ →0 ⋄ :EndIf
           r←1⊃¨value
         ∇
     :endclass
