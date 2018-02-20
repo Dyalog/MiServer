@@ -71,7 +71,7 @@
       pars←eis pars
       delegate←''
       sel evt attr resp script←5↑pars,(⍴pars)↓'' '' '' '' ''
-      :If 1<|≡sel ⋄ sel delegate←sel ⋄ delegate←', ',quote delegate :EndIf
+      :If 1<|≡sel ⋄ sel delegate←sel ⋄ delegate←', ',quote delegate ⋄ :EndIf
       data←'event: evt.type, what: $(evt.currentTarget).attr("id")'
       :If 2=|≡attr ⋄ attr←,⊂attr ⋄ :EndIf
       :For at :In attr
