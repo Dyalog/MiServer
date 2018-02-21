@@ -28,14 +28,22 @@
       p.Add' custom styling'
      
       p←Add _.p
-      p.Add _.Icon'fa-square fa-2x' 'fa-terminal fa-inverse'
-      p.Add' small on large'
+      p.Add _.Icon'far-square fa-2x' 'fas-terminal'
+      p.Add' &nbsp; small terminal on large square'
+     
+      p←Add _.p
+      p.Add _.Icon'far-square fa-2x'('data-fa-transform="shrink-4 right-4"'New _.Icon'fas-terminal')
+      p.Add' &nbsp; small terminal on large square (looks better with resized and slightly shifted terminal-icon using advanced options)'
      
       p←Add _.p
       i←p.Add _.Icon
-      i.Add _.Icon'fa-battery-full'
-      'style="font-size: 2em; opacity: 0.7;"'i.Add _.Icon'fa-times red'
-      p.Add' large on small'
+      i.Add _.Icon'fas-battery-full'
+      'style="font-size: 1.5em; opacity: 0.7;"'i.Add _.Icon'fas-times red'
+      p.Add' large red X on small battery'
+     
+      p←Add _.p
+      'style=color:orange'p.Add _.Icon'fab-dyalog fa-2x'
+      p.Add' Dyalog sponsored the development of FontAwesome 5 and was rewarded with this icon.'
     ∇
 
 :EndClass

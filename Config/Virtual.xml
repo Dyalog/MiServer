@@ -29,6 +29,11 @@
   </directory>
 
   <directory>
+    <alias>FontAwesome5</alias>
+    <path>%ServerRoot%/PlugIns/Other/fontawesome-free-5.0.4/</path>
+  </directory>
+
+  <directory>
     <alias>material-icons</alias>
     <path>%ServerRoot%/PlugIns/Other/material-icons/</path>
   </directory>
