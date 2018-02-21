@@ -103,7 +103,13 @@
       :Else
           date←1↓∊','∘,∘⍕¨0 ¯1 0 0 0 0+6↑date
       :EndIf
-      r←(~eval)↓'⍎new Date(',date,')'
+⍝      r←(~eval)↓'⍎new Date(',date,')'
+⍝ ⍝ 180221, MBaas: ⍎ no longer supported
+      :If eval
+          r←⊂'new Date(',date,')'
+      :Else
+          r←'new Date(',date,')'
+      :EndIf
     ∇
 
     ∇ r←{varname}JSData data
