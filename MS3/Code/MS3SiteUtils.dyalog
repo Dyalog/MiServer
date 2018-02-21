@@ -106,13 +106,12 @@
 
       External←{ ⍝ Icon off-site link
           ⍺←''
-      ⍝    '.external' 'target=_blank' 'data-dyalog-tip="External link"'New _.A((⍺,'&#x1f517;')⍵)
           '<a class=".external" target="_blank" data-dyalog-tip="External link" href="',⍵,'">',⍺,'&#x1f517;</a>'
       }
 
       DescrEmbed←{ ⍝ Link to and iframed page
           l←('Description'Section Read ⍵),'<br />'
-          l,←'<a target="_blank" href="/',⍵,'">Open this '
+          l,←'<a href="/',⍵,'">Open this '
           l,←'simple sample' 'advanced sample' 'mini-app'⊃⍨1⍳⍨∨/¨'Simple' 'Advanced'⍷¨⊂⍵
           l,←' in a new tab</a>'
           e←'<iframe src="/',⍵,'?nowrapper=1"></iframe>'
@@ -121,8 +120,7 @@
 
       Link←{ ⍝ New-tab link with optional (⍺) "tooltip"
           ⍺←0
-          ⍝(('data-dyalog-tip=',Q ⍺){⍺ ⍵}⍣(⍺≢0)⊢'target="_blank"')New _.A ⍵
-          '<a target="_blank" href=',(Q⊃⌽⍵),((⍺≢0)/' data-dyalog-tip=',Q ⍺),'>',(⊃⍵),'</a>'
+          '<a href=',(Q⊃⌽⍵),((⍺≢0)/' data-dyalog-tip=',Q ⍺),'>',(⊃⍵),'</a>'
       }
 
       DocLink←{ ⍝ Link to WidgetDoc with appropriate parameters
