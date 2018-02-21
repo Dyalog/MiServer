@@ -663,7 +663,7 @@
               inst._TimedOut←0
      
               :If RESTful
-                  :If (⊂'content-type')(∊#.Strings.nocase)REQ.Response.Headers[;1]
+                  :If ~(⊂'content-type')(∊#.Strings.nocase)REQ.Response.Headers[;1]
                       'Content-Type'REQ.SetHeader'application/json'
                       resp←1 #.JSON.fromAPL resp
                   :EndIf

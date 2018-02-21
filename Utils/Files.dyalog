@@ -282,17 +282,18 @@
     ⍝ Information returned is:
     ⍝ [;0] Name [;1] Length [;2] LastAccessTime [;3] IsDirectory
     ⍝ (cover for MiServer's Files.List)
-     
+      r←0 4⍴'' 0 ⍬ 0
       path←Normalize path
       hasPattern←~0∊⍴pattern←{6::⍵ ⋄ pattern}''
       isFolder←'/'=¯1↑path
       :If isFolder≠hasPattern
           pattern←'/',pattern,hasPattern↓'*'
       :EndIf
-     
-      r←⍉↑0 2 3 1(⎕NINFO⍠1)path,pattern
-      r[;4]←r[;4]=1           ⍝ flag directories
-      r[;1]←Filename¨r[;1]  ⍝ remove paths
+      :Trap 22  ⍝ file name error (file not found)
+          r←⍉↑0 2 3 1(⎕NINFO⍠1)path,pattern
+          r[;4]←r[;4]=1           ⍝ flag directories
+          r[;1]←Filename¨r[;1]  ⍝ remove paths
+      :EndTrap
     ∇
 
 
