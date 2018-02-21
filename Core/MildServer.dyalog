@@ -398,12 +398,11 @@
           :EndIf
      
           :If (200=res.Status)∧encodeMe ⍝ if our HTTP status is 200 (OK) and we're okay to encode
-          :AndIf 1024<⍴res.HTML ⍝ BPB used to be 0
+          :AndIf 1024<startsize←length←⍴res.HTML ⍝ BPB used to be 0
           :AndIf 0≠⍴enc←{(⊂'')~⍨1↓¨(⍵=⊃⍵)⊂⍵}' '~⍨',',REQ.GetHeader'accept-encoding' ⍝ check if client supports encoding
           :AndIf 0≠which←⊃Encoders.Encoding{(⍴⍺){(⍺≥⍵)/⍵}⍺⍳⍵}enc ⍝ try to match what encodings they accept to those we provide
               (encoderc html)←Encoders[which].Compress res.HTML
               :If 0=encoderc
-                  length←startsize←⍴res.HTML
                   :If startsize>⍴html ⍝ did we save anything by compressing
                       length←⍴res.HTML←html ⍝ use it
                       res.Headers⍪←'Content-Encoding'(Encoders[which].Encoding)
