@@ -64,13 +64,13 @@
           :Select ¯1↓prefix
           :Case 'fa' ⍝ try to support old-style FA4-Codes by replacing with fas
                      ⍝ and spit out some warning into the session!
-              Use'faIcons5'
+              Use'faIcons5svg'
               AddClass'fas ',Spec
               ⍝ :if Debugging ^ DevelopmentSys
               ⍝    echo warning about use of fa-
               ⍝ :endif
           :CaseList 'far' 'fas' 'fal' 'fab'
-              Use'faIcons5'
+              Use'faIcons5svg'
               Tag←'i'
               AddClass(¯1↓prefix),' fa-',spec  ⍝ change fab-name into "fab fa-name"
           :Case 'md' ⍝ Google
@@ -86,7 +86,7 @@
      
           :Else
               :If (⊂3↑prefix)∊'far' 'fas' 'fal' 'fab'  ⍝ 'fas fa-{name}' is direct use of FA5-Tags
-                  Use'faIcons5'
+                  Use'faIcons5svg'
                   AddClass prefix,spec
               :Else
                   Content←Spec
@@ -94,7 +94,7 @@
           :EndSelect
      
       :Else
-          Use'faIcons5'
+          Use'faIcons5svg'
           AddClass'fa-layers fa-fw'
           :For spec :In Spec
               :If isInstance spec

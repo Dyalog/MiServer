@@ -24,11 +24,6 @@
   </directory>
 
   <directory>
-    <alias>FontAwesome</alias>
-    <path>%ServerRoot%/PlugIns/Other/font-awesome-4.7.0/</path>
-  </directory>
-
-  <directory>
     <alias>FontAwesome5</alias>
     <path>%ServerRoot%/PlugIns/Other/fontawesome-free-5.0.4/</path>
   </directory>
