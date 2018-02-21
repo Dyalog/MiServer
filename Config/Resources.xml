@@ -15,7 +15,7 @@
 	</resource>
 	<resource>
 		<name>dcPanel</name>
-		<uses>faIcons5</uses>
+		<uses>faIcons5svg</uses>
 		<style>/Dyalog/dcPanel/dcPanel.css</style>
 	</resource>
 
@@ -43,9 +43,14 @@
 *******************************
 -->
 	<resource>
-		<name>faIcons5</name>
+		<name>faIcons5svg</name>
 		<style>/FontAwesome5/svg-with-js/css/fa-svg-with-js.css</style>
 		<script>/FontAwesome5/svg-with-js/js/fontawesome-all.min.js</script>
+	</resource>
+	
+	<resource>
+		<name>faIcons5css</name>
+		<style>/FontAwesome5/web-fonts-with-css/css/fontawesome-all.min.css</style>
 	</resource>
 
 <!-- 
