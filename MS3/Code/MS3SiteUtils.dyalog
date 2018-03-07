@@ -118,7 +118,12 @@
           l e
       }
 
-      Link←{ ⍝ New-tab link with optional (⍺) "tooltip"
+      Link←{ ⍝ New-tab link with optional (⍺) charvec:"tooltip" or 1:open in new window
+          ⍺←0
+          '<a href=',(Q⊃⌽⍵),((~∨/0 1∊⍺)/' data-dyalog-tip=',Q ⍺),((1∊⍺)/' target="_blank"'),'>',(⊃⍵),'</a>'
+      }
+
+      LinkNew←{ ⍝ New-tab link with optional (⍺) "tooltip"
           ⍺←0
           '<a href=',(Q⊃⌽⍵),((⍺≢0)/' data-dyalog-tip=',Q ⍺),'>',(⊃⍵),'</a>'
       }
@@ -161,7 +166,7 @@
       CatAndItem←{ ⍝ (category) (filename/description)
           cat←2 LastSeg ⍵
           cat←'General' 'Mini App'cat['Documentation' 'Applications'⍳⊂cat]
-          cat(Link((NoExt LastSeg)⍣(~⍺)('Description'Section Read)⍣⍺⊢⍵)⍵)
+          cat((~⍺)Link((NoExt LastSeg)⍣(~⍺)('Description'Section Read)⍣⍺⊢⍵)⍵)
       }
 
       FilterTable←{
@@ -505,7 +510,7 @@
               C.filedescr←('Description'Section Read)¨C.files    ⍝ Description:: for all files
               C.demos←Controls¨C.files                           ⍝ controls demoed in each
               scores←C.controls∘.Score↓⍉↑C.files C.demos         ⍝ controls vs files
-              C.rankings←(+/0<scores)↑¨↓⍒⍤ 1⊢scores  ⍝ cache all rankings
+              C.rankings←(+/0<scores)↑¨↓⍒⍤1⊢scores  ⍝ cache all rankings
      
               C.(descr ctor notes relevant reldocs doclinks)←Ø
               info←FromCSV Read'IndexData/info.csv'

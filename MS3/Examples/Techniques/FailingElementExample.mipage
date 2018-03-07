@@ -1,0 +1,13 @@
+﻿:Class FailingElementExample : MiPageSample
+⍝ Control::
+⍝ Description:: Shows how an element that failed to render shows up
+
+    ∇ Compose;failing
+      :Access public
+      Add _.p'Here is a failing Tabs element:'
+      failing←Add _.Tabs
+      failing.Titles←'one' 'two' 'three'
+      failing.Sections←'yksi' 'kaksi' ⍝ not the length mismatch
+    ∇
+
+:EndClass

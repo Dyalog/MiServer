@@ -14,7 +14,7 @@
       TrapServer←(⊂912 'C' '→RESUME'),TrapGUI
      
       GUI_Title←AppName←'My Application'
-      Path←{(1-⌊/(⌽⍵)⍳'/\')↓⍵}⎕WSID ⍝ Application root ('DrA\' will be added)
+      Path←{(1-⌊/(⌽⍵)⍳'/\')↓⍵}⎕WSID ⍝ Application root ('DrA/' will be added)
       Mode←1            ⍝ 1=Runtime, 2=Developer Mode, see Start
       NoUser←0          ⍝ 1: Running unattended: Log Error, "Resume" (signals 912)?
                         ⍝ 2: Means attempt to send e-mail
@@ -296,7 +296,7 @@
    ⍝ Create a DrA Error Log file under the installation directory
      
       ⎕TRAP←0 'C' '→ELSE'
-      Dir←#.Files.Normalize Dir,((~'/\'∊⍨¯1↑Dir)/'\'),'DrA\'
+      Dir←#.Files.Normalize Dir,((~'/\'∊⍨¯1↑Dir)/'\'),'DrA/'
       get←{(2,(1⊃⍺)⍳⊂⍵)⊃⍺}                     ⍝ Info retrieval function
       F←,'ZI4,ZI2,ZI2'⎕FMT 1 3⍴⎕TS             ⍝ Todays date
       F←F,'_'{(0≠⍴⍵)/⍺,⍵},'[]#'~⍨{(1-(⌽⍵)⍳'.')↑⍵},Info get'⎕THIS' ⍝ Class
@@ -555,7 +555,7 @@
      
       :If 0=⎕NC'linkpage' ⋄ linkpage←'' ⋄ :EndIf
       :If 0≠⍴file ⍝ A file selected
-          z←0 Diagnose((~∨/'\/'∊file)/Path,'DrA\'),file
+          z←0 Diagnose((~∨/'\/'∊file)/Path,'DrA/'),file
           z←z.DrAInfo
           z[;2]←{2=⍴⍴⍵:,(⍕⍵),⎕UCS 13 ⋄ ⍕⍵}¨z[;2]
           z[;2]←((⎕UCS 13)'<br>')∘subst¨(' ' '&nbsp;')∘subst¨('>' '&gt;')∘subst¨('<' '&lt;')∘subst¨z[;2] ⍝ NL => <br>
@@ -566,7 +566,7 @@
           html←'border=1 align="top"'HTMLTable z
       :Else ⍝ List Files
           r←0 2⍴⊂''
-          :If 0≠⍴files←{(⍴⍵)↓¨{(-+/∧\' '=⌽⍵)↓¨↓⍵}⎕FLIB ⍵}Path,'DrA\'
+          :If 0≠⍴files←{(⍴⍵)↓¨{(-+/∧\' '=⌽⍵)↓¨↓⍵}⎕FLIB ⍵}Path,'DrA/'
               z←{'<a href="',linkpage,'&LogFile=',⍵,'">',(9↓⍵),'</a>'}¨files
               z←({(4↑⍵),'-',(⍵[5 6]),'-',(⍵[7 8])}¨8↑¨files),[1.5]z
               r←r⍪'Date' 'Subject'⍪z[⍒↑z[;1];]

@@ -299,6 +299,7 @@
       Config.Ports←Config Setting'Ports'(,1)⍬
       Config.Production←Config Setting'Production' 1 0 ⍝ production mode?  (0/1 = development debug framework en/disabled)
       Config.RESTful←Config Setting'RESTful' 1 0 ⍝ RESTful web service?
+      Config.RenderBug←Config Setting'RenderBug' 1 0 ⍝ behaviour when hitting a bug during rendering 0:crash; 1:insert placeholder; nnn:throw http status nnn
       Config.RootCertDir←Config Setting'RootCertDir' 0 ''
       Config.Root←AppRoot
       Config.SSLFlags←Config Setting'SSLFlags' 1(32+64)  ⍝ Accept Without Validating, RequestClientCertificate
