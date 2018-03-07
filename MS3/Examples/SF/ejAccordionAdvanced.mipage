@@ -15,7 +15,7 @@
       'showRoundedCorner'ac.Set _true
       ac.Titles←'First' 'Second' 'Third' 'Fourth' ⍝ headings for each of two sections
       :For n :In ⍕¨⍳4                             ⍝ content for each of 2 the sections
-          ac.Sections,←('p',n)New _.p(#.Files.GetText _Request.Server.Config.AppRoot,'Examples/Data/SampleText',n,'.txt')
+          ac.Sections,←('p',n)New _.p(#.Files.ReadText _Request.Server.Config.AppRoot,'Examples/Data/SampleText',n,'.txt')
       :EndFor
       ac.On'activate, inActivate' 'myCallback'(('opened' 'event' 'activeIndex')('closed' 'event' 'inActiveIndex'))
     ∇
