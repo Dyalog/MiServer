@@ -249,7 +249,7 @@
     ⍝ assumes Conga connection is closed elsewhere
       :Hold 'Connections'
           :If 9=⎕NC'con'
-              #.DRC.Close con.CongaObjectName
+    ⍝BPB!!! Conga will close it ⍝ #.DRC.Close con.CongaObjectName
               Connections~←con
           :Else
               #.DRC.Close con
