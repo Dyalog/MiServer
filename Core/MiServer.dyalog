@@ -164,17 +164,20 @@
               :CaseList 'HTTPHeader' 'HTTPTrailer' 'HTTPChunk' 'HTTPBody'
                   :If 0≢conx←1 ConnectionUpdate obj
                       {}conx{{}⍺ HandleRequest ⍵}&wres
-                              :Else
+                  :Else
                       ∘∘∘ ⍝!!! debug !!!
                   :EndIf
      
               :Case 'Timeout'
-              SessionHandler.HouseKeeping ⎕THIS
-              :If 0<Config.IdleTimeout ⍝ if an idle timeout (in seconds) has been specified
-              :AndIf Config.IdleTimeout<86400×-/(ts←#.Dates.DateToIDN ⎕TS)idletime ⍝ has it passed?
-                  onIdle
-                  idletime←ts
-              :EndIf
+                  SessionHandler.HouseKeeping ⎕THIS
+                  :If 0<Config.IdleTimeout ⍝ if an idle timeout (in seconds) has been specified
+                  :AndIf Config.IdleTimeout<86400×-/(ts←#.Dates.DateToIDN ⎕TS)idletime ⍝ has it passed?
+                      onIdle
+                      idletime←ts
+                  :EndIf
+     
+              :Case 'Closed'
+                  ConnectionDelete obj
      
               :Else ⍝ unhandled event
                   2 Log'Unhandled Conga event:'
@@ -244,15 +247,20 @@
           :EndIf
       :EndHold
     ∇
-     
-    ∇ ConnectionDelete con
+
+    ∇ {congaClose}ConnectionDelete con
     ⍝ assumes Conga connection is closed elsewhere
+      :If 0=⎕NC'congaClose' ⋄ congaClose←0 ⋄ :EndIf
       :Hold 'Connections'
           :If 9=⎕NC'con'
-    ⍝BPB!!! Conga will close it ⍝ #.DRC.Close con.CongaObjectName
+              :If congaClose
+                  #.DRC.Close con.CongaObjectName
+              :EndIf
               Connections~←con
           :Else
-              #.DRC.Close con
+              :If congaClose
+                  #.DRC.Close con
+              :EndIf
               :If ~0∊⍴Connections
                   Connections/⍨←Connections.CongaObjectName≢¨⊂con
               :EndIf
@@ -496,7 +504,7 @@
      
       :If 0≠1⊃z←#.DRC.Send obj(status,res.Headers response)
           (1+(1⊃z)∊1008 1119)Log'"HandleRequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
-              :EndIf
+      :EndIf
      
       conns.(LastActive Active)←0
      
