@@ -63,16 +63,16 @@
       :Implements Constructor
       :If 2=⍴⍴args ⋄ args←,⊂args ⋄ :EndIf
       Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds←args defaultArgs Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds
-      :If 2≠⍴⍴Data
-      :AndIf #.HtmlElement.isChar Data
-          JSON_Data←Data ⋄ Data←0 0⍴0
-      :EndIf
       Container←⎕NEW #._DC.Table
       ContainerTag←'table'
     ∇
 
     ∇ html←Render;tab;btn
       :Access public
+      :If 2≠⍴⍴Data
+      :AndIf #.HtmlElement.isChar Data
+          JSON_Data←Data ⋄ Data←0 0⍴0
+      :EndIf
       :If 0=≢GetOption'initComplete'
       :AndIf FocusFilter
           SetId
@@ -84,11 +84,11 @@
           Use'⍕/DataTables/css/jquery.dataTables.min.css'
       :CaseList 1 4
           Use'⍎/DataTables/js/jquery.dataTables.min.js'
-          Use'⍎/DataTables/js/jquery.dataTables.bootstrap4.min.js'
-          Use'⍕/DataTables/css/jquery.dataTables.bootstrap4.min.css'
+          Use'⍎/DataTables/js/dataTables.bootstrap4.min.js'
+          Use'⍕/DataTables/css/dataTables.bootstrap4.min.css'
       :Case 3
           Use'⍎/DataTables/js/jquery.dataTables.min.js'
-          Use'⍎/DataTables/js/jquery.dataTables.bootstrap.min.js'
+          Use'⍎/DataTables/js/dataTables.bootstrap.min.js'
           Use'⍕/DataTables/css/jquery.dataTables.bootstrap.min.css'
       :EndSelect
      
