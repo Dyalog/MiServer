@@ -55,6 +55,6 @@
 
   <directory>
     <alias>Bootstrap4</alias>
-    <path>%ServerRoot%/PlugIns/Bootstrap-4.0.0-beta/</path>
+    <path>%ServerRoot%/PlugIns/Bootstrap-4.0.0/</path>
   </directory>
 </Virtual>

@@ -34,8 +34,9 @@
 	<resource>
 	  	<name>Bootstrap4</name>
 	  	<uses>JQuery</uses>
-	    <script>/Bootstrap4/js/bootstrap.bundle.min.js</script>
-	    <style>/Bootstrap4/css/bootstrap.min.css</style>
+	    <script>/Bootstrap4/popper.min.js</script>
+	    <script>/Bootstrap4/bootstrap.min.js</script>
+	    <style>/Bootstrap4/bootstrap.min.css</style>
 	</resource>
 <!--
 *******************************
