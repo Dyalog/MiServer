@@ -1,4 +1,4 @@
-﻿:Class jBoxAdvancedConfirmFromAPL : MiPageSample
+﻿:Class jBoxAdvancedConfFromAPL : MiPageSample
 ⍝ Control::     _JS.jBox
 ⍝ Description:: jBox-confirmations triggered from APL-Callback (tight integration of APL and JS-Callbacks)
 
