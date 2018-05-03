@@ -35,9 +35,10 @@
 
     :Field Public Instance Response
 
-    GetFromTable←{(⍵[;1]⍳⊂#.Strings.lc ,⍺)⊃⍵[;2],⊂''}
-    GetFromTableCS←{(⍵[;1]⍳⊂,⍺)⊃⍵[;2],⊂''} ⍝ Case Sensitive
-    GetFromTableDefault←{⍺←'' ⋄ (⍺⍺[;1]⍳⊂,⍵)⊃⍺⍺[;2],⊂⍺} ⍝ default (table ∇) value
+    GetFromTableCS←{{0∊⍴⍵:'' ⋄ 1=⍴⍵:⊃⍵ ⋄ ⍵}⍵[;2]/⍨⍵[;1]∊⊂⍺} ⍝ Case Sensitive
+    GetFromTable←{(#.Strings.lc ⍺)GetFromTableCS ⍵}
+    GetFromTableDefault←{⍺←'' ⋄ ⍺{0∊⍴⍵:⍺ ⋄ ⍵}⍵ GetFromTable ⍺⍺} ⍝ default_value (table ∇) value
+
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     inf←{∨/⍵⍷⍺:'' ⋄ ⍵} ⍝ if not found
     begins←{⍺≡(⍴⍺)↑⍵}
@@ -228,8 +229,8 @@
       r←len d
     ∇
 
-    ∇ r←DecodeMultiPart data;d;t;filename;name;i;hdr;ind
-      hdr←'UTF-8'⎕UCS data↑⍨ind←1+1⍳⍨13 10 13 10⍷data
+    ∇ r←DecodeMultiPart data;ind;hdr;d;name;filename;i
+      hdr←data↑⍨ind←1+1⍳⍨(NL,NL)⍷data
       d←'Content-Disposition: 'GetParam hdr
      
       name←filename←''
@@ -242,21 +243,12 @@
       :EndIf
      
       data←(2+ind)↓data ⍝ Drop up to 1st doubleCR
-      data←(¯1+¯1↑{⍵/⍳⍴⍵}13 10⍷data)↑data ⍝ Drop from last CR
-     
-      t←'Content-Type: 'GetParam hdr
-     
-      :If 0∊⍴filename
-          :Select 5↑t ⍝ Content type
-          :CaseList 'text/' '     ' ⍝ text formats
-              :Trap 92 ⋄ data←'UTF-8'⎕UCS data ⋄ :EndTrap ⍝ From UTF-8
-          :Else
-          :EndSelect
+      data←(¯1+¯1↑{⍵/⍳⍴⍵}NL⍷data)↑data ⍝ Drop from last CR
+      :If (0∊⍴filename)∧0∊⍴data
+          r←name''
       :Else
-          data←filename data
+          r←name(filename data)
       :EndIf
-     
-      r←name data
     ∇
 
     ∇ r←header GetValue(name type);i;h
@@ -315,7 +307,7 @@
           :EndIf
       :EndIf
       z←name,'=',(⍕value),(path ine'; Path=',path),(date ine'; Expires=',date),other ine('; '≡2↑other)↓'; ',other
-      Response.Headers⍪←'Set-Cookie' z
+      Response.Headers⍪←'Set-Cookie'z
     ∇
 
     :endsection
