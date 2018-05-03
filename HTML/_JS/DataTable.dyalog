@@ -173,11 +173,13 @@
     :section render Plugins
     ∇ js←yadcfRender;flt
       js←''
+      ⍝ this is done intentionally outside the IF-condition, so that just setting 'yadcf'∊ Plugin and not providing options will still load the resources
+      ⍝ (useful when calling yadcf in subsequent AJAX etc.!)
+      Use'⍕/DataTables/extras/yadcf-0.9.3/jquery.dataTables.yadcf.css'
+      Use'⍎/DataTables/extras/yadcf-0.9.3/jquery.dataTables.yadcf.js'
+      Use'JQueryUI'
       :If 0<Options.⎕NC'yadcf.Filters'
       :AndIf ×≢Options.yadcf.Filters
-          Use'⍕/DataTables/extras/yadcf-0.9.3/jquery.dataTables.yadcf.css'
-          Use'⍎/DataTables/extras/yadcf-0.9.3/jquery.dataTables.yadcf.js'
-          Use'JQueryUI'
           SetUse
           flt←#.JSON.fromAPL Options.yadcf.Filters
           :If ∨/'"chosen"'⍷flt ⋄ Use'chosen' ⋄ :EndIf     ⍝ load Chosen-Plugin for yadcf-Filters
