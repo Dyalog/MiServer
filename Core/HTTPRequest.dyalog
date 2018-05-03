@@ -229,25 +229,26 @@
       r←len d
     ∇
 
-    ∇ r←DecodeMultiPart data;ind;hdr;d;name;filename;i
+    ∇ r←DecodeMultiPart data;ind;hdr;d;name;filename;i;upload
       hdr←data↑⍨ind←1+1⍳⍨(NL,NL)⍷data
-      d←'Content-Disposition: 'GetParam hdr
+      d←#.Strings.dlb'Content-Disposition:'GetParam hdr
      
       name←filename←''
       :If (⍴d)≥i←5+('name="'⍷d)⍳1
           name←(¯1+name⍳'"')↑name←i↓d
       :EndIf
      
-      :If (⍴d)≥i←9+('filename="'⍷d)⍳1
+      :If upload←(⍴d)≥i←9+('filename="'⍷d)⍳1
           filename←(¯1+filename⍳'"')↑filename←i↓d
       :EndIf
      
       data←(2+ind)↓data ⍝ Drop up to 1st doubleCR
       data←(¯1+¯1↑{⍵/⍳⍴⍵}NL⍷data)↑data ⍝ Drop from last CR
-      :If (0∊⍴filename)∧0∊⍴data
-          r←name''
-      :Else
+
+      :If upload>0∊⍴filename
           r←name(filename data)
+      :Else
+          r←name data
       :EndIf
     ∇
 
