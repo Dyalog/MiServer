@@ -244,11 +244,11 @@
      
       data←(2+ind)↓data ⍝ Drop up to 1st doubleCR
       data←(¯1+¯1↑{⍵/⍳⍴⍵}NL⍷data)↑data ⍝ Drop from last CR
-
+     
       :If upload>0∊⍴filename
           r←name(filename data)
       :Else
-          r←name data
+          r←name ('UTF-8' ⎕UCS ⎕UCS data)
       :EndIf
     ∇
 
