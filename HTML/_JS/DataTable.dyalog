@@ -80,14 +80,14 @@
       :EndIf
       :Select Bootstrap
       :Case 0
-          Use'⍎/DataTables/js/jquery.dataTables.min.js'
+          Use'DataTables'
           Use'⍕/DataTables/css/jquery.dataTables.min.css'
       :CaseList 1 4
-          Use'⍎/DataTables/js/jquery.dataTables.min.js'
+          Use'DataTables'
           Use'⍎/DataTables/js/dataTables.bootstrap4.min.js'
           Use'⍕/DataTables/css/dataTables.bootstrap4.min.css'
       :Case 3
-          Use'⍎/DataTables/js/jquery.dataTables.min.js'
+          Use'DataTables'
           Use'⍎/DataTables/js/dataTables.bootstrap.min.js'
           Use'⍕/DataTables/css/jquery.dataTables.bootstrap.min.css'
       :EndSelect

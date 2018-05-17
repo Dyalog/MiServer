@@ -73,6 +73,16 @@
 		<name>ejIcons</name>
 		<uses>sfTheme</uses>   <!-- Syncfusion ejIcons are built into theme -->
 	</resource>
+	
+********************************************
+*      Datatable - just the bare core,     *
+* more stuff loaded via DataTable.dyalog   *
+********************************************
+-->
+<resource>
+	<name>DataTables</name>
+	<script>/DataTables/js/jquery.dataTables.min.js</script>
+</resource>
 
 <!-- 
 *********************************************
