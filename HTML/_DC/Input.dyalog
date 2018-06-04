@@ -28,6 +28,9 @@
     ∇ r←Render
       :Access public
       SetInputName
+      :If type≡#.Strings.nocase'number'
+          value←#.Strings.fmtNum value
+      :EndIf
       r←⎕BASE.Render
       :If ~0∊⍴Label
           r←r((LabelPos≡'right'){⍺⍺:⍺,⍵ ⋄ ⍵,⍺})(⎕NEW #._html.label(Label(,⊂'for'id))).Render

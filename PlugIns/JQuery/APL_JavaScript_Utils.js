@@ -1,4 +1,4 @@
-function APLJaxReturn(obj) {
+var APLJaxReturn = function(obj) {
   $.each(obj, function (i, d) {
     if (typeof (d.replace) !== "undefined") { $(d.replace).html(d.data); } 
     else if (typeof (d.append) !== "undefined") { $(d.append).append(d.data); } 
@@ -9,7 +9,7 @@ function APLJaxReturn(obj) {
   });
 }
 
-function APLstringify(obj) {
+var APLstringify = function(obj) {
   if (obj instanceof Date) { return obj.toString(); } 
   else if ("object" === typeof obj) {
   	seen = [];
@@ -28,7 +28,7 @@ function APLstringify(obj) {
   }
 }
 
-function JSONSubset(model, selectors) {
+var JSONSubset = function(model, selectors) {
   if (selectors == "*") { 
   	return JSON.stringify(model); 
   } 
