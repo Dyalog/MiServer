@@ -1,6 +1,7 @@
 ﻿:Namespace _JSS ⍝ Javascript Snippets
 
     (⎕ML ⎕IO)←1
+⍝ little helpers for JS/JQuery used in callbacks
 ⍝ this list will grow over time as usage patterns are discovered
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     quote←{0∊⍴⍵: '' ⋄ '"',(('"' ⎕R '\\\0')⍕⍵),'"'}
@@ -37,6 +38,14 @@
 
     ∇ r←sel RemoveAttr args
       r←(sel JQuery'removeAttr')args
+    ∇
+
+    ∇ r←sel AddClass args
+      r←(sel JQuery'addClass')args
+    ∇
+
+    ∇ r←sel RemoveClass args
+      r←(sel JQuery'removeClass')args
     ∇
 
     ∇ r←sel Html args ⍝ JQuery html cover
