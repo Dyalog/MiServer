@@ -35,10 +35,6 @@
       r←(sel JQuery'attr')args
     ∇
 
-    ∇ r←sel RemoveClass args
-      r←(sel JQuery'removeClass')args
-    ∇
-
     ∇ r←sel RemoveAttr args
       r←(sel JQuery'removeAttr')args
     ∇
