@@ -5,7 +5,7 @@
 
     ∇ Compose;p;matches;tab;Columns;css;fa;dt;yml
       :Access Public
-      Use'faIcons5'
+      Use'faIcons5svg'
       Add _.p ScriptFollows
    ⍝ This page offers a tool to easily browse FontAwesome-Icons even when you're offline and have no access to the
    ⍝ excellent Search-Tool on FontAwesome's <a href="http://fontawesome.com/icons/">site</a>.
@@ -15,24 +15,24 @@
      
      
       fa←#.Boot.ms.Config.Virtual{(⍺.alias⍳⊂⍵)⊃⍺.path,⊂''}'FontAwesome5' ⍝ get path
-      json←⎕JSON 1⊃⎕NGET fa,'advanced-options/metadata/icons.json'                                
+      json←⎕JSON 1⊃⎕NGET fa,'metadata/icons.json'                                
      
    ⍝ A bit of CSS to emphasize the search-input more:
       Add _.style ScriptFollows
-			⍝label {
-			⍝   margin-bottom:5px;
-			⍝}
+            ⍝label {
+            ⍝   margin-bottom:5px;
+            ⍝}
       ⍝ .dataTables_filter input {
-			⍝   border:none;
-			⍝   -webkit-border-radius:5px;
-			⍝   -moz-border-radius:5px;
-			⍝   border-radius:5px;
-			⍝   -webkit-box-shadow:0 0 5px #666 inset;
-			⍝   -moz-box-shadow:0 0 5px #666 inset;
-			⍝   box-shadow:0 0 5px #666 inset;
+            ⍝   border:none;
+            ⍝   -webkit-border-radius:5px;
+            ⍝   -moz-border-radius:5px;
+            ⍝   border-radius:5px;
+            ⍝   -webkit-box-shadow:0 0 5px #666 inset;
+            ⍝   -moz-box-shadow:0 0 5px #666 inset;
+            ⍝   box-shadow:0 0 5px #666 inset;
       ⍝ font-size: 1.5em;
-			⍝}
-			⍝input { outline:none; }      
+            ⍝}
+            ⍝input { outline:none; }      
       ⍝ .dataTables_filterX , inputX {
       ⍝ font-size: 1.5em;
       ⍝ border-radius: .2em;

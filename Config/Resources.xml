@@ -45,13 +45,12 @@
 -->
 	<resource>
 		<name>faIcons5svg</name>
-		<style>/FontAwesome5/svg-with-js/css/fa-svg-with-js.css</style>
-		<script>/FontAwesome5/svg-with-js/js/fontawesome-all.min.js</script>
+		<script>/FontAwesome5/js/all.js</script>
 	</resource>
 	
 	<resource>
 		<name>faIcons5css</name>
-		<style>/FontAwesome5/web-fonts-with-css/css/fontawesome-all.min.css</style>
+		<style>/FontAwesome5/css/all.css</style>
 	</resource>
 
 <!-- 
@@ -82,6 +81,7 @@
 -->
 <resource>
 	<name>DataTables</name>
+	<uses>JQuery</uses>
 	<script>/DataTables/js/jquery.dataTables.min.js</script>
 </resource>
 

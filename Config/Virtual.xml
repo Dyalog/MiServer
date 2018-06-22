@@ -25,7 +25,7 @@
 
   <directory>
     <alias>FontAwesome5</alias>
-    <path>%ServerRoot%/PlugIns/Other/fontawesome-free-5.0.4/</path>
+    <path>%ServerRoot%/PlugIns/Other/fontawesome-free-5.1.0-web/</path>
   </directory>
 
   <directory>

@@ -8,7 +8,7 @@
       Add _.style'.red {color: red;}'
      
       p←Add _.p
-      p.Add _.Icon'fa-cloud-upload'
+      p.Add _.Icon'fa-cloud-upload-alt'
       p.Add' FontAwesome'
      
       p←Add _.p
@@ -24,7 +24,7 @@
       p.Add' FontAwesome effects'
      
       p←Add _.p
-      '.red' 'style="font-size:36px;padding-right:15px"'p.Add _.Icon'e-notification'
+      '.red' 'style="font-size:36px;padding-right:15px"'p.Add _.Icon'fab-pied-piper-alt'
       p.Add' custom styling'
      
       p←Add _.p
