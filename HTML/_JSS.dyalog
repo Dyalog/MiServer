@@ -26,6 +26,7 @@
 
     ∇ r←sel Val args ⍝ JQuery val cover
       r←(sel JQuery'val')args
+      :If args≡'' '' ⋄ r/⍨←~',"");'⍷r ⋄ :EndIf  ⍝ special case to set value to ""
     ∇
 
     ∇ r←sel Prop args ⍝ JQuery prop cover
