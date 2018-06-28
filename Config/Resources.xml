@@ -171,6 +171,7 @@
 	</resource>
 	<resource>
 		<name>ej.unobtrusive</name>
+		<uses>Syncfusion</uses>
 		<script>/Syncfusion/assets/scripts/common/ej.unobtrusive.min.js</script>
 	</resource>
 	<resource>
