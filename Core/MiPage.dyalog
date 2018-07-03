@@ -150,7 +150,7 @@
       names←#.Strings.deb names
       :If ' '∊names
           names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
-          r←proto∘Get¨names
+          r←({⍬∘⍴⍣(1=≢⍵)⊢⍵}eis proto)Get¨names
       :ElseIf ~(_PageData.⎕NC names)∊2 9
           r←,proto
       :Else
