@@ -4,7 +4,7 @@ node ('Docker') {
         stage ('Checkout') {
                 checkout scm
         }
-        withDockerRegistry([credentialsId: 'da63d34a-9b75-4c86-ba25-8eae68384001', url: 'http://registry.dyalog.com:5000']) {
+        withDockerRegistry([credentialsId: '99ec6d6e-d2f6-4af6-9bbc-3ee43e321123', url: 'http://registry.dyalog.com:5000']) {
                 stage ('Build Docker Image') {
                         DockerApp = docker.build 'registry.dyalog.com:5000/dyalog/miserver:latest'
                 }
@@ -22,7 +22,7 @@ node ('Docker') {
                                 println 'Failed to find string "Dyalog MiServer 3.0 Sample Site" cleaning up.'
 				sh "docker logs ${MiServer.id}"
                                 sh "git rev-parse --short HEAD > .git/commit-id"
-                                withCredentials([usernamePassword(credentialsId: '9f5481da-1a4d-4c5d-b400-cc2ee3a3ac2c', passwordVariable: 'GHTOKEN', usernameVariable: 'API')]) {
+                                withCredentials([usernamePassword(credentialsId: '7ac3a2c6-484c-4879-ac85-2b0db71a7e58', passwordVariable: 'GHTOKEN', usernameVariable: 'API')]) {
                                         commit_id = readFile('.git/commit-id')
                                         sh "./githubComment.sh ${MiServer.id} ${commit_id}"
                                 }
@@ -47,7 +47,7 @@ node ('Docker') {
 
 
         if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
-                withCredentials([usernamePassword(credentialsId: 'f776da40-9d48-4f58-a6fe-d1888b7af35f', passwordVariable: 'SECRETKEY', usernameVariable: 'ACCESSKEY')]) {
+                withCredentials([usernamePassword(credentialsId: '200ba378-df02-4e67-9b18-afd73aeb29e8', passwordVariable: 'SECRETKEY', usernameVariable: 'ACCESSKEY')]) {
                         stage('Deploying with Rancher') {
                                 sh '/usr/local/bin/rancher-compose --access-key $ACCESSKEY --secret-key $SECRETKEY --url http://rancher.dyalog.com:8080/v2-beta/projects/1a5/stacks/1st3 -p MiServer up --force-upgrade --confirm-upgrade --pull -d'
                         }
@@ -65,7 +65,7 @@ node ('Docker') {
         }
 	
 	stage ('Github Upload') {
-		withCredentials([usernamePassword(credentialsId: '9f5481da-1a4d-4c5d-b400-cc2ee3a3ac2c', passwordVariable: 'GHTOKEN', usernameVariable: 'API')]) {
+		withCredentials([usernamePassword(credentialsId: '7ac3a2c6-484c-4879-ac85-2b0db71a7e58', passwordVariable: 'GHTOKEN', usernameVariable: 'API')]) {
 			sh './GH-Release.sh'
 		}
 
