@@ -305,7 +305,7 @@
       ('Unable to allocate any TCP/IP port in ',1↓∊⍕¨',',¨ports)⎕SIGNAL(~allocated)/11
       {}#.DRC.SetProp'.' 'EventMode' 1 ⍝ report Close/Timeout as events
       {}#.DRC.SetProp ServerName'FIFOMode' 1
-      {}#.DRC.SetProp ServerName'DecodeBuffers' 1
+      {}#.DRC.SetProp ServerName'DecodeBuffers' 15
      
       #.HtmlElement.RenderBugDefault←Config.RenderBug
     ∇
