@@ -1,71 +1,79 @@
 ﻿:Class IconAdvanced : MiPageSample
 ⍝ Control:: _DC.Icon
-⍝ Description:: Advanced ways to use icons
-    ∇ Compose;p;i
+⍝ Description:: Advanced ways to use icons by combining/transforming them
+    ∇ Compose;p;i;cog;mylist;itm
       :Access Public
      
-      Add _.style ScriptFollows
-      ⍝ .inside-icon {
-      ⍝     margin-top: 0.1em;
-      ⍝     font-size: 0.9em;
-      ⍝     color: darkorange;
-      ⍝ }
-      ⍝ .file-ext {
-      ⍝     color:           white;
-      ⍝     margin-left:     0.2em;
-      ⍝     margin-top:      0.3em;
-      ⍝     font-size:         2em;
-      ⍝     font-weight:      bold;
-      ⍝     font-family: Monospace;
-      ⍝ }
-      ⍝ .smile {
-      ⍝     margin:  0.5em 0.9em;
-      ⍝ }
-      ⍝ .bubble {
-      ⍝     margin-left: .6em;
-      ⍝     font-size: medium;
-      ⍝     font-family: "Comic Sans MS", cursive;
-      ⍝ }
+      Add _.p MarkdownFollows
+    ⍝### Advanced use of icons
+    ⍝
+    ⍝ This page illustrates some advanced ways to use `_.Icon`,
+    ⍝ mainly FontAwesome-Icons. FontAwesome provides various
+    ⍝ styles to easily generate spinning icons or ot
+    ⍝ layer icons and text or combine multiple icons.
+    ⍝ All these options are documented on [FontAwesome's site](https://fontawesome.com/how-to-use/svg-with-js#additional-styling) -
+    ⍝ this page shows a few examples of how to apply these, mainly
+    ⍝ by providing `data-fa-*`-attributes to _.Icon-Constructors.
+    ⍝ Most of these use-cases were hand-crafted and most likely
+    ⍝ a bit of fiddling with these will be required when combining
+    ⍝ multiple icons.
      
-      (Add _.p).Add¨(_.Icon'fa-refresh fa-spin')' A spinning refresh-icon'
+      (Add _.p).Add¨(_.Icon'fas fa-sync fa-spin')' A spinning refresh/sync-icon'
      
-      (Add _.p).Add¨(_.Icon'fa-file-o fa-2x' 'fa-cog inside-icon')' file settings'
+   ⍝ Referencing multiple icons in one constructor will stack them:
+      (Add _.p).Add¨(_.Icon'far-file' 'fas-exclamation')' a dangerous file!'
+   ⍝ Admittedly the styling can be improved (but hardly with the simple constructor), so let's try what we can do there.
+      (Add _.p).Add¨(_.Icon'far-file'('data-fa-transform="shrink-6" style="color:red"'New _.Icon'fas-exclamation'))' a dangerous file! (resized)'
      
-      (Add _.p).Add¨(_.Icon'fa-file-o' 'fa-exclamation inside-icon')' file warning'
+   ⍝ You may also pass pre-defined Icon-Objects and they will be stacked.
+   ⍝ Defining them beforehand gives you more control over their
+   ⍝ styling and the positioning.
+      cog←'data-fa-transform="right-2 down-3" style="color:purple;"'New _.Icon'fas-cog'
+      (Add _.p).Add¨(_.Icon'far-file fa-2x'cog)' &nbsp; a settings-file'
+      ⍝ NB: "far" works file even with (some icons of) FA Free!
      
-      Add _.p('style="color:green;"'New _.Icon'fa-file fa-4x'(New _.span'XLS' '.file-ext'))
+      p←'style=margin-top:2em;'Add _.div
+      ('style="color:green;"'p.Add _.Icon'far-file fa-3x'('data-fa-transform="right-10 down-11" style="font-size: 0.8em;"'New _.span'dws' '.fa-layers-text'))
+      'style=margin-left:1em;'p.Add _.span' custom file-type'
      
-      Add _.p(New _.Icon'fa-calendar-o fa-2x'('.inside-icon'New _.span'42')),'Calendar'
+      p←'style=margin-top:1em;'Add _.div
+      ('.fa-2x fa-fw'p.Add _.span).Add(New _.Icon'fas-calendar'('style="font-weight: 900;" data-fa-transform="shrink-8 down-2" class="fa-layers-text fa-inverse"'New _.span'42'))
+      p.Add' find that on your calendar!'
      
-      Add _.p,New _.Icon'fa-calendar-o fa-4x'('.smile'New _.img'src="../Data/smiley.gif"')
+      p←Add _.div'' ⍝'style=margin-top:1em;'
+      ('.fa-3x fa-fw'p.Add _.span).Add(New _.Icon'far-calendar'('data-fa-transform="shrink-10 down-2"'New _.Icon'fas-thumbs-up'))
+      p.Add' a positive day!'
      
       p←Add _.p
-      p.Add _.Icon'fa-camera'
-      p.Add _.Icon'fa-camera fa-2x'
-      p.Add _.Icon'fa-camera fa-3x'
-      p.Add _.Icon'fa-camera fa-4x'
-      p.Add _.Icon'fa-camera fa-5x'
-      p.Add _.Icon'fa-camera-retro fa-5x'
-      p.Add _.Icon'fa-camera-retro fa-4x'
-      p.Add _.Icon'fa-camera-retro fa-3x'
-      p.Add _.Icon'fa-camera-retro fa-2x'
-      p.Add _.Icon'fa-camera-retro'
+      p.Add(_.Icon'fas-camera')' '
+      p.Add(_.Icon'fas-camera fa-2x')' '
+      p.Add(_.Icon'fas-camera fa-3x')' '
+      p.Add(_.Icon'fas-camera fa-4x')' '
+      p.Add(_.Icon'fas-camera fa-5x')' '
+      p.Add(_.Icon'fas-camera fa-6x')' '
+      p.Add(_.Icon'fas-camera-retro fa-6x')' '
+      p.Add(_.Icon'fas-camera-retro fa-5x')' '
+      p.Add(_.Icon'fas-camera-retro fa-4x')' '
+      p.Add(_.Icon'fas-camera-retro fa-3x')' '
+      p.Add(_.Icon'fas-camera-retro fa-2x')' '
+      p.Add(_.Icon'fas-camera-retro')' '
       p.Add'Varying Sizes'
      
       p←Add _.p
       i←'.fa-3x'p.Add _.Icon
-      '.fa-lg' 'style=font-weight:bold;'i.Add _.span'&#x2639;' ⍝ Smiley face
-      'style="color: rgba(255,0,0,0.8);"'i.Add _.Icon'fa-ban fa-2x'
+      '.fa-lg' 'style=font-weight:bold;'i.Add _.span'&#x2639;' ⍝ Smiley face - specified in unusual way
+      'style="color: rgba(255,0,0,0.8);" data-fa-transform="left-2.5 down-1"'i.Add _.Icon'fas-ban fa-2x'
      
-      p.Add'No frowning here!'
+      'style=margin-left:2em;'p.Add _.span'No frowning here!'
      
-      p←Add _.p
-      i←p.Add _.Icon'fa-4x'
-      i.Add _.Icon'fa-comment-o fa-4x'
-      '.bubble'i.Add _.span'Hello!'
-      'style=margin-left:3em;'p.Add _.span'Friendly greeting'
+     ⍝ The specs for data-fa-transform use numbers translating to 1/16em,
+     ⍝ so achieving a good result will most likely require a bit of fiddling...
+      p←'style=margin-top:4em;'Add _.p
+      i←p.Add _.Icon'far-comment fa-4x'
+      '.fa-layers-text'i.Add _.span'Hello!' 'data-fa-transform="right-28 up-2"'
+      'style=margin-left:4em;'p.Add _.span'Friendly greeting'
      
-      p←'style="margin-left: 25%; margin-right: 25%;"'Add _.p(New _.Icon'fa-quote-left fa-2x fa-pull-left fa-border')
+      p←'style="margin-left: 25%; margin-right: 25%;"'Add _.p(New _.Icon'fas fa-quote-left fa-2x fa-pull-left fa-border')
       p.Add ScriptFollows
       ⍝ It is paradoxical, yet true, to say, that the more we know, the more ignorant we become in the absolute sense,
       ⍝ for it is only through enlightenment that we become conscious of our limitations. Precisely one of the most

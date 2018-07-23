@@ -15,10 +15,14 @@
 ⍝ HeaderAttr     - Header attributes
 ⍝ MakeCellIds    - 1 to generate IDs      <td id="tableId_r2c3">
 ⍝ MakeRowIds     - 1 to generate Row IDs  <tr id="tableId_row2">
+⍝                  Warning: this ids are generated, but if you need them in order to provide
+⍝                  meaningful tools for interaction with the table, it is recommended
+⍝                  to use DataTable's features instead which may be more useful!
 ⍝ Width          - (string) width of the table
 ⍝ InitFilterWith - initalize "Search"-field with this string
-⍝ PlugIns        - comma delimited list of "official" plugins to use
 ⍝ FocusFilter    - put initial focus on Filter-Control (boolean, default=0)
+⍝ Bootstrap      - integer (use Boostrap-styling. 0=no, 1 or 4=BS4, 3=BS3)
+⍝ PlugIns        - comma delimited list of "official" plugins to use
 ⍝
 ⍝  currently supported plugins are:
 ⍝    yadcf (yet another datatable column filter) - needs to be explicitely referenced
@@ -27,7 +31,6 @@
 ⍝    buttons -provides options to copy data to Excel, print and toggle columns
 ⍝    NB: this mechanism currently supports a subset of Datatable's plugins/extensions.
 ⍝        Please let us know (miserver@dyalog.com) if your favourite Plugin is missing!
-⍝ Bootstrap      - integer (use Boostrap-styling. 0=no, 1 or 4=BS4, 3=BS3)
 
     :Field public shared readonly DocBase←'https://www.datatables.net/'
     :field public Data←0 0⍴⊂''
@@ -60,16 +63,16 @@
       :Implements Constructor
       :If 2=⍴⍴args ⋄ args←,⊂args ⋄ :EndIf
       Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds←args defaultArgs Data CellAttr HeaderRows HeaderAttr MakeCellIds MakeRowIds
-      :If 2≠⍴⍴Data
-      :AndIf #.HtmlElement.isChar Data
-          JSON_Data←Data ⋄ Data←0 0⍴0
-      :EndIf
       Container←⎕NEW #._DC.Table
       ContainerTag←'table'
     ∇
 
     ∇ html←Render;tab;btn
       :Access public
+      :If 2≠⍴⍴Data
+      :AndIf #.HtmlElement.isChar Data
+          JSON_Data←Data ⋄ Data←0 0⍴0
+      :EndIf
       :If 0=≢GetOption'initComplete'
       :AndIf FocusFilter
           SetId
@@ -77,15 +80,15 @@
       :EndIf
       :Select Bootstrap
       :Case 0
-          Use'⍎/DataTables/js/jquery.dataTables.min.js'
+          Use'DataTables'
           Use'⍕/DataTables/css/jquery.dataTables.min.css'
       :CaseList 1 4
-          Use'⍎/DataTables/js/jquery.dataTables.min.js'
-          Use'⍎/DataTables/js/jquery.dataTables.bootstrap4.min.js'
-          Use'⍕/DataTables/css/jquery.dataTables.bootstrap4.min.css'
+          Use'DataTables'
+          Use'⍎/DataTables/js/dataTables.bootstrap4.min.js'
+          Use'⍕/DataTables/css/dataTables.bootstrap4.min.css'
       :Case 3
-          Use'⍎/DataTables/js/jquery.dataTables.min.js'
-          Use'⍎/DataTables/js/jquery.dataTables.bootstrap.min.js'
+          Use'DataTables'
+          Use'⍎/DataTables/js/dataTables.bootstrap.min.js'
           Use'⍕/DataTables/css/jquery.dataTables.bootstrap.min.css'
       :EndSelect
      
@@ -99,6 +102,7 @@
               Plugins,←∊(⊂',buttons.'),¨⊆btn.extend
           :ElseIf 2=⎕NC'btn'
               Plugins,←∊(⊂',buttons.'),¨⊆btn
+              'buttons'Set,⊂∊btn ⍝ ensure it is nested
           :EndIf
       :EndIf
       :If 0<≢InitFilterWith
@@ -169,11 +173,13 @@
     :section render Plugins
     ∇ js←yadcfRender;flt
       js←''
+      ⍝ this is done intentionally outside the IF-condition, so that just setting 'yadcf'∊ Plugin and not providing options will still load the resources
+      ⍝ (useful when calling yadcf in subsequent AJAX etc.!)
+      Use'⍕/DataTables/extras/yadcf-0.9.3/jquery.dataTables.yadcf.css'
+      Use'⍎/DataTables/extras/yadcf-0.9.3/jquery.dataTables.yadcf.js'
+      Use'JQueryUI'
       :If 0<Options.⎕NC'yadcf.Filters'
       :AndIf ×≢Options.yadcf.Filters
-          Use'⍕/DataTables/extras/yadcf-0.9.3/jquery.dataTables.yadcf.css'
-          Use'⍎/DataTables/extras/yadcf-0.9.3/jquery.dataTables.yadcf.js'
-          Use'JQueryUI'
           SetUse
           flt←#.JSON.fromAPL Options.yadcf.Filters
           :If ∨/'"chosen"'⍷flt ⋄ Use'chosen' ⋄ :EndIf     ⍝ load Chosen-Plugin for yadcf-Filters

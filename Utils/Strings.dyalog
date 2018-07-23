@@ -56,6 +56,4 @@
     ∇
 
 
-:EndNamespace
-⍝)(!commaFmt!brian!2017 9 3 10 58 15 0!0
-⍝)(!subst!brian!2017 9 3 10 58 15 0!0
+:EndNamespace                        

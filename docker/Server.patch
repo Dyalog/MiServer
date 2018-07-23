@@ -1,8 +1,14 @@
-41c41
+9c9
+<     <Production>0</Production>           <!-- 1-running in production mode, 0-development mode (enable debugging framework) --> 
+---
+>     <Production>1</Production>           <!-- 1-running in production mode, 0-development mode (enable debugging framework) --> 
+16d15
+<     <Ports>8080-8090</Ports>                         <!-- List of ports that we can listen on (when running multiple MiServers -->
+40c39
 <     <TrapErrors>0</TrapErrors>    <!-- Valid: 0=Crash, 1=Trap and Log errors -->
 ---
 >     <TrapErrors>1</TrapErrors>    <!-- Valid: 0=Crash, 1=Trap and Log errors -->
-46c46
+45c44
 <     <UseHTTP>1</UseHTTP>          <!-- Valid: 0=use DrA generated HTML, 1=report HTTP 500 status -->
 ---
 >     <UseHTTP>0</UseHTTP>          <!-- Valid: 0=use DrA generated HTML, 1=report HTTP 500 status -->

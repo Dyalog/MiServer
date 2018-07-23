@@ -1,23 +1,39 @@
 ﻿:Class IconAdvanced_FontAwesome_List : MiPageSample
-⍝ Control:: _DC.Icon
+⍝ Control:: _DC.Icon _.JS.DataTable⌈
 ⍝ Description:: Icon-Finder for FontAwesome-Icons
 
 
     ∇ Compose;p;matches;tab;Columns;css;fa;dt;yml
       :Access Public
-      Use'faIcons'
+      Use'faIcons5svg'
       Add _.p ScriptFollows
    ⍝ This page offers a tool to easily browse FontAwesome-Icons even when you're offline and have no access to the
-   ⍝ excellent Search-Tool on FontAwesome's <a href="http://fontawesome.io/icons/">site</a>.
-   ⍝ Please note that the search also operates on the aliases that are not shown in the table.
+   ⍝ excellent Search-Tool on FontAwesome's <a href="http://fontawesome.com/icons/">site</a>.
+   ⍝ Please note that the search also operates on the aliases that are (by default) not shown in the table.
+   ⍝ The visibility of columns can be toggled with the appropriate button in the table (which makes this 
+   ⍝ page also a useful example for DataTable-features. 
      
      
-      fa←#.Boot.ms.Config.Virtual{(⍺.alias⍳⊂⍵)⊃⍺.path,⊂''}'FontAwesome' ⍝ get path
-      yml←#.Files.GetVTV fa,'icons.yml'                                 ⍝ to the .yml-file that has names, categories etc.
+      fa←#.Boot.ms.Config.Virtual{(⍺.alias⍳⊂⍵)⊃⍺.path,⊂''}'FontAwesome5' ⍝ get path
+      json←⎕JSON 1⊃⎕NGET fa,'metadata/icons.json'                                
      
    ⍝ A bit of CSS to emphasize the search-input more:
       Add _.style ScriptFollows
-      ⍝ .dataTables_filter , input {
+            ⍝label {
+            ⍝   margin-bottom:5px;
+            ⍝}
+      ⍝ .dataTables_filter input {
+            ⍝   border:none;
+            ⍝   -webkit-border-radius:5px;
+            ⍝   -moz-border-radius:5px;
+            ⍝   border-radius:5px;
+            ⍝   -webkit-box-shadow:0 0 5px #666 inset;
+            ⍝   -moz-box-shadow:0 0 5px #666 inset;
+            ⍝   box-shadow:0 0 5px #666 inset;
+      ⍝ font-size: 1.5em;
+            ⍝}
+            ⍝input { outline:none; }      
+      ⍝ .dataTables_filterX , inputX {
       ⍝ font-size: 1.5em;
       ⍝ border-radius: .2em;
       ⍝ }
@@ -34,58 +50,34 @@
       ⍝ margin: auto;
       ⍝ }
      
-    ⍝ would have been nice to do this with a regex, but I could not get one together (within reasonable time)
-    ⍝      matches←↑↑('\A\h*\-((([\h\w]*):\h*([\w\h]*\R))*)'⎕S{GetRxGroups¨⍵}⍠('Mode' 'D')('Greedy' 1)('DotAll' 0)('IC' 1))yml
-      matches←ProcYml 1↓yml
+      matches←ProcJSON json
       dt←Add _.DataTable matches
-      Columns←⎕NS¨7⍴⊂''
-      Columns.title←'Title' 'Sample (regular, -lg, -2x, -3x)' 'Unicode' 'Released' 'Alias' 'Category' 'URL'
-      Columns[2].render←'⍎function ( data, type, full, meta ) {return ''<i class="fa fa-''+data+''"></i>&nbsp;<i class="fa-lg fa fa-''+data+''"></i>&nbsp;<i class="fa-2x fa fa-''+data+''"></i>&nbsp;<i class="fa-3x fa fa-''+data+''"></i>&nbsp;'';}'
-      Columns[5].visible←_false  ⍝ alias-column not shown, but considered in search!
-      Columns[7].visible←_false  ⍝ URL not shown, maybe we should use it to link the title?
+      Columns←⎕NS¨6⍴⊂''
+      Columns.title←'Title' 'Sample' 'Code' 'Unicode' 'Styles'  'Alias' 
+      Columns[6].visible←_false  ⍝ alias-column not shown, but included in search!
       dt.Options.columns←Columns
-      dt.Options.dom←'f<"nofloat"ltipr>'
+      dt.Options.dom←'f<"nofloat"Bltipr>'
+      dt.Options.mark←_true
+      dt.Options.buttons←'colvis'
+      dt.Plugins←'responsive'
     ∇
 
 
-
-    ∇ R←ProcYml yml;row;i;yi;id;val;mode
-     ⍝ [1]=Title
-     ⍝ [2]=id
-     ⍝ [3]=Unicode
-     ⍝ [4]=Release
-     ⍝ [5]=Alias / Filter  (multiple terms comma-separated)
-     ⍝ [6]=Categories      (multiple terms comma-separated)
-     ⍝ [7]=url
-     
-      R←0 7⍴''
-      row←'' '' '' ''(⊂'')(⊂'')'' ⋄ mode←0
-      :For i :In ⍳⍴yml
-          :If 0<⍴yi←i⊃yml
-              (id val)←{j←⍵⍳':' ⋄ j>⍴⍵:⍵ ⍬ ⋄ #.Strings.deb¨((j-1)↑⍵)(j↓⍵)}yi
-              :Select id
-              :Case '- name' ⋄ :If 0<1↑⍴1⊃row ⋄ R←R⍪row ⋄ :EndIf ⋄ row←(val)'' '' ''(⊂'')(⊂'')'' ⋄ mode←0
-              :Case 'id' ⋄ row[2]←⊂val
-              :Case 'unicode' ⋄ row[3]←⊂val
-              :Case 'created' ⋄ row[4]←⊂val
-              :Case 'url' ⋄ row[7]←⊂val
-              :CaseList 'filter' 'aliases' 'code' ⋄ mode←5
-              :Case 'categories' ⋄ mode←6
-              :Else
-                  :If mode>0 ⋄ :AndIf id≢'' ⋄ row[mode]←⊂(mode⊃row){0=1↑⍴⍺:⍵ ⋄ ⍺,',',⍵},{#.Strings.dlb(⍵⍳'-')↓⍵}id
-                  :ElseIf id≢'' ⋄ 'Unknown id=',id
-                  :EndIf
-              :EndSelect
-          :EndIf
-      :EndFor
+    ∇ mat←ProcJSON json
+    ⍝ convert JSON-Data into a matrix
+    ⍝ [;1] = Code of icon
+    ⍝ [;2] = <i>-tags to show icon in all styles
+    ⍝ [;3] = Label
+    ⍝ [;4] = Unicode-code 
+    ⍝ [;5] = ,-separated list of available styles
+      mat←↑json.({Code←1(7162⌶)⍵ ⋄ (⊂Code),(⍎⍵).(label unicode styles(search.{0::⍵ ⋄ terms}''))}¨⎕NL-9)
+      mat←mat[;2 1 1 3 ],{{1<≢⍵:⍵⋄''}¯1↓∊⍵,¨','}¨mat[;4 5]
+      mat[;2]←mat[;5]{
+      s←∊1↑¨','#.Strings.split ⍺
+      ∊s{'<i class="fa',⍺,' fa-',⍵,'"></i>&nbsp;'}¨⊂⍵
+      }¨mat[;2]
     ∇
 
-
-   ⍝ little tool to build nested vector with matches of subpatterns.
-   ⍝ Would be nice to have a more APL-ish approach for this in the transf-patterns... ;-)
-    ∇ R←GetRxGroups r
-      R←r.Block{{#.Strings.(dlb dtb)⍵~⎕UCS 10 13}¨(⊂⍺){⍺[∪(⍴⍺)⌊⍵]}¨(0⌈1⊃⍵)+⍳¨0⌈2⊃⍵}1↓¨r.(Offsets Lengths)
-    ∇
-
+    JSONTranslateName←7162⌶  ⍝ translate aplified Json-name (of object) back into its original form
 
 :EndClass

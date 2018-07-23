@@ -66,7 +66,6 @@
           
       v←⍳⍬⍴⍴opts
       (sel dis)←v∘∊∘{∧/⍵∊0 1:⍵/⍳⍴⍵ ⋄ ⍵}∘,¨sel dis
-     
       :If 1<+/sel                         ⍝ if we have multiple items selected
       :AndIf 0∊⍴⊃Attrs[⊂'multiple']       ⍝ and the multiple attribute is not set
           Attrs[⊂'multiple']←⊂'multiple'  ⍝ then set it
@@ -74,7 +73,7 @@
      
       :If ~0∊⍴Prompt
       :AndIf 0∊⍴⊃Attrs[⊂'multiple']  ⍝ prompt makes no sense if multiple selections are allowed
-          r,←('disabled="disabled" selected="selected"'New #._html.option Prompt).Render
+          r,←(('disabled="disabled" ',(~∨/sel)/'selected="selected"')New #._html.option Prompt).Render
       :EndIf
      
       r,←FormatOptions(opts sel dis)
@@ -89,10 +88,10 @@
       :EndFor
     ∇
 
-    ∇ r←{selector}ReplaceOptions args;sel;opts;dis
-⍝     Replaces select elements options - used by callback functions
-⍝ Ex: r←Execute ReplaceOptions ('New Option 1' 'New Option 2') 1
-⍝     arg = options [[selected] [disabled]]
+    ∇ r←{selector}ReplaceOptions args;sel;opts;dis;prompt
+    ⍝ Replaces select elements options - used by callback functions
+    ⍝ Ex: r←Execute ReplaceOptions ('New Option 1' 'New Option 2') 1
+    ⍝ arg = options [[selected] [disabled] [prompt]]
       :Access public
       :If 0=⎕NC'selector' ⋄ selector←'#',id ⋄ :EndIf
       args←eis args
@@ -100,7 +99,7 @@
       :AndIf ~0∊⍴⊃args
           args←,⊂args
       :EndIf
-      (opts sel dis)←args defaultArgs Options ⍬ ⍬
+      (opts sel dis prompt)←args defaultArgs Options ⍬ ⍬ Prompt
       r←selector #.JQ.Replace BuildOptions(opts sel dis)
     ∇
 :endclass

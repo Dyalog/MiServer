@@ -2,7 +2,7 @@
 ⍝ This namespace contains general utility functions
     (⎕ML ⎕IO)←1
 
-    penclose←{⎕ML←3 ⋄ ⍺←↑,⍵ ⋄ (~⍵∊⍺)⊂,⍵ } ⍝ APL2 style partitioned enclose (optional ⍺ is character(s) to break on)
+    penclose←{⍺←⊃,⍵ ⋄ (~⍵∊⍺)⊆,⍵ } ⍝ APL2 style partitioned enclose (optional ⍺ is character(s) to break on)
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
 
     backscan←{0≡≢⍵:⍬ ⋄ h←⍺ ⍺⍺⊃⍵ ⋄ (⊂h),h ⍺⍺ ∇∇ 1↓⍵} ⍝ scan \ in the opposite direction
@@ -42,6 +42,4 @@
           :EndIf
       :EndIf
     ∇
-:EndNamespace
-⍝)(!Platform!brian!2017 9 3 10 59 26 0!0
-⍝)(!hex!brian!2017 9 3 10 59 26 0!0
+:EndNamespace                       

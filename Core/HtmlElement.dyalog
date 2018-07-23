@@ -154,7 +154,7 @@
         ∇
     :endproperty
 
-    ∇ attr←{plain}ParseAttr arg;split;item;t;f;i;eq;nq;items;n;ind;inds;firstToken;token;name;value;q
+    ∇ attr←{plain}ParseAttr arg;split;item;t;f;i;eq;nq;items;n;ind;inds;firstToken;token;name;value;q;p
       :Access public shared
      
 ⍝ Parse html sttributes
@@ -195,7 +195,11 @@
                       :Case ' ' ⍝ we have a single token
                           :Select ⊃token←(ind-1)⍴item
                           :Case '.'  ⍝ class shorthand?
-                              attr,←⊂'class'(1↓token)
+                              :If (≢attr)≥p←(⊃¨attr)⍳⊂'class'
+                                  (p 2⊃attr),←' ',1↓token
+                              :Else
+                                  attr,←⊂'class'(1↓token)
+                              :EndIf
                           :Case '#'  ⍝ id shorthand?
                               attr,←⊂'id'(1↓token)
                           :Else

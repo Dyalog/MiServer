@@ -1,6 +1,7 @@
 ﻿:Namespace _JSS ⍝ Javascript Snippets
 
     (⎕ML ⎕IO)←1
+⍝ little helpers for JS/JQuery used in callbacks
 ⍝ this list will grow over time as usage patterns are discovered
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     quote←{0∊⍴⍵: '' ⋄ '"',(('"' ⎕R '\\\0')⍕⍵),'"'}
@@ -25,6 +26,7 @@
 
     ∇ r←sel Val args ⍝ JQuery val cover
       r←(sel JQuery'val')args
+      :If args≡'' '' ⋄ r/⍨←~',"");'⍷r ⋄ :EndIf  ⍝ special case to set value to ""
     ∇
 
     ∇ r←sel Prop args ⍝ JQuery prop cover
@@ -37,6 +39,14 @@
 
     ∇ r←sel RemoveAttr args
       r←(sel JQuery'removeAttr')args
+    ∇
+
+    ∇ r←sel AddClass args
+      r←(sel JQuery'addClass')args
+    ∇
+
+    ∇ r←sel RemoveClass args
+      r←(sel JQuery'removeClass')args
     ∇
 
     ∇ r←sel Html args ⍝ JQuery html cover
@@ -103,7 +113,13 @@
       :Else
           date←1↓∊','∘,∘⍕¨0 ¯1 0 0 0 0+6↑date
       :EndIf
-      r←(~eval)↓'⍎new Date(',date,')'
+⍝      r←(~eval)↓'⍎new Date(',date,')'
+⍝ ⍝ 180221, MBaas: ⍎ no longer supported
+      :If eval
+          r←⊂'new Date(',date,')'
+      :Else
+          r←'new Date(',date,')'
+      :EndIf
     ∇
 
     ∇ r←{varname}JSData data

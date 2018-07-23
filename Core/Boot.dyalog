@@ -99,6 +99,7 @@
       :If 0≠HtmlRenderer
           ms←⎕NS''
           ms.Config←Config
+          ms.Log←{⎕←⍵}
       :Else
           ms←⎕NEW(#⍎Config.ClassName)Config
           path←MSRoot,'Extensions/'
@@ -162,6 +163,7 @@
       ⎕EX'#.MiPage'
       ⎕EX'AppRoot'
       {}try'#.DRC.Close ''.'''
+      ⎕EX'#.DRC'
     ∇
 
     ∇ BuildEAWC;src;sources;fields;source;list;mask;refs;target
@@ -274,7 +276,7 @@
     ⍝ configure server level settings, setting defaults for needed ones that are not supplied
       Config←ReadConfiguration'Server'
      
-      Config.AllowedHTTPCommands←{⎕ML←3 ⋄ ⍵⊂⍨~⍵∊' ,'}#.Strings.lc Config Setting'AllowedHTTPCommands' 0 'get,post'
+      Config.AllowedHTTPMethods←{⎕ML←3 ⋄ ⍵⊂⍨~⍵∊' ,'}#.Strings.lc Config Setting'AllowedHTTPMethods' 0 'get,post'
       Config.AppRoot←AppRoot
       Config.Authentication←Config Setting'Authentication' 0 'SimpleAuth'
       Config.CertFile←Config Setting'CertFile' 0 ''
@@ -286,7 +288,6 @@
       Config.FormatHtml←Config Setting'FormatHtml' 1 0
       Config.Host←Config Setting'Host' 0 'localhost'
       Config.HTTPCacheTime←'m'#.Dates.ParseTime Config Setting'HTTPCacheTime' 0 '0' ⍝ default to off (0)
-      Config.IPVersion←Config Setting'IPVersion' 0 'IPV4'
       Config.IdleTimeout←'s'#.Dates.ParseTime Config Setting'IdleTimeout' 0 '0' ⍝ default to none (0)
       Config.KeyFile←Config Setting'KeyFile' 0 ''
       Config.Lang←Config Setting'Lang' 0 'en'
@@ -298,6 +299,7 @@
       Config.Ports←Config Setting'Ports'(,1)⍬
       Config.Production←Config Setting'Production' 1 0 ⍝ production mode?  (0/1 = development debug framework en/disabled)
       Config.RESTful←Config Setting'RESTful' 1 0 ⍝ RESTful web service?
+      Config.RenderBug←Config Setting'RenderBug' 1 0 ⍝ behaviour when hitting a bug during rendering 0:crash; 1:insert placeholder; nnn:throw http status nnn
       Config.RootCertDir←Config Setting'RootCertDir' 0 ''
       Config.Root←AppRoot
       Config.SSLFlags←Config Setting'SSLFlags' 1(32+64)  ⍝ Accept Without Validating, RequestClientCertificate
@@ -651,4 +653,4 @@
     ∇
     :endsection
 
-:EndNamespace
+:EndNamespace                           

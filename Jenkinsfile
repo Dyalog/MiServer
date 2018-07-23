@@ -9,17 +9,17 @@ node ('Docker') {
                         DockerApp = docker.build 'registry.dyalog.com:5000/dyalog/miserver:latest'
                 }
                 stage ('Test website') {
-                        def MiServer = DockerApp.run ()
+                        def MiServer = DockerApp.run ('-e USE_DEVMODE=true')
                         try {
 				//Get the IP of the container
 				def DOCKER_MS = sh (
 					script: "docker inspect ${MiServer.id} | jq .[0].NetworkSettings.IPAddress | sed 's/\"//g'",
 					returnStdout: true
 				).trim()
-                                sh "sleep 5; curl -s --retry 5 --retry-delay 5 -q http://${DOCKER_MS}:8080/ | grep \"Dyalog MiServer 3.0 Sample Site\" >/dev/null"
+                                sh "sleep 5; curl --connect-timeout 10 -m 10 -s --retry 5 --retry-delay 5 -q http://${DOCKER_MS}:8080/ | grep \"Dyalog MiServer 3.0 Sample Site\" >/dev/null"
                                 MiServer.stop()
                         } catch (Exception e) {
-                                println 'Failed to find string "Dyalog MiServer 3.0 Sample Site" cleaning up.'
+                                println 'Failed to find string "Dyalog MiServer 3.1 Sample Site" cleaning up.'
 				sh "docker logs ${MiServer.id}"
                                 sh "git rev-parse --short HEAD > .git/commit-id"
                                 withCredentials([string(credentialsId: '7ac3a2c6-484c-4879-ac85-2b0db71a7e58', variable: 'GHTOKEN')]) {

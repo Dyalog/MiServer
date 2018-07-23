@@ -15,7 +15,7 @@
 	</resource>
 	<resource>
 		<name>dcPanel</name>
-		<uses>faIcons</uses>
+		<uses>faIcons5svg</uses>
 		<style>/Dyalog/dcPanel/dcPanel.css</style>
 	</resource>
 
@@ -34,8 +34,9 @@
 	<resource>
 	  	<name>Bootstrap4</name>
 	  	<uses>JQuery</uses>
-	    <script>/Bootstrap4/js/bootstrap.bundle.min.js</script>
-	    <style>/Bootstrap4/css/bootstrap.min.css</style>
+	    <script>/Bootstrap4/popper.min.js</script>
+	    <script>/Bootstrap4/bootstrap.min.js</script>
+	    <style>/Bootstrap4/bootstrap.min.css</style>
 	</resource>
 <!--
 *******************************
@@ -43,8 +44,13 @@
 *******************************
 -->
 	<resource>
-		<name>faIcons</name>
-		<style>/FontAwesome/css/font-awesome.min.css</style>
+		<name>faIcons5svg</name>
+		<script>/FontAwesome5/js/all.js</script>
+	</resource>
+	
+	<resource>
+		<name>faIcons5css</name>
+		<style>/FontAwesome5/css/all.css</style>
 	</resource>
 
 <!-- 
@@ -66,6 +72,18 @@
 		<name>ejIcons</name>
 		<uses>sfTheme</uses>   <!-- Syncfusion ejIcons are built into theme -->
 	</resource>
+
+<!-- 
+********************************************
+*      Datatable - just the bare core,     *
+* more stuff loaded via DataTable.dyalog   *
+********************************************
+-->
+<resource>
+	<name>DataTables</name>
+	<uses>JQuery</uses>
+	<script>/DataTables/js/jquery.dataTables.min.js</script>
+</resource>
 
 <!-- 
 *********************************************
@@ -153,6 +171,7 @@
 	</resource>
 	<resource>
 		<name>ej.unobtrusive</name>
+		<uses>Syncfusion</uses>
 		<script>/Syncfusion/assets/scripts/common/ej.unobtrusive.min.js</script>
 	</resource>
 	<resource>

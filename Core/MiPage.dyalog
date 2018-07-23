@@ -62,7 +62,7 @@
       b←RenderBody
      
       :If ~0∊⍴_Scripts
-          {(Insert _html.script).Set('src' ⍵)}¨host∘AddHost¨⌽∪_Scripts
+          {(Insert _html.script).Set('src'⍵)}¨host∘AddHost¨⌽∪_Scripts
       :EndIf
      
       styles←∪_Styles
@@ -90,11 +90,11 @@
       :EndIf
      
       r←RenderPage b
-
+     
       :If 0≠⎕NC⊂'_Request.Response'
           _Request.Response.HTML←r
       :EndIf
-
+     
       (Head Body).Content←_head _body
       _Styles←_styles
       _Scripts←_scripts
@@ -150,7 +150,7 @@
       names←#.Strings.deb names
       :If ' '∊names
           names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
-          r←proto∘Get¨names
+          r←({⍬∘⍴⍣(1=≢⍵)⊢⍵}eis proto)Get¨names
       :ElseIf ~(_PageData.⎕NC names)∊2 9
           r←,proto
       :Else
@@ -262,38 +262,47 @@
       :Access public shared
       r←''
       content←eis content
-      :While ~0∊⍴content
-          :Select ≡c←⊃content
-          :Case 0
-              :If isClass c
-                  :Select ⊃⍴content
-                  :Case 1
-                      r,←(⎕NEW c).Render
-                  :Case 2
-                      r,←(⎕NEW c(2⊃content)).Render
+      :Trap 0
+          :While ~0∊⍴content
+              :Select ≡c←⊃content
+              :Case 0
+                  :If isClass c
+                      :Select ⊃⍴content
+                      :Case 1
+                          r,←(⎕NEW c).Render
+                      :Case 2
+                          r,←(⎕NEW c(2⊃content)).Render
+                      :Else
+                          r,←(⎕NEW c(1↓content)).Render
+                      :EndSelect
+                  :ElseIf isInstance c
+                      r,←c.Render
                   :Else
-                      r,←(⎕NEW c(1↓content)).Render
-                  :EndSelect
-              :ElseIf isInstance c
-                  r,←c.Render
+                      r,←(⎕NEW #.HtmlElement(''content)).Render
+                  :EndIf
+                  content←''
+              :Case 1
+                  :If isClass⊃c
+                      r,←(⎕NEW(⊃c)(1↓c)).Render
+                  :ElseIf isInstance⊃c
+                      ∘∘∘ ⍝ should not happen! (I think)
+                  :Else
+                      r,←(⎕NEW #.HtmlElement(''c)).Render
+                  :EndIf
+                  content←1↓content
               :Else
-                  r,←(⎕NEW #.HtmlElement(''content)).Render
-              :EndIf
-              content←''
-          :Case 1
-              :If isClass⊃c
-                  r,←(⎕NEW(⊃c)(1↓c)).Render
-              :ElseIf isInstance⊃c
-                  ∘∘∘ ⍝ should not happen! (I think)
-              :Else
-                  r,←(⎕NEW #.HtmlElement(''c)).Render
-              :EndIf
-              content←1↓content
-          :Else
-              r,←renderContent c
-              content←1↓content
-          :EndSelect
-      :EndWhile
+                  r,←renderContent c
+                  content←1↓content
+              :EndSelect
+          :EndWhile
+      :Else
+          :If (⎕EN≥100)∧(⎕EN≤999) ⍝ HTTP status rather than an APL error
+          :AndIf 0≠⎕NC⊂'_Request.Response' ⍝ we're actually running a server, not rendering in session
+              _Request.Fail ⎕EN
+          :Else ⍝ APL errors and in-session errors are not trapped:
+              ⎕SIGNAL ⎕DMX.(⊂{⍵(⍎⍵)}¨(⎕NL-⍳9)~'InternalLocation' 'DM' 'OSError') ⍝ re-signal
+          :EndIf
+      :EndTrap
     ∇
 
     ∇ r←selector Replace content
@@ -427,4 +436,4 @@
 
     :endsection
 
-:EndClass                         
+:EndClass

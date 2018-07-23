@@ -1,0 +1,50 @@
+﻿:class Tube_Planner : MiPageSample
+⍝ Control:: _JS.Chosen
+⍝ Description:: Tube/Metro/Subway planner for multiple cities
+
+    ∇ Compose;ipcity;go;route;inputs
+      :Access public
+      :If 0=⎕NC'TUBE.cities'
+          (TUBE←⎕NS ⍬).⎕CY'tube'
+          cities←'^.' '_(.)'⎕R'\u&' ' \u1'⊢(TUBE.⎕NL ¯9)~⊂'notes'
+      :EndIf
+     
+      Add _.style'.sel {width: 250px} #route {margin-top: 20px}'
+      '#title'Add _.h1'Tube/Metro/Subway Planner'
+     
+      inputs←'#inputs'Add _.Form
+     
+      ipcity←'#city' '.sel'inputs.Add _.Chosen cities ⍬ ⍬'select city' ⋄ inputs.Add': '
+      ipcity.On'change' 'UpdateCity'
+     
+      IPFR←'#from' '.sel'inputs.Add _.Chosen ⍬ ⍬ ⍬'select origin' ⋄ inputs.Add' → '
+     
+      IPTO←'#to' '.sel'inputs.Add _.Chosen ⍬ ⍬ ⍬'select destination' ⋄ inputs.Add'&emsp;'
+     
+      go←inputs.Add _.Button'Go!'
+      go.On'click' 'CalculateRoute'
+     
+      route←'#route'Add _.pre'Please select city and origin and destination'
+    ∇
+
+    ∇ r←CalculateRoute;route;inputs;empty
+      :Access public
+      inputs←Get'city' 'from' 'to'
+      empty←0=≢¨inputs
+      :If ∨/empty
+          r←'#route'Replace'Please select ',⊃{⍺,' and ',⍵}/empty/'city' 'origin' 'destination'
+      :Else
+          route←CITYDATA TUBE.trip 1↓inputs
+          r←'#route'Replace route,⎕UCS 10
+      :EndIf
+    ∇
+
+    ∇ r←UpdateCity
+      :Access public
+      CITYDATA←TUBE⍎#.Strings.lc Get'city'
+      TUBE.compile CITYDATA
+      STOPS←{(1=≡¨⍵)/⍵}CITYDATA.labels
+      r←IPFR.ReplaceOptions STOPS
+      r,←IPTO.ReplaceOptions STOPS
+    ∇
+:endclass

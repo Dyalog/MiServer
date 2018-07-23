@@ -2,7 +2,7 @@
 ⍝ Control:: _SF.ejAccordion
 ⍝ Description:: Accordion which calls back to the server on open/close
 
-    ∇ Compose;ac;n
+    ∇ Compose;ac;n;path
       :Access public
      
       path←_Request.Server.Config.AppRoot,'Examples/Data/SampleText'
@@ -15,7 +15,7 @@
       'showRoundedCorner'ac.Set _true
       ac.Titles←'First' 'Second' 'Third' 'Fourth' ⍝ headings for each of two sections
       :For n :In ⍕¨⍳4                             ⍝ content for each of 2 the sections
-          ac.Sections,←('p',n)New _.p(#.Files.ReadText _Request.Server.Config.AppRoot,'Examples/Data/SampleText',n,'.txt')
+          ac.Sections,←('p',n)New _.p(#.Files.ReadText path,n,'.txt')
       :EndFor
       ac.On'activate, inActivate' 'myCallback'(('opened' 'event' 'activeIndex')('closed' 'event' 'inActiveIndex'))
     ∇

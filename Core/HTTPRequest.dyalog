@@ -12,103 +12,107 @@
 
 ⍝ Fields related to the Request
 
-    :Field Public Instance Input
-    :Field Public Instance Headers
-    :Field Public Instance Command
-    :Field Public Instance Page
-    :Field Public Instance Host←''
-    :Field Public Instance Filename
+    :Field Public Instance Complete←0        ⍝ do we have a complete request?
+    :Field Public Instance Input←''
+    :Field Public Instance Headers←0 2⍴⊂''   ⍝ HTTPRequest header fields (plus any supplied from HTTPTrailer event)
+    :Field Public Instance Method←''         ⍝ HTTP method (GET, POST, PUT, etc)
+    :Field Public Instance Page←''           ⍝ Requested URI
+    :Field Public Instance Body←''           ⍝ body of the request
+    :Field Public Instance Host←''           ⍝ host header field
+    :Field Public Instance Filename←''       ⍝ upload file name
     :Field Public Instance RESTfulReq←0      ⍝ RESTful Request (set to charvec if request is RESTful)
-    :Field Public Instance Arguments
-    :Field Public Instance PeerAddr
-    :Field Public Instance PeerCert
-    :Field Public Instance Data
-    :Field Public Instance Content←''
-    :Field Public Instance Cookies
-    :field Public Instance MSec
-    :field Public Instance Bytes
+    :Field Public Instance Arguments←0 2⍴⊂'' ⍝ arguments provided in the URI
+    :Field Public Instance PeerAddr←''       ⍝ client IP address
+    :Field Public Instance PeerCert←0 0⍴⊂''  ⍝ client certificate
+    :Field Public Instance Data←0 2⍴⊂''      ⍝ form data
+    :Field Public Instance HTTPVersion←''
+    :Field Public Instance Cookies←0 2⍴⊂''
     :Field Public Instance Session←''
     :Field Public Instance Server←⎕NS ''
+    :Field Public Instance CloseConnection←0
 
 ⍝ Fields related to the Response
 
     :Field Public Instance Response
 
-    GetFromTable←{(⍵[;1]⍳⊂#.Strings.lc ,⍺)⊃⍵[;2],⊂''}
-    GetFromTableCS←{(⍵[;1]⍳⊂,⍺)⊃⍵[;2],⊂''} ⍝ Case Sensitive
-    GetFromTableDefault←{⍺←'' ⋄ (⍺⍺[;1]⍳⊂,⍵)⊃⍺⍺[;2],⊂⍺} ⍝ default (table ∇) value
+    GetFromTableCS←{{0∊⍴⍵:'' ⋄ 1=⍴⍵:⊃⍵ ⋄ ⍵}⍵[;2]/⍨⍵[;1]∊⊂⍺} ⍝ Case Sensitive
+    GetFromTable←{(#.Strings.lc ⍺)GetFromTableCS ⍵}
+    GetFromTableDefault←{⍺←'' ⋄ ⍺{0∊⍴⍵:⍺ ⋄ ⍵}⍵ GetFromTable ⍺⍺} ⍝ default_value (table ∇) value
+
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     inf←{∨/⍵⍷⍺:'' ⋄ ⍵} ⍝ if not found
     begins←{⍺≡(⍴⍺)↑⍵}
     split←{p←(⍺⍷⍵)⍳1 ⋄ ((p-1)↑⍵)(p↓⍵)} ⍝ Split ⍵ on first occurrence of ⍺
-    sint←{⎕io←0 ⋄ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 ¯128 ¯127 ¯126 ¯125 ¯124 ¯123 ¯122 ¯121 ¯120 ¯119 ¯118 ¯117 ¯116 ¯115 ¯114 ¯113 ¯112 ¯111 ¯110 ¯109 ¯108 ¯107 ¯106 ¯105 ¯104 ¯103 ¯102 ¯101 ¯100 ¯99 ¯98 ¯97 ¯96 ¯95 ¯94 ¯93 ¯92 ¯91 ¯90 ¯89 ¯88 ¯87 ¯86 ¯85 ¯84 ¯83 ¯82 ¯81 ¯80 ¯79 ¯78 ¯77 ¯76 ¯75 ¯74 ¯73 ¯72 ¯71 ¯70 ¯69 ¯68 ¯67 ¯66 ¯65 ¯64 ¯63 ¯62 ¯61 ¯60 ¯59 ¯58 ¯57 ¯56 ¯55 ¯54 ¯53 ¯52 ¯51 ¯50 ¯49 ¯48 ¯47 ¯46 ¯45 ¯44 ¯43 ¯42 ¯41 ¯40 ¯39 ¯38 ¯37 ¯36 ¯35 ¯34 ¯33 ¯32 ¯31 ¯30 ¯29 ¯28 ¯27 ¯26 ¯25 ¯24 ¯23 ¯22 ¯21 ¯20 ¯19 ¯18 ¯17 ¯16 ¯15 ¯14 ¯13 ¯12 ¯11 ¯10 ¯9 ¯8 ¯7 ¯6 ¯5 ¯4 ¯3 ¯2 ¯1[⍵]}
 
     ∇ r←eis w
       :Access public shared
       r←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵}w ⍝ Enclose if simple
     ∇
 
-    ∇ Make(cmd data);buf;input;args;req;hdrs;i;z;pars;mask;new;s;cookies
+    ∇ Make args;query;cookies
       :Access Public Instance
       :Implements Constructor
-⍝ Decode an HTTP command line: get /page&arg1=x&arg2=y
-⍝ Return namespace containing:
-⍝ Command: HTTP Command ('get' or 'post')
-⍝ Headers: HTTP Headers as 2 column matrix or name/value pairs
-⍝ Page:    Requested page
-⍝ Arguments: Arguments to the command (cmd?arg1=value1&arg2=value2) as 2 column matrix of name/value pairs
+    ⍝ args [1] HTTP method [2] URI [3] HTTP version [4] 2-column headers
+     
+      (Method Input HTTPVersion Headers)←args
+      Headers[;1]←#.Strings.lc Headers[;1]  ⍝ header names are case insensitive
+      Method←#.Strings.lc Method
      
       Response←⎕NS''
-      Response.(Status StatusText Headers File HTML HTMLHead PeerAddr NoWrap Bytes)←200 'OK'(0 2⍴⊂'')0 '' '' '' 0(0 0)
-      PeerCert←0 0⍴⊂'' ⋄ Data←0 2⍴⊂''
-      PeerAddr←''
-      MSec←⎕AI[3]
-     
-      input←1⊃,req←2⊃DecodeHeader cmd
-      Input←input
-      hdrs←{(0≠⊃∘⍴¨⍵[;1])⌿⍵}1 0↓req
-      Headers←hdrs
+      Response.(Status StatusText Headers File HTML HTMLHead PeerAddr NoWrap Bytes MSec)←200 'OK'(0 2⍴⊂'')0 '' '' '' 0(0 0)(⎕AI[3])
      
       Host←GetHeader'host'
-     
-      Command buf←' 'split input
-      Command←#.Strings.lc Command
-     
-      buf z←'HTTP/'split buf
-      Page args←'?'split ¯1↓buf
+      Page query←'?'split Input
       Page←PercentDecode Page
      
-      :If '/'≠⊃Page  ⍝!!! need to update this to deal with absolute URI's, see Section 5.1.2 of the HTTP/1.1 spec
+      :If '/'≠⊃Page  ⍝!!! need to update this to deal with absolute URI's, see https://tools.ietf.org/html/rfc7230#section-5.3.2
           1 Fail 400
           →0
       :EndIf
      
-      Arguments←URLDecodeArgs args
+      Arguments←URLDecodeArgs query
      
-⍝ PeerCert←conns.PeerCert
-     
-      :If (1↑⍴hdrs)≥i←hdrs[;1]⍳⊂'content-type'
-      :AndIf 'multipart/form-data'begins z←{(+/∧\⍵=' ')↓⍵}⊃hdrs[i;2]
-          z←'UTF-8'⎕UCS'--',(8+('boundary='⍷z)⍳1)↓z ⍝ boundary string
-          Data←↑DecodeMultiPart¨¯1↓z{(⍴⍺)↓¨(⍺⍷⍵)⊂⍵}data ⍝ ¯1↓ because last boundary has '--' appended
-      :ElseIf 'application/x-www-form-urlencoded'begins z
-          Data←URLDecodeArgs'UTF-8'⎕UCS data
-      :ElseIf 'text/plain'begins z
-          Data←1 2⍴'Data'('UTF-8'⎕UCS data) ⍝ if text, create artificial "Data" entry
-      :Else
-          Data←0 2⍴⊂''
-          Content←'UTF-8'⎕UCS data
-      :EndIf
-     
-      Cookies←0 2⍴⊂''
-      :If (1↑⍴hdrs)≥i←hdrs[;1]⍳⊂'cookie'
-          cookies←CookieSplit⊃hdrs[i;2]
+      :If ~0∊⍴cookies←GetHeader'cookie'
+          cookies←CookieSplit cookies
           :If ~0∊⍴cookies←(2=⊃∘⍴¨cookies)/cookies
-              Cookies←↑{((#.Strings.lc(1⊃⍵)~' '))(DeCode 2⊃⍵)}¨cookies
+              Cookies←↑{(' '~⍨1⊃⍵)(DeCode 2⊃⍵)}¨cookies
           :EndIf
       :EndIf
-     
-     
+      :If 'get'≡Method
+      :OrIf ∧/0∘∊∘⍴¨GetHeader¨'content-length' 'transfer-encoding'
+          FinalizeRequest
+      :EndIf
+    ∇
+
+    ∇ ProcessBody args
+      :Access public
+      Body←args
+      FinalizeRequest
+    ∇
+
+    ∇ ProcessChunk args
+      :Access public
+     ⍝ args is [1] chunk content [2] chunk-extension name/value pairs (which we don't expect and won't process)
+      Body,←1⊃args
+    ∇
+
+    ∇ ProcessTrailer args;inds;mask
+      :Access public
+      args[;1]←#.Strings.lc args[;1]
+      mask←(≢Headers)≥inds←Headers[;1]⍳args[;1]
+      Headers[mask/inds;2]←mask/args[;2]
+      Headers⍪←(~mask)⌿args
+      FinalizeRequest
+    ∇
+
+    ∇ FinalizeRequest;contentType;boundary;mask;new;s
+      :If ~0∊⍴contentType←GetHeader'content-type'
+      :AndIf 'multipart/form-data'begins contentType
+          boundary←'--',(8+('boundary='⍷contentType)⍳1)↓contentType ⍝ boundary string
+          Data←↑DecodeMultiPart¨¯1↓boundary{(⍴⍺)↓¨(⍺⍷⍵)⊂⍵}Body ⍝ ¯1↓ because last boundary has '--' appended
+      :ElseIf 'application/x-www-form-urlencoded'begins contentType
+          Data←URLDecodeArgs Body
+      :EndIf
       :If ∨/mask←Data[;1]#.Strings.beginsWith¨⊂'_serialized_' ⍝ do we have any serialized form data from AJAX?
           new←0 2⍴⊂''
           :For s :In mask/Data[;2]
@@ -124,6 +128,8 @@
               Data[s;2]←eis #.JSON.toAPL⊃Data[s;2]
           :EndFor
       :EndIf
+      Complete←1
+      CloseConnection←'close'≡GetHeader'connection'
     ∇
 
     ∇ Wipe
@@ -131,7 +137,7 @@
     ⍝ clear out all request data
       Input←''
       Headers←''
-      Command←''
+      Method←''
       Page←''
       Filename←''
       RESTfulReq←0
@@ -140,8 +146,6 @@
       PeerCert←⍬
       Data←⍬
       Cookies←''
-      MSec←⍬
-      Bytes←⍬
       Session←''
       Server←⎕NS''
       Response←⎕NS''
@@ -212,7 +216,7 @@
     ∇
 
     ∇ r←DecodeHeader buf;len;d;i
- ⍝ Decode HTML Header
+    ⍝ Decode HTML Header
       :Access public shared
       len←(¯1+⍴NL,NL)+⊃{((NL,NL)⍷⍵)/⍳⍴⍵}buf
       :If len>0
@@ -225,36 +229,27 @@
       r←len d
     ∇
 
-    ∇ r←DecodeMultiPart data;d;t;filename;name;i;hdr;ind
-      hdr←'UTF-8'⎕UCS data↑⍨ind←1+1⍳⍨13 10 13 10⍷data
-      d←'Content-Disposition: 'GetParam hdr
+    ∇ r←DecodeMultiPart data;ind;hdr;d;name;filename;i;upload
+      hdr←data↑⍨ind←1+1⍳⍨(NL,NL)⍷data
+      d←#.Strings.dlb'Content-Disposition:'GetParam hdr
      
       name←filename←''
       :If (⍴d)≥i←5+('name="'⍷d)⍳1
           name←(¯1+name⍳'"')↑name←i↓d
       :EndIf
      
-      :If (⍴d)≥i←9+('filename="'⍷d)⍳1
+      :If upload←(⍴d)≥i←9+('filename="'⍷d)⍳1
           filename←(¯1+filename⍳'"')↑filename←i↓d
       :EndIf
      
       data←(2+ind)↓data ⍝ Drop up to 1st doubleCR
-      data←(¯1+¯1↑{⍵/⍳⍴⍵}13 10⍷data)↑data ⍝ Drop from last CR
+      data←(¯1+¯1↑{⍵/⍳⍴⍵}NL⍷data)↑data ⍝ Drop from last CR
      
-      t←'Content-Type: 'GetParam hdr
-     
-      :If 0∊⍴filename
-          :Select 5↑t ⍝ Content type
-          :CaseList 'text/' '     ' ⍝ text formats
-              :Trap 92 ⋄ data←'UTF-8'⎕UCS data ⋄ :EndTrap ⍝ From UTF-8
-          :Else
-          :EndSelect
+      :If upload>0∊⍴filename
+          r←name(filename data)
       :Else
-          data←sint data
-          data←filename data
+          r←name ('UTF-8' ⎕UCS ⎕UCS data)
       :EndIf
-     
-      r←name data
     ∇
 
     ∇ r←header GetValue(name type);i;h
@@ -292,17 +287,28 @@
 
     ∇ r←GetCookie name
       :Access Public Instance
-      r←name GetFromTable Cookies
+      r←name GetFromTableCS Cookies ⍝ cookie names are case sensitive
     ∇
 
-    ∇ SetCookie ctl;name;value;path;date;z;keep
+    ∇ SetCookie ctl;name;value;path;date;z;keep;other
       :Access Public Instance ⍝ Set a Cookie
+      ⍝  ctl [1] cookie name, [2] value, [3] path that cookie applies to,
+      ⍝      [4] expires - can be a single number of days to offset from today
+      ⍝                    a character vector of a properly formatted timestamp (see #.Dates.CookieFmt)
+      ⍝                    an integer vector of 3-6 elements in ⎕TS format
+      ⍝      [5] a character vector of any other cookie parameters - e.g. HttpOnly
       ctl←eis ctl
-      name value path keep←ctl,(⍴ctl)↓'CookieName' 'CookieValue' '/' 30
-      date←#.Dates.IDNToDate keep+#.Dates.DateToIDN 3↑⎕TS ⍝ keep is # of days cookie should be valid
-      z←#.Dates.CookieFmt(3↑date),23 59 59
-      z←name,'=',(⍕value),'; path=',path,'; expires="',z,'"'
-      Response.Headers⍪←'set-cookie'z
+      name value path keep other←ctl,(⍴ctl)↓'CookieName' 'CookieValue' '/' 30 ''
+      :If ~0∊⍴date←keep
+          :If 2|⎕DR keep
+              :If 1=⍴,keep
+                  date←#.Dates.IDNToDate keep+#.Dates.DateToIDN ⎕TS ⍝ keep is # of days cookie should be valid
+              :EndIf
+              date←#.Dates.CookieFmt 6↑date
+          :EndIf
+      :EndIf
+      z←name,'=',(⍕value),(path ine'; Path=',path),(date ine'; Expires=',date),other ine('; '≡2↑other)↓'; ',other
+      Response.Headers⍪←'Set-Cookie'z
     ∇
 
     :endsection
@@ -381,12 +387,12 @@
 
     ∇ r←isPost
       :Access public instance
-      r←Command≡'post'
+      r←Method≡'post'
     ∇
 
     ∇ r←isGet
       :Access public instance
-      r←Command≡'get'
+      r←Method≡'get'
     ∇
 
     ∇ r←JSPlugIn file;root ⍝ Retrieve a JavaScript PlugIn
@@ -558,13 +564,7 @@
 
     ∇ Show
       :Access public
-      ↑{⍵(⍎⍵)}¨'Input' 'Command' 'Page' 'Headers' 'Arguments' 'Data' 'Cookies'
+      ↑{⍵(⍎⍵)}¨'Input' 'Method' 'Page' 'Headers' 'Arguments' 'Data' 'Cookies'
     ∇
 
 :EndClass
-⍝)(!DecodeHeader!!0 0 0 0 0 0 0!0
-⍝)(!HttpStatus!!0 0 0 0 0 0 0!0
-⍝)(!PercentDecode!!0 0 0 0 0 0 0!0
-⍝)(!URLDecodeArgs!!0 0 0 0 0 0 0!0
-⍝)(!URLEncode!!0 0 0 0 0 0 0!0
-⍝)(!eis!!0 0 0 0 0 0 0!0
