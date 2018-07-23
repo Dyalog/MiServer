@@ -495,13 +495,15 @@
       :If res.File
           response←''res.HTML
       :Else
-          res.Headers⍪←'Content-Length'length
           response←res.HTML
+          :If 160=⎕DR response
+              response←'UTF-8'⎕UCS response
+          :EndIf
       :EndIf
       done←length≤offset←⍴res.HTML
       res.MSec-⍨←⎕AI[3]
       res.Bytes←startsize length
-     
+  
       :If 0≠1⊃z←#.DRC.Send obj(status,res.Headers response)
           (1+(1⊃z)∊1008 1119)Log'"HandleRequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
       :EndIf
