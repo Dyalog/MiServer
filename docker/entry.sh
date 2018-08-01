@@ -7,9 +7,6 @@
 
 export MiServer=${MiServer-/MiServer/MS3}
 
-if [ "${USE_DEVMODE}" = "true" ]; then
-    dyalog -s /MiServer/miserver.dws 2>/dev/null 0<&-
-else
-    dyalog -rt /MiServer/miserver.dws
-fi
+echo "Running MiServer: $(cat /MiServer/MiServer.version)"
+/usr/bin/dyalog -s /MiServer/miserver.dws 0<&-
 
