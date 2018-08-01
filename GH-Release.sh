@@ -17,7 +17,7 @@ fi
 # create JSON
 TMP_JSON=/tmp/GH-Publish.${PROJECT}.$$.json
 GH_RELEASES=/tmp/GH-Releases.${PROJECT}.$$.json
-VERSION_AB="3.1"
+VERSION_AB=$(cat version)
 VERSION="${VERSION_AB}.`git rev-list HEAD --count`"
 echo "${VERSION} - (${GIT_COMMIT})" > ./MiServer.version
 

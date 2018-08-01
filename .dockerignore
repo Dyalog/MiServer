@@ -1,3 +1,7 @@
+.git
+.gitignore
+.dockerignore
+version
 GH-Release.sh
 githubComment.sh
 Dockerfile
