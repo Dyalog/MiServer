@@ -248,7 +248,7 @@
       :If upload>0∊⍴filename
           r←name(filename data)
       :Else
-          r←name ('UTF-8' ⎕UCS ⎕UCS data)
+          r←name('UTF-8'⎕UCS ⎕UCS data)
       :EndIf
     ∇
 
@@ -438,9 +438,17 @@
       :EndIf
     ∇
 
-    ∇ SetContentType x
-      :Access public instance
-      'content-type'SetHeader'application/binary'(Server.Config.ContentTypes GetFromTableDefault)#.Strings.lc{(1-(⌽⍵)⍳'.')↑⍵}x
+    ∇ SetContentType x;ct
+      :Access public instance  
+    ⍝ Sets response content-type header
+    ⍝ x is either a file name or extension (if it contains a period), in which case we attempt to look up the appropriate content-type
+    ⍝      or the actual setting for content-type
+      :If '.'∊x ⍝ contains file extension?
+          ct←'application/binary'(Server.Config.ContentTypes GetFromTableDefault)#.Strings.lc{(1-(⌽⍵)⍳'.')↑⍵}x ⍝ attempt to look it up
+      :Else
+          ct←x
+      :EndIf
+      'content-type'SetHeader ct
     ∇
 
     ∇ {hdr}SetHeaderIfNotSet value;val;mask

@@ -41,8 +41,17 @@
 
     ∇ r←{options}fromAPL array;typ;ic;drop;ns;preserve;quote;qp;eval;t
     ⍝ array is an APL array
+    ⍝ options is [1] flatten higher rank arrays?
       :Access public shared
-      ⎕SIGNAL(1<⍴⍴array)/⊂('EN' 11)('Message' 'Array rank > 1')
+      :If 0=⎕NC'options' ⋄ options←⍬ ⋄ :EndIf
+      options←1↑options,(≢options)↓0
+      :If 1<⍴⍴array
+          :If options[1]
+              array←{(↓⍣(¯1+≢⍴⍵))⍵}array
+          :Else
+              ⎕SIGNAL⊂('EN' 11)('Message' 'Array rank > 1')
+          :EndIf
+      :EndIf
       :Trap 0
           :If isSimple array
               r←fmtNum array ⋄ →0 if 2|typ←⎕DR array ⍝ numbers

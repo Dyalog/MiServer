@@ -32,6 +32,10 @@
     <type>application/x-zip-compressed</type>
   </content>
   <content>
+    <ext>csv</ext>
+    <type>text/csv</type>
+  </content>
+  <content>
     <ext>pdf</ext>
     <type>application/pdf</type>
   </content>
