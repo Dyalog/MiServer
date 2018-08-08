@@ -11,7 +11,7 @@
       ⍝is itself part of the MiServer sample site, we've marked it as such.
      
      ⍝ Normally this will be in italics but can be changed through CSS
-      Add _.cite(_.A'– Dyalog MiServer 3.0''s Sample Site' '')
+      Add _.cite(_.A'– Dyalog MiServer 3''s Sample Site' '')
     ∇
 
 :endclass

@@ -1,4 +1,4 @@
-<div id="banner">
+﻿<div id="banner">
 
 	<div id="banner-logo">
 		<a href="/">
@@ -7,7 +7,7 @@
 	</div>
 
 	<div id="banner-heading">
-		<h1>Dyalog MiServer 3.0 Sample Site</h1>
+		<h1>Dyalog MiServer 3 Sample Site</h1>
 		<p>Anyone who can write an APL function should be able to host it on the web.™</p>
 	</div>
 
