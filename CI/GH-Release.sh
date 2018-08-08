@@ -74,8 +74,6 @@ fi
 echo "SHA: ${COMMIT_SHA}"
 
 if [ $GH_VERSION_ND_LAST = 0 ]; then
-#	echo "No releases of $VERSION_AB found, not populating changelog"
-#	JSON_BODY=$(echo -e "Pre-Release of MiServer $VERSION_AB\n\nWARNING: This is a pre-release version of MiServer. We cannot guarantee the stability of this product at this time.\n\nInitial version of MiServer $VERSION_AB" | python -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
 	echo using log from $COMMIT_SHA from $GH_VERSION_ND_LAST
 	JSON_BODY=$( ( echo -e "MiServer $VERSION_AB\n\nChangelog:"; git log --format='%s' 48071c6.. ) | python -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
 else
@@ -99,7 +97,7 @@ cat $TMP_JSON
 
 # Create ZIP downloads
 
-zip ./MiServer-${VERSION}.zip . -r -x docker-compose.yml Dockerfile GH-Release.sh githubComment.sh Jenkinsfile rancher-compose.yml docker\* SampleMiSites\* .git\* QA\*
+zip ./MiServer-${VERSION}.zip . -r -x docker-compose.yml Dockerfile CI Jenkinsfile rancher-compose.yml docker\* SampleMiSites\* .git\* QA\*
 zip ./MiServer-Samples-${VERSION}.zip SampleMiSites -r 
 
 ## Copy files to Dyalog Devt
