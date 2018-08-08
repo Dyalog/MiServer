@@ -26,7 +26,7 @@ node ('Docker') {
                                 sh "git rev-parse --short HEAD > .git/commit-id"
                                 withCredentials([string(credentialsId: '7ac3a2c6-484c-4879-ac85-2b0db71a7e58', variable: 'GHTOKEN')]) {
                                         commit_id = readFile('.git/commit-id')
-                                        sh "./githubComment.sh ${MiServer.id} ${commit_id}"
+                                        sh "./CI/GH-Comment.sh ${MiServer.id} ${commit_id}"
                                 }
                                 MiServer.stop()
                                 sh 'docker rmi registry.dyalog.com:5000/dyalog/miserver:latest'
@@ -63,7 +63,7 @@ node ('Docker') {
 	
 	stage ('Github Upload') {
 		withCredentials([string(credentialsId: '7ac3a2c6-484c-4879-ac85-2b0db71a7e58', variable: 'GHTOKEN')]) {
-			sh './GH-Release.sh'
+			sh './CI/GH-Release.sh'
 		}
 
         }

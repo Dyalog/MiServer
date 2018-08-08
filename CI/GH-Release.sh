@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e 
 
+WORKSPACE=${WORKSPACE-$PWD}
+cd ${WORKSPACE}
+
 PROJECT=MiServer
 REPO=Dyalog/${PROJECT} # ideally this should be parsed from "git ls-remote --get-url origin"
 
@@ -41,20 +44,20 @@ if which jq >/dev/null 2>&1; then
 	GH_VERSION_ND_LAST=0
 
         while [ $C -le $RELEASE_COUNT ] ; do
-		DRAFT=`cat $GH_RELEASES | jq  ".[$C].draft"`
-		ID=`cat $GH_RELEASES | jq  ".[$C].id"`
-		GH_VERSION=$(cat $GH_RELEASES | jq ".[$C].name" | sed 's/"//g;s/^v//')
-		GH_VERSION_ND=$(cat $GH_RELEASES | jq ".[$C].name" | sed 's/"//g;s/^v//;s/\.//g')
+		DRAFT=`cat $GH_RELEASES | jq -r ".[$C].draft"`
+		ID=`cat $GH_RELEASES | jq -r ".[$C].id"`
+		GH_VERSION=$(cat $GH_RELEASES | jq -r ".[$C].name" | sed 's/^v//')
+		GH_VERSION_ND=$(cat $GH_RELEASES | jq -r ".[$C].name" | sed 's/^v//;s/\.//g')
 		GH_VERSION_AB=${GH_VERSION%.*}
 
 
 		if [ "${GH_VERSION_AB}" = "${VERSION_AB}" ]; then
 			if [ "$DRAFT" = "true" ]; then
-				echo -e -n "*** $(cat $GH_RELEASES | jq ".[$C].name" | sed 's/"//g') with id: $(cat $GH_RELEASES | jq  ".[$C].id") is a draft - Deleting.\n"
+				echo -e -n "*** $(cat $GH_RELEASES | jq -r ".[$C].name") with id: $(cat $GH_RELEASES | jq -r ".[$C].id") is a draft - Deleting.\n"
 				curl -X "DELETE" -H "Authorization: token $GHTOKEN" https://api.github.com/repos/${REPO}/releases/${ID}
 			else
 				if [ $GH_VERSION_ND -gt $GH_VERSION_ND_LAST ]; then
-					COMMIT_SHA=`cat $GH_RELEASES | jq ".[$C].target_commitish"`
+					COMMIT_SHA=`cat $GH_RELEASES | jq -r ".[$C].target_commitish"`
 					GH_VERSION_ND_LAST=$GH_VERSION_ND
 				fi
 			fi

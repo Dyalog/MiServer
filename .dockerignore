@@ -7,3 +7,4 @@ githubComment.sh
 Dockerfile
 docker-compose.yml
 rancher-compose.yml
+CI
