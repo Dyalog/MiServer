@@ -35,9 +35,16 @@
       files,←'Files'filterOut MSRoot,'Utils' ⍝ find utility libraries
       files,←filterOut MSRoot,'Extensions'
      
+     
+      failed←''
       :For f :In files
-          disperror ⎕SE.SALT.Load f,' -target=#' ⍝ do not reload already loaded spaces
+          {326=⎕DR ⍵: ⋄ '***'≡3↑⍵:failed,←⊂(('<.+>'⎕S{1↓¯1↓⍵.Match})⍵)}⎕SE.SALT.Load f,' -target=#' ⍝ do not reload already loaded spaces
       :EndFor
+     
+      :For file :In failed
+          disperror ⎕SE.SALT.Load∊'"',file,'" -target=#'
+      :EndFor
+     
      
       HTML←'_JQ' '_JS'{⍵[⍋⍺⍳(↑⎕NPARTS¨⍵)[;2]]}filterOut MSRoot,'HTML' ⍝ prioritize loading of _JQ and _JS
      
@@ -653,4 +660,4 @@
     ∇
     :endsection
 
-:EndNamespace                           
+:EndNamespace
