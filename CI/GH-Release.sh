@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e 
 
+WORKSPACE=${WORKSPACE-$PWD}
+cd ${WORKSPACE}
+
 PROJECT=MiServer
 REPO=Dyalog/${PROJECT} # ideally this should be parsed from "git ls-remote --get-url origin"
 

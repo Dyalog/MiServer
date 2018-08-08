@@ -15,7 +15,7 @@ echo Continuing...
 
 ## Test the root page, If this fails then we will bail straight away.
 if ! curl -s --retry 5 --retry-delay 5 -q http://${MISERVER}:8080 | grep "Dyalog MiServer 3 Sample Site" > /dev/null 2>&1; then
-    echo "**FAILED** Root page failed to load" | tee -a ${TESTOUT}
+    echo "**FAILED** Root page failed to load with text: Dyalog MiServer 3 Sample Site" | tee -a ${TESTOUT}
     exit 1 
 fi
 
