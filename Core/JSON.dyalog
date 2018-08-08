@@ -76,7 +76,7 @@
                   r←⊃array
                   →0
               :Else
-                  r,←1↓∊',',¨fromAPL¨,array
+                  r,←1↓∊',',¨options∘fromAPL¨,array
               :EndIf
               r,←ic↓']'
           :EndIf
