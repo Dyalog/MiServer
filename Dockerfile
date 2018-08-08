@@ -9,7 +9,7 @@ ADD . /MiServer
 ADD docker/entry.sh /scripts/
 ADD docker/*.patch /patches/
 RUN patch /opt/mdyalog/16.0/64/unicode/mapl /patches/mapl.patch
-RUN patch /MiServer/Config/Server.xml /patches/Server.patch
+# RUN patch /MiServer/Config/Server.xml /patches/Server.patch
 
 EXPOSE 8080
 EXPOSE 4502

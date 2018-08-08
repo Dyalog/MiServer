@@ -212,7 +212,7 @@
       fname←'MSGBOX'
       ⎕IO←1 ⋄ ⍎(0=⎕NC'TIT')/'TIT←GUI_Title'
      
-      :If (NoUser≠0)∨LogFn∨.≠' ' ⋄ Log(⊂TIT),{1=≡⍵:⊂⍵ ⋄ ⍵}1⊃CTL ⋄ →0 ⋄ :EndIf
+      :If (NoUser≠0)∨LogFn∨.≠' ' ⋄ Log(⊂TIT),{1=≡⍵:⊂⍵ ⋄ ⍵}CTL ⋄ →0 ⋄ :EndIf
      
       ⍎(1=≡CTL)/'CTL←CTL ''INFO'' ''OK'' 1⋄→DO'
       CTL[2]←('MSG' 'INFO' 'QUERY' 'QUERY' 'WARN' 'WARN' 'ERROR' 'MSG')['MIQ?W!E'⍳''⍴2⊃CTL]

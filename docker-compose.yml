@@ -4,5 +4,6 @@ services:
     image: registry.dyalog.com:5000/dyalog/miserver:live
     ports:
     - 4502:4502/tcp
+    - 8088:8080/tcp
     labels:
       io.rancher.container.pull_image: always
