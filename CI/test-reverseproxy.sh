@@ -26,12 +26,13 @@ echo -e -n "Testing site with reverse proxy:\n" | tee -a ${TESTOUT}
 
 ## run the test 5 times, under the issue we found the first load would load enough data for the test to pass.
 
+STRING="Dyalog MiServer 3 Sample Site"
 COUNTER=1
 MAXRUN=5
 while [ ${COUNTER} -le ${MAXRUN} ]; do
     echo -e -n "Test $COUNTER/${MAXRUN}" | tee -a ${TESOUT}
-    if ! curl -s --retry 5 --retry-delay 5 -H "Host: miserver.dyalog.bramley" -q http://${PROXY_IP} | grep "Dyalog MiServer 3.0 Sample Site" > /dev/null  2>&1; then
-        echo -e -n "**FAILED**\n\tRoot page failed to load under reverse proxy with text: Dyalog MiServer 3 Sample Site" | tee -a ${TESTOUT}
+    if ! curl -s --retry 5 --retry-delay 5 -H "Host: miserver.dyalog.bramley" -q http://${PROXY_IP} | grep "${STRING}" > /dev/null  2>&1; then
+        echo -e -n "**FAILED**\n\tRoot page failed to load under reverse proxy with text: ${STRING}" | tee -a ${TESTOUT}
         docker stop ${PROXY} >/dev/null 2>&1
         docker rm ${PROXY} >/dev/null 2>&1
         echo -e -n "------\n" | tee -a ${TESTOUT}     
