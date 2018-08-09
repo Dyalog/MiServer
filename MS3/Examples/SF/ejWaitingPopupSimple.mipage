@@ -25,11 +25,7 @@
 
     ∇ js←APLJax
       :Access public
-      js←⊃,/(⊂'showOnInit')wp.Update _false
-      :If 'X'≠_what
-          js,←'showOnInit'(wp⊃⍨'ABC'⍳_what).Update _true
-      :EndIf
-     
+			js←⊃,/(⊂'showOnInit')wp.Update(_false _true)[1+'ABC'=_what]
     ∇
 
 
