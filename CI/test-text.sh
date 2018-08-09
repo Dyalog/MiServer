@@ -39,7 +39,7 @@ COUNTER=1
 ## loop through until the counter is higher than the array length
 
 while [ $COUNTER -le ${#urls[@]} ]; do
-    echo -en "Test ${COUNTER}\t" | tee -a ${TESTOUT}
+    echo -en "Test ${COUNTER}/${#urls[@]}\t" | tee -a ${TESTOUT}
     if ! curl -s --retry 5 --retry-delay 5 -q http://${MISERVER}:8080/${urls[$COUNTER]} | grep "${tests[$COUNTER]}" > /dev/null ; then
         echo -en "**FAILED**\n\tPage ${urls[$COUNTER]} failed to find text ${tests[$COUNTER]}\n" | tee -a ${TESTOUT}
     else
