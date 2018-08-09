@@ -13,7 +13,7 @@ node ('Docker') {
                 stage ('Test website') {
 
 
-                        def MiServer = DockerApp.run ()
+                        def MiServer = DockerApp.run ('-e VIRTUAL_HOST=miserver.dyalog.bramley -e VIRTUAL_PORT=8080')
                         try {
 				//Get the IP of the container
 				def DOCKER_IP = sh (
