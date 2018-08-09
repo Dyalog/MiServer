@@ -6,20 +6,24 @@ set -e
 
 MISERVER=$1
 TESTOUT=/tmp/miserver-test.log
-rm -f ${TESTOUT}
 touch ${TESTOUT}
 
 echo sleeping for 5 seconds for docker to start.
 sleep 5
 echo Continuing...
 
+echo "Testing root page: " | tee -a ${TESTOUT}
+
 ## Test the root page, If this fails then we will bail straight away.
 if ! curl -s --retry 5 --retry-delay 5 -q http://${MISERVER}:8080 | grep "Dyalog MiServer 3 Sample Site" > /dev/null 2>&1; then
-    echo "**FAILED** Root page failed to load with text: Dyalog MiServer 3 Sample Site" | tee -a ${TESTOUT}
+    echo -e -n "**FAILED**\n\t Root page failed to load with text: Dyalog MiServer 3 Sample Site\n" | tee -a ${TESTOUT}
     exit 1 
 fi
 
+echo -e -n "------\n" | tee -a ${TESTOUT}
+echo -e -n "Testing page text:\n" | tee -a ${TESTOUT}
 ## Arrays for the URL and the text to find
+
 declare -a urls
 declare -a tests
 
@@ -45,6 +49,8 @@ while [ $COUNTER -le ${#urls[@]} ]; do
     let COUNTER=$COUNTER+1
     
 done
+
+echo -e -n "------\n" | tee -a ${TESTOUT}
 
 if grep "**FAILED**" ${TESTOUT} > /dev/null 2>&1; then
     exit 1

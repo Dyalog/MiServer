@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+TESTLOG=/tmp/miserver-test.log
 WORKSPACE=${WORKSPACE-$PWD}
 cd ${WORKSPACE}
 
@@ -12,7 +13,7 @@ COMMENT_FILE=`tempfile`
 echo "--- APL SESSION ---" > ${COMMENT_FILE}
 docker logs ${DOCKER_ID} >> ${COMMENT_FILE} 2>&1
 echo "--- CI-Test Output ---" >> ${COMMENT_FILE}
-cat /tmp/miserver-test.log >> ${COMMENT_FILE}
+cat ${TESTLOG} >> ${COMMENT_FILE}
 
 
 
@@ -20,4 +21,4 @@ echo "{ \"body\": \"Build failed with output:\n\`\`\`$(cat ${COMMENT_FILE} | sed
 curl -v --data "$(cat json)" -H "Authorization: token $GHTOKEN" -i https://api.github.com/repos/Dyalog/MiServer/commits/${COMMIT_ID}/comments
 
 rm -f json
-rm ${COMMENT_FILE}
+rm -f ${COMMENT_FILE} ${TESTLOG}
