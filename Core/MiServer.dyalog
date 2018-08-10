@@ -511,7 +511,7 @@
       conns.(LastActive Active)←0
      
       :If REQ.CloseConnection
-          ConnectDelete conns
+          ConnectionDelete conns
       :Else
           conns.Active←0
       :EndIf
