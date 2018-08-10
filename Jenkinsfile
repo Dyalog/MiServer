@@ -20,7 +20,7 @@ node ('Docker') {
 					script: "docker inspect ${MiServer.id} | jq .[0].NetworkSettings.IPAddress | sed 's/\"//g'",
 					returnStdout: true
 				).trim()
-                                sh "for F in `ls ${WORKSPACE}/CI/test-*.sh`; do /bin/bash \${F} ${DOCKER_IP}; done"
+                                sh "sleep 10 && for F in `ls ${WORKSPACE}/CI/test-*.sh`; do /bin/bash \${F} ${DOCKER_IP}; done"
 //${WORKSPACE}/CI/test-pages.sh ${DOCKER_IP}"
                                 MiServer.stop()
                         } catch (Exception e) {

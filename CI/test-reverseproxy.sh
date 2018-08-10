@@ -18,7 +18,7 @@ PROXY=$(docker run -d -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-
 PROXY_IP=$(docker inspect ${PROXY} | jq -r .[0].NetworkSettings.IPAddress)
 
 ## give it all time to start up
-sleep 2
+sleep 5
 
 ## Test the website
 
