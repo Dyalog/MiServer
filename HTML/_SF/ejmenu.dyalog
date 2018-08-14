@@ -10,7 +10,7 @@
 ⍝ Links   - the HREF string to be used when the corresponding element is chosen (clicked)
 ⍝ MakeIds - 1 makes ids in the format myid_1_2
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejMenu.html'
+    :field public shared readonly DocBase←'https://help.syncfusion.com/js/menu/overview'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejMenu.html'
     :field public Levels←1

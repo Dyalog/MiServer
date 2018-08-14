@@ -11,7 +11,7 @@
 ⍝ ejDatePicker '27-Nov-1966'
 ⍝ ejDatePicker (2000 1 1)('dd-MMM-yyyy')
 
-    :Field Public Shared ReadOnly DocBase←'http://help.syncfusion.com/js/api/ejDatePicker.html'
+    :Field Public Shared ReadOnly DocBase←'https://help.syncfusion.com/js/datepicker/overview'
     :Field Public Shared ReadOnly ApiLevel←3
     :Field Public Shared ReadOnly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejDatePicker.html'
     :Field Public Shared ReadOnly IntEvt←'beforeDateCreate'  'change'  'close'  'create'  'destroy'  'focusIn'  'focusOut'  'open'  'select'

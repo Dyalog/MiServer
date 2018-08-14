@@ -4,7 +4,7 @@
 ⍝ content      - initial content for the editor
 ⍝ Public Fields::
 ⍝ Content      - initial content for the editor
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejRTE.html'
+    :field public shared readonly DocBase←'https://help.syncfusion.com/js/rte/overview'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejRTE.html'
     ∇ make

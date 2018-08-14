@@ -6,7 +6,7 @@
 ⍝ Examples::
 ⍝ ejBarcode 'Dyalog' 'code93'
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejBarcode.html'
+    :field public shared readonly DocBase←'https://help.syncfusion.com/js/barcode/overview'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejBarcode.html'
     :field public shared readonly IntEvt←,⊂'load'

@@ -25,7 +25,7 @@
 ⍝ SegLength  - numeric segment length (default based on typeface)
 ⍝ SegWidth   - numeric segment width (default based on typeface)
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejDigitalGauge.html'
+    :field public shared readonly DocBase←'https://help.syncfusion.com/js/digitalgauge/overview'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejDigitalGauge.html'
     :field public shared readonly IntEvt←'init' 'itemRendering' 'load' 'renderComplete'

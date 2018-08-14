@@ -19,7 +19,7 @@
 ⍝ ejCheckBox 0 'Married'                  ⍝ a checkbox with label 'Married' to the left
 ⍝ ejCheckBox 1 'with children' 'right'    ⍝ a checkbox with label 'with children' to the right
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejCheckBox.html'
+    :field public shared readonly DocBase←'https://help.syncfusion.com/js/checkbox/overview'
     :field public shared readonly ApiLevel←2
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejCheckBox.html'
     :field public shared readonly IntEvt←'beforeChange' 'change' 'create' 'destroy'

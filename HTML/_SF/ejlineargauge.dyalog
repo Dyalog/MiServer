@@ -10,7 +10,7 @@
 ⍝ Min   - minimum value on the gauge's scale
 ⍝ Max   - maximum value on the gauge's scale
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejLinearGauge.html'
+    :field public shared readonly DocBase←'https://help.syncfusion.com/js/lineargauge/overview'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejLinearGauge.html'
     :field public shared readonly IntEvt←'drawBarPointers' 'drawCustomLabel' 'drawIndicators' 'drawLabels' 'drawMarkerPointers' 'drawRange' 'drawTicks' 'init' 'load' 'mouseClick' 'mouseClickMove' 'mouseClickUp' 'renderComplete'

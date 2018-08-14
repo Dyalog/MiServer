@@ -12,7 +12,7 @@
 ⍝ ejListBox
 ⍝ ejListBox ('Item1' 'Item3' 'Item3')
 
-    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/js/api/ejListBox.html'
+    :Field Public Shared Readonly DocBase←'https://help.syncfusion.com/js/listbox/overview'
     :Field Public Shared Readonly ApiLevel←3
     :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejListBox.html' 
     :Field Public Shared Readonly IntEvt←'actionBegin' 'actionSuccess' 'actionComplete' 'actionFailure' 'actionBeforeSuccess' 'change' 'checkChange' 'create' 'destroy' 'focusIn' 'focusOut' 'itemDrag' 'itemDragStart' 'itemDragStop' 'itemDrop' 'select' 'unselect'

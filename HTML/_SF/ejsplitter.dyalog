@@ -1,5 +1,5 @@
 ﻿:class ejSplitter : #._SF._ejWidget
-    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/js/api/ejSplitter.html'
+    :Field Public Shared Readonly DocBase←'https://help.syncfusion.com/js/splitter/overview'
     :Field Public Shared Readonly ApiLevel←3
     :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejSplitter.html'
     :Field Public Panes←0⍴⊂''

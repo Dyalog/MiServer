@@ -29,7 +29,7 @@
 ⍝ r←unselectNode node ⍝ Unselect a node
 ⍝
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejTreeView.html'
+    :field public shared readonly DocBase←'https://help.syncfusion.com/js/treeview/overview'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejTreeView.html'
     :field public shared readonly IntEvt←'beforeCollapse' 'beforeEdit' 'beforeExpand' 'created' 'destroyed' 'inlineEditValidation' 'keyPress' 'nodeCheck' 'nodeClick' 'nodeCollapse' 'nodeDrag' 'nodeDragStart' 'nodeDragStop' 'nodeDropped' 'nodeExpand' 'nodeSelect' 'nodeUncheck'

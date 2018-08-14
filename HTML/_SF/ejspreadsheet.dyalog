@@ -1,5 +1,5 @@
 ﻿:class ejSpreadsheet : #._SF._ejWidget
-    :Field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejSpreadsheet.html'
+    :Field public shared readonly DocBase←'https://help.syncfusion.com/js/spreadsheet/overview'
     :Field public shared readonly ApiLevel←3
     :Field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejSpreadsheet.html'
     :Field public shared readonly IntEvt← 'actionBegin' 'actionComplete' 'autoFillBegin' 'autoFillComplete' 'beforeBatchSave' 'beforeCellFormat' 'beforeCellSelect' 'beforeDrop' 'beforeOpen' 'beforePanelOpen' 'cellClick' 'cellEdit' 'cellFormatting' 'cellHover' 'cellSave' 'contextMenuClick' 'drag' 'dragStart' 'drop' 'editRangeBegin' 'editRangeComplete' 'load' 'loadComplete' 'menuClick' 'openFailure' 'pagerClick' 'ribbonClick' 'seriesRendering' 'tabClick' 'tabSelect'

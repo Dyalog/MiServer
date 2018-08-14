@@ -1,5 +1,5 @@
 ﻿:class ejGrid : #._SF._ejWidget
-    :Field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejGrid.html'
+    :Field public shared readonly DocBase←'https://help.syncfusion.com/js/grid/overview'
     :Field public shared readonly ApiLevel←3
     :Field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejGrid.html'
     :Field public shared readonly IntEvt←'actionBegin' 'actionComplete' 'actionFailure' 'batchAdd' 'batchDelete' 'beforeBatchAdd' 'beforeBatchDelete' 'beforeBatchSave' 'beginEdit' 'cellEdit' 'cellSave' 'cellSelected' 'cellSelecting' 'columnDrag' 'columnDragStart' 'columnDrop' 'columnSelected' 'columnSelecting' 'contextClick' 'contextOpen' 'create' 'dataBound' 'destroy' 'detailsCollapse' 'detailsDataBound' 'detailsExpand' 'endAdd' 'endDelete' 'endEdit' 'load' 'mergeCellInfo' 'queryCellInfo' 'recordClick' 'recordDoubleClick' 'resized' 'resizeEnd' 'resizeStart' 'rightClick' 'rowDataBound' 'rowSelected' 'rowSelecting' 'templateRefresh' 'toolBarClick'

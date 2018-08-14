@@ -15,7 +15,7 @@
 ⍝ width           - overall width for the TreeGrid
 ⍝ height          - overall height for the TreeGrid
 
-    :Field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejTreeGrid.html'
+    :Field public shared readonly DocBase←'https://help.syncfusion.com/js/treegrid/overview'
     :Field public shared readonly ApiLevel←3
     :Field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejTreeGrid.html'
     :Field public shared readonly IntEvt←'clearSelection' 'collapseAll' 'hideColumn' 'refresh' 'saveCell' 'search' 'showColumn' 'sortColumn'

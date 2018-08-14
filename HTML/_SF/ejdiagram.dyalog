@@ -1,5 +1,5 @@
 ﻿:class ejDiagram : #._SF._ejWidget
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejDiagram.html'
+    :field public shared readonly DocBase←'https://help.syncfusion.com/js/diagram/overview'
     :field public shared readonly ApiLevel←1
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejDiagram.html'
     ∇ make

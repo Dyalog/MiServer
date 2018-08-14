@@ -15,7 +15,7 @@
 ⍝              default is 'close'
 ⍝ Resize     - Boolean or _true/_false indicating whether the dialog can be resized
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejDialog.html'
+    :field public shared readonly DocBase←'https://help.syncfusion.com/js/dialog/overview'
     :field public shared readonly ApiLevel←3
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejDialog.html'
     :field public shared readonly IntEvt←'beforeOpen' 'ajaxError' 'ajaxSuccess' 'beforeClose' 'Close' 'contentLoad' 'create' 'destroy' 'drag' 'dragStart' 'dragStop' 'open' 'resize' 'resizeStart' 'resizeStop'

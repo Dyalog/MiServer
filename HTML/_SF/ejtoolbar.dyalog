@@ -1,5 +1,5 @@
 ﻿:class ejToolbar : #._SF._ejWidget
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejToolbar.html'
+    :field public shared readonly DocBase←'https://help.syncfusion.com/js/toolbar/overview'
     :field public shared readonly ApiLevel←1
     :field public shared readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejToolbar.html'
     ∇ make

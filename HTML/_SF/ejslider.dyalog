@@ -10,7 +10,7 @@
 ⍝ Min - the minimum value for the slider (default ⍬)
 ⍝ Max - the maximum value for the slider (default ⍬)
 
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejSlider.html'
+    :field public shared readonly DocBase←'https://help.syncfusion.com/js/slider/overview'
     :field public shared readonly ApiLevel←3
     :field public shared readonly IntEvt←'change' 'create' 'destroy' 'slide' 'start' 'stop'
     :field public Values←⍬

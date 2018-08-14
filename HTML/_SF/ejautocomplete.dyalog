@@ -1,5 +1,5 @@
 ﻿:class ejAutocomplete : #._SF._ejWidget
-    :field public shared readonly DocBase←'http://help.syncfusion.com/js/api/ejAutocomplete.html'
+    :field public shared readonly DocBase←'https://help.syncfusion.com/js/autocomplete/overview'
     :field public shared readonly ApiLevel←1
     ∇ make
       :Access public

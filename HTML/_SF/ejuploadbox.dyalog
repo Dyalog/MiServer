@@ -1,5 +1,5 @@
 ﻿:Class ejUploadbox : #._SF._ejWidget
-    :Field Public Shared Readonly DocBase←'http://help.syncfusion.com/js/api/ejUploadBox.html'
+    :Field Public Shared Readonly DocBase←'https://help.syncfusion.com/js/uploadbox/overview'
     :Field Public Shared Readonly ApiLevel←3
     :Field Public Shared Readonly DocDyalog←'/Documentation/DyalogAPIs/Syncfusion/ejUploadBox.html'
     :Field Public TargetFolder←''
