@@ -15,7 +15,7 @@
      
     ⍝ We tell the server to call program 'myCallback' any changes and to return
     ⍝ the value of the checkState variable in the model under the name 'state'
-      (cb2 cb1).On⊂'change' 'myCallback'(('state1' 'cb1' 'model' 'checkState')('state2' 'cb2' 'model' 'checkState'))
+      (cb2 cb1).On⊂'change' 'myCallback'(('state1' 'model' 'checkState' cb1)('state2'  'model' 'checkState' cb2))
      
     ⍝ A place to write the message
       Add _.br
