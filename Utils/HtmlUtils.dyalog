@@ -161,13 +161,13 @@
     ∇ r←HtmlSafeText txt;i;m;u;ucs;s
     ⍝ make text HTML "safe"
       r←,⎕FMT txt
-      i←'&<>"#'⍳r
-      i-←(i=1)∧1↓(i=5),0 ⍝ mark & that aren't &#
-      m←i∊⍳4
+      i←'&<>"''#'⍳r
+      i-←(i=1)∧1↓(i=6),0 ⍝ mark & that aren't &#
+      m←i∊⍳5
       u←127<ucs←⎕UCS r
       s←' '=r
       (s/r)←⊂'&nbsp;'
-      (m/r)←('&amp;' '&lt;' '&gt;' '&quot;')[m/i]
+      (m/r)←('&amp;' '&lt;' '&gt;' '&quot;' '&apos;')[m/i]
       (u/r)←(~∘' ')¨↓'G<&#ZZZ9;>'⎕FMT u/ucs
       r←∊r
     ∇

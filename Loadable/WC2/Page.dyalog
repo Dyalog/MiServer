@@ -34,7 +34,7 @@
     ∇
 
     ∇ r←makeCommon
-      →0↓⍨0∊⍴r←(16>APLVersion)/⊂('EN' 11)('Message' 'Dyalog v16.0 or later is required to use HTMLRenderer-based features')
+      →0↓⍨0∊⍴r←(17>APLVersion)/⊂('EN' 11)('Message' 'Dyalog v17.0 or later is required to use HTMLRenderer-based features')
       Props←⎕NS''
       _Config←#.Boot.ms.Config
       _PageName←3⊃⎕SI,⊂'WC2Page'
@@ -66,7 +66,7 @@
 
     ∇ run arg
       :Access public
-      _Renderer←⎕NEW'HTMLRenderer'(('Coord'Coord)('Size' Size)('Event'('onHTTPRequest' '__CallbackFn'))('URL'_PageName))
+      _Renderer←⎕NEW'HTMLRenderer'(('Coord'Coord)('Size' Size)('Event'('onHTTPRequest' '__CallbackFn'))('URL'_PageName)('InterceptedURLs' (1 2⍴'*' 1)))
       :If ~0∊⍴props←_Renderer.PropList∩Props.⎕NL ¯2
           {_Renderer⍎⍺,'←⍵'}/¨{⍵(Props⍎⍵)}¨props
       :EndIf
@@ -92,7 +92,7 @@
 
 
     ∇ r←__CallbackFn args;ext;mimeType;filename;url;mask;cbdata;request;int;handler;content
-      :Access public  
+      :Access public                         
       ∘∘∘
       r←args
       →0⍴⍨0∊⍴8⊃args

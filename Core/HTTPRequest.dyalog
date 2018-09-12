@@ -10,10 +10,15 @@
     SC,←(500 'Internal Server Error')(501 'Not Implemented')(503 'Service Unavailable')
     SC←↑SC
 
+⍝ Shared Fields
+
+    :Field Public Shared DecodeBuffers←1     ⍝ have Conga decode HTTP message buffers by default (MiServer sets this on initialization)
+    :Field Public Shared Server              ⍝ reference back to the server
+
 ⍝ Fields related to the Request
 
     :Field Public Instance Complete←0        ⍝ do we have a complete request?
-    :Field Public Instance Input←''
+    :Field Public Instance URI←''            ⍝ the complete URI (page + query string)
     :Field Public Instance Headers←0 2⍴⊂''   ⍝ HTTPRequest header fields (plus any supplied from HTTPTrailer event)
     :Field Public Instance Method←''         ⍝ HTTP method (GET, POST, PUT, etc)
     :Field Public Instance Page←''           ⍝ Requested URI
@@ -28,7 +33,6 @@
     :Field Public Instance HTTPVersion←''
     :Field Public Instance Cookies←0 2⍴⊂''
     :Field Public Instance Session←''
-    :Field Public Instance Server←⎕NS ''
     :Field Public Instance CloseConnection←0
 
 ⍝ Fields related to the Response
@@ -42,7 +46,7 @@
     ine←{0∊⍴⍺:'' ⋄ ⍵} ⍝ if not empty
     inf←{∨/⍵⍷⍺:'' ⋄ ⍵} ⍝ if not found
     begins←{⍺≡(⍴⍺)↑⍵}
-    split←{p←(⍺⍷⍵)⍳1 ⋄ ((p-1)↑⍵)(p↓⍵)} ⍝ Split ⍵ on first occurrence of ⍺
+    split←{p←(⍺⍷⍵)⍳1 ⋄ ((p-≢⍺)↑⍵)(p↓⍵)} ⍝ Split ⍵ on first occurrence of ⍺
 
     ∇ r←eis w
       :Access public shared
@@ -52,17 +56,34 @@
     ∇ Make args;query;cookies
       :Access Public Instance
       :Implements Constructor
-    ⍝ args [1] HTTP method [2] URI [3] HTTP version [4] 2-column headers
+    ⍝ args is either:
+    ⍝   [1] HTTP method [2] URI [3] HTTP version [4] 2-column headers
+    ⍝   character vector if Conga could not parse the HTTP header or if DecodeBuffers is turned off
      
-      (Method Input HTTPVersion Headers)←args
+      args←eis args
+      :If 1=≢args ⍝ single arg means Conga did not or could not decode
+          :Trap 999
+              :If DecodeBuffers  ⍝ this is a header that Conga failed to parse
+                  1 Server.Log'Bad HTTP header received:',⊃args       ⍝ may want to improve this if bad header is very long
+              :EndIf
+              (Method URI HTTPVersion Headers)←ParseHead⊃args
+          :Else
+              1 Fail 400
+              →0
+          :EndTrap
+      :Else
+          (Method URI HTTPVersion Headers)←args
+      :EndIf
+     
       Headers[;1]←#.Strings.lc Headers[;1]  ⍝ header names are case insensitive
+      Headers←CombineHeaders Headers ⍝ combine any multiple header entries
       Method←#.Strings.lc Method
      
       Response←⎕NS''
       Response.(Status StatusText Headers File HTML HTMLHead PeerAddr NoWrap Bytes MSec)←200 'OK'(0 2⍴⊂'')0 '' '' '' 0(0 0)(⎕AI[3])
      
       Host←GetHeader'host'
-      Page query←'?'split Input
+      Page query←'?'split URI
       Page←PercentDecode Page
      
       :If '/'≠⊃Page  ⍝!!! need to update this to deal with absolute URI's, see https://tools.ietf.org/html/rfc7230#section-5.3.2
@@ -75,7 +96,7 @@
       :If ~0∊⍴cookies←GetHeader'cookie'
           cookies←CookieSplit cookies
           :If ~0∊⍴cookies←(2=⊃∘⍴¨cookies)/cookies
-              Cookies←↑{(' '~⍨1⊃⍵)(DeCode 2⊃⍵)}¨cookies
+              Cookies←↑{(' '~⍨1⊃⍵)(PercentDecode 2⊃⍵)}¨cookies
           :EndIf
       :EndIf
       :If 'get'≡Method
@@ -84,24 +105,69 @@
       :EndIf
     ∇
 
+    ∇ (method uri version headers)←ParseHead head;start;ind;header;t
+    ⍝ manually parse HTTP head
+      (start header)←1(↑{⍺ ⍵}↓)(⊂'')~⍨{2↓¨⍵⊂⍨NL⍷⍵}NL,head ⍝ split start line from headers
+      ⎕SIGNAL 999/⍨3≠≢t←start⊆⍨' '≠start←∊start ⍝ start line should be method uri httpversion
+      (method uri version)←t
+      ⎕SIGNAL 999/⍨~∧/':'∊¨header ⍝ a valid header must have a ':'
+      headers←↑{dltb¨':'split ⍵}¨header
+    ∇
+
     ∇ ProcessBody args
       :Access public
       Body←args
       FinalizeRequest
     ∇
 
-    ∇ ProcessChunk args
+    ∇ ProcessChunk args;len;chunk
       :Access public
-     ⍝ args is [1] chunk content [2] chunk-extension name/value pairs (which we don't expect and won't process)
-      Body,←1⊃args
+     ⍝ args is either
+     ⍝    [1] chunk content [2] chunk-extension name/value pairs (which we don't expect and won't process)
+     ⍝ or a character vector if either DecodeBuffers=0 or Conga failed to parse the chunk
+      :If DecodeBuffers=1=≡,args  ⍝ if we're Decoding buffers, we expect a nested arg, if not, we expect a simple vector
+          1 Fail 400
+          →0
+      :EndIf          
+
+      :If DecodeBuffers
+          Body,←1⊃args
+      :Else
+          :Trap 0
+              (len chunk)←NL split args
+              Body,←(hex len)↑chunk
+          :Else
+              1 Fail 400
+          :EndTrap
+      :EndIf
     ∇
 
-    ∇ ProcessTrailer args;inds;mask
+    ∇ ProcessTrailer args;inds;mask;len;trailer;forbidden
       :Access public
-      args[;1]←#.Strings.lc args[;1]
-      mask←(≢Headers)≥inds←Headers[;1]⍳args[;1]
-      Headers[mask/inds;2]←mask/args[;2]
-      Headers⍪←(~mask)⌿args
+     ⍝ args is either
+     ⍝    2-column matrix of
+     ⍝ or a character vector if either DecodeBuffers=0 or Conga failed to parse the chunk
+      :If 1=≢⍴args
+          (len trailer)←NL split args
+          :If len≢,'0'
+              1 Fail 400
+              →0
+          :EndIf
+          args←0 2⍴⊂''
+          :If ~0∊⍴trailer
+              args←↑{dltb¨':'split ⍵}¨(⊂'')~⍨{2↓¨⍵⊂⍨NL⍷⍵}NL,trailer
+          :EndIf
+      :EndIf
+      :If ~0∊⍴args
+          args[;1]←#.Strings.lc args[;1]
+    ⍝ The following is an attempt to comply with https://tools.ietf.org/html/rfc7230#section-4.1.2
+    ⍝ However, there doesn't seem to be a definitive list of the forbidden trailer fields, so, we do our best...
+          forbidden←'age' 'authorization' 'cache-control' 'content-encoding' 'content-length' 'content-range' 'content-type' 'date' 'expect' 'expires' 'host' 'location' 'max-forwards' 'pragma' 'proxy-authenticate' 'proxy-authorization' 'range' 'retry-after' 'set-cookie' 'te' 'trailer' 'transfer-encoding' 'vary' 'warning' 'www-authenticate'
+          args⌿←~args[;1]∊forbidden
+          mask←(≢Headers)≥inds←Headers[;1]⍳args[;1]
+          Headers[mask/inds;2]←mask/args[;2]
+          Headers⍪←(~mask)⌿args
+      :EndIf
       FinalizeRequest
     ∇
 
@@ -132,10 +198,22 @@
       CloseConnection←'close'≡GetHeader'connection'
     ∇
 
+    ∇ headers←CombineHeaders headers;inds;hdrs;hdr;i
+      :Access public shared
+    ⍝ combines any headers that may occur more than once
+      :If ~0∊⍴inds←⍸1<≢¨2⌷[2]hdrs←{⍺ ⍵}⌸headers[;1]
+          :For (hdr i) :In ↓hdrs[inds;]
+              headers[⊃i;2]←⊂¯1↓∊headers[i;2],¨',;'[1+'cookie'≡∊hdr]
+          :EndFor
+          headers←headers[⊃¨hdrs[;2];]
+      :EndIf
+    ∇
+
+
     ∇ Wipe
       :Access public
     ⍝ clear out all request data
-      Input←''
+      URI←''
       Headers←''
       Method←''
       Page←''
@@ -147,7 +225,6 @@
       Data←⍬
       Cookies←''
       Session←''
-      Server←⎕NS''
       Response←⎕NS''
     ∇
 
@@ -174,12 +251,10 @@
       :EndIf
     ∇
 
-
     ∇ r←GetArgument name
       :Access Public Instance
       r←name GetFromTable Arguments
     ∇
-
 
     ∇ r←GetData name
       :Access Public Instance
@@ -342,6 +417,7 @@
               :EndIf
           :EndFor
       :EndIf
+      Complete←CloseConnection←1
     ∇
 
     ∇ {code}Redirect location
@@ -439,7 +515,7 @@
     ∇
 
     ∇ SetContentType x;ct
-      :Access public instance  
+      :Access public instance
     ⍝ Sets response content-type header
     ⍝ x is either a file name or extension (if it contains a period), in which case we attempt to look up the appropriate content-type
     ⍝      or the actual setting for content-type
@@ -543,36 +619,27 @@
 
     :endsection
 
-      Split←{(⎕IO ⎕ML)←0 3         ⍝ Split Http syntax.
-          ⍺←'?&=' ⋄ (,⍺){        ⍝ Default separator chars.
-              0=⍴⍺:⍵             ⍝ No separator chars left: finished.
-              sepr←↑⍺            ⍝ First char is separator char.
-              (1↓⍺)∘∇∘{          ⍝ Recursively split at each sub level.
-                  ⍵~sepr         ⍝ Separator removed.
-              }¨(1+⍵=sepr)⊂⍵     ⍝ String partitioned at separator char.
-          }⍵                     ⍝ Http string.
+      dltb←{                      ⍝ delete leading/trailing blanks
+          (⌽∘{⍵/⍨∨\⍵≠' '}⍣2)⍵
       }
 
-      CookieSplit←{(⎕IO ⎕ML)←0 3   ⍝ Split cookies
-          {{db←{⍵/⍨∨\⍵≠' '} ⋄ ⌽db⌽db ⍵}¨⍵⊂⍨~<\'='=⍵}¨⍵⊂⍨⍵≠';'}
+    ∇ r←CookieSplit w
+      :Access public shared
+      r←{                       ⍝ Split cookies
+          {dltb¨'='split ⍵}¨⍵⊆⍨⍵≠';'
+      }w
+    ∇
 
-
-      DeCode←{(⎕IO ⎕ML)←0 3          ⍝ Decode Special chars in HTML string.
-          hex←'0123456789ABCDEF'     ⍝ Hex chars.
-          {                          ⍝ Convert numbers.
-              v f←⎕VFI ⍵             ⍝ Check for numbers.
-              ~∧/v:⍵                 ⍝ Not all numbers: char vec.
-              1=⍴f:↑f ⋄ f            ⍝ Numeric scalar or vector.
-          }∊{                        ⍝ Enlist of segments.
-              '%'≠↑⍵:⍵               ⍝ 1st seg may not contain special char.
-              (⎕UCS 16⊥hex⍳1↓3↑⍵),3↓⍵  ⍝ Hex code replaced with corresp. ⎕AV char.
-          }¨(1+⍵='%')⊂,⍵             ⍝ Segments split at '%' char.
-      }
-
+    ∇ r←hex w;i;⎕IO
+      :Access public shared
+      ⎕IO←0
+      ⎕SIGNAL 11/⍨31∨.<i←'0123456789ABCDEF0123456789abcdef'⍳w
+      r←16⊥16|i
+    ∇
 
     ∇ Show
       :Access public
-      ↑{⍵(⍎⍵)}¨'Input' 'Method' 'Page' 'Headers' 'Arguments' 'Data' 'Cookies'
+      ↑{⍵(⍎⍵)}¨'URI' 'Method' 'Page' 'Headers' 'Arguments' 'Data' 'Cookies'
     ∇
 
 :EndClass
