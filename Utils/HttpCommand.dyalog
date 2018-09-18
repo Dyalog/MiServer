@@ -164,7 +164,7 @@
 
     ∇ r←Version
       :Access public shared
-      r←'HttpCommand' '2.1.7' '2018-07-31'
+      r←'HttpCommand' '2.1.9' '2018-08-24'
     ∇
 
     ∇ make
@@ -252,7 +252,9 @@
       →∆END↓⍨0∊⍴r.msg←(0∊⍴url)/'No URL specified' ⍝ exit early if no URL
      
       ⍝↓↓↓ Check is LDRC exists (VALUE ERROR (6) if not), and is LDRC initialized? (NONCE ERROR (16) if not)
-      :If {6 16::1 ⋄ ''≡LDRC:1 ⋄ 0⊣LDRC.Version}''
+      :If {6 16 999::1 ⋄ ''≡LDRC:1 ⋄ 0⊣LDRC.Describe'.'}''
+          LDRC←''
+          :If 9=#.⎕NC'Conga' ⋄ {#.Conga.X509Cert.LDRC←''}⍬ ⋄ :EndIf ⍝ if #.Conga exists, reset X509Cert.LDRC reference
           :If ~0∊⍴CongaRef  ⍝ did the user supply a reference to Conga?
               LDRC←ResolveCongaRef CongaRef
               →∆END↓⍨0∊⍴r.msg←(''≡LDRC)/'CongaRef (',(⍕CongaRef),') does not point to a valid instance of Conga'
@@ -261,7 +263,9 @@
               :If 9=⊃⌊nc
                   LDRC←ResolveCongaRef'#.',∊ref
                   →∆END↓⍨0∊⍴r.msg←(''≡LDRC)/'#.',(∊ref),' does not point to a valid instance of Conga'
+                  →∆COPY↓⍨{999::0 ⋄ 1⊣LDRC.Describe'.'}'' ⍝ it's possible that Conga was saved in a semi-initialized state
               :Else
+     ∆COPY:
                   class←⊃⊃⎕CLASS ⎕THIS
                   dyalog←{⍵,'/'↓⍨'/\'∊⍨¯1↑⍵}2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
                   congaCopied←0

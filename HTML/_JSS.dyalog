@@ -103,23 +103,24 @@
 
     ∇ r←{eval}JSDate date
     ⍝ snippet to create a JS date (JavaScript months are 0-11!!!)
-    ⍝ date is in 6↑⎕TS form
-    ⍝ eval is optional Boolean to indicate whether to prepend '⍎' to the snippet (default is 0=do not prepend)
-    ⍝         prepending ⍎ tells MiServer that this is an executable phrase and not simply a string
+    ⍝ date is one of:
+    ⍝   ∘ 3-6↑⎕TS form
+    ⍝   ∘ IDN
+    ⍝   ∘ charvec
+    ⍝ eval is optional Boolean to indicate whether to return executable phrase (1) or just a string (0)
      
       :If 0=⎕NC'eval' ⋄ eval←0 ⋄ :EndIf
+     
       :If 0 2∊⍨10|⎕DR date  ⍝ char?
           date←'"',date,'"'
       :Else
-          date←1↓∊','∘,∘⍕¨0 ¯1 0 0 0 0+6↑date
+          :If 1=≢date
+              date←3↑2 ⎕NQ'.' 'IDNToDate'date
+          :EndIf
+     
+          date←1↓∊','∘,∘⍕¨(¯1∘+@2)(3⌈6⌊≢date)↑date
       :EndIf
-⍝      r←(~eval)↓'⍎new Date(',date,')'
-⍝ ⍝ 180221, MBaas: ⍎ no longer supported
-      :If eval
-          r←⊂'new Date(',date,')'
-      :Else
-          r←'new Date(',date,')'
-      :EndIf
+      r←(⊂⍣eval)'new Date(',date,')'
     ∇
 
     ∇ r←{varname}JSData data

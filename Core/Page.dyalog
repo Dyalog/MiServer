@@ -66,7 +66,7 @@
 
     ∇ run arg
       :Access public
-      _Renderer←⎕NEW'HTMLRenderer'(('Coord'Coord)('Size' Size)('Event'('onHTTPRequest' '__CallbackFn'))('URL'_PageName)('InterceptedURLs' (1 2⍴'*' 1)))
+      _Renderer←⎕NEW'HTMLRenderer'(('Coord'Coord)('Size'Size)('Event'('onHTTPRequest' '__CallbackFn'))('URL'_PageName)('InterceptedURLs'(1 2⍴'*' 1)))
       :If ~0∊⍴props←_Renderer.PropList∩Props.⎕NL ¯2
           {_Renderer⍎⍺,'←⍵'}/¨{⍵(Props⍎⍵)}¨props
       :EndIf
@@ -92,16 +92,15 @@
 
 
     ∇ r←__CallbackFn args;ext;mimeType;filename;url;mask;cbdata;request;int;handler;content
-      :Access public                         
-      ∘∘∘
+      :Access public
       r←args
       →0⍴⍨0∊⍴8⊃args
-      request←⎕NEW #.WC2.HtmlRenderRequest(args(819⌶_PageName))
+      request←⎕NEW #.HtmlRenderRequest(args(819⌶_PageName))
       :If 0∊⍴request.Page ⍝ initialization
           r[4 5 6 7]←1 200 'OK' 'text/html'
           r[10]←⊂UnicodeToHtml ⎕BASE.Render
-          r[9]←⊂NL,⍨∊NL,⍨¨('Content-Type: ',7⊃r) ('Content-Length: ',⍕≢10⊃r)
-      :ElseIf ~0∊⍴ext←(819⌶)1↓⊃¯1↑1 ⎕NPARTS request.Page  ⍝ need to handle case where another MiPage is requested
+          r[9]←⊂NL,⍨∊NL,⍨¨('Content-Type: ',7⊃r)('Content-Length: ',⍕≢10⊃r)
+      :ElseIf ~0∊⍴ext←(819⌶)1↓⊃¯1↑1 ⎕NPARTS request.Page  ⍝ !!!need to handle case where another MiPage is requested
           :If #.Files.Exists filename←∊1 ⎕NPARTS _Config #.MiServer.Virtual request.Page
               :If ' '∨.≠handler←⊃_Config.MappingHandlers.handler/⍨<\_Config.MappingHandlers.ext≡¨⊂'.',ext
                   (mimeType content)←⍎'filename #.MappingHandlers.',handler,' request'
@@ -137,7 +136,7 @@
               r[4 5 6 7]←1 200 'OK' 'application/json'
               r[9]←⊂NL,⍨∊NL,⍨¨'Content-Type: ' 'Content-Length: ',¨⍕¨'application/json'(≢10⊃r)
           :EndIf
-      :EndIf         
+      :EndIf
       r[9]←⊂(⎕UCS 32)~⍨9⊃r
     ∇
 
@@ -174,4 +173,4 @@
 
     tableLookup←{(⍺[;2],⊂'')[⍺[;1]⍳⊆,⍵]}
 
-:EndClass                         
+:EndClass

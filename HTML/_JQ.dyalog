@@ -220,27 +220,36 @@
           r←⎕THIS
         ∇
 
-        ∇ name(ref SetOption)value;set;parent;ind;newref;chunk;n;now;new;chunkroot;array;val;pos
+        ∇ name(ref SetOption)value;set;parent;ind;newref;chunk;n;now;new;chunkroot;array;val;pos;r;v
           →(0∊⍴value)⍴0
           :If 1<|≡name ⍝ multiple names?
               value←(⊂⍣((⎕DR value)∊80 82))value
               name(ref SetOption)¨value
           :Else
-         
-              set←{⍺⍺⍎'(',⍺,')←⍵'}
+              set←{
+                  ⍺⍺⍎'(',⍺,')←⍵'
+              }
          
               :If 0∊⍴parent←(-'.'⍳⍨⌽name)↓name
-                  name(ref set)value ⍝ single name: assign directly (may be more than 1 name)
+                  :If 1<n←≢ref
+                      :For (r v) :InEach ref(n⍴⊆value)
+                          name(r set)v
+                      :EndFor
+                  :ElseIf (1++/' '=name)=≢value
+                      name(ref set)value
+                  :Else
+                      (⊆name)(ref set)¨⊆value ⍝ single name: assign directly (may be more than 1 name)
+                  :EndIf
               :Else
                   ind←name⍳'.'
                   chunk←¯1↓ind↑name
                   (chunkroot pos)←2↑'[]'#.Utils.penclose chunk
          
                   :If array←'[]'≡¯2↑chunk ⍝ is it an array assignment?
-                      pos←⍴val←eis value
+                      pos←≢val←eis value
                       :Select ⊃ref.⎕NC chunkroot
                       :Case 0
-                          new←⎕NS¨pos⍴⊂⍬
+                          new←⎕NS¨(⌈/pos)⍴⊂⍬
                           chunkroot(ref set)new
                       :Case 2 ⍝ already exists
                           ('Invalid option specification - length error on "',chunkroot,'".')⎕SIGNAL 5/⍨~(⍴new←ref⍎chunkroot)∊1,pos
@@ -260,10 +269,11 @@
                           chunkroot(ref set)now,new
                           newref←ref⍎chunk
                       :Case 6 ⍝ value error
-                          chunkroot ref.⎕NS''
-                          :If ~0∊pos
-                              new←⎕NS¨pos⍴⊂⍬
+                          :If ~0∊⍴pos
+                              new←⎕NS¨(⌈/pos)⍴⊂⍬
                               chunkroot(ref set)new
+                          :Else
+                              chunkroot ref.⎕NS''
                           :EndIf
                           newref←ref⍎chunk
                       :EndTrap
@@ -298,6 +308,12 @@
           :Access public
           r←name(Selector #._JQ.Update JQueryFn)value
           name Set value
+        ∇
+
+        ∇ r←ShowOptions
+          :Access public
+          r←(⎕JSON⍠'Compact' 0)Options
+          ∘∘∘
         ∇
     :endclass
 
