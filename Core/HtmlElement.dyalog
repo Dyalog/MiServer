@@ -135,8 +135,29 @@
     :property keyed Attrs       ⍝ element attributes
     :access public
 
-        ∇ set ra;i;new;there;names;ind
-          there←~new←(⍴_names)<i←_names⍳names←fixkeys⊃ra.Indexers
+        ∇ set ra;i;new;there;names;ind;uniq;mask;combine;first;keep;styles
+          names←#.Strings.lc¨fixkeys⊃ra.Indexers
+          mask←'class' 'style'∘.≡names ⍝ special case style and class (attributes that can be combined)
+          :If ∨/styles←mask[2;] ⍝ any style's?
+              (styles/ra.NewValue)←{⍵,';'~⊢/⍵}¨styles/ra.NewValue
+          :EndIf
+          :If ∨/combine←1<+/mask
+              first←<\mask
+              :If combine[1]
+                  ra.NewValue[⍸first[1;]]←⊂1↓∊' ',¨mask[1;]/ra.NewValue
+              :EndIf
+              :If combine[2]
+                  ra.NewValue[⍸first[2;]]←⊂∊styles/ra.NewValue
+              :EndIf
+              keep←(∨⌿first)≥∨⌿mask
+              (names ra.NewValue)←keep∘/¨names ra.NewValue
+          :EndIf
+          uniq←⌽(1+≢names)-∪⍳⍨⌽names
+          :If (≢names)≠≢uniq
+              ra.NewValue←ra.NewValue[uniq]
+              names←names[uniq]
+          :EndIf
+          there←~new←(⍴_names)<i←_names⍳names
           (_values _names),←new∘/¨ra.NewValue names
           _values[there/i]←there/ra.NewValue
           :For i :In {⍵/⍳⍴⍵}7≥'id' 'class' 'style' 'title' 'value' 'type' 'name'⍳names
@@ -154,7 +175,7 @@
         ∇
     :endproperty
 
-    ∇ attr←{plain}ParseAttr arg;split;item;t;f;i;eq;nq;items;n;ind;inds;firstToken;token;name;value;q;p
+    ∇ attr←{plain}ParseAttr arg;split;item;t;f;i;eq;nq;items;n;ind;inds;firstToken;token;name;value;q;p;mask;space
       :Access public shared
      
 ⍝ Parse html sttributes
@@ -195,10 +216,14 @@
                       :Case ' ' ⍝ we have a single token
                           :Select ⊃token←(ind-1)⍴item
                           :Case '.'  ⍝ class shorthand?
+                              token↓⍨←1
+                              mask←'\.'⍷token ⍝ split on '.' but not on '\.'
+                              space←('.'=token)>¯1↓0,mask
+                              token←(~mask)/(' '@(⍸space))token
                               :If (≢attr)≥p←(⊃¨attr)⍳⊂'class'
-                                  (p 2⊃attr),←' ',1↓token
+                                  (p 2⊃attr),←' ',token
                               :Else
-                                  attr,←⊂'class'(1↓token)
+                                  attr,←⊂'class'token
                               :EndIf
                           :Case '#'  ⍝ id shorthand?
                               attr,←⊂'id'(1↓token)
@@ -306,7 +331,6 @@
       :EndIf
       r←⎕THIS
     ∇
-
 
     ∇ {r}←AddStyle s;t
       :Access public
@@ -509,7 +533,7 @@
       r←' ',a,'=',Quote HtmlSafeText,⍕w
     ∇
 
-    ∇ r←Render;av;t;vs;e;h;c;p
+    ∇ r←Render;av;t;vs;e;h;c;p;names;gv
       :Access public
     ⍝ Render by first constructing the Tag, complete with attributes, if any
       r←RenderCore Content
@@ -517,7 +541,9 @@
           h←RenderHandlers
           p←RenderPosition
           :If 0<⍴vs←Attrs[]
-              av,←∊FormatAttr/¨vs
+                gv←⍋↑names←⊃¨vs
+                gv←gv[⍋{(1e4+'data-'∘≡¨5↑¨⍵)+(1e5×'-'=⊃¨⍵)+'id' 'class' 'style'⍳⍵}names[gv]]
+              av,←∊FormatAttr/¨vs[gv]
           :EndIf
           av,←RenderStyles
           :If (⊂Tag)∊'html' 'body' 'head'
