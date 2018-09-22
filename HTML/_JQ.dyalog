@@ -209,7 +209,11 @@
                   ⎕SIGNAL/⎕DMX.(EM EN)
               :EndTrap
           :EndIf
-          name(Options SetOption)value
+          :Trap 0
+              name(Options SetOption)value
+          :Else
+              ⎕SIGNAL/⎕DMX.(EM EN)
+          :EndTrap
         ∇
 
         ∇ {r}←name SetIfNotSet value
@@ -230,15 +234,16 @@
                   ⍺⍺⍎'(',⍺,')←⍵'
               }
          
-              :If 0∊⍴parent←(-'.'⍳⍨⌽name)↓name
-                  :If 1<n←≢ref
-                      :For (r v) :InEach ref(n⍴⊆value)
+              :If 0∊⍴parent←(-'.'⍳⍨⌽name)↓name ⍝ if no parent...
+                  :If 1<n←≢ref  ⍝ multiple refs?
+                      ⎕SIGNAL 5/⍨(0=≢⍴value)=(⍴ref)=⍴value ⍝ LENGTH ERROR if value is not scalar or same length as ref
+                      :For (r v) :InEach ref(n⍴value)
                           name(r set)v
                       :EndFor
-                  :ElseIf (1++/' '=name)=≢value
+                  :ElseIf (1+' '+.=name)=≢value
                       name(ref set)value
                   :Else
-                      (⊆name)(ref set)¨⊆value ⍝ single name: assign directly (may be more than 1 name)
+                      name(ref set)value ⍝ single name: assign directly (may be more than 1 name)
                   :EndIf
               :Else
                   ind←name⍳'.'

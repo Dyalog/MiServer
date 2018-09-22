@@ -162,7 +162,7 @@
               :Case 'Connect'
                   ConnectionNew obj
      
-              :CaseList 'HTTPHeader' 'HTTPTrailer' 'HTTPChunk' 'HTTPBody'                  
+              :CaseList 'HTTPHeader' 'HTTPTrailer' 'HTTPChunk' 'HTTPBody'
                   :If 0≢conx←1 ConnectionUpdate obj
                       {}conx{{}⍺ HandleRequest ⍵}&wres
                   :Else
@@ -209,7 +209,7 @@
 
 ⍝ --- Connection management ---
 
-    ∇ ConnectionNew objname;z;rc
+    ∇ {conx}←ConnectionNew objname;z;rc
       :Hold 'Connections'
           Connections,⍨←conx←⎕NS''
           conx.(CongaObjectName PeerCert)←objname''
@@ -238,6 +238,8 @@
       :If 0≠n←⍴Connections
       :AndIf n≥i←Connections.CongaObjectName⍳⊂objname
           conx←i⊃Connections
+      :Else
+          conx←ConnectionNew objname
       :EndIf
     ∇
 

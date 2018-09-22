@@ -136,7 +136,7 @@
     :access public
 
         ∇ set ra;i;new;there;names;ind;uniq;mask;combine;first;keep;styles
-          names←#.Strings.lc¨fixkeys⊃ra.Indexers
+          names←,#.Strings.lc¨fixkeys⊃ra.Indexers
           mask←'class' 'style'∘.≡names ⍝ special case style and class (attributes that can be combined)
           :If ∨/styles←mask[2;] ⍝ any style's?
               (styles/ra.NewValue)←{⍵,';'~⊢/⍵}¨styles/ra.NewValue
@@ -168,7 +168,7 @@
         ∇ r←get ra;i;n
           ⎕SIGNAL(1<⍴i←ra.Indexers)⍴4 ⍝ RANK err
           :If 1↑ra.IndexersSpecified
-              r←(_values,⊂'')[_names⍳n←fixkeys⊃⍣(2≤|≡i)+i]
+              r←(_values,⊂'')[_names⍳n←fixkeys(⊃⍣(2≤|≡i))i]
           :Else
               r←↓_names,[1.1]_values
           :EndIf

@@ -96,7 +96,7 @@
       :If ~0∊⍴cookies←GetHeader'cookie'
           cookies←CookieSplit cookies
           :If ~0∊⍴cookies←(2=⊃∘⍴¨cookies)/cookies
-              Cookies←↑{(' '~⍨1⊃⍵)(PercentDecode 2⊃⍵)}¨cookies
+              Cookies←↑{(' '~⍨1⊃⍵)(2⊃⍵)}¨cookies
           :EndIf
       :EndIf
       :If 'get'≡Method
@@ -128,8 +128,8 @@
       :If DecodeBuffers=1=≡,args  ⍝ if we're Decoding buffers, we expect a nested arg, if not, we expect a simple vector
           1 Fail 400
           →0
-      :EndIf          
-
+      :EndIf
+     
       :If DecodeBuffers
           Body,←1⊃args
       :Else
