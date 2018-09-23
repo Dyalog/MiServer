@@ -110,6 +110,7 @@
     ⍝ Called by destructor
       :Access Public
       {0:: ⋄ Logger.Stop ⍬}⍬
+      #.HTTPRequest.Server←''
       :If 0≠⎕NC'ServerName'
           'Not running'⎕SIGNAL(#.DRC.Exists ServerName)↓11
           {}#.DRC.Close ServerName
@@ -208,7 +209,7 @@
 
 ⍝ --- Connection management ---
 
-    ∇ ConnectionNew objname;z;rc
+    ∇ {conx}←ConnectionNew objname;z;rc
       :Hold 'Connections'
           Connections,⍨←conx←⎕NS''
           conx.(CongaObjectName PeerCert)←objname''
@@ -237,6 +238,8 @@
       :If 0≠n←⍴Connections
       :AndIf n≥i←Connections.CongaObjectName⍳⊂objname
           conx←i⊃Connections
+      :Else
+          conx←ConnectionNew objname
       :EndIf
     ∇
 
@@ -304,10 +307,10 @@
       :EndFor
       ('Unable to allocate any TCP/IP port in ',1↓∊⍕¨',',¨ports)⎕SIGNAL(~allocated)/11
       {}#.DRC.SetProp'.' 'EventMode' 1 ⍝ report Close/Timeout as events
-      {}#.DRC.SetProp ServerName'FIFOMode' 1
-      {}#.DRC.SetProp ServerName'DecodeBuffers' 15
-     
-      #.HtmlElement.RenderBugDefault←Config.RenderBug
+      {}#.DRC.SetProp ServerName'FIFOMode'Config.FIFOMode
+      {}#.DRC.SetProp ServerName'DecodeBuffers'(15×Config.DecodeBuffers)
+      #.HTTPRequest.DecodeBuffers←Config.DecodeBuffers
+      #.HTTPRequest.Server←⎕THIS
     ∇
 
     ∇ UnMake
@@ -503,7 +506,7 @@
       done←length≤offset←⍴res.HTML
       res.MSec-⍨←⎕AI[3]
       res.Bytes←startsize length
-  
+     
       :If 0≠1⊃z←#.DRC.Send obj(status,res.Headers response)
           (1+(1⊃z)∊1008 1119)Log'"HandleRequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
       :EndIf

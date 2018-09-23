@@ -46,7 +46,7 @@
       _PageData←⎕NS''
     ∇
 
-    ∇ {r}←Render;b;styles;_head;_body;_styles;_scripts;host
+    ∇ {r}←Render;b;styles;_head;_body;_styles;_scripts;host;t;i
       :Access public
    ⍝  Capture the current Head and Body content so that we can reset it after rendering
    ⍝  This is so we can re-render and still get the same result
@@ -73,12 +73,25 @@
           {Insert #._DC.StyleSheet ⍵}¨host∘AddHost¨⌽∪styles
       :EndIf
      
+      t←''
       :If ~0∊⍴Handlers
-          b,←∊Handlers.Render
+          t←,∊Handlers.Render
+      :EndIf
+      :If ~0∊⍴OnLoad
+          t,←(⎕NEW #._html.script('$(function(){',OnLoad,'});')).Render
+      :EndIf
+      :If ~0∊⍴t
+          :If '</body>'≡¯7↑b
+              i←¯7
+          :Else
+              i←-6+⊃⍸'>ydob/<'⍷⌽b
+          :EndIf
+          b←(i↓b),t,i↑b
       :EndIf
      
+     
       :If ''≢OnLoad
-          b,←(⎕NEW #._html.script('$(function(){',OnLoad,'});')).Render
+     
       :EndIf
      
       :If 0∊⍴⊃Attrs[⊂'lang'] ⍝ set the language for the page if not already set

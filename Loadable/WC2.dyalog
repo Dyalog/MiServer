@@ -47,9 +47,19 @@
 
     ∇ r←Run arg
       →0⍴⍨0<⊃r←1 Init arg
-
-
+    ∇
+                         
+    ∇ {r}←{attr}New args;cl
+    ⍝ create a new instance
+    ⍝ args can be an instance, a class, or just html/text
+      :Access public shared
+      r←''
+      :If ~0∊⍴∊args
+          :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
+          r←attr #.HtmlElement.New args
+      :EndIf
     ∇
 
 
 :EndNamespace
+

@@ -8,22 +8,24 @@
     <Rest>0</Rest>                       <!-- running RESTful web service? -->
     <Production>0</Production>           <!-- 1-running in production mode, 0-development mode (enable debugging framework) --> 
     <IdleTimeout>0</IdleTimeout>         <!-- seconds between calls to onIdle server event - 0 means don't call onIdle -->
-    <RenderBug>0</RenderBug>             <!-- upon bug in Render: 0=crash, 1=insert placeholder, nnn=http status nnn -->
     <CloseOnCrash>0</CloseOnCrash>       <!-- Set to 1 to force []OFF on an unhandled server error -->
     <UserID></UserID>                    <!-- Unix only!! userid to switch to after allocating a port number below 1024 -->
    
 <!-- Communications Settings -->
     <Port>8080</Port>                                <!-- Preferred port that MiServer listens on --> 
-    <Ports>8080-8090</Ports>                         <!-- List of ports that we can listen on (when running multiple MiServers -->
+    <Ports>8080-8090</Ports>                         <!-- List of ports that we can listen on (when running multiple MiServers) -->
+    <FIFOMode>1</FIFOMode>                           <!-- Use Conga FIFO mode? -->
+    <WaitTimeout>5000ms</WaitTimeout>                <!-- Time to wait for request from client before Conga times out -->
+
     <UseContentEncoding>1</UseContentEncoding>       <!-- for HTTP compression -->
     <SupportedEncodings>gzip,deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->
+ 
     <Secure>0</Secure>                               <!-- Running secure? (SSL) if 0, remaining settings below have no meaning -->
     <CertFile></CertFile>                            <!-- Private Certificate file -->
     <KeyFile></KeyFile>                              <!-- Public Key file -->
     <RootCertDir></RootCertDir>                      <!-- Root certificate directory (Conga) -->
     <SSLFlags>96</SSLFlags>                          <!-- SSL flags (Conga) 96 = 32 Accept without validating + 64 Request Client Cert -->
-    <WaitTimeout>5000ms</WaitTimeout>                <!-- Time to wait for request from client before Conga times out -->
-
+ 
 <!-- Page/Request Settings -->
     <Lang>en</Lang>                                     <!-- language setting --> 
     <DefaultPage>index</DefaultPage>                    <!-- default page to load if none is specified in client request -->
