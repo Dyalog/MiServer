@@ -1,0 +1,48 @@
+﻿:Class ChainedSelectSimple: MiPageSample
+⍝ Control::     _JS.ChainedSelect
+⍝ Description:: Pick your favorite car with linked select-controls
+⍝
+
+    cars←1 3⍴'BMW' '' 1
+    cars⍪←'3-series' 'bmw3' 2
+    cars⍪←'5-series' 'bmw5' 2
+    cars⍪←'7-series' 'bmw7' 2
+    cars⍪←'Audi' '' 1
+    cars⍪←'A3' 'audi3' 2
+    cars⍪←'A4' 'audi4' 2
+    cars⍪←'A5' 'audi5' 2
+    cars⍪←'Lotus' '' 1
+    cars⍪←'Esprit' 'esprit' 2
+    cars⍪←'Elite' 'elite' 2
+    cars⍪←'Elan' 'Elan' 2
+    cars⍪←'Exos' 'Exos' 2
+
+
+    ∇ Compose;frm;single;multi;btn
+      :Access public
+      Add _.div MarkdownFollows
+            ⍝## ChainedSelectSimple
+            ⍝ChainedSelect enables you to present "linked" selections where the choice in the first control will determine the available
+            ⍝options of the following control. This simple example does not claim to give you many choices (and we apologize if your favourite brand is missing)
+            ⍝but it illustrates the basic idea. The example also illustrates vertical orientation of the choices (one select per row).
+     
+      Add _.p'Please pick your car'
+      frm←'myform'Add _.Form
+      cs←'selC'frm.Add _.ChainedSelect cars
+      cs.Horizontal←0
+      cs.Labels←'Brand' 'Type'
+      btn←'btnPressMe'frm.Add _.Button'Pick'
+      btn.On'click' 'onPick'
+      'output'Add _.div
+    ∇
+
+
+    ∇ r←onPick;selected
+      ⍝ Called when the Pick button is pressed
+      :Access Public
+     ⍝ When selecting a single item the result will be a string
+      selected←⍕⊃Get'selC'
+      r←'#output'Replace _.p('You picked: ',selected,(0=≢selected)/'nothing')
+    ∇
+
+:EndClass

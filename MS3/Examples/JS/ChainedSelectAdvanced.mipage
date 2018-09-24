@@ -1,0 +1,118 @@
+﻿:Class ChainedSelectAdvanced : MiPageSample
+⍝ Control::     _JS.ChainedSelect
+⍝ Description:: Pick method of transportation from multiple Select-Controls (for different levels of the hierarchy)
+⍝
+
+⍝ multiple levels indeed!
+      transport←1 3⍴'Plane' '' 1
+      transport⍪←'Boeing' '' 2     ⍝ NB: intermediate levels do not need to have an ID!
+      transport⍪←'737' '3' 3
+      transport⍪←'-700' '737700' 4
+      transport⍪←'-800' '737800' 4
+      transport⍪←'-900ER' '737900' 4
+      transport⍪←'767' '767' 3
+      transport⍪←'-200ER' '767200ER' 4
+      transport⍪←'-200LR' '767200LR' 4
+      transport⍪←'-300ER' '767300 ' 4
+      transport⍪←'Airbus' '' 2
+      transport⍪←'A320' '320' 3
+      transport⍪←'A330' '330' 3
+      transport⍪←'A340' '340' 3
+      transport⍪←'Motorcycle' '' 1
+      transport⍪←'Ducati' '6' 2
+      transport⍪←'Diavel' '61' 3
+      transport⍪←'Diavel Carbon' '61c' 4
+      transport⍪←'XDiavel' '62' 4
+      transport⍪←'XDiavel S' '62s' 4
+      transport⍪←'Monster' '64' 3
+      transport⍪←'812 Dark' '65d' 4
+      transport⍪←'812' '65' 4
+      transport⍪←'812 Stripe' '65s' 4
+      transport⍪←'1200' '1200' 4
+      transport⍪←'1200 S' '1200s' 4
+      transport⍪←'1200 R' '1200r' 4
+      transport⍪←'1200 Djair' '1200d' 4
+      transport⍪←'1200 Pikes Peak' '1200pp' 4
+      transport⍪←'Superbike' '66' 3
+      transport⍪←'959 Panigale' '959' 4
+      transport⍪←'1299 Panigale' '1299' 4
+      transport⍪←'1299 Panigale S' '1299s' 4
+      transport⍪←'Panigale R' 'paniR' 4
+      transport⍪←'Honda' 'hnd' 2
+      transport⍪←'Kawasaki' 'kawa' 2
+      transport⍪←'Car' '' 1
+      transport⍪←'Audi' 'Audi' 2
+      transport⍪←'A2' 'A2' 3
+      transport⍪←'A4' 'A4' 3
+      transport⍪←'A5' 'A5' 3
+      transport⍪←'Bugatti' 'Bug' 2
+      transport⍪←'Veyron 16.4' 'Vey' 3
+      transport⍪←'Chiron' 'Chi' 3
+      transport⍪←'Spaceship' '' 1
+      transport⍪←'earthly' '' 2
+      transport⍪←'Enterprise' 'enterpr' 3
+      transport⍪←'Enterprise II' 'enterpr2' 3
+      transport⍪←'Draconian Empire (Buck Rogers)' '' 2
+      transport⍪←'Draconian Marauder' 'dm' 3
+      transport⍪←'Ori' 'ori' 2
+      transport⍪←'Ori Figther' 'of' 3
+      transport⍪←'Goa''uld' '' 2
+      transport⍪←'Death glider' 'dg' 3
+      transport⍪←'Needle threader' 'nt' 3
+      transport⍪←'Galactic Republic' 'gr' 2
+      transport⍪←'ARC-170' 'arc170' 3
+      transport⍪←'V-19 Torrent' 'v19' 3
+      transport⍪←'Jedi starfighter' 'jsf' 3
+      transport⍪←'Jedi interceptor' 'jin' 3
+      transport⍪←'Human force' '' 1
+      transport⍪←'Crawling' 'crwl' 2
+      transport⍪←'Walking' 'walk' 2
+      transport⍪←'Running' 'run' 2
+      transport⍪←'Jumping' '' 2
+      transport⍪←'on one leg' 'jump1' 3
+      transport⍪←'on two legs' 'jump2' 3
+      transport⍪←'Swimming' '' 2
+      transport⍪←'Dolphin' 'dolphin' 3
+      transport⍪←'Crawl' 'crawl' 3
+      transport⍪←'Butterfly' 'bf' 3
+      transport⍪←'Rickshaw' 'rs' 2
+      transport⍪←'Animal force' '' 1
+      transport⍪←'Horse' '' 2
+      transport⍪←'Hot Blood' '' 3
+      transport⍪←'Arabian' 'arab' 4
+      transport⍪←'Warm Blood' '' 3
+      transport⍪←'Hanoverian' 'hanov' 4
+      transport⍪←'Holsteiner' 'holst' 4
+      transport⍪←'Cold Blood' '' 3
+      transport⍪←'Shire' 'Shire' 4
+      transport⍪←'Clydesdale' 'cdale' 4
+
+
+    ∇ Compose;frm;single;multi;btn
+      :Access public
+            Add _.div MarkdownFollows
+            ⍝## ChainedSelectAdvanced
+            ⍝ChainedSelect enables you to present "linked" selections where the choice in the first control will determine the available
+            ⍝options of the following control. This advanced example shows how the hierarchy of tree of options does not need to have
+            ⍝the same depth everywhere. Also in this example we are using vertical layout with labels for every (well, most...) level.
+            
+      Add _.p'Please pick your preferred method of transport'
+      frm←'myform'Add _.Form
+      cs←'selT'frm.Add _.ChainedSelect transport
+      cs.Horizontal←1
+      cs.Labels←'Category' 'Brand' 'more...'
+      btn←'btnPressMe'frm.Add _.Button'Pick'
+      btn.On'click' 'onPick'
+      'output'Add _.div
+    ∇
+
+     
+    ∇ r←onPick;selected
+      ⍝ Called when the Pick button is pressed
+      :Access Public  
+     ⍝ When selecting a single item the result will be a string
+      selected←⍕⊃Get'selT'
+      r←'#output'Replace _.p('You picked: ',selected,(0=⍴selected)/'nothing')
+    ∇
+
+:EndClass
