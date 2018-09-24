@@ -399,7 +399,8 @@
       nvp←,nvp
       :If 0∊⍴nvp ⋄ r←'[]' ⋄ :Return ⋄ :EndIf
       strip←{(⊂(1↑⍵),¯1↑⍵)∊'""' '[]' '{}':1↓¯1↓⍵ ⋄ ⍵}
-      fmt←{(isChar ⍵)>(isJSON ⍵)∨t←'⍎'=1↑,⍵:'"',(JAchars ⍵),'"'
+⍝     fmt←{(isChar ⍵)>(isJSON ⍵)∨t←'⍎'=1↑,⍵:'"',(JAchars ⍵),'"'
+      fmt←{(isChar ⍵)>t←'⍎'=1↑,⍵:'"',(JAchars ⍵),'"'
           ⋄ t:1↓⍕⍵
           ⋄ strip toAPLJAX ⍵}
       r←'['
