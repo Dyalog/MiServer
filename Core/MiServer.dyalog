@@ -238,8 +238,6 @@
       :If 0≠n←⍴Connections
       :AndIf n≥i←Connections.CongaObjectName⍳⊂objname
           conx←i⊃Connections
-      :Else
-          conx←ConnectionNew objname
       :EndIf
     ∇
 
@@ -249,6 +247,9 @@
               conx.(Active LastActive)←state(3⊃⎕AI)
           :EndIf
       :EndHold
+      :If 0=conx
+          conx←ConnectionNew objname
+      :EndIf
     ∇
 
     ∇ {congaClose}ConnectionDelete con
