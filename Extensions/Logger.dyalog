@@ -93,11 +93,25 @@
       r←0≠TieNo
     ∇
 
-    ∇ Log req
+    tryGetting←{0::('-'@(' '∘=))(⊃⎕DM),'-retrieving-"',⍵,'"' ⋄ ⍕⍎⍵}
+
+    ∇ Log req;addr;user;ts;method;page;status;msec;bytes
       :Access public
       :If Active
           :Hold 'Lumberjack'
-              Cache,←((missing 2⊃req.PeerAddr),' ',(missing req.Session.User),#.Dates.LogFmtNow,'"',req.Method,' ',req.Page,'"',∊' '∘,∘⍕¨req.Response.(Status MSec Bytes)),EOL
+              :Trap 0
+                  Cache,←((missing 2⊃req.PeerAddr),' ',(missing req.Session.User),#.Dates.LogFmtNow,'"',req.Method,' ',req.Page,'"',∊' '∘,∘⍕¨req.Response.(Status MSec Bytes)),EOL
+              :Else ⍝ something in logging failed, try figuring out what
+                  addr←tryGetting'req.PeerAddr'
+                  user←tryGetting'req.Session.User'
+                  ts←tryGetting'#.Dates.LogFmtNow'
+                  method←tryGetting'req.Method'
+                  page←tryGetting'req.Page'
+                  status←tryGetting'req.Response.Status'
+                  msec←tryGetting'req.Response.MSec'
+                  bytes←tryGetting'req.Response.Bytes'
+                  Cache,←(missing addr),' ',(missing user),ts,'"',method,' ',page,'" ',status,' ',msec,' ',bytes,EOL
+              :EndTrap
           :EndHold
       :EndIf
     ∇
