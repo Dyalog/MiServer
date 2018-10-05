@@ -7,10 +7,10 @@
     :Field Public TID←¯1                ⍝ Thread ID Server is running under
     :Field Public BlockSize←640000      ⍝ Blocksize when returning files
 
-    :Field Public SessionHandler←⎕NS ''
-    :Field Public Authentication←⎕NS ''
-    :Field Public Logger←⎕NS ''
-    :Field Public Application←⎕NS ''
+    :Field Public SessionHandler
+    :Field Public Authentication
+    :Field Public Logger
+    :Field Public Application
     :Field Public PageTemplates←⍬
     :Field Public Encoders←⍬  ⍝ pointers to instances of content encoders
     :Field Public Datasources←⍬
@@ -288,6 +288,10 @@
     ∇ Make config;CongaVersion;rc;allocated;port;ports
       :Access Public
       :Implements Constructor
+      SessionHandler←⎕NS''
+      Authentication←⎕NS''
+      Logger←⎕NS''
+      Application←⎕NS''
      
       SessionHandler.GetSession←{}   ⍝ So we can always
       SessionHandler.HouseKeeping←{} ⍝    call these fns

@@ -12,6 +12,7 @@
     :field private EOL                  ⍝ End Of Line
 
     missing←{0∊⍴⍵:'-' ⋄ ⍵}
+    Char←⎕DR ' '
 
     ∇ Make ms;file;log
       :Access public
@@ -80,11 +81,10 @@
       :EndTrap
      
       :Trap 22 ⍝ file name error
-          TieNo←fn ⎕NTIE 0 34
+          TieNo←fn ⎕NTIE 0
       :Else
           :Trap 0
-              ⎕NUNTIE fn ⎕NCREATE 0
-              TieNo←fn ⎕NTIE 0 34
+              TieNo←{0 ⎕NTIE⍨⍵⊣⎕NUNTIE ⍵ ⎕NCREATE 0}fn
           :Else
               1 ##.ms.Log'Unable to open log file "',fn,'"'
               :Return
@@ -93,7 +93,7 @@
       r←0≠TieNo
     ∇
 
-    tryGetting←{0::('-'@(' '∘=))(⊃⎕DM),'-retrieving-"',⍵,'"' ⋄ ⍕⍎⍵}
+    tryGetting←{0::('-'@(' '∘=))(⊃⎕DM),'-retrieving-"',(∊⍕⍵),'"' ⋄ ∊⍕⍎⍵}
 
     ∇ Log req;addr;user;ts;method;page;status;msec;bytes
       :Access public
@@ -118,6 +118,9 @@
 
     ∇ ClearCache
       :Hold 'Lumberjack'
+          :If Char≠⎕DR Cache
+              Cache←('?'@{Char≠⎕DR¨⍵})Cache
+          :EndIf
           Cache ⎕NAPPEND TieNo
           Cache←''
       :EndHold
