@@ -219,7 +219,6 @@
       ConfigureVirtual ms
       ConfigureResources ms
       ConfigureContentTypes ms
-      ConfigureLogger ms
       ms AddConfiguration'MappingHandlers'
     ∇
 
@@ -285,7 +284,7 @@
     ⍝ configure server level settings, setting defaults for needed ones that are not supplied
       Config←ReadConfiguration'Server'
      
-      Config.AllowedHTTPMethods←{⎕ML←3 ⋄ ⍵⊂⍨~⍵∊' ,'}#.Strings.lc Config Setting'AllowedHTTPMethods' 0 'get,post'
+      Config.AllowedHTTPMethods←{⍵⊆⍨~⍵∊' ,'}#.Strings.lc Config Setting'AllowedHTTPMethods' 0 'get,post'
       Config.AppRoot←AppRoot
       Config.Authentication←Config Setting'Authentication' 0 'SimpleAuth'
       Config.CertFile←Config Setting'CertFile' 0 ''
@@ -295,6 +294,7 @@
       Config.DecodeBuffers←Config Setting'DecodeBuffers' 1 1 ⍝ allow Conga to decode HTTP messages (1)
       Config.DefaultExtension←Config Setting'DefaultExtension' 0 '.mipage'
       Config.DefaultPage←Config Setting'DefaultPage' 0 'index.mipage'
+      Config.DirectFileSize←{⍵[⍋⍵]}0⌈⌊2↑Config Setting'DirectFileSize'(,1)⍬
       Config.FIFOMode←Config Setting'FIFOMode' 1 1 ⍝ Conga FIFO mode default to on (1)
       Config.FormatHtml←Config Setting'FormatHtml' 1 0
       Config.Host←Config Setting'Host' 0 'localhost'
@@ -470,17 +470,6 @@
       :EndIf
     ∇
 
-    ∇ ConfigureLogger ms;file;log
-      ⍝ load logger information
-      ms.Config.Logger←⎕NS''
-      ms.Config.Logger.active←0
-      :If ~0∊⍴log←ReadConfiguration'Logger'
-          ms.Config.Logger.active←log Setting'active' 1 0
-          ms.Config.Logger.directory←SubstPath log Setting'directory' 0 ''
-          ms.Config.Logger.frequency←log Setting'frequency' 0 ''
-          ms.Config.Logger.sizelimit←log Setting'sizelimit' 1 0
-      :EndIf
-    ∇
 
     :Class ConfigSpace
         :field public config
@@ -566,7 +555,7 @@
     notEmpty←~∘empty
     eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
     isRef←{(0∊⍴⍴⍵)∧326=⎕DR ⍵}
-    folderize←{19 22::⍵,'/'↓⍨'/\'∊⍨¯1↑⍵ ⋄ ∊1 ⎕NPARTS⊃{⍺,(⍵=1)/'/'}/0 1 ⎕NINFO ⍵} ⍝ append trailing file separator unless empty and left arg←1
+    folderize←{{11 19 22::⍵,'/'↓⍨'/\'∊⍨¯1↑⍵ ⋄ ∊1 ⎕NPARTS⊃{⍺,(('/'=¯1↑⍺)<⍵=1)/'/'}/0 1 ⎕NINFO ⍵}∊⍕⍵} ⍝ append trailing file separator unless empty and left arg←1
     makeSitePath←{folderize ⍺{((isRelPath ⍵)/⍺),⍵},(2×'./'≡2↑⍵)↓⍵}
     subdirs←{⊃{(⍵=1)/⍺}/0 1(⎕NINFO⍠1)⍵,'/*'}
     Log←{⎕←⍵}

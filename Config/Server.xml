@@ -1,30 +1,29 @@
 <Server>
 <!-- General Settings -->
-    <Name>MiServer 3.0</Name>            <!-- name that appears in browser title bar -->
+    <Name>MiServer 3.1</Name>            <!-- name that appears in browser title bar -->
     <Host>localhost</Host>               <!-- Host name (e.g. www.mysite.com) -->
-    <Server>MiServer/3.0</Server>        <!-- name that is sent in HTTP response server header field -->
+    <Server>MiServer/3.1</Server>        <!-- name that is sent in HTTP response server header field -->
     <ClassName>MiServer</ClassName>      <!-- class name for the core server component -->
     <LogMessageLevel>1</LogMessageLevel> <!-- 0-none -1-all 1-error/important 2-warning 4-informational 8-Transactional -->
-    <Rest>0</Rest>                       <!-- running RESTful web service? -->
+    <RESTful>0</RESTful>                 <!-- running RESTful web service? -->
     <Production>0</Production>           <!-- 1-running in production mode, 0-development mode (enable debugging framework) --> 
     <IdleTimeout>0</IdleTimeout>         <!-- seconds between calls to onIdle server event - 0 means don't call onIdle -->
     <CloseOnCrash>0</CloseOnCrash>       <!-- Set to 1 to force []OFF on an unhandled server error -->
     <UserID></UserID>                    <!-- Unix only!! userid to switch to after allocating a port number below 1024 -->
    
 <!-- Communications Settings -->
-    <Port>8080</Port>                                <!-- Preferred port that MiServer listens on --> 
-    <Ports>8080-8090</Ports>                         <!-- List of ports that we can listen on (when running multiple MiServers) -->
-    <FIFOMode>1</FIFOMode>                           <!-- Use Conga FIFO mode? -->
-    <WaitTimeout>5000ms</WaitTimeout>                <!-- Time to wait for request from client before Conga times out -->
-
-    <UseContentEncoding>1</UseContentEncoding>       <!-- for HTTP compression -->
+    <Port>8080</Port>                                     <!-- Preferred port that MiServer listens on --> 
+    <Ports>8080-8090</Ports>                              <!-- List of ports that we can listen on (when running multiple MiServers) -->
+    <FIFOMode>1</FIFOMode>                                <!-- Use Conga FIFO mode? -->
+    <WaitTimeout>5000ms</WaitTimeout>                     <!-- Time to wait for request from client before Conga times out -->
+    <UseContentEncoding>1</UseContentEncoding>            <!-- for HTTP compression -->
     <SupportedEncodings>gzip,deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->
- 
-    <Secure>0</Secure>                               <!-- Running secure? (SSL) if 0, remaining settings below have no meaning -->
-    <CertFile></CertFile>                            <!-- Private Certificate file -->
-    <KeyFile></KeyFile>                              <!-- Public Key file -->
-    <RootCertDir></RootCertDir>                      <!-- Root certificate directory (Conga) -->
-    <SSLFlags>96</SSLFlags>                          <!-- SSL flags (Conga) 96 = 32 Accept without validating + 64 Request Client Cert -->
+    <DirectFileSize>0</DirectFileSize>        <!-- file size parameters for sending directly via Conga (see documentation) --> 
+    <Secure>0</Secure>                                    <!-- Running secure? (SSL) if 0, remaining settings below have no meaning -->
+    <CertFile></CertFile>                                 <!-- Private Certificate file -->
+    <KeyFile></KeyFile>                                   <!-- Public Key file -->
+    <RootCertDir></RootCertDir>                           <!-- Root certificate directory (Conga) -->
+    <SSLFlags>96</SSLFlags>                               <!-- SSL flags (Conga) 96 = 32 Accept without validating + 64 Request Client Cert -->
  
 <!-- Page/Request Settings -->
     <Lang>en</Lang>                                     <!-- language setting --> 

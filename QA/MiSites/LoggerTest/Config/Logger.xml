@@ -2,7 +2,7 @@
 <!-- valid replacements are 
      %ServerRoot% - MiServer root directory
      %SiteRoot%   - web site root -->
-  <active>0</active>                      <!-- 1 for yes, 0 for no -->
+  <active>1</active>                      <!-- 1 for yes, 0 for no -->
   <anonymousIPs>1</anonymousIPs>          <!-- 1 for yes (GDPR compliant), 0 for no -->
   <directory>%SiteRoot%/Logs/</directory>  <!-- directory to store log files -->
   <interval>10</interval>                 <!-- cache write time interval in seconds, 0 means write immediately (do not cache) -->

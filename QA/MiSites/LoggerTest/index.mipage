@@ -1,0 +1,9 @@
+:Class index : MiPage
+    ∇ Compose
+      :Access public
+      Add _.h3'Logger Test'
+      Add'This is a simple page that includes a picture.  Logging is turned on and log records for both this page and the picture should show up in a log file in the Logs folder.'
+      Add _.br
+      Add _.img'src=pic3.png'
+    ∇
+:endclass

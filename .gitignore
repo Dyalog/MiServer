@@ -1,3 +1,4 @@
 MiServer.version
 sessions.dcf
 SampleMiSites/MS3/Misc/
+*.log

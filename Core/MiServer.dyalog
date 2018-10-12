@@ -407,7 +407,7 @@
       :EndIf
     ∇
 
-    ∇ r←conns HandleRequest arg;rc;obj;evt;data;REQ;res;startsize;length;ext;filename;enc;encodeMe;cacheMe;which;encoderc;html;enctype;status;response;hdr;done;offset;z
+    ∇ r←conns HandleRequest arg;rc;obj;evt;data;REQ;res;startsize;length;ext;filename;enc;encodeMe;cacheMe;which;encoderc;html;enctype;status;response;hdr;done;offset;z;tn;file
     ⍝ conns - connection namespace
     ⍝ arg [1] conga rc [2] object name [3] event [4] data
       r←0
@@ -457,50 +457,64 @@
                       :EndIf
                   :EndIf
               :Else
-                  REQ.Fail 501 ⍝ Service Not Implemented
+                  REQ.Fail 405 ⍝ Method Not Allowed
               :EndIf
           :EndIf
      
-          enc←','#.Utils.penclose' '~⍨REQ.GetHeader'accept-encoding' ⍝ check if client supports encoding
-          encodeMe←(~0∊⍴enc)∧Config.UseContentEncoding  ⍝ initialize a flag whether to encode this response, don't compresss if running as a handler
-          encodeMe>←(⊂ext)∊'png' 'gif' 'jpg' ⍝ don't try to compress compressed graphics, should probably add zip files, etc
-          cacheMe←0
+          cacheMe←encodeMe←0
+          :If 200=res.Status
+              :If Config.UseContentEncoding
+              :AndIf ~0∊⍴enc←','#.Utils.penclose' '~⍨REQ.GetHeader'accept-encoding' ⍝ check if client supports encoding
+              :AndIf encodeMe←~(⊂ext)∊'png' 'gif' 'jpg' 'mp4' ⍝ don't try to compress compressed graphics, should probably add zip files, etc
      
-          :If 1=res.File ⍝ See HTTPRequest.ReturnFile
-              (startsize length)←0,2 ⎕NINFO res.HTML
-              encodeMe←0
-          :EndIf
-     
-          :If (200=res.Status)∧encodeMe ⍝ if our HTTP status is 200 (OK) and we're okay to encode
-          :AndIf 1024<⍴res.HTML ⍝ don't bother compressing less than 1K
-          :AndIf 0≠which←⊃Encoders.Encoding{(⍴⍺){(⍺≥⍵)/⍵}⍺⍳⍵}enc ⍝ try to match what encodings they accept to those we provide
-              (encoderc html)←Encoders[which].Compress res.HTML
-              :If 0=encoderc
-                  length←startsize←⍴res.HTML
-                  :If startsize>⍴html ⍝ did we save anything by compressing
-                      length←⍴res.HTML←html ⍝ use it
-                      res.Headers⍪←'Content-Encoding'(enctype←Encoders[which].Encoding)
-                      4 Log'Used ',enctype,' compression on "',REQ.Page,'", transmitted% = ',2⍕length{⎕DIV←1 ⋄ ⍺÷⍵}startsize
-                  :Else
-                      4 Log'Compression not used on "',REQ.Page,'", startsize = ',(⍕startsize),', compressed length = ',⍕length
+                  :If 1=res.File ⍝ Sending a file?  (See HTTPRequest.ReturnFile)
+                      cacheMe←0≠Config.HTTPCacheTime
+                      (startsize length)←0,2 ⎕NINFO file←res.HTML
+                      :If encodeMe←∧/2≤/1⌽length,⍨⌽Config.DirectFileSize ⍝ see if it falls within the size parameters
+                          :Trap 0
+                              tn←file ⎕NTIE 0
+                              res.HTML←⎕NREAD tn 83 length 0
+                              ⎕NUNTIE tn
+                          :Else
+                              encodeMe←length←res.(HTML File)←0
+                              REC.Fail 500 404[1+⎕EN=22]
+                              →SEND
+                          :EndTrap
+                      :EndIf
                   :EndIf
-              :ElseIf 0=res.File
-                  2 Log'Compression failed'
-                  length←⍴res.HTML ⍝ otherwise, send uncompressed
-              :EndIf
-          :ElseIf 0=res.File
-              startsize←length←⍴res.HTML←∊res.HTML
-          :EndIf
      
-          :If (200=res.Status)∧cacheMe ⍝ if cacheable, set expires
-          :AndIf 0<Config.HTTPCacheTime
-              res.Headers⍪←'Expires'(Config.HTTPCacheTime #.Dates.HTTPDate ⎕TS)
+                  :If encodeMe
+                  :AndIf 0≠which←⊃Encoders.Encoding{(⍴⍺){(⍺≥⍵)/⍵}⍺⍳⍵}enc ⍝ try to match what encodings they accept to those we provide
+                      (encoderc html)←Encoders[which].Compress res.HTML
+                      :If 0=encoderc
+                          length←startsize←⍴res.HTML
+                          :If startsize>⍴html ⍝ did we save anything by compressing
+                              length←⍴res.HTML←html ⍝ use it
+                              res.Headers⍪←'Content-Encoding'(enctype←Encoders[which].Encoding)
+                              4 Log'Used ',enctype,' compression on "',REQ.Page,'", transmitted% = ',2⍕length{⎕DIV←1 ⋄ ⍺÷⍵}startsize
+                          :Else
+                              4 Log'Compression not used on "',REQ.Page,'", startsize = ',(⍕startsize),', compressed length = ',⍕length
+                          :EndIf
+                      :ElseIf 0=res.File
+                          2 Log'Compression failed'
+                          length←⍴res.HTML ⍝ otherwise, send uncompressed
+                      :EndIf
+                  :ElseIf 0=res.File
+                      startsize←length←⍴res.HTML←∊res.HTML
+                  :EndIf
+              :EndIf
+     
+              :If cacheMe ⍝ if cacheable, set expires
+              :AndIf 0<Config.HTTPCacheTime
+                  res.Headers⍪←'Expires'(Config.HTTPCacheTime #.Dates.HTTPDate ⎕TS)
+              :EndIf
           :EndIf
       :EndIf
      
+     SEND:
       res.Headers⍪←{0∊⍴⍵:'' '' ⋄ 'Server'⍵}Config.Server
       status←(⊂'HTTP/1.1'),res.((⍕Status)StatusText)
-      :If res.File
+      :If res.File>encodeMe
           response←''res.HTML
       :Else
           response←res.HTML
