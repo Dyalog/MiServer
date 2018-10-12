@@ -47,7 +47,7 @@
 ⍝ Headers: HTTP Headers as 2 column matrix or name/value pairs
 ⍝ Page:    Requested page
 ⍝ Arguments: Arguments to the command (cmd?arg1=value1&arg2=value2) as 2 column matrix of name/value pairs
-     
+
       Response←⎕NS''
       Response.(Status StatusText Headers File HTML HTMLHead PeerAddr NoWrap Bytes)←200 'OK'(0 2⍴⊂'')0 '' '' '' 0(0 0)
       Response.Request←cmd,data
@@ -241,7 +241,7 @@
 
     ∇ r←GetCookie name
       :Access Public Instance
-      r←name GetFromTable Cookies
+      r←name GetFromTableCS Cookies
     ∇
 
     ∇ SetCookie ctl;name;value;path;date;z;keep
