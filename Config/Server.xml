@@ -18,7 +18,7 @@
     <WaitTimeout>5000ms</WaitTimeout>                     <!-- Time to wait for request from client before Conga times out -->
     <UseContentEncoding>1</UseContentEncoding>            <!-- for HTTP compression -->
     <SupportedEncodings>gzip,deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->
-    <DirectFileSize>0</DirectFileSize>        <!-- file size parameters for sending directly via Conga (see documentation) --> 
+    <DirectFileSize>0</DirectFileSize>                    <!-- file size parameters for sending directly via Conga (see documentation) --> 
     <Secure>0</Secure>                                    <!-- Running secure? (SSL) if 0, remaining settings below have no meaning -->
     <CertFile></CertFile>                                 <!-- Private Certificate file -->
     <KeyFile></KeyFile>                                   <!-- Public Key file -->
