@@ -88,7 +88,7 @@
       :If (1↑⍴hdrs)≥i←hdrs[;1]⍳⊂'cookie'
           cookies←CookieSplit⊃hdrs[i;2]
           :If ~0∊⍴cookies←(2=⊃∘⍴¨cookies)/cookies
-              Cookies←↑{((#.Strings.lc(1⊃⍵)~' '))(DeCode 2⊃⍵)}¨cookies
+              Cookies←↑{(' '~⍨1⊃⍵)(2⊃⍵)}¨cookies
           :EndIf
       :EndIf
      
