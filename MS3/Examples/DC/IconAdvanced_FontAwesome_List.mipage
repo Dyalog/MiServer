@@ -6,12 +6,16 @@
     ∇ Compose;p;matches;tab;Columns;css;fa;dt;yml
       :Access Public
       Use'faIcons5svg'
-      Add _.p ScriptFollows
+      Add _.p MarkdownFollows
+   ⍝ ### Welcome
    ⍝ This page offers a tool to easily browse FontAwesome-Icons even when you're offline and have no access to the
-   ⍝ excellent Search-Tool on FontAwesome's <a href="http://fontawesome.com/icons/">site</a>.
+   ⍝ excellent Search-Tool on FontAwesome's [site](http://fontawesome.com/icons/).
    ⍝ Please note that the search also operates on the aliases that are (by default) not shown in the table.
    ⍝ The visibility of columns can be toggled with the appropriate button in the table (which makes this 
-   ⍝ page also a useful example for DataTable-features. 
+   ⍝ page also a useful example for DataTable-features). 
+   ⍝
+   ⍝ ### Usage
+   ⍝ Simply add an `Icon`-element using the value of the "code"-column as in this example: `Add _.Icon '{Code}'`
      
      
       fa←#.Boot.ms.Config.Virtual{(⍺.alias⍳⊂⍵)⊃⍺.path,⊂''}'FontAwesome5' ⍝ get path
@@ -78,6 +82,6 @@
       }¨mat[;2]
     ∇
 
-    JSONTranslateName←7162⌶  ⍝ translate aplified Json-name (of object) back into its original form
+    JSONTranslateName←7162⌶  ⍝ translate "aplified" Json-name (of object) back into its original form
 
 :EndClass

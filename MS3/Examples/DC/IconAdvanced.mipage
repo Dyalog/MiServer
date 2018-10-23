@@ -61,8 +61,8 @@
      
       p←Add _.p
       i←'.fa-3x'p.Add _.Icon
-      '.fa-lg' 'style=font-weight:bold;'i.Add _.span'&#x2639;' ⍝ Smiley face - specified in unusual way
-      'style="color: rgba(255,0,0,0.8);" data-fa-transform="left-2.5 down-1"'i.Add _.Icon'fas-ban fa-2x'
+      '.far .fa-lg' i.Add _.span'&#xf119;' ⍝ Smiley face - specified in unusual way
+      'style="color: rgba(255,0,0,0.8);" data-fa-transform="left-2.6"'i.Add _.Icon'fas-ban fa-2x'
      
       'style=margin-left:2em;'p.Add _.span'No frowning here!'
      
