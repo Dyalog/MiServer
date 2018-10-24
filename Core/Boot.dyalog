@@ -27,7 +27,7 @@
      
       HtmlRenderer←{0::⍵ ⋄ HtmlRenderer}0
      
-      :If 0=#.⎕NC'Files' ⋄ ⎕SE.SALT.Load MSRoot,'Utils/Files -target=#' ⋄ :EndIf
+      :If 0=#.⎕NC'Files' ⋄ ⎕SE.SALT.Load MSRoot,'Utils/Files -target=# -nolink' ⋄ :EndIf
      
       filterOut←{⍺←'' ⋄ ⍺{0∊⍴⍺:⍵ ⋄ ⍺{∊¨↓⍵⌿⍨~⍵[;2]∊eis ⍺}↑⎕NPARTS¨⍵}⊃#.Files.Dir ⍵,'/*.dyalog'}
      
@@ -38,11 +38,11 @@
      
       failed←''
       :For f :In files
-          {326=⎕DR ⍵: ⋄ '***'≡3↑⍵:failed,←⊂(('<.+>'⎕S{1↓¯1↓⍵.Match})⍵)}⎕SE.SALT.Load f,' -target=#' ⍝ do not reload already loaded spaces
+          {326=⎕DR ⍵: ⋄ '***'≡3↑⍵:failed,←⊂(('<.+>'⎕S{1↓¯1↓⍵.Match})⍵)}⎕SE.SALT.Load f,' -target=# -nolink' ⍝ do not reload already loaded spaces
       :EndFor
      
       :For file :In failed
-          disperror ⎕SE.SALT.Load∊'"',file,'" -target=#'
+          disperror ⎕SE.SALT.Load∊'"',file,'" -target=# -nolink'
       :EndFor
      
      
@@ -56,9 +56,9 @@
       failed←''
       :For f :In HTML
           (folder name)←2↑⎕NPARTS f
-          disperror ⎕SE.SALT.Load f,' -target=#'
+          disperror ⎕SE.SALT.Load f,' -target=# -nolink'
           :If #.Files.DirExists dir←folder,name,'/'
-              dir∘{326=⎕DR ⍵: ⋄ '***'≡3↑⍵:failed,←⊂⍺(('<.+>'⎕S{1↓¯1↓⍵.Match})⍵)}¨⎕SE.SALT.Load dir,'* -target=#.',name
+              dir∘{326=⎕DR ⍵: ⋄ '***'≡3↑⍵:failed,←⊂⍺(('<.+>'⎕S{1↓¯1↓⍵.Match})⍵)}¨⎕SE.SALT.Load dir,'* -nolink -target=#.',name
           :EndIf
       :EndFor
      
