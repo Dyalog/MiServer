@@ -63,7 +63,7 @@
       :EndFor
      
       :For (f file) :In failed
-          disperror ⎕SE.SALT.Load∊'"',file,'" -target=#.',f
+          disperror ⎕SE.SALT.Load∊'"',file,'" -nolink -target=#.',f
       :EndFor
      
       LoadFromFolder MSRoot,'Loadable'
