@@ -274,6 +274,7 @@
             r[;1]←{⍵↓⍨¯6×'%5B%5D'≡¯6↑⍵}¨r[;1] ⍝ remove [] from array args
             r[;2]←PercentDecode¨r[;2]
             :If ~cs ⋄ r[;1]←#.Strings.lc¨r[;1] ⋄ :EndIf
+            r⌿⍨←0<≢¨r[;1]
         ∇
 
         ∇ r←URLEncode data;⎕IO;z;ok;nul;m
