@@ -36,7 +36,7 @@
     <SessionHandler>SimpleSessions</SessionHandler>     <!-- name of class to perform session management -->
     <SessionTimeout>30m</SessionTimeout>                <!-- session timeout -->
     <Authentication>SimpleAuth</Authentication>         <!-- name of class to perform Basic HTTP authentication -->
-    <Logger>Logger</Logger>                             <!-- name of class to perform HTTP request loggin -->
+    <Logger></Logger>                                   <!-- name of class to perform HTTP request loggin -->
 
 <!-- Error Handling (DrA) Settings -->
     <TrapErrors>0</TrapErrors>    <!-- Valid: 0=Crash, 1=Trap and Log errors -->

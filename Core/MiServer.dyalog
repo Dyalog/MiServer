@@ -606,7 +606,7 @@
               :If MS3←∨/(∊⎕CLASS inst)∊#.HtmlPage
               :OrIf RESTful←∨/(∊⎕CLASS inst)∊#.RESTfulPage
                   inst.(_Request _PageRef)←REQ inst
-                  :If 0≡REQ.RESTfulReq
+                  :If RESTful∧0≡REQ.RESTfulReq
                       REQ.RESTfulReq←''
                   :EndIf
               :EndIf
@@ -668,7 +668,7 @@
           :ElseIf MS3
               fn←'Compose'
           :EndIf
-     
+          
           :If 3≠⌊|inst.⎕NC⊂fn            ⍝ and is it a public method?
               1 Log msg←'Method "',fn,'" not found (or not public) in page "',REQ.Page,'"'
               REQ.Fail 500 msg
