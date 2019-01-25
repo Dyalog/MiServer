@@ -14,7 +14,6 @@
 <!-- Communications Settings -->
     <Port>8080</Port>                                     <!-- Preferred port that MiServer listens on --> 
     <Ports>8080-8090</Ports>                              <!-- List of ports that we can listen on (when running multiple MiServers) -->
-    <FIFOMode>1</FIFOMode>                                <!-- Use Conga FIFO mode? -->
     <WaitTimeout>5000ms</WaitTimeout>                     <!-- Time to wait for request from client before Conga times out -->
     <UseContentEncoding>1</UseContentEncoding>            <!-- for HTTP compression -->
     <SupportedEncodings>gzip,deflate</SupportedEncodings> <!-- name(s) of class(es) that use ContentEncoder interface -->

@@ -295,7 +295,7 @@
       Config.DefaultExtension←Config Setting'DefaultExtension' 0 '.mipage'
       Config.DefaultPage←Config Setting'DefaultPage' 0 'index.mipage'
       Config.DirectFileSize←{⍵[⍋⍵]}0⌈⌊2↑Config Setting'DirectFileSize'(,1)⍬
-      Config.FIFOMode←Config Setting'FIFOMode' 1 1 ⍝ Conga FIFO mode default to on (1)
+      Config.FIFOMode←Config Setting'FIFOMode' 1 0 ⍝ Conga FIFO mode default to off (0)
       Config.FormatHtml←Config Setting'FormatHtml' 1 0
       Config.Host←Config Setting'Host' 0 'localhost'
       Config.HTTPCacheTime←'m'#.Dates.ParseTime Config Setting'HTTPCacheTime' 0 '0' ⍝ default to off (0)
