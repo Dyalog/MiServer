@@ -123,7 +123,7 @@
     ∇
     :endsection
 
-    ∇ r←RunServer arg;Stop;StartTime;⎕TRAP;idletime;wres;rc;obj;evt;data;conx;ts
+    ∇ r←RunServer arg;Stop;StartTime;⎕TRAP;idletime;wres;rc;obj;evt;data;conx;ts;congaError
       ⍝ Simple HTTP (Web) Server framework
       ⍝ Assumes Conga available in #.DRC and uses #.HTTPRequest
       ⍝ arg: dummy
@@ -139,6 +139,10 @@
      
       onServerStart ⍝ meant to be overridden
      
+      :If 0≠#.DRC.⎕NC⊂'Error' ⋄ congaError←#.DRC.Error ⍝ Conga 3.2 moved Error into the library instance
+      :Else ⋄ congaError←#.Conga.Error                 ⍝ Prior to 3.2 Error was in the namespace
+      :EndIf
+
       idletime←#.Dates.DateToIDN ⎕TS
      
       :While ~Stop
@@ -156,7 +160,7 @@
                       ConnectionDelete obj
                   :EndIf
                   :If 0≠4⊃wres
-                      (1+(4⊃wres)∊1008 1105 1119)Log'RunServer: DRC.Wait reported error ',(⍕#.Conga.Error 4⊃wres),' on ',2⊃wres
+                      (1+(4⊃wres)∊1008 1105 1119)Log'RunServer: DRC.Wait reported error ',(⍕congaError 4⊃wres),' on ',2⊃wres
                   :EndIf
      
               :Case 'Connect'
