@@ -7,6 +7,7 @@
     ∇ {msroot}Run root
       :If 0≠⎕NC'msroot' ⋄ MSRoot←msroot ⋄ :EndIf
       AppRoot←folderize root  ⍝ application (website) root
+      DyalogRoot←folderize 2 ⎕NQ '.' 'GetEnvironment' 'DYALOG'
       Load AppRoot ⍝ load essential objects
       ms←Init ConfigureServer AppRoot ⍝ read configuration and create server instance
       Configure ms
@@ -317,7 +318,7 @@
       Config.AllowedHTTPMethods←{⍵⊆⍨~⍵∊' ,'}#.Strings.lc Config Setting'AllowedHTTPMethods' 0 'get,post'
       Config.AppRoot←AppRoot
       Config.Authentication←Config Setting'Authentication' 0 'SimpleAuth'
-      Config.CertFile←Config Setting'CertFile' 0 ''
+      Config.CertFile←SubstPath Config Setting'CertFile' 0 ''
       Config.ClassName←Config Setting'ClassName' 0 'MiServer'
       Config.CloseOnCrash←Config Setting'CloseOnCrash' 1 0
       Config.Debug←Config Setting'Debug' 1 0
@@ -330,7 +331,7 @@
       Config.Host←Config Setting'Host' 0 'localhost'
       Config.HTTPCacheTime←'m'#.Dates.ParseTime Config Setting'HTTPCacheTime' 0 '0' ⍝ default to off (0)
       Config.IdleTimeout←'s'#.Dates.ParseTime Config Setting'IdleTimeout' 0 '0' ⍝ default to none (0)
-      Config.KeyFile←Config Setting'KeyFile' 0 ''
+      Config.KeyFile←SubstPath Config Setting'KeyFile' 0 ''
       Config.Lang←Config Setting'Lang' 0 'en'
       Config.LogMessageLevel←Config Setting'LogMessageLevel' 1 1 ⍝ default to error messages only
       Config.Logger←Config Setting'Logger' 0 ''
@@ -340,7 +341,7 @@
       Config.Ports←Config Setting'Ports'(,1)⍬
       Config.Production←Config Setting'Production' 1 0 ⍝ production mode?  (0/1 = development debug framework en/disabled)
       Config.RESTful←Config Setting'RESTful' 1 0 ⍝ RESTful web service?
-      Config.RootCertDir←Config Setting'RootCertDir' 0 ''
+      Config.RootCertDir←SubstPath Config Setting'RootCertDir' 0 ''
       Config.Root←AppRoot
       Config.SSLFlags←Config Setting'SSLFlags' 1(32+64)  ⍝ Accept Without Validating, RequestClientCertificate
       Config.Secure←Config Setting'Secure' 1 0
@@ -626,6 +627,7 @@
     ∇ r←SubstPath r
       r←(#.Strings.subst∘('%ServerRoot%'(¯1↓MSRoot)))r
       r←(#.Strings.subst∘('%SiteRoot%'(¯1↓AppRoot)))r
+      r←(#.Strings.subst∘('%DyalogRoot%'(¯1↓DyalogRoot)))r
     ∇
 
     ∇ r←isRunning

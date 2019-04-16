@@ -76,13 +76,13 @@
     ∇ r←data Append name
     ⍝ Append "data" to file specified by "name", creating the file if needed
     ⍝ r - number of bytes written
-      r←data{(⎕NUNTIE ⍵)⊢⍺ ⎕NAPPEND ⍵}Nopen name
+      r←data{(⎕NUNTIE ⍵)⊢⍺ ⎕NAPPEND ⍵}name Nopen 0
     ∇
 
     ∇ r←text AppendText name;tn
     ⍝ Append single-byte "text" to file specified by "name", creating the file if needed
     ⍝ r - number of bytes written
-      r←text{(⎕NUNTIE ⍵)⊢⍺ ⎕NAPPEND ⍵(⎕DR' ')}Nopen name
+      r←text{(⎕NUNTIE ⍵)⊢⍺ ⎕NAPPEND ⍵(⎕DR' ')}name Nopen 0
     ∇
 
     ∇ {r}←text PutText name_encoding;name;encoding;nl
@@ -169,32 +169,34 @@
       r←comp{⍺{(⎕FUNTIE ⍵)⊢⎕FREAD ⍵ ⍺}⍵ ⎕FSTIE 0}filename
     ∇
 
-    ∇ r←filename Nopen tn
+    ∇ r←filename Nopen args;wipe;tn
     ⍝ Opens (ties) a native file (creates if not found) and returns tieno.
-    ⍝ tn[1] is the tie number (0 to get next available)
-    ⍝ tn[2] is optional (default=0) where a value of 1 indicates to create the file only and fail (returning 0) if it already exists
-      tn←2↑tn
-      :Trap 0
-          r←filename ⎕NCREATE tn[1]
+    ⍝ args[1] - the tie number (0 to get next available)
+    ⍝ args[2] - (optional) 1 indicates to empty the file (0 ⎕NRESIZE)
+    ⍝ r is either the tie number or 0 if the operation failed
+      (tn wipe)←2↑args
+      :Trap 22
+          r←filename ⎕NCREATE tn
       :Else
-          →tn[2]⍴r←0
-          r←filename ⎕NTIE tn[1]
+          r←filename ⎕NTIE tn
       :EndTrap
+      :If wipe ⋄ 0 ⎕NRESIZE r ⋄ :EndIf
     ∇
 
-    ∇ {r}←data Put args;name;tn;dontOverwrite
+    ∇ r←data Put args;name;disposition
     ⍝ Puts data to a native file, either creating the file or overwriting it if it exists
     ⍝ data - the data to be written
     ⍝ args[1] - the name of the file to write to
-    ⍝ args[2] - (optional) is 1 to indicate NOT to overwrite an existing file,
-    ⍝           otherwise 0 (or no second argument will cause an existing file to be overwritten
+    ⍝ args[2] - 0 (default) error if file exists
+    ⍝           1 - overwrite if file exists
+    ⍝           2 - append if file exists
     ⍝ r - number of bytes written or ¯1 if the file exists and was not to be overwritten
       args←eis args
-      (name dontOverwrite)←args,(⍴args)↓'' 0
-      :If 0≠tn←dontOverwrite Nopen name
-          r←data{(⎕NUNTIE ⍵)⊢⍺ ⎕NAPPEND(0 ⎕NRESIZE ⍵)(⎕DR ⍺)}tn
-      :Else
+      (name disposition)←args,(⍴args)↓'' 0
+      :If disposition<⎕NEXISTS name
           r←¯1
+      :Else
+          r←data{(⎕NUNTIE ⍵)⊢⍺ ⎕NAPPEND ⍵(⎕DR ⍺)}name Nopen 0,disposition=1
       :EndIf
     ∇
 
