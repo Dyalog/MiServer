@@ -190,7 +190,7 @@
 
     ∇ r←Version
       :Access public shared
-      r←'HttpCommand' '2.1.17' '2018-10-25'
+      r←'HttpCommand' '2.1.23' '2019-03-12'
     ∇
 
     ∇ make
@@ -278,6 +278,47 @@
       r.⎕DF 1⌽'][rc: ',(⍕r.rc),' | msg: "',r.msg,'"',(r.rc≥0)/' | HTTP Status: ',(⍕r.HttpStatus),' "',r.HttpMessage,'" | ⍴Data: ',⍕⍴r.Data
     ∇
 
+    ∇ r←Init r;ref;root;nc;class;dyalog;n;ns;congaCopied
+      ⍝↓↓↓ Check is LDRC exists (VALUE ERROR (6) if not), and is LDRC initialized? (NONCE ERROR (16) if not)
+      :Hold 'HttpCommandInit'
+          :If {6 16 999::1 ⋄ ''≡LDRC:1 ⋄ 0⊣LDRC.Describe'.'}''
+              LDRC←''
+              :If 9=#.⎕NC'Conga' ⋄ {#.Conga.X509Cert.LDRC←''}⍬ ⋄ :EndIf ⍝ if #.Conga exists, reset X509Cert.LDRC reference
+              :If ~0∊⍴CongaRef  ⍝ did the user supply a reference to Conga?
+                  LDRC←ResolveCongaRef CongaRef
+                  →∆END↓⍨0∊⍴r.msg←(''≡LDRC)/'CongaRef (',(⍕CongaRef),') does not point to a valid instance of Conga'
+              :Else
+                  :For root :In ##.## #
+                      ref nc←root{1↑¨⍵{(×⍵)∘/¨⍺ ⍵}⍺.⎕NC ⍵}ns←'Conga' 'DRC'
+                      :If 9=⊃⌊nc ⋄ :Leave ⋄ :EndIf
+                  :EndFor
+                  :If 9=⊃⌊nc
+                      LDRC←ResolveCongaRef root⍎∊ref
+                      →∆END↓⍨0∊⍴r.msg←(''≡LDRC)/(⍕root),'.',(∊ref),' does not point to a valid instance of Conga'
+                      →∆COPY↓⍨{999::0 ⋄ 1⊣LDRC.Describe'.'}'' ⍝ it's possible that Conga was saved in a semi-initialized state
+                  :Else
+     ∆COPY:
+                      class←⊃⊃⎕CLASS ⎕THIS
+                      dyalog←{⍵,'/'↓⍨'/\'∊⍨¯1↑⍵}2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
+                      congaCopied←0
+                      :For n :In ns
+                          :Trap 0
+                              n class.⎕CY dyalog,'ws/conga'
+                              LDRC←ResolveCongaRef class⍎n
+                              →∆END↓⍨0∊⍴r.msg←(''≡LDRC)/n,' was copied from [DYALOG]/ws/conga, but is not valid'
+                              congaCopied←1
+                              :Leave
+                          :EndTrap
+                      :EndFor
+                      →∆END↓⍨0∊⍴r.msg←(~congaCopied)/'Neither Conga nor DRC were successfully copied from [DYALOG]/ws/conga'
+                  :EndIf
+              :EndIf
+          :EndIf
+     ∆END:
+      :EndHold
+     
+    ∇
+
     ∇ LDRC←ResolveCongaRef CongaRef;z;failed
     ⍝ CongaRef could be a charvec, reference to the Conga or DRC namespaces, or reference to an iConga instance
       :Access public shared  ⍝!!! testing only  - remove :Access after testing
@@ -286,12 +327,13 @@
       :Case 9.1 ⍝ namespace?  e.g. CongaRef←DRC or Conga
      Try:
           :Trap 0
-              :If 0≡⊃z←CongaRef.Init'' ⍝ DRC?
+              :If ∨/'.Conga'⍷⍕CongaRef ⍝ is it Conga?
+                  LDRC←CongaRef.Init'HttpCommand'
+              :ElseIf 0≡⊃CongaRef.Init'' ⍝ DRC?
                   LDRC←CongaRef
-                  {}LDRC.Init''
-              :ElseIf 9.2=⎕NC⊂,'z'    ⍝ Conga?
-                  LDRC←z
-              :EndIf
+              :Else
+                  →0⊣LDRC←''
+              :End
           :Else ⍝ if HttpCommand is reloaded and re-executed in rapid succession, Conga initialization may fail, so we try twice
               :If failed
                   →0⊣LDRC←''
@@ -308,7 +350,7 @@
       :EndSelect
     ∇
 
-    ∇ r←{certs}(cmd HttpCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;rc;dyalog;donetime;congaCopied;formContentType;ind;len;mode;obj;evt;dat;ref;nc;ns;n;class;clt;z;contentType;redirected;origHost;origPort;noHost;origSecure;msg;timedOut;certfile;keyfile;cert;secureParams
+    ∇ r←{certs}(cmd HttpCmd)args;url;parms;hdrs;urlparms;p;b;secure;port;host;page;x509;flags;priority;auth;req;err;chunked;chunk;buffer;chunklength;done;data;datalen;header;headerlen;rc;donetimeformContentType;ind;len;mode;obj;evt;dat;clt;z;contentType;redirected;origHost;origPort;noHost;origSecure;msg;timedOut;certfile;keyfile;cert;secureParams
 ⍝ issue an HTTP command
 ⍝ certs - optional [X509Cert [SSLValidation [Priority]]]
 ⍝ args  - [1] URL in format [HTTP[S]://][user:pass@]url[:port][/page[?query_string]]
@@ -317,6 +359,9 @@
 ⍝ Makes secure connection if left arg provided or URL begins with https:
      
 ⍝ Result: (conga return code) (HTTP Status) (HTTP headers) (HTTP body) [PeerCert if secure]
+     
+      :If 900⌶⍬ ⋄ certs←'' ⋄ :EndIf ⍝ default when monadic
+     
       args←eis args
       (url parms hdrs)←args,(⍴args)↓''(⎕NS'')''
      
@@ -325,37 +370,7 @@
      
       →∆END↓⍨0∊⍴r.msg←(0∊⍴url)/'No URL specified' ⍝ exit early if no URL
      
-      ⍝↓↓↓ Check is LDRC exists (VALUE ERROR (6) if not), and is LDRC initialized? (NONCE ERROR (16) if not)
-      :If {6 16 999::1 ⋄ ''≡LDRC:1 ⋄ 0⊣LDRC.Describe'.'}''
-          LDRC←''
-          :If 9=#.⎕NC'Conga' ⋄ {#.Conga.X509Cert.LDRC←''}⍬ ⋄ :EndIf ⍝ if #.Conga exists, reset X509Cert.LDRC reference
-          :If ~0∊⍴CongaRef  ⍝ did the user supply a reference to Conga?
-              LDRC←ResolveCongaRef CongaRef
-              →∆END↓⍨0∊⍴r.msg←(''≡LDRC)/'CongaRef (',(⍕CongaRef),') does not point to a valid instance of Conga'
-          :Else
-              ref nc←{1↑¨⍵{(×⍵)∘/¨⍺ ⍵}#.⎕NC ⍵}ns←'Conga' 'DRC'
-              :If 9=⊃⌊nc
-                  LDRC←ResolveCongaRef'#.',∊ref
-                  →∆END↓⍨0∊⍴r.msg←(''≡LDRC)/'#.',(∊ref),' does not point to a valid instance of Conga'
-                  →∆COPY↓⍨{999::0 ⋄ 1⊣LDRC.Describe'.'}'' ⍝ it's possible that Conga was saved in a semi-initialized state
-              :Else
-     ∆COPY:
-                  class←⊃⊃⎕CLASS ⎕THIS
-                  dyalog←{⍵,'/'↓⍨'/\'∊⍨¯1↑⍵}2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
-                  congaCopied←0
-                  :For n :In ns
-                      :Trap 0
-                          n class.⎕CY dyalog,'ws/conga'
-                          LDRC←ResolveCongaRef class⍎n
-                          →∆END↓⍨0∊⍴r.msg←(''≡LDRC)/n,' was copied from [DYALOG]/ws/conga, but is not valid'
-                          congaCopied←1
-                          :Leave
-                      :EndTrap
-                  :EndFor
-                  →∆END↓⍨0∊⍴r.msg←(~congaCopied)/'Neither Conga nor DRC were successfully copied from [DYALOG]/ws/conga'
-              :EndIf
-          :EndIf
-      :EndIf
+      →∆END↓⍨0∊⍴(Init r).msg
      
       url←,url
       cmd←uc,cmd
@@ -373,7 +388,7 @@
      
      GET:
       p←(∨/b)×1+(b←'//'⍷url)⍳1
-      secure←{6::⍵ ⋄ ⍵∨0<⍴,certs}(lc(p-2)↑url)≡'https:'
+      secure←(0<⍴,certs)∨(lc(p-2)↑url)≡'https:'
       url←p↓url                                  ⍝ Remove HTTP[s]:// if present
       (host page)←'/'split url,(~'/'∊url)/'/'    ⍝ Extract host and page from url
       page←{w←⍵ ⋄ ((' '=w)/w)←⊂'%20' ⋄ ∊w}page   ⍝ convert spaces in page name to %20
@@ -384,8 +399,6 @@
           port←origPort
       :EndIf
      
-      :If 0=⎕NC'certs' ⋄ certs←'' ⋄ :EndIf
-     
       secureParams←''
       :If secure
           LDRC.X509Cert.LDRC←LDRC
@@ -395,7 +408,7 @@
                   certs.KeyOrigin←'DER'PrivateKeyFile
               :EndIf
           :Else
-              :If (⎕DR' ')=⎕DR⊃⊃certs ⍝ file name?
+              :If 0 2∊⍨10|⎕DR⊃⊃certs ⍝ file name?
                   :If 2=≡certs
                       (certfile keyfile)←certs
                   :Else
@@ -403,8 +416,8 @@
                   :EndIf
                   cert←⊃LDRC.X509Cert.ReadCertFromFile certfile
                   cert.KeyOrigin←'DER'keyfile
+                  certs[1]←cert
               :EndIf
-              certs[1]←cert
           :EndIf
           x509 flags priority←3↑certs,(⍴,certs)↓(⎕NEW LDRC.X509Cert)SSLFlags Priority
           secureParams←('x509'x509)('SSLValidation'flags)('Priority'priority)
@@ -479,7 +492,7 @@
      
       mode←'text'
       :If 3≤⊃LDRC.Version ⍝ Conga 3 or later?
-          mode←'http' 'text'⊃⍨(,⊂'http')⍳⊆lc CongaMode ⍝ use CongaMode (default to text)
+          mode←'text' 'http'⊃⍨(,⊂'text')⍳⊆lc CongaMode ⍝ use CongaMode (default to http)
       :EndIf
      
      Go:
@@ -503,19 +516,41 @@
                       :Select evt
               ⍝ Conga 3.0+ handling
                       :Case 'HTTPHeader'
-                          r.(HttpVersion HttpStatus HttpMessage)←3↑dat
-                          header←4⊃dat
-                          datalen←⊃(toNum header Lookup'Content-Length'),¯1 ⍝ ¯1 if no content length not specified
-                          chunked←∨/'chunked'⍷header Lookup'Transfer-Encoding'
-                          done←(cmd≡'HEAD')∨chunked<datalen<1
+                          :If 1=≡dat ⍝ HTTP header parsing failed?
+                              r.Data←dat
+                              r.msg←'Conga failed to parse the response HTTP header'
+                              →∆END
+                          :Else
+                              r.(HttpVersion HttpStatus HttpMessage)←3↑dat
+                              header←4⊃dat
+                              datalen←⊃(toNum header Lookup'Content-Length'),¯1 ⍝ ¯1 if no content length not specified
+                              chunked←∨/'chunked'⍷header Lookup'Transfer-Encoding'
+                              done←(cmd≡'HEAD')∨chunked<datalen<1
+                          :EndIf
                       :Case 'HTTPBody'
                           data←dat
                           done←1
                       :Case 'HTTPChunk'
-                          data,←1⊃dat
+                          :If 1=≡dat ⍝ HTTP chunk parsing failed?
+                              r.Data←dat
+                              r.msg←'Conga failed to parse the response HTTP chunk'
+                              →∆END
+                          :Else
+                              data,←1⊃dat
+                          :EndIf
                       :Case 'HTTPTrailer'
-                          header⍪←dat
-                          done←1
+                          :If 2≠≢⍴dat ⍝ HTTP trailer parsing failed?
+                              r.Data←dat
+                              r.msg←'Conga failed to parse the response HTTP trailer'
+                              →∆END
+                          :Else
+                              header⍪←dat
+                              done←1
+                          :EndIf
+                      :Case 'HTTPFail'
+                          r.Data←dat
+                          r.msg←'Conga failed to parse the HTTP reponse'
+                          →∆END
      
               ⍝ Pre-Conga 3.0 handling
                       :CaseList 'Block' 'BlockLast'             ⍝ If we got some data
