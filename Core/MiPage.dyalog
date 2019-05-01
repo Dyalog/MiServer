@@ -46,14 +46,13 @@
       _PageData←⎕NS''
     ∇
 
-    ∇ {r}←Render;b;styles;_head;_body;_styles;_scripts;host;t;i
+    ∇ {r}←Render;b;styles;_head;_body;_styles;_scripts;t;i
       :Access public
    ⍝  Capture the current Head and Body content so that we can reset it after rendering
    ⍝  This is so we can re-render and still get the same result
      
       (_head _body)←(Head Body).Content
       (_styles _scripts)←_Styles _Scripts
-      host←{6::⍵ ⋄ '//',_Request.Host}''
      
       :If ''≢OnLoad
           {0:: ⋄ Use'JQuery'}''
@@ -62,7 +61,7 @@
       b←RenderBody
      
       :If ~0∊⍴_Scripts
-          {(Insert _html.script).Set('src'⍵)}¨host∘AddHost¨⌽∪_Scripts
+          {(Insert _html.script).Set('src'⍵)}¨⌽∪_Scripts
       :EndIf
      
       styles←∪_Styles
@@ -70,7 +69,7 @@
       styles←styles,{0∊⍴⍵:⍵ ⋄ ⊂⍵}_CssOverride
      
       :If ~0∊⍴styles
-          {Insert #._DC.StyleSheet ⍵}¨host∘AddHost¨⌽∪styles
+          {Insert #._DC.StyleSheet ⍵}¨⌽∪styles
       :EndIf
      
       t←''
@@ -235,17 +234,6 @@
           :EndIf
       :EndIf
     ∇
-
-    ∇ url←{host}AddHost url
-      ⍝ adds the request host name to the URL if it's not already there
-      :Access public shared
-      :If 0=⎕NC'host' ⋄ host←{6::⍵ ⋄ _Request.Host}'' ⋄ :EndIf
-      :If ''≢host
-      :AndIf ~∨/((⊃⍷#.Strings.nocase)∘url)¨'//' 'http:' 'https:'
-          url,⍨←host
-      :EndIf
-    ∇
-
 
     ∇ _Close session ⍝ Called when the session ends
     ⍝ this method is specific to #.SimpleSessions and is called when a session is terminated
