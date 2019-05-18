@@ -5,7 +5,7 @@
 ⍝ is in the list of valid sessions. If it is, assign the Session property of the request.
 ⍝ If it isn't, create a new session and set the cookie
 
-    :Field Public Sessions ⍝ Should be private, really 
+    :Field Public Sessions ⍝ Should be private, really
     :Field Public Server
 
     :Class Page
@@ -51,30 +51,30 @@
     ∇ GetSession req;c;tn;now;session;ns;new;t_out;i;r
       :Access Public
     ⍝ Return session. Right argument is a HTTPRequest.
+      :If 'get'≢req.Method
+          :Hold 'Sessions'
+              session←req.GetCookie'Session'
+              now←#.Dates.DateToIDN ⎕TS
      
-      :Hold 'Sessions'
-          session←req.GetCookie'Session'
-          now←#.Dates.DateToIDN ⎕TS
+              :If new←(1⊃⍴Sessions)<i←Sessions.Cookie⍳⊂session ⍝ Cookie is not in the table
+                  c←SessionCookie NextSession
+                  Sessions←Sessions,r←⎕NEW Session
+                  r.(ID User LastActive Cookie State Server)←NextSession''now c(⎕NS'')Server
+                  NextSession←(2*30)|NextSession+1
+                  tn←(req.Server.Config.Root,'sessions.dcf')⎕FSTIE 0
+                  NextSession ⎕FREPLACE tn,1
+                  ⎕FUNTIE tn
+                  req.SetCookie'Session'c'/' 30 'HttpOnly'
+                  req.Session←r
+                  req.Server.onSessionStart req
      
-          :If new←(1⊃⍴Sessions)<i←Sessions.Cookie⍳⊂session ⍝ Cookie is not in the table
-              c←SessionCookie NextSession
-              Sessions←Sessions,r←⎕NEW Session
-              r.(ID User LastActive Cookie State Server)←NextSession''now c(⎕NS'')Server
-              NextSession←(2*30)|NextSession+1
-              tn←(req.Server.Config.Root,'sessions.dcf')⎕FSTIE 0
-              NextSession ⎕FREPLACE tn,1
-              ⎕FUNTIE tn
-              req.SetCookie'Session'c '/' 30 'HttpOnly'
-              req.Session←r
-              req.Server.onSessionStart req
-     
-          :Else ⍝ Old session
-              (r←i⊃Sessions).LastActive←now ⍝ Just register activity
-              r.New←0
-              req.Session←r
-          :EndIf
-     
-      :EndHold
+              :Else ⍝ Old session
+                  (r←i⊃Sessions).LastActive←now ⍝ Just register activity
+                  r.New←0
+                  req.Session←r
+              :EndIf
+          :EndHold
+      :EndIf
     ∇
 
     ∇ KillSessions ids;mask;i

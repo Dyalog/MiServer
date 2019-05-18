@@ -10,7 +10,7 @@
 
     ∇ Compose;f;inputs;labels;h ⍝ render the initial page
       :Access Public
-
+     
       (prin rate term)←100000 4.5 30
       pmt←calcpmt prin rate term ⍝ First calculation
      
@@ -31,7 +31,7 @@
 
     ∇ resp←Calc;p;r;n;m    ⍝ callback function for the handler defined in Render
       :Access public
-      p r n m←⍬ Get 'prin rate term pmt' ⍝ convert input fields to numbers
+      p r n m←⍬ Get'prin rate term pmt' ⍝ convert input fields to numbers
       resp←''
      
       :Select _what ⍝ what field changed?
@@ -49,6 +49,8 @@
           :EndIf
      
       :EndSelect
+     
+      :If 0∊⍴resp ⋄ resp←Execute('#',_id)Val'Error!' ⋄ :EndIf
     ∇
 
 :EndClass

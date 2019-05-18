@@ -219,7 +219,7 @@
           conx.(CongaObjectName PeerCert)←objname''
           conx.(Active LastActive)←1(3⊃⎕AI)
           :If 0=1⊃z←#.DRC.GetProp conx.CongaObjectName'PeerAddr'
-              conx.PeerAddr←2⊃z
+              conx.PeerAddr←2⊃2⊃z
           :Else
               conx.PeerAddr←'Unknown'
           :EndIf
