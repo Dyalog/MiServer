@@ -34,6 +34,7 @@
 <!-- Extensions -->
     <SessionHandler>SimpleSessions</SessionHandler>     <!-- name of class to perform session management -->
     <SessionTimeout>30m</SessionTimeout>                <!-- session timeout -->
+    <CreateSession>1</CreateSession>                    <!-- create a new session on receipt of a GET request -->
     <Authentication>SimpleAuth</Authentication>         <!-- name of class to perform Basic HTTP authentication -->
     <Logger></Logger>                                   <!-- name of class to perform HTTP request loggin -->
 

@@ -51,7 +51,7 @@
     ∇ GetSession req;c;tn;now;session;ns;new;t_out;i;r
       :Access Public
     ⍝ Return session. Right argument is a HTTPRequest.
-      :If 'get'≢req.Method
+      :If (1=Server.Config.CreateSession)∨'get'≢req.Method
           :Hold 'Sessions'
               session←req.GetCookie'Session'
               now←#.Dates.DateToIDN ⎕TS

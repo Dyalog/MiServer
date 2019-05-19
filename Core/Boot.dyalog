@@ -321,6 +321,7 @@
       Config.CertFile←SubstPath Config Setting'CertFile' 0 ''
       Config.ClassName←Config Setting'ClassName' 0 'MiServer'
       Config.CloseOnCrash←Config Setting'CloseOnCrash' 1 0
+      Config.CreateSession←Config Setting'CreateSession' 1 1 ⍝ create session on GET request
       Config.Debug←Config Setting'Debug' 1 0
       Config.DecodeBuffers←Config Setting'DecodeBuffers' 1 1 ⍝ allow Conga to decode HTTP messages (1)
       Config.DefaultExtension←Config Setting'DefaultExtension' 0 '.mipage'
