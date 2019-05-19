@@ -142,7 +142,7 @@
       :If 0≠#.DRC.⎕NC⊂'Error' ⋄ congaError←#.DRC.Error ⍝ Conga 3.2 moved Error into the library instance
       :Else ⋄ congaError←#.Conga.Error                 ⍝ Prior to 3.2 Error was in the namespace
       :EndIf
-
+     
       idletime←#.Dates.DateToIDN ⎕TS
      
       :While ~Stop
@@ -445,25 +445,29 @@
           REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page ⍝ no page specified? use the default
           REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension ⍝ no extension specified? use the default
           ext←⊃¯1↑#.Files.SplitFilename filename←Config Virtual REQ.Page
-     
-          SessionHandler.GetSession REQ
-          Authentication.Authenticate REQ
-          :If REQ.Response.Status≠401 ⍝ Authentication did not fail
-              :If Config.AllowedHTTPMethods∊⍨⊂REQ.Method
-                  onHandleRequest REQ ⍝ overridable
-                  :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
-                      filename HandleMSP REQ
-                  :Else
-                      :If REQ.Method≡'get'
-                          REQ.ReturnFile filename
+
+          :Trap 1 ⍝ WS FULL
+              SessionHandler.GetSession REQ
+              Authentication.Authenticate REQ
+              :If REQ.Response.Status≠401 ⍝ Authentication did not fail
+                  :If Config.AllowedHTTPMethods∊⍨⊂REQ.Method
+                      onHandleRequest REQ ⍝ overridable
+                      :If REQ.Page endswith Config.DefaultExtension ⍝ MiPage?
+                          filename HandleMSP REQ
                       :Else
-                          REQ.Fail 501 ⍝ Service Not Implemented
+                          :If REQ.Method≡'get'
+                              REQ.ReturnFile filename
+                          :Else
+                              REQ.Fail 501 ⍝ Service Not Implemented
+                          :EndIf
                       :EndIf
+                  :Else
+                      REQ.Fail 405 ⍝ Method Not Allowed
                   :EndIf
-              :Else
-                  REQ.Fail 405 ⍝ Method Not Allowed
               :EndIf
-          :EndIf
+          :Else 
+               REQ.Fail 503 'Service overloaded'
+          :EndTrap
      
           cacheMe←encodeMe←0
           :If 200=res.Status
@@ -672,7 +676,7 @@
           :ElseIf MS3
               fn←'Compose'
           :EndIf
-          
+     
           :If 3≠⌊|inst.⎕NC⊂fn            ⍝ and is it a public method?
               1 Log msg←'Method "',fn,'" not found (or not public) in page "',REQ.Page,'"'
               REQ.Fail 500 msg

@@ -690,7 +690,7 @@
     ⍝ args can be an instance, a class, or just html/text
       :Access public
       r←''
-      :If ~0∊⍴∊args
+      :If ~0∊⍴args
           :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
           r←attr ParseArgs args
           :Trap 4 5 ⍝ rank and length error
@@ -706,7 +706,7 @@
     ⍝ args can be an instance, a class, or just html/text
       :Access public shared
       r←''
-      :If ~0∊⍴∊args
+      :If ~0∊⍴args
           :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
           r←attr ParseArgs args
       :EndIf
@@ -717,7 +717,7 @@
     ⍝ args can be an instance, a class, or just html/text
       :Access public
       r←''
-      :If ~0∊⍴∊args
+      :If ~0∊⍴args
           :If 0=⎕NC'attr' ⋄ attr←'' ⋄ :EndIf
           r←attr ParseArgs args
           :Trap 4 5 ⍝ rank and length error
