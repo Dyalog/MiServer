@@ -445,7 +445,7 @@
           REQ.Page←Config.DefaultPage{∧/⍵∊'/\':'/',⍺ ⋄ '/\'∊⍨¯1↑⍵:⍵,⍺ ⋄ ⍵}REQ.Page ⍝ no page specified? use the default
           REQ.Page,←(~'.'∊{⍵/⍨⌽~∨\'/'=⌽⍵}REQ.Page)/Config.DefaultExtension ⍝ no extension specified? use the default
           ext←⊃¯1↑#.Files.SplitFilename filename←Config Virtual REQ.Page
-
+     
           :Trap 1 ⍝ WS FULL
               SessionHandler.GetSession REQ
               Authentication.Authenticate REQ
@@ -465,8 +465,8 @@
                       REQ.Fail 405 ⍝ Method Not Allowed
                   :EndIf
               :EndIf
-          :Else 
-               REQ.Fail 503 'Service overloaded'
+          :Else
+              REQ.Fail 503 'Service overloaded'
           :EndTrap
      
           cacheMe←encodeMe←0
@@ -620,16 +620,19 @@
               :EndIf
           :EndIf
      
-              ⍝ ======= Expiration (newer version of page is available) Logic =======
-              ⍝ If RESTful or not sessioned, let anything through
-              ⍝ If sessioned and expired, let it though
-              ⍝ If sessioned but not expired, check if GET
+         ⍝ ======= Expiration (newer version of page is available) Logic ======
+         ⍝ If RESTful or not sessioned, let anything through
+         ⍝ If sessioned and expired, let it though
+         ⍝ If sessioned but not expired, check if GET
           :If RESTful<sessioned>expired
           :AndIf ~REQ.isGet
               inst._TimedOut←1
           :EndIf
      
-          :If sessioned ⋄ REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID ⋄ :EndIf
+          :If sessioned
+          :AndIf {0=⍵.⎕NC⊂'_Sessioned':1 ⋄ ⍵._Sessioned}inst
+              REQ.Session.Pages,←inst ⋄ inst.Session←REQ.Session.ID
+          :EndIf
       :EndIf
      
       :If sessioned ⋄ token←REQ.(Page,⍕Session.ID)

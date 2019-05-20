@@ -21,7 +21,8 @@
     :field Public _PageData       ⍝ namespace containing any data passed via forms or URL
     :field Public _AjaxResponse←''
     :field Public _DebugCallbacks←0
-    :field Public _TimedOut←0
+    :field Public _TimedOut←0     
+    :field Public _Sessioned←1    ⍝ by default save page instance in session
     :field Public _cache←''       ⍝ cached content if page is marked cacheable
     :field Public OnLoad←''       ⍝ page equivalent to ⎕LX
     :field Public Cacheable←0     ⍝ is the page cacheable?
@@ -223,7 +224,8 @@
       :If ' '∊names
           names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
           r←proto∘SessionGet¨names
-      :ElseIf 0=_Request.Session.⎕NC names
+      :ElseIf 0=_Request.⎕NC'Session'
+      :OrIf 0=_Request.Session.⎕NC names
           r←proto
       :Else
           r←_Request.Session⍎names
