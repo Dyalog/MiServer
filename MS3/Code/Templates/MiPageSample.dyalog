@@ -3,6 +3,8 @@
    ⍝ - adding a header and footer
    ⍝ - adding a handler that will toggle the display of the web page and its APL source code
 
+    :Field Public _Sessioned←0
+
     ∇ {r}←Wrap;lang;server;src;c
       :Access Public
      
@@ -81,7 +83,7 @@
       source←(⍳∘'⍝'↑⊢)¨source      ⍝ remove comments
       source←{⍵/⍨~≠\''''=⍵}¨source ⍝ remove strings but leaves one ' as separator
       pattern←8⌽')\.(\w+)_(',∊#.MS3SiteUtils.NSS,¨'|'
-      :For control :In 'Handler' 'Position'~⍨∪(pattern⎕S'\2')source ⍝ find controls
+      :For control :In 'Handler' 'Position'~⍨∪(pattern ⎕S'\2')source ⍝ find controls
           :Trap 6 ⍝ unknown
               ns←(#.MS3SiteUtils.NSS(∨/⍷)¨⊂⍕⍎'#._.',control)/⍳⍴#.MS3SiteUtils.NSS ⍝ add to right list
           :Else
