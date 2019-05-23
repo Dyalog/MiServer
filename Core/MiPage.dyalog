@@ -224,7 +224,7 @@
       :If ' '∊names
           names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
           r←proto∘SessionGet¨names
-      :ElseIf 0=_Request.⎕NC'Session'
+      :ElseIf 0=_Request.⎕NC⊂'Session'
       :OrIf 0=_Request.Session.⎕NC names
           r←proto
       :Else
