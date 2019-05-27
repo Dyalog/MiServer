@@ -59,7 +59,7 @@
               :If new←(1⊃⍴Sessions)<i←Sessions.Cookie⍳⊂session ⍝ Cookie is not in the table
                   c←SessionCookie NextSession
                   Sessions←Sessions,r←⎕NEW Session
-                  r.(ID User LastActive Cookie State Server)←NextSession''now c(⎕NS'')Server
+                  r.(ID User LastActive Cookie State Server Timeout)←NextSession''now c(⎕NS'')Server timeout
                   NextSession←(2*30)|NextSession+1
                   tn←(req.Server.Config.Root,'sessions.dcf')⎕FSTIE 0
                   NextSession ⎕FREPLACE tn,1
@@ -126,7 +126,7 @@
      
       :Access Public
       now←#.Dates.DateToIDN ⎕TS
-      :If ∨/m←Sessions.LastActive<now-timeout
+      :If ∨/m←Sessions.LastActive<now-Sessions.Timeout
           :Hold 'Sessions'
               :For i :In m/⍳⍴m
                   Server.onSessionEnd i⊃Sessions
