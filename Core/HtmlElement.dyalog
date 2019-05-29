@@ -628,12 +628,12 @@
 
     ∇ r←{a}eis w
       :Access public shared
-      r←((,∘⊂)⍣(((isNum w)∨isString w)∧2>|≡w))w ⍝ enclose if simple character
-      ⍝r← (,∘⊂)⍣((326∊⎕DR w)<2>|≡w)⊢w ⍝ Enclose if simple
+      r←((,∘⊂)⍣(((isNum w)∨isString w)∧2>|≡w))w ⍝ enclose if simple
     ∇
 
     ∇ da←args defaultArgs defaultvalues
-      :Access public shared
+      :Access public shared 
+      args←⊂⍣((2=≡args)∧1=≢args)⊢args ⍝ address the case where (⊂'aaa') defaultArgs '111' '222' '333' 
       da←da,(⍴,da←eis args)↓defaultvalues
     ∇
 
