@@ -49,7 +49,7 @@
       :Access public
       JQueryFn←Uses←'jBox'
       :Implements constructor
-      args←eis args
+⍝      args←eis args       ⍝ harmful after recent changes to defaultargs
       (Type Message Content)←args defaultArgs'Tooltip'Message Content
       ContainerTag←'span'
     ∇
@@ -108,4 +108,3 @@
 
 
 :EndClass
-
