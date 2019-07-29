@@ -633,7 +633,6 @@
 
     ∇ da←args defaultArgs defaultvalues
       :Access public shared 
-      args←⊂⍣((2=≡args)∧1=≢args)⊢args ⍝ address the case where (⊂'aaa') defaultArgs '111' '222' '333' 
       da←da,(⍴,da←eis args)↓defaultvalues
     ∇
 
