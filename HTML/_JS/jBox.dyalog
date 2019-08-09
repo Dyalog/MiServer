@@ -86,7 +86,11 @@
       :If 2=⎕NC'ColorOrOpts'
       :AndIf isString ColorOrOpts
       :AndIf ~0∊⍴ColorOrOpts
-          jb.Options.color←ColorOrOpts
+          :If 326=⎕DR ColorOrOpts             ⍝ can also be an enclosed ⎕JSON-specs
+              jb.Options←⎕JSON⊃ColorOrOpts
+          :Else
+              jb.Options.color←ColorOrOpts
+          :EndIf
       :ElseIf 9=⎕NC'ColorOrOpts'
           jb.Options←ColorOrOpts
       :EndIf
@@ -99,6 +103,9 @@
       jb←New _.jBox'Modal'txt
       jb.ScriptOptions←0 0 0
       :If 9=⎕NC'opts'
+          :If 326=⎕DR opts             ⍝ can also be an enclosed ⎕JSON-specs
+              opts←⎕JSON⊃opts
+          :EndIf
           jb.Options←opts
       :EndIf
       'onInit'jb.Set⊂'function() { this.open(); }'
