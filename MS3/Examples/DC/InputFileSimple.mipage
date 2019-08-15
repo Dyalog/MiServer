@@ -21,7 +21,7 @@
       ⍝ we'll just calculate a simple checksum and display that.
      
           (fname fdata)←Get'ipfl'
-          out.Add _.strong fname,' received with ',(⍕⍴fdata),' bytes and a checksum of ',⍕(255|+)/fdata
+          out.Add _.strong fname,' received with ',(⍕⍴fdata),' bytes and a checksum of ',⍕(255|+)/⎕ucs fdata
           out.Add¨2⍴_.br
       :EndIf
      
