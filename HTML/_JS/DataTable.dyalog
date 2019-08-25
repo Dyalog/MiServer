@@ -142,22 +142,22 @@
           :Case 'buttons'
               renderPluginButtons
           :Case 'colvis'
-              Use'⍎/DataTables/extras/Buttons-1.5.1/js/buttons.colVis.min.js'
+              Use'⍎/DataTables/extras/Buttons-1.5.6/js/buttons.colVis.min.js'
           :Case 'excelHtml5'
-              Use'⍎/DataTables/extras/Buttons-1.5.1/js/buttons.html5.min.js'
-              Use'⍎/DataTables/extras/Buttons-1.5.1/3d-party/jszip3.1.3/jszip.min.js'
+              Use'⍎/DataTables/extras/Buttons-1.5.6/js/buttons.html5.min.js'
+              Use'⍎/DataTables/extras/JSZip-2.5.0/jszip.min.js'
           :CaseList 'excel' 'copy' 'csv'
-              Use'⍎/DataTables/extras/Buttons-1.5.1/js/buttons.flash.min.js'
-              Use'⍎/DataTables/extras/Buttons-1.5.1/js/buttons.html5.min.js'
-              Use'⍎/DataTables/extras/Buttons-1.5.1/3d-party/jszip3.1.3/jszip.min.js'
+              Use'⍎/DataTables/extras/Buttons-1.5.6/js/buttons.flash.min.js'
+              Use'⍎/DataTables/extras/Buttons-1.5.6/js/buttons.html5.min.js'
+              Use'⍎/DataTables/extras/Buttons-1.5.6/3d-party/jszip3.1.3/jszip.min.js'
           :Case 'print'
-              Use'⍎/DataTables/extras/Buttons-1.5.1/js/buttons.print.min.js'
+              Use'⍎/DataTables/extras/Buttons-1.5.6/js/buttons.print.min.js'
           :CaseList 'pdf' 'pdfHtml5' 'pdfFlash'
-              Use'⍎/DataTables/extras/Buttons-1.5.1/js/buttons.flash.min.js'
-              Use'⍎/DataTables/extras/Buttons-1.5.1/js/buttons.html5.min.js'
-              Use'⍎/DataTables/extras/Buttons-1.5.1/3d-party/pdfmake0.1.32/pdfmake.min.js'
-              Use'⍎/DataTables/extras/Buttons-1.5.1/3d-party/pdfmake0.1.32/vfs_fonts.js'
-              Use'⍎/DataTables/extras/Buttons-1.5.1/js/buttons.html5.min.js'
+              Use'⍎/DataTables/extras/Buttons-1.5.6/js/buttons.flash.min.js'
+              Use'⍎/DataTables/extras/Buttons-1.5.6/js/buttons.html5.min.js'
+              Use'⍎/DataTables/extras/Buttons-1.5.6/3d-party/pdfmake0.1.36/pdfmake.min.js'
+              Use'⍎/DataTables/extras/Buttons-1.5.6/3d-party/pdfmake0.1.36/vfs_fonts.js'
+              Use'⍎/DataTables/extras/Buttons-1.5.6/js/buttons.html5.min.js'
           :Case 'pageLength'
       ⍝ does not need anything more than just the plain buttons
           :Else
@@ -190,32 +190,32 @@
     ∇ renderPluginResponsive
       :Select Bootstrap
       :Case 0
-          Use'⍕/DataTables/extras/Responsive-2.2.2/responsive.dataTables.min.css'
-          Use'⍎/DataTables/extras/Responsive-2.2.2/dataTables.responsive.min.js'
+          Use'⍕/DataTables/extras/Responsive-2.2.2/css/responsive.dataTables.min.css'
+          Use'⍎/DataTables/extras/Responsive-2.2.2/js/dataTables.responsive.min.js'
       :CaseList 1 4
-          Use'⍕/DataTables/extras/Responsive-2.2.2/responsive.bootstrap4.min.css'
-          Use'⍎/DataTables/extras/Responsive-2.2.2/dataTables.responsive.min.js'
-          Use'⍎/DataTables/extras/Responsive-2.2.2/responsive.bootstrap4.min.js'
+          Use'⍕/DataTables/extras/Responsive-2.2.2/css/responsive.bootstrap4.min.css'
+          Use'⍎/DataTables/extras/Responsive-2.2.2/js/dataTables.responsive.min.js'
+          Use'⍎/DataTables/extras/Responsive-2.2.2/js/responsive.bootstrap4.min.js'
       :Case 3
-          Use'⍕/DataTables/extras/Responsive-2.2.2/responsive.bootstrap.min.css'
-          Use'⍎/DataTables/extras/Responsive-2.2.2/dataTables.responsive.min.js'
-          Use'⍎/DataTables/extras/Responsive-2.2.2/responsive.bootstrap.min.js'
+          Use'⍕/DataTables/extras/Responsive-2.2.2/css/responsive.bootstrap.min.css'
+          Use'⍎/DataTables/extras/Responsive-2.2.2/js/dataTables.responsive.min.js'
+          Use'⍎/DataTables/extras/Responsive-2.2.2/js/responsive.bootstrap.min.js'
       :EndSelect
     ∇
 
     ∇ renderPluginButtons
       :Select Bootstrap
       :Case 0
-          Use'⍕/DataTables/extras/Buttons-1.5.1/css/buttons.dataTables.min.css'
-          Use'⍎/DataTables/extras/Buttons-1.5.1/js/dataTables.buttons.min.js'
+          Use'⍕/DataTables/extras/Buttons-1.5.6/css/buttons.dataTables.min.css'
+          Use'⍎/DataTables/extras/Buttons-1.5.6/js/dataTables.buttons.min.js'
       :CaseList 1 4
-          Use'⍕/DataTables/extras/Buttons-1.5.1/css/buttons.bootstrap4.min.css'
-          Use'⍎/DataTables/extras/Buttons-1.5.1/js/dataTables.buttons.min.js'
-          Use'⍎/DataTables/extras/Buttons-1.5.1/js/buttons.bootstrap4.min.js'
+          Use'⍕/DataTables/extras/Buttons-1.5.6/css/buttons.bootstrap4.min.css'
+          Use'⍎/DataTables/extras/Buttons-1.5.6/js/dataTables.buttons.min.js'
+          Use'⍎/DataTables/extras/Buttons-1.5.6/js/buttons.bootstrap4.min.js'
       :Case 3
-          Use'⍕/DataTables/extras/Buttons-1.5.1/css/buttons.bootstrap.min.css'
-          Use'⍎/DataTables/extras/Buttons-1.5.1/js/dataTables.buttons.min.js'
-          Use'⍎/DataTables/extras/Buttons-1.5.1/js/buttons.bootstrap.min.js'
+          Use'⍕/DataTables/extras/Buttons-1.5.6/css/buttons.bootstrap.min.css'
+          Use'⍎/DataTables/extras/Buttons-1.5.6/js/dataTables.buttons.min.js'
+          Use'⍎/DataTables/extras/Buttons-1.5.6/js/buttons.bootstrap.min.js'
       :EndSelect
      
     ∇

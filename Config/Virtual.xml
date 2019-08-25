@@ -40,7 +40,7 @@
 
   <directory>
     <alias>DataTables</alias>  
-    <path>%ServerRoot%/PlugIns/Other/DataTables-1.10.16/</path>
+    <path>%ServerRoot%/PlugIns/Other/DataTables-1.10.18/</path>
   </directory>
 
   <directory>
