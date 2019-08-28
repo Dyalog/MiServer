@@ -35,7 +35,7 @@ node ('Docker') {
                 }
         }
         stage ('Publish Docker image') {
-                withDockerRegistry([credentialsId: '6d50b250-e0a3-4240-91de-b11a1b206597') {
+                withDockerRegistry(credentialsId: '6d50b250-e0a3-4240-91de-b11a1b206597') {
                         if (env.BRANCH_NAME.contains('master')) {
                                 DockerApp.push();
                         }
