@@ -4,47 +4,45 @@ node ('Docker') {
         stage ('Checkout') {
                 checkout scm
         }
-        withDockerRegistry([credentialsId: '99ec6d6e-d2f6-4af6-9bbc-3ee43e321123', url: 'http://registry.dyalog.com:5000']) {
-                stage ('Build Docker Image') {
-                        // Create a version file to include in the container
-                        sh 'echo "$(cat version).$(git rev-list HEAD --count) - ($(git rev-parse HEAD))" > ./MiServer.version'
-                        DockerApp = docker.build 'registry.dyalog.com:5000/dyalog/miserver:latest'
-                }
-                stage ('Test website') {
+        stage ('Build Docker Image') {
+                // Create a version file to include in the container
+                sh 'echo "$(cat version).$(git rev-list HEAD --count) - ($(git rev-parse HEAD))" > ./MiServer.version'
+                DockerApp = docker.build 'dyalog/miserver:latest'
+        }
+        stage ('Test website') {
 
 
-                        def MiServer = DockerApp.run ('-e VIRTUAL_HOST=miserver.dyalog.bramley -e VIRTUAL_PORT=8080')
-                        try {
-				//Get the IP of the container
-				def DOCKER_IP = sh (
-					script: "docker inspect ${MiServer.id} | jq .[0].NetworkSettings.IPAddress | sed 's/\"//g'",
-					returnStdout: true
-				).trim()
-                                sh "rm -f /tmp/miserver-test.log"
-                                sh "sleep 10 && for F in `ls ${WORKSPACE}/CI/test-*.sh`; do /bin/bash \${F} ${DOCKER_IP}; done"
-//${WORKSPACE}/CI/test-pages.sh ${DOCKER_IP}"
-                                MiServer.stop()
-                        } catch (Exception e) {
-                                println 'MiServer Not running correctly; cleaning up.'
-                                sh "git rev-parse --short HEAD > .git/commit-id"
-                                 withCredentials([string(credentialsId: '7ac3a2c6-484c-4879-ac85-2b0db71a7e58', variable: 'GHTOKEN')]) {
-                                         commit_id = readFile('.git/commit-id')
-                                         sh "${WORKSPACE}/CI/GH-Comment.sh ${MiServer.id} ${commit_id}"
-                                 }
-                                MiServer.stop()
-                                sh "docker rmi registry.dyalog.com:5000/dyalog/miserver:latest"
-                                throw e;
-                        }
+                def MiServer = DockerApp.run ('-e VIRTUAL_HOST=miserver.dyalog.bramley -e VIRTUAL_PORT=8080')
+                try {
+                        //Get the IP of the container
+                        def DOCKER_IP = sh (
+                                script: "docker inspect ${MiServer.id} | jq .[0].NetworkSettings.IPAddress | sed 's/\"//g'",
+                                returnStdout: true
+                        ).trim()
+                        sh "rm -f /tmp/miserver-test.log"
+                        sh "sleep 10 && for F in `ls ${WORKSPACE}/CI/test-*.sh`; do /bin/bash \${F} ${DOCKER_IP}; done"
+                        MiServer.stop()
+                } catch (Exception e) {
+                        println 'MiServer Not running correctly; cleaning up.'
+                        sh "git rev-parse --short HEAD > .git/commit-id"
+                                withCredentials([string(credentialsId: '7ac3a2c6-484c-4879-ac85-2b0db71a7e58', variable: 'GHTOKEN')]) {
+                                        commit_id = readFile('.git/commit-id')
+                                        sh "${WORKSPACE}/CI/GH-Comment.sh ${MiServer.id} ${commit_id}"
+                                }
+                        MiServer.stop()
+                        sh "docker rmi dyalog/miserver:latest"
+                        throw e;
                 }
-                stage ('Publish Docker image') {
-                        if (env.BRANCH_NAME.contains('master')) {
-                                sh 'docker push registry.dyalog.com:5000/dyalog/miserver:latest'
-                        }
-                        if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
-                                sh 'docker tag registry.dyalog.com:5000/dyalog/miserver:latest registry.dyalog.com:5000/dyalog/miserver:live'
+        }
+        stage ('Publish Docker image') {
+                if (env.BRANCH_NAME.contains('master')) {
+                        DockerApp.push();
+                }
+                if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
+                        withDockerRegistry([credentialsId: '99ec6d6e-d2f6-4af6-9bbc-3ee43e321123', url: 'http://registry.dyalog.com:5000']) {
+                                sh 'docker tag dyalog/miserver:latest registry.dyalog.com:5000/dyalog/miserver:live'
                                 sh 'docker push registry.dyalog.com:5000/dyalog/miserver:live'
                         }
-
                 }
         }
 
@@ -61,7 +59,7 @@ node ('Docker') {
                         if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
                                 sh 'docker rmi registry.dyalog.com:5000/dyalog/miserver:live'
                         }
-                        sh 'docker rmi registry.dyalog.com:5000/dyalog/miserver:latest'
+                        sh 'docker rmi dyalog/miserver:latest'
         }
 	
 	stage ('Github Upload') {

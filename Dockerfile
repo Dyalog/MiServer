@@ -1,18 +1,33 @@
-FROM registry.dyalog.com:5000/dyalog/dyalog:16.0
+FROM dyalog/dyalog
 
-RUN apt-get update && apt-get install patch && apt-get clean && rm -Rf /var/lib/apt/lists/*
+USER root
 
-ENV DEBIAN_FRONTEND     noninteractive
-ENV MAXWS=256M
+
+RUN apt-get update && apt-get install -y --no-install-recommends   \   
+        ca-certificates \
+        unixodbc        \
+        wget            \
+        patch           \
+        mariadb-client    && \
+    apt-get clean && rm -Rf /var/lib/apt/lists/*
+
+RUN cd /tmp && \
+    wget https://dev.mysql.com/get/Downloads/Connector-ODBC/5.3/mysql-connector-odbc-5.3.7-linux-ubuntu16.04-x86-64bit.tar.gz   && \
+    tar xf mysql-connector-odbc-5.3.7-linux-ubuntu16.04-x86-64bit.tar.gz && \
+    mkdir /libmyodbc    && \
+    cp mysql-connector-odbc-5.3.7-linux-ubuntu16.04-x86-64bit/lib/* /libmyodbc  && \
+    rm -Rf /tmp/mysql-connector-odbc-5.3.7-linux-ubuntu16.04-x86-64bit.tar.gz /tmp/mysql-connector-odbc-5.3.7-linux-ubuntu16.04-x86-64bit
 
 ADD . /MiServer
-ADD docker/entry.sh /scripts/
-ADD docker/*.patch /patches/
-RUN patch /opt/mdyalog/16.0/64/unicode/mapl /patches/mapl.patch
-RUN patch /MiServer/Config/Server.xml /patches/Server.patch
+RUN patch /MiServer/Config/Server.xml /MiServer/docker/Server.patch
+ADD docker/run /
+ADD docker/odbc.ini /
+RUN chmod 666 /odbc.ini
+
+RUN chown -R dyalog:dyalog /MiServer
+
+RUN mkdir -p /app
 
 EXPOSE 8080
-EXPOSE 4502
 
-CMD /scripts/entry.sh
-
+USER dyalog

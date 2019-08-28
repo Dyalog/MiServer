@@ -1,0 +1,61 @@
+#!/bin/bash
+
+## This file replaces the Dyalog mapl script
+echo " _______     __      _      ____   _____ "
+echo "|  __ \ \   / //\   | |    / __ \ / ____|"
+echo "|_|  | \ \_/ //  \  | |   | |  | | |     "
+echo "     | |\   // /\ \ | |   | |  | | |   _ "
+echo " ____| | | |/ /  \ \| |___| |__| | |__| |"
+echo "|_____/  |_/_/    \_\______\____/ \_____|"
+echo ""
+echo "https://www.dyalog.com"
+echo ""
+echo "*************************************************************************************"
+echo "*               This software is for non-commercial evaluation ONLY                 *"
+echo "* https://www.dyalog.com/uploads/documents/Private_Personal_Educational_Licence.pdf *"
+echo "*************************************************************************************"
+echo ""
+
+if env | grep "^SQL*" > /dev/null 2>&1 ; then
+    cp /odbc.ini /tmp/
+    cd /tmp
+
+    echo "Setting up SQAPL Connection"
+    env | awk -F"=" '/^SQL/ {print $1 " " $2}' | while read KEY VAL; do
+        sed -i "s/##${KEY}##/${VAL}/" /tmp/odbc.ini
+    done
+    cp /tmp/odbc.ini /odbc.ini
+    cd -
+fi
+
+export MAXWS=${MAXWS-256M}
+
+export DYALOG=/opt/mdyalog/17.1/64/unicode/
+export WSPATH=/opt/mdyalog/17.1/64/unicode/ws
+export TERM=dumb
+export APL_TEXTINAPLCORE=${APL_TEXTINAPLCORE-1}
+export TRACE_ON_ERROR=${TRACE_ON_ERROR-1}
+export SESSION_FILE="${SESSION_FILE-$DYALOG/default.dse}"
+
+export Port=8080
+
+if [ $(ls /app 2>/dev/null | wc -l) -gt 0 ]; then
+    echo "Application found in /app."
+    MISITE=/app
+else
+    echo "No application found in /app. Running with sample pages"
+    MISITE="/MiServer/MS3"
+fi
+
+export MiServer=${MiServer-$MISITE}
+
+if ! [ -d ${MiServer}/Logs ]; then
+    mkdir ${MiServer}/Logs
+    chmod 777 ${MiServer}/Logs
+fi
+
+if [ -n "${RIDE_INIT}" ]; then
+    ODBCINI=/odbc.ini $DYALOG/dyalog +s -q /MiServer/miserver.dws
+else
+    ODBCINI=/odbc.ini $DYALOG/dyalog -s /MiServer/miserver.dws
+fi

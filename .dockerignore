@@ -1,8 +1,9 @@
 .git
 .gitignore
 .dockerignore
-version
 GH-Release.sh
+version
+Jenkinsfile
 githubComment.sh
 Dockerfile
 docker-compose.yml
