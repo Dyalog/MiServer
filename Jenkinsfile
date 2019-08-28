@@ -35,8 +35,10 @@ node ('Docker') {
                 }
         }
         stage ('Publish Docker image') {
-                if (env.BRANCH_NAME.contains('master')) {
-                        DockerApp.push();
+                withDockerRegistry([credentialsId: '6d50b250-e0a3-4240-91de-b11a1b206597') {
+                        if (env.BRANCH_NAME.contains('master')) {
+                                DockerApp.push();
+                        }
                 }
                 if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
                         withDockerRegistry([credentialsId: '99ec6d6e-d2f6-4af6-9bbc-3ee43e321123', url: 'http://registry.dyalog.com:5000']) {
