@@ -3,8 +3,10 @@
 ⍝ Description:: John Conway's "Game of Life" (interactive)
 
     :Field public WORLD
+    :Field public HISTORY
     :Field public SHAPE
     :Field public STEP
+    :field public _Sessioned←1  ⍝ this will keep globals in the class!
 
     ∇ Setup
       :Access Public
@@ -26,7 +28,7 @@
       Add _.title'Life'
       Add _.style ScriptFollows
       ⍝ .slot {height: 10px; width: 10px;}
-      ⍝ .live, .dead, .surv {border-radius: 33%; position: absolute; z-index: -1;}
+      ⍝ .live, .dead, .surv {border-radius: 33%; position: absolute; z-index: -1;height: 10px; width: 10px;}
       ⍝ .live {background: LimeGreen; background: radial-gradient(DarkGreen,Aqua);}
       ⍝ .surv {background: DarkGreen; background: radial-gradient(DarkGreen,Khaki);}
       ⍝ .dead {background: Khaki; background: radial-gradient(Khaki,White);}
@@ -41,7 +43,7 @@
       ('#select'Add _.Select(FILES(FILES⍳⊂INIT)⍬'Select world:')).On'change' 'Select'
      
       {(⍵'.act')Add _.Button ⍵⊣Add'&nbsp;'}¨'Stop' 'Step',SPEEDS
-      Add _.Handler'.act' 'click' 'Action' '' ''STOP
+      Add _.Handler'.act' 'click' 'Action' '' STOP
      
       Add _.p('#shapes'New _.RadioButtonGroup((SHAPES,¨⊂'&nbsp;')3 'right' 1))
       Add _.Handler'#shapes_container input' 'click' 'Reshape'
@@ -65,7 +67,7 @@
       r←Reset WORLD
     ∇
 
-    Load←{⊃⍪/,/(3 3⍴¯5↑1)×⊂↑'*'=#.Files.GetVTV #.Boot.AppRoot,'Examples/Data/Life/',⍵,'.txt'}
+    Load←{⊃⍪/,/(3 3⍴¯5↑1)×⊂↑'*'=1 #.Files.ReadText #.Boot.AppRoot,'Examples/Data/Life/',⍵,'.txt'}
 
     ∇ r←Edit
       :Access Public
