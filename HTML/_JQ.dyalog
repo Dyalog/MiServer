@@ -150,7 +150,10 @@
           BuildHTML∧←0∊⍴Selector ⍝ if the user explicitly specifies a selector, assume he's built the content himself
          
           :If BuildHTML
-              Container.(id name type style class title)←Container.(id name type style class title){UNDEF≡⍵:⍺ ⋄ UNDEF≢⍺:⍺ ⋄ ⍵}¨⎕THIS.(id name type style class title)
+              ⍝Container.(id name type style class title)←Container.(id name type style class title){UNDEF≡⍵:⍺ ⋄ UNDEF≢⍺:⍺ ⋄ ⍵}¨⎕THIS.(id name type style class title)
+              :If ~0∊⍴⎕THIS.Attrs[]
+                  Container.Set/¨Attrs[]
+              :EndIf
               :If Container.id≡UNDEF
                   :If Container.name≢UNDEF
                       Container.id←Container.name
