@@ -41,13 +41,14 @@
       :EndIf
     ∇
 
-    ∇ html←Render;cells;rows
+    ∇ html←Render;cells;rows;_style;_lab;_inp;border;i
       :Access public
+      (_inp _lab)←Inputs Labels
       SetId
       :If ~0∊⍴Inputs
           Inputs←{isClass⊃⍵:⎕NEW∘{2<⍴,⍵:(⊃⍵)({eis ⍵}(1↓⍵)) ⋄ ⍵}⍵ ⋄ ⍵}¨Inputs
           Inputs.SetInputName
-          Labels←Inputs.id{'<label for="',⍺,'">',(renderIt ⍵),'</label>'}¨Labels
+          Labels←(eis Inputs.id){'<label for="',⍺,'">',(renderIt ⍵),'</label>'}¨eis Labels
           cells←{⎕NEW #._html.td(⍵)}¨(,Labels),[1.1],Inputs
           cells[;1].class←⊂id,'_label'
           cells[;2].class←⊂id,'_input'
@@ -63,7 +64,12 @@
           rows.Add↓cells
           Content←rows.Render
       :EndIf
-      Set(⊂'border'(⍕Border))
-      html←⎕BASE.Render
+      border←''
+      :If 1≡⊃Border
+          i←'#',id
+          border←(New _.Style(i,', ',i,' td')(('border' '1px solid')('border-collapse' 'collapse'))((i,' td')('padding' '5px 10px'))).Render
+      :EndIf
+      html←(⎕BASE.Render),border
+      (Inputs Labels)←_inp _lab
     ∇
 :endclass

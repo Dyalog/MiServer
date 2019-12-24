@@ -45,8 +45,8 @@
 ⍝
 ⍝    * Changed:
 ⍝        * DirExists w -> 1 Exists w
-⍝        * GetText w -> 0 ReadText w
-⍝        * GetVTV w -> 1 ReadText w
+⍝        * GetText w -> 0 ReadText w  (alias created 14 Nov 2019)
+⍝        * GetVTV w -> 1 ReadText w   (alias created 14 Nov 2019)
 ⍝        * {pattern}List path
 ⍝            * previously would return '.' and '..' - no longer does!
 ⍝            * List '/dir' will (as it did before) return info about the DirName, but the casing of the name will be the one from the argument, not "normalized", as used to be (maybe even ⎕NINFO should do this?)
@@ -65,13 +65,17 @@
 
     ∇ R←Version
       :Access public shared
-      R←'Files' '1.0.1' '2017-08-26'
+      R←'Files' '1.0.2' '2019-11-14'
     ∇
 
     Normalize←∊1∘⎕NPARTS ⍝ normalize a file name
     SplitFilename←1∘⎕NPARTS ⍝ splits a file name
     Filename←{∊1↓1⎕NPARTS ⍵} ⍝ return file name only
-    eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
+    eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple        
+
+⍝ aliases for backward compatibility
+    GetText←{0 ReadText ⍵}
+    GetVTV←{1 ReadText ⍵}
 
     ∇ r←data Append name
     ⍝ Append "data" to file specified by "name", creating the file if needed

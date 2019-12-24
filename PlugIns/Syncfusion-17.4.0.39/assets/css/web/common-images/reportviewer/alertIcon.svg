@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="29px" viewBox="0 0 30 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>alert</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFE700" offset="0%"></stop>
+            <stop stop-color="#FFCB00" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="alert" transform="translate(-1.000000, -2.000000)">
+            <path d="M17.7731697,3.39857524 L30.4738442,27.7415347 C30.9847805,28.7208292 30.6051011,29.9289001 29.6258065,30.4398364 C29.3401976,30.5888497 29.0228195,30.6666667 28.7006745,30.6666667 L3.29932553,30.6666667 C2.19475603,30.6666667 1.29932553,29.7712362 1.29932553,28.6666667 C1.29932553,28.3445216 1.37714249,28.0271436 1.52615583,27.7415347 L14.2268303,3.39857524 C14.7377666,2.41928066 15.9458374,2.03960126 16.925132,2.55053756 C17.2879059,2.7398109 17.5838964,3.03580135 17.7731697,3.39857524 Z" id="Triangle-2" fill="url(#linearGradient-1)"></path>
+            <text id="!" font-family="ArialRoundedMTBold, Arial Rounded MT Bold" font-size="20" font-weight="normal" letter-spacing="0.553846121" fill="#3B3B3B">
+                <tspan x="13" y="26">!</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

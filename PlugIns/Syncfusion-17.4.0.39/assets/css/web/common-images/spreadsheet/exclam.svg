@@ -1,0 +1,22 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #eac282;
+      }
+
+      .cls-2 {
+        fill: #a4802b;
+      }
+    </style>
+  </defs>
+  <title>Artboard 32</title>
+  <g>
+    <polygon class="cls-1" points="7.5 10.5 5.5 10.5 4.61 0.5 8.39 0.5 7.5 10.5"/>
+    <path class="cls-2" d="M8,11H5l-1-11H8.94ZM6,10H7l.8-9H5.16Z"/>
+  </g>
+  <g>
+    <circle class="cls-1" cx="6.5" cy="11.5" r="2"/>
+    <path class="cls-2" d="M6.5,14A2.5,2.5,0,1,1,9,11.5,2.5,2.5,0,0,1,6.5,14Zm0-4A1.5,1.5,0,1,0,8,11.5,1.5,1.5,0,0,0,6.5,10Z"/>
+  </g>
+</svg>

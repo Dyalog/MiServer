@@ -1,0 +1,23 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #68a490;
+      }
+
+      .cls-2 {
+        fill: #326f5b;
+      }
+
+      .cls-3 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <title>Artboard 28</title>
+  <g>
+    <circle class="cls-1" cx="7" cy="7" r="6.5"/>
+    <path class="cls-2" d="M7,14a7,7,0,1,1,7-7A7,7,0,0,1,7,14ZM7,1a6,6,0,1,0,6,6A6,6,0,0,0,7,1Z"/>
+  </g>
+  <polygon class="cls-3" points="6.1 10.67 3.02 7.85 4.37 6.37 5.88 7.75 9.42 3.33 10.98 4.58 6.1 10.67"/>
+</svg>
