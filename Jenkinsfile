@@ -25,7 +25,7 @@ node ('Docker') {
                 } catch (Exception e) {
                         println 'MiServer Not running correctly; cleaning up.'
                         sh "git rev-parse --short HEAD > .git/commit-id"
-                                withCredentials([string(credentialsId: '7ac3a2c6-484c-4879-ac85-2b0db71a7e58', variable: 'GHTOKEN')]) {
+                                withCredentials([string(credentialsId: '0435817a-5f0f-47e1-9dcc-800d85e5c335', variable: 'GHTOKEN')]) {
                                         commit_id = readFile('.git/commit-id')
                                         sh "${WORKSPACE}/CI/GH-Comment.sh ${MiServer.id} ${commit_id}"
                                 }
@@ -41,7 +41,7 @@ node ('Docker') {
                         }
                 }
                 if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
-                        withDockerRegistry([credentialsId: '99ec6d6e-d2f6-4af6-9bbc-3ee43e321123', url: 'http://registry.dyalog.com:5000']) {
+                        withDockerRegistry([credentialsId: 'b683ae6d-a5b8-4d6d-aadf-aeeee441e8af', url: 'http://registry.dyalog.com:5000']) {
                                 sh 'docker tag dyalog/miserver:latest registry.dyalog.com:5000/dyalog/miserver:live'
                                 sh 'docker push registry.dyalog.com:5000/dyalog/miserver:live'
                         }
@@ -50,7 +50,7 @@ node ('Docker') {
 
 
         if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
-                withCredentials([usernamePassword(credentialsId: '200ba378-df02-4e67-9b18-afd73aeb29e8', passwordVariable: 'SECRETKEY', usernameVariable: 'ACCESSKEY')]) {
+                withCredentials([usernamePassword(credentialsId: '02543ae7-7ed9-4448-ba20-6b367d302ecc', passwordVariable: 'SECRETKEY', usernameVariable: 'ACCESSKEY')]) {
                         stage('Deploying with Rancher') {
                                 sh '/usr/local/bin/rancher-compose --access-key $ACCESSKEY --secret-key $SECRETKEY --url http://rancher.dyalog.com:8080/v2-beta/projects/1a5/stacks/1st3 -p MiServer up --force-upgrade --confirm-upgrade --pull -d'
                         }
@@ -65,7 +65,7 @@ node ('Docker') {
         }
 	
 	stage ('Github Upload') {
-		withCredentials([string(credentialsId: '7ac3a2c6-484c-4879-ac85-2b0db71a7e58', variable: 'GHTOKEN')]) {
+		withCredentials([string(credentialsId: '112b0db7-e903-40c0-b70c-aab2394b3617', variable: 'GHTOKEN')]) {
 			sh './CI/GH-Release.sh'
 		}
 
