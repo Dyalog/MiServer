@@ -25,7 +25,7 @@ node ('Docker') {
                 } catch (Exception e) {
                         println 'MiServer Not running correctly; cleaning up.'
                         sh "git rev-parse --short HEAD > .git/commit-id"
-                                withCredentials([string(credentialsId: '0435817a-5f0f-47e1-9dcc-800d85e5c335', variable: 'GHTOKEN')]) {
+                                withCredentials([usernamePassword(credentialsId: '112b0db7-e903-40c0-b70c-aab2394b3617', passwordVariable: 'GHTOKEN', usernameVariable: 'API')]) {
                                         commit_id = readFile('.git/commit-id')
                                         sh "${WORKSPACE}/CI/GH-Comment.sh ${MiServer.id} ${commit_id}"
                                 }
@@ -65,7 +65,7 @@ node ('Docker') {
         }
 	
 	stage ('Github Upload') {
-		withCredentials([string(credentialsId: '112b0db7-e903-40c0-b70c-aab2394b3617', variable: 'GHTOKEN')]) {
+        withCredentials([usernamePassword(credentialsId: '112b0db7-e903-40c0-b70c-aab2394b3617', passwordVariable: 'GHTOKEN', usernameVariable: 'API')]) {
 			sh './CI/GH-Release.sh'
 		}
 
