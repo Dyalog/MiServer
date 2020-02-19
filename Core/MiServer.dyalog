@@ -191,7 +191,7 @@
      
           :Case 1010 ⍝ Object Not found
               1 Log'Object ''',ServerName,''' has been closed - Web Server shutting down'
-              →0
+              →EXIT
      
           :Else
               1 Log'Conga wait failed:'
@@ -205,10 +205,10 @@
      RESUME: ⍝ Error Trapped and logged
       {}#.DRC.Close ServerName
       1 Log r←'Web server ''',ServerName,''' stopped '
+     EXIT:
       :If Config.CloseOnCrash
           ⎕OFF
       :EndIf
-      →0
     ∇
 
 ⍝ --- Connection management ---
