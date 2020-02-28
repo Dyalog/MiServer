@@ -11,7 +11,7 @@
       r←{⍵/⍨(1+'/'=1↑⍵)≤+\'/'=⍵}url
     ∇
 
-    ∇ r←stop Run1Test page;name;ref;TestP;pg
+    ∇ r←stop Run1Test page;name;ref;Test;pg
      ⍝ eg MS3Test '/QA/DC/InputGridSimple'
       :Trap 11
           Selenium.GoTo SITE,lopFirst page ⍝ Drop the "QA"
