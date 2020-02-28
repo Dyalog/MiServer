@@ -7,6 +7,7 @@
 ⍝ Interval    - the number of milliseconds to wait between requests sent to the server (default is 250ms)
 ⍝ Page        - the URL of the page to which to send the request (default is calling page)
 ⍝ Callback    - the name of the callback function to execute (default is 'APLJax')
+⍝ NoAlert     - boolean value to optionally suppress the Alert if DeviceOrientation-Event not supported (if set to 1)
 ⍝ Notes::
 ⍝ returns the following data elements to the server
 ⍝ event    - "deviceorientation"
@@ -20,6 +21,7 @@
     :field public Interval←250
     :field public Callback←'APLJax'
     :field public JavaScript←''
+    :field public NoAlert←0
 
     ∇ Make0
       :Access public
@@ -72,7 +74,8 @@
 ⍝                 });
 ⍝             }}, false);
 ⍝         }
-⍝     else {alert("This device/browser does not support the deviceorientation event");}
+     
+      Code←(~NoAlert)/'else {alert("This device/browser does not support the deviceorientation event");}'
      
       r←⎕BASE.Render
     ∇

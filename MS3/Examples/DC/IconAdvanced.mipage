@@ -41,7 +41,7 @@
       p.Add' find that on your calendar!'
      
       p←Add _.div'' ⍝'style=margin-top:1em;'
-      ('.fa-3x fa-fw'p.Add _.span).Add(New _.Icon'far-calendar'('data-fa-transform="shrink-10 down-2"'New _.Icon'fas-thumbs-up'))
+      ('.fa-3x fa-fw'p.Add _.span).Add(New _.Icon'far-calendar'('style=color:green; data-fa-transform="shrink-10 down-2"'New _.Icon'fas-thumbs-up'))
       p.Add' a positive day!'
      
       p←Add _.p

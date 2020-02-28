@@ -14,6 +14,7 @@
 ⍝ The following JavaScript functions will be created in your page
 ⍝ prefixrun  - start the timer
 ⍝ prefixstop - stop the timer
+ :field public _Sessioned←1  ⍝ this will keep globals in the class!
 
     :field public Prefix←'MS3_'
     :field public Event←'tick'
@@ -44,5 +45,10 @@
 ⍝     function ∆Prefixstop(){clearTimeout(∆Prefixtimer); ∆Prefixrunning=0;}
 ⍝     if (∆Autostart == 1) {$(function(){∆Prefixrun();});}
       r←⎕BASE.Render
+    ∇
+
+    ∇r←Stop 
+    :access public 
+    r←Prefix,'stop();'
     ∇
 :endclass

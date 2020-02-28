@@ -8,7 +8,7 @@
       Add _.Table('Direction (alpha):' 'Front/Back (beta):' 'Left/Right (gamma):',⍪{⍵ New _.span'??'}¨'alpha' 'beta' 'gamma')
 
     ⍝ The default behaviour of Gyro is to call APLJax every 0.25 seconds:
-      Add _.Gyro  ⍝ 'APLJax'  250
+      (Add _.Gyro).NoAlert←∨/'-remote-debugging-port'⍷2⎕nq'.' 'GetCommandLine'  ⍝ suppress the Alert if we're running in automated tests (very likely remote-debugging-port will be set then...)
     ∇
 
     ∇ r←APLJax;rep

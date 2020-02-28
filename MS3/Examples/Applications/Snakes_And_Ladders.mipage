@@ -4,6 +4,8 @@
 ⍝ Notes::
 ⍝ Demonstrates using JQ.Position to manipulate svg elements
 ⍝ Incorporates external "business logic" from #.SNLMS3 developed for Live Code Jugalbandi at #FnConf15
+:field private Turn←0
+:field private Positions←¯1
 
     maxPlayers←4
     colors←'blue' 'purple' 'salmon' 'cyan'
@@ -40,7 +42,7 @@
       ⍝ #player4 {transition-delay:2s}
      
       :If 0=#.⎕NC'SNLMS3' ⍝ load the "business logic" if not already loaded
-          businessLogic←(_Request.Server.Config.AppRoot,1↓⊃#.Files.SplitFilename _PageName),'SNLMS3'
+          businessLogic←(_Request.Server.Config.AppRoot,3↓⊃#.Files.SplitFilename _PageName),'SNLMS3'
           ⎕SE.SALT.Load businessLogic,' -target=#'
       :EndIf
      
@@ -55,7 +57,7 @@
       Add _.br
      
       (sp←Add _.StackPanel).Horizontal←1
-      sp.Add('board'New _.img''(⊂'src'((⊃#.Files.SplitFilename _PageName),'snakes_and_ladders.jpg')))
+      sp.Add('board'New _.img''(⊂'src'((2↓⊃#.Files.SplitFilename _PageName),'snakes_and_ladders.jpg')))
       sp.Add('output'New _.div)
      
       Add _.Handler'body' 'play' 'playRound'

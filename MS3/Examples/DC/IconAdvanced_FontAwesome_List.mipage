@@ -1,5 +1,5 @@
 ﻿:Class IconAdvanced_FontAwesome_List : MiPageSample
-⍝ Control:: _DC.Icon _.JS.DataTable⌈
+⍝ Control:: _DC.Icon _.JS.DataTable
 ⍝ Description:: Icon-Finder for FontAwesome-Icons
 
 
@@ -15,7 +15,21 @@
    ⍝ page also a useful example for DataTable-features). 
    ⍝
    ⍝ ### Usage
-   ⍝ Simply add an `Icon`-element using the value of the "code"-column as in this example: `Add _.Icon '{Code}'`
+   ⍝ Simply add an `Icon`-element using the value of the "code"-column and an appropriate prefix as in this example: 
+   ⍝ `Add _.Icon '{Prefix}-{Code}'`, ie `Add _.Icon 'fab-500px'
+   ⍝
+   ⍝
+   ⍝ Style   | Prefix | Comment
+   ⍝ --------|--------|---
+   ⍝ brands  | fab |
+   ⍝ solid   | fas |
+   ⍝ regular | far |
+   ⍝ light   | fal | 
+   ⍝ duotone | fad | Requires FontAwesome [Pro](https://fontawesome.com/plans)
+   ⍝
+   ⍝ ###Note 
+   ⍝ FontAwesome free has less icons than [Pro](https://fontawesome.com/plans) and also some styles might not be available for specific icons. 
+
      
      
       fa←#.Boot.ms.Config.Virtual{(⍺.alias⍳⊂⍵)⊃⍺.path,⊂''}'FontAwesome5' ⍝ get path
