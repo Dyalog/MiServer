@@ -5,11 +5,11 @@
 ⍝ Demonstrates using JQ.Position to manipulate svg elements
 ⍝ Incorporates external "business logic" from #.SNLMS3 developed for Live Code Jugalbandi at #FnConf15
 :field private Turn←0
-:field private Positions←¯1
+ :field public _Sessioned←1  
+:field public Positions←-1
 
     maxPlayers←4
     colors←'blue' 'purple' 'salmon' 'cyan'
-    Positions←¯1
     Players←⍬
 
     :section Utilities

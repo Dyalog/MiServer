@@ -14,6 +14,7 @@
 
 :field public TASK←''
 :field public BIG←''
+ :field public _Sessioned←1  
 
     ∇ Compose;style;size
       :Access public

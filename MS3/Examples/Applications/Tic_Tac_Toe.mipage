@@ -1,6 +1,12 @@
 ﻿:class Tic_Tac_Toe :MiPageSample
 ⍝ Control:: _html.svg _DC.Table _DC.StyleSheet
 ⍝ Description:: Vector graphics Tic Tac Toe game
+    :field public STATE
+    :field public XOS
+    :field public BLANK
+    :field public NEXT
+    :field public WINS
+    :field public _Sessioned←1
 
     ∇ Compose;board;size;width;cells;data;game
       :Access Public
@@ -35,7 +41,7 @@
      
      ⍝ We want a single handler on the board, which is distributed to deeper <td>s (cells)
       data←'cell' 'event' 'currentTarget.id'          ⍝ 'cell' will be the id of the event target
-      Add _.Handler'#board' 'click' 'OnClick'data'td' ⍝ event targets are all <td>s in #board
+      Add _.Handler'#board' 'click' 'OnClick'data'' 'td' ⍝ event targets are all <td>s in #board
      
      ⍝ An area for output
       '#next'game.Add _.p('Next: ',('.',NEXT)New _.span NEXT) ⍝ updated during the game
@@ -87,6 +93,7 @@
               js←1 Msg'That spot is occupied' ⍝ complain
           :EndIf
       :EndIf
+      ⎕←'js=',js
     ∇
 
     ∇ won←Won ⍝ Did any player win?
