@@ -52,6 +52,7 @@
       ⍝ stop: 0 (default) ignore but report errors; 1 stop on error; 2 stop before every test
       ⍝⍵: site filter config
       ⍝                config refers to a named entry in Selenium/settings.json
+      ⍝ ie. Test'./MS3' '' 'HTMLRenderer'
       stop←⊃stop_port
       r←''
       dui←9=⎕NC'#.DUI'
@@ -86,7 +87,7 @@
       :Else
           ∘∘∘ ⍝ Can't run w/o config!
       :EndIf
-     
+      Selenium.QUIETMODE←{0::0 ⋄ 1=2⊃⎕VFI ⍵}2 ⎕NQ'.' 'GetEnvironment' 'QUIETMODE'  ⍝ for automated tests! ;)
      
       :If dui
           :If 0≠⊃z←#.DUI.Initialize
@@ -112,7 +113,9 @@
       n←⍴files
       ⍝SITE←'http://127.0.0.1:',⍕⊃1↓stop_port,Config.Port
       ⍝SITE←'http://',(2 ⎕NQ'.' 'TCPGetHostID'),':',(⍕{6::⍵.MSPort ⋄ ⍵.Port}#.Boot.ms.Config)
+      :if ~Selenium.QUIETMODE
       ⎕←'Site=',SITE←'http://',(2 ⎕NQ'.' 'TCPGetHostID'),':',⍕⊃1↓stop_port,⍎⍕{6::⍵.MSPort ⋄ ⍵.Port}cfg
+      :endif
      
 ⍝⍝ Un-comment to play music while testing:
 ⍝      :If site filter≡'MS3' ''
@@ -131,15 +134,17 @@
       :For i :In ⍳n
           COUNT+←1
           :If 0=⍴t←stop Run1Test{⍵⊣⍞←(⎕UCS 13),maxlen↑lopFirst ⍵}z←i⊃files
-              ⍞←' *** PASSED ***'
+          :If 0=⍴t←stop Run1Test z←i⊃files
+              :If ~Selenium.QUIETMODE ⋄ ⎕←z,' *** PASSED ***' ⋄ :EndIf
           :Else
               FAIL+←1
               r,←⊂z
-              ⍞←' *** FAILED *** #',(⍕i),' of ',(⍕n),': ',z,': ',t
+              ⎕←z,' *** FAILED *** #',(⍕i),' of ',(⍕n),': ',z,': ',t
           :EndIf
       :EndFor
-     
-      ⎕←'Total of ',(⍕COUNT),' samples tested in ',(∊(⍕¨24 60⊤⌊0.5+(⎕AI[3]-START)÷1000),¨'ms'),': ',(⍕FAIL),' failed.'
+      :If ~Selenium.QUIETMODE ⋄ :OrIf 0<FAIL
+          ⎕←'Total of ',(⍕COUNT),' samples tested in ',(∊(⍕¨24 60⊤⌊0.5+(⎕AI[3]-START)÷1000),¨'ms'),': ',(⍕FAIL),' failed.'
+      :EndIf
      
       Selenium.BROWSER.Quit
     ∇
