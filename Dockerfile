@@ -23,7 +23,8 @@ RUN patch /MiServer/Config/Server.xml /MiServer/docker/Server.patch
 ADD docker/run /
 ADD docker/odbc.ini /
 RUN chmod 666 /odbc.ini
-RUN mkdir /.dyalog
+RUN mkdir /.dyalog && chmod 777 /.dyalog
+
 
 RUN chown -R dyalog:dyalog /MiServer
 
