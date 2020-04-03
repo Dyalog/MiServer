@@ -4,6 +4,7 @@ set -e
 
 TESTOUT=/tmp/miserver-test.log                                                                                                                                                                                
 touch ${TESTOUT}
+PROXYCONTAINER="jwilder/nginx-proxy"
 
 
 ##This test will test MiServer behind a reverse proxy which has shown an issue somewhere in the connections.
@@ -12,8 +13,9 @@ touch ${TESTOUT}
 ## Start a load balancer / reverse proxy system
 ##NB: This must have access to the docker.sock fifo.
 
+docker pull ${PROXYCONTAINER}
 
-PROXY=$(docker run -d -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy)
+PROXY=$(docker run -d -v /var/run/docker.sock:/tmp/docker.sock:ro ${PROXYCONTAINER})
 
 PROXY_IP=$(docker inspect ${PROXY} | jq -r .[0].NetworkSettings.IPAddress)
 
