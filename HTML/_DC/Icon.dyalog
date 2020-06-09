@@ -98,7 +98,7 @@
           :EndSelect
      
       :Else
-          Use'faIcons5svg'
+          UseFA
           AddClass'fa-layers fa-fw'
           :For spec :In Spec
               :If isInstance spec
