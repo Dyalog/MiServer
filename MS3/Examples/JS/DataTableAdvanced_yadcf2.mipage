@@ -43,7 +43,7 @@
      
       dPath←_Request.Server.Config.AppRoot,'Examples/Data/'
       :If 0=⎕NC'#.LoadData'
-          dyalog←2 ⎕NQ'.' 'GetEnvironment' 'dyalog'
+          dyalog←2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'
           #.⎕CY dyalog,'/ws/loaddata'                ⍝ must be copied to root because of absolute reference #.fileUtilities
       :EndIf
       Add _.Style'#fltcnt' 'width:50%;'              ⍝ limit width of Filter-Container
