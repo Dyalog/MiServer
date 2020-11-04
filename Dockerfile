@@ -20,7 +20,7 @@ RUN cd /tmp && \
 
 ADD . /MiServer
 RUN patch /MiServer/Config/Server.xml /MiServer/docker/Server.patch
-ADD docker/run /
+ADD docker/entrypoint /
 ADD docker/odbc.ini /
 RUN chmod 666 /odbc.ini
 RUN mkdir /.dyalog && chmod 777 /.dyalog
