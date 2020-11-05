@@ -1,6 +1,7 @@
 ﻿:Class TimerSimple : MiPageSample
 ⍝ Control:: _DC.Timer
 ⍝ Description:: Signal timed events to the server
+:field private COUNTER
 
     ∇ Compose
       :Access public 
