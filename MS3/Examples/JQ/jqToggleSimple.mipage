@@ -2,18 +2,19 @@
 ⍝ Control:: _JQ.jqToggle _JQ.jqHide _JQ.jqShow _html.head
 ⍝ Description:: Toggle, show, and hide an element during callback
 
+    :field public TABLE←3 2⍴'Toggle' 'bounce' 'Hide' 'puff' 'Show' 'fade'
+
     ∇ Compose;output
       :Access public
       Use'JQueryUI' ⍝ because we will add jQuery UI effects later
       output←'#output'Add _.div ScriptFollows
       output.Add _.p'Clicking the below buttons toggle the visibility of this division.'
       output.Add _.p'The transistions are slow, and use various effects:'
-      TABLE←3 2⍴'Toggle' 'bounce' 'Hide' 'puff' 'Show' 'fade'
       output.Add _.Table('Action' 'Effect'⍪TABLE)'' 1
       {(⍵ Add _.Button ⍵).On'click' 'Click'}¨TABLE[;1]
     ∇
 
-    ∇ r←Click;i  
+    ∇ r←Click;i
       :Access public
       i←TABLE[;1]⍳⊂_what
       ⍝ Scripts belong in the <head> element:
