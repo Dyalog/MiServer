@@ -58,7 +58,7 @@
       Add _.br
      
       (sp←Add _.StackPanel).Horizontal←1
-      sp.Add('board'New _.img''(⊂'src'((2↓⊃#.Files.SplitFilename _PageName),'snakes_and_ladders.jpg')))
+      sp.Add('board'New _.img''(⊂'src'(({(¯1+⍵⍳'/')↓⍵}⊃#.Files.SplitFilename _PageName),'snakes_and_ladders.jpg')))
       sp.Add('output'New _.div)
      
       Add _.Handler'body' 'play' 'playRound'
