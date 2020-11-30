@@ -1,7 +1,8 @@
 ﻿:class The_2048_Game :MiPageSample
 ⍝ Control:: _DC.Table
 ⍝ Description:: Simple version of the addictive "2048" sliding game
-
+    :field Public _Sessioned←1
+:field public BOARD
     ∇ Compose;u;l;r;d;board;help;keys;score;name
       :Access Public
       :Trap 0 ⍝ initialize RNG
