@@ -2,8 +2,9 @@
 ⍝ Control:: _JQ.jqDroppable _JQ.jqDraggable _JQ.jqAddClass _DC.Script _DC.StyleSheet
 ⍝ Description:: Use external code to style and touch-enable uppercase-lowercase alphabet pairing game
 
-    :Field Public COUNT
-    :Field Public START
+    :Field Public COUNT←0
+    :Field Public START←0
+    :field Public _Sessioned←1
 
     ∇ Compose
       :Access Public
