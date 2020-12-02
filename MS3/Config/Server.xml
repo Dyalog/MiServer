@@ -3,5 +3,5 @@
     <ClassName>MS3Server</ClassName>
     <RESTful>1</RESTful>
     <AllowedHTTPCommands>get,put,delete,post</AllowedHTTPCommands>
-    <CreateSession>0</CreateSession>
+    <CreateSession>1</CreateSession>
 </Server>

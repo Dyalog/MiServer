@@ -93,7 +93,6 @@
               js←1 Msg'That spot is occupied' ⍝ complain
           :EndIf
       :EndIf
-      ⎕←'js=',js
     ∇
 
     ∇ won←Won ⍝ Did any player win?
