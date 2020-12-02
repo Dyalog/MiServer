@@ -183,7 +183,7 @@
       :If 0=⎕NC'unit' ⋄ unit←'ms' ⋄ :EndIf
       units←(1 1 1 1 1 0⊂'dhmsms'),⊂''
       factors←86400000 3600000 60000 1000 1 1
-      chunks←{⎕ML←3 ⋄ (1+⍵∊⎕D)⊂⍵}string
+      chunks←{⍵⊆⍨1+⍵∊⎕D},string
       :Trap 0/0
           r←(⍎¨{⍵∩⎕D}¨chunks)+.×factors[units⍳{#.Strings.lc ⍵~⎕D}¨chunks]
       :Else
