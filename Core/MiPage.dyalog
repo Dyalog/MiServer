@@ -156,15 +156,17 @@
     ∇
 
     ∇ r←{proto}Get names;noproto;char
+    ⍝ names is a single name, a vector of vectors of names, or a space-delimited list of names
+    ⍝ {proto} is the optional prototypical value if a name is not found
       :Access public
-      :If noproto←0=⎕NC'proto' ⋄ proto←'' ⋄ :EndIf
+      :If noproto←0=⎕NC'proto' ⋄ proto←'' ⋄ :EndIf ⍝ default prototype is empty
       names←eis names
       names←,⍕names
       names←#.Strings.deb names
       :If ' '∊names
-          names←{⎕ML←3 ⋄ ⍵⊂⍨⍵≠' '}names
+          names←' '(≠⊆⊢)names
           r←({⍬∘⍴⍣(1=≢⍵)⊢⍵}eis proto)Get¨names
-      :ElseIf ~(_PageData.⎕NC names)∊2 9
+      :ElseIf ~(_PageData.⎕NC names)∊2 9 ⍝ by this time, names is a single name
           r←,proto
       :Else
           r←_PageData⍎names
@@ -172,11 +174,12 @@
               :If 1=⍴,r
                   r←⊃r
               :EndIf
-          :EndIf
-          :If noproto≥char←0=2|⎕DR proto
-          :AndIf isString r
-              r←#.JSON.toAPL r
-          :EndIf
+          :EndIf 
+⍝↓↓↓ BPB - we don't want to gratuitously convert - e.g. 'null' 'true' '0002010'
+⍝          :If noproto≥char←isChar proto
+⍝          :AndIf isString r
+⍝              r←#.JSON.toAPL r
+⍝          :EndIf
           :If noproto⍱char
               :If 1≠2|⎕DR r
                   r←,proto
