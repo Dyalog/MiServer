@@ -180,7 +180,7 @@
 ⍝          :AndIf isString r
 ⍝              r←#.JSON.toAPL r
 ⍝          :EndIf
-          :If noproto⍱char
+          :If noproto⍱isChar proto
               :If 1≠2|⎕DR r
                   r←,proto
               :EndIf
