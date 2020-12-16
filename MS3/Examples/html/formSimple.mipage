@@ -4,20 +4,27 @@
 
     ∇ Compose
       :Access public
-      myform←'method="get"'Add _.form
-      myform.Add _.h2 'Lots of options in one form'
+      myform←'method=post action=./formSimple' Add _.form
+      myform.Add _.h2'Lots of options in one form'
      ⍝ This adds a box with an embedded legend
       mybox←myform.Add _.fieldset
       mybox.Add _.legend'Text input'
       'for="user"'mybox.Add _.label'User name: '
-      '#user'mybox.Add _.input
+      '#user name=user'mybox.Add _.input
+      mybox ShowInput'user'
       mybox.Add¨2/_.br
-      'cols="50"'mybox.Add _.textarea'Anyone who can write an APL function should be able to host it on the web.™'
+      '#text name=text cols="50"'mybox.Add _.textarea'Anyone who can write an APL function should be able to host it on the web.™'
+      mybox ShowInput'text'
+      mybox.Add¨2/_.br
+      'for="number"'mybox.Add _.label'Numeric field: '
+      '#number name=number type=number value=42'mybox.Add _.input
+      mybox ShowInput'number'1
      
       mybox←myform.Add _.fieldset
       mybox.Add _.legend'Selection'
       'for="prim"'mybox.Add _.label'Primitives: '
-      primitives←'#prim'mybox.Add _.select
+      primitives←'#prim name=prim'mybox.Add _.select
+      mybox ShowInput'prim'
      
       fns←'label="Functions"'primitives.Add _.optgroup
       fns.Add¨(_.option,⊂)¨'Ceiling' 'Floor' 'Encode' 'Decode'
@@ -28,5 +35,19 @@
       mybox.Add¨2/_.br
       mybox.Add'Security: '
       'name="security"'mybox.Add _.keygen
+     
+      mybox←myform.Add _.fieldset
+      mybox.Add _.legend'Submission'
+      'type=reset'mybox.Add _.input
+      'type=submit'mybox.Add _.input
+     
+    ∇
+
+    ∇ parent ShowInput field_num
+      (field num)←2↑(⊆field_num),0
+      :If _Request.isPost
+          val←∊(⊂'<br />')@((⎕UCS 13)∘=)Get field    
+          ('style="border:green solid" #SI',field)parent.Add _.p('&nbsp;Submitted value was "<tt>',val,'</tt>"',num/', as a number: ',⍕0 Get field)
+      :EndIf
     ∇
 :endclass

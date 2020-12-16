@@ -1,0 +1,15 @@
+DyalogTest : 1.30
+ID         : MS_MS3
+Description: automated testing of DUI/MS3
+
+⍝ This test utilizes a new (Aug 2020) feature of ]DTest:
+⍝ custom arguments for your test-suite! So, when calling ]DTest MS3.dyalogtest, you can optionally specify the name of a test as 2nd param:
+⍝ ]DTest MS3.dyalogtest Datatable*
+⍝ see MS3_init_common:
+
+
+Setup   : MS3_init_8080
+
+Test: MS3_test
+
+Teardown: MS3_teardown

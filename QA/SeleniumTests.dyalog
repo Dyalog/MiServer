@@ -1,6 +1,7 @@
 ﻿:Namespace SeleniumTests
 ⍝ needs Selenium/ in a folder that is on the same level as the DUI- or MiServer-Folder (ie /Git/MiServer & /Git/Selenium)
 
+
     ∇ x←eis x
 ⍝ Enclose if simple
       :If (≡x)∊0 1 ⋄ x←,⊂,x ⋄ :EndIf
@@ -44,10 +45,10 @@
       root,←'/'/⍨~'/\'∊⍨¯1↑root ⍝ append trailing / if missing
       r←root∘,¨(('*',ext)#.Files.List root)[;1]
       :If 0≠⍴folders←{(('.'≠⊃¨⍵[;1])∧⍵[;4])/⍵[;1]}#.Files.List root
-          r←r,⊃,/ext FindAllFiles¨root∘,¨folders
+          r←r,⊃,/ext∘FindAllFiles¨root∘,¨folders
       :EndIf
     ∇
-
+ 
     ∇ r←stop_port Test site;count;ctl;examples;f;fail;nodot;start;t;time;z;i;START;COUNT;FAIL;Config;selpath;files;n;ext;filter;⎕PATH;keynames;maxlen;⎕USING;stopOnError;stop;dui;appr;cfg
       ⍝ stop: 0 (default) ignore but report errors; 1 stop on error; 2 stop before every test
       ⍝⍵: site filter config
@@ -62,10 +63,11 @@
           #.DUI.WC2Root←1⊃⎕NPARTS ¯1↓1⊃⎕NPARTS SALT_Data.SourceFile
           #.DUI.AppRoot←site
       :Else
-          :If 0=⍴AppRoot←#.Load site
+          ⍝:If 0=⍴AppRoot←#.Load site
+          :If 0=⍴AppRoot←∊1⎕nparts site
               ⎕←'Test abandoned' ⋄ →0
           :EndIf
-          #.Boot.(DyalogRoot←folderize 2 ⎕NQ'.' 'GetEnvironment' 'DYALOG')
+          #.Boot.DyalogRoot←{{11 19 22::⍵,'/'↓⍨'/\'∊⍨¯1↑⍵ ⋄ ∊1 ⎕NPARTS⊃{⍺,(('/'=¯1↑⍺)<⍵=1)/'/'}/0 1 ⎕NINFO ⍵}∊⍕⍵}  2 ⎕NQ'.' 'GetEnvironment' 'DYALOG'  ⍝ avoid errors on "folderize"
       :EndIf
      
      ⍝ selpath←({∊'/',⍨¨¯1↓'/\'#.Utils.penclose ⍵}#.Boot.MSRoot),'Selenium/'
@@ -81,13 +83,9 @@
           :EndTrap
       :EndIf
       ⎕PATH,←' Selenium'
-      Selenium.DLLPATH←selpath
-      :If config≢''
-          Selenium.ApplySettings config
-      :Else
-          ∘∘∘ ⍝ Can't run w/o config!
-      :EndIf
-      Selenium.QUIETMODE←{0::0 ⋄ 1=2⊃⎕VFI ⍵}2 ⎕NQ'.' 'GetEnvironment' 'QUIETMODE'  ⍝ for automated tests! ;)
+      Selenium.DLLPATH←selpath  ⍝ backward compatibility
+      Selenium.ApplySettings config
+      Selenium.QUIETMODE←{6::(,1)≡,2⊃⎕VFI ⍵ ⋄ Selenium.QUIETMODE ⋄ }2 ⎕NQ'.' 'GetEnvironment' 'QUIETMODE'  ⍝ for automated tests! ;)
      
       :If dui
           :If 0≠⊃z←#.DUI.Initialize
@@ -104,17 +102,22 @@
           cfg←Config
       :EndIf
      
-      n←⍴files←(⍴appr)↓¨¯7↓¨FindAllFiles appr,'QA'
+      n←⍴files←(⍴appr)↓¨{∊2↑⎕nparts ⍵}¨FindAllFiles appr,'QA'
       ⍝ // Add code to compare this to the mipages found in the whole app
       :If 0≠≢filter
           files←(filter ⎕S'%')files
-          ⎕←'Selected: ',(⍕⍴files),' of ',(⍕n),' tests.'
+          :If ~Selenium.QUIETMODE ⋄ ⎕←'Selected: ',(⍕≢files),' of ',(⍕n),' tests.'⋄:endif
       :EndIf
       n←⍴files
       ⍝SITE←'http://127.0.0.1:',⍕⊃1↓stop_port,Config.Port
       ⍝SITE←'http://',(2 ⎕NQ'.' 'TCPGetHostID'),':',(⍕{6::⍵.MSPort ⋄ ⍵.Port}#.Boot.ms.Config)
+      :if 2=Selenium.SETTINGS.⎕nc'SITEROOT'
+      SITE←Selenium.SETTINGS.SITEROOT
+      :else
+      SITE←'http://',(2 ⎕NQ'.' 'TCPGetHostID'),':',⍕⊃1↓stop_port,⍎⍕{6::⍵.MSPort ⋄ ⍵.Port}cfg
+      :endif
       :if ~Selenium.QUIETMODE
-      ⎕←'Site=',SITE←'http://',(2 ⎕NQ'.' 'TCPGetHostID'),':',⍕⊃1↓stop_port,⍎⍕{6::⍵.MSPort ⋄ ⍵.Port}cfg
+      ⎕←'Site=',SITE
       :endif
      
 ⍝⍝ Un-comment to play music while testing:
@@ -133,19 +136,19 @@
      
       :For i :In ⍳n
           COUNT+←1
-          :If 0=⍴t←stop Run1Test{⍵⊣⍞←(⎕UCS 13),maxlen↑lopFirst ⍵}z←i⊃files
           :If 0=⍴t←stop Run1Test z←i⊃files
               :If ~Selenium.QUIETMODE ⋄ ⎕←z,' *** PASSED ***' ⋄ :EndIf
           :Else
               FAIL+←1
-              r,←⊂z
+              r,←⊂z,': ',t
+              :If ~Selenium.QUIETMODE  ⍝ only show msg if not running with quietmode
               ⎕←z,' *** FAILED *** #',(⍕i),' of ',(⍕n),': ',z,': ',t
+              :endif
           :EndIf
       :EndFor
       :If ~Selenium.QUIETMODE ⋄ :OrIf 0<FAIL
           ⎕←'Total of ',(⍕COUNT),' samples tested in ',(∊(⍕¨24 60⊤⌊0.5+(⎕AI[3]-START)÷1000),¨'ms'),': ',(⍕FAIL),' failed.'
       :EndIf
-     
       Selenium.BROWSER.Quit
     ∇
 
