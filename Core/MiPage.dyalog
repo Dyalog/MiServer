@@ -21,7 +21,7 @@
     :field Public _PageData       ⍝ namespace containing any data passed via forms or URL
     :field Public _AjaxResponse←''
     :field Public _DebugCallbacks←0
-    :field Public _TimedOut←0     
+    :field Public _TimedOut←0
     :field Public _Sessioned←1    ⍝ by default save page instance in session
     :field Public _cache←''       ⍝ cached content if page is marked cacheable
     :field Public OnLoad←''       ⍝ page equivalent to ⎕LX
@@ -159,7 +159,7 @@
     ⍝ names is a single name, a vector of vectors of names, or a space-delimited list of names
     ⍝ {proto} is the optional prototypical value if a name is not found
       :Access public
-      :If noproto←0=⎕NC'proto' ⋄ proto←'' ⋄ :EndIf ⍝ default prototype is empty
+      :If noproto←⊃0=⎕NC'proto' ⋄ proto←'' ⋄ :EndIf ⍝ default prototype is empty
       names←eis names
       names←,⍕names
       names←#.Strings.deb names
@@ -174,17 +174,18 @@
               :If 1=⍴,r
                   r←⊃r
               :EndIf
-          :EndIf 
+          :EndIf
 ⍝↓↓↓ BPB - we don't want to gratuitously convert - e.g. 'null' 'true' '0002010'
 ⍝          :If noproto≥char←isChar proto
 ⍝          :AndIf isString r
 ⍝              r←#.JSON.toAPL r
 ⍝          :EndIf
-          :If noproto⍱isChar proto
-              :If 1≠2|⎕DR r
-                  r←,proto
-              :EndIf
-          :EndIf
+⍝          :If noproto⍱isChar proto
+⍝              :If 1≠2|⎕DR r
+⍝                  r←,proto
+⍝              :EndIf
+⍝          :EndIf
+          r←#.Strings.tonum⍣(noproto⍱isChar proto)⊢r
       :EndIf
     ∇
 

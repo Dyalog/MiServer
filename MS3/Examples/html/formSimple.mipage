@@ -23,7 +23,7 @@
       mybox←myform.Add _.fieldset
       mybox.Add _.legend'Selection'
       'for="prim"'mybox.Add _.label'Primitives: '
-      primitives←'#prim name=prim'mybox.Add _.select
+      primitives←'#prim name=prim multiple'mybox.Add _.select
       mybox ShowInput'prim'
      
       fns←'label="Functions"'primitives.Add _.optgroup
@@ -46,7 +46,7 @@
     ∇ parent ShowInput field_num
       (field num)←2↑(⊆field_num),0
       :If _Request.isPost
-          val←∊(⊂'<br />')@((⎕UCS 13)∘=)Get field    
+          val←∊(⊂'<br />')@((⎕UCS 13)∘=)¯1↓∊',',⍨¨⊆Get field    
           ('style="border:green solid" #SI',field)parent.Add _.p('&nbsp;Submitted value was "<tt>',val,'</tt>"',num/', as a number: ',⍕0 Get field)
       :EndIf
     ∇
