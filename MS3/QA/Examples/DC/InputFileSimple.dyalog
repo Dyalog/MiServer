@@ -5,7 +5,7 @@
  CR←⎕UCS 13
 
  ⍝↓↓↓ remove directories, select one of each file type based on extension
- files←{⍵[(3⌊⍴⍵)?⍴⍵]}∊¨↓{⍵⌷[1]⍨⊂⍵[;3]⍳∪⍵[;3]}↑#.Files.SplitFilename¨{⍵[;1]/⍨~⍵[;4]}#.Files.List path←AppRoot,'examples\data\'
+ files←{⍵[{⍵⍳∪⍵}3⊃¨⎕NPARTS¨⍵]}{⍵[;1]/⍨~⍵[;4]}#.Files.List path←AppRoot,'examples\data\'
  ⍝⍞←' testing ',(⍕⍴files),' files '
  c←0
  :For f :In files  ⍝ all files, no directories
@@ -22,7 +22,8 @@
      :ElseIf 2≠⍴stats←⊃(//)⎕VFI result.Text
          msg,←CR,'File ',file,' uploaded but statistics are not found - ',result.Text
      :Else
-         s←{t←⍵ ⎕NTIE 0 ⋄ (⎕NUNTIE t)⊢{(⍴⍵),255|+/⍵}⎕NREAD t,83,2↑⎕NSIZE t}file
+⍝         s←{t←⍵ ⎕NTIE 0 ⋄ (⎕NUNTIE t)⊢{(⍴⍵),255|+/⍵}⎕NREAD t,83,2↑⎕NSIZE t}file
+         s←{t←⍵ ⎕NTIE 0 ⋄ (⎕NUNTIE t)⊢{(⍴⍵),(255|+)/⎕UCS ⍵}⎕NREAD t,(⎕dr' '),2↑⎕NSIZE t}file
          :If stats≢s
              msg,←CR,'File ',file,' uploaded but statistics are different - uploaded = ',(⍕stats),', original = ',⍕s
          :EndIf
