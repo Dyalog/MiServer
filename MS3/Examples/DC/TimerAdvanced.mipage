@@ -1,6 +1,9 @@
 ﻿:Class TimerAdvanced : MiPageSample
 ⍝ Control:: _DC.Timer
 ⍝ Description:: Interactive control of multiple timers
+    :field public _Sessioned←1
+    :field public A←''
+    :field public B←''
 
     ∇ Compose
       :Access public
