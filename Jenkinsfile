@@ -5,6 +5,7 @@ node ('Docker') {
                 checkout scm
         }
         stage ('Build Docker Image') {
+            withDockerRegistry(credentialsId: '0435817a-5f0f-47e1-9dcc-800d85e5c335') {
                 // Create a version file to include in the container
                 sh 'echo "$(cat version).$(git rev-list HEAD --count) - ($(git rev-parse HEAD))" > ./MiServer.version'
                 if (env.BRANCH_NAME.contains('master')) {
@@ -12,9 +13,11 @@ node ('Docker') {
                 } else {
                         DockerApp = docker.build "dyalog/miserver:${env.BRANCH_NAME}"
                 }
+            }
         }
         stage ('Test website') {
 
+            withDockerRegistry(credentialsId: '0435817a-5f0f-47e1-9dcc-800d85e5c335') {
 
                 def MiServer = DockerApp.run ('-t -e VIRTUAL_HOST=miserver.dyalog.bramley -e VIRTUAL_PORT=8080')
                 try {
@@ -38,6 +41,7 @@ node ('Docker') {
                         sh "docker rmi dyalog/miserver:latest"
                         throw e;
                 }
+            }
         }
         stage ('Publish Docker image') {
                 withDockerRegistry(credentialsId: '0435817a-5f0f-47e1-9dcc-800d85e5c335') {
