@@ -4,9 +4,10 @@
 
     ∇ Compose;ipcity;go;route;inputs
       :Access public
-      :If 0=⎕NC'TUBE.cities'
-          (TUBE←⎕NS ⍬).⎕CY'tube'
-          cities←'^.' '_(.)'⎕R'\u&' ' \u1'⊢(TUBE.⎕NL ¯9)~⊂'notes'
+      :If 0=⎕NC'#.TUBE.cities'
+          '#.TUBE'⎕NS''
+          #.TUBE.⎕CY(1⊃⎕NPARTS(¯1↓#.Boot.AppRoot),_PageName),'../Data/tube'
+          cities←'^.' '_(.)'⎕R'\u&' ' \u1'⊢(#.TUBE.⎕NL ¯9)~⊂'notes'
       :EndIf
      
       Add _.style'.sel {width: 250px} #route {margin-top: 20px}'
@@ -17,9 +18,9 @@
       ipcity←'#city' '.sel'inputs.Add _.Chosen cities ⍬ ⍬'select city' ⋄ inputs.Add': '
       ipcity.On'change' 'UpdateCity'
      
-      IPFR←'#from' '.sel'inputs.Add _.Chosen ⍬ ⍬ ⍬'select origin' ⋄ inputs.Add' → '
+      IPFR←'#from' '.sel .fromto'inputs.Add _.Chosen ⍬ ⍬ ⍬'select origin' ⋄ inputs.Add' → '
      
-      IPTO←'#to' '.sel'inputs.Add _.Chosen ⍬ ⍬ ⍬'select destination' ⋄ inputs.Add'&emsp;'
+      IPTO←'#to' '.sel .fromto'inputs.Add _.Chosen ⍬ ⍬ ⍬'select destination' ⋄ inputs.Add'&emsp;'
      
       go←inputs.Add _.Button'Go!'
       go.On'click' 'CalculateRoute'
@@ -34,17 +35,26 @@
       :If ∨/empty
           r←'#route'Replace'Please select ',⊃{⍺,' and ',⍵}/empty/'city' 'origin' 'destination'
       :Else
-          route←CITYDATA TUBE.trip 1↓inputs
+          SetCITYvars
+          route←CITYDATA #.TUBE.trip 1↓inputs
           r←'#route'Replace route,⎕UCS 10
       :EndIf
     ∇
 
-    ∇ r←UpdateCity
+    ∇ r←UpdateCity;ctl
       :Access public
-      CITYDATA←TUBE⍎#.Strings.lc Get'city'
-      TUBE.compile CITYDATA
+      SetCITYvars
+      ctl←⎕NEW _.Select
+      r←'#from'ctl.ReplaceOptions STOPS
+      r,←'#to'ctl.ReplaceOptions STOPS
+      r,←Execute('$(".fromto").trigger("chosen:updated")')
+    ∇
+
+    ∇ SetCITYvars
+      :Access private
+      CITYDATA←#.TUBE⍎'_'@(=∘' ')#.Strings.lc Get'city'
+      #.TUBE.compile CITYDATA
       STOPS←{(1=≡¨⍵)/⍵}CITYDATA.labels
-      r←IPFR.ReplaceOptions STOPS
-      r,←IPTO.ReplaceOptions STOPS
+     
     ∇
 :endclass
