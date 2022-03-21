@@ -10,11 +10,6 @@ echo "|_____/  |_/_/    \_\______\____/ \_____|"
 echo ""
 echo "https://www.dyalog.com"
 echo ""
-echo "*************************************************************************************"
-echo "*               This software is for non-commercial evaluation ONLY                 *"
-echo "* https://www.dyalog.com/uploads/documents/Private_Personal_Educational_Licence.pdf *"
-echo "*************************************************************************************"
-echo ""
 
 if env | grep "^SQL*" > /dev/null 2>&1 ; then
     cp /odbc.ini /tmp/
@@ -30,8 +25,8 @@ fi
 
 export MAXWS=${MAXWS-256M}
 
-export DYALOG=/opt/mdyalog/18.0/64/unicode/
-export WSPATH=/opt/mdyalog/18.0/64/unicode/ws
+export DYALOG=/opt/mdyalog/18.2/64/unicode/
+export WSPATH=/opt/mdyalog/18.2/64/unicode/ws
 export TERM=dumb
 export APL_TEXTINAPLCORE=${APL_TEXTINAPLCORE-1}
 export TRACE_ON_ERROR=${TRACE_ON_ERROR-1}
