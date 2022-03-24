@@ -493,6 +493,10 @@
      
                   :If encodeMe
                   :AndIf 0≠which←⊃Encoders.Encoding{(⍴⍺){(⍺≥⍵)/⍵}⍺⍳⍵}enc ⍝ try to match what encodings they accept to those we provide
+                      :If 0=2|⎕DR res.HTML
+                      :AndIf 127∨.<⎕UCS res.HTML
+                          res.HTML←'UTF-8' ⎕UCS res.HTML
+                      :EndIf
                       (encoderc html)←Encoders[which].Compress res.HTML
                       :If 0=encoderc
                           length←startsize←⍴res.HTML
@@ -526,7 +530,8 @@
           response←''res.HTML
       :Else
           response←res.HTML
-          :If 160=⎕DR response
+          :If 0=2|⎕DR response
+          :AndIf 127∨.<⎕UCS response
               response←'UTF-8'⎕UCS response
           :EndIf
       :EndIf
