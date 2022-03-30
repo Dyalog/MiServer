@@ -15,7 +15,7 @@
    ⍝ * PDF-Export enhanced with special JS-Code to right-align numeric columns
    ⍝					
    ⍝## Health Care Spending by Country
-   ⍝ Data on this page was taken from the [CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/rankorder/2225rank.html).
+   ⍝ Data on this page was taken from the [CIA World Factbook](https://www.cia.gov/the-world-factbook/).
      
       ⍝  [;1] country [;2] % GDP [;3] population [;4] GDP [;5] $/capita
       data←1 #.Files.FREAD #.Boot.AppRoot,'Examples/Data/stats.DCF'
