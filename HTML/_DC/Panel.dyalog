@@ -106,9 +106,9 @@
       :Case 'info' ⋄ icon←'info-circle' ⋄ class←'dc-panel-info'
       :Case 'warn'
           :If 'Red'≡¯3↑Type
-              icon←'warning' ⋄ class←'dc-panel-error'
+              icon←'times-circle' ⋄ class←'dc-panel-error'
           :Else
-              icon←'warning' ⋄ class←'dc-panel-warning'
+              icon←'exclamation-circle' ⋄ class←'dc-panel-warning'
           :EndIf
       :Case 'erro' ⋄ icon←'times-circle' ⋄ class←'dc-panel-error'
       :Case 'succ' ⋄ icon←'check' ⋄ class←'dc-panel-success'
@@ -121,14 +121,14 @@
       :If ~0∊⍴Title ⋄ c,←('class="',class,' ',cclass,' dc-panel-title" id="',id,'_title"')New _.div Title ⋄ :EndIf
      
       :If Icon≡''
-          ic←('.dc-panel-icon ',class)New _.Icon('fa-',icon)
+          ic←('.dc-panel-icon ',{(' '⎕r ' .')' ',#.Strings.deb ⍵}class,' ')New _.Icon('fa-',icon)
       :ElseIf isInstance Icon
           Icon.SetAttr⊂'class="dc-panel-icon"'
           ic←Icon
       :Else
-          ic←('.dc-panel-icon ',class,' ',cclass)New _.Icon Icon
+          ic←('.dc-panel-icon',{(' '⎕r ' .')' ',#.Strings.deb ⍵}class,' ',cclass)New _.Icon Icon
       :EndIf
-     
+                     
       c,←ic.Render
       d←('class="',class,' ',cclass,' dc-panel-content" id="',id,'_content"')New _.div Message
       d.Add savedContent←Content   ⍝ save original content
