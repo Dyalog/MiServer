@@ -121,7 +121,7 @@
       js,←'});'
       rtab←(⌽1,1<⍴∪∊rtab[1;])⌿rtab
       :If ~Horizontal ⋄ rtab←⍉rtab ⋄ :EndIf
-      r,←'<table class="ChainedSelectNoBorders">',(∊(⊂'<tr>'),(⊂'<td>'),¨(rtab,¨⊂'</td>'),⊂'</tr>'),'</table>'
+      r,←'<table class="ChainedSelectNoBorders">',(∊(⊂'<tr>'),((⊂'<td>'),¨rtab,¨⊂'</td>'),⊂'</tr>'),'</table>'  
       r,←(Add _.Script js).Render
       r,←RenderHandlers
     ∇
@@ -169,7 +169,7 @@
       :For o s d :InEach (↓opts)sel dis
           r,←'<option',({⍵ ine' value="',(HtmlSafeText ⍵),'"'}2⊃o),(s/' selected="selected"'),(d/' disabled="disabled"'),(' class="'{0=1↑⍴,⍵:'' ⋄ ⍺,⍵,'"'}4⊃o)
           r,←(6⊃o)/' data-finalitem="1"'
-          r,←(' data-hidelevels="'{0=1↑⍴,⍵:'' ⋄ ⍺,⍵,'"'}⍕5⊃o),'>',(1⊃o),'</option>'
+          r,←(' data-hidelevels="'{0=1↑⍴,⍵:'' ⋄ ⍺,⍵,'"'}⍕5⊃o),'>',(#.HtmlUtils.HtmlSafeText 1⊃o),'</option>'
       :EndFor
     ∇
 
