@@ -121,14 +121,14 @@
       :If ~0∊⍴Title ⋄ c,←('class="',class,' ',cclass,' dc-panel-title" id="',id,'_title"')New _.div Title ⋄ :EndIf
      
       :If Icon≡''
-          ic←('.dc-panel-icon ',{(' '⎕r ' .')' ',#.Strings.deb ⍵}class,' ')New _.Icon('fa-',icon)
+          ic←('.dc-panel-icon ',{(' '⎕R' .')' ',#.Strings.deb ⍵}class,' ')New _.Icon('fa-',icon)
       :ElseIf isInstance Icon
           Icon.SetAttr⊂'class="dc-panel-icon"'
           ic←Icon
       :Else
-          ic←('.dc-panel-icon',{(' '⎕r ' .')' ',#.Strings.deb ⍵}class,' ',cclass)New _.Icon Icon
+          ic←('.dc-panel-icon',{(' '⎕R' .')' ',#.Strings.deb ⍵}class,' ',cclass)New _.Icon Icon
       :EndIf
-                     
+      ic._PageRef←_PageRef        ⍝ hack!!!!! shouldn't we do Add and not New?
       c,←ic.Render
       d←('class="',class,' ',cclass,' dc-panel-content" id="',id,'_content"')New _.div Message
       d.Add savedContent←Content   ⍝ save original content

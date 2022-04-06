@@ -120,7 +120,9 @@
       :If 0=≢KitURL
           Use'faIcons5svg'
       :Else
-          Use'⍎',KitURL
+          :If {9=⎕NC'⍵'}_PageRef
+              ('crossorigin=anonymous src=',KitURL)_PageRef.Head.Add _.script
+          :EndIf
       :EndIf
      
     ∇
