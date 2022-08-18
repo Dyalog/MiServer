@@ -16,5 +16,8 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
+# Fix classification of unrecognised filetypes on GitHub.com
+*.mipage linguist-language=APL
+
 # don't count third-party code in languag analysis
-PlugIns/* linguist-vendored
+PlugIns/**/* linguist-vendored
