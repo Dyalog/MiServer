@@ -17,4 +17,4 @@
 *.RTF	 diff=astextplain
 
 # don't count third-party code in languag analysis
-PlugIns/* linguist-vendored
+PlugIns/**/* linguist-vendored
