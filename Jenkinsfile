@@ -7,7 +7,7 @@ node ('Docker') {
 	stage ('Pull Dyalog Container') {
 	
             withDockerRegistry(credentialsId: '0435817a-5f0f-47e1-9dcc-800d85e5c335') {
-		docker.pull 'dyalog/dyalog'
+		sh ('docker pull dyalog/dyalog')
 	    }
 	}
         stage ('Build Docker Image') {
