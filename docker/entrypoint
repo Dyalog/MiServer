@@ -11,15 +11,36 @@ echo ""
 echo "https://www.dyalog.com"
 echo ""
 
+if [ "x${SQL_SERVER}" != "x" ]; then
+    MAXTIME=60
+    C=1
+    echo "Waiting for database to come up at address ${SQL_SERVER}:${SQL_PORT}..."
+	while [ `/bin/nc ${SQL_SERVER} ${SQL_PORT} < /dev/null > /dev/null 2>&1; echo $?` != 0 ]; do
+	    sleep 1
+        let C="$C + 1"
+        if [ $C -gt $MAXTIME ]; then
+        		echo "Database server failed after ${MAXTIME} seconds - Continuing..."
+            break;
+        fi
+	done
+fi
+
+
 if env | grep "^SQL*" > /dev/null 2>&1 ; then
-    cp /odbc.ini /tmp/
+    ## Set default database driver to MySQL
+    export SQL_DRIVER=${SQL_DRIVER:-MySQL}
+    export SQL_PORT=${SQL_PORT:-3309}
+    export SQL_DSN=${SQL_DSN:-$SQL_DATABASE}
+
+    cp /etc/odbc.ini /tmp/
     cd /tmp
 
     echo "Setting up SQAPL Connection"
     env | awk -F"=" '/^SQL/ {print $1 " " $2}' | while read KEY VAL; do
         sed -i "s/##${KEY}##/${VAL}/" /tmp/odbc.ini
     done
-    cp /tmp/odbc.ini /odbc.ini
+    cp /tmp/odbc.ini /etc/odbc.ini
+    rm /tmp/odbc.ini
     cd -
 fi
 
@@ -31,6 +52,7 @@ export TERM=dumb
 export APL_TEXTINAPLCORE=${APL_TEXTINAPLCORE-1}
 export TRACE_ON_ERROR=${TRACE_ON_ERROR-1}
 export SESSION_FILE="${SESSION_FILE-$DYALOG/default.dse}"
+export ODBCINI=/etc/odbc.ini
 
 export Port=8080
 
@@ -50,7 +72,7 @@ if ! [ -d ${MiServer}/Logs ]; then
 fi
 
 if [ -n "${RIDE_INIT}" ]; then
-    ODBCINI=/odbc.ini $DYALOG/dyalog +s -q /MiServer/miserver.dws
+    $DYALOG/dyalog +s -q /MiServer/miserver.dws
 else
-    ODBCINI=/odbc.ini $DYALOG/dyalog -s /MiServer/miserver.dws
+    $DYALOG/dyalog -s /MiServer/miserver.dws
 fi
