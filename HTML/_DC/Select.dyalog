@@ -73,7 +73,7 @@
      
       :If ~0∊⍴Prompt
       :AndIf 0∊⍴⊃Attrs[⊂'multiple']  ⍝ prompt makes no sense if multiple selections are allowed
-          r,←(('disabled="disabled" ',(~∨/sel)/'selected="selected"')New #._html.option Prompt).Render
+          r,←(('disabled="disabled" value=""',(~∨/sel)/'selected="selected"')New #._html.option Prompt).Render
       :EndIf
      
       r,←FormatOptions(opts sel dis)
