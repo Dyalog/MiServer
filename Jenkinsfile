@@ -1,3 +1,4 @@
+@Library('swarm-deploy') _
 def DockerApp
 
 node ('Docker') {
@@ -35,10 +36,10 @@ node ('Docker') {
                         sh "rm -f /tmp/miserver-test.log"
                         sh "sleep 10 && for F in `ls ${WORKSPACE}/CI/test-*.sh`; do /bin/bash \${F} ${DOCKER_IP}; done"
                         MiServer.stop()
+                        stash includes: 'service.yml', name: 'swarm-stash'
                 } catch (Exception e) {
                         println 'MiServer Not running correctly; cleaning up.'
                         sh "git rev-parse --short HEAD > .git/commit-id"
-//                                withCredentials([usernamePassword(credentialsId: '112b0db7-e903-40c0-b70c-aab2394b3617', passwordVariable: 'GHTOKEN', usernameVariable: 'API')]) {
                                 withCredentials([string(credentialsId: '250bdc45-ee69-451a-8783-30701df16935', variable: 'GHTOKEN')]) {
                                         commit_id = readFile('.git/commit-id')
                                         sh "${WORKSPACE}/CI/GH-Comment.sh ${MiServer.id} ${commit_id}"
@@ -55,39 +56,29 @@ node ('Docker') {
                                 DockerApp.push();
                         }
                 }
-//                if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
-//                        withDockerRegistry([credentialsId: 'b683ae6d-a5b8-4d6d-aadf-aeeee441e8af', url: 'http://registry.dyalog.com:5000']) {
-//                                sh 'docker tag dyalog/miserver:latest registry.dyalog.com:5000/dyalog/miserver:live'
-//                                sh 'docker push registry.dyalog.com:5000/dyalog/miserver:live'
-//                        }
-//                }
-        }
-
-
-        //if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
-        if (env.BRANCH_NAME.contains('master')) {
-                withCredentials([usernamePassword(credentialsId: '02543ae7-7ed9-4448-ba20-6b367d302ecc', passwordVariable: 'SECRETKEY', usernameVariable: 'ACCESSKEY')]) {
-                        stage('Deploying with Rancher') {
-                                sh '/usr/local/bin/rancher-compose --access-key $ACCESSKEY --secret-key $SECRETKEY --url http://rancher.dyalog.com:8080/v2-beta/projects/1a5/stacks/1st6 -p MiServer up --force-upgrade --confirm-upgrade --pull -d'
-                        }
-                }
         }
 
         stage ('Cleanup') {
-//                        if (env.BRANCH_NAME.contains('miserver.dyalog.com')) {
-//                                sh 'docker rmi registry.dyalog.com:5000/dyalog/miserver:live'
-//                        }
-                        sh 'docker rmi dyalog/miserver:latest'
+                if (env.BRANCH_NAME.contains('master')) {
+                        sh 'dyalog/miserver:latest'
+                } else {
+                        sh "docker rmi dyalog/miserver:${env.BRANCH_NAME}"
+                }
         }
 	
 	stage ('Github Upload') {
-//        withCredentials([usernamePassword(credentialsId: '112b0db7-e903-40c0-b70c-aab2394b3617', passwordVariable: 'GHTOKEN', usernameVariable: 'API')]) {
                 withCredentials([string(credentialsId: '250bdc45-ee69-451a-8783-30701df16935', variable: 'GHTOKEN')]) {
 			sh './CI/GH-Release.sh'
 		}
-
         }
-
-
 }
 
+if (env.BRANCH_NAME.contains('master')) {
+    node (label: 'swarm && gosport') {
+        stage('Deploying with Docker Swarm') {
+                unstash 'swarm-stash'
+                r = swarm "MiServer"
+                echo r
+        }
+    }
+}

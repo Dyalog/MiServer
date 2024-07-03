@@ -1,0 +1,41 @@
+services:
+  web:
+    image: dyalog/miserver
+    stdin_open: true
+    volumes:
+    - /DockerVolumes/MiServer/DrA:/MiServer/MS3/DrA
+    tty: true
+    networks:
+    - traefik-public
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.miserver-http.rule=Host(`miserver.dyalog.com`)
+        - traefik.http.routers.miserver-http.entrypoints=http
+        - traefik.http.routers.miserver-http.middlewares=https-redirect
+        - traefik.http.routers.miserver-https.rule=Host(`miserver.dyalog.com`)
+        - traefik.http.routers.miserver-https.entrypoints=https
+        - traefik.http.routers.miserver-https.tls=true
+        - traefik.http.routers.miserver-https.tls.certresolver=le
+        - traefik.http.services.miserver.loadbalancer.server.port=8080
+
+  DrA-Sender:
+    image: git.bramley.dyalog.com/docker/drachecker:latest
+    environment:
+      MAILTO: brian@dyalog.com mbaas@dyalog.com
+      MAILFROM: MiServer DrA <systems@dyalog.com>
+      MAILSUBJECT: '[MiServer] DrA Error captured'
+    stdin_open: true
+    volumes:
+    - /DockerVolumes/MiServer/DrA:/DrA
+    tty: true
+
+networks:
+  traefik-public:
+    external: true
