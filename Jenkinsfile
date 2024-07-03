@@ -73,7 +73,7 @@ node ('Docker') {
         }
 }
 
-if (env.BRANCH_NAME.contains('master') || env.BRANCH_NAME.contains('swarm')) {
+if (env.BRANCH_NAME.contains('master')) {
     node (label: 'swarm && gosport') {
         stage('Deploying with Docker Swarm') {
                 unstash 'swarm-stash'
