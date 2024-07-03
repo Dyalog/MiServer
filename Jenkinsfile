@@ -1,3 +1,4 @@
+@Library('swarm-deploy') _
 def DockerApp
 
 node ('Docker') {
