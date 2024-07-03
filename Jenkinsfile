@@ -59,7 +59,11 @@ node ('Docker') {
         }
 
         stage ('Cleanup') {
-                        sh 'docker rmi dyalog/miserver:latest'
+                if (env.BRANCH_NAME.contains('master')) {
+                        sh 'dyalog/miserver:latest'
+                } else {
+                        sh "docker rmi dyalog/miserver:${env.BRANCH_NAME}"
+                }
         }
 	
 	stage ('Github Upload') {
