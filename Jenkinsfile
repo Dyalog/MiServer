@@ -60,7 +60,7 @@ node ('Docker') {
 
         stage ('Cleanup') {
                 if (env.BRANCH_NAME.contains('master')) {
-                        sh 'dyalog/miserver:latest'
+                        sh 'docker rmi dyalog/miserver:latest'
                 } else {
                         sh "docker rmi dyalog/miserver:${env.BRANCH_NAME}"
                 }
