@@ -772,15 +772,19 @@
       REQ.Return html
     ∇
 
-    ∇ CacheMSP file
-      :Access public
-     
-    ∇
-
-    ∇ inst←root LoadMSP file;path;name;ext;ns;class
+    ∇ inst←root LoadMSP file;path;name;ext;ns;class;ts;li
       path name ext←#.Files.SplitFilename file
       ns←root NamespaceForMSP file
-      inst←⎕NEW class←⎕SE.SALT.Load file,' -target=',⍕ns
+      :If 0=ns.⎕NC name ⍝ not already loaded?
+          inst←⎕NEW ns⍎class←⊃2 ns.⎕FIX'file://',file
+      :ElseIf 0∧.=ts←8⊃li←5179⌶(⍕ns),'.',name ⍝ if we don't have timestamp information in loaded info (li)
+          inst←⎕NEW ns⍎class←⊃2 ns.⎕FIX'file://',file
+      :ElseIf ts∨.≠⊃3 ⎕NINFO 4⊃li
+          inst←⎕NEW class←⊃2 ns.⎕FIX'file://',file
+      :Else
+          inst←⎕NEW ns⍎name
+          →0
+      :EndIf
      
       :If ~name(≡#.Strings.nocase)class←⊃¯1↑'.'#.Utils.penclose⍕class
           1 Log'Filename/Classname mismatch: ',file,' ≢ ',class
