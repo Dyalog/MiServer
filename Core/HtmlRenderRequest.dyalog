@@ -13,8 +13,8 @@
 
     begins←{⍺≡(⍴⍺)↑⍵}
     tableLookup←{(⍺[;1]⍳⊂,⍵)⊃⍺[;2],⊂''}
-    lc←(819⌶)
-    uc←1∘(819⌶)
+    lc←{2::0(819⌶)⍵ ⋄ ¯3 ⎕C ⍵} ⍝ lower case
+    uc←{2::1(819⌶)⍵ ⋄ 1 ⎕C ⍵} ⍝ upper case
     splitFirst←{⍺←' ' ⋄ ⍵{((⍵-1)↑⍺)(⍵↓⍺)}⌊/⍵⍳⍺}
     dlb←{⍵↓⍨+/∧\⍵=' '}
     CookieSplit←{{{⌽dlb⌽dlb ⍵}¨⍵⊆⍨~<\'='=⍵}¨⍵⊆⍨⍵≠';'}
@@ -183,4 +183,4 @@
     ∇
 
 
-:EndClass                     
+:EndClass

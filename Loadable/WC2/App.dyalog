@@ -43,12 +43,12 @@
       :Access public
       r←args
       →0⍴⍨0∊⍴8⊃args
-      request←⎕NEW #.WC2.HtmlRenderRequest(args(819⌶_PageName))
+      request←⎕NEW #.WC2.HtmlRenderRequest(args(#.Strings.lc _PageName))
       :If 0∊⍴request.Page ⍝ initialization
           r[4 5 6 7]←1 200 'OK' 'text/html'
           r[10]←⊂⎕BASE.Render
           r[9]←⊂NL,⍨∊NL,⍨¨'Content-Type: ' 'Content-Length: ',⍕¨r[7 10]
-      :ElseIf ~0∊⍴ext←(819⌶)1↓⊃¯1↑1 ⎕NPARTS request.Page  ⍝ need to handle case where another MiPage is requested
+      :ElseIf ~0∊⍴ext←#.Strings.lc 1↓⊃¯1↑1 ⎕NPARTS request.Page  ⍝ need to handle case where another MiPage is requested
           :If #.Files.Exists filename←∊1 ⎕NPARTS _Config #.MiServer.Virtual request.Page
               :If ' '∨.≠handler←⊃_Config.MappingHandlers.handler/⍨<\_Config.MappingHandlers.ext≡¨⊂'.',ext
                   (mimeType content)←⍎'filename #.MappingHandlers.',handler,' request'
