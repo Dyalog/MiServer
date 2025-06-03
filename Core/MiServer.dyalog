@@ -152,7 +152,7 @@
           :Select rc
           :Case 0 ⍝ Good data from RPC.Wait
               :Select evt
-     
+              
               :Case 'Error'
                   :If ServerName≡obj
                       Stop←1
@@ -411,7 +411,7 @@
       :EndIf
     ∇
 
-    ∇ r←conns HandleRequest arg;rc;obj;evt;data;REQ;res;startsize;length;ext;filename;enc;encodeMe;cacheMe;which;encoderc;html;enctype;status;response;hdr;done;offset;z;tn;file
+    ∇ r←conns HandleRequest arg;rc;obj;evt;data;REQ;res;startsize;length;ext;filename;enc;encodeMe;cacheMe;which;encoderc;html;enctype;status;response;hdr;done;offset;z;tn;file;conx;close
     ⍝ conns - connection namespace
     ⍝ arg [1] conga rc [2] object name [3] event [4] data
       r←0
@@ -525,7 +525,12 @@
      
      SEND:
       res.Headers⍪←{0∊⍴⍵:'' '' ⋄ 'Server'⍵}Config.Server
-      status←(⊂'HTTP/1.1'),res.((⍕Status)StatusText)
+      res.Headers⍪←'Connection' 'Keep-Alive'
+      res.Headers⍪←'Date'(2⊃#.DRC.GetProp'.' 'HttpDate')
+      conx←#.Strings.lc REQ.GetHeader'connection'
+      close←(('HTTP/1.0'≡REQ.HTTPVersion)>'keep-alive'≡conx)∨REQ.CloseConnection
+      status←(⊂REQ.HTTPVersion),res.((⍕Status)StatusText)
+      close∨←2≠⌊0.01×res.Status
       :If res.File>encodeMe
           response←''res.HTML
       :Else
@@ -539,7 +544,7 @@
       res.MSec-⍨←⎕AI[3]
       res.Bytes←startsize length
      
-      :If 0≠1⊃z←#.DRC.Send obj(status,res.Headers response)
+      :If 0≠1⊃z←#.DRC.Send obj(status,res.Headers response)close
           (1+(1⊃z)∊1008 1119)Log'"HandleRequest" closed socket ',obj,' due to error: ',(⍕z),' sending response'
       :EndIf
      
@@ -767,15 +772,19 @@
       REQ.Return html
     ∇
 
-    ∇ CacheMSP file
-      :Access public
-     
-    ∇
-
-    ∇ inst←root LoadMSP file;path;name;ext;ns;class
+    ∇ inst←root LoadMSP file;path;name;ext;ns;class;ts;li
       path name ext←#.Files.SplitFilename file
       ns←root NamespaceForMSP file
-      inst←⎕NEW class←⎕SE.SALT.Load file,' -target=',⍕ns
+      :If 0=ns.⎕NC name ⍝ not already loaded?
+          inst←⎕NEW ns⍎class←⊃2 ns.⎕FIX'file://',file
+      :ElseIf 0∧.=ts←8⊃li←5179⌶(⍕ns),'.',name ⍝ if we don't have timestamp information in loaded info (li)
+          inst←⎕NEW ns⍎class←⊃2 ns.⎕FIX'file://',file
+      :ElseIf ts∨.≠⊃3 ⎕NINFO 4⊃li
+          inst←⎕NEW class←⊃2 ns.⎕FIX'file://',file
+      :Else
+          inst←⎕NEW ns⍎name
+          →0
+      :EndIf
      
       :If ~name(≡#.Strings.nocase)class←⊃¯1↑'.'#.Utils.penclose⍕class
           1 Log'Filename/Classname mismatch: ',file,' ≢ ',class

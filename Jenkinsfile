@@ -52,9 +52,9 @@ node ('Docker') {
         }
         stage ('Publish Docker image') {
                 withDockerRegistry(credentialsId: '0435817a-5f0f-47e1-9dcc-800d85e5c335') {
-                        if (env.BRANCH_NAME.contains('master')) {
+//                        if (env.BRANCH_NAME.contains('master')) {
                                 DockerApp.push();
-                        }
+//                        }
                 }
         }
 
