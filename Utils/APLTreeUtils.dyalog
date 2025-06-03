@@ -34,7 +34,7 @@
 ⍝   * `GoToWebPage` was not clear about "file://" versus "file:///"
 ⍝   * `GoToWebPage` with "file://" or "file:///" did not work from Ride
 ⍝ * 4.2.0
-⍝   `GoToWebPage` was not clear about "file://" versus "file:///"    
+⍝   `GoToWebPage` was not clear about "file://" versus "file:///"
 ⍝ * 4.1.1
 ⍝   * Very serious performance issue fixed in `WriteUtf8File` with "append".
 ⍝   Bug fixes:
@@ -57,14 +57,14 @@
     ⍝ Fast uppercasing that excepts scalars, vectors and matrices as well as vectors and
     ⍝ matrices of text vectors.\\
     ⍝ Note that `Uppercase` converts lower case chars well beyond the ANSII character set.
-      array←1(819⌶)array
+      array←{2::0(819⌶)⍵ ⋄ ¯3 ⎕C ⍵}array
     ∇
 
     ∇ array←Lowercase array
     ⍝ Fast lowercasing that excepts scalars, vectors and matrices as well as vectors and
     ⍝ matrices of text vectors.\\
     ⍝ Note that `Lowercase` converts upper case chars well beyond the ANSII character set.
-      array←0(819⌶)array
+      array←{2::1(819⌶)⍵ ⋄ 1 ⎕C ⍵}array
     ∇
 
     IsChar←{0 2∊⍨10|⎕dr ⍵}

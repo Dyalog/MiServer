@@ -71,7 +71,7 @@
     Normalize←∊1∘⎕NPARTS ⍝ normalize a file name
     SplitFilename←1∘⎕NPARTS ⍝ splits a file name
     Filename←{∊1↓1⎕NPARTS ⍵} ⍝ return file name only
-    eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple        
+    eis←{(,∘⊂)⍣((326∊⎕DR ⍵)<2>|≡⍵),⍵} ⍝ Enclose if simple
 
 ⍝ aliases for backward compatibility
     GetText←{0 ReadText ⍵}
@@ -401,6 +401,8 @@
     :Section Documentation Utilities
     ⍝ these are generic utilities used for documentation
 
+    lc←{2::0(819⌶)⍵ ⋄ ¯3 ⎕C ⍵} ⍝ lower case
+
     ∇ docn←ExtractDocumentationSections what;⎕IO;box;CR;sections;eis;matches
     ⍝ internal utility function
       ⎕IO←1
@@ -412,7 +414,7 @@
       docn←docn/⍨'⍝'≠⊃¨docn     ⍝ remove any lines beginning with ⍝⍝
       sections←{∨/'::'⍷⍵}¨docn
       :If ~0∊⍴what
-          matches←∨⌿∨/¨(eis(819⌶what))∘.⍷(819⌶)sections/docn
+          matches←∨⌿∨/¨(eis(lc what))∘.⍷lc sections/docn
           (sections docn)←((+\sections)∊matches/⍳≢matches)∘/¨sections docn
       :EndIf
       (sections/docn)←box¨sections/docn
