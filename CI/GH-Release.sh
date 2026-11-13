@@ -7,21 +7,19 @@ cd ${WORKSPACE}
 PROJECT=MiServer
 REPO=Dyalog/${PROJECT} # ideally this should be parsed from "git ls-remote --get-url origin"
 
-GIT_BRANCH=${JOB_NAME#*/*/}
-GIT_COMMIT=$(git rev-parse HEAD)
-
-if ! [ "${GIT_BRANCH}" = "master" ]; then
-	echo "skipping creating release for ${GIT_BRANCH}"
+# Releases are only created for tags; Jenkins sets TAG_NAME when building one.
+if ! [ "${TAG_NAME}" ]; then
+	echo "TAG_NAME is not set; skipping creating release"
 	exit 0
-else
-	echo "creating ${GIT_BRANCH} release"
 fi
+
+GIT_COMMIT=$(git rev-parse HEAD)
+VERSION=${TAG_NAME#v}
+echo "creating release ${TAG_NAME}"
 
 # create JSON
 TMP_JSON=/tmp/GH-Publish.${PROJECT}.$$.json
 GH_RELEASES=/tmp/GH-Releases.${PROJECT}.$$.json
-VERSION_AB=$(cat version)
-VERSION="${VERSION_AB}.`git rev-list HEAD --count`"
 echo "${VERSION} - (${GIT_COMMIT})" > ./MiServer.version
 
 if ! [ "$GHTOKEN" ]; then
@@ -29,69 +27,43 @@ if ! [ "$GHTOKEN" ]; then
   exit 1
 fi
 
-# Delete all the old draft releases, otherwise this gets filled up pretty fast as we create for every commit:
+# Delete any existing draft release for this tag, so that re-running a build does not create duplicates
 # but only if jq is available
 if which jq >/dev/null 2>&1; then
-        DRAFT=true
-        C=0
+	curl -o $GH_RELEASES \
+	  --silent -H "Authorization: token $GHTOKEN" \
+	  https://api.github.com/repos/${REPO}/releases
 
-	# Get the json from Github API
-        curl -o $GH_RELEASES \
-          --silent -H "Authorization: token $GHTOKEN" \
-          https://api.github.com/repos/${REPO}/releases
-
-	RELEASE_COUNT=`cat $GH_RELEASES | jq ". | length"`
-	GH_VERSION_ND_LAST=0
-
-        while [ $C -le $RELEASE_COUNT ] ; do
-		DRAFT=`cat $GH_RELEASES | jq -r ".[$C].draft"`
-		ID=`cat $GH_RELEASES | jq -r ".[$C].id"`
-		GH_VERSION=$(cat $GH_RELEASES | jq -r ".[$C].name" | sed 's/^v//')
-		GH_VERSION_ND=$(cat $GH_RELEASES | jq -r ".[$C].name" | sed 's/^v//;s/\.//g')
-		GH_VERSION_AB=${GH_VERSION%.*}
-
-
-		if [ "${GH_VERSION_AB}" = "${VERSION_AB}" ]; then
-			if [ "$DRAFT" = "true" ]; then
-				echo -e -n "*** $(cat $GH_RELEASES | jq -r ".[$C].name") with id: $(cat $GH_RELEASES | jq -r ".[$C].id") is a draft - Deleting.\n"
-				curl -X "DELETE" -H "Authorization: token $GHTOKEN" https://api.github.com/repos/${REPO}/releases/${ID}
-			else
-				if [ $GH_VERSION_ND -gt $GH_VERSION_ND_LAST ]; then
-					COMMIT_SHA=`cat $GH_RELEASES | jq -r ".[$C].target_commitish"`
-					GH_VERSION_ND_LAST=$GH_VERSION_ND
-				fi
-			fi
-		fi
-
-		let C=$C+1
-        done
-        rm -f $GH_RELEASES
-
+	for ID in $(jq -r --arg t "${TAG_NAME}" '.[] | select(.draft and .tag_name == $t) | .id' $GH_RELEASES); do
+		echo "*** existing draft release for ${TAG_NAME} with id: ${ID} - Deleting."
+		curl -X "DELETE" -H "Authorization: token $GHTOKEN" https://api.github.com/repos/${REPO}/releases/${ID}
+	done
+	rm -f $GH_RELEASES
 else
-        echo jq not found, not removing draft releases
+	echo jq not found, not removing draft releases
 fi
 
-echo "SHA: ${COMMIT_SHA}"
-
-if [ $GH_VERSION_ND_LAST = 0 ]; then
-	echo using log from $COMMIT_SHA from $GH_VERSION_ND_LAST
-	JSON_BODY=$( ( echo -e "MiServer $VERSION_AB\n\nChangelog:"; git log --format='%s' 48071c6.. ) | python -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
+# Changelog is everything since the previous tag
+if PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null); then
+	echo "using log since ${PREV_TAG}"
+	LOG_RANGE="${PREV_TAG}..HEAD"
 else
-	echo using log from $COMMIT_SHA from $GH_VERSION_ND_LAST
-	JSON_BODY=$( ( echo -e "MiServer $VERSION_AB\n\nChangelog:"; git log --format='%s' ${COMMIT_SHA}.. ) | python -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
-	
+	echo "no previous tag found, using full log"
+	LOG_RANGE="HEAD"
 fi
+JSON_BODY=$( ( echo -e "MiServer ${VERSION}\n\nChangelog:"; git log --format='%s' ${LOG_RANGE} ) | python -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
 
 cat >$TMP_JSON <<.
 {
-  "tag_name": "v$VERSION",
+  "tag_name": "${TAG_NAME}",
   "target_commitish": "${GIT_COMMIT}",
-  "name": "v$VERSION",
+  "name": "${TAG_NAME}",
   "body": $JSON_BODY,
   "draft": true,
   "prerelease": true
 }
 .
+
 
 cat $TMP_JSON
 
@@ -101,8 +73,8 @@ zip ./MiServer-${VERSION}.zip . -r -x docker-compose.yml Dockerfile CI Jenkinsfi
 zip ./MiServer-Samples-${VERSION}.zip SampleMiSites -r 
 
 ## Copy files to Dyalog Devt
-r=/devt/builds/${PROJECT}/${GIT_BRANCH}
-d=/${BUILD_NUMBER}
+r=/devt/builds/${PROJECT}/master
+d=/${VERSION}
 
 mkdir -p $r/$d
 cp ./MiServer-${VERSION}.zip ./MiServer-Samples-${VERSION}.zip MiServer.version $r/$d/
